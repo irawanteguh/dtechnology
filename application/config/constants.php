@@ -30,7 +30,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
         case 'development':
             define('CLIENT_ID', 'be2642fe-a581-4a69-aaad-ed8174dddc7e');
             define('CLIENT_SECRET', '3fa22ba0-7a81-4244-9694-b857f0e83cd8');
-            define('OAUTH_URL', 'https://sb-api.tilaka.id/auth');
+            define('BASE_URL', 'https://sb-api.tilaka.id/');
         break;
     }
 ?>

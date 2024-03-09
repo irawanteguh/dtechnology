@@ -6,6 +6,7 @@
     $route['translate_uri_dashes'] = FALSE;
 
     $route['OAuth']              = 'restapi/TTE/OAuth';
+    $route['Uuid']              = 'restapi/TTE/Uuid';
     $route['Register']              = 'restapi/TTE/Register';
 
 ?>

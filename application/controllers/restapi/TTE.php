@@ -26,6 +26,10 @@
             echo Tilaka::oauth();
         }
 
+        public function Uuid_get(){
+            echo Tilaka::uuid();
+        }
+
         public function Register_post(){
             $consent_timestamp = date("Y-m-d H:i:s");
             $data_to_hash = self::$clientid . "Term" . "TNT – v.1.0.1" . $consent_timestamp;
@@ -38,7 +42,7 @@
             $base64_encoded = base64_encode($image_data);
 
             
-            $body['registration_id'] = "40b2b409-8e93-47f4-a23b-a31fb3194864";
+            $body['registration_id'] = Tilaka::uuid();
             $body['email'] = "teguhirawan.rsudpasarminggu@gmail.com";
             $body['name'] = "Teguh Irawan";
             $body['company_name'] = "Personal";
