@@ -12,6 +12,13 @@
         }
 
         
+        public static function generateuuid($data = null){
+            $data = $data ?? random_bytes(16);
+            assert(strlen($data) == 16);
+            $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+            $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+            return vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
+        }
 
         public static function oauth(){
             $body   = array("client_id"=>self::$clientid,"client_secret"=>self::$clientsecret,"grant_type"=>"client_credentials");
@@ -26,12 +33,12 @@
                 'source'  => "TILAKA-TOKEN"
             ]);
 
-            $responsecurl = json_decode($responsecurl,TRUE)["access_token"];
+            $responsecurl = json_decode($responsecurl,TRUE);
             return $responsecurl;
         }
 
         public static function uuid(){
-            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth());
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
 
             $responsecurl = curl([
                 'url'     => self::$baseurl."generateUUID",
@@ -42,7 +49,99 @@
                 'source'  => "TILAKA-UUID"
             ]);
 
+            return json_decode($responsecurl,TRUE);
+        }
+
+        public static function registerkyc($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$baseurl."registerForKycCheck",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-REGISTERKYC"
+            ]);
+
             echo $responsecurl;
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+        public static function checkregistrasiuser($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$baseurl."userregstatus",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-CHECKREGISTRASIUSER"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+        public static function webviewregistrasi($parameter){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$baseurl."personal-webview/guide?".$parameter,
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => "",
+                'savelog' => false,
+                'source'  => "TILAKA-WEBVIEWREGISTRAS"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+        public static function checkcertificateuser($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$baseurl."checkcertstatus",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-CHECKCERTIFICATEUSER"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+        public static function checkakunpenautan($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$baseurl."checkAkunDSExist",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-CHECKAKUNPENAUTAN"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+        public static function webviewpenautan($parameter){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$baseurl."personal-webview/link-account?".$parameter,
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => "",
+                'savelog' => false,
+                'source'  => "TILAKA-WEBVIEWPENAUTAN"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
         }
 
         

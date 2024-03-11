@@ -5,8 +5,15 @@
     $route['404_override']         = 'Error404';
     $route['translate_uri_dashes'] = FALSE;
 
-    $route['OAuth']              = 'restapi/TTE/OAuth';
-    $route['Uuid']              = 'restapi/TTE/Uuid';
-    $route['Register']              = 'restapi/TTE/Register';
+    $route['oauth']                = 'restapi/TTE/OAuth';
+    $route['uuid']                 = 'restapi/TTE/Uuid';
+    $route['registerkyc']          = 'restapi/TTE/registerkyc';
+    $route['webviewregistrasi']    = 'restapi/TTE/webviewregistrasi';
+    $route['checkregistrasiuser']  = 'restapi/TTE/checkregistrasiuser';
+    $route['checkcertificateuser'] = 'restapi/TTE/checkcertificateuser';
+    $route['checkakunpenautan']    = 'restapi/TTE/checkakunpenautan';
+    $route['webviewpenautan']      = 'restapi/TTE/webviewpenautan';
+
+    
 
 ?>
