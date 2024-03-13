@@ -1,7 +1,7 @@
-<aside class="main-sidebar sidebar-light-olive elevation-4">
-	<a href="#" class="brand-link bg-light">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+	<a href="#" class="brand-link navbar-primary">
 		<img src="<?php echo base_url();?>assets/images/favicon/<?php if(isset($_SESSION['lokasiid'])){echo $_SESSION['lokasiid'];}else{echo "default";}?>.png" class="brand-image img-circle elevation-3" style="opacity: .8">
-		<span class="brand-text font-weight-light"><strong class="font-weight-bold">DTech</span>
+		<span class="brand-text font-weight-light"><strong class="font-weight-bold"><?php echo $_SESSION['hospitalname']?></span>
 	</a>
 
 	<div class="sidebar">
@@ -11,14 +11,14 @@
 				    if($_SESSION['imguser']==="Y"){
 						echo "<img src='".base_url().$_SESSION['fotoprofile']."' class='img-circle elevation-2'>";
 					}else{
-						echo "<div class='user-profile'><div class='user-initial'>TE</div></div>";
+						echo "<div class='user-profile'><div class='user-initial'>".$_SESSION['initialuser']."</div></div>";
 					}
 				?>
 			</div>
 			<div class="info">
 				<a class="d-block">Logged in as:</a>
 				<strong>
-					<a href="#" class="d-block text-truncate">Teguh Irawan</a>
+					<a href="#" class="d-block text-truncate"><?php echo $_SESSION['name']?></a>
 				</strong>
 			</div>
 		</div>

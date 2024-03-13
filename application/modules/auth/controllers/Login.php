@@ -22,6 +22,9 @@
             
             if(!empty($checkauth)){
                 $sessiondata = array(
+                    "initialuser"  => $checkauth->initialuser,
+                    "name"         => $checkauth->name,
+                    "hospitalname" => $checkauth->hospitalname,
                     "loggedin"     => true,
                     "timeout"      => false
                 );

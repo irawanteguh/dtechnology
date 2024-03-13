@@ -8,7 +8,7 @@
             include_once(APPPATH."views/template/head.php");
         ?>
     </head>
-    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm">
+    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm dark-mode">
         <div class="wrapper">
             
             <?php          

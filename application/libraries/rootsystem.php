@@ -7,8 +7,15 @@
         public static function system()
         {
             self::init();
-            // self::checksession();
+            self::checksession();
             self::generate_menu();
+        }
+
+        public static function checksession()
+        {
+            if(!self::$app->session->userdata('loggedin')){
+                redirect("auth/error404");
+            }
         }
 
         public static function init(){
