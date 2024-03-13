@@ -23,13 +23,13 @@ class Welcome extends CI_Controller {
 		$this->load->library('encryption');
 
 		// Teks yang akan dienkripsi
-		$teksAsli = '12345678';
+		$teksAsli = 'irawanteguh';
 
 		// Enkripsi teks
 		$teksTerenskripsi = $this->encryption->encrypt($teksAsli);
 
 		// Tampilkan teks terenskripsi
-		echo 'Teks Terenskripsi: ' . $teksTerenskripsi . '<br>';
+		echo 'Teks Terenskripsi: ' . base64_encode($teksTerenskripsi) . '<br>';
 
 		// Dekripsi teks
 		$teksDekripsi = $this->encryption->decrypt($teksTerenskripsi);

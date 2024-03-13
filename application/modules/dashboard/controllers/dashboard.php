@@ -6,7 +6,7 @@
 		public function __construct()
         {
             parent:: __construct();
-            // rootsystem::system();
+            rootsystem::system();
         }
 
 		public function index()

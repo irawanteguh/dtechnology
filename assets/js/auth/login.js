@@ -9,6 +9,7 @@ $(document).on("submit", "#formlogin", function (e) {
 		dataType: "JSON",
 		cache: false,
 		beforeSend: function () {
+			toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
 			$("#btn-auth").addClass("disabled");
         },
@@ -22,7 +23,6 @@ $(document).on("submit", "#formlogin", function (e) {
             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
 		},
 		complete: function () {
-			toastr.clear();
 			$("#btn-auth").removeClass("disabled");
 		}
 	});

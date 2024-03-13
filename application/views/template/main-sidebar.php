@@ -35,7 +35,7 @@
 		</div>
 
 		<nav class="mt-2">
-			<!-- <?php echo $menu; ?> -->
+			<?php echo $menu; ?>
 		</nav>
 	</div>
 </aside>

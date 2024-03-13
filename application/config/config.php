@@ -24,7 +24,8 @@
     $config['error_views_path']        = '';
     $config['cache_path']              = '';
     $config['cache_query_string']      = FALSE;
-    $config['encryption_key']          = bin2hex(random_bytes(32));
+    // $config['encryption_key']          = substr(bin2hex(random_bytes(32)), 0, 32);
+    // $config['encryption_key']          = bin2hex(random_bytes(32));
     // $config['encryption_key']          = generate_encryption_key();
     $config['sess_driver']             = 'files';
     $config['sess_cookie_name']        = 'ci_session';
@@ -56,7 +57,7 @@
     function generate_encryption_key($length = 32)
     {
         // Menyusun karakter yang dapat digunakan untuk kunci
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '0123456789';
 
         $key = '';
         $maxIndex = strlen($characters) - 1;
