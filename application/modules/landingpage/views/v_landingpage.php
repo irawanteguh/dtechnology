@@ -31,7 +31,7 @@
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="index.php/dashboard/dashboard">Get Started</a></li>
+          <li><a class="getstarted scrollto" href="index.php/auth/login">Get Started</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

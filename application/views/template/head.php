@@ -1,16 +1,26 @@
 
 <script> var url = '<?php echo base_url();?>'; </script>
 
-<?php
-    $countsegment = $this->uri->total_segments();
-    if($countsegment === 0){
-        // Favicons
-        echo "<link rel='icon' type='image/gif' href='".base_url()."assets/images/favicon/favicon.png'>".PHP_EOL;
-        echo "<link rel='apple-touch-icon' type='image/gif' href='".base_url()."assets/images/favicon/favicon.png'>".PHP_EOL;
 
+<!-- Icon -->
+<link rel="icon" type="image/gif" href="<?php echo base_url();?>assets/images/favicon/favicon.png">
+<link rel="apple-touch-icon" type="image/gif" href="<?php echo base_url();?>assets/images/favicon/favicon.png">
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css"  href="<?php echo base_url();?>vendor/bootstrap-4.1.3/dist/css/bootstrap.min.css">
+<!-- Theme -->
+<link rel="stylesheet" type="text/css"  href="<?php echo base_url();?>vendor/AdminLTE-3.2.0/dist/css/adminlte.min.css">
+<!-- Icon -->
+<link rel="stylesheet" type="text/css"  href="<?php echo base_url();?>vendor/fontawesome-6.5.1/css/all.min.css">
+
+<?php
+
+    $countsegment = $this->uri->total_segments();
+    $segment      = $this->uri->segment($this->uri->total_segments()-1);
+
+    if($countsegment === 0){
+        //!Landing Page
         // Google Fonts
         echo "<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i' rel='stylesheet'>".PHP_EOL;
-
         // Vendor CSS Files
         echo "<link href='".base_url()."vendor/aos/aos.css' rel='stylesheet'>".PHP_EOL;
         echo "<link href='".base_url()."vendor/bootstrap-icons/bootstrap-icons.css' rel='stylesheet'>".PHP_EOL;
@@ -18,9 +28,19 @@
         echo "<link href='".base_url()."vendor/glightbox/css/glightbox.min.css' rel='stylesheet'>".PHP_EOL;
         echo "<link href='".base_url()."vendor/remixicon/remixicon.css' rel='stylesheet'>".PHP_EOL;
         echo "<link href='".base_url()."vendor/swiper/swiper-bundle.min.css' rel='stylesheet'>".PHP_EOL;
-
         // Template Main CSS File
-        echo "<link href='".base_url()."assets/css/landingpage/style.css'  rel='stylesheet'>".PHP_EOL;
+        echo "<link href='".base_url()."assets/css/landingpage/style.css' rel='stylesheet'>".PHP_EOL;
+    }else{
+        $csspathmodules = FCPATH.'assets/css/'.$segment.'/';
+        if(is_dir($csspathmodules)) {
+            $cssfiles = glob($csspathmodules . '*.css');
+            echo PHP_EOL.'<!-- Load CSS Files Pada Modules '.$segment.' -->'.PHP_EOL;
+            foreach ($cssfiles as $cssfile) {
+                $cssfilename = basename($cssfile);
+                echo "<link rel='stylesheet' type='text/css' href='".base_url()."assets/css/".$segment."/".$cssfilename."'></link>".PHP_EOL;
+            }
+            echo PHP_EOL.PHP_EOL;
+        }
     }
 
     // if(isset($_SESSION['loggedin']))
@@ -40,11 +60,5 @@
     //     }
     // }
 ?>
-<title>DTechnology</title>
-<!-- Bootstrap -->
-<link rel="stylesheet" type="text/css"  href="<?php echo base_url();?>vendor/bootstrap-4.1.3/dist/css/bootstrap.min.css">
-<!-- Theme -->
-<!-- <link rel="stylesheet" type="text/css"  href="<?php echo base_url();?>vendor/AdminLTE-3.2.0/dist/css/adminlte.min.css"> -->
-<!-- Icon -->
-<!-- <link rel="stylesheet" type="text/css"  href="<?php echo base_url();?>vendor/fontawesome-6.5.1/css/all.min.css"> -->
 
+<title>DTechnology</title>

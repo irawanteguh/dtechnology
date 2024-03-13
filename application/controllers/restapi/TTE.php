@@ -31,26 +31,50 @@
             $this->response($response,REST_Controller::HTTP_OK);
         }
 
+        function fileToBase64($filePath) {
+            if (file_exists($filePath)) {
+                $fileContent = file_get_contents($filePath);
+                if ($fileContent !== false) {
+                    return base64_encode($fileContent);
+                } else {
+                    // Gagal membaca file
+                    return false;
+                }
+            } else {
+                // File tidak ditemukan
+                return false;
+            }
+        }
+
         public function registerkyc_post(){
             $consent_timestamp = date("Y-m-d H:i:s");
-            $data_to_hash = self::$clientid . "Term" . "TNT – v.1.0.1" . $consent_timestamp;
-            $hash = hash_hmac('sha256', $data_to_hash, self::$clientsecret , true);
+            $consent_text      = "Term";
+            $version           = "TNT – v.1.0.1";
 
-            $image_path = FCPATH."/assets/fileapps/ktp/1403092306954271.jpeg";
-            $image_data = file_get_contents($image_path);
-            $base64_encoded = base64_encode($image_data);
+            $datahash = self::$clientid.$consent_text.$version.$consent_timestamp;
+            $hash     = hash_hmac('sha256', $datahash, self::$clientsecret);
+
+            $ktp_path = FCPATH."/assets/fileapps/ktp/1403092306954271.jpeg";
+            if (file_exists($ktp_path)) {
+                echo "File exists!";
+            } else {
+                echo "File does not exist.";
+            }
+            $ktp_data = $this->fileToBase64($ktp_path);
+            // $ktp_encoded = base64_encode($ktp_data);
+            echo $ktp_data;
 
             
-            $body['registration_id'] = Tilaka::uuid();
+            $body['registration_id'] = Tilaka::uuid()['data'][0];
             $body['email'] = "teguhirawan.rsudpasarminggu@gmail.com";
             $body['name'] = "Teguh Irawan";
             $body['company_name'] = "Personal";
             $body['date_expire'] = "2024-12-12 00:00";
             $body['nik'] = "1403092306954271";
             $body['photo_ktp'] = $base64_encoded;
-            $body['consent_text'] = "Term";
+            $body['consent_text'] = $consent_text;
             $body['is_approved'] = true;
-            $body['version'] = "TNT – v.1.0.1";
+            $body['version'] = $version;
             $body['hash_consent'] = base64_encode($hash);
             $body['consent_timestamp'] = $consent_timestamp;
 
