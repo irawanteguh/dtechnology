@@ -20,7 +20,22 @@
 
 		public function index()
 		{
-			$this->template->load("template/template-admin","v_registrasi");
+			if(isset($_GET['userid']) && isset($_GET['registerid']) ){
+                $body['register_id']=$_GET['registerid'];
+
+                $response = Tilaka::checkregistrasiuser(json_encode($body));
+                if($response['success']){
+                    if($response['data']['summary_verification_result']){
+                        $data['VERIFICATION']="Y";
+                        $data['USER_IDENTIFIER']=$response['data']['tilaka_name'];
+                        $this->md->updatestatusktp($data,$_GET['userid']);
+                        redirect("tilaka/registrasiusertilaka");
+                    }
+                }
+            }else{
+                $this->template->load("template/template-admin","v_registrasi");
+            }
+            
 		}
 
 		public function datakaryawan(){
@@ -76,17 +91,8 @@
                     $body['hash_consent'] = $hash;
                     $body['consent_timestamp'] = $consent_timestamp;
     
-                    // $response = Tilaka::registerkyc(json_encode($body));
+                    $response = Tilaka::registerkyc(json_encode($body));
                     
-                    $response = array(
-                        "success" => true,
-                        "message" => "Data Diterima",
-                        "data" => array(
-                            "07a70e2f-edec-486f-b20d-87020934df30",
-                            "pifrakeisixei-3126@yopmail.com"
-                        )
-                    );
-
                     if($response['success']){
                         $data['REGISTER_ID']=$response['data'][0];
                     }
@@ -127,6 +133,32 @@
 
                 $this->md->updatestatusktp($data,$userid);
 
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+                $json['responResult']=$response;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="error";
+                $json["responDesc"]="Data Di Temukan";
+                $json['responResult']=$response;
+            }
+
+            echo json_encode($json);
+        }
+
+        public function useridentifier(){
+            $userid = $this->input->post("userid");
+			$useridentifier = $this->input->post("useridentifier");
+            
+            $body['user_identifier']=$useridentifier;
+
+            $response = Tilaka::checkcertificateuser(json_encode($body));
+
+            if($response['status']){
+                $data['CERTIFICATE']=$response['status'];
+                $this->md->updatestatusktp($data,$userid);
+                
                 $json["responCode"]="00";
                 $json["responHead"]="success";
                 $json["responDesc"]="Data Di Temukan";

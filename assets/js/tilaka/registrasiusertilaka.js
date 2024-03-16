@@ -144,6 +144,61 @@ function checknik(btn){
     return false;
 };
 
+function certificatestatus(btn){
+    var userid   = $(btn).attr("data-userid");
+    var useridentifier   = $(btn).attr("data-useridentifier");
+    $.ajax({
+        url     : url+"index.php/tilaka/registrasiusertilaka/useridentifier",
+        data    : {userid:userid,useridentifier:useridentifier},
+        method  : "POST",
+        dataType: "JSON",
+        cache   : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success:function(data){
+            toastr.clear();
+            
+            var result     = "";
+            result        = data.responResult;
+
+            Swal.fire({
+                position: "center",
+                icon: data.responHead,
+                title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
+                html: result['message']['info'],
+                timerProgressBar: true,
+                showConfirmButton: false,
+                timer: 5000,
+                showClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                    `
+                },
+                hideClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                    `
+                }
+            });
+
+            datakaryawan();
+        },
+        error: function(xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
+		},
+		complete: function () {
+			// toastr.clear();
+		}
+    });
+    return false;
+};
+
 function datakaryawan(){
     var search = $("input[name='search']").val();
     $.ajax({
@@ -171,12 +226,19 @@ function datakaryawan(){
                                     "data-nik='"+result[i].NIK+"'"+
                                     "data-nama='"+result[i].NAME+"'"+
                                     "data-noktp='"+result[i].IDENTITY_NO+"'"+
+                                    "data-useridentifier='"+result[i].USER_IDENTIFIER+"'"+
                                     "data-email='"+result[i].EMAIL+"'";
 
                     tableresult +="<tr>";
                     if(result[i].IDENTITY_NO!=null&&result[i].EMAIL!=null){
                         if(result[i].REGISTER_ID!=null){
-                            tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka'><i class='fa-solid fa-user-plus'></i> VERIFIKASI</a></td>";
+                            if(result[i].VERIFICATION==="N"){
+                                tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"'><i class='fa-solid fa-user-plus'></i> VERIFIKASI</a></td>";
+                            }else{
+                                if(result[i].CERTIFICATE===""||result[i].CERTIFICATE==="1"){
+                                    tableresult +="<td><a class='btn btn-xs btn-primary' "+getvariabel+" onclick='certificatestatus(this)'>CERTIFICATE STATUS</a></td>";
+                                }
+                            }
                         }else{
                             tableresult +="<td><a class='btn btn-xs btn-primary' "+getvariabel+" onclick='registrasiuser(this)'><i class='fa-solid fa-user-plus'></i> REGISTRASI</a></td>";
                         }
