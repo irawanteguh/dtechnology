@@ -88,10 +88,11 @@ function registrasiuser(btn){
 };
 
 function checknik(btn){
-    var nik   = $(btn).attr("data-nik");
+    var noktp   = $(btn).attr("data-noktp");
+    var userid   = $(btn).attr("data-userid");
     $.ajax({
         url     : url+"index.php/tilaka/registrasiusertilaka/checknik",
-        data    : {nik:nik},
+        data    : {noktp:noktp,userid:userid},
         method  : "POST",
         dataType: "JSON",
         cache   : false,
@@ -103,59 +104,34 @@ function checknik(btn){
             toastr.clear();
             
             var result     = "";
+            result        = data.responResult;
 
-            if(data.responCode == "00"){
-                result        = data.responResult;
-
-                if(result['success']===false){
-                    Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-                        html: result['message'],
-                        timerProgressBar: true,
-                        showConfirmButton: false,
-                        timer: 5000,
-                        showClass: {
-                            popup: `
-                            animate__animated
-                            animate__fadeInUp
-                            animate__faster
-                            `
-                        },
-                        hideClass: {
-                            popup: `
-                            animate__animated
-                            animate__fadeOutDown
-                            animate__faster
-                            `
-                        }
-                    });
+            Swal.fire({
+                position: "center",
+                icon: data.responHead,
+                title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
+                html: result['message'],
+                timerProgressBar: true,
+                showConfirmButton: false,
+                timer: 5000,
+                showClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                    `
+                },
+                hideClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                    `
                 }
-            }else{
-                Swal.fire({
-                    position: "center",
-                    icon: data.responHead,
-                    title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-                    html: data.responDesc,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    timer: 5000,
-                    showClass: {
-                        popup: `
-                        animate__animated
-                        animate__fadeInUp
-                        animate__faster
-                        `
-                    },
-                    hideClass: {
-                        popup: `
-                        animate__animated
-                        animate__fadeOutDown
-                        animate__faster
-                        `
-                    }
-                });
+            });
+
+            if(result['status']){
+                datakaryawan();
             }
         },
         error: function(xhr, status, error) {

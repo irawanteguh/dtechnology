@@ -90,7 +90,7 @@
                     $json["responDesc"]="File KTP Tidak Di Temukan";
                 }
 
-                $this->md->updatestatusktp($data,$result->USER_ID);
+                $this->md->updatestatusktp($data,$$userid);
                 
             }else{
                 $json["responCode"]="01";
@@ -102,13 +102,29 @@
         }
 
         public function checknik(){
-			$nik = $this->input->post("nik");
+			$noktp = $this->input->post("noktp");
+            $userid = $this->input->post("userid");
             
             $body['request_id']=Tilaka::uuid()['data'][0];
-            $body['nik']=$nik;
+            $body['nik']=$noktp;
 
             $response = Tilaka::checkakunexist(json_encode($body));
-            return var_dump($response);
+            if($response['status']){
+                $data['TILAKA_ID']=$response['tilaka_id'];
+
+                $this->md->updatestatusktp($data,$userid);
+
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+                $json['responResult']=$response;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="error";
+                $json["responDesc"]="Data Di Temukan";
+                $json['responResult']=$response;
+            }
+
             echo json_encode($json);
         }
 	}

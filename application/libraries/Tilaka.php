@@ -150,7 +150,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => $body,
-                'savelog' => false,
+                'savelog' => true,
                 'source'  => "TILAKA-CHECKAKUNEXIST"
             ]);
 
