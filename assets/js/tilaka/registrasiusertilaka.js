@@ -174,11 +174,16 @@ function datakaryawan(){
                                     "data-email='"+result[i].EMAIL+"'";
 
                     tableresult +="<tr>";
-                    // if(result[i].IDENTITY_NO!=null&&result[i].EMAIL!=null){
-                        tableresult +="<td><a class='btn btn-xs btn-primary' "+getvariabel+" onclick='registrasiuser(this)'><i class='fa-solid fa-user-plus'></i> REGISTRASI</a></td>";
-                    // }else{
-                        // tableresult +="<td></td>";
-                    // }
+                    if(result[i].IDENTITY_NO!=null&&result[i].EMAIL!=null){
+                        if(result[i].REGISTER_ID!=null){
+                            tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka'><i class='fa-solid fa-user-plus'></i> VERIFIKASI</a></td>";
+                        }else{
+                            tableresult +="<td><a class='btn btn-xs btn-primary' "+getvariabel+" onclick='registrasiuser(this)'><i class='fa-solid fa-user-plus'></i> REGISTRASI</a></td>";
+                        }
+                        
+                    }else{
+                        tableresult +="<td></td>";
+                    }
                     
                     if(result[i].TILAKA_ID!=""){
                         tableresult +="<td class='text-center align-middle'>"+result[i].TILAKA_ID+"</td>";

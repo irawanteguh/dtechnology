@@ -76,8 +76,21 @@
                     $body['hash_consent'] = $hash;
                     $body['consent_timestamp'] = $consent_timestamp;
     
-                    $response = Tilaka::registerkyc(json_encode($body));
+                    // $response = Tilaka::registerkyc(json_encode($body));
                     
+                    $response = array(
+                        "success" => true,
+                        "message" => "Data Diterima",
+                        "data" => array(
+                            "07a70e2f-edec-486f-b20d-87020934df30",
+                            "pifrakeisixei-3126@yopmail.com"
+                        )
+                    );
+
+                    if($response['success']){
+                        $data['REGISTER_ID']=$response['data'][0];
+                    }
+
                     $json["responCode"]="00";
                     $json["responHead"]="success";
                     $json["responDesc"]="Data Di Temukan";
@@ -90,7 +103,7 @@
                     $json["responDesc"]="File KTP Tidak Di Temukan";
                 }
 
-                $this->md->updatestatusktp($data,$$userid);
+                $this->md->updatestatusktp($data,$userid);
                 
             }else{
                 $json["responCode"]="01";
