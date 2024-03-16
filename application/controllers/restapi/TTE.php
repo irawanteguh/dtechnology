@@ -48,36 +48,29 @@
 
         public function registerkyc_post(){
             $consent_timestamp = date("Y-m-d H:i:s");
-            $consent_text      = "Term";
-            $version           = "TNT – v.1.0.1";
+            $consent_text = "Term";
+            $version ="TNT – v.1.0.1";
 
             $datahash = self::$clientid.$consent_text.$version.$consent_timestamp;
-            $hash     = hash_hmac('sha256', $datahash, self::$clientsecret);
+            $hash = hash_hmac('sha256', $datahash, self::$clientsecret);
 
             $ktp_path = FCPATH."/assets/fileapps/ktp/1403092306954271.jpeg";
-            if (file_exists($ktp_path)) {
-                echo "File exists!";
-            } else {
-                echo "File does not exist.";
-            }
-            $ktp_data = $this->fileToBase64($ktp_path);
-            // $ktp_encoded = base64_encode($ktp_data);
-            echo $ktp_data;
+            $ktp_data = file_get_contents($ktp_path);
+            $ktp_encoded = base64_encode($ktp_data);
 
-            
             $body['registration_id'] = Tilaka::uuid()['data'][0];
             $body['email'] = "teguhirawan.rsudpasarminggu@gmail.com";
             $body['name'] = "Teguh Irawan";
             $body['company_name'] = "Personal";
-            $body['date_expire'] = "2024-12-12 00:00";
+            $body['date_expire'] = "2024-12-12 23:59";
             $body['nik'] = "1403092306954271";
-            $body['photo_ktp'] = $base64_encoded;
+            $body['photo_ktp'] = "data:image/jpeg;base64,".$ktp_encoded;
             $body['consent_text'] = $consent_text;
             $body['is_approved'] = true;
             $body['version'] = $version;
-            $body['hash_consent'] = base64_encode($hash);
+            $body['hash_consent'] = $hash;
             $body['consent_timestamp'] = $consent_timestamp;
-
+            
             $response = Tilaka::registerkyc(json_encode($body));
             $this->response($response,REST_Controller::HTTP_OK);
         }
