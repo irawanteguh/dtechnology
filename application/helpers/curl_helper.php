@@ -63,9 +63,10 @@
                 'TOTAL_TIME_US'         => $total_time_us,
                 'SOURCE'                => $config['source']
             ];
+            $ci->mlog->savelog($requestlog);
         }
 
-        $ci->mlog->savelog($requestlog);
+        
         
         return $response;
     }
