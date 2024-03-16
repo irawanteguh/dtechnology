@@ -142,6 +142,21 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        public static function checkakunexist($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$baseurl."checkAkunDSExist",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-CHECKAKUNEXIST"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
         
     }
 

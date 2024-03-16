@@ -100,6 +100,17 @@
 
             echo json_encode($json);
         }
+
+        public function checknik(){
+			$nik = $this->input->post("nik");
+            
+            $body['request_id']=Tilaka::uuid()['data'][0];
+            $body['nik']=$nik;
+
+            $response = Tilaka::checkakunexist(json_encode($body));
+            return var_dump($response);
+            echo json_encode($json);
+        }
 	}
 
 ?>
