@@ -90,7 +90,7 @@ function registrasiuser(btn){
 function checknik(btn){
     var nik   = $(btn).attr("data-nik");
     $.ajax({
-        url     : url+"index.php/tilaka/registrasiusertilaka/registrasiuser",
+        url     : url+"index.php/tilaka/registrasiusertilaka/checknik",
         data    : {nik:nik},
         method  : "POST",
         dataType: "JSON",
@@ -207,7 +207,7 @@ function datakaryawan(){
                     if(result[i].TILAKA_ID!=""){
                         tableresult +="<td class='text-center align-middle'>"+result[i].TILAKA_ID+"</td>";
                     }else{
-                        tableresult +="<td class='text-center align-middle'><a class='btn btn-xs btn-warning' "+getvariabel+" nclick='checknik(this)><i class='fa-solid fa-person-circle-check'></i> CHECK</a></td>";
+                        tableresult +="<td class='text-center align-middle'><a class='btn btn-xs btn-warning' "+getvariabel+" onclick='checknik(this)'><i class='fa-solid fa-person-circle-check'></i> CHECK</a></td>";
                     }
                     
                     tableresult +="<td class='text-center align-middle'>"+result[i].NIK+"</td>";
