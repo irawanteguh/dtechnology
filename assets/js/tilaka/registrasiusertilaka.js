@@ -6,20 +6,6 @@ $('#search').on('keypress', function (event) {
     }
 });
 
-// function getdata(btn){
-//     var userid   = btn.attr("data-userid");
-//     var nik = btn.attr("data-nik");
-//     var nama   = btn.attr("data-nama");
-//     var noktp   = btn.attr("data-noktp");
-//     var email   = btn.attr("data-email");
-
-// }
-
-// $(document).on("click",".btn-registrasi", function(e){            
-//     e.preventDefault();
-// 	registrasiuser();
-// });
-
 function registrasiuser(btn){
     var userid   = $(btn).attr("data-userid");
     $.ajax({
@@ -33,13 +19,43 @@ function registrasiuser(btn){
             toastr["info"]("Sending request...", "Please wait");
         },
         success:function(data){
-            
+            var result     = "";
+
+            if(data.responCode == "00"){
+                result        = data.responResult;
+
+                if(result['success']===false){
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
+                        html: result['message'],
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        timer: 5000,
+                        showClass: {
+                            popup: `
+                            animate__animated
+                            animate__fadeInUp
+                            animate__faster
+                            `
+                        },
+                        hideClass: {
+                            popup: `
+                            animate__animated
+                            animate__fadeOutDown
+                            animate__faster
+                            `
+                        }
+                    });
+                }
+            }
         },
         error: function(xhr, status, error) {
             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
 		},
 		complete: function () {
-			toastr.clear();
+			// toastr.clear();
 		}
     });
     return false;

@@ -72,9 +72,11 @@
                 $body['consent_timestamp'] = $consent_timestamp;
 
                 $response = Tilaka::registerkyc(json_encode($body));
-                return var_dump($response);
-                die();
-
+                
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+				$json['responResult']=$response;
             }else{
                 $json["responCode"]="01";
                 $json["responHead"]="info";
