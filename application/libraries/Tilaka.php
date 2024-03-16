@@ -29,7 +29,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => http_build_query($body),
-                'savelog' => false,
+                'savelog' => true,
                 'source'  => "TILAKA-TOKEN"
             ]);
 
@@ -45,7 +45,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => "",
-                'savelog' => false,
+                'savelog' => true,
                 'source'  => "TILAKA-UUID"
             ]);
 

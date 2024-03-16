@@ -63,27 +63,6 @@
                 'TOTAL_TIME_US'         => $total_time_us,
                 'SOURCE'                => $config['source']
             ];
-        }else{
-            $requestlog = [
-                'REQUEST_ID'            => round(microtime(true) * 1000),
-                'REQUEST_METHOD'        => $config['method'],
-                'REQUEST_URL'           => $request_url,
-                'REQUEST_HEADERS'       => $request_headers,
-                'REQUEST_BODY'          => "",
-                'USER_AGENT'            => $_SERVER['HTTP_USER_AGENT'],
-                'REMOTE_ADDRESS'        => $_SERVER['REMOTE_ADDR'],
-                'RESPONSE_STATUS'       => $response_status,
-                'RESPONSE_HEADERS'      => $response_header,
-                'RESPONSE_BODY'         => "",
-                'APPCONNECT_TIME_US'    => $appconnect_time_us,
-                'CONNECT_TIME_US'       => $connect_time_us,
-                'NAMELOOKUP_TIME_US'    => $namelookup_time_us,
-                'PRETRANSFER_TIME_US'   => $pretransfer_time_us,
-                'REDIRECT_TIME_US'      => $redirect_time_us,
-                'STARTTRANSFER_TIME_US' => $starttransfer_time_us,
-                'TOTAL_TIME_US'         => $total_time_us,
-                'SOURCE'                => $config['source']
-            ];
         }
 
         $ci->mlog->savelog($requestlog);
