@@ -9,7 +9,6 @@
                         from dt01_gen_user_data a
                         where a.org_id='".$orgid."'
                         and   a.active='1'
-                        and   a.nik='1521027'
                         and   a.name like '%".$parameter."%' or a.identity_no like '%".$parameter."%' or a.email like '%".$parameter."%'
                     ";
 
@@ -32,6 +31,11 @@
             $recordset = $this->db->query($query);
             $recordset = $recordset->row();
             return $recordset;
+        }
+
+        function updatestatusktp($data, $userid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("USER_ID"=>$userid));
+            return $sql;
         }
 
 

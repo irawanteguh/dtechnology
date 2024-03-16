@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>ACTION</th>
+            <th>TILAKA ID</th>
             <th>NIK</th>
             <th>NAMA</th>
             <th>NO KTP</th>

@@ -47,36 +47,51 @@
             $result = $this->md->dataregistrasi($_SESSION['orgid'],$userid);
 
             if(!empty($result)){
-                $consent_timestamp = date("Y-m-d H:i:s");
-                $consent_text = "Term And Contiion";
-                $version ="TNT – v.1.0.1";
-
-                $datahash = self::$clientid.$consent_text.$version.$consent_timestamp;
-                $hash = hash_hmac('sha256', $datahash, self::$clientsecret);
-
-                $ktp_path = FCPATH."/assets/fileapps/ktp/".$result->IDENTITY_NO.".jpeg";
-                $ktp_data = file_get_contents($ktp_path);
-                $ktp_encoded = base64_encode($ktp_data);
-
-                $body['registration_id'] = Tilaka::uuid()['data'][0];
-                $body['email'] = $result->EMAIL;
-                $body['name'] = $result->NAME;
-                $body['company_name'] = "Personal";
-                $body['date_expire'] = "2024-12-12 23:59";
-                $body['nik'] = $result->IDENTITY_NO;
-                $body['photo_ktp'] = "data:image/jpeg;base64,".$ktp_encoded;
-                $body['consent_text'] = $consent_text;
-                $body['is_approved'] = true;
-                $body['version'] = $version;
-                $body['hash_consent'] = $hash;
-                $body['consent_timestamp'] = $consent_timestamp;
-
-                $response = Tilaka::registerkyc(json_encode($body));
                 
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Di Temukan";
-				$json['responResult']=$response;
+                $ktp_path = FCPATH."/assets/fileapps/ktp/".$result->IDENTITY_NO.".jpeg";
+
+                if(file_exists($ktp_path)){
+                    $data['IMAGE_IDENTITY']="Y";
+
+                    $consent_timestamp = date("Y-m-d H:i:s");
+                    $consent_text = "Term And Contiion";
+                    $version ="TNT – v.1.0.1";
+
+                    $datahash = self::$clientid.$consent_text.$version.$consent_timestamp;
+                    $hash = hash_hmac('sha256', $datahash, self::$clientsecret);
+
+                    $ktp_data = file_get_contents($ktp_path);
+                    $ktp_encoded = base64_encode($ktp_data);
+    
+                    $body['registration_id'] = Tilaka::uuid()['data'][0];
+                    $body['email'] = $result->EMAIL;
+                    $body['name'] = $result->NAME;
+                    $body['company_name'] = "Personal";
+                    $body['date_expire'] = "2024-12-12 23:59";
+                    $body['nik'] = $result->IDENTITY_NO;
+                    $body['photo_ktp'] = "data:image/jpeg;base64,".$ktp_encoded;
+                    $body['consent_text'] = $consent_text;
+                    $body['is_approved'] = true;
+                    $body['version'] = $version;
+                    $body['hash_consent'] = $hash;
+                    $body['consent_timestamp'] = $consent_timestamp;
+    
+                    $response = Tilaka::registerkyc(json_encode($body));
+                    
+                    $json["responCode"]="00";
+                    $json["responHead"]="success";
+                    $json["responDesc"]="Data Di Temukan";
+                    $json['responResult']=$response;
+                }else{
+                    $data['IMAGE_IDENTITY']="N";
+
+                    $json["responCode"]="01";
+                    $json["responHead"]="info";
+                    $json["responDesc"]="File KTP Tidak Di Temukan";
+                }
+
+                $this->md->updatestatusktp($data,$result->USER_ID);
+                
             }else{
                 $json["responCode"]="01";
                 $json["responHead"]="info";

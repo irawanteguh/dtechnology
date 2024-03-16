@@ -64,8 +64,6 @@
                 'source'  => "TILAKA-REGISTERKYC"
             ]);
 
-            echo $responsecurl;
-
             return json_decode($responsecurl,TRUE); 
         }
 
