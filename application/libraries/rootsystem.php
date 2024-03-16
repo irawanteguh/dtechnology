@@ -4,15 +4,13 @@
         public static $segment;
         public static $resultmenu;
 
-        public static function system()
-        {
+        public static function system(){
             self::init();
             self::checksession();
             self::generate_menu();
         }
 
-        public static function checksession()
-        {
+        public static function checksession(){
             if(!self::$app->session->userdata('loggedin')){
                 redirect("auth/error404");
             }

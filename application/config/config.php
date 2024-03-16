@@ -25,7 +25,7 @@
     $config['cache_path']              = '';
     $config['cache_query_string']      = FALSE;
     // $config['encryption_key']          = substr(bin2hex(random_bytes(32)), 0, 32);
-    // $config['encryption_key']          = bin2hex(random_bytes(32));
+    $config['encryption_key']          = bin2hex(random_bytes(32));
     // $config['encryption_key']          = generate_encryption_key();
     $config['sess_driver']             = 'files';
     $config['sess_cookie_name']        = 'ci_session';
@@ -54,19 +54,8 @@
     $config['rewrite_short_tags']      = FALSE;
     $config['proxy_ips']               = '';
 
-    function generate_encryption_key($length = 32)
-    {
-        // Menyusun karakter yang dapat digunakan untuk kunci
-        $characters = '0123456789';
-
-        $key = '';
-        $maxIndex = strlen($characters) - 1;
-
-        // Mengambil karakter acak dari pool karakter yang disusun
-        for ($i = 0; $i < $length; $i++) {
-            $key .= $characters[random_int(0, $maxIndex)];
-        }
-
-        return $key;
+    function generate_encryption_key() {
+        $random_bytes = random_bytes(32); // Menghasilkan 18 byte (144 bit) yang cukup aman
+        return base64_encode($random_bytes); // Mengonversi ke Base64 agar memiliki panjang karakter yang konsisten
     }
 ?>

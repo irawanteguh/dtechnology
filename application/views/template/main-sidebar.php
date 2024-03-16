@@ -8,7 +8,7 @@
 		<div class="user-panel mb-3 d-flex">
 			<div class="image d-flex align-items-center">
 				<?php
-				    if($_SESSION['imguser']==="Y"){
+				    if($_SESSION['imgprofile']==="Y"){
 						echo "<img src='".base_url().$_SESSION['fotoprofile']."' class='img-circle elevation-2'>";
 					}else{
 						echo "<div class='user-profile'><div class='user-initial'>".$_SESSION['initialuser']."</div></div>";

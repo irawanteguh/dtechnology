@@ -96,5 +96,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>
 
+<div style="width:100%; height:700px;" id="tree"></div>
+
 </body>
 </html>
+<script type = "text/javascript" src = "<?php echo base_url();?>vendor/OrgChartJS_8.14.15/orgchart.js"></script>
+
+<script>
+        let chart = new OrgChart(document.getElementById("tree"), {
+            nodeBinding: {
+                field_0: "name"
+            },
+            nodes: [
+                { id: 1, name: "Amber McKenzie" },
+                { id: 2, pid: 1, name: "Ava Field" },
+                { id: 3, pid: 4, name: "Peter Stevens" } ,
+				{ id: 4, name: "teguh" }, 
+            ]
+        });
+    </script> 

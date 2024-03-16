@@ -23,7 +23,9 @@
             if(!empty($checkauth)){
                 $sessiondata = array(
                     "initialuser"  => $checkauth->initialuser,
+                    "imgprofile"   => $checkauth->image_profile,
                     "name"         => $checkauth->name,
+                    "orgid"        => $checkauth->org_id,
                     "hospitalname" => $checkauth->hospitalname,
                     "loggedin"     => true,
                     "timeout"      => false

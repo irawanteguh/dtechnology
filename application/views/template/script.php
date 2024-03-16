@@ -7,6 +7,7 @@
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/sweetalert2/sweetalert2.min.js"></script>
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/selectize/js/standalone/selectize.js"></script>
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/selectize/js/standalone/selectize.min.js"></script>
+<script type = "text/javascript" src = "<?php echo base_url();?>vendor/OrgChartJS_8.14.15/orgchart.js"></script>
 
 <?php
     $countsegment = $this->uri->total_segments();
