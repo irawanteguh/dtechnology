@@ -79,6 +79,7 @@
                     $consent_timestamp = date("Y-m-d H:i:s");
                     $consent_text      = "Term And Contiion";
                     $version           = "TNT – v.1.0.1";
+                    $expireddate       = date("Y-m-d", strtotime("31 December"))." 23:59";
 
                     $datahash = self::$clientid.$consent_text.$version.$consent_timestamp;
                     $hash     = hash_hmac('sha256', $datahash, self::$clientsecret);
@@ -90,7 +91,7 @@
                     $body['email']             = $result->EMAIL;
                     $body['name']              = $result->NAME;
                     $body['company_name']      = "Personal";
-                    $body['date_expire']       = "2024-12-12 23:59";
+                    $body['date_expire']       = $expireddate;
                     $body['nik']               = $result->IDENTITY_NO;
                     $body['photo_ktp']         = "data:image/jpeg;base64,".$ktp_encoded;
                     $body['consent_text']      = $consent_text;

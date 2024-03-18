@@ -257,27 +257,51 @@ function certificatestatus(btn){
         success:function(data){
             result        = data.responResult;
 
-            Swal.fire({
-                position         : "center",
-                icon             : data.responHead,
-                title            : "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-                html             : "<h6 class='small'>Status : "+result['data'][0]['status']+"</h1><h6 class='small'>Serial Number : "+result['data'][0]['serialnumber']+"</h6><h6 class='small'>Active Date : "+result['data'][0]['start_active_date']+"</h6><h6 class='small'>Expired Date : "+result['data'][0]['expiry_date']+"</h6>",
-                timerProgressBar : true,
-                showConfirmButton: false,
-                timer            : 5000,
-                showClass: {
-                    popup: `
-                    animate__animated
-                    animate__fadeInUp
-                    `
-                },
-                hideClass: {
-                    popup: `
-                    animate__animated
-                    animate__fadeOutDown
-                    `
-                }
-            });
+            if(result['status']===1){
+                Swal.fire({
+                    position         : "center",
+                    icon             : data.responHead,
+                    title            : "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
+                    html             : "<h5 class='small'>"+result['message']['info']+"</h6>",
+                    timerProgressBar : true,
+                    showConfirmButton: false,
+                    timer            : 5000,
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        `
+                    },
+                    hideClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        `
+                    }
+                });
+            }else{
+                Swal.fire({
+                    position         : "center",
+                    icon             : data.responHead,
+                    title            : "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
+                    html             : "<h6 class='small'>Status : "+result['data'][0]['status']+"</h6><h6 class='small'>Serial Number : "+result['data'][0]['serialnumber']+"</h6><h6 class='small'>Active Date : "+result['data'][0]['start_active_date']+"</h6><h6 class='small'>Expired Date : "+result['data'][0]['expiry_date']+"</h6>",
+                    timerProgressBar : true,
+                    showConfirmButton: false,
+                    timer            : 5000,
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        `
+                    },
+                    hideClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        `
+                    }
+                });
+            }
         },
         error: function(xhr, status, error) {
             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
@@ -358,7 +382,7 @@ function registrasiuser(btn){
             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
 		},
 		complete: function () {
-			datakaryawan();
+			
 		}
     });
     return false;
@@ -407,16 +431,16 @@ function datakaryawan(){
                                     tableresult +="<div class='dropdown-divider'></div>";
                                     if(result[i].REGISTER_ID!=""){
                                         if(result[i].VERIFICATION==="N"){
-                                            tableresult +="";
+                                            tableresult +="<a class='dropdown-item btn' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"&registerid="+result[i].REGISTER_ID+"'><i class='fa-solid fa-list-check'></i> Verification</a>";
                                         }else{
                                             if(result[i].CERTIFICATE===""||result[i].CERTIFICATE==="1"){
-                                                tableresult +="";
+                                                tableresult +="<a class='dropdown-item btn' "+getvariabel+" onclick='certificatestatus(this)' title='Proses permohonan sertifikat dalam proses'><i class='fa-solid fa-circle-check text-success'></i> Check Status Certificate</a>";
                                             }else{
                                                 if(result[i].CERTIFICATE==="2"){
-
+                                                    tableresult +="<a class='dropdown-item btn' href='https://sb-api.tilaka.id/personal-webview/link-account?setting=1&channel_id=be2642fe-a581-4a69-aaad-ed8174dddc7e&request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"&registerid="+result[i].REGISTER_ID+"&useridentifier="+result[i].USER_IDENTIFIER+"'><i class='fa-solid fa-file-circle-check'></i> Approval Certificate</a>";
                                                 }else{
                                                     if(result[i].CERTIFICATE==="3"){
-                                                        tableresult +="<a class='dropdown-item btn' "+getvariabel+" onclick='certificatestatus(this)' title='Certificate Sudah Di Terbitkan'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
+                                                        tableresult +="<a class='dropdown-item btn' "+getvariabel+" onclick='certificatestatus(this)' title='Certificate Sudah Di Terbitkan'><i class='fa-solid fa-circle-check text-success'></i> Check Status Certificate</a>";
                                                     }else{
                                                         tableresult +="<a class='dropdown-item btn' "+getvariabel+" onclick='certificatestatus(this)' title='Pengajuan Di Tolak'><i class='fa-solid fa-circle-xmark text-danger'></i> Check Status</a>";
                                                     }
