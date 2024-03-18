@@ -6,139 +6,23 @@
 body {
     font-family: 'Roboto', sans-serif;
 	overflow: hidden;
+    
 }
 
-.context {
-    width: 100%;
-    position: absolute;
-    top: 50vh;
-}
-
-.area {
-	background: linear-gradient(90deg, #234974, #4aac90);
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-}
-
-.circles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.circles li {
-    position: absolute;
-    display: block;
-    list-style: none;
-    width: 20px;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    animation: animate 25s linear infinite;
-    bottom: -150px;
-}
-
-.circles li:nth-child(1) {
-    left: 25%;
-    width: 80px;
-    height: 80px;
-    animation-delay: 0s;
-}
-
-.circles li:nth-child(2) {
-    left: 10%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 2s;
-    animation-duration: 12s;
-}
-
-.circles li:nth-child(3) {
-    left: 70%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 4s;
-}
-
-.circles li:nth-child(4) {
-    left: 40%;
-    width: 60px;
-    height: 60px;
-    animation-delay: 0s;
-    animation-duration: 18s;
-}
-
-.circles li:nth-child(5) {
-    left: 65%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 0s;
-}
-
-.circles li:nth-child(6) {
-    left: 75%;
-    width: 110px;
-    height: 110px;
-    animation-delay: 3s;
-}
-
-.circles li:nth-child(7) {
-    left: 35%;
-    width: 150px;
-    height: 150px;
-    animation-delay: 7s;
-}
-
-.circles li:nth-child(8) {
-    left: 50%;
-    width: 25px;
-    height: 25px;
-    animation-delay: 15s;
-    animation-duration: 45s;
-}
-
-.circles li:nth-child(9) {
-    left: 20%;
-    width: 15px;
-    height: 15px;
-    animation-delay: 2s;
-    animation-duration: 35s;
-}
-
-.circles li:nth-child(10) {
-    left: 85%;
-    width: 150px;
-    height: 150px;
-    animation-delay: 0s;
-    animation-duration: 11s;
-}
-
-@keyframes animate {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-        border-radius: 0;
-    }
-
-    100% {
-        transform: translateY(-1000px) rotate(720deg);
-        opacity: 0;
-        border-radius: 50%;
-    }
+.login-page{
+    background: linear-gradient(90deg, #27374D, #9DB2BF);
 }
 
 .screen {
-    background: linear-gradient(90deg, #234974, #4aac90);
+    background: linear-gradient(90deg, #27374D, #9DB2BF);
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     height: 600px;
     width: 360px;
-    box-shadow: 0px 0px 24px #234974;
+    box-shadow: 0px 0px 24px #DDE6ED;
+    border-radius: 10px;
 }
 
 .screen__content {
@@ -168,7 +52,7 @@ body {
 .screen__background__shape1 {
     height: 520px;
     width: 520px;
-    background: #FFF;
+    background: #DDE6ED;
     top: -50px;
     right: 120px;
     border-radius: 0 72px 0 0;
@@ -177,7 +61,7 @@ body {
 .screen__background__shape2 {
     height: 220px;
     width: 220px;
-    background: #234974;
+    background: #27374D;
     top: -172px;
     right: 0;
     border-radius: 32px;
@@ -186,7 +70,7 @@ body {
 .screen__background__shape3 {
     height: 540px;
     width: 190px;
-    background: linear-gradient(270deg, #234974, #4aac90);
+    background: linear-gradient(270deg, #27374D, #9DB2BF);
     top: -24px;
     right: 0;
     border-radius: 32px;
@@ -195,7 +79,7 @@ body {
 .screen__background__shape4 {
     height: 300px;
     width: 200px;
-    background: #234974;
+    background: #27374D;
     top: 430px;
     right: 5px;
     border-radius: 60px;
@@ -219,12 +103,12 @@ body {
 .login__icon {
     position: absolute;
     top: 20px;
-    color: #234974;
+    color: #27374D;
 }
 
 .login__input {
     border: none;
-    border-bottom: 2px solid #234974;
+    border-bottom: 2px solid #27374D;
     background: none;
     padding: 10px;
     padding-left: 24px;
@@ -233,40 +117,31 @@ body {
     transition: .2s;
 }
 
-.login__input:active,
-.login__input:focus,
-.login__input:hover {
+.login__input:active,.login__input:focus,.login__input:hover {
     outline: none;
-    border-bottom-color: #4aac90;
+    border-bottom-color: #9DB2BF;
 }
 
+
 .login__submit {
-    background: #fff;
+    background: #DDE6ED;
     font-size: 14px;
     margin-top: 30px;
     padding: 16px 20px;
     border-radius: 26px;
-    border: 1px solid #d4d3e8;
+    border: 1px solid #27374D;
     text-transform: uppercase;
     font-weight: 700;
     display: flex;
     align-items: center;
     width: 100%;
-    color: #4c489d;
-    box-shadow: 0px 2px 2px #5c5696;
+    color: #27374D;
+    box-shadow: 0px 2px 2px #27374D;
     cursor: pointer;
     transition: .2s;
 }
 
-.login__submit:active,
-.login__submit:focus,
-.login__submit:hover {
-    border-color: #6a679e;
+.login__submit:active,.login__submit:focus,.login__submit:hover {
+    border-color: #27374D;
     outline: none;
-}
-
-.button__icon {
-    font-size: 24px;
-    margin-left: auto;
-    color: #7875b5;
 }

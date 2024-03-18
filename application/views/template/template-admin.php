@@ -54,7 +54,7 @@
             </div>
             <footer class="main-footer">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <!-- <div class="text-muted">Copyright &copy; <?php echo $_SESSION['namasystem'] ?> <a href="<?php echo $_SESSION['website'] ?>" target="_blank"><?php echo $_SESSION['namars'] ?></a> 2023 | Page rendered in <strong>{elapsed_time}</strong> seconds. | Ip Address : <strong><?php echo $_SERVER['REMOTE_ADDR']?></strong></div> -->
+                    <div class="text-muted">Copyright &copy; DTechnology For Use <a href="<?php echo $_SESSION['website'] ?>" target="_blank"><?php echo $_SESSION['hospitalname'] ?></a> 2024 | Page rendered in <strong>{elapsed_time}</strong> seconds. | Ip Address : <strong><?php echo $_SERVER['REMOTE_ADDR']?></strong></div>
                     <div><a href="#">Privacy Policy</a>&middot;<a href="#">Terms &amp; Conditions</a></div>
                 </div>
             </footer>

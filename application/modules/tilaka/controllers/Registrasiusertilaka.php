@@ -23,8 +23,6 @@
             if(isset($_GET['userid']) && isset($_GET['registerid']) && isset($_GET['useridentifier'])){
                 $body['user_identifier']=$_GET['useridentifier'];
                 $response = Tilaka::checkcertificateuser(json_encode($body));
-                print_r($response['success']);
-                die();
                 if($response['success']){
                     $data['CERTIFICATE']=$response['status'];
                     $this->md->updatestatusktp($data,$_GET['userid']);
@@ -69,40 +67,38 @@
         }
 
         public function registrasiuser(){
-			$userid = $this->input->post("userid");
-            
+            $userid = $this->input->post("userid");
             $result = $this->md->dataregistrasi($_SESSION['orgid'],$userid);
 
             if(!empty($result)){
-                
                 $ktp_path = FCPATH."/assets/fileapps/ktp/".$result->IDENTITY_NO.".jpeg";
 
                 if(file_exists($ktp_path)){
                     $data['IMAGE_IDENTITY']="Y";
 
                     $consent_timestamp = date("Y-m-d H:i:s");
-                    $consent_text = "Term And Contiion";
-                    $version ="TNT – v.1.0.1";
+                    $consent_text      = "Term And Contiion";
+                    $version           = "TNT – v.1.0.1";
 
                     $datahash = self::$clientid.$consent_text.$version.$consent_timestamp;
-                    $hash = hash_hmac('sha256', $datahash, self::$clientsecret);
+                    $hash     = hash_hmac('sha256', $datahash, self::$clientsecret);
 
-                    $ktp_data = file_get_contents($ktp_path);
+                    $ktp_data    = file_get_contents($ktp_path);
                     $ktp_encoded = base64_encode($ktp_data);
     
-                    $body['registration_id'] = Tilaka::uuid()['data'][0];
-                    $body['email'] = $result->EMAIL;
-                    $body['name'] = $result->NAME;
-                    $body['company_name'] = "Personal";
-                    $body['date_expire'] = "2024-12-12 23:59";
-                    $body['nik'] = $result->IDENTITY_NO;
-                    $body['photo_ktp'] = "data:image/jpeg;base64,".$ktp_encoded;
-                    $body['consent_text'] = $consent_text;
-                    $body['is_approved'] = true;
-                    $body['version'] = $version;
-                    $body['hash_consent'] = $hash;
+                    $body['registration_id']   = Tilaka::uuid()['data'][0];
+                    $body['email']             = $result->EMAIL;
+                    $body['name']              = $result->NAME;
+                    $body['company_name']      = "Personal";
+                    $body['date_expire']       = "2024-12-12 23:59";
+                    $body['nik']               = $result->IDENTITY_NO;
+                    $body['photo_ktp']         = "data:image/jpeg;base64,".$ktp_encoded;
+                    $body['consent_text']      = $consent_text;
+                    $body['is_approved']       = true;
+                    $body['version']           = $version;
+                    $body['hash_consent']      = $hash;
                     $body['consent_timestamp'] = $consent_timestamp;
-    
+
                     $response = Tilaka::registerkyc(json_encode($body));
                     
                     if($response['success']){

@@ -7,7 +7,7 @@
 <link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/AdminLTE-3.2.0/dist/css/adminlte.min.css">
 <link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/fontawesome-6.5.1/css/all.min.css">
 <link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/toastr/toastr.min.css">
-<link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/sweetalert2/sweetalert2.min.css">
+<link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/sweetalert2-11.10.3/sweetalert2.min.css">
 
 <?php
 

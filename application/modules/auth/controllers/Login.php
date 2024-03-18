@@ -27,6 +27,7 @@
                     "name"         => $checkauth->name,
                     "orgid"        => $checkauth->org_id,
                     "hospitalname" => $checkauth->hospitalname,
+                    "website"      => $checkauth->hospitalname,
                     "loggedin"     => true,
                     "timeout"      => false
                 );

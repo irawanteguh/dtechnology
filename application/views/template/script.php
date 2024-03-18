@@ -4,7 +4,7 @@
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/bootstrap-4.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/AdminLTE-3.2.0/dist/js/adminlte.min.js"></script>
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/toastr/toastr.min.js"></script>
-<script type = "text/javascript" src = "<?php echo base_url();?>vendor/sweetalert2/sweetalert2.min.js"></script>
+<script type = "text/javascript" src = "<?php echo base_url();?>vendor/sweetalert2-11.10.3/sweetalert2.min.js"></script>
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/selectize/js/standalone/selectize.js"></script>
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/selectize/js/standalone/selectize.min.js"></script>
 <script type = "text/javascript" src = "<?php echo base_url();?>vendor/OrgChartJS_8.14.15/orgchart.js"></script>

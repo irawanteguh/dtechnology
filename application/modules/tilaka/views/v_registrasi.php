@@ -1,8 +1,7 @@
 <table class="table table-sm table-striped table-hover">
-    <thead>
+    <thead class="text-center">
         <tr>
-            <th>ACTION</th>
-            <th>TILAKA ID</th>
+            <th>#</th>
             <th>NIK</th>
             <th>NAMA</th>
             <th>NO KTP</th>
