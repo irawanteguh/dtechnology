@@ -1,4 +1,4 @@
-// datakaryawan();
+
 
 // $('#search').on('keypress', function (event) {
 //     if (event.which === 13) {
@@ -6,143 +6,6 @@
 //     }
 // });
 
-// function registrasiuser(btn){
-//     var userid   = $(btn).attr("data-userid");
-//     $.ajax({
-//         url     : url+"index.php/tilaka/registrasiusertilaka/registrasiuser",
-//         data    : {userid:userid},
-//         method  : "POST",
-//         dataType: "JSON",
-//         cache   : false,
-//         beforeSend: function () {
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-//         },
-//         success:function(data){
-//             toastr.clear();
-            
-//             var result     = "";
-
-//             if(data.responCode == "00"){
-//                 result        = data.responResult;
-
-//                 if(result['success']===false){
-//                     Swal.fire({
-//                         position: "center",
-//                         icon: "error",
-//                         title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-//                         html: result['message'],
-//                         timerProgressBar: true,
-//                         showConfirmButton: false,
-//                         timer: 5000,
-//                         showClass: {
-//                             popup: `
-//                             animate__animated
-//                             animate__fadeInUp
-//                             animate__faster
-//                             `
-//                         },
-//                         hideClass: {
-//                             popup: `
-//                             animate__animated
-//                             animate__fadeOutDown
-//                             animate__faster
-//                             `
-//                         }
-//                     });
-//                 }
-//             }else{
-//                 Swal.fire({
-//                     position: "center",
-//                     icon: data.responHead,
-//                     title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-//                     html: data.responDesc,
-//                     timerProgressBar: true,
-//                     showConfirmButton: false,
-//                     timer: 5000,
-//                     showClass: {
-//                         popup: `
-//                         animate__animated
-//                         animate__fadeInUp
-//                         animate__faster
-//                         `
-//                     },
-//                     hideClass: {
-//                         popup: `
-//                         animate__animated
-//                         animate__fadeOutDown
-//                         animate__faster
-//                         `
-//                     }
-//                 });
-//             }
-//         },
-//         error: function(xhr, status, error) {
-//             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
-// 		},
-// 		complete: function () {
-// 			// toastr.clear();
-// 		}
-//     });
-//     return false;
-// };
-
-// function checknik(btn){
-//     var noktp   = $(btn).attr("data-noktp");
-//     var userid   = $(btn).attr("data-userid");
-//     $.ajax({
-//         url     : url+"index.php/tilaka/registrasiusertilaka/checknik",
-//         data    : {noktp:noktp,userid:userid},
-//         method  : "POST",
-//         dataType: "JSON",
-//         cache   : false,
-//         beforeSend: function () {
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-//         },
-//         success:function(data){
-//             toastr.clear();
-            
-//             var result     = "";
-//             result        = data.responResult;
-
-//             Swal.fire({
-//                 position: "center",
-//                 icon: data.responHead,
-//                 title: "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-//                 html: result['message'],
-//                 timerProgressBar: true,
-//                 showConfirmButton: false,
-//                 timer: 5000,
-//                 showClass: {
-//                     popup: `
-//                     animate__animated
-//                     animate__fadeInUp
-//                     animate__faster
-//                     `
-//                 },
-//                 hideClass: {
-//                     popup: `
-//                     animate__animated
-//                     animate__fadeOutDown
-//                     animate__faster
-//                     `
-//                 }
-//             });
-
-//             if(result['status']){
-//                 datakaryawan();
-//             }
-//         },
-//         error: function(xhr, status, error) {
-//             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
-// 		},
-// 		complete: function () {
-// 			// toastr.clear();
-// 		}
-//     });
-//     return false;
-// };
 
 
 
@@ -441,6 +304,7 @@ function datakaryawan(){
                                                 }else{
                                                     if(result[i].CERTIFICATE==="3"){
                                                         tableresult +="<a class='dropdown-item btn' "+getvariabel+" onclick='certificatestatus(this)' title='Certificate Sudah Di Terbitkan'><i class='fa-solid fa-circle-check text-success'></i> Check Status Certificate</a>";
+                                                        tableresult +="<a class='dropdown-item btn' "+getvariabel+" onclick='certificatestatus(this)' title='Certificate Sudah Di Terbitkan'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
                                                     }else{
                                                         tableresult +="<a class='dropdown-item btn' "+getvariabel+" onclick='certificatestatus(this)' title='Pengajuan Di Tolak'><i class='fa-solid fa-circle-xmark text-danger'></i> Check Status</a>";
                                                     }
