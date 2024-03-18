@@ -20,20 +20,32 @@
 
 		public function index()
 		{
-			if(isset($_GET['userid']) && isset($_GET['registerid']) ){
-                $body['register_id']=$_GET['registerid'];
-
-                $response = Tilaka::checkregistrasiuser(json_encode($body));
+            if(isset($_GET['userid']) && isset($_GET['registerid']) && isset($_GET['useridentifier'])){
+                $body['user_identifier']=$_GET['useridentifier'];
+                $response = Tilaka::checkcertificateuser(json_encode($body));
+                print_r($response['success']);
+                die();
                 if($response['success']){
-                    if($response['data']['summary_verification_result']){
-                        $data['VERIFICATION']="Y";
-                        $data['USER_IDENTIFIER']=$response['data']['tilaka_name'];
-                        $this->md->updatestatusktp($data,$_GET['userid']);
-                        redirect("tilaka/registrasiusertilaka");
-                    }
+                    $data['CERTIFICATE']=$response['status'];
+                    $this->md->updatestatusktp($data,$_GET['userid']);
+                    redirect("tilaka/registrasiusertilaka");
                 }
             }else{
-                $this->template->load("template/template-admin","v_registrasi");
+                if(isset($_GET['userid']) && isset($_GET['registerid']) ){
+                    $body['register_id']=$_GET['registerid'];
+    
+                    $response = Tilaka::checkregistrasiuser(json_encode($body));
+                    if($response['success']){
+                        if($response['data']['summary_verification_result']){
+                            $data['VERIFICATION']="Y";
+                            $data['USER_IDENTIFIER']=$response['data']['tilaka_name'];
+                            $this->md->updatestatusktp($data,$_GET['userid']);
+                            redirect("tilaka/registrasiusertilaka");
+                        }
+                    }
+                }else{
+                    $this->template->load("template/template-admin","v_registrasi");
+                }
             }
             
 		}

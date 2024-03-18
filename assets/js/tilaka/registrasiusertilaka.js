@@ -233,10 +233,12 @@ function datakaryawan(){
                     if(result[i].IDENTITY_NO!=null&&result[i].EMAIL!=null){
                         if(result[i].REGISTER_ID!=null){
                             if(result[i].VERIFICATION==="N"){
-                                tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"'><i class='fa-solid fa-user-plus'></i> VERIFIKASI</a></td>";
+                                tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"&registerid="+result[i].REGISTER_ID+"'><i class='fa-solid fa-user-plus'></i> VERIFIKASI</a></td>";
                             }else{
                                 if(result[i].CERTIFICATE===""||result[i].CERTIFICATE==="1"){
                                     tableresult +="<td><a class='btn btn-xs btn-primary' "+getvariabel+" onclick='certificatestatus(this)'>CERTIFICATE STATUS</a></td>";
+                                }else{
+                                    tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/link-account?setting=1&channel_id=be2642fe-a581-4a69-aaad-ed8174dddc7e&request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"&registerid="+result[i].REGISTER_ID+"&useridentifier="+result[i].USER_IDENTIFIER+"'><i class='fa-solid fa-user-plus'></i> APPROVAL</a></td>";
                                 }
                             }
                         }else{
