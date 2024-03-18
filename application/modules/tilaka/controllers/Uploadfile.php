@@ -39,6 +39,35 @@
 
             echo json_encode($json);
         }
+
+        public function uploadallfile(){
+            $result = $this->md->dataupload($_SESSION['orgid']);
+
+            // foreach($result as $a){
+            //     $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
+            //     if(file_exists($location)){
+            //         $response = Tilaka::uploadfile($location);
+            //         print_r($response);
+            //     }
+            // }
+
+            // $requestsign = $this->md->dataupload($_SESSION['orgid']);
+            // if(!empty($requestsign)){
+            //     $body['request_id']=Tilaka::uuid();
+            //     foreach($requestsign as $a){
+            //         $signature['user_identifier']=$a->useridentifier;
+            //     }
+            //     $body['signatures'][]=$signature;
+            // }
+            
+            // echo Tilaka::uuid()['data'][0];
+
+            // $json["responCode"] = "00";
+            // $json["responHead"] = "success";
+            // $json["responDesc"] = "Data Berhasil Di Upload";
+
+            // echo json_encode($json);
+        }
 	}
 
 ?>

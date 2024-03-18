@@ -4,11 +4,13 @@
         public static $clientid;
         public static $clientsecret;
         public static $baseurl;
+        public static $tilakaliteurl;
         
         public static function init(){
-            self::$clientid       = CLIENT_ID;
-            self::$clientsecret   = CLIENT_SECRET;
-            self::$baseurl   = BASE_URL;
+            self::$clientid      = CLIENT_ID;
+            self::$clientsecret  = CLIENT_SECRET;
+            self::$baseurl       = BASE_URL;
+            self::$tilakaliteurl = TILAKALITE_URL;
         }
 
         
@@ -152,6 +154,29 @@
                 'body'    => $body,
                 'savelog' => true,
                 'source'  => "TILAKA-CHECKAKUNEXIST"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+        public static function uploadfile($location){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $mimedoc =mime_content_type($location);
+            $infodoc =pathinfo($location);
+            $namedoc =$infodoc['basename'];
+
+            $requestbody = array(
+                'file' => new CURLFILE($location,$mimedoc,$namedoc)
+            );
+
+            $responsecurl = curl([
+                'url'     => self::$tilakaliteurl."api/v1/upload",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $requestbody,
+                'savelog' => false,
+                'source'  => "TILAKA-UPLOADFILE"
             ]);
 
             return json_decode($responsecurl,TRUE); 

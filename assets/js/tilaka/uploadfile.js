@@ -25,10 +25,10 @@ function dataupload(){
                     if(result[i].STATUS_SIGN==="0"){
                         tableresult +="<td></td>"; 
                     }else{
-                        tableresult +="<td><i class='fa-solid fa-cloud-arrow-up text-primary'></i></td>";
+                        tableresult +="<td class='text-center'><i class='fa-solid fa-cloud-arrow-up text-primary'></i></td>";
                     }
-                    tableresult +="<td>"+result[i].NO_FILE+"</td>";
-                    tableresult +="<td></td>";
+                    tableresult +="<td>"+result[i].NO_FILE+".pdf</td>";
+                    tableresult +="<td>"+result[i].FILENAME+"</td>";
                     tableresult +="<td>"+result[i].jenisdocumen+"</td>";
                     tableresult +="<td>"+result[i].assignname+"</td>";
                     tableresult +="<td>"+result[i].useridentifier+"</td>";
@@ -45,6 +45,30 @@ function dataupload(){
 		},
 		complete: function () {
 			toastr.clear();
+		}
+    });
+    return false;
+};
+
+
+function uploadallfile(){
+    $.ajax({
+        url     : url+"index.php/tilaka/uploadfile/uploadallfile",
+        method  : "POST",
+        dataType: "JSON",
+        cache   : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success:function(data){
+            alert("Berhasil");
+        },
+        error: function(xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
+		},
+		complete: function () {
+			
 		}
     });
     return false;
