@@ -261,7 +261,7 @@ function certificatestatus(btn){
                 position         : "center",
                 icon             : data.responHead,
                 title            : "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-                html             : result['message']['info'],
+                html             : "<h6 class='small'>Status : "+result['data'][0]['status']+"</h1><h6 class='small'>Serial Number : "+result['data'][0]['serialnumber']+"</h6><h6 class='small'>Active Date : "+result['data'][0]['start_active_date']+"</h6><h6 class='small'>Expired Date : "+result['data'][0]['expiry_date']+"</h6>",
                 timerProgressBar : true,
                 showConfirmButton: false,
                 timer            : 5000,
