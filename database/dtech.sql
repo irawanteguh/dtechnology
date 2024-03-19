@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2024 at 04:20 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Generation Time: Mar 19, 2024 at 04:58 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -118,7 +118,7 @@ CREATE TABLE `dt01_gen_modules_ms` (
 INSERT INTO `dt01_gen_modules_ms` (`MODULES_ID`, `MODULES_NAME`, `VERSION`, `MODULES_HEADER_ID`, `PACKAGE`, `DEF_CONTROLLER`, `ACTIVE_MODULES`, `PARENT`, `ICON`, `ACTIVE`) VALUES
 ('1eebee7e-a774-4572-a660-8ab49f6a734a', 'Dashboard', '', '', 'dashboard', 'dashboard', 'dashboard', 'Y', 'fa-solid fa-gauge', '1'),
 ('5d6e68a6-2179-45dc-8b0f-cb2f289954ab', 'Tilaka', '', '', 'tilaka', 'tilaka', 'tilaka', 'Y', 'fa-solid fa-signature', '1'),
-('5def5540-dd84-4774-98bd-9d2e52a6245d', 'Request Sign', '', '5d6e68a6-2179-45dc-8b0f-cb2f289954ab', 'tilaka', 'uploadfile', 'uploadfile', 'N', 'fa-solid fa-file-arrow-up', '0'),
+('5def5540-dd84-4774-98bd-9d2e52a6245d', 'Sign Document', '', '5d6e68a6-2179-45dc-8b0f-cb2f289954ab', 'tilaka', 'executesign', 'executesign', 'N', 'fa-solid fa-file-arrow-up', '1'),
 ('8a5df5df-7fa2-4333-9b77-db649556214a', 'Registrasi Account', '', '5d6e68a6-2179-45dc-8b0f-cb2f289954ab', 'tilaka', 'registrasiusertilaka', 'registrasi', 'N', 'fa-solid fa-user-pen', '1'),
 ('cd5fd1e6-c13b-44ab-bab6-4b9049a3c92a', 'Upload / Request Sign', '', '5d6e68a6-2179-45dc-8b0f-cb2f289954ab', 'tilaka', 'uploadfile', 'uploadfile', 'N', 'fa-solid fa-file-arrow-up', '1');
 
