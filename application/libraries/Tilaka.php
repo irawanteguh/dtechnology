@@ -160,7 +160,7 @@
         }
 
         public static function uploadfile($location){
-            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+            $header = array("Authorization: Bearer ".Tilaka::oauth()['access_token']);
 
             $mimedoc =mime_content_type($location);
             $infodoc =pathinfo($location);
