@@ -47,7 +47,9 @@
                 $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
                 if(file_exists($location)){
                     $response = Tilaka::uploadfile($location);
-                    print_r($response);
+                    $data['FILENAME']    = $response['filename'];
+                    $data['STATUS_SIGN'] = "1";
+                    $this->md->updatefile($data,$a->NO_FILE);
                 }
             }
 
@@ -62,11 +64,11 @@
             
             // echo Tilaka::uuid()['data'][0];
 
-            // $json["responCode"] = "00";
-            // $json["responHead"] = "success";
-            // $json["responDesc"] = "Data Berhasil Di Upload";
+            $json["responCode"] = "00";
+            $json["responHead"] = "success";
+            $json["responDesc"] = "Data Berhasil Di Upload";
 
-            // echo json_encode($json);
+            echo json_encode($json);
         }
 	}
 
