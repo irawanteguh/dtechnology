@@ -72,13 +72,17 @@
                 $sequence           = 1;
                 $lastuseridentifier = "";
 
-                $body['request_id']=Tilaka::uuid()['data'][0];
+                
                 foreach($requestsign as $a){
                     if($a->STATUS_SIGN==="1"){
+                        $body              = [];
                         $listpdf           = [];
+                        $signatures        = [];
                         $listpdfsignatures = [];
-                        
 
+                        $signatures['sequence']               = 1;
+                        $signatures['signature_image']        = "data:image/png;base64,";
+                        $signatures['user_identifier']        = $a->useridentifier;
                         $listpdfsignatures['coordinate_x']    = self::$coordinatex;
                         $listpdfsignatures['coordinate_y']    = self::$coordinatey;
                         $listpdfsignatures['height']          = self::$height;
@@ -89,31 +93,14 @@
                         $listpdf['filename']     = $a->FILENAME;
                         $listpdf['signatures'][] = $listpdfsignatures;
 
-                        if($lastuseridentifier!=$a->useridentifier){
+                        $body['request_id']   = Tilaka::uuid()['data'][0];
+                        $body['list_pdf'][]   = $listpdf;
+                        $body['signatures'][] = $signatures;
 
-                            $signatures['sequence']=$sequence;
-                            $signatures['signature_image']="data:image/png;base64,";
-                            $signatures['user_identifier']=$a->useridentifier;
-
-                            $sequence ++;
-                            $lastuseridentifier = $a->useridentifier;
-
-                            $signaturespost[]=$signatures;
-                        }
-                    }
-                    $listpdfpost[]=$listpdf;
-                    
-                }
-
-                foreach ($listpdfpost as $a) {
-                    $body['list_pdf'][] = $a;
-                }
-                foreach ($signaturespost as $a) {
-                    $body['signatures'][] = $a;
-                }
-
-                return var_dump(json_encode($body));
-                die();
+                        return var_dump(json_encode($body));
+                        die();
+                    }                    
+                }               
             }
             
             // echo Tilaka::uuid()['data'][0];
