@@ -32,6 +32,11 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
             define('CLIENT_SECRET', '3fa22ba0-7a81-4244-9694-b857f0e83cd8');
             define('BASE_URL', 'https://sb-api.tilaka.id/');
             define('TILAKALITE_URL', 'http://10.10.11.253:8088/');
+            define('COORDINATE_X', 100);
+            define('COORDINATE_Y', 100);
+            define('HEIGHT', 200);
+            define('WIDTH', 200);
+            define('PAGE', 1);
         break;
     }
 ?>

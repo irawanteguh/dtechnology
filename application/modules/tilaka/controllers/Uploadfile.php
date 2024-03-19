@@ -5,6 +5,11 @@
 
         public static $clientid;
         public static $clientsecret;
+        public static $coordinatex;
+        public static $coordinatey;
+        public static $height;
+        public static $width;
+        public static $page;
 
 		public function __construct()
         {
@@ -16,6 +21,12 @@
 
             self::$clientid       = CLIENT_ID;
             self::$clientsecret   = CLIENT_SECRET;
+
+            self::$coordinatex = COORDINATE_X;
+            self::$coordinatey = COORDINATE_Y;
+            self::$height      = HEIGHT;
+            self::$width       = WIDTH;
+            self::$page        = PAGE;
         }
 
 		public function index()
@@ -57,19 +68,51 @@
 
             $requestsign = $this->md->dataupload($_SESSION['orgid']);
             if(!empty($requestsign)){
-                $signature = [];
+                $listpdf            = [];
+                $sequence           = 1;
+                $lastuseridentifier = "";
 
-                $body['request_id']=Tilaka::uuid();
+                $body['request_id']=Tilaka::uuid()['data'][0];
                 foreach($requestsign as $a){
-                    if($a->STATUS_SIGN==="0"){
-                        $signature['user_identifier']=$a->useridentifier;
+                    if($a->STATUS_SIGN==="1"){
+                        $listpdf           = [];
+                        $listpdfsignatures = [];
+                        
+
+                        $listpdfsignatures['coordinate_x']    = self::$coordinatex;
+                        $listpdfsignatures['coordinate_y']    = self::$coordinatey;
+                        $listpdfsignatures['height']          = self::$height;
+                        $listpdfsignatures['width']           = self::$width;
+                        $listpdfsignatures['page_number']     = self::$page;
+                        $listpdfsignatures['user_identifier'] = $a->useridentifier;
+
+                        $listpdf['filename']     = $a->FILENAME;
+                        $listpdf['signatures'][] = $listpdfsignatures;
+
+                        if($lastuseridentifier!=$a->useridentifier){
+
+                            $signatures['sequence']=$sequence;
+                            $signatures['signature_image']="data:image/png;base64,";
+                            $signatures['user_identifier']=$a->useridentifier;
+
+                            $sequence ++;
+                            $lastuseridentifier = $a->useridentifier;
+
+                            $signaturespost[]=$signatures;
+                        }
                     }
-                    $signaturepost[]=$signature;
+                    $listpdfpost[]=$listpdf;
+                    
                 }
 
-                // $body['signatures'][]=$signaturepost;
+                foreach ($listpdfpost as $a) {
+                    $body['list_pdf'][] = $a;
+                }
+                foreach ($signaturespost as $a) {
+                    $body['signatures'][] = $a;
+                }
 
-                return var_dump($body);
+                return var_dump(json_encode($body));
                 die();
             }
             
