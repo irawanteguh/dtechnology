@@ -1,6 +1,8 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
+    include FCPATH."vendor/phpqrcode/qrlib.php";
+
 	class Uploadfile extends CI_Controller {
 
         public static $clientid;
@@ -72,7 +74,6 @@
                 $sequence           = 1;
                 $lastuseridentifier = "";
 
-                
                 foreach($requestsign as $a){
                     if($a->STATUS_SIGN==="1"){
                         $body              = [];
@@ -80,8 +81,23 @@
                         $signatures        = [];
                         $listpdfsignatures = [];
 
+                        $filename             = "No Dokumen : ".$a->NO_FILE." Assign by : ".$a->assignname;
+                        $errorCorrectionLevel = "H";
+                        $matrixPointSize      = 10;
+                        $tempdir              = FCPATH."assets/fileapps/qrcode/";
+                        $filename             = $tempdir.base64_encode($filename).'.png';
+                        $pngAbsoluteFilePath  = $filename;
+
+                        if(!file_exists($pngAbsoluteFilePath)){
+                            // QRcode:: png("https://xxxxx/dtechnology/index.php/verification?token=".base64_encode($nik."|".$phass)."|".$timestamp,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                            QRcode:: png("No Dokumen : ".$a->NO_FILE." Assign by : ".$a->assignname,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                        };
+
+                        $qrcode        = file_get_contents($filename);
+                        $qrcode_encode = base64_encode($qrcode);
+
                         $signatures['sequence']               = 1;
-                        $signatures['signature_image']        = "data:image/png;base64,";
+                        $signatures['signature_image']        = "data:image/png;base64,".$qrcode_encode;
                         $signatures['user_identifier']        = $a->useridentifier;
                         $listpdfsignatures['coordinate_x']    = self::$coordinatex;
                         $listpdfsignatures['coordinate_y']    = self::$coordinatey;
@@ -93,7 +109,8 @@
                         $listpdf['filename']     = $a->FILENAME;
                         $listpdf['signatures'][] = $listpdfsignatures;
 
-                        $body['request_id']   = Tilaka::uuid()['data'][0];
+                        // $body['request_id']   = Tilaka::uuid()['data'][0];
+                        $body['request_id']   = "";
                         $body['list_pdf'][]   = $listpdf;
                         $body['signatures'][] = $signatures;
 
