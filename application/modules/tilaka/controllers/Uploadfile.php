@@ -41,34 +41,45 @@
         }
 
         public function uploadallfile(){
-            $result = $this->md->dataupload($_SESSION['orgid']);
+            // $result = $this->md->dataupload($_SESSION['orgid']);
 
-            foreach($result as $a){
-                $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
-                if(file_exists($location)){
-                    $response = Tilaka::uploadfile($location);
-                    $data['FILENAME']    = $response['filename'];
-                    $data['STATUS_SIGN'] = "1";
-                    $this->md->updatefile($data,$a->NO_FILE);
-                }
-            }
-
-            // $requestsign = $this->md->dataupload($_SESSION['orgid']);
-            // if(!empty($requestsign)){
-            //     $body['request_id']=Tilaka::uuid();
-            //     foreach($requestsign as $a){
-            //         $signature['user_identifier']=$a->useridentifier;
+            // foreach($result as $a){
+            //     if($a->STATUS_SIGN==="0"){
+            //         $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
+            //         if(file_exists($location)){
+            //             $response = Tilaka::uploadfile($location);
+            //             $data['FILENAME']    = $response['filename'];
+            //             $data['STATUS_SIGN'] = "1";
+            //             $this->md->updatefile($data,$a->NO_FILE);
+            //         }
             //     }
-            //     $body['signatures'][]=$signature;
             // }
+
+            $requestsign = $this->md->dataupload($_SESSION['orgid']);
+            if(!empty($requestsign)){
+                $signature = [];
+
+                $body['request_id']=Tilaka::uuid();
+                foreach($requestsign as $a){
+                    if($a->STATUS_SIGN==="0"){
+                        $signature['user_identifier']=$a->useridentifier;
+                    }
+                    $signaturepost[]=$signature;
+                }
+
+                // $body['signatures'][]=$signaturepost;
+
+                return var_dump($body);
+                die();
+            }
             
             // echo Tilaka::uuid()['data'][0];
 
-            $json["responCode"] = "00";
-            $json["responHead"] = "success";
-            $json["responDesc"] = "Data Berhasil Di Upload";
+            // $json["responCode"] = "00";
+            // $json["responHead"] = "success";
+            // $json["responDesc"] = "Data Berhasil Di Upload";
 
-            echo json_encode($json);
+            // echo json_encode($json);
         }
 	}
 
