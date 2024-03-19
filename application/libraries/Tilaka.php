@@ -182,6 +182,22 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        public static function requestsign($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$tilakaliteurl."api/v1/requestsign",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => true,
+                'source'  => "TILAKA-REQSIGN"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+
         
     }
 

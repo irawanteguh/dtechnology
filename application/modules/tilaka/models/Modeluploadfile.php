@@ -13,6 +13,7 @@
                                 (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
                         from dt01_gen_document_file_dt a
                         where a.org_id='".$orgid."'
+                        and   a.status_sign in ('0','1')
                         )x
                         order by useridentifier asc
 
@@ -28,7 +29,10 @@
             return $sql;
         }
 
-
+        function insertauthurl($data){           
+            $sql =   $this->db->insert("dt01_gen_auth_url_sign_dt",$data);
+            return $sql;
+        }
 
     }
 ?>

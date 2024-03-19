@@ -54,79 +54,152 @@
         }
 
         public function uploadallfile(){
-            // $result = $this->md->dataupload($_SESSION['orgid']);
+            $result = $this->md->dataupload($_SESSION['orgid']);
 
-            // foreach($result as $a){
-            //     if($a->STATUS_SIGN==="0"){
-            //         $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
-            //         if(file_exists($location)){
-            //             $response = Tilaka::uploadfile($location);
-            //             $data['FILENAME']    = $response['filename'];
-            //             $data['STATUS_SIGN'] = "1";
-            //             $this->md->updatefile($data,$a->NO_FILE);
-            //         }
-            //     }
-            // }
+            foreach($result as $a){
+                if($a->STATUS_SIGN==="0"){
+                    $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
+                    if(file_exists($location)){
+                        $response = Tilaka::uploadfile($location);
+                        $data['FILENAME']    = $response['filename'];
+                        $data['STATUS_SIGN'] = "1";
+                        $this->md->updatefile($data,$a->NO_FILE);
+                    }
+                }
+            }
 
             $requestsign = $this->md->dataupload($_SESSION['orgid']);
             if(!empty($requestsign)){
                 $listpdf            = [];
                 $sequence           = 1;
                 $lastuseridentifier = "";
-
+                
                 foreach($requestsign as $a){
                     if($a->STATUS_SIGN==="1"){
-                        $body              = [];
                         $listpdf           = [];
-                        $signatures        = [];
                         $listpdfsignatures = [];
 
-                        $filename             = "No Dokumen : ".$a->NO_FILE." Assign by : ".$a->assignname;
-                        $errorCorrectionLevel = "H";
-                        $matrixPointSize      = 10;
-                        $tempdir              = FCPATH."assets/fileapps/qrcode/";
-                        $filename             = $tempdir.base64_encode($filename).'.png';
-                        $pngAbsoluteFilePath  = $filename;
-
-                        if(!file_exists($pngAbsoluteFilePath)){
-                            // QRcode:: png("https://xxxxx/dtechnology/index.php/verification?token=".base64_encode($nik."|".$phass)."|".$timestamp,$filename,$errorCorrectionLevel,$matrixPointSize,2);
-                            QRcode:: png("No Dokumen : ".$a->NO_FILE." Assign by : ".$a->assignname,$filename,$errorCorrectionLevel,$matrixPointSize,2);
-                        };
-
-                        $qrcode        = file_get_contents($filename);
-                        $qrcode_encode = base64_encode($qrcode);
-
-                        $signatures['sequence']               = 1;
-                        $signatures['signature_image']        = "data:image/png;base64,".$qrcode_encode;
-                        $signatures['user_identifier']        = $a->useridentifier;
                         $listpdfsignatures['coordinate_x']    = self::$coordinatex;
                         $listpdfsignatures['coordinate_y']    = self::$coordinatey;
                         $listpdfsignatures['height']          = self::$height;
                         $listpdfsignatures['width']           = self::$width;
                         $listpdfsignatures['page_number']     = self::$page;
                         $listpdfsignatures['user_identifier'] = $a->useridentifier;
+                        $listpdf['filename']                  = $a->FILENAME;
+                        $listpdf['signatures'][]              = $listpdfsignatures;
 
-                        $listpdf['filename']     = $a->FILENAME;
-                        $listpdf['signatures'][] = $listpdfsignatures;
+                        $listpdfpost[]=$listpdf;
 
-                        // $body['request_id']   = Tilaka::uuid()['data'][0];
-                        $body['request_id']   = "";
-                        $body['list_pdf'][]   = $listpdf;
-                        $body['signatures'][] = $signatures;
+                        if($lastuseridentifier!=$a->useridentifier){
+                            $filename             = "Assign by : ".$a->assignname;
+                            $errorCorrectionLevel = "H";
+                            $matrixPointSize      = 10;
+                            $tempdir              = FCPATH."assets/fileapps/qrcode/";
+                            $filename             = $tempdir.base64_encode($filename).'.png';
+                            $pngAbsoluteFilePath  = $filename;
 
-                        return var_dump(json_encode($body));
-                        die();
-                    }                    
-                }               
+                            if(!file_exists($pngAbsoluteFilePath)){
+                                // QRcode:: png("https://xxxxx/dtechnology/index.php/verification?token=".base64_encode($nik."|".$phass)."|".$timestamp,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                                QRcode:: png(" Assign by : ".$a->assignname,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                            };
+
+                            $qrcode        = file_get_contents($filename);
+                            $qrcode_encode = base64_encode($qrcode);
+
+                            $signatures['sequence']        = $sequence;
+                            $signatures['signature_image'] = "data:image/png;base64,".$qrcode_encode;
+                            $signatures['user_identifier'] = $a->useridentifier;
+
+                            $sequence ++;
+                            $lastuseridentifier = $a->useridentifier;
+
+                            $signaturespost[]=$signatures;
+                        }
+                    }
+                }
+
+                $body['request_id']   = Tilaka::uuid()['data'][0];
+                foreach ($listpdfpost as $a) {
+                    $body['list_pdf'][] = $a;
+                }
+                foreach ($signaturespost as $a) {
+                    $body['signatures'][] = $a;
+                }
+
+                $response = Tilaka::requestsign(json_encode($body));
+                
+                if($response['success']){
+                    foreach($requestsign as $a){
+                        if($a->STATUS_SIGN==="1"){
+                            $data['STATUS_SIGN'] = "2";
+                            $this->md->updatefile($data,$a->NO_FILE);
+                        }
+                    }
+
+                    foreach($response['auth_urls'] as $a){
+                        $dataurl['ORG_ID']          = "10c84edd-500b-49e3-93a5-a2c8cd2c8524";
+                        $dataurl['USER_IDENTIFIER'] = $a['user_identifier'];
+                        $dataurl['URL']             = $a['url'];
+                        $this->md->insertauthurl($dataurl);
+                    }
+                    
+                }
+                
+
+                // foreach($requestsign as $a){
+                //     if($a->STATUS_SIGN==="1"){
+                //         $body              = [];
+                //         $listpdf           = [];
+                //         $signatures        = [];
+                //         $listpdfsignatures = [];
+
+                //         $filename             = "No Dokumen : ".$a->NO_FILE." Assign by : ".$a->assignname;
+                //         $errorCorrectionLevel = "H";
+                //         $matrixPointSize      = 10;
+                //         $tempdir              = FCPATH."assets/fileapps/qrcode/";
+                //         $filename             = $tempdir.base64_encode($filename).'.png';
+                //         $pngAbsoluteFilePath  = $filename;
+
+                //         if(!file_exists($pngAbsoluteFilePath)){
+                //             // QRcode:: png("https://xxxxx/dtechnology/index.php/verification?token=".base64_encode($nik."|".$phass)."|".$timestamp,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                //             QRcode:: png("No Dokumen : ".$a->NO_FILE." Assign by : ".$a->assignname,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                //         };
+
+                //         $qrcode        = file_get_contents($filename);
+                //         $qrcode_encode = base64_encode($qrcode);
+
+                //         $signatures['sequence']               = 1;
+                //         $signatures['signature_image']        = "data:image/png;base64,".$qrcode_encode;
+                //         $signatures['user_identifier']        = $a->useridentifier;
+                //         $listpdfsignatures['coordinate_x']    = self::$coordinatex;
+                //         $listpdfsignatures['coordinate_y']    = self::$coordinatey;
+                //         $listpdfsignatures['height']          = self::$height;
+                //         $listpdfsignatures['width']           = self::$width;
+                //         $listpdfsignatures['page_number']     = self::$page;
+                //         $listpdfsignatures['user_identifier'] = $a->useridentifier;
+
+                //         $listpdf['filename']     = $a->FILENAME;
+                //         $listpdf['signatures'][] = $listpdfsignatures;
+
+                //         $body['request_id']   = Tilaka::uuid()['data'][0];
+                //         $body['list_pdf'][]   = $listpdf;
+                //         $body['signatures'][] = $signatures;
+
+                //         $response = Tilaka::requestsign(json_encode($body));
+                //         if($response['success']){
+                //             $data['URL_AUTH']    = $response['auth_urls'][0]['url'];
+                //             $data['STATUS_SIGN'] = "2";
+                //             $this->md->updatefile($data,$a->NO_FILE);
+                //         }
+                //     }                    
+                // }               
             }
             
-            // echo Tilaka::uuid()['data'][0];
+            $json["responCode"] = "00";
+            $json["responHead"] = "success";
+            $json["responDesc"] = "Data Berhasil Di Upload";
 
-            // $json["responCode"] = "00";
-            // $json["responHead"] = "success";
-            // $json["responDesc"] = "Data Berhasil Di Upload";
-
-            // echo json_encode($json);
+            echo json_encode($json);
         }
 	}
 

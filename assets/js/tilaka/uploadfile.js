@@ -62,7 +62,27 @@ function uploadallfile(){
             toastr["info"]("Sending request...", "Please wait");
         },
         success:function(data){
-            alert("Berhasil");
+            Swal.fire({
+                position         : "center",
+                icon             : data.responHead,
+                title            : "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
+                html             : "<h5 class='small'>Process Upload And Request Sign Finish</h6>",
+                timerProgressBar : true,
+                showConfirmButton: false,
+                timer            : 5000,
+                showClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    `
+                },
+                hideClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    `
+                }
+            });
         },
         error: function(xhr, status, error) {
             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
