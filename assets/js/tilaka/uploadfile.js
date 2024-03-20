@@ -28,7 +28,12 @@ function dataupload(){
                         tableresult +="<td class='text-center'><i class='fa-solid fa-cloud-arrow-up text-primary'></i></td>";
                     }
                     tableresult +="<td>"+result[i].NO_FILE+".pdf</td>";
-                    tableresult +="<td>"+result[i].FILENAME+"</td>";
+                    if(result[i].FILENAME===null){
+                        tableresult +="<td></td>";
+                    }else{
+                        tableresult +="<td>"+result[i].FILENAME+"</td>";
+                    }
+                    
                     tableresult +="<td>"+result[i].jenisdocumen+"</td>";
                     tableresult +="<td>"+result[i].assignname+"</td>";
                     tableresult +="<td>"+result[i].useridentifier+"</td>";

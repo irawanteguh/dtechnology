@@ -125,7 +125,7 @@ function certificatestatus(btn){
                     position         : "center",
                     icon             : data.responHead,
                     title            : "<h1 class='font-weight-bold' style='color:#fff;'>"+"Information"+"</h1>",
-                    html             : "<h5 class='small'>"+result['message']['info']+"</h6>",
+                    html             : "<h6 class='small'>"+result['message']['info']+"</h6>",
                     timerProgressBar : true,
                     showConfirmButton: false,
                     timer            : 5000,

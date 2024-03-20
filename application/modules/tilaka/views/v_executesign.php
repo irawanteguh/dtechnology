@@ -8,6 +8,7 @@
             <th>NAMA</th>
             <th>NO KTP</th>
             <th>EMAIL</th>
+            <th>CREATED DATE</th>
         </tr>
     </thead>
     <tbody id="resultexecutesign"></tbody>

@@ -118,7 +118,8 @@
                     }
                 }
 
-                $body['request_id']   = Tilaka::uuid()['data'][0];
+                $requestid = Tilaka::uuid()['data'][0];
+                $body['request_id']   = $requestid;
                 foreach ($listpdfpost as $a) {
                     $body['list_pdf'][] = $a;
                 }
@@ -137,7 +138,8 @@
                     }
 
                     foreach($response['auth_urls'] as $a){
-                        $dataurl['ORG_ID']          = "10c84edd-500b-49e3-93a5-a2c8cd2c8524";
+                        $dataurl['URL_ID']          = Tilaka::uuid()['data'][0];
+                        $dataurl['REQUEST_ID']      = $requestid;
                         $dataurl['USER_IDENTIFIER'] = $a['user_identifier'];
                         $dataurl['URL']             = $a['url'];
                         $this->md->insertauthurl($dataurl);

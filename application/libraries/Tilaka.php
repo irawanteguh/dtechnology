@@ -197,6 +197,36 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        public static function statusexcutesign($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$tilakaliteurl."api/v1/executesign",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => true,
+                'source'  => "TILAKA-EXECUTESIGN"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
+        public static function download($body){
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => self::$tilakaliteurl."api/v1/checksignstatus",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => true,
+                'source'  => "TILAKA-SIGNSTATUS"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
 
         
     }
