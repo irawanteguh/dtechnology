@@ -20,7 +20,7 @@
 
 		public function index()
 		{
-            if(isset($_GET['userid']) && isset($_GET['registerid']) && isset($_GET['useridentifier'])){
+            if(isset($_GET['userid']) && isset($_GET['register_id']) && isset($_GET['useridentifier'])){
                 $body['user_identifier']=$_GET['useridentifier'];
                 $response = Tilaka::checkcertificateuser(json_encode($body));
                 if($response['success']){
@@ -29,8 +29,8 @@
                     redirect("tilaka/registrasiusertilaka");
                 }
             }else{
-                if(isset($_GET['userid']) && isset($_GET['registerid']) ){
-                    $body['register_id']=$_GET['registerid'];
+                if(isset($_GET['userid']) && isset($_GET['register_id']) ){
+                    $body['register_id']=$_GET['register_id'];
     
                     $response = Tilaka::checkregistrasiuser(json_encode($body));
                     if($response['success']){
