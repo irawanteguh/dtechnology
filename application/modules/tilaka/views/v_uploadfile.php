@@ -1,6 +1,3 @@
-<a class="btn btn-primary" onclick="uploadallfile();"><i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD AND REQUEST SIGN</a>
-<br>
-<br>
 <table class="table table-sm table-striped table-hover">
     <thead class="text-center">
         <tr>

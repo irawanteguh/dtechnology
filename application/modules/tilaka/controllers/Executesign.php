@@ -49,47 +49,47 @@
             echo json_encode($json);
         }
 
-        public function statusexecutesign(){
-            $urlid          = $this->input->post("urlid");
-            $requestid      = $this->input->post("requestid");
-            $useridentifier = $this->input->post("useridentifier");
+        // public function statusexecutesign(){
+        //     $urlid          = $this->input->post("urlid");
+        //     $requestid      = $this->input->post("requestid");
+        //     $useridentifier = $this->input->post("useridentifier");
 
-            $body['request_id']      = $requestid;
-            $body['user_identifier'] = $useridentifier;
-            $body['hmac_nonce']      = "";
+        //     $body['request_id']      = $requestid;
+        //     $body['user_identifier'] = $useridentifier;
+        //     $body['hmac_nonce']      = "";
 
-            $response = Tilaka::statusexcutesign(json_encode($body));
+        //     $response = Tilaka::statusexcutesign(json_encode($body));
 
-            if($response['status']==="DONE"){
-                $dataupdate['STATUS']="2";
-                $this->md->updateauthurl($dataupdate,$urlid);
+        //     if($response['status']==="DONE"){
+        //         $dataupdate['STATUS']="2";
+        //         $this->md->updateauthurl($dataupdate,$urlid);
 
-                $bodydownload['request_id'] = $requestid;
+        //         $bodydownload['request_id'] = $requestid;
 
-                $response = Tilaka::download(json_encode($bodydownload));
+        //         $response = Tilaka::download(json_encode($bodydownload));
 
-                if($response['success']){
-                    $dataupdate['STATUS']="3";
-                    $this->md->updateauthurl($dataupdate,$urlid);
+        //         if($response['success']){
+        //             $dataupdate['STATUS']="3";
+        //             $this->md->updateauthurl($dataupdate,$urlid);
 
-                    foreach($response['list_pdf'] as $a){
-                        $filename           = $a['filename'];
+        //             foreach($response['list_pdf'] as $a){
+        //                 $filename           = $a['filename'];
                         
-                        $updatefile['STATUS_SIGN'] = "3";
-                        $updatefile['LINK']        = $a['presigned_url'];
+        //                 $updatefile['STATUS_SIGN'] = "3";
+        //                 $updatefile['LINK']        = $a['presigned_url'];
 
-                        $this->md->updatefile($updatefile,$filename);
-                    }
-                }
-            }
+        //                 $this->md->updatefile($updatefile,$filename);
+        //             }
+        //         }
+        //     }
             
-            $json["responCode"]   = "00";
-            $json["responHead"]   = "success";
-            $json["responDesc"]   = "Data Di Temukan";
-            $json['responResult'] = $response;
+        //     $json["responCode"]   = "00";
+        //     $json["responHead"]   = "success";
+        //     $json["responDesc"]   = "Data Di Temukan";
+        //     $json['responResult'] = $response;
 
-            echo json_encode($json);
-        }
+        //     echo json_encode($json);
+        // }
 
 	}
 

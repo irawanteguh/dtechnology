@@ -12,7 +12,7 @@
                                 (select EMAIL from dt01_gen_user_data where active='1' and USER_IDENTIFIER=A.USER_IDENTIFIER)email
                         from dt01_gen_auth_url_sign_dt a
                         where a.active='1'
-                        and   a.status<>'3'
+                        and   a.status in ('0','1')
                     ";
 
             $recordset = $this->db->query($query);
@@ -25,10 +25,10 @@
             return $sql;
         }
 
-        function updatefile($data,$nofile){           
-            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("FILENAME"=>$nofile));
-            return $sql;
-        }
+        // function updatefile($data,$nofile){           
+        //     $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("FILENAME"=>$nofile));
+        //     return $sql;
+        // }
 
 
     }

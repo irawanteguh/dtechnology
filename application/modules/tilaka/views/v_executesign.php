@@ -2,7 +2,7 @@
     <thead class="text-center">
         <tr>
             <th>#</th>
-            <th>URL</th>
+            <th>STATUS</th>
             <th>USER IDENTIFIER</th>
             <th>NIK</th>
             <th>NAMA</th>

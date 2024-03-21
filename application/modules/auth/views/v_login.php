@@ -5,7 +5,7 @@
                 <div class="screen__content">
                     <form class="login" action="<?php echo base_url();?>index.php/auth/login/loginsystem" id="formlogin" method="post">
                         <h5><strong>SINGLE SIGN ON</strong></h5>
-                        <h5><strong>RSUD Pasar Minggu</strong></h5>
+                        <h5><strong>DTechnology</strong></h5>
                         <div class="login__field">
                             <i class="login__icon fas fa-user"></i>
                             <input type="text" name="username" id="username" class="login__input" placeholder="User name">
