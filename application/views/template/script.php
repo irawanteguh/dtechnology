@@ -8,6 +8,7 @@
     <script type = "text/javascript" src = "<?php echo base_url();?>vendor/selectize/js/standalone/selectize.js"></script>
     <script type = "text/javascript" src = "<?php echo base_url();?>vendor/selectize/js/standalone/selectize.min.js"></script>
     <script type = "text/javascript" src = "<?php echo base_url();?>vendor/OrgChartJS_8.14.15/orgchart.js"></script>
+    <script type = "text/javascript" src = "<?php echo base_url();?>vendor/bootstrap-session-timeout/bootstrap-session-timeout.js"></script>
 
     <?php
         echo "<script type='text/javascript' src='".base_url('vendor/aos/aos.js')."'></script>".PHP_EOL; 
@@ -31,8 +32,11 @@
                 }
             };
 
-            echo PHP_EOL.'<!-- Load JS Files Folder '.$this->uri->segment(1).'/'.$this->uri->segment(2).' -->'.PHP_EOL;
-            echo "<script type='text/javascript' src='".base_url('assets/js/'.$this->uri->segment(1)."/".$this->uri->segment(2).".js")."'></script>".PHP_EOL;
+            if(file_exists(FCPATH."assets/js/".$this->uri->segment(1)."/".$this->uri->segment(2).".js")){
+                echo PHP_EOL.'<!-- Load JS Files Folder '.$this->uri->segment(1).'/'.$this->uri->segment(2).' -->'.PHP_EOL;
+                echo "<script type='text/javascript' src='".base_url('assets/js/'.$this->uri->segment(1)."/".$this->uri->segment(2).".js")."'></script>".PHP_EOL;
+            }
+            
         }
         
     ?>

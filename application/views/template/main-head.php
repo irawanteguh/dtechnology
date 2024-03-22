@@ -31,7 +31,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="modal" data-target="#logout" role="button" title="Logout System">
+            <a class="nav-link" data-toggle="modal" data-target="#modal-logout" role="button" title="Logout System">
                 <i class="fas fa-sign-out-alt"></i>
             </a>
         </li>

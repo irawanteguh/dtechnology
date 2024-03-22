@@ -5,7 +5,7 @@
         {
             $query =
                     "
-                        select a.name, image_profile, org_id, LEFT(upper(a.name), 2) initialuser,
+                        select a.name, image_profile, org_id, LEFT(upper(a.name), 2) initialuser, username,
                                (select org_name from dt01_gen_organization_ms where active='1' and org_id=a.org_id)hospitalname,
                                (select website  from dt01_gen_organization_ms where active='1' and org_id=a.org_id)website
                         from dt01_gen_user_data a
