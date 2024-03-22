@@ -8,7 +8,7 @@
             include_once(APPPATH."views/template/head.php");
         ?>
     </head>
-    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm dark-mode">
+    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
         <div class="wrapper">
             
             <?php          
@@ -28,7 +28,7 @@
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 text-sm">
                                 <?php echo $contents ?>   
                             </div>             
                         </div>

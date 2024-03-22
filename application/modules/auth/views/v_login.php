@@ -1,7 +1,7 @@
 <div class="login-page">
     <div class="context">
-        <div class="login-box">
-            <div class="screen animate__animated animate__zoomIn">
+        <div class="login-box animate__animated animate__zoomIn">
+            <div class="screen">
                 <div class="screen__content">
                     <form class="login" action="<?php echo base_url();?>index.php/auth/login/loginsystem" id="formlogin" method="post">
                         <h5><strong>SINGLE SIGN ON</strong></h5>
