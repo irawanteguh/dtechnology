@@ -1,7 +1,7 @@
 
 <script> var url = '<?php echo base_url();?>'; </script>
 
-<link rel = "stylesheet" type       = "text/css" href  = "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"        />
+<link rel = "stylesheet" type       = "text/css" href  = "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 <link rel = "icon" type             = "image/gif" href = "<?php echo base_url();?>assets/images/favicon/favicon.png">
 <link rel = "apple-touch-icon" type = "image/gif" href = "<?php echo base_url();?>assets/images/favicon/favicon.png">
 <link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/bootstrap-4.1.3/dist/css/bootstrap.min.css">

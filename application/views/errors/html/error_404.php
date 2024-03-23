@@ -1,64 +1,63 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>404 Page Not Found X</title>
-<style type="text/css">
+<!DOCTYPE html>
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+<html lang="en-us" class="no-js">
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
+	<head>
+		<meta charset="utf-8">
+		<title>Oops! Error 404 not found.</title>
+		<meta name="description" content="Flat able 404 Error page design">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="Codedthemes">
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
+        <link rel = "icon" type             = "image/gif" href = "<?php echo base_url();?>assets/images/favicon/favicon.png">
+		<link rel = "stylesheet" type       = "text/css" href  = "<?php echo base_url();?>assets/css/404/style.css">
+		<link rel = "stylesheet" type       = "text/css" href  = "<?php echo base_url();?>assets/css/404/vegas.min.css">
+		<link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/fontawesome-6.5.1/css/all.min.css">
+		<link rel = "stylesheet" type       = "text/css"  href = "<?php echo base_url();?>vendor/bootstrap-4.1.3/dist/css/bootstrap.min.css">
+		
+	</head>
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
+	<body class="flat">
+        <div id="particles-js"></div>
+        <a href="#" class="logo-link" title="back home">
+            <!-- <img src="<?php echo base_url();?>assets/images/clients/<?php echo $_SESSION['orgid']?>.png" class="logo" alt="Company's logo" /> -->
+        </a>
 
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
+        <div class="content">
+            <div class="content-box">
+                <div class="big-content">
+                    <div class="list-square">
+                        <span class="square"></span>
+                        <span class="square"></span>
+                        <span class="square"></span>
+                    </div>
+                    <div class="list-line">
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                    </div>
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <h1>Oops! Error 404 not found.</h1>
+                <p>The page you were looking for doesn't exist.<br>We think the page may have moved.</p>
 
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
-}
+            </div>
 
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
-</head>
-<body>
-	<div id="container">
-		<!-- <h1><?php echo $heading; ?></h1> -->
-		<!-- <?php echo $message; ?> -->
-	</div>
-</body>
+        </div>
+    <footer class="light">
+        <ul>
+            <li><a href="#">Support</a></li>
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+        </ul>
+    </footer>
+		<script type = "text/javascript" src = "<?php echo base_url();?>vendor/jquery/jquery-3.7.1.min.js"></script>
+        <script type = "text/javascript" src = "<?php echo base_url();?>vendor/bootstrap-4.1.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script type = "text/javascript" src = "<?php echo base_url();?>vendor/particles/particles.js"></script>
+    </body>
+
 </html>
