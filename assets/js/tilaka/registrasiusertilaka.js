@@ -13,11 +13,11 @@ $(document).on("click",".btn-edit", function(e){
 });
 
 function getdata(btn){
-	var userid    = btn.attr("data-userid");
-	var nik     = btn.attr("data-nik");
+	var userid = btn.attr("data-userid");
+	var nik    = btn.attr("data-nik");
 	var nama   = btn.attr("data-nama");
-	var noktp       = btn.attr("data-noktp");
-	var email   = btn.attr("data-email");
+	var noktp  = btn.attr("data-noktp");
+	var email  = btn.attr("data-email");
 
 	$(":hidden[name='userid-edit']").val(userid);
 
