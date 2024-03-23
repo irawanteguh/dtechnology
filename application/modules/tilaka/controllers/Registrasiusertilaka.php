@@ -6,8 +6,7 @@
         public static $clientid;
         public static $clientsecret;
 
-		public function __construct()
-        {
+		public function __construct(){
             parent:: __construct();
             rootsystem::system();
             Tilaka::init();
@@ -18,8 +17,7 @@
             self::$clientsecret   = CLIENT_SECRET;
         }
 
-		public function index()
-		{
+		public function index(){
             if(isset($_GET['userid']) && isset($_GET['register_id']) && isset($_GET['useridentifier'])){
                 $body['user_identifier']=$_GET['useridentifier'];
                 $response = Tilaka::checkcertificateuser(json_encode($body));
@@ -177,6 +175,45 @@
                 $json["responHead"]="error";
                 $json["responDesc"]="Data Di Temukan";
                 $json['responResult']=$response;
+            }
+
+            echo json_encode($json);
+        }
+
+        public function edituser(){
+            $userid      = $this->input->post("userid-edit");
+            $nikrs       = $this->input->post("nikrs-edit");
+            $namakryawan = $this->input->post("namakryawan-edit");
+            $noktp       = $this->input->post("noktp-edit");
+            $email       = $this->input->post("email-edit");
+            $file        = (object)@$_FILES['file_doc'];
+
+            $config['upload_path']      = './assets/fileapps/ktp/';
+            $config['allowed_types']    = '*';
+            $config['file_name']        = $noktp;
+            $config['overwrite']        = TRUE;
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file_doc')){
+                $error = array('error' => $this->upload->display_errors());
+            }else{
+                $data = array('upload_data' => $this->upload->data());
+                $dataupdate['IMAGE_IDENTITY'] = "Y";
+            }
+
+            $dataupdate['NIK']         = $nikrs;
+            $dataupdate['NAME']        = $namakryawan;
+            $dataupdate['EMAIL']       = $email;
+            $dataupdate['IDENTITY_NO'] = $noktp;
+
+            if($this->md->updatestatusktp($dataupdate,$userid)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Perbaharui Data Sukses";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Perbaharui Data gagal";
             }
 
             echo json_encode($json);

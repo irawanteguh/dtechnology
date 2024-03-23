@@ -4,7 +4,7 @@
     $autoload['packages']  = array();
     $autoload['libraries'] = array('database','session','template','rootsystem','tilaka','encryption');
     $autoload['drivers']   = array();
-    $autoload['helper']    = array('url','curl');
+    $autoload['helper']    = array('url','curl','file');
     $autoload['config']    = array();
     $autoload['language']  = array();
     $autoload['model']     = array();

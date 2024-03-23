@@ -1,108 +1,40 @@
 
-
-// $('#search').on('keypress', function (event) {
-//     if (event.which === 13) {
-//         datakaryawan();
-//     }
-// });
-
-
-
-
-// function datakaryawan(){
-//     var search = $("input[name='search']").val();
-//     $.ajax({
-//         url     : url+"index.php/tilaka/registrasiusertilaka/datakaryawan",
-//         data    : {search:search},
-//         method  : "POST",
-//         dataType: "JSON",
-//         cache   : false,
-//         beforeSend: function () {
-//             $("#resultregistrasiusertilaka").html("");
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-//         },
-//         success:function(data){
-//             var result     = "";
-//             var tableresult     = "";
-//             var getvariabel     = "";
-            
-
-//             if(data.responCode == "00"){
-//                 result        = data.responResult;
-
-//                 for(var i in result){
-//                     getvariabel =   "data-userid='"+result[i].USER_ID+"'"+
-//                                     "data-nik='"+result[i].NIK+"'"+
-//                                     "data-nama='"+result[i].NAME+"'"+
-//                                     "data-noktp='"+result[i].IDENTITY_NO+"'"+
-//                                     "data-useridentifier='"+result[i].USER_IDENTIFIER+"'"+
-//                                     "data-email='"+result[i].EMAIL+"'";
-
-//                     tableresult +="<tr>";
-//                     if(result[i].IDENTITY_NO!=null&&result[i].EMAIL!=null){
-//                         if(result[i].REGISTER_ID!=null){
-//                             if(result[i].VERIFICATION==="N"){
-//                                 tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"&registerid="+result[i].REGISTER_ID+"'><i class='fa-solid fa-user-plus'></i> VERIFIKASI</a></td>";
-//                             }else{
-//                                 if(result[i].CERTIFICATE===""||result[i].CERTIFICATE==="1"){
-//                                     tableresult +="<td><a class='btn btn-xs btn-primary' "+getvariabel+" onclick='certificatestatus(this)'>CERTIFICATE STATUS</a></td>";
-//                                 }else{
-//                                     if(result[i].CERTIFICATE==="2"){
-//                                         tableresult +="<td><a class='btn btn-xs btn-primary' href='https://sb-api.tilaka.id/personal-webview/link-account?setting=1&channel_id=be2642fe-a581-4a69-aaad-ed8174dddc7e&request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"&registerid="+result[i].REGISTER_ID+"&useridentifier="+result[i].USER_IDENTIFIER+"'><i class='fa-solid fa-user-plus'></i> APPROVAL</a></td>";
-//                                     }else{
-//                                         tableresult +="<td>User Sudah Dapat Di Gunakan</td>";
-//                                     }
-//                                 }
-//                             }
-//                         }else{
-//                             tableresult +="<td><a class='btn btn-xs btn-primary' "+getvariabel+" onclick='registrasiuser(this)'><i class='fa-solid fa-user-plus'></i> REGISTRASI</a></td>";
-//                         }
-                        
-//                     }else{
-//                         tableresult +="<td></td>";
-//                     }
-                    
-//                     if(result[i].TILAKA_ID!=""){
-//                         tableresult +="<td class='text-center align-middle'>"+result[i].TILAKA_ID+"</td>";
-//                     }else{
-//                         tableresult +="<td class='text-center align-middle'><a class='btn btn-xs btn-warning' "+getvariabel+" onclick='checknik(this)'><i class='fa-solid fa-person-circle-check'></i> CHECK</a></td>";
-//                     }
-                    
-//                     tableresult +="<td class='text-center align-middle'>"+result[i].NIK+"</td>";
-//                     tableresult +="<td class='text-left align-middle'>"+result[i].NAME+"</td>";
-
-//                     if(result[i].IDENTITY_NO===null){
-//                         tableresult +="<td></td>";
-//                     }else{
-//                         tableresult +="<td class='text-center align-middle'>"+result[i].IDENTITY_NO+"</td>";
-//                     }
-
-//                     if(result[i].EMAIL===null){
-//                         tableresult +="<td></td>";
-//                     }else{
-//                         tableresult +="<td class='text-left align-middle'>"+result[i].EMAIL+"</td>";
-//                     }
-                    
-//                     tableresult +="</tr>";
-//                 }
-//             }
-
-//             $("#resultregistrasiusertilaka").html(tableresult);
-
-// 			toastr[data.responHead](data.responDesc, "INFORMATION");
-//         },
-//         error: function(xhr, status, error) {
-//             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
-// 		},
-// 		complete: function () {
-// 			toastr.clear();
-// 		}
-//     });
-//     return false;
-// };
-
 datakaryawan();
+
+$('#search').on('keypress', function (event) {
+    if (event.which === 13) {
+        datakaryawan();
+    }
+});
+
+$(document).on("click",".btn-edit", function(e){            
+    e.preventDefault();
+    getdata($(this));
+});
+
+function getdata(btn){
+	var userid    = btn.attr("data-userid");
+	var nik     = btn.attr("data-nik");
+	var nama   = btn.attr("data-nama");
+	var noktp       = btn.attr("data-noktp");
+	var email   = btn.attr("data-email");
+
+	$(":hidden[name='userid-edit']").val(userid);
+
+	$("input[name='nikrs-edit']").val(nik);
+	$("input[name='namakryawan-edit']").val(nama);
+    if(noktp==="null"){
+        $("input[name='noktp-edit']").val("");
+    }else{
+        $("input[name='noktp-edit']").val(noktp);
+    }
+	if(email==="null"){
+        $("input[name='email-edit']").val("");
+    }else{
+        $("input[name='email-edit']").val(email);
+    }
+    		
+};
 
 function certificatestatus(btn){
     var userid         = $(btn).attr("data-userid");
@@ -287,11 +219,10 @@ function datakaryawan(){
                                 tableresult +="<span class='sr-only'>Toggle Dropdown</span>";
                             tableresult +="</button>";
                             tableresult +="<div class='dropdown-menu' role='menu' style=''>";
-                                tableresult +="<a class='dropdown-item btn' data-toggle='modal' data-target='#uploadfilektp'><i class='fa-solid fa-user-pen'></i> Perbaharui Data</a>";
-                                // tableresult +="<div class='dropdown-divider'></div>";
-                                // tableresult +="<a class='dropdown-item btn' data-toggle='modal' data-target='#uploadfilektp'><i class='fa-solid fa-cloud-arrow-up'></i> Upload File KTP</a>";
+                                if(result[i].CERTIFICATE===""){
+                                    tableresult +="<a class='dropdown-item btn  btn-edit' data-toggle='modal' data-target='#modal-edituser' "+getvariabel+"><i class='fa-solid fa-user-pen'></i> Perbaharui Data</a>";
+                                }
                                 if(result[i].IDENTITY_NO!=null&&result[i].EMAIL!=null){
-                                    tableresult +="<div class='dropdown-divider'></div>";
                                     if(result[i].REGISTER_ID!=""){
                                         if(result[i].VERIFICATION==="N"){
                                             tableresult +="<a class='dropdown-item btn' href='https://sb-api.tilaka.id/personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url=http://localhost/dtechnology/index.php/tilaka/registrasiusertilaka?userid="+result[i].USER_ID+"&registerid="+result[i].REGISTER_ID+"'><i class='fa-solid fa-list-check'></i> Verification</a>";
@@ -326,6 +257,7 @@ function datakaryawan(){
                         tableresult += "<td class='text-center align-middle'><i class='fa-solid fa-circle-check text-success' title='File KTP Terdapat Dalam Sistem'></i> "+result[i].IDENTITY_NO+"</td>";
                     }
                     tableresult += result[i].EMAIL === null ? "<td class='text-center'><i class='fa-solid fa-circle-xmark text-danger'></i></td>" : "<td class='text-left align-middle'>" + result[i].EMAIL + "</td>";
+                    tableresult += result[i].USER_IDENTIFIER === null ? "<td class='text-center'></td>" : "<td class='text-left align-middle'>" + result[i].USER_IDENTIFIER + "</td>";
                     tableresult +="</tr>";
                 }
             }
@@ -343,3 +275,35 @@ function datakaryawan(){
     });
     return false;
 };
+
+$(document).on("submit", "#formedituser", function (e) {
+	e.preventDefault();
+	var data = new  FormData(this);
+	$.ajax({
+        url        : url+'index.php/tilaka/registrasiusertilaka/edituser',
+        data       : data,
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+		success: function (data) {
+			if(data.responCode === "00"){
+				datakaryawan();
+			}
+			toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $('#modal-edituser').modal('hide');
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
+		},
+	});
+    return false;
+});

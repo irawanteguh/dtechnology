@@ -6,6 +6,7 @@
             <th>NAMA</th>
             <th>NO KTP</th>
             <th>EMAIL</th>
+            <th>USER IDENTIFIER</th>
         </tr>
     </thead>
     <tbody id="resultregistrasiusertilaka"></tbody>

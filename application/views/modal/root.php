@@ -12,9 +12,7 @@
             </div>
             <div class="modal-footer p-1">				
                 <a href="<?php echo base_url();?>index.php/auth/login/logoutsystem">
-                    <button type="button" class="btn btn-outline-danger">                                   
-                        LOGOUT
-                    </button>
+                    <button type="button" class="btn btn-outline-danger">LOGOUT</button>
                 </a>
             </div>
         </div>

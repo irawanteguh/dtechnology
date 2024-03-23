@@ -61,12 +61,12 @@
                 </div>' : '';
 
             // Create timeout warning dialog
-            $('body').append('<div class="modal fade" id="session-timeout-dialog"> \
+            $('body').append('<div class="modal fade" id="session-timeout-dialog"  tabindex="-1"> \
               <div class="modal-dialog"> \
                 <div class="modal-content"> \
                   <div class="modal-header"> \
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> \
-                    <h4 class="modal-title">' + opt.title + '</h4> \
+                  <h5 class="modal-title">'+opt.title+'</h5> \
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> \
                   </div> \
                   <div class="modal-body"> \
                     <p>' + opt.message + '</p> \
@@ -74,8 +74,8 @@
                     ' + coundownBarHtml + ' \
                   </div> \
                   <div class="modal-footer"> \
-                    <button id="session-timeout-dialog-logout" type="button" class="btn btn-default">' + opt.logoutButton + '</button> \
-                    <button id="session-timeout-dialog-keepalive" type="button" class="btn btn-primary" data-dismiss="modal">' + opt.keepAliveButton + '</button> \
+                    <button id="session-timeout-dialog-logout" type="button" class="btn btn-outline-danger">' + opt.logoutButton + '</button> \
+                    <button id="session-timeout-dialog-keepalive" type="button" class="btn btn-outline-primary" data-dismiss="modal">' + opt.keepAliveButton + '</button> \
                   </div> \
                 </div> \
               </div> \
