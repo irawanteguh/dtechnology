@@ -20,7 +20,6 @@ function getdata(btn){
 	var email  = btn.attr("data-email");
 
 	$(":hidden[name='userid-edit']").val(userid);
-
 	$("input[name='nikrs-edit']").val(nik);
 	$("input[name='namakryawan-edit']").val(nama);
     if(noktp==="null"){
