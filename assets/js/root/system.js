@@ -9,7 +9,7 @@ function todesimal(bilangan){
     return ribuan;
 };
 
-if (window.location.href !== url+'index.php/auth/login' && window.location.href !== url+'index.php/auth/lockscreen') {
+if (window.location.href !== url+'index.php/auth/login') {
     $.sessionTimeout({
         keepAliveUrl    : window.location.href,
         logoutUrl       : url+'index.php/auth/login',
