@@ -38,6 +38,21 @@
             return $recordset;
         }
 
+        function checknofile($filename)
+        {
+            $query =
+                    "
+                        select a.NO_FILE
+                        from dt01_gen_document_file_dt a
+                        where a.active='1'
+                        and   a.filename='".$filename."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function updatefile($data,$nofile)
         {           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("NO_FILE"=>$nofile));

@@ -156,25 +156,28 @@
         
                             foreach($response['list_pdf'] as $a){
                                 $filename           = $a['filename'];
+
                                 $updatefile['STATUS_SIGN'] = "3";
                                 $updatefile['LINK']        = $a['presigned_url'];
                                 $this->md->updatelinkdownload($updatefile,$filename);
 
-                                $this->downloadAndSaveFile($a['presigned_url'],self::$pathfile);
+                                $fileContent = file_get_contents(htmlspecialchars_decode($a['presigned_url']));
+                                if ($fileContent !== false) {
+                                    $resultchecknofile = $this->md->checknofile($filename);
+                                    $destinationPath = self::$pathfile.DIRECTORY_SEPARATOR.$resultchecknofile[0]->NO_FILE.".pdf";
+                                    file_put_contents($destinationPath, $fileContent);
+                                    // if (file_put_contents($destinationPath, $fileContent) !== false) {
+                                    //     echo "File berhasil diunduh dan disimpan di: $destinationPath";
+                                    // } else {
+                                    //     echo "Gagal menyimpan file di: $destinationPath";
+                                    // }
+                                }
                             }
                         }
                     }
                 }
 
                 $this->response($response,REST_Controller::HTTP_OK);
-            }
-        }
-
-        function downloadAndSaveFile($url, $destinationDir) {
-            $fileName    = basename($url);
-            $fileContent = file_get_contents($url);
-            if ($fileContent !== false) {
-                $destinationPath = $destinationDir . DIRECTORY_SEPARATOR . $fileName;
             }
         }
 
