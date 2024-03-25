@@ -1,7 +1,7 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
-	$active_group = 'dtech';
+	$active_group = 'sikms';
 	$query_builder = TRUE;
 
 	// $db['default'] = array(
@@ -53,7 +53,7 @@
 		'hostname'     => 'localhost',
 		'username'     => 'root',
 		'password'     => '',
-		'database'     => 'sikms',
+		'database'     => 'mutiasariagustus',
 		'dbdriver'     => 'mysqli',
 		'dbprefix'     => '',
 		'pconnect'     => FALSE,
