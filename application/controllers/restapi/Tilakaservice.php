@@ -10,6 +10,7 @@
         public static $orgid;
         public static $clientid;
         public static $clientsecret;
+        public static $pathfile;
         public static $coordinatex;
         public static $coordinatey;
         public static $height;
@@ -25,6 +26,7 @@
             self::$orgid        = ORG_ID;
             self::$clientid     = CLIENT_ID;
             self::$clientsecret = CLIENT_SECRET;
+            self::$pathfile     = PATHFILE;
             self::$coordinatex  = COORDINATE_X;
             self::$coordinatey  = COORDINATE_Y;
             self::$height       = HEIGHT;
@@ -36,7 +38,8 @@
             $result = $this->md->dataupload(self::$orgid,"0");
             if(!empty($result)){
                 foreach($result as $a){
-                    $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
+                    // $location = FCPATH."assets/fileapps/document/".$a->NO_FILE.".pdf";
+                    $location = self::$pathfile."/".$a->NO_FILE.".pdf";
                     if(file_exists($location)){
                         $response = Tilaka::uploadfile($location);
                         $data['FILENAME']    = $response['filename'];
@@ -153,17 +156,25 @@
         
                             foreach($response['list_pdf'] as $a){
                                 $filename           = $a['filename'];
-
                                 $updatefile['STATUS_SIGN'] = "3";
                                 $updatefile['LINK']        = $a['presigned_url'];
-        
                                 $this->md->updatelinkdownload($updatefile,$filename);
+
+                                $this->downloadAndSaveFile($a['presigned_url'],self::$pathfile);
                             }
                         }
                     }
                 }
 
                 $this->response($response,REST_Controller::HTTP_OK);
+            }
+        }
+
+        function downloadAndSaveFile($url, $destinationDir) {
+            $fileName    = basename($url);
+            $fileContent = file_get_contents($url);
+            if ($fileContent !== false) {
+                $destinationPath = $destinationDir . DIRECTORY_SEPARATOR . $fileName;
             }
         }
 

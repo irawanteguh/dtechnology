@@ -1,7 +1,7 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
-	$active_group = 'sikms';
+	$active_group = 'dtech';
 	$query_builder = TRUE;
 
 	// $db['default'] = array(
