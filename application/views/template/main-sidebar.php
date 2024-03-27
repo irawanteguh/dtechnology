@@ -32,7 +32,7 @@
 				</div>
 			</div>
 		</div>
-		<nav class="mt-2 text-sm">
+		<nav class="mt-2">
 			<?php echo $menu; ?>
 		</nav>
 	</div>

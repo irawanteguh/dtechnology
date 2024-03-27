@@ -35,7 +35,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
             define('TILAKALITE_URL', 'http://10.10.11.253:8088/');
             define('PATHFILE', 'C:\xampp\htdocs\webapps\berkasrawat\pages\upload');
             define('COORDINATE_X', 100);
-            define('COORDINATE_Y', 100);
+            define('COORDINATE_Y', 642);
             define('HEIGHT', 200);
             define('WIDTH', 200);
             define('PAGE', 1);

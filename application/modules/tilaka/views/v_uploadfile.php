@@ -1,3 +1,9 @@
+<div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> Information!</h5>
+    Data Akan Di Perbaharui Setiap 10 Detik.
+</div>
+
 <table class="table table-sm table-striped table-hover">
     <thead class="text-center">
         <tr>

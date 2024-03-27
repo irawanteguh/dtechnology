@@ -213,8 +213,8 @@ function datakaryawan(){
                     tableresult +="<tr>";
                     tableresult +="<td class='text-center'>";
                         tableresult +="<div class='btn-group'>";
-                        tableresult +="<a type='button' class='btn btn-primary'>Action</a>";
-                            tableresult +="<button type='button' class='btn btn-primary dropdown-toggle dropdown-icon' data-toggle='dropdown' aria-expanded='false'>";
+                        tableresult +="<a type='button' class='btn btn-outline-primary'>Action</a>";
+                            tableresult +="<button type='button' class='btn btn-outline-primary dropdown-toggle dropdown-icon' data-toggle='dropdown' aria-expanded='false'>";
                                 tableresult +="<span class='sr-only'>Toggle Dropdown</span>";
                             tableresult +="</button>";
                             tableresult +="<div class='dropdown-menu' role='menu' style=''>";

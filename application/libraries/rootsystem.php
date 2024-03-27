@@ -29,7 +29,7 @@
             $classicon = "";
             $classli   = "";
 
-            $menu_html = "<ul class='nav nav-pills nav-sidebar flex-column nav-child-indent' data-widget='treeview' role='menu' data-accordion='false'>";
+            $menu_html = "<ul class='nav nav-pills nav-sidebar flex-column nav-child-indent' data-widget='treeview' role='menu' data-accordion='false' text-sm>";
             foreach (self::$resultmenu as $menu) {
                 if ($menu["MODULES_HEADER_ID"] === '') {
 

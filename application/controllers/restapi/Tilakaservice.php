@@ -74,17 +74,19 @@
                     $listpdfpost[]=$listpdf;
 
                     if($lastuseridentifier!=$a->useridentifier){
-                        $filename             = "Assign by : ".$a->assignname;
-                        $errorCorrectionLevel = "H";
-                        $matrixPointSize      = 10;
-                        $tempdir              = FCPATH."assets/fileapps/qrcode/";
-                        $filename             = $tempdir.base64_encode($filename).'.png';
-                        $pngAbsoluteFilePath  = $filename;
+                        // $filename             = "Assign by : ".$a->assignname;
+                        // $errorCorrectionLevel = "H";
+                        // $matrixPointSize      = 10;
+                        // $tempdir              = FCPATH."assets/fileapps/qrcode/";
+                        // $filename             = $tempdir.base64_encode($filename).'.png';
+                        // $pngAbsoluteFilePath  = $filename;
 
-                        if(!file_exists($pngAbsoluteFilePath)){
-                            // QRcode:: png("https://xxxxx/dtechnology/index.php/verification?token=".base64_encode($nik."|".$phass)."|".$timestamp,$filename,$errorCorrectionLevel,$matrixPointSize,2);
-                            QRcode:: png("Assign by : ".$a->assignname,$filename,$errorCorrectionLevel,$matrixPointSize,2);
-                        };
+                        // if(!file_exists($pngAbsoluteFilePath)){
+                        //     QRcode:: png("https://xxxxx/dtechnology/index.php/verification?token=".base64_encode($nik."|".$phass)."|".$timestamp,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                        //     QRcode:: png("Assign by : ".$a->assignname,$filename,$errorCorrectionLevel,$matrixPointSize,2);
+                        // };
+
+                        $filename = FCPATH."assets/fileapps/speciment/signmutiasari.png";
 
                         $qrcode        = file_get_contents($filename);
                         $qrcode_encode = base64_encode($qrcode);
@@ -110,6 +112,8 @@
                 foreach ($signaturespost as $a) {
                     $body['signatures'][] = $a;
                 }
+
+                // return var_dump(json_encode($body));
 
                 $response = Tilaka::requestsign(json_encode($body));
 

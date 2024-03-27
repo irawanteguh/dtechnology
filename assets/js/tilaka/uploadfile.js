@@ -1,5 +1,9 @@
 dataupload();
 
+setInterval(() => {
+    dataupload();
+}, 10000);
+
 function dataupload(){
     var search = $("input[name='search']").val();
     $.ajax({
@@ -9,7 +13,7 @@ function dataupload(){
         dataType: "JSON",
         cache   : false,
         beforeSend: function () {
-            $("#resultregistrasiusertilaka").html("");
+            $("#resultuploadfile").html("");
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
         },
@@ -31,7 +35,7 @@ function dataupload(){
                             if(result[i].STATUS_SIGN==="2"){
                                 tableresult +="<td>Request Sign</td>"; 
                             }else{
-                                tableresult +="<td><a class='btn btn-xs btn-primary' href='"+result[i].LINK+"' target='_blank'>LINK DOWNLOAD</a></td>"; 
+                                tableresult +="<td>Sign Success</td>"; 
                             }
                         }
                     }
