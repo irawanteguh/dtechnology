@@ -1,0 +1,32 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(index\.php|assets|images|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+<Files ".htaccess">
+    Require all denied
+</Files>
+
+<FilesMatch "^.*\.(conf|inc|env|ini|log)$">
+    Require all denied
+</FilesMatch>
+
+
+<IfModule mod_evasive.c>
+    DOSHashTableSize 3097
+    DOSPageCount 2
+    DOSSiteCount 50
+    DOSPageInterval 1
+    DOSSiteInterval 1
+    DOSBlockingPeriod 10
+</IfModule>
+
+Header set X-XSS-Protection "1; mode=block"
+#Header set X-Frame-Options "DENY"
+Header set X-Frame-Options "ALLOWALL"
+Header set X-Content-Type-Options "nosniff"
+
+<LimitExcept GET POST>
+    Require all denied
+</LimitExcept>

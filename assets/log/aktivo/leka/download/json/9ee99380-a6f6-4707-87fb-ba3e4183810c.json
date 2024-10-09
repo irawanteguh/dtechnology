@@ -1,0 +1,33 @@
+{
+    "patientInformation": {
+        "name": "Jane",
+        "idnumber": "362202199208064475",
+        "sex": "",
+        "birthday": "",
+        "age": "",
+        "address": "",
+        "nation": ""
+    },
+    "result": {
+        "height_weight": {
+            "height": "",
+            "weight": "",
+            "bmi": ""
+        },
+        "body_fat": "",
+        "blood_pressure": "",
+        "blood_oxygen": "",
+        "body_temperature": "",
+        "lung_function": "",
+        "fast_ECG": "",
+        "blood_sugar": "",
+        "waist_hip_rate": "",
+        "uric_acid": "",
+        "cholesterol": "",
+        "TCM_constitution_identification": "",
+        "vision": "",
+        "color_blindness": "",
+        "psychological_tests": "",
+        "12_lead_ECG": ""
+    }
+}

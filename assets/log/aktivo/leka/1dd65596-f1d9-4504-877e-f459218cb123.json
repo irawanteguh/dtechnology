@@ -1,0 +1,108 @@
+{
+    "sfz": {
+        "name": "John Doe",
+        "sex": "Male",
+        "nation": "USA",
+        "qrCode": "SampleQRCodeContent",
+        "birthday": "1990-01-01",
+        "idnumber": "123456789",
+        "age": 34,
+        "address": "123 Main St, Anytown, USA",
+        "data": "IDCardPhotoDataInBase64"
+    },
+    "hw": {
+        "height": 180.5,
+        "weight": 75,
+        "bmi": 23
+    },
+    "fat": {
+        "zflv": 15,
+        "jcdx": 1500,
+        "tsfl": 50,
+        "tsflv": 65,
+        "zfl": 11.25,
+        "jrl": 30,
+        "jrlv": 40,
+        "gy": 2.5,
+        "qztz": 45,
+        "dbzlv": 16,
+        "xbnyl": 25,
+        "xbwyl": 20,
+        "xbnylv": 60,
+        "xbwylv": 40,
+        "dbz": 70,
+        "nzzf": 5,
+        "gl": 3
+    },
+    "blood": {
+        "high": 120,
+        "low": 80,
+        "rate": 70,
+        "rhigh": 125,
+        "rlow": 82
+    },
+    "spo2": {
+        "sp": 98
+    },
+    "tiwen": 36.6,
+    "ecg": {
+        "result": "Normal ECG",
+        "data": "ECGWaveformPictureDataInBase64",
+        "len": 512
+    },
+    "ecg12": {
+        "data": "EcgReportPictureDataInBase64",
+        "ecg_result": "Normal",
+        "heart_rate": 72,
+        "p_axis": 45,
+        "qrs_axis": 60,
+        "t_axis": 30,
+        "pr": 160,
+        "qrs": 80,
+        "qt": 350,
+        "qtc": 400,
+        "rv5": 1.2,
+        "sv1": 1,
+        "sample_rate": 500,
+        "sample_time": 10
+    },
+    "xt": {
+        "type": "Fasting",
+        "value": 5.5
+    },
+    "ytb": {
+        "waist": 80,
+        "hip": 90,
+        "whr": 0.89
+    },
+    "fgn": {
+        "pef": 500,
+        "fev1": 4,
+        "fvc": 5,
+        "bz": 80
+    },
+    "ns": 350,
+    "dgc": 5,
+    "zybs": "",
+    "shili": {
+        "left_eye": 1,
+        "right_eye": 1
+    },
+    "semang": "Normal",
+    "xlcp": {
+        "ucla": 20,
+        "lnyy": 10,
+        "zpyy": 15,
+        "hmdjl": 8,
+        "qxjkd": 12,
+        "zcjkpd": 18,
+        "shmyd": 22,
+        "rgza": 16,
+        "pstr": 14,
+        "hfxx": 30,
+        "eq": 110,
+        "smzkpg": 85
+    },
+    "deviceID": "Device12345",
+    "examNo": "Exam2024001"
+}
