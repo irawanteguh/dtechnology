@@ -102,13 +102,12 @@ function liststaff(){
                         tableresult +="<td>"+(result[i].position ? result[i].position : "")+(result[i].fungsionalprimary ? " "+result[i].fungsionalprimary : "")+"</td>";
                     }
 
-                    if(result[i].position_primary==="Y"){
+                    if(result[i].position_primary!="X"){
                         if(parseInt(result[i].jmldisetujui) >= parseInt(result[i].hours_month) ){
                             tableresult +="<td class='text-center'><i class='fa-solid fa-circle-check text-success fa-2x'></i></td>";
                         }else{
                             tableresult +="<td class='text-center'><i class='fa-solid fa-triangle-exclamation text-danger fa-2x fa-fade'></i></td>";
                         }
-                        
                     }else{
                         tableresult +="<td class='text-center'><i class='fa-regular fa-circle-question text-warning fa-2x'></i></td>";
                     }

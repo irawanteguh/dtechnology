@@ -5,55 +5,55 @@
             $query =
                     "
                         select z.*,
-                               presentasiperilaku+presentasiactivity resultkpi
+                            presentasiperilaku+presentasiactivity resultkpi
                         from(
-                        	select y.*,
-                        	       (select level from dt01_gen_level_fungsional_ms where org_id=y.org_id and active='1' and level_id=y.levelfungsionalprimaryid)fungsionalprimary,
-                        	       (select concat(name,' ',area) from dt01_hrd_klinis_ms where active='1' and klinis_id=y.klinis_id)klinis,
-                        	       COALESCE(round(jmlnilaiassessment/jmlkomponenpenilaian*(select prod/100 from dt01_gen_enviroment_ms where org_id=y.org_id and environment_name='MAX_VALUE_ASSESSMENT')*10,0),0) presentasiperilaku,
-                        	       COALESCE(round(case when jmldisetujui > hours_month then hours_month else jmldisetujui end /hours_month*(select prod/100 from dt01_gen_enviroment_ms where org_id=y.org_id and environment_name='MAX_VALUE_ACTIVITY')*100,0),0) presentasiactivity
-                        	from(
-                        		select x.*,
-                        			(select position from dt01_hrd_position_ms where active='1' and org_id=x.org_id and position_id=x.position_id)position,
-                        			(select level_fungsional from dt01_hrd_position_ms where org_id=x.org_id and active='1' and position_id=x.position_id)levelfungsionalprimaryid,
-                        			(select name from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)name,
-                        			(select upper(LEFT(name, 1)) from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)initial,
-                        			(select image_profile from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)image_profile,
-                        			(select email from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)email,
-                        			(select kategori_id from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)kategori_id,
-                        			(select klinis_id from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)klinis_id,
-                        			(select hours_month from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)hours_month,
-                        			(select sum(nilai) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id)jmlnilaiassessment,
-                        			(select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id)jmlkomponenpenilaian,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and DATE_FORMAT(start_date, '%m.%Y')='".$periodeid."')jmldibuat,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='0')jmlwait,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='1')jmldisetujui,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='2')jmldirevisi,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='9')jmlditolak,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id)jmldibuatsec,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='0')jmlwaitsec,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='1')jmldisetujuisec,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='2')jmldirevisisec,
-                        			(select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='9')jmlditolaksec
-                        		
-                        		from(
-                        			select a.org_id, user_id, position_primary, position_id, atasan_id
-                        			from dt01_hrd_position_dt a
-                        			where a.active='1'
-                        			and   a.status='1'
-                        			and   a.org_id='".$orgid."'
-                        		    and   a.atasan_id='".$userid."'
-                        			union
-                        			select a.org_id, user_id, 'N' position_primary,(select position_id from dt01_hrd_position_dt where active='1' and status='1' and org_id=a.org_id and user_id=a.user_id)position_id, atasan_id
-                        			from dt01_hrd_activity_dt a
-                        			where a.active='1'
-                        			and   a.status='0'
-                        			and   a.org_id='".$orgid."'
-                        		    and   a.atasan_id='".$userid."'
-                        		)x
-                        	)y
-                        )z
-                        order by position_primary desc, name asc         
+                            select y.*,
+                                (select level from dt01_gen_level_fungsional_ms where org_id=y.org_id and active='1' and level_id=y.levelfungsionalprimaryid)fungsionalprimary,
+                                (select concat(name,' ',area) from dt01_hrd_klinis_ms where active='1' and klinis_id=y.klinis_id)klinis,
+                                coalesce(round(jmlnilaiassessment/jmlkomponenpenilaian*(select prod/100 from dt01_gen_enviroment_ms where org_id=y.org_id and environment_name='MAX_VALUE_ASSESSMENT')*10,0),0) presentasiperilaku,
+                                coalesce(round(case when jmldisetujui > hours_month then hours_month else jmldisetujui end /hours_month*(select prod/100 from dt01_gen_enviroment_ms where org_id=y.org_id and environment_name='MAX_VALUE_ACTIVITY')*100,0),0) presentasiactivity
+                            from(
+                                select x.*,
+                                        (select position from dt01_hrd_position_ms where active='1' and org_id=x.org_id and position_id=x.position_id)position,
+                                        (select level_fungsional from dt01_hrd_position_ms where org_id=x.org_id and active='1' and position_id=x.position_id)levelfungsionalprimaryid,
+                                        (select name from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)name,
+                                        (select upper(LEFT(name, 1)) from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)initial,
+                                        (select image_profile from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)image_profile,
+                                        (select email from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)email,
+                                        (select kategori_id from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)kategori_id,
+                                        (select klinis_id from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)klinis_id,
+                                        (select hours_month from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)hours_month,
+                                        (select sum(nilai) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlnilaiassessment,
+                                        (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlkomponenpenilaian,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuat,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='0' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlwait,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldisetujui,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='2' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldirevisi,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='9' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlditolak,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuatsec,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='0' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlwaitsec,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldisetujuisec,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='2' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldirevisisec,
+                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='9' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlditolaksec
+                                from(
+                                    select a.org_id, user_id, position_primary, atasan_id, position_id
+                                    from dt01_hrd_position_dt a
+                                    where a.active='1'
+                                    and   a.status='1'
+                                    and   a.org_id='".$orgid."'
+                                    and   a.atasan_id='".$userid."'
+                                    union
+                                    select a.org_id, user_id, 'X'position_primary, atasan_id, (select position_id from dt01_hrd_position_dt where active='1' and status='1' and org_id=a.org_id and user_id=a.user_id)position_id
+                                    from dt01_hrd_activity_dt a
+                                    where a.active='1'
+                                    and   a.status='0'
+                                    and   a.org_id='".$orgid."'
+                                    and   a.atasan_id='".$userid."'
+                                    and   a.user_id not in (select user_id from dt01_hrd_position_dt where active='1' and status='1' and org_id=a.org_id and atasan_id=a.atasan_id)
+                                )x
+                                order by name asc
+                            )y
+                        )z         
                     ";
 
             $recordset = $this->db->query($query);
