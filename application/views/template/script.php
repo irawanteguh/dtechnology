@@ -47,7 +47,6 @@
             }
         };
 
-
         if (file_exists(FCPATH . "assets/js/" . $this->uri->segment(1) . "/" . $this->uri->segment(2) . ".js")) {
             echo PHP_EOL . '<!-- Load JS Files Folder ' . $this->uri->segment(1) . '/' . $this->uri->segment(2) . ' -->' . PHP_EOL;
             echo "\t\t<script type='text/javascript' src='" . base_url('assets/js/' . $this->uri->segment(1) . "/" . $this->uri->segment(2) . ".js?v=" . time()) . "'></script>" . PHP_EOL;

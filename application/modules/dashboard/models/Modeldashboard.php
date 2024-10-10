@@ -82,7 +82,7 @@
             return $recordset;
         }
 
-        function datastaff($orgid,$userid){
+        function datastaff($orgid,$userid,$periodeidactivity,$periodeidassessment){
             $query =
                     "
                         select y.*,
@@ -101,12 +101,12 @@
                                         (select level_fungsional from dt01_hrd_position_ms where org_id=a.org_id and active='1' and position_id=a.position_id)levelfungsionalprimaryid,
                                         (select image_profile from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)image_profile,
                                         (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)name,
-                                        (select upper(LEFT(name, 1)) from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)initial,
+                                        (select upper(left(name, 1)) from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)initial,
                                         (select position from dt01_hrd_position_ms where active='1' and org_id=a.org_id and position_id=a.position_id)position,
                                         (select hours_month from dt01_gen_user_data where active=a.active and org_id=a.org_id and user_id=a.user_id)hours_month,
-                                        (select sum(total) from dt01_hrd_activity_dt where active=a.active and org_id=a.org_id and user_id=a.user_id and status='1')jmldisetujui,
-                                        (select sum(nilai) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id)jmlnilaiassessment,
-                                        (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id)jmlkomponenpenilaian
+                                        (select sum(total) from dt01_hrd_activity_dt where active=a.active and org_id=a.org_id and user_id=a.user_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeidactivity."')jmldisetujui,
+                                        (select sum(nilai) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id and periode='".$periodeidassessment."')jmlnilaiassessment,
+                                        (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id and periode='".$periodeidassessment."')jmlkomponenpenilaian
                                         
                                 from dt01_hrd_position_dt a
                                 where a.active='1'

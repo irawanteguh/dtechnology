@@ -38,6 +38,33 @@
             return $recordset;
         }
 
+        function kepatuhanvalidasi($orgid,$periodeid){
+            $query =
+                    "
+                        select case
+                                when x.totaldivalidasi >= totaldibuat then
+                                100
+                                else
+                                round(((totaldivalidasi/totaldibuat)*100),2) 
+                        end presentasi
+
+                        from(
+                        SELECT 
+                            SUM(CASE WHEN a.active = '1' THEN total END) AS totaldibuat,
+                            SUM(CASE WHEN a.status <> '0' THEN total END) AS totaldivalidasi
+                        FROM dt01_hrd_activity_dt a
+                        WHERE a.active = '1'
+                        AND a.org_id = '".$orgid."'
+                        AND DATE_FORMAT(a.start_date, '%m.%Y') = '".$periodeid."'
+                        )x
+       
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function reportkpi($orgid,$periodeid){
             $query =
                     "

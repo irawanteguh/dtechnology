@@ -10,7 +10,6 @@
             </div>
             <form action="<?php echo base_url();?>index.php/kpi/validation/insertassessment" id="forminsertassessment">
                 <input type="hidden" id="modal_validation_perilaku_userid_add" name="modal_validation_perilaku_userid_add">
-                <input type="hidden" id="modal_validation_perilaku_periodeid_add" name="modal_validation_perilaku_periodeid_add">
                 <div class="modal-body">
                     <div class="mb-10 text-center">
                         <h1 class="mb-3">Personal Assessment</h1>

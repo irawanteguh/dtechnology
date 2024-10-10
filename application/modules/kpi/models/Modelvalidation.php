@@ -25,16 +25,16 @@
                                         (select hours_month from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)hours_month,
                                         (select sum(nilai) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlnilaiassessment,
                                         (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlkomponenpenilaian,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuat,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='0' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlwait,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldisetujui,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='2' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldirevisi,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='9' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlditolak,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuatsec,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='0' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlwaitsec,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldisetujuisec,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='2' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldirevisisec,
-                                        (select sum(total) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='9' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlditolaksec
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuat,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='0' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlwait,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldisetujui,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='2' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldirevisi,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='9' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlditolak,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuatsec,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='0' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlwaitsec,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldisetujuisec,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='2' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldirevisisec,
+                                        (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and atasan_id=x.atasan_id and status='9' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlditolaksec
                                 from(
                                     select a.org_id, user_id, position_primary, atasan_id, position_id
                                     from dt01_hrd_position_dt a
@@ -51,9 +51,9 @@
                                     and   a.atasan_id='".$userid."'
                                     and   a.user_id not in (select user_id from dt01_hrd_position_dt where active='1' and status='1' and org_id=a.org_id and atasan_id=a.atasan_id)
                                 )x
-                                order by name asc
                             )y
-                        )z         
+                        )z  
+                        order by name asc       
                     ";
 
             $recordset = $this->db->query($query);

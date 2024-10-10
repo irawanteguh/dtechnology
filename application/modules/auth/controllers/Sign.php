@@ -5,6 +5,7 @@
         public function __construct(){
             parent:: __construct();
             $this->load->model("Modelsign","md");
+            $this->load->model("Modelnotification","mn");
         }
         
         public function index(){
@@ -19,22 +20,25 @@
             $checkauth =$this->md->login($username,$password);
             
             if(!empty($checkauth)){
-                $datasession = $this->md->datasession($checkauth->user_id);
+                $datasession      = $this->md->datasession($checkauth->user_id);
+                $datanotification = $this->mn->informationkpi($datasession->org_id);
 
                 $sessiondata = array(
-                    "orgid"        => $datasession->org_id,
-                    "hospitalname" => $datasession->hospitalname,
-                    "website"      => $datasession->website,
-                    "trial"        => $datasession->trial,
-                    "userid"       => $datasession->user_id,
-                    "name"         => $datasession->name,
-                    "initial"      => $datasession->initial,
-                    "username"     => $datasession->username,
-                    "imgprofile"   => $datasession->image_profile,
-                    "email"        => $datasession->email,
-                    "alamat"       => $datasession->address,
-                    "loggedin"     => true,
-                    "timeout"      => false
+                    "orgid"               => $datasession->org_id,
+                    "hospitalname"        => $datasession->hospitalname,
+                    "website"             => $datasession->website,
+                    "trial"               => $datasession->trial,
+                    "userid"              => $datasession->user_id,
+                    "name"                => $datasession->name,
+                    "initial"             => $datasession->initial,
+                    "username"            => $datasession->username,
+                    "imgprofile"          => $datasession->image_profile,
+                    "email"               => $datasession->email,
+                    "alamat"              => $datasession->address,
+                    "periodeidactivity"   => $datanotification[0]->periodeidactivity,
+                    "periodeidassessment" => $datanotification[0]->periodeidassessment,
+                    "loggedin"            => true,
+                    "timeout"             => false
                 );
                 
                 $this->session->set_userdata($sessiondata);

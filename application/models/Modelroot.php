@@ -15,20 +15,6 @@
             return $recordset;
         }
 
-        // function menu(){
-        //     $query =
-        //             "
-        //                 select a.*
-        //                 from dt01_gen_modules_ms a
-        //                 where a.active='1'
-        //                 order by urut asc
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result_array();
-        //     return $recordset;
-        // }
-
         function menu($userid){
             $query =
                     "

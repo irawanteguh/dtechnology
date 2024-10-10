@@ -42,7 +42,7 @@
         }
 
         public function datastaff(){
-            $result = $this->md->datastaff($_SESSION['orgid'],$_SESSION['userid']);
+            $result = $this->md->datastaff($_SESSION['orgid'],$_SESSION['userid'],$_SESSION['periodeidactivity'],$_SESSION['periodeidassessment']);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

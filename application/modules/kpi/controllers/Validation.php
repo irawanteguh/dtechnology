@@ -13,8 +13,8 @@ class Validation extends CI_Controller{
 	}
 
     public function liststaff(){
-        $periodeid          = $this->input->post('periodeid');
-        $result = $this->md->liststaff($_SESSION['orgid'],$_SESSION['userid'],$periodeid);
+        $periodeid = $this->input->post('periodeid');
+        $result    = $this->md->liststaff($_SESSION['orgid'],$_SESSION['userid'],$_SESSION['periodeidactivity']);
         
         if(!empty($result)){
             $json["responCode"]="00";
@@ -89,19 +89,18 @@ class Validation extends CI_Controller{
             $data['org_id']        = $_SESSION['orgid'];
             $data['transaksi_id']  = generateuuid();
             $data['user_id']       = $this->input->post("modal_validation_perilaku_userid_add");
-            $data['periode']       = $this->input->post("modal_validation_perilaku_periodeid_add");
+            $data['periode']       = $_SESSION['periodeidassessment'];
             $data['created_by']    = $_SESSION['userid'];
             $data['assessment_id'] = $assessment['assessment_id'];
             $data['nilai']         = $assessment['nilai'];
 
-            $resultcheckassessment = $this->md->checkassessment($_SESSION['orgid'],$this->input->post("modal_validation_perilaku_userid_add"),$this->input->post("modal_validation_perilaku_periodeid_add"),$assessment['assessment_id']);
+            $resultcheckassessment = $this->md->checkassessment($_SESSION['orgid'],$this->input->post("modal_validation_perilaku_userid_add"),$_SESSION['periodeidassessment'],$assessment['assessment_id']);
             
             if(empty($resultcheckassessment)){
                 $this->md->insertassessment($data);
             }else{
-                $this->md->updateassessment($data,$this->input->post("modal_validation_perilaku_userid_add"),$this->input->post("modal_validation_perilaku_periodeid_add"),$assessment['assessment_id']);
+                $this->md->updateassessment($data,$this->input->post("modal_validation_perilaku_userid_add"),$_SESSION['periodeidassessment'],$assessment['assessment_id']);
             }
-            
         }
     
         // Complete transaction
@@ -119,7 +118,6 @@ class Validation extends CI_Controller{
     
         echo json_encode($json);
     }
-
 
     public function validationactivity() {
         $pilih = $this->input->post('pilih');
@@ -141,7 +139,5 @@ class Validation extends CI_Controller{
 
         echo json_encode($json);
     }
-    
-    
     
 }

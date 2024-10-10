@@ -5,7 +5,6 @@ $('#modal_validation_kegiatan').on('shown.bs.modal', function() {
     $('#resultactivity input[type="checkbox"]').prop('checked', false);
 });
 
-
 document.getElementById('checkall').addEventListener('change', function() {
     var checkboxes = document.querySelectorAll('#resultactivity input[type="checkbox"]');
     checkboxes.forEach(function(checkbox) {
@@ -23,16 +22,13 @@ $(document).on("click",".btn-validation-kegiatan", function(e){
     detailactivity($(this));
 });
 
-
 $('#modal_validation_perilaku').on('show.bs.modal', function (e) {
     listassement();
 });
 
 function getdata(btn){
     toastr.clear();
-
     var userid = btn.attr("data-userid");
-
     $(":hidden[name='modal_validation_perilaku_userid_add']").val(userid);
     $(":hidden[name='modal_validation_acivity_userid']").val(userid);
 };
@@ -113,105 +109,54 @@ function liststaff(){
                     }
                     
                     
-                    if(result[i].position_primary==="Y"){
-                        tableresult +="<td>";
-                            tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Effective</div>";
+                    tableresult +="<td>";
+                        tableresult +="<div class='d-flex'>";
+                            tableresult +="<div class='text-start w-50'>Effective</div>";
+                            tableresult +="<div class='text-center w-20'>:</div>";
+                            tableresult +="<div class='text-end w-25'>"+(result[i].hours_month ? todesimal(result[i].hours_month)  : "0")+"</div>";
+                            tableresult +="<div class='ps-5 w-10'>Minutes</div>";
+                        tableresult +="</div>";
+                        tableresult +="<div class='d-flex'>";
+                            tableresult +="<div class='text-start w-50'>Create</div>";
+                            tableresult +="<div class='text-center w-20'>:</div>";
+                            tableresult +="<div class='text-end w-25'>"+(result[i].jmldibuatsec ? todesimal(result[i].jmldibuatsec)  : "0")+"</div>";
+                            tableresult +="<div class='ps-5 w-10'>Minutes</div>";
+                        tableresult +="</div>";
+                        if(result[i].jmlwaitsec > 0){
+                            tableresult +="<div class='d-flex text-danger fa-fade'>";
+                                tableresult +="<div class='text-start w-50'>Waiting</div>";
                                 tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].hours_month ? todesimal(result[i].hours_month)  : "0")+"</div>";
+                                tableresult +="<div class='text-end w-25'>"+(result[i].jmlwaitsec ? todesimal(result[i].jmlwaitsec)  : "0")+"</div>";
                                 tableresult +="<div class='ps-5 w-10'>Minutes</div>";
                             tableresult +="</div>";
+                        }else{
                             tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Create</div>";
+                                tableresult +="<div class='text-start w-50'>Waiting</div>";
                                 tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].jmldibuat ? todesimal(result[i].jmldibuat)  : "0")+"</div>";
+                                tableresult +="<div class='text-end w-25'>"+(result[i].jmlwaitsec ? todesimal(result[i].jmlwaitsec)  : "0")+"</div>";
                                 tableresult +="<div class='ps-5 w-10'>Minutes</div>";
                             tableresult +="</div>";
-                            if(result[i].jmlwait > 0){
-                                tableresult +="<div class='d-flex text-danger fa-fade'>";
-                                    tableresult +="<div class='text-start w-50'>Waiting</div>";
-                                    tableresult +="<div class='text-center w-20'>:</div>";
-                                    tableresult +="<div class='text-end w-25'>"+(result[i].jmlwait ? todesimal(result[i].jmlwait)  : "0")+"</div>";
-                                    tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                                tableresult +="</div>";
-                            }else{
-                                tableresult +="<div class='d-flex'>";
-                                    tableresult +="<div class='text-start w-50'>Waiting</div>";
-                                    tableresult +="<div class='text-center w-20'>:</div>";
-                                    tableresult +="<div class='text-end w-25'>"+(result[i].jmlwait ? todesimal(result[i].jmlwait)  : "0")+"</div>";
-                                    tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                                tableresult +="</div>";
-                            }
-                            
-                            tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Approval</div>";
-                                tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].jmldisetujui ? todesimal(result[i].jmldisetujui)  : "0")+"</div>";
-                                tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            tableresult +="</div>";
-                            // tableresult +="<div class='d-flex'>";
-                            //     tableresult +="<div class='text-start w-50'>Revision</div>";
-                            //     tableresult +="<div class='text-center w-20'>:</div>";
-                            //     tableresult +="<div class='text-end w-25'>"+(result[i].jmldirevisi ? todesimal(result[i].jmldirevisi)  : "0")+"</div>";
-                            //     tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            // tableresult +="</div>";
-                            tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Reject</div>";
-                                tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].jmlditolak ? todesimal(result[i].jmlditolak)  : "0")+"</div>";
-                                tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            tableresult +="</div>";
-                        tableresult +="</td>";
-                    }else{
-                        tableresult +="<td>";
-                            tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Effective</div>";
-                                tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].hours_month ? todesimal(result[i].hours_month)  : "0")+"</div>";
-                                tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            tableresult +="</div>";
-                            tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Create</div>";
-                                tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].jmldibuatsec ? todesimal(result[i].jmldibuatsec)  : "0")+"</div>";
-                                tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            tableresult +="</div>";
-                            if(result[i].jmlwaitsec > 0){
-                                tableresult +="<div class='d-flex text-danger fa-fade'>";
-                                    tableresult +="<div class='text-start w-50'>Waiting</div>";
-                                    tableresult +="<div class='text-center w-20'>:</div>";
-                                    tableresult +="<div class='text-end w-25'>"+(result[i].jmlwaitsec ? todesimal(result[i].jmlwaitsec)  : "0")+"</div>";
-                                    tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                                tableresult +="</div>";
-                            }else{
-                                tableresult +="<div class='d-flex'>";
-                                    tableresult +="<div class='text-start w-50'>Waiting</div>";
-                                    tableresult +="<div class='text-center w-20'>:</div>";
-                                    tableresult +="<div class='text-end w-25'>"+(result[i].jmlwaitsec ? todesimal(result[i].jmlwaitsec)  : "0")+"</div>";
-                                    tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                                tableresult +="</div>";
-                            }
-                            
-                            tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Approval</div>";
-                                tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].jmldisetujuisec ? todesimal(result[i].jmldisetujuisec)  : "0")+"</div>";
-                                tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            tableresult +="</div>";
-                            // tableresult +="<div class='d-flex'>";
-                            //     tableresult +="<div class='text-start w-50'>Revision</div>";
-                            //     tableresult +="<div class='text-center w-20'>:</div>";
-                            //     tableresult +="<div class='text-end w-25'>"+(result[i].jmldirevisisec ? todesimal(result[i].jmldirevisisec)  : "0")+"</div>";
-                            //     tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            // tableresult +="</div>";
-                            tableresult +="<div class='d-flex'>";
-                                tableresult +="<div class='text-start w-50'>Reject</div>";
-                                tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].jmlditolaksec ? todesimal(result[i].jmlditolaksec)  : "0")+"</div>";
-                                tableresult +="<div class='ps-5 w-10'>Minutes</div>";
-                            tableresult +="</div>";
-                        tableresult +="</td>";
-                    }
+                        }
+                        
+                        tableresult +="<div class='d-flex'>";
+                            tableresult +="<div class='text-start w-50'>Approval</div>";
+                            tableresult +="<div class='text-center w-20'>:</div>";
+                            tableresult +="<div class='text-end w-25'>"+(result[i].jmldisetujui ? todesimal(result[i].jmldisetujuisec)  : "0")+"</div>";
+                            tableresult +="<div class='ps-5 w-10'>Minutes</div>";
+                        tableresult +="</div>";
+                        // tableresult +="<div class='d-flex'>";
+                        //     tableresult +="<div class='text-start w-50'>Revision</div>";
+                        //     tableresult +="<div class='text-center w-20'>:</div>";
+                        //     tableresult +="<div class='text-end w-25'>"+(result[i].jmldirevisisec ? todesimal(result[i].jmldirevisisec)  : "0")+"</div>";
+                        //     tableresult +="<div class='ps-5 w-10'>Minutes</div>";
+                        // tableresult +="</div>";
+                        tableresult +="<div class='d-flex'>";
+                            tableresult +="<div class='text-start w-50'>Reject</div>";
+                            tableresult +="<div class='text-center w-20'>:</div>";
+                            tableresult +="<div class='text-end w-25'>"+(result[i].jmlditolaksec ? todesimal(result[i].jmlditolaksec)  : "0")+"</div>";
+                            tableresult +="<div class='ps-5 w-10'>Minutes</div>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
                     
 
                     // tableresult +="<td><div>Effective : "+(result[i].hours_month ? todesimal(result[i].hours_month)  : "")+" Minutes</div><div>Actual : "+(result[i].hours_month ? todesimal(result[i].hours_month)  : "")+" Minutes</div><div>Difference : "+(result[i].hours_month ? todesimal(result[i].hours_month)  : "")+" Minutes</div></td>";

@@ -10,7 +10,6 @@
 
         public function informationkpi(){
             $result = $this->md->informationkpi($_SESSION['orgid']);
-            
             if(!empty($result)){
                 $json["responCode"]="00";
                 $json["responHead"]="success";
@@ -25,7 +24,20 @@
             echo json_encode($json);
         }
 
-        
-
+        public function selfreportkpi(){
+            $result = $this->md->selfreportkpi($_SESSION['orgid'],$_SESSION['periodeidactivity'],$_SESSION['periodeidassessment'],$_SESSION['userid']);
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Tidak Di Temukan";
+            }
+    
+            echo json_encode($json);
+        }
 	}
 ?>
