@@ -61,7 +61,7 @@ function selfreportkpi(){
             var result = data.responResult;
             $("#presentasiactivity").attr("data-kt-countup-value", result[0].presentasiactivity).text(result[0].presentasiactivity + "%");
             $("#presentasiassessment").attr("data-kt-countup-value", result[0].presentasiperilaku).text(result[0].presentasiperilaku + "%");
-            $("#resultkpi").attr("data-kt-countup-value", result[0].resultkpi).text(result[0].resultkpi + "%");
+            $("#resultkpidashboard").attr("data-kt-countup-value", result[0].resultkpi).text(result[0].resultkpi + "%");
             $("#presentasikpi").html(result[0].resultkpi+" %");
             $("#progresskpi").css("width", result[0].resultkpi + "%").attr("aria-valuenow", result[0].resultkpi);
         },

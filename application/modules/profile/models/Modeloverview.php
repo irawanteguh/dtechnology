@@ -1,100 +1,40 @@
 <?php
-class Modeloverview extends CI_Model
-{
+    class Modeloverview extends CI_Model{
 
-    function datauser($orgid, $userid)
-    {
-        $query =
-            "SELECT *, DATE_FORMAT(DATE_OF_BIRTH,'%d/%m/%Y') TGLLAHIR
-                from dt01_gen_user_data a
-                where a.active='1'
-                and a.org_id='" . $orgid . "'
-                and user_id = '{$userid}'
+        function summarykpi($orgid,$userid){
+            $query =
+                    "
+                        select y.*,
+                            presentasiperilaku+presentasiactivity resultkpi
+                        from(
+                        select x.*,
+                            coalesce(round(jmlnilaiassessment/jmlkomponenpenilaian*(select prod/100 from dt01_gen_enviroment_ms where org_id=x.org_id and environment_name='MAX_VALUE_ASSESSMENT')*10,0),0) presentasiperilaku,
+                            coalesce(round(case when approve > hours_month then hours_month else approve end /hours_month*(select prod/100 from dt01_gen_enviroment_ms where org_id=x.org_id and environment_name='MAX_VALUE_ACTIVITY')*100,0),0) presentasiactivity
+                        from(
+                        select org_id, date_format(a.start_date,'%m.%Y')periode, 
+                            (select hours_month from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)hours_month,
+                            (select sum(nilai) from dt01_hrd_assessment_dt where org_id=a.org_id and user_id=a.user_id and periode=date_format(a.start_date,'%m.%Y'))jmlnilaiassessment,
+                            (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id and periode=date_format(a.start_date,'%m.%Y'))jmlkomponenpenilaian,
+                            sum(case when a.active='1' then total end)dibuat,
+                            sum(case when a.active='1' and status='0' then total end)wait,
+                            sum(case when a.active='1' and status='1' then total end)approve,
+                            sum(case when a.active='1' and status='2' then total end)revisi,
+                            sum(case when a.active='1' and status='9' then total end)tolak
+                        from dt01_hrd_activity_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.user_id='".$userid."'
+                        group by date_format(a.start_date,'%m.%Y')
+                        
+                        )x
+                        )y
+                        order by periode desc
+                
                     ";
 
-        $recordset = $this->db->query($query);
-        $recordset = $recordset->row();
-        return $recordset;
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+        
     }
-    public function getemergencycontact($userid)
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_hrd_contact_dt a');
-        $this->db->join('dt01_hrd_relationship_ms b', 'a.RELATIONSHIP_ID = b.RELATIONSHIP_ID');
-        $this->db->where(['USER_ID' => $userid, 'ACTIVE' => '1']);
-        return $this->db->get()->result();
-    }
-
-    public function getrelathionship()
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_hrd_relationship_ms');
-        return $this->db->get()->result();
-    }
-    public function getmaritalstatus()
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_gen_marital_ms');
-        return $this->db->get()->result();
-    }
-    public function getethnic()
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_gen_ethnic_ms');
-        return $this->db->get()->result();
-    }
-    public function getreligion()
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_gen_religion_ms');
-        return $this->db->get()->result();
-    }
-    public function insertcontact($data)
-    {
-        $this->db->insert('dt01_hrd_contact_dt', $data);
-        return $this->db->affected_rows();
-    }
-    public function updatecontact($data, $where)
-    {
-        $this->db->update('dt01_hrd_contact_dt', $data, $where);
-        return $this->db->affected_rows();
-    }
-
-    public function selectcontact($userid, $id)
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_hrd_contact_dt a');
-        $this->db->join('dt01_hrd_relationship_ms b', 'a.RELATIONSHIP_ID = b.RELATIONSHIP_ID');
-        $this->db->where(['USER_ID' => $userid, 'ACTIVE' => '1', 'CONTACT_ID' => $id]);
-        return $this->db->get()->row();
-    }
-    public function getaddress($userid)
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_hrd_address_dt a');
-        $this->db->where(['USER_ID' => $userid, 'ACTIVE' => '1']);
-        return $this->db->get()->result();
-    }
-    public function insertaddress($data)
-    {
-        $this->db->insert('dt01_hrd_address_dt', $data);
-        return $this->db->affected_rows();
-    }
-    public function selectaddress($userid, $id)
-    {
-        $this->db->select('*');
-        $this->db->from('dt01_hrd_address_dt a');
-        $this->db->where(['USER_ID' => $userid, 'ACTIVE' => '1', 'ADDRESS_ID' => $id]);
-        return $this->db->get()->row();
-    }
-    public function updateaddress($data, $where)
-    {
-        $this->db->update('dt01_hrd_address_dt', $data, $where);
-        return $this->db->affected_rows();
-    }
-    public function updateuser($data, $where)
-    {
-        $this->db->update('dt01_gen_user_data', $data, $where);
-        return $this->db->affected_rows();
-    }
-}
+?>

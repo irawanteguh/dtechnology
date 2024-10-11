@@ -231,5 +231,22 @@
             echo json_encode($json);
         }
 
+        public function nonactive(){
+            $userid = $this->input->post("userid");
+            $data['active'] = "0";
+
+            if($this->md->updateuserdata($data,$userid)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="error";
+                $json['responDesc']="Data failed to update";
+            }
+
+            echo json_encode($json);
+        }
+
 	}
 ?>
