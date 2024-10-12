@@ -10,6 +10,10 @@
     $route['statussign']         = 'restapi/tilaka/TilakaserviceV5/statussign';
     $route['appkyc']             = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
 
+    $route['authtilaka/bulk']        = 'restapi/tilaka/Tilakaservicebulk/auth';
+    $route['uploadallfile/bulk']     = 'restapi/tilaka/Tilakaservicebulk/uploadallfile';
+    $route['setsignerdocument/bulk'] = 'restapi/tilaka/Tilakaservicebulk/setsignerdocument';
+
     $route['pegawai']            = 'restapi/Khanza/pegawai';
     
     $route['masterDomisili']     = 'restapi/satusehat/MasterDomisili/domisili';

@@ -36,13 +36,13 @@
         $request_headers       = json_encode(function_exists('apache_request_headers') ? apache_request_headers() : array());
         $request_url           = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
         $response_status       = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $appconnect_time_us    = json_encode(curl_getinfo($curl)['appconnect_time_us']);
-        $connect_time_us       = json_encode(curl_getinfo($curl)['connect_time_us']);
-        $namelookup_time_us    = json_encode(curl_getinfo($curl)['namelookup_time_us']);
-        $pretransfer_time_us   = json_encode(curl_getinfo($curl)['pretransfer_time_us']);
-        $redirect_time_us      = json_encode(curl_getinfo($curl)['redirect_time_us']);
-        $starttransfer_time_us = json_encode(curl_getinfo($curl)['starttransfer_time_us']);
-        $total_time_us         = json_encode(curl_getinfo($curl)['total_time_us']);
+        $appconnect_time_us    = json_encode(curl_getinfo($curl)['appconnect_time_us'] ?? 0);
+        $connect_time_us       = json_encode(curl_getinfo($curl)['connect_time_us'] ?? 0);
+        $namelookup_time_us    = json_encode(curl_getinfo($curl)['namelookup_time_us'] ?? 0);
+        $pretransfer_time_us   = json_encode(curl_getinfo($curl)['pretransfer_time_us'] ?? 0);
+        $redirect_time_us      = json_encode(curl_getinfo($curl)['redirect_time_us'] ?? 0);
+        $starttransfer_time_us = json_encode(curl_getinfo($curl)['starttransfer_time_us'] ?? 0);
+        $total_time_us         = json_encode(curl_getinfo($curl)['total_time_us'] ?? 0);
 
         // echo "Hasil print_r:\n";
         // echo '<pre>';
