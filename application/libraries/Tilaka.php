@@ -14,8 +14,7 @@
                 'source'  => "TILAKA-TOKEN"
             ]);
 
-            $responsecurl = json_decode($responsecurl,TRUE);
-            return $responsecurl;
+            return json_decode($responsecurl,TRUE); 
         }
 
         public static function uuid($name,$email){
@@ -30,7 +29,7 @@
                 'source'  => "TILAKA-UUID"
             ]);
 
-            return json_decode($responsecurl,TRUE);
+            return json_decode($responsecurl,TRUE); 
         }
 
         public static function uuidreenroll($useridentifier){
@@ -149,9 +148,8 @@
                     case 'png':
                         $mimedoc = 'image/png';
                         break;
-                    // Tambahkan MIME type lain sesuai kebutuhan
                     default:
-                        $mimedoc = 'application/octet-stream'; // Default MIME type
+                        $mimedoc = 'application/octet-stream';
                         break;
                 }
                 
