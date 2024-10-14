@@ -18,11 +18,11 @@
             return $responsecurl;
         }
 
-        public static function uuid(){
+        public static function uuid($name,$email){
             $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
 
             $responsecurl = curl([
-                'url'     => TILAKA_BASE_URL."generateUUID",
+                'url'     => TILAKA_BASE_URL."generateUUID?name=".$name."&email=".$email."",
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => "",
