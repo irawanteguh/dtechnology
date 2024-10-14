@@ -293,45 +293,39 @@
     
                 $responseuuid = Tilaka::uuid($result->NAME_IDENTITY,$result->EMAIL);
 
-                if($responseuuid!=null){
-                    if($responseuuid['success']){
-                        $body['registration_id']   = $responseuuid['data'][0];
-                        $body['email']             = $result->EMAIL;
-                        $body['name']              = $result->NAME_IDENTITY;
-                        $body['company_name']      = $_SESSION['hospitalname'];
-                        $body['date_expire']       = $expireddate;
-                        $body['nik']               = $result->IDENTITY_NO;
-                        $body['photo_ktp']         = "data:image/jpeg;base64,".$ktp_encoded;
-                        $body['consent_text']      = $consent_text;
-                        $body['is_approved']       = true;
-                        $body['version']           = $version;
-                        $body['hash_consent']      = $hash;
-                        $body['consent_timestamp'] = $consent_timestamp;
-    
-                        $response = Tilaka::registerkyc(json_encode($body));
-    
-                        if($response['success']){
-                            $data['REGISTER_ID'] = $response['data'][0];
-                            $data['CERTIFICATE'] = "";
-                            $this->md->updatedatauser($data,$userid);
-    
-                            unlink($ktp_path);
-                        }
-            
-                        $json["responCode"]   = "00";
-                        $json["responHead"]   = "success";
-                        $json["responDesc"]   = "success";
-                        $json['responResult'] = $response;
-                    }else{
-                        $json["responCode"]   = "00";
-                        $json["responHead"]   = "success";
-                        $json["responDesc"]   = "success";
-                        $json['responResult'] = $responseuuid;
+                if($responseuuid['success']){
+                    $body['registration_id']   = $responseuuid['data'][0];
+                    $body['email']             = $result->EMAIL;
+                    $body['name']              = $result->NAME_IDENTITY;
+                    $body['company_name']      = $_SESSION['hospitalname'];
+                    $body['date_expire']       = $expireddate;
+                    $body['nik']               = $result->IDENTITY_NO;
+                    $body['photo_ktp']         = "data:image/jpeg;base64,".$ktp_encoded;
+                    $body['consent_text']      = $consent_text;
+                    $body['is_approved']       = true;
+                    $body['version']           = $version;
+                    $body['hash_consent']      = $hash;
+                    $body['consent_timestamp'] = $consent_timestamp;
+
+                    $response = Tilaka::registerkyc(json_encode($body));
+
+                    if($response['success']){
+                        $data['REGISTER_ID'] = $response['data'][0];
+                        $data['CERTIFICATE'] = "";
+                        $this->md->updatedatauser($data,$userid);
+
+                        unlink($ktp_path);
                     }
+        
+                    $json["responCode"]   = "00";
+                    $json["responHead"]   = "success";
+                    $json["responDesc"]   = "success";
+                    $json['responResult'] = $response;
                 }else{
-                    $json["responCode"] = "01";
-                    $json["responHead"] = "error";
-                    $json["responDesc"] = "Gagal Mendapatkan UUID Registration";
+                    $json["responCode"]   = "00";
+                    $json["responHead"]   = "success";
+                    $json["responDesc"]   = "success";
+                    $json['responResult'] = $responseuuid;
                 }
                 
             }else{
