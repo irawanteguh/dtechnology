@@ -90,6 +90,8 @@
                         $coordinatex = floatval(COORDINATE_X);
                         $coordinatey = floatval(COORDINATE_Y);
                         $page        = floatval(PAGE);
+
+                        $data['STATUS'] = "1";
                     }else{
                         if($a->location==="DTECHNOLOGY"){
                             $location = FCPATH."assets/document/".$a->no_file.".pdf";
@@ -98,29 +100,21 @@
                         }
 
                         $pdfParse          = new Pdfparse($filename);
-                        $specimentposition = $pdfParse->findText($a->nik);
+                        $specimentposition = $pdfParse->findText($a->tag);
 
-                        if(isset($specimentposition['content'][$a->nik][0]['x']) && isset($specimentposition['content'][$a->nik][0]['y']) && isset($specimentposition['content'][$a->nik][0]['page'])){
-                            $data['COORDINATE_X'] = floatval($specimentposition['content'][$a->nik][0]['x'])-(floatval(WIDTH)/2);
-                            $data['COORDINATE_Y'] = floatval($specimentposition['content'][$a->nik][0]['y'])-(floatval(HEIGHT)/2);
-                            $data['PAGE']         = floatval($specimentposition['content'][$a->nik][0]['page']);
+                        if(isset($specimentposition['content'][$a->tag][0]['x']) && isset($specimentposition['content'][$a->tag][0]['y']) && isset($specimentposition['content'][$a->tag][0]['page'])){
+                            $coordinatex = floatval($specimentposition['content'][$a->tag][0]['x'])-(floatval(WIDTH)/2);
+                            $coordinatey = floatval($specimentposition['content'][$a->tag][0]['y'])-(floatval(HEIGHT)/2);
+                            $page        = floatval($specimentposition['content'][$a->tag][0]['page']);
 
-                            $coordinatex = floatval(COORDINATE_X);
-                            $coordinatey = floatval(COORDINATE_Y);
-                            $page        = floatval(PAGE);
-                        }else{
-                            $coordinatex = floatval(COORDINATE_X);
-                            $coordinatey = floatval(COORDINATE_Y);
-                            $page        = floatval(PAGE);
+                            $data['STATUS'] = "1";
                         }
                     }
 
                     $data['USER_IDENTIFIER'] = $a->useridentifier;
                     $data['COORDINATE_X']    = $coordinatex;
                     $data['COORDINATE_Y']    = $coordinatey;
-                    $data['PAGE']            = $page;
-                    $data['STATUS']          = "1";
-
+                    $data['PAGE']            = $page;                    
                     $this->md->updatesigner($data,$a->trans_id);
 
                     $responsedetail['NoFile']                         = $a->no_file;

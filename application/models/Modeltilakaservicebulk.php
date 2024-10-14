@@ -19,7 +19,7 @@
         function datasignerdocument($orgid){
             $query =
                     "
-                        select a.trans_id, nik, type, no_file,
+                        select a.trans_id, nik, type, tag, no_file,
                             (select user_identifier from dt01_gen_user_data where active=a.active and org_id=a.org_id and nik=a.nik)useridentifier,
                             (select location from dt01_gen_tte_hd where active=a.active and org_id=a.org_id and no_file=a.no_file)location
                         from dt01_gen_tte_it a
