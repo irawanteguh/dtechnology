@@ -101,6 +101,20 @@
 
                             redirect("tilaka/registrasi");
                         }
+
+                        if($response['data']['status']==="F" && $response['data']['reason_code']==="2" && $response['data']['manual_registration_status']==="V"){
+                            $data['USER_IDENTIFIER'] = $response['data']['tilaka_name'];
+                            $this->md->updatedataregister($data,$_GET['register_id']);
+
+                            $body['user_identifier']=$response['data']['tilaka_name'];
+                            $response = Tilaka::checkcertificateuser(json_encode($body));
+                            if($response['success']){
+                                $data['CERTIFICATE']=$response['status'];
+                            }
+                            $this->md->updatedataregister($data,$_GET['register_id']);
+
+                            redirect("tilaka/registrasi");
+                        }
                     }
                 }
 
