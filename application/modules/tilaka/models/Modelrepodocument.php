@@ -62,7 +62,7 @@
                         from dt01_gen_user_data a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
-                        and   a.certificate='2'
+                        and   a.certificate='3'
                         order by name asc
                     ";
 
