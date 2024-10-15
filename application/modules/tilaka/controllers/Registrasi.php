@@ -171,6 +171,9 @@
             
             if($response['success']){
                 $data['CERTIFICATE']=$response['status'];
+                if($response['status']==="4"){
+                    $data['USER_IDENTIFIER']="";
+                }
                 $this->md->updatedatauser($data,$userid);
             }
 
