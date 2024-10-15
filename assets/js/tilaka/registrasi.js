@@ -464,7 +464,7 @@ function datakaryawan(){
 
                     if(result[i].REGISTER_ID!="" &&  result[i].USER_IDENTIFIER!="" && result[i].CERTIFICATE==="2"){
                         statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan Di Setujui Tilaka</div><div class='small'>Silakan Lakukan Persetujuan Sertifikat Tanda Tangan Elektronik</div></td>";
-                        btnaction = btnappcertificate;
+                        btnaction = btncheckstatus+btnappcertificate;
                     }
 
                     if(result[i].REGISTER_ID!="" &&  result[i].USER_IDENTIFIER!="" && result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===""){
