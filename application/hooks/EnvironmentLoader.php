@@ -12,7 +12,7 @@
             self::$appInstance = get_instance();
             self::$appInstance->load->model("Modelroot");
             
-            $orgId = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : '10c84edd-500b-49e3-93a5-a2c8cd2c8524';
+            $orgId = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : '378a0728-a914-43a5-ae90-186d8a052ff2';
             self::$environmentSettings = self::$appInstance->Modelroot->environment($orgId);
 
             if (!empty(self::$environmentSettings)) {

@@ -100,7 +100,7 @@
 
                     $requestid   = generateuuid();
 
-                    $speciment      = FCPATH."assets/speciment/signmutiasari.png";
+                    $speciment      = FCPATH."assets/speciment/".ORG_ID.".png";
                     $qrcode         = file_get_contents($speciment);
                     $signatureimage = "data:image/png;base64,".base64_encode($qrcode);
 
@@ -225,8 +225,6 @@
                         $data['URL']             = "";
                         $this->md->updatefile($data,$a->no_file);
                     }
-
-                    
 
                     $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
                     $responseall['Assign']['Name']           = $a->assignname;
