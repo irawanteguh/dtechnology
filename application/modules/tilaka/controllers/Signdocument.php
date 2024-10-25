@@ -14,9 +14,9 @@
 
                 if($_GET['status']==="Sukses"){
                     $datafile['STATUS_SIGN']="3";
+                    $this->md->updatefile($datafile,$_GET['request_id']);
                 }
 
-                $this->md->updatefile($datafile,$_GET['request_id']);
                 redirect("tilaka/signdocument");
             }else{
                 $this->template->load("template/template-sidebar","v_signdocument");
