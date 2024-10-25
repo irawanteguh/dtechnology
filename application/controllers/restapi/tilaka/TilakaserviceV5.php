@@ -146,7 +146,7 @@
     
                             $listpdfsignatures['user_identifier'] = $a->user_identifier;
                             $listpdfsignatures['reason']          = "Assign By ".$a->assignname;
-                            $listpdfsignatures['location']        = $a->orgname;
+                            $listpdfsignatures['location']        = $files->orgname;
                             $listpdfsignatures['width']           = floatval(WIDTH);
                             $listpdfsignatures['height']          = floatval(HEIGHT);
                             $listpdfsignatures['coordinate_x']    = $coordinatex;
