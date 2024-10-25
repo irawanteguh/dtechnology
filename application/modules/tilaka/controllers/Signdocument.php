@@ -15,6 +15,7 @@
                 if($_GET['status']==="Sukses"){
                     $datafile['STATUS_SIGN']="3";
                 }else{
+                    $datafile['REQUEST_ID']="";
                     $datafile['STATUS_SIGN']="1";
                 }
 
