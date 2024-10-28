@@ -50,6 +50,11 @@
             return $sql;
         }
 
+        function updatedatarevokeid($data, $revokeid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("REVOKE_ID"=>$revokeid));
+            return $sql;
+        }
+
         function updatedataissueid($data, $issueid){           
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("ISSUE_ID"=>$issueid));
             return $sql;

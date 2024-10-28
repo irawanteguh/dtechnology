@@ -140,13 +140,15 @@
                 }
                 
             }else{
-                if(isset($_GET['status']) && isset($_GET['revoke_id']) && isset($_GET['user_identifier'])){
+                if(isset($_GET['status']) && isset($_GET['revoke_id']))){
                     if($_GET['status'] === "Sukses"){
                         $data['CERTIFICATE']="X";
-                        $this->md->updatedatauseridentifier($data,$_GET['user_identifier']);
-
-                        redirect("tilaka/registrasi");
+                        $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
+                    }else{
+                        $data['REVOKE_ID']="";
+                        $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
                     }
+                    redirect("tilaka/registrasi");
                 }else{
                     if(isset($_GET['issue_id']) && isset($_GET['status']) && isset($_GET['reason_code'])){
                         if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "3"){
