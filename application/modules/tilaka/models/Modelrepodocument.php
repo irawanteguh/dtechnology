@@ -13,7 +13,7 @@
                                     (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
                             from dt01_gen_document_file_dt a
                             where a.active='1'
-                            and   a.status<>'0'
+                            and   a.status_sign<>'0'
                             ".$parameter." 
                             and a.created_date >= NOW() - INTERVAL 3 DAY
                             union
@@ -24,7 +24,7 @@
                                     (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
                             from dt01_gen_document_file_dt a
                             where a.active='1'
-                            and   a.status='0'
+                            and   a.status_sign='0'
                             ".$parameter."
                         )x
                         order by created_date desc
