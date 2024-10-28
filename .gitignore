@@ -17,8 +17,9 @@ user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
 
 application/config/database.php
-.env
 application/hooks/EnvironmentLoader.php
+.env
+
 
 
 # IDE Files
