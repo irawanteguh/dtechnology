@@ -140,7 +140,7 @@
                 }
                 
             }else{
-                if(isset($_GET['status']) && isset($_GET['revoke_id']))){
+                if(isset($_GET['status']) && isset($_GET['revoke_id'])){
                     if($_GET['status'] === "Sukses"){
                         $data['CERTIFICATE']="X";
                         $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
