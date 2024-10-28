@@ -38,38 +38,46 @@
                     $responseall['Source']                   = $a->SOURCE_FILE;
                     $responseall['Assign']['UserIdentifier'] = $a->useridentifier;
                     $responseall['Assign']['Name']           = $a->assignname;
-
-                    if($a->SOURCE_FILE==="DTECHNOLOGY"){
-                        $location = FCPATH."/assets/document/".$a->NO_FILE.".pdf";
+                    if($a->certificate!="X"){
+                        $responseall['Assign']['StatusCertificate'] = "Active";
                     }else{
-                        $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
+                        $responseall['Assign']['StatusCertificate'] = "Revoke";
                     }
-
-                    if(file_exists($location)){
-                        $fileSize = 0;
-                        $fileSize = filesize($location);
-
-                        if($fileSize!=0){
-                            $response = Tilaka::uploadfile($location);
-                            if($response['success']){
-                                $data['NOTE']            = "";
-                                $data['FILENAME']        = $response['filename'];
-                                $data['USER_IDENTIFIER'] = $a->useridentifier;
-                                $data['STATUS_SIGN']     = "1";
+                    
+                    if($a->certificate!="X"){
+                        if($a->SOURCE_FILE==="DTECHNOLOGY"){
+                            $location = FCPATH."/assets/document/".$a->NO_FILE.".pdf";
+                        }else{
+                            $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
+                        }
+    
+                        if(file_exists($location)){
+                            $fileSize = 0;
+                            $fileSize = filesize($location);
+    
+                            if($fileSize!=0){
+                                $response = Tilaka::uploadfile($location);
+                                if($response['success']){
+                                    $data['NOTE']            = "";
+                                    $data['FILENAME']        = $response['filename'];
+                                    $data['USER_IDENTIFIER'] = $a->useridentifier;
+                                    $data['STATUS_SIGN']     = "1";
+                                }
+                                $responseall['ResponseTilaka'] = $response;
+                            }else{
+                                $data['ACTIVE']     = "0";
+                                $data['NOTE'] = "File Corrupted, File Size : ".$fileSize;
+                                $responseall['ResponseDTechnology'] = "File Corrupted, File Size : ".$fileSize;
                             }
-                            $responseall['ResponseTilaka'] = $response;
                         }else{
                             $data['ACTIVE']     = "0";
-                            $data['NOTE'] = "File Corrupted, File Size : ".$fileSize;
-                            $responseall['ResponseDTechnology'] = "File Corrupted, File Size : ".$fileSize;
+                            $data['NOTE'] = "File Tidak Di Temukan";
+                            $responseall['ResponseDTechnology'] = "File Tidak Di Temukan";
                         }
-                    }else{
-                        $data['ACTIVE']     = "0";
-                        $data['NOTE'] = "File Tidak Di Temukan";
-                        $responseall['ResponseDTechnology'] = "File Tidak Di Temukan";
+    
+                        $this->md->updatefile($data,$a->NO_FILE);
                     }
-
-                    $this->md->updatefile($data,$a->NO_FILE);
+                    
                     $responseservice[]=$responseall;
                 }
             }else{
