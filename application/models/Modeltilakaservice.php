@@ -15,7 +15,7 @@
                         ".$status."
                         and   a.assign  = (select assign from dt01_gen_user_data where org_id=a.org_id and active='1' and nik=a.assign and user_identifier<>'')
                         order by note asc
-                        limit 100;
+                        limit 50;
                     ";
 
             $recordset = $this->db->query($query);
