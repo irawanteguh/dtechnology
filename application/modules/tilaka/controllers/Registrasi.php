@@ -152,25 +152,22 @@
                 }else{
                     if(isset($_GET['issue_id']) && isset($_GET['status']) && isset($_GET['reason_code'])){
                         if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "3"){
-                            
                             $data['CERTIFICATE']="X";
                             $data['ISSUE_ID']="";
                             $this->md->updatedataissueid($data,$_GET['issue_id']);
                             redirect("tilaka/registrasi");
                         }
+
+                        if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "0"){
+                            $data['CERTIFICATE']="Y";
+                            $this->md->updatedataissueid($data,$_GET['issue_id']);
+                            redirect("tilaka/registrasi");
+                        }
                     }else{
-                        if(isset($_GET['issue_id']) && isset($_GET['status'])){
-                            if($_GET['status'] === "Selesai"){
-                                $data['CERTIFICATE']="Y";
-                                $this->md->updatedataissueid($data,$_GET['issue_id']);
-                                redirect("tilaka/registrasi");
-                            }
+                        if(isset($_GET['tilaka_name'])){
+                            redirect("tilaka/registrasi");
                         }else{
-                            if(isset($_GET['tilaka_name'])){
-                                redirect("tilaka/registrasi");
-                            }else{
-                                $this->template->load("template/template-sidebar","v_registrasi");
-                            }
+                            $this->template->load("template/template-sidebar","v_registrasi");
                         }
                     }
                 }
