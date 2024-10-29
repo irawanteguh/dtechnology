@@ -54,7 +54,7 @@
                         if($fileSize!=0){
                             $bodycheckcertificate['user_identifier']=$a->useridentifier;
 
-                            $responsecheckcertificate = Tilaka::checkcertificateuser($bodycheckcertificate);
+                            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
                             if($responsecheckcertificate['success']){
                                 if($responsecheckcertificate['status']===3){
