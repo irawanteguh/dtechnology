@@ -53,7 +53,6 @@
 
                         if($fileSize!=0){
                             $bodycheckcertificate['user_identifier']=$a->useridentifier;
-
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
                             if($responsecheckcertificate['success']){
@@ -97,6 +96,8 @@
         public function requestsign_POST(){
             $summaryresponse = [];
             $responseservice = [];
+            $bodycheckcertificate = [];
+            $responsecheckcertificate = [];
 
             $status ="and a.status_sign ='1' limit 50;";
             $result = $this->md->listrequestsign(ORG_ID,$status);
@@ -175,27 +176,38 @@
                         }
                     }
 
-                    $response = Tilaka::requestsign(json_encode($body));
+                    $bodycheckcertificate['user_identifier']=$a->useridentifier;
+                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
-                    if($response['success']){
-                        foreach($response['auth_urls'] as $authurls){
-                            $data['REQUEST_ID']  = $requestid;
-                            $data['STATUS_SIGN'] = "2";
-                            $data['URL']         = $authurls['url'];   
-                        }
-                    }else{
-                        foreach($listfile as $a){
-                            $data['REQUEST_ID']  = $requestid;
-                            $data['STATUS_SIGN'] = "0";
-                            $data['NOTE']        = $response['message'];
+                    if($responsecheckcertificate['success']){
+                        if($responsecheckcertificate['status']===3){
+                            $response = Tilaka::requestsign(json_encode($body));
+
+                            if($response['success']){
+                                foreach($response['auth_urls'] as $authurls){
+                                    $data['REQUEST_ID']  = $requestid;
+                                    $data['STATUS_SIGN'] = "2";
+                                    $data['URL']         = $authurls['url'];   
+                                }
+                            }else{
+                                foreach($listfile as $a){
+                                    $data['REQUEST_ID']  = $requestid;
+                                    $data['STATUS_SIGN'] = "0";
+                                    $data['NOTE']        = $response['message'];
+                                }
+                            }
+
+                            foreach($nofile as $a){
+                                $this->md->updatefile($data,$a);
+                            }                    
+
+                            $responseall['ResponseTilaka']           = $response;
+                        }else{
+                            $responseall['ResponseTilaka'] = $responsecheckcertificate;
                         }
                     }
 
-                    foreach($nofile as $a){
-                        $this->md->updatefile($data,$a);
-                    }                    
-
-                    $responseall['ResponseTilaka']           = $response;
+                    
                     $responseservice[]=$responseall;
                 }
             }else{
