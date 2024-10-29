@@ -31,6 +31,8 @@
                     $responseall = [];
                     $data        = [];
                     $location    = "";
+                    $bodycheckcertificate = [];
+                    $responsecheckcertificate = [];
 
                     $responseall['NoFile']                   = $a->NO_FILE;
                     $responseall['Type']                     = $a->jenisdocumen;
@@ -38,11 +40,6 @@
                     $responseall['Source']                   = $a->SOURCE_FILE;
                     $responseall['Assign']['UserIdentifier'] = $a->useridentifier;
                     $responseall['Assign']['Name']           = $a->assignname;
-                    if($a->certificate!="X"){
-                        $responseall['Assign']['StatusCertificate'] = "Active";
-                    }else{
-                        $responseall['Assign']['StatusCertificate'] = "Revoke";
-                    }
                     
                     if($a->SOURCE_FILE==="DTECHNOLOGY"){
                         $location = FCPATH."/assets/document/".$a->NO_FILE.".pdf";
@@ -55,19 +52,25 @@
                         $fileSize = filesize($location);
 
                         if($fileSize!=0){
-                            if($a->certificate!="X"){
-                                $response = Tilaka::uploadfile($location);
-                                if($response['success']){
-                                    $data['NOTE']            = "";
-                                    $data['FILENAME']        = $response['filename'];
-                                    $data['USER_IDENTIFIER'] = $a->useridentifier;
-                                    $data['STATUS_SIGN']     = "1";
+                            $bodycheckcertificate['user_identifier']=$a->useridentifier;
+
+                            $responsecheckcertificate = Tilaka::checkcertificateuser($bodycheckcertificate);
+
+                            if($responsecheckcertificate['success']){
+                                if($responsecheckcertificate['status']===3){
+                                    $response = Tilaka::uploadfile($location);
+                                    if($response['success']){
+                                        $data['NOTE']            = "";
+                                        $data['FILENAME']        = $response['filename'];
+                                        $data['USER_IDENTIFIER'] = $a->useridentifier;
+                                        $data['STATUS_SIGN']     = "1";
+                                    }
+                                    $responseall['ResponseTilaka'] = $response;
+                                }else{
+                                    $data['ACTIVE']     = "0";
+                                    $data['NOTE'] = $responsecheckcertificate['data'][0]['status'];
+                                    $responseall['ResponseTilaka'] = $responsecheckcertificate;
                                 }
-                                $responseall['ResponseTilaka'] = $response;
-                            }else{
-                                $data['ACTIVE']     = "0";
-                                $data['NOTE'] = "Certificate Revoke";
-                                $responseall['ResponseDTechnology'] = "Certificate Revoke";
                             }
                         }else{
                             $data['ACTIVE']     = "0";

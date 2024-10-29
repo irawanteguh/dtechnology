@@ -6,7 +6,6 @@
                     "
                         select a.NO_FILE, STATUS_SIGN, SOURCE_FILE, NOTE,
                                 (select user_identifier from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)useridentifier,
-                                (select certificate     from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)certificate,
                                 (select name            from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname,
                                 (select document_name   from dt01_gen_document_ms where org_id=a.org_id and active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
                         from dt01_gen_document_file_dt a
