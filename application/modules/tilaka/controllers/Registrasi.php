@@ -187,6 +187,10 @@
                 if($response['status']==="4"){
                     $data['USER_IDENTIFIER']="";
                 }
+                if($response['status']==="3"){
+                    $data['REVOKE_ID']="";
+                    $data['ISSUE_ID']="";
+                }
                 $this->md->updatedatauser($data,$userid);
             }
 
