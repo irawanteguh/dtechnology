@@ -373,6 +373,7 @@
             
             if($response['success']){
                 $data['REVOKE_ID']=$response['data'][0];
+                $data['ISSUE_ID']="";
                 $this->md->updatedatauseridentifier($data,$useridentifier);
             }
 
