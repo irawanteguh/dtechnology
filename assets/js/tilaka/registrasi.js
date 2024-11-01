@@ -448,8 +448,8 @@ function datakaryawan(){
                     }
 
                     if((result[i].REGISTER_ID!="" && result[i].USER_IDENTIFIER==="") || (result[i].REGISTER_ID!="" && result[i].USER_IDENTIFIER!="") ){
-                        statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan Berhasil</div><div class='small'>Silakan Melakukan face recognition</div></td>";
-                        btnaction = btnverifpengajuan;
+                        statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan Berhasil</div><div class='small'>Silakan Menunggu Persetujuan Tilaka 1 x 24 Jam</div></td>";
+                        btnaction = btncheckstatus;
                     }
 
                     if(result[i].REGISTER_ID!="" &&  result[i].USER_IDENTIFIER!="" && result[i].CERTIFICATE==="0"){
