@@ -472,6 +472,11 @@ function datakaryawan(){
                         btnaction = btncheckstatus+btnrevoke+btngantimfa;
                     }
 
+                    if(result[i].REGISTER_ID!="" &&  result[i].USER_IDENTIFIER!="" && result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
+                        statususer ="<td><div class='badge badge-light-success fw-bolder'>Sertifikat Aktif</div><div class='small'>Sertifikat Tanda Tangan Eektronik sudah dapat digunakan</div></td>";
+                        btnaction = btncheckstatus+btnrevoke+btngantimfa;
+                    }
+
                     if(result[i].REGISTER_ID!="" &&  result[i].USER_IDENTIFIER!="" && result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!="" && result[i].ISSUE_ID===""){
                         statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan Revoke Berhasil</div><div class='small'>Silakan Melakukan face recognition</div></td>";
                         btnaction = btnapprevoke;
