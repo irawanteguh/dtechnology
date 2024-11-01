@@ -386,7 +386,13 @@
         }
 
         public function reenroll(){
+            $bodycheckcertificate     = [];
+            $responsecheckcertificate = [];
+
             $useridentifier    = $this->input->post("useridentifier");
+
+            $bodycheckcertificate['user_identifier']=$useridentifier;
+            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
             if($responsecheckcertificate['success']){
                 if($responsecheckcertificate['status']===0){
