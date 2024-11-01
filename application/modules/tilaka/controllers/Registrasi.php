@@ -298,7 +298,7 @@
                 $consent_timestamp = date("Y-m-d H:i:s");
                 $consent_text      = "Syarat dan Ketentuan Sebagaimana Yang Telah Di Atur Oleh ".$_SESSION['hospitalname'];
                 $version           = "TNT – v.1.0.1";
-                $expireddate       = date("Y-m-d", strtotime("+365 days")) . " 23:59";
+                $expireddate       = date("Y-m-d", strtotime("+7 days")) . " 23:59";
 
                 
                 $datahash = CLIENT_ID_TILAKA.$consent_text.$version.$consent_timestamp;
