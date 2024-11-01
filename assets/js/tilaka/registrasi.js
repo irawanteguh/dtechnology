@@ -677,6 +677,8 @@ $(document).on("submit", "#formregisteruser", function (e) {
                     hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
                 });
             }
+
+            datakaryawan();
 		},
         complete: function () {
             $('#modal-registerusertilaka').modal('hide');
