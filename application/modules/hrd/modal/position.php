@@ -19,6 +19,15 @@
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Position Name</label>
                             <input type="text" class="form-control form-control-solid" id="data_position_name_add" name="data_position_name_add" required>
                         </div>
+                        <div class="col-md-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Department</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department for position"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_position_add" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_position_add_departmentid_add" id="modal_position_add_departmentid_add" required>
+                                <?php echo $masterdepartmentadd;?>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer p-1">				
@@ -51,10 +60,19 @@
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Position Name</label>
                             <input type="text" class="form-control form-control-solid" id="data_position_name_edit" name="data_position_name_edit" required>
                         </div>
+                        <div class="col-md-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Department</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department for position"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_position_edit_departmentid_edit" id="modal_position_edit_departmentid_edit" required>
+                                <?php echo $masterdepartmentedit;?>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer p-1">				
-                    <input class="btn btn-light-primary" id="btn_position_edit" type="submit" value="PERUBAHAN DATA" name="simpan" >
+                    <input class="btn btn-light-primary" id="btn_position_edit" type="submit" value="UPDATE" name="simpan" >
                 </div>
             </form>
         </div>

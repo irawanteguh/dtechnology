@@ -30,11 +30,12 @@
             <div class="card-body py-3">
                 <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
                     <table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
-                        <thead>
+                        <thead class="align-middle">
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="ps-4 rounded-start">Position</th>
                                 <th>Member Primary</th>
                                 <th>Member Secondry</th>
+                                <th>Department</th>
                                 <th>Last Update</th>
                                 <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>

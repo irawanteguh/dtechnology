@@ -1,14 +1,17 @@
 daftarjabatan();
 
 function getdata(btn){
-    var $btn = $(btn);
+    // var $btn = $(btn);
 
-    var data_positionid = $btn.attr("data_positionid");
-    var data_position   = $btn.attr("data_position");
-
+    var data_positionid   = btn.attr("data_positionid");
+    var data_position     = btn.attr("data_position");
+    var data_departmentid = btn.attr("data_departmentid");
 
     $(":hidden[name='data_positiion_id_edit']").val(data_positionid);
     $(":text[name='data_position_name_edit']").val(data_position);
+
+    var $departmentid = $('#modal_position_edit_departmentid_edit').select2();
+    $departmentid.val(data_departmentid).trigger('change');
 
 };
 
@@ -36,7 +39,8 @@ function daftarjabatan(){
                     
 
                     getvariabel =   "data_positionid='"+result[i].POSITION_ID+"'"+
-                                    "data_position='"+result[i].POSITION+"'";
+                                    "data_position='"+result[i].POSITION+"'"+
+                                    "data_departmentid='"+result[i].department_id+"'";
 
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].POSITION+" "+(result[i].FUNCTIONAL ? result[i].FUNCTIONAL : "")+"</td>";
@@ -125,6 +129,7 @@ function daftarjabatan(){
 
                     tableresult += "</div>";
                     tableresult += "</td>";
+                    tableresult +="<td>"+(result[i].department ? result[i].department : "")+"</td>";
                     tableresult +="<td><span class='fw-bold d-block fs-7'>"+result[i].dibuatoleh+"</span><span class='fw-bold text-muted d-block fs-7'>"+result[i].last_update_date+"</span></td>";
                     tableresult += "<td class='text-end'>";
                     tableresult += "<div class='btn-group' role='group'>";

@@ -9,7 +9,22 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_position");
+            $data = $this->loadcombobox();
+			$this->template->load("template/template-sidebar","v_position",$data);
+		}
+
+        public function loadcombobox(){
+            $resultmasterdepartment = $this->md->masterdepartment($_SESSION['orgid']);
+
+            $masterdepartment="";
+            foreach($resultmasterdepartment as $a ){
+                $masterdepartment.="<option value='".$a->department_id."'>".$a->department."</option>";
+            }
+
+            $data['masterdepartmentadd'] = $masterdepartment;
+            $data['masterdepartmentedit'] = $masterdepartment;
+            
+            return $data;
 		}
 
 		public function daftarjabatan(){
@@ -56,6 +71,7 @@
 
             $data['active']           = '1';
             $data['position']         = $this->input->post("data_position_name_edit");
+            $data['department_id']    = $this->input->post("modal_position_edit_departmentid_edit");
             $data['last_update_by']   = $_SESSION['userid'];
             $data['last_update_date'] = date("Y-m-d H:i:s");
 

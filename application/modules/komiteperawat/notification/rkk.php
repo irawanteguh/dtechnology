@@ -1,4 +1,4 @@
-<div class="alert alert-dismissible bg-light-info border border-info border-3 border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-10 fa-fade">
+<!-- <div class="alert alert-dismissible bg-light-info border border-info border-3 border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-10 fa-fade">
     <span class="svg-icon svg-icon-2hx svg-icon-info me-4 mb-5 mb-sm-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path opacity="0.3" d="M2 4V16C2 16.6 2.4 17 3 17H13L16.6 20.6C17.1 21.1 18 20.8 18 20V17H21C21.6 17 22 16.6 22 16V4C22 3.4 21.6 3 21 3H3C2.4 3 2 3.4 2 4Z" fill="black"></path>
@@ -9,4 +9,4 @@
         <h5 class="mb-1">For Your Information</h5>
         <span>Data Akan Di Perbaharui Setiap 10 Detik.</span>
     </div>
-</div>
+</div> -->
