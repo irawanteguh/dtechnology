@@ -428,8 +428,10 @@ $(document).on("submit", "#formupdatekategoritenaga", function (e) {
         },
 		success: function (data) {
             toastr.clear();
+            
 			if(data.responCode === "00"){
                 toastr[data.responHead](data.responDesc, "INFORMATION");
+                alert("x");
                 $('#drawer_employee_registrationkategoritenaga_add_close').trigger('click');
 				masteremployee();
 			}else{

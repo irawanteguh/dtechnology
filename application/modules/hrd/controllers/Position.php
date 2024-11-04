@@ -27,6 +27,30 @@
             return $data;
 		}
 
+        public function masterbagian(){
+            $departmentid    = $this->input->post('departmentid');
+            $sqlmasterbagian = $this->md->masterbagian($_SESSION['orgid'],$departmentid);
+
+            $masterbagianedit="";
+            foreach($sqlmasterbagian as $a ){
+                $masterbagianedit.="<option value='".$a->department_id."'>".$a->department."</option>";
+            }
+
+            echo $masterbagianedit;
+        }
+
+        public function masterunit(){
+            $unitid        = $this->input->post('unitid');
+            $sqlmasterunit = $this->md->masterunit($_SESSION['orgid'],$unitid);
+
+            $masterunitedit="";
+            foreach($sqlmasterunit as $a ){
+                $masterunitedit.="<option value='".$a->department_id."'>".$a->department."</option>";
+            }
+
+            echo $masterunitedit;
+        }
+
 		public function daftarjabatan(){
 			$search = $this->input->post("search");
             $result = $this->md->daftarjabatan($_SESSION['orgid'],$search);
@@ -72,6 +96,8 @@
             $data['active']           = '1';
             $data['position']         = $this->input->post("data_position_name_edit");
             $data['department_id']    = $this->input->post("modal_position_edit_departmentid_edit");
+            $data['bagian_id']        = $this->input->post("modal_position_edit_bagianid_edit");
+            $data['unit_id']          = $this->input->post("modal_position_edit_unitid_edit");
             $data['last_update_by']   = $_SESSION['userid'];
             $data['last_update_date'] = date("Y-m-d H:i:s");
 

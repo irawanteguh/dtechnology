@@ -129,8 +129,8 @@ function daftarjabatan(){
 
                     tableresult += "</div>";
                     tableresult += "</td>";
-                    tableresult +="<td>"+(result[i].department ? result[i].department : "")+"</td>";
-                    tableresult +="<td><span class='fw-bold d-block fs-7'>"+result[i].dibuatoleh+"</span><span class='fw-bold text-muted d-block fs-7'>"+result[i].last_update_date+"</span></td>";
+                    tableresult += "<td><span class='fw-bold d-block fs-7'>"+(result[i].department ? result[i].department : "")+"</span><span class='fw-bold d-block fs-7'>"+(result[i].bagian ? result[i].bagian : "")+"</span><span class='fw-bold d-block fs-7'>"+(result[i].unit ? result[i].unit : "")+"</span></td>";
+                    tableresult += "<td><span class='fw-bold d-block fs-7'>"+result[i].dibuatoleh+"</span><span class='fw-bold text-muted d-block fs-7'>"+result[i].last_update_date+"</span></td>";
                     tableresult += "<td class='text-end'>";
                     tableresult += "<div class='btn-group' role='group'>";
                     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
@@ -294,4 +294,32 @@ $(document).on("submit", "#formeditposition", function (e) {
 		}
 	});
     return false;
+});
+
+$(document).on("change","select[name='modal_position_edit_departmentid_edit']",function(e){
+	e.preventDefault();
+	var departmentid = $(this).val();
+	$.ajax({
+		method : "POST",
+		url    : url+"index.php/hrd/position/masterbagian",
+		data   : {departmentid:departmentid},
+		cache  : false,
+		success: function (data) {
+			$("select[name='modal_position_edit_bagianid_edit']").html(data);
+		}
+	});
+});
+
+$(document).on("change","select[name='modal_position_edit_bagianid_edit']",function(e){
+	e.preventDefault();
+	var unitid = $(this).val();
+	$.ajax({
+		method : "POST",
+		url    : url+"index.php/hrd/position/masterunit",
+		data   : {unitid:unitid},
+		cache  : false,
+		success: function (data) {
+			$("select[name='modal_position_edit_unitid_edit']").html(data);
+		}
+	});
 });

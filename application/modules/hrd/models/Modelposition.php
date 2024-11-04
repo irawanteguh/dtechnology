@@ -6,7 +6,9 @@
                     "
                         SELECT a.ORG_ID, a.POSITION_ID, a.POSITION, a.RVU, a.LEVEL, a.LEVEL_FUNGSIONAL, department_id,
                                 date_format(last_update_date,'%d.%m.%Y %H:%i:%s')last_update_date,
-                                (select department from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department,
+                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department,
+                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.bagian_id)bagian,
+                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.unit_id)unit,
                                 (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.created_by)dibuatoleh,
                                 (SELECT IFNULL(name, 'Unknown')  FROM dt01_gen_user_data  WHERE active = '1'  AND org_id = a.org_id AND user_id = IFNULL(a.CREATED_BY, a.LAST_UPDATE_BY)) LASTUPDATEDBY,
                                 (SELECT level FROM dt01_gen_level_fungsional_ms WHERE active = '1' AND level_id = a.LEVEL_FUNGSIONAL) FUNCTIONAL,
@@ -75,12 +77,46 @@
         function masterdepartment($orgid){
             $query =
                     "
-                        select a.department_id, department
+                        select a.department_id, replace(replace(department,'Wakil Direktur ',''),'Manajer ','')department
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
+                        and   a.level_id=3
                         order by department asc
+                    ";
 
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masterbagian($orgid,$headerid){
+            $query =
+                    "
+                        select a.department_id, replace(replace(department,'Wakil Direktur ',''),'Manajer ','')department
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.level_id=4
+                        and   a.header_id='".$headerid."'
+                        order by department asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masterunit($orgid,$headerid){
+            $query =
+                    "
+                        select a.department_id, replace(replace(department,'Wakil Direktur ',''),'Manajer ','')department
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.level_id=5
+                        and   a.header_id='".$headerid."'
+                        order by department asc
                     ";
 
             $recordset = $this->db->query($query);
