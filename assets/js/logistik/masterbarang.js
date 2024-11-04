@@ -20,9 +20,9 @@ function masterbarang(){
                 for(var i in result){
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].nama_barang+"</td>";
-                    tableresult +="<td class='ps-4'>"+result[i].jenis+"</td>";
-                    tableresult +="<td class='ps-4'>"+(result[i].satuanbeli ? result[i].satuanbeli : "")+"</td>";
-                    tableresult +="<td class='ps-4'>"+(result[i].satuanpakai ? result[i].satuanpakai : "")+"</td>";
+                    tableresult +="<td>"+result[i].jenis+"</td>";
+                    tableresult +="<td>"+(result[i].satuanbeli ? result[i].satuanbeli : "")+"</td>";
+                    tableresult +="<td>"+(result[i].satuanpakai ? result[i].satuanpakai : "")+"</td>";
                     tableresult +="<td class='text-center'>"+result[i].final_stok+"</td>";
                     tableresult +="<td></td>";
                     tableresult +="</tr>";
