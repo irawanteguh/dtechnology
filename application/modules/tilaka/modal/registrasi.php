@@ -239,7 +239,7 @@
 </div>
 
 <div class="modal fade" id="modal-revoke" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header pb-0">
                 <h1 class="mb-3">Revoke Account Tilaka</h1>
@@ -262,7 +262,7 @@
                                     <span class="required">Reason</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Reason Revoke Account Tilaka"></i>
                                 </label>
-                                <select data-control="select2" data-dropdown-parent="#modal_revoke" data-placeholder="Please Select Reason Revoke Account Tilaka" class="form-select form-select-solid" name="reasonid" id="reasonid" required>
+                                <select data-control="select2" data-dropdown-parent="#modal-revoke" data-placeholder="Please Select Reason Revoke Account Tilaka" class="form-select form-select-solid" name="reasonid" id="reasonid" required>
                                     <?php echo $revoke;?>
                                 </select>
                             </div>
