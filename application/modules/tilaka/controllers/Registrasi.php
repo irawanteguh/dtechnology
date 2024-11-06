@@ -176,7 +176,7 @@
                         if(isset($_GET['tilaka_name'])){
                             redirect("tilaka/registrasi",$data);
                         }else{
-                            $this->template->load("template/template-sidebar","v_registrasi");
+                            $this->template->load("template/template-sidebar","v_registrasi",$data);
                         }
                     }
                 }
