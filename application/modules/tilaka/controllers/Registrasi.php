@@ -118,6 +118,12 @@
                     }
                 }
 
+                if($_GET['reason_code'] === "3" && $_GET['status'] === "F"){
+                    $data['CERTIFICATE']="";
+                    $data['REGISTER_ID']="";
+                    $this->md->updatedataregister($data,$_GET['register_id']);
+                }
+
                 if($_GET['reason_code'] === "undefined" && $_GET['status'] === "S"){
                     $body['register_id']=$_GET['register_id'];
                     $response = Tilaka::checkregistrasiuser(json_encode($body));
