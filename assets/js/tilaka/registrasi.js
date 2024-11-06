@@ -13,11 +13,24 @@ $('#modal-registerusertilaka').on('shown.bs.modal', function (e) {
     $('#checkboxsyarattilaka').prop('checked', false);
 });
 
+$('#modal-reenroll').on('shown.bs.modal', function (e) {
+    $('#btnregistrasiusertilakareenroll').prop('disabled', true);
+    $('#checkboxsyarattilakareenroll').prop('checked', false);
+});
+
 $('#checkboxsyarattilaka').change(function() {
     if(this.checked) {
         $('#btnregistrasiusertilaka').prop('disabled', false);
     } else {
         $('#btnregistrasiusertilaka').prop('disabled', true);
+    }
+});
+
+$('#checkboxsyarattilakareenroll').change(function() {
+    if(this.checked) {
+        $('#btnregistrasiusertilakareenroll').prop('disabled', false);
+    } else {
+        $('#btnregistrasiusertilakareenroll').prop('disabled', true);
     }
 });
 
