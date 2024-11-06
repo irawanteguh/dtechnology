@@ -28,3 +28,26 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_role_list" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-13">
+                    <h1 class="mb-3">Detail Role</h1>
+                    <div class="text-muted fw-bold fs-5">Please Add Detail Role</div>
+                </div>
+                <div class="row">
+                    <div class="mh-450px scroll-y me-n5 pe-5" id="listmodules"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
