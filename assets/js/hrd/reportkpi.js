@@ -31,7 +31,8 @@ function liststaff(periode){
                 result        = data.responResult;
                 for(var i in result){
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>"+result[i].name+"</td>";
+                    tableresult +="<td class='ps-4'>"+result[i].nik+"</td>";
+                    tableresult +="<td class='text-left'>"+result[i].name+"</td>";
                     tableresult +="<td class='text-left'>"+(result[i].position ? result[i].position : "")+"</td>";
                     tableresult +="<td class='text-center'>"+result[i].presentasiactivity+"%</td>";
                     tableresult +="<td class='text-center'>"+result[i].presentasiperilaku+"%</td>";

@@ -46,7 +46,8 @@
 					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
 						<thead>
 							<tr class="fw-bolder text-muted bg-light">
-								<th class="ps-4 rounded-start">Name</th>
+								<th class="ps-4 rounded-start">Identity</th>
+                                <th>Name</th>
                                 <th>Position</th>
 								<th class="text-center">% Activities</th>
                                 <th class="text-center">% Behavior</th>
