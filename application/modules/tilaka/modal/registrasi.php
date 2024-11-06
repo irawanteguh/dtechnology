@@ -257,7 +257,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 row">
-                            <div class="col-md-6 mb-5">
+                            <div class="col-md-12 mb-5">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                     <span class="required">Reason</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Reason Revoke Account Tilaka"></i>
