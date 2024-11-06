@@ -389,7 +389,7 @@
             $useridentifier = $this->input->post("useridentifier");
 
             $body['user_identifier'] = $useridentifier;
-            $body['reason']          = "Akses Tanda Tangan Elektronik Di Hapus";
+            $body['reason']          = $this->input->post("reasonid");
 
             $response = Tilaka::revoke(json_encode($body));
             

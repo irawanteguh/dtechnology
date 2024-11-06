@@ -708,7 +708,7 @@ $(document).on("submit", "#formrevoke", function (e) {
 	e.preventDefault();
 	var data = new  FormData(this);
 	$.ajax({
-        url        : url+'index.php/tilaka/registrasi/registrasiuser',
+        url        : url+'index.php/tilaka/registrasi/revoke',
         data       : data,
         method     : "POST",
         dataType   : "JSON",
