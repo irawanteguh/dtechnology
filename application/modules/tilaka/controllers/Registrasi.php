@@ -184,15 +184,14 @@
 		}
 
         public function loadcombobox(){
-            $resultalsanrevoke = $this->md->alsanrevoke();
+            $resultalasanrevoke = $this->md->alasanrevoke();
 
             $revoke="";
-            foreach($resultalsanrevoke as $a ){
+            foreach($resultalasanrevoke as $a ){
                 $revoke.="<option value='".$a->keterangan."'>".$a->keterangan."</option>";
             }
 
             $data['revoke'] = $revoke;
-            
             return $data;
 		}
 

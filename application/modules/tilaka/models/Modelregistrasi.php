@@ -20,7 +20,7 @@
             return $recordset;
         }
 
-        function alsanrevoke(){
+        function alasanrevoke(){
             $query =
                     "
                         select 'Resign' keterangan union
