@@ -40,6 +40,9 @@
             return $recordset;
         }
 
-
+        function updatedatauserid($data, $userid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("USER_ID"=>$userid));
+            return $sql;
+        }
     }
 ?>

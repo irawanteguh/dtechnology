@@ -73,7 +73,7 @@
                         $data['ISSUE_ID']    = "";
                     }
 
-                    $this->md->updatedatauser($data,$userid);
+                    $this->md->updatedatauserid($data,$userid);
                 }
 
                 $json["responCode"]   = "00";
