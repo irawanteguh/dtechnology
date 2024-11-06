@@ -34,9 +34,11 @@ function getdata(btn){
 	var namaktp = btn.attr("data-namaktp");
 	var noktp   = btn.attr("data-noktp");
 	var email   = btn.attr("data-email");
+    var useridentifier   = btn.attr("data-useridentifier");
 
 	$(":hidden[name='userid-edit']").val(userid);
     $(":hidden[name='userid-registrasi']").val(userid);
+    $(":text[name='useridentifier']").val(useridentifier);
 	$("input[name='nikrs-edit']").val(nik);
 	$("input[name='namakaryawan-edit']").val(nama);
     
@@ -429,7 +431,7 @@ function datakaryawan(){
                     
                     btnreenroll         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='reenroll(this)' title='Re Enroll'><i class='fa-solid fa-user-clock text-success'></i> Re Enroll</a>";
                     btncheckstatus      = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
-                    btnrevoke           = "<a class='dropdown-item btn btn-sm' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-revoke'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
+                    btnrevoke           = "<a class='dropdown-item btn btn-sm' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-revoke' onclick='getdataedit($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
                     btnverifpengajuan   = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilaka/registrasi'><i class='fa-solid fa-list-check'></i> Verification Pengajuan</a>";
                     btnverifikasienroll = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilaka/registrasi'><i class='fa-solid fa-list-check'></i> Verification Re Enroll</a>";
                     btnappcertificate   = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilaka/registrasi'><i class='fa-solid fa-file-circle-check'></i> Approval Certificate</a>";
@@ -683,6 +685,81 @@ $(document).on("submit", "#formregisteruser", function (e) {
         complete: function () {
             $('#modal-registerusertilaka').modal('hide');
             $('#btnregistrasiusertilaka').prop('disabled', false);
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formrevoke", function (e) {
+	e.preventDefault();
+	var data = new  FormData(this);
+	$.ajax({
+        url        : url+'index.php/tilaka/registrasi/registrasiuser',
+        data       : data,
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: false,
+        contentType: false,
+        beforeSend : function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $('#btnregistrasiusertilaka').prop('disabled', true);
+        },
+		success: function (data) {
+            var result        = data.responResult;
+
+            if(result['success']){
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>Success</h1>",
+                    html             : "<b>"+result['message']+"<br>Dengan Nomor Issue ID : </b><br><b>"+result['data'][0]+"</b>",
+                    icon             : data.responHead,
+                    confirmButtonText: 'Yeah, got it!',
+                    customClass      : {confirmButton: 'btn btn-success'},
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                }).then(function (result) {
+                    if(result.isConfirmed){
+                        window.open(tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
+                    }else{
+                        if(Swal.DismissReason.backdrop || Swal.DismissReason.cancel || Swal.DismissReason.close || Swal.DismissReason.esc || Swal.DismissReason.timer){
+                            window.open(tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
+                        }
+                    }
+                });
+            }else{
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
+                    html             : "<b>"+result['message']+"</b>",
+                    icon             : "error",
+                    confirmButtonText: 'Please Try Again',
+                    customClass      : {confirmButton: 'btn btn-danger'},
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                });
+            }
+		},
+        complete: function () {
+            $('#modal-revoke').modal('hide');
+            datakaryawan();
 		},
         error: function(xhr, status, error) {
             Swal.fire({
