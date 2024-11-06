@@ -250,7 +250,7 @@
                 </div>
             </div>
             <form action="<?php echo base_url();?>index.php/tilaka/registrasi/revoke" id="formrevoke">
-                <input type="text" id="useridentifier" name="useridentifier">
+                <input type="hidden" id="useridentifier" name="useridentifier">
                 <div class="modal-body">
                     <div class="text-start mb-5">
                         <div class="text-muted fw-bold fs-5">Please Select a Reason</div>

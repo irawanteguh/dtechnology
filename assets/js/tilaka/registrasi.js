@@ -38,7 +38,7 @@ function getdata(btn){
 
 	$(":hidden[name='userid-edit']").val(userid);
     $(":hidden[name='userid-registrasi']").val(userid);
-    $(":text[name='useridentifier']").val(useridentifier);
+    $(":hidden[name='useridentifier']").val(useridentifier);
 	$("input[name='nikrs-edit']").val(nik);
 	$("input[name='namakaryawan-edit']").val(nama);
     
@@ -431,7 +431,7 @@ function datakaryawan(){
                     
                     btnreenroll         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='reenroll(this)' title='Re Enroll'><i class='fa-solid fa-user-clock text-success'></i> Re Enroll</a>";
                     btncheckstatus      = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
-                    btnrevoke           = "<a class='dropdown-item btn btn-sm' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-revoke' onclick='getdataedit($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
+                    btnrevoke           = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-revoke' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
                     btnverifpengajuan   = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilaka/registrasi'><i class='fa-solid fa-list-check'></i> Verification Pengajuan</a>";
                     btnverifikasienroll = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilaka/registrasi'><i class='fa-solid fa-list-check'></i> Verification Re Enroll</a>";
                     btnappcertificate   = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilaka/registrasi'><i class='fa-solid fa-file-circle-check'></i> Approval Certificate</a>";
