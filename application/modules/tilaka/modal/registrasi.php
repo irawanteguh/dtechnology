@@ -188,10 +188,10 @@
                                 <li>
                                     Dalam rangka Mengakses Layanan TILAKA, Anda setuju untuk tunduk pada ketentuan yang terdapat pada Dokumen Publik yang terdapat pada Repositori Tilaka serta di tautan yang terdapat pada bagian akhir S&K ini yang terdiri dari:
                                     <ul>
-                                        <li><a href="https://repository.tilaka.id/CP_CPS.pdf">Certification Practice Statement (“CPS”);</a></li>
-                                        <li><a href="https://repository.tilaka.id/kebijakan-privasi.pdf">Kebijakan Privasi;<a></li>
-                                        <li><a href="https://repository.tilaka.id/perjanjian-pemilik-sertifikat.pdf">Perjanjian Pemilik Sertifikat; dan</a></li>
-                                        <li><a href="https://repository.tilaka.id/kebijakan-jaminan.pdf">Kebijakan Jaminan</a></li>
+                                        <li><a href="https://repository.tilaka.id/CP_CPS.pdf" target="_blank">Certification Practice Statement (“CPS”);</a></li>
+                                        <li><a href="https://repository.tilaka.id/kebijakan-privasi.pdf" target="_blank">Kebijakan Privasi;<a></li>
+                                        <li><a href="https://repository.tilaka.id/perjanjian-pemilik-sertifikat.pdf" target="_blank">Perjanjian Pemilik Sertifikat; dan</a></li>
+                                        <li><a href="https://repository.tilaka.id/kebijakan-jaminan.pdf" target="_blank">Kebijakan Jaminan</a></li>
                                     </ul>
                                 </li>
                                 <li>Dalam hal Anda menggunakan Layanan TILAKA melalui aplikasi yang dibuat, dikelola, dikembangkan, atau dimiliki oleh <b><?php echo $_SESSION['hospitalname']?></b> (“aplikasi pihak ketiga”), maka Anda harus mengetahui dan menyetujui bahwa Kami tidak memiliki kendali apapun terhadap konten-konten yang terdapat pada aplikasi tersebut sebelum Anda memilih untuk menggunakan Layanan TILAKA. Akses atau penggunaan Anda terhadap aplikasi <b><?php $_SESSION['hospitalname']?></b> sebelum menggunakan Layanan TILAKA tersebut tunduk pada syarat dan ketentuan serta kebijakan privasi yang ditentukan oleh <b><?php $_SESSION['hospitalname']?></b>.</li>
