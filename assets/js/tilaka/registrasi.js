@@ -229,76 +229,76 @@ function certificatestatus(btn){
     return false;
 };
 
-function revoke(btn){
-    var useridentifier = $(btn).attr("data-useridentifier");
-    $.ajax({
-        url       : url+"index.php/tilaka/registrasi/revoke",
-        data      : {useridentifier:useridentifier},
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-        },
-        success:function(data){
-            var result        = data.responResult;
+// function revoke(btn){
+//     var useridentifier = $(btn).attr("data-useridentifier");
+//     $.ajax({
+//         url       : url+"index.php/tilaka/registrasi/revoke",
+//         data      : {useridentifier:useridentifier},
+//         method    : "POST",
+//         dataType  : "JSON",
+//         cache     : false,
+//         beforeSend: function () {
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+//         },
+//         success:function(data){
+//             var result        = data.responResult;
 
-            if(result['success']){
-                Swal.fire({
-                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>Success</h1>",
-                    html             : "<b>"+result['message']+"<br>Dengan Nomor Issue ID : </b><br><b>"+result['data'][0]+"</b>",
-                    icon             : data.responHead,
-                    confirmButtonText: 'Yeah, got it!',
-                    customClass      : {confirmButton: 'btn btn-success'},
-                    timerProgressBar : true,
-                    timer            : 5000,
-                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                }).then(function (result) {
-                    if(result.isConfirmed){
-                        window.open(tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
-                    }else{
-                        if(Swal.DismissReason.backdrop || Swal.DismissReason.cancel || Swal.DismissReason.close || Swal.DismissReason.esc || Swal.DismissReason.timer){
-                            window.open(tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
-                        }
-                    }
-                });
-            }else{
-                Swal.fire({
-                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                    html             : "<b>"+result['message']+"</b>",
-                    icon             : "error",
-                    confirmButtonText: 'Please Try Again',
-                    customClass      : {confirmButton: 'btn btn-danger'},
-                    timerProgressBar : true,
-                    timer            : 5000,
-                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                });
-            }
+//             if(result['success']){
+//                 Swal.fire({
+//                     title            : "<h1 class='font-weight-bold' style='color:#234974;'>Success</h1>",
+//                     html             : "<b>"+result['message']+"<br>Dengan Nomor Issue ID : </b><br><b>"+result['data'][0]+"</b>",
+//                     icon             : data.responHead,
+//                     confirmButtonText: 'Yeah, got it!',
+//                     customClass      : {confirmButton: 'btn btn-success'},
+//                     timerProgressBar : true,
+//                     timer            : 5000,
+//                     showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+//                     hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+//                 }).then(function (result) {
+//                     if(result.isConfirmed){
+//                         window.open(tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
+//                     }else{
+//                         if(Swal.DismissReason.backdrop || Swal.DismissReason.cancel || Swal.DismissReason.close || Swal.DismissReason.esc || Swal.DismissReason.timer){
+//                             window.open(tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
+//                         }
+//                     }
+//                 });
+//             }else{
+//                 Swal.fire({
+//                     title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
+//                     html             : "<b>"+result['message']+"</b>",
+//                     icon             : "error",
+//                     confirmButtonText: 'Please Try Again',
+//                     customClass      : {confirmButton: 'btn btn-danger'},
+//                     timerProgressBar : true,
+//                     timer            : 5000,
+//                     showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+//                     hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+//                 });
+//             }
 
-        },
-        error: function(xhr, status, error) {
-            Swal.fire({
-                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html             : "<b>"+error+"</b>",
-                icon             : "error",
-                confirmButtonText: "Please Try Again",
-                buttonsStyling   : false,
-                timerProgressBar : true,
-                timer            : 5000,
-                customClass      : {confirmButton: "btn btn-danger"},
-                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
-                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
-            });
-		},
-		complete: function () {
-			datakaryawan();
-		}
-    });
-    return false;
-};
+//         },
+//         error: function(xhr, status, error) {
+//             Swal.fire({
+//                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+//                 html             : "<b>"+error+"</b>",
+//                 icon             : "error",
+//                 confirmButtonText: "Please Try Again",
+//                 buttonsStyling   : false,
+//                 timerProgressBar : true,
+//                 timer            : 5000,
+//                 customClass      : {confirmButton: "btn btn-danger"},
+//                 showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+//                 hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+//             });
+// 		},
+// 		complete: function () {
+// 			datakaryawan();
+// 		}
+//     });
+//     return false;
+// };
 
 function reenroll(btn){
     var useridentifier = $(btn).attr("data-useridentifier");
