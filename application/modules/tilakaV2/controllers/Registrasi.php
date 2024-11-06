@@ -45,6 +45,11 @@
         }
 
         public function certificatestatus(){
+            // - status 1 → registrasi sertifikat masih dalam proses verifikator/validator (belum final),
+            // - status 2 → sertifikat registered (telah diterbitkan),
+            // - status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system),
+            // - status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
+
             $userid         = $this->input->post("userid");
             $useridentifier = $this->input->post("useridentifier");
             $registerid     = $this->input->post("registerid");
@@ -53,6 +58,24 @@
             $response = Tilaka::checkcertificateuser(json_encode($body));
             
             if($response['success']){
+                if($response['success']){
+
+                    $data['CERTIFICATE'] = $response['status'];
+
+                    if($response['status']==="4"){
+                        $data['USER_IDENTIFIER'] = "";
+                        $data['REGISTER_ID']     = "";
+                        $data['CERTIFICATE']     = "";
+                        $data['REVOKE_ID']       = "";
+                        $data['ISSUE_ID']        = "";
+                    }else{
+                        $data['REVOKE_ID']   = "";
+                        $data['ISSUE_ID']    = "";
+                    }
+
+                    $this->md->updatedatauser($data,$userid);
+                }
+
                 $json["responCode"]   = "00";
                 $json["responHead"]   = "success";
                 $json["responDesc"]   = "success";
