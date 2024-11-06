@@ -11,6 +11,8 @@
         }
 
 		public function index(){
+            $data = $this->loadcombobox();
+
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
                 
                 if($_GET['reason_code'] === "0" && $_GET['status'] === "S"){
@@ -29,7 +31,7 @@
                             }
                             $this->md->updatedataregister($data,$_GET['register_id']);
 
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
 
                         if($response['data']['status']==="F" && $response['data']['reason_code']==="2"){
@@ -42,14 +44,14 @@
                             }
     
                             $this->md->updatedataregister($data,$_GET['register_id']);
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
 
                         if($response['data']['status']==="F" && $response['data']['reason_code']==="3"){
                             $data['REGISTER_ID']    = "";
                             $data['IMAGE_IDENTITY'] = "N";
                             $this->md->updatedataregister($data,$_GET['register_id']);
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
 
                     }
@@ -64,7 +66,7 @@
                             $data['REGISTER_ID']    = "";
                             $data['IMAGE_IDENTITY'] = "N";
                             $this->md->updatedataregister($data,$_GET['register_id']);
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
 
                         if($response['data']['status']==="F" && $response['data']['reason_code']==="1" && $response['data']['manual_registration_status']==="S"){
@@ -78,7 +80,7 @@
                             }
                             $this->md->updatedataregister($data,$_GET['register_id']);
 
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
                     }
                 }
@@ -99,7 +101,7 @@
                             }
                             $this->md->updatedataregister($data,$_GET['register_id']);
 
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
 
                         if($response['data']['status']==="F" && $response['data']['reason_code']==="2" && $response['data']['manual_registration_status']==="V"){
@@ -113,7 +115,7 @@
                             }
                             $this->md->updatedataregister($data,$_GET['register_id']);
 
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
                     }
                 }
@@ -122,7 +124,7 @@
                     $data['CERTIFICATE']="";
                     $data['REGISTER_ID']="";
                     $this->md->updatedataregister($data,$_GET['register_id']);
-                    redirect("tilaka/registrasi");
+                    redirect("tilaka/registrasi",$data);
                 }
 
                 if($_GET['reason_code'] === "undefined" && $_GET['status'] === "S"){
@@ -141,7 +143,7 @@
                             }
                             $this->md->updatedataregister($data,$_GET['register_id']);
 
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
                     }
                 }
@@ -155,30 +157,43 @@
                         $data['REVOKE_ID']="";
                         $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
                     }
-                    redirect("tilaka/registrasi");
+                    redirect("tilaka/registrasi",$data);
                 }else{
                     if(isset($_GET['issue_id']) && isset($_GET['status']) && isset($_GET['reason_code'])){
                         if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "3"){
                             $data['CERTIFICATE']="X";
                             $data['ISSUE_ID']="";
                             $this->md->updatedataissueid($data,$_GET['issue_id']);
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
 
                         if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "0"){
                             $data['CERTIFICATE']="Y";
                             $this->md->updatedataissueid($data,$_GET['issue_id']);
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }
                     }else{
                         if(isset($_GET['tilaka_name'])){
-                            redirect("tilaka/registrasi");
+                            redirect("tilaka/registrasi",$data);
                         }else{
                             $this->template->load("template/template-sidebar","v_registrasi");
                         }
                     }
                 }
             }
+		}
+
+        public function loadcombobox(){
+            $resultalsanrevoke = $this->md->alsanrevoke();
+
+            $revoke="";
+            foreach($resultalsanrevoke as $a ){
+                $revoke.="<option value='".$a->keterangan."'>".$a->keterangan."</option>";
+            }
+
+            $data['revoke'] = $revoke;
+            
+            return $data;
 		}
 
         public function certificatestatus(){

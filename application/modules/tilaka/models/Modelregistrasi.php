@@ -20,6 +20,26 @@
             return $recordset;
         }
 
+        function alsanrevoke(){
+            $query =
+                    "
+                        select 'Resign' keterangan union
+                        select 'PHK' keterangan union
+                        select 'Habis Kontrak' keterangan union
+                        select 'Mutasi' keterangan union
+                        select 'Pemindahan Departemen' keterangan union
+                        select 'Pindah Divisi' keterangan union
+                        select 'Internal Fraud' keterangan union
+                        select 'Penutupan Hak Akses' keterangan union
+                        select 'Pelanggaran Hukum dari User' keterangan union
+                        select 'Perangkat Hilang, Perangkat Dicuri' keterangan
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function dataregistrasi($orgid,$userid){
                 $query =
                     "

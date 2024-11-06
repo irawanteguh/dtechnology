@@ -257,7 +257,15 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 row">
-                            
+                            <div class="col-md-6 mb-5">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Reason</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Reason Revoke Account Tilaka"></i>
+                                </label>
+                                <select data-control="select2" data-dropdown-parent="#modal_revoke" data-placeholder="Please Select Reason Revoke Account Tilaka" class="form-select form-select-solid" name="reasonid" id="reasonid" required>
+                                    <?php echo $revoke;?>
+                                </select>
+                            </div>
                         </div>                                        
                     </div>
                 </div> 
