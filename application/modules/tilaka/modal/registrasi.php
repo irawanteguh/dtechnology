@@ -237,3 +237,34 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-revoke" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header pb-0">
+                <h1 class="mb-3">Revoke Account Tilaka</h1>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/tilaka/registrasi/edituser" id="formedituser">
+                <input type="hidden" id="userid-edit" name="userid-edit">
+                <div class="modal-body">
+                    <div class="text-start mb-5">
+                        <div class="text-muted fw-bold fs-5">Please Select a Reason</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 row">
+                            
+                        </div>                                        
+                    </div>
+                </div> 
+                <div class="modal-footer p-1">	
+                    <input class="btn btn-light-primary" id="btnproses" type="submit" value="REVOKE" name="simpan" >			
+                </div>  
+            </form>  
+        </div>
+    </div>
+</div>
