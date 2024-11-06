@@ -411,7 +411,7 @@
             $bodycheckcertificate     = [];
             $responsecheckcertificate = [];
 
-            $useridentifier    = $this->input->post("useridentifier");
+            $useridentifier    = $this->input->post("useridentifier-reenroll");
 
             $bodycheckcertificate['user_identifier']=$useridentifier;
             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
