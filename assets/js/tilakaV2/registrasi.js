@@ -237,7 +237,8 @@ function datakaryawan(){
                     btncheckstatus    = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
                     btnpengajuan      = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-registerusertilaka' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Pengajuan</a>";
                     btnverifpengajuan = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
-
+                    btnappcertificate = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
+                    
                     if(result[i].REGISTER_ID===""){
                         statususer ="<td><div class='badge badge-light-danger fw-bolder'>Data Belum Lengkap</div><div class='small'>Silakan Melakukan Melengkapi No KTP, Email dan Upload KTP</div></td>";
                         btnaction = btnedit;
@@ -262,7 +263,8 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="2"){
-                        statususer = "<td><div class='badge badge-light-success fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
+                        statususer = "<td><div class='badge badge-light-success fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                        btnaction  = btnappcertificate;
                     }
 
                     if(result[i].CERTIFICATE==="3"){
