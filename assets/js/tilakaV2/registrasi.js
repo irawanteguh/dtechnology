@@ -239,7 +239,7 @@ function datakaryawan(){
                     btncheckstatus    = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
                     btnverifpengajuan = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btnappcertificate = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-shield-check'></i> Activation</a>";
-                    
+                    btnapprevoke      = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/revoke?revoke_id="+result[i].REVOKE_ID+"&redirect_url="+url+"index.php/tilaka/registrasi' title='Revoke Approval'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
 
                     if(result[i].REGISTER_ID===""){
                         statususer ="<td><div class='badge badge-light-danger fw-bolder'>Data Belum Lengkap</div><div class='small'>Silakan Melakukan Melengkapi No KTP, Email dan Upload KTP</div></td>";
@@ -276,7 +276,7 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Revoke Account Tilaka "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
-                        btnaction  = btncheckstatus;
+                        btnaction  = btncheckstatus+btnapprevoke;
                     }
 
                     tableresult +="<tr>";
