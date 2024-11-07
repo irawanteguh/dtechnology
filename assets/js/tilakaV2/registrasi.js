@@ -173,7 +173,7 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="1"){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                     }
 
                     if(result[i].CERTIFICATE==="2"){
