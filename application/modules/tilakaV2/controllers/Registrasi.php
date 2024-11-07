@@ -64,6 +64,16 @@
                 }else{
                     if(isset($_GET['status']) && isset($_GET['revoke_id'])){
                         if($_GET['status'] === "Berhasil"){
+                            $result   = $this->md->dataregistrasirevokeid($_SESSION['orgid'],$_GET['revoke_id']);
+
+                            $body['user_identifier']=$result->USER_IDENTIFIER;
+                            $response = Tilaka::checkcertificateuser(json_encode($body));
+
+                            if($response['success']){
+                                $datasimpan['CERTIFICATE']      = $response['status'];
+                                $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                            }
+
                             $datasimpan['REVOKE_STATUS']="Y";
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                         }

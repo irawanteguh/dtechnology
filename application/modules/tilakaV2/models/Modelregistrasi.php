@@ -22,18 +22,33 @@
 
         function dataregistrasi($orgid,$userid){
             $query =
-                "
-                    select a.*
-                    from dt01_gen_user_data a
-                    where a.org_id='".$orgid."'
-                    and   a.active='1'
-                    and   a.user_id='".$userid."'
-                ";
+                    "
+                        select a.*
+                        from dt01_gen_user_data a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        and   a.user_id='".$userid."'
+                    ";
 
-        $recordset = $this->db->query($query);
-        $recordset = $recordset->row();
-        return $recordset;
-    }
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function dataregistrasirevokeid($orgid,$revokeid){
+            $query =
+                    "
+                        select a.*
+                        from dt01_gen_user_data a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        and   a.revoke_id='".$revokeid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
 
         function alasanrevoke(){
             $query =
