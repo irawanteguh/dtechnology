@@ -20,6 +20,7 @@
 
                     if($response['success']){
                         if($response['data']['status']==="S" && $response['data']['reason_code']==="0"){
+                            $datasimpan['USER_IDENTIFIER'] = $response['data']['tilaka_name'];
 
                             $body['user_identifier']=$response['data']['tilaka_name'];
                             $response = Tilaka::checkcertificateuser(json_encode($body));
@@ -28,7 +29,6 @@
                                 $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
                             }
 
-                            $datasimpan['USER_IDENTIFIER'] = $response['data']['tilaka_name'];
                             $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                         }
                     }
