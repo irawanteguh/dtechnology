@@ -242,7 +242,7 @@ function datakaryawan(){
                     btnapprevoke      = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/revoke?revoke_id="+result[i].REVOKE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi' title='Revoke Approval'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
 
                     if(result[i].REGISTER_ID===""){
-                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Data Belum Lengkap</div><div class='small'>Silakan Melakukan Melengkapi No KTP, Email dan Upload KTP</div></td>";
+                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Data belum lengkap</div><div class='small'>Silakan Melakukan Melengkapi No KTP, Email dan Upload KTP</div></td>";
                         btnaction = btnedit;
                     }
 
