@@ -240,6 +240,27 @@
 
         }
 		
+        public function revoke(){
+            $useridentifier = $this->input->post("useridentifier");
+
+            $body['user_identifier'] = $useridentifier;
+            $body['reason']          = $this->input->post("reasonid");
+
+            $response = Tilaka::revoke(json_encode($body));
+            
+            if($response['success']){
+                $data['REVOKE_ID']=$response['data'][0];
+                $data['ISSUE_ID']="";
+                $this->md->updatedatauseridentifier($data,$useridentifier);
+            }
+
+            $json["responCode"]   = "00";
+            $json["responHead"]   = "success";
+            $json["responDesc"]   = "Data Di Temukan";
+            $json['responResult'] = $response;
+
+            echo json_encode($json);
+        }
 	}
 
 ?>

@@ -237,3 +237,42 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-revoke" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header pb-0">
+                <h1 class="mb-3">Revoke Account Tilaka</h1>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/tilaka/registrasi/revoke" id="formrevoke">
+                <input type="hidden" id="useridentifier" name="useridentifier">
+                <div class="modal-body">
+                    <div class="text-start mb-5">
+                        <div class="text-muted fw-bold fs-5">Please Select a Reason</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 row">
+                            <div class="col-md-12 mb-5">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Reason</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Reason Revoke Account Tilaka"></i>
+                                </label>
+                                <select data-control="select2" data-dropdown-parent="#modal-revoke" data-placeholder="Please Select Reason Revoke Account Tilaka" class="form-select form-select-solid" name="reasonid" id="reasonid" required>
+                                    <?php echo $revoke;?>
+                                </select>
+                            </div>
+                        </div>                                        
+                    </div>
+                </div> 
+                <div class="modal-footer p-1">	
+                    <input class="btn btn-light-primary" id="btnrevoke" type="submit" value="REVOKE" name="simpan" >			
+                </div>  
+            </form>  
+        </div>
+    </div>
+</div>
