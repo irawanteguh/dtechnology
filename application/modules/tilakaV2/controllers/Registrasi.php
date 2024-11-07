@@ -12,6 +12,7 @@
 		public function index(){
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
                 if($_GET['reason_code'] === "3"){
+                    $data['IMAGE_IDENTITY']  = "N";
                     $data['USER_IDENTIFIER'] = "";
                     $data['REGISTER_ID']     = "";
                     $data['REVOKE_ID']       = "";
