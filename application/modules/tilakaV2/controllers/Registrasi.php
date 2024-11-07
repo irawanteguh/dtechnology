@@ -51,7 +51,7 @@
                 }
             }else{
                 if(isset($_GET['request_id']) && isset($_GET['tilaka_name']) && isset($_GET['tilaka-name']) && isset($_GET['request-id'])){
-                    $body['user_identifier']=$_GET['data']['tilaka_name'];
+                    $body['user_identifier']=$_GET['tilaka_name'];
                     $response = Tilaka::checkcertificateuser(json_encode($body));
                     if($response['success']){
                         $datasimpan['CERTIFICATE']      = $response['status'];
@@ -61,7 +61,6 @@
                 }else{
                     $this->template->load("template/template-sidebar","v_registrasi",$data);
                 }
-                
             }
 		}
 
