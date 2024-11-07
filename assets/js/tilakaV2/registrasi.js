@@ -472,7 +472,7 @@ $(document).on("submit", "#formrevoke", function (e) {
 		success: function (data) {
             var result        = data.responResult;
             if(result['success']){
-                window.location.href = tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi";
+                window.location.href = tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilakaV2/registrasi";
             }else{
                 Swal.fire({
                     title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
