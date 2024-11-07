@@ -13,12 +13,21 @@
             $data = $this->loadcombobox();
 
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
+                if($_GET['reason_code'] === "0"){
+                    $datasimpan['REASON_CODE']     = $_GET['reason_code'];
+                    
+                    $this->md->updatedataregister($datasimpan,$_GET['register_id']);
+                    redirect("tilakaV2/registrasi",$data);
+                }
+
                 if($_GET['reason_code'] === "3"){
                     $datasimpan['IMAGE_IDENTITY']  = "N";
+                    $datasimpan['REASON_CODE']     = $_GET['reason_code'];
                     $datasimpan['USER_IDENTIFIER'] = "";
                     $datasimpan['REGISTER_ID']     = "";
                     $datasimpan['REVOKE_ID']       = "";
                     $datasimpan['ISSUE_ID']        = "";
+                    
                     $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                     redirect("tilakaV2/registrasi",$data);
                 }
