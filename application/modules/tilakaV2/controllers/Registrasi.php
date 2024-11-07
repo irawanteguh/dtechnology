@@ -62,6 +62,8 @@
 
                     $data['CERTIFICATE']      = $response['status'];
                     $data['CERTIFICATE_INFO'] = $response['message']['info'];
+                    $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date']);
+                    $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date']);
 
                     if($response['status']==="4"){
                         $data['USER_IDENTIFIER']  = "";
@@ -73,9 +75,8 @@
                         $data['ISSUE_ID']    = "";
 
                         if($response['status']==="3"){
-                            // $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date']);
-                            // $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date']);
-                            $data['START_ACTIVE'] = "x";
+                            
+                            
                         }
                     }
 
