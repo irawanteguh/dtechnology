@@ -330,7 +330,7 @@ $(document).on("submit", "#formedituser", function (e) {
 	e.preventDefault();
 	var data = new  FormData(this);
 	$.ajax({
-        url        : url+'index.php/tilaka/registrasi/edituser',
+        url        : url+'index.php/tilakaV2/registrasi/edituser',
         data       : data,
         method     : "POST",
         dataType   : "JSON",
@@ -374,7 +374,7 @@ $(document).on("submit", "#formregisteruser", function (e) {
 	e.preventDefault();
 	var data = new  FormData(this);
 	$.ajax({
-        url        : url+'index.php/tilaka/registrasi/registrasiuser',
+        url        : url+'index.php/tilakaV2/registrasi/registrasiuser',
         data       : data,
         method     : "POST",
         dataType   : "JSON",

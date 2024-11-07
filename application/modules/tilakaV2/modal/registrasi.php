@@ -9,7 +9,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/tilaka/registrasi/edituser" id="formedituser">
+            <form action="<?php echo base_url();?>index.php/tilakaV2/registrasi/edituser" id="formedituser">
                 <input type="hidden" id="userid-edit" name="userid-edit">
                 <div class="modal-body">
                     <div class="text-start mb-5">
@@ -122,7 +122,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/tilaka/registrasi/registrasiuser" id="formregisteruser">
+            <form action="<?php echo base_url();?>index.php/tilakaV2/registrasi/registrasiuser" id="formregisteruser">
                 <input type="hidden" id="userid-registrasi" name="userid-registrasi">
                 <div class="modal-body">
                     <div class="row d-flex justify-content-center">
