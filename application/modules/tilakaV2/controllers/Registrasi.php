@@ -10,8 +10,19 @@
         }
 
 		public function index(){
-            $data = $this->loadcombobox();
-            $this->template->load("template/template-sidebar","v_registrasi",$data);
+            if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
+                if($_GET['reason_code'] === "3"){
+                    $data['USER_IDENTIFIER'] = "";
+                    $data['REGISTER_ID']     = "";
+                    $data['REVOKE_ID']       = "";
+                    $data['ISSUE_ID']        = "";
+                    $this->md->updatedataregister($data,$_GET['register_id']);
+                    redirect("tilaka/registrasi",$data);
+                }
+            }else{
+                $data = $this->loadcombobox();
+                $this->template->load("template/template-sidebar","v_registrasi",$data);
+            }
 		}
 
         public function loadcombobox(){

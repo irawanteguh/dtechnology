@@ -44,5 +44,10 @@
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("USER_ID"=>$userid));
             return $sql;
         }
+
+        function updatedataregister($data, $registerid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("REGISTER_ID"=>$registerid));
+            return $sql;
+        }
     }
 ?>
