@@ -62,7 +62,16 @@
                     $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                     redirect("tilakaV2/registrasi",$data);
                 }else{
-                    $this->template->load("template/template-sidebar","v_registrasi",$data);
+                    if(isset($_GET['status']) && isset($_GET['revoke_id'])){
+                        if($_GET['status'] === "Berhasil"){
+                            $data['REVOKE_STATUS']="Y";
+                            $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
+                        }
+                        redirect("tilaka/registrasiV2",$data);
+                    }else{
+                        $this->template->load("template/template-sidebar","v_registrasi",$data);
+                    }
+                    
                 }
             }
 		}

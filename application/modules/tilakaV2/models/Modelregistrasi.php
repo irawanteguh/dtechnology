@@ -69,5 +69,10 @@
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("USER_IDENTIFIER"=>$useridentifier));
             return $sql;
         }
+
+        function updatedatarevokeid($data, $revokeid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("REVOKE_ID"=>$revokeid));
+            return $sql;
+        }
     }
 ?>
