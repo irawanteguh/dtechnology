@@ -261,7 +261,7 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=""){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account sudah di revoke</div><div class='small'></div></td>";
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Account sudah di revoke</div></td>";
                     }
 
                     if(result[i].CERTIFICATE==="1"){
