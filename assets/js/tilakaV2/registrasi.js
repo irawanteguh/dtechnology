@@ -247,12 +247,12 @@ function datakaryawan(){
                     }
 
                     if(result[i].REGISTER_ID==="" && result[i].IDENTITY_NO!=null && result[i].EMAIL!=null && result[i].IMAGE_IDENTITY==="Y"){
-                        statususer ="<td><div class='badge badge-light-success fw-bolder'>Data Lengkap</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
+                        statususer ="<td><div class='badge badge-light-success fw-bolder'>Data lengkap</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
                         btnaction = btnedit+btnpengajuan;
                     }
 
                     if(result[i].REGISTER_ID!="" && result[i].CERTIFICATE===""){
-                        statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                        statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                         btnaction = btnverifpengajuan;
                     }
 
@@ -261,7 +261,7 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=""){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah di Revoke</div><div class='small'></div></td>";
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account sudah di revoke</div><div class='small'></div></td>";
                     }
 
                     if(result[i].CERTIFICATE==="1"){
@@ -279,7 +279,7 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Revoke Account Tilaka</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan revoke account tilaka</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                         btnaction  = btncheckstatus+btnapprevoke;
                     }
 
