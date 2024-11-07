@@ -1,6 +1,6 @@
 datakaryawan();
 
-$('#searchtablemasterkaryawan').on('keypress', function (event) {
+$('#searchdatakaryawan').on('keypress', function (event) {
     if (event.which === 13) {
         datakaryawan();
     }
