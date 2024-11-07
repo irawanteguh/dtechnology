@@ -60,6 +60,8 @@
             if($response['success']){
                 if($response['success']){
 
+                    return var_dump($response['data'][0]['start_active_date']);
+                    
                     $data['CERTIFICATE']      = $response['status'];
                     $data['CERTIFICATE_INFO'] = $response['message']['info'];
                     $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date']);
