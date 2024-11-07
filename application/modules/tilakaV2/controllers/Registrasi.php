@@ -62,19 +62,18 @@
                 $data['CERTIFICATE_INFO'] = $response['message']['info'];
                 
 
+                if($response['status']===3){
+                    $data['REVOKE_ID']   = "";
+                    $data['ISSUE_ID']    = "";
+                    $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
+                    $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
+                }
+
                 if($response['status']===4){
                     $data['USER_IDENTIFIER']  = "";
                     $data['REGISTER_ID']      = "";
                     $data['REVOKE_ID']        = "";
                     $data['ISSUE_ID']         = "";
-                }else{
-                    $data['REVOKE_ID']   = "";
-                    $data['ISSUE_ID']    = "";
-                }
-
-                if($response['status']===3){
-                    $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
-                    $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                 }
 
                 $this->md->updatedatauserid($data,$userid);

@@ -6,7 +6,7 @@
                     "
                         select x.*, upper(left(x.name, 1)) initial
                         from(
-                            select a.*
+                            select a.*, date_format(start_Active, '%d.%m.%Y %H:%i:%s')startactive, date_format(expired_date, '%d.%m.%Y %H:%i:%s')expireddate
                             from dt01_gen_user_data a
                             where a.org_id='".$orgid."'
                             and   a.active='1'

@@ -168,8 +168,12 @@ function datakaryawan(){
 
                     btncheckstatus = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
 
+                    if(result[i].CERTIFICATE==="0"){
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
+                    }
+
                     if(result[i].CERTIFICATE==="3"){
-                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat Aktif</div><div class='small'>Sertifikat Tanda Tangan Eektronik sudah dapat digunakan</div></td>";
+                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
                         btnaction  = btncheckstatus;
                     }
 
