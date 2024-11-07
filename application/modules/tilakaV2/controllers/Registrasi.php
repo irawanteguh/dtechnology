@@ -58,6 +58,7 @@
                         $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
                     }
                     $this->md->updatedataregister($datasimpan,$_GET['request_id']);
+                    redirect("tilakaV2/registrasi",$data);
                 }else{
                     $this->template->load("template/template-sidebar","v_registrasi",$data);
                 }
