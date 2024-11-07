@@ -395,7 +395,7 @@ $(document).on("submit", "#formregisteruser", function (e) {
 			if(data.responCode==="00"){
                 var result = data.responResult;
                 if(result['success']){
-                    window.open(tilakabaseurl + "personal-webview/guide?request_id=" + result['data'][0] + "&redirect_url=" + url + "index.php/tilakaV2/registrasi","_blank");
+                    window.location.href = tilakabaseurl + "personal-webview/guide?request_id="+result['data'][0]+"&redirect_url=" + url + "index.php/tilakaV2/registrasi";
                 }else{
                     Swal.fire({
                         title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
