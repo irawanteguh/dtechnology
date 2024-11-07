@@ -20,7 +20,7 @@
                     $datasimpan['REVOKE_ID']       = "";
                     $datasimpan['ISSUE_ID']        = "";
                     $this->md->updatedataregister($datasimpan,$_GET['register_id']);
-                    redirect("tilaka/registrasi",$data);
+                    redirect("tilakaV2/registrasi",$data);
                 }
             }else{
                 $this->template->load("template/template-sidebar","v_registrasi",$data);
