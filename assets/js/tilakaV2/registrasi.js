@@ -19,19 +19,23 @@ $('#checkboxsyarattilaka').change(function() {
     }
 });
 
-function getdataedit(btn){
-	var userid  = btn.attr("data-userid");
-	var nik     = btn.attr("data-nik");
-	var nama    = btn.attr("data-nama");
-	var namaktp = btn.attr("data-namaktp");
-	var noktp   = btn.attr("data-noktp");
-	var email   = btn.attr("data-email");
+function getdata(btn){
+    var userid         = btn.attr("data-userid");
+    var nik            = btn.attr("data-nik");
+    var nama           = btn.attr("data-nama");
+    var namaktp        = btn.attr("data-namaktp");
+    var noktp          = btn.attr("data-noktp");
+    var email          = btn.attr("data-email");
+    var useridentifier = btn.attr("data-useridentifier");
 
 	$(":hidden[name='userid-edit']").val(userid);
     $(":hidden[name='userid-registrasi']").val(userid);
-	$("input[name='nikrs-edit']").val(nik);
-	$("input[name='namakaryawan-edit']").val(nama);
+    $(":hidden[name='useridentifier']").val(useridentifier);
+    $(":hidden[name='useridentifier-reenroll']").val(useridentifier);
 
+    $("input[name='nikrs-edit']").val(nik);
+    $("input[name='namakaryawan-edit']").val(nama);
+	
     if(namaktp==="null"){
         $("input[name='namaktp-edit']").val(nama);
     }else{
@@ -224,7 +228,7 @@ function datakaryawan(){
                                     "data-issueid='"+result[i].ISSUE_ID+"'"+
                                     "data-email='"+result[i].EMAIL+"'";
 
-                    btnedit        = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-edituser' "+getvariabel+" onclick='getdataedit($(this));'><i class='bi bi-pencil'></i> Perbaharui Data</a>";
+                    btnedit        = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-edituser' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil'></i> Perbaharui Data</a>";
                     btncheckstatus = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
                     btnpengajuan   = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-registerusertilaka' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Pengajuan</a>";
 
