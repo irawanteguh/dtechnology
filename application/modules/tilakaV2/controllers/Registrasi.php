@@ -71,6 +71,11 @@
                     }else{
                         $data['REVOKE_ID']   = "";
                         $data['ISSUE_ID']    = "";
+
+                        if($response['status']==="3"){
+                            $data['START_ACTIVE'] = $response['data'][0]['start_active_date'];
+                            $data['EXPIRED_DATE'] = $response['data'][0]['expiry_date'];
+                        }
                     }
 
                     $this->md->updatedatauserid($data,$userid);

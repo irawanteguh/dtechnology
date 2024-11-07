@@ -188,7 +188,7 @@ function datakaryawan(){
                                 tableresult +="</div>";
                                 tableresult +="<div class='d-flex flex-column'>";
                                     if(result[i].REGISTER_ID!=""){
-                                        tableresult +="<a class='text-gray-800 text-hover-primary mb-1' href='#' "+getvariabel+" onclick='certificatestatus(this)'>"+result[i].NAME+"</a>";
+                                        tableresult +="<a class='text-gray-800 text-hover-primary mb-1' "+getvariabel+" onclick='certificatestatus(this)'>"+result[i].NAME+"</a>";
                                     }else{
                                         tableresult +="<a class='text-gray-800 text-hover-primary mb-1' href='#'>"+result[i].NAME+"</a>";
                                     }
