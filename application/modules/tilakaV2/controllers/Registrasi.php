@@ -60,14 +60,14 @@
             if($response['success']){
                 if($response['success']){
 
-                    $data['CERTIFICATE'] = $response['status'];
+                    $data['CERTIFICATE']      = $response['status'];
+                    $data['CERTIFICATE_INFO'] = $response['message']['info'];
 
                     if($response['status']==="4"){
-                        $data['USER_IDENTIFIER'] = "";
-                        $data['REGISTER_ID']     = "";
-                        $data['CERTIFICATE']     = "";
-                        $data['REVOKE_ID']       = "";
-                        $data['ISSUE_ID']        = "";
+                        $data['USER_IDENTIFIER']  = "";
+                        $data['REGISTER_ID']      = "";
+                        $data['REVOKE_ID']        = "";
+                        $data['ISSUE_ID']         = "";
                     }else{
                         $data['REVOKE_ID']   = "";
                         $data['ISSUE_ID']    = "";
