@@ -91,6 +91,102 @@
 
             echo json_encode($json);
         }
+
+        public function registrasiuser(){
+            $userid   = $this->input->post("userid-registrasi");
+            $result   = $this->md->dataregistrasi($_SESSION['orgid'],$userid);
+            $ktp_path = FCPATH."/assets/ktp/".$userid.".jpeg";
+            
+            if(file_exists($ktp_path)){
+                $consent_timestamp = date("Y-m-d H:i:s");
+                $consent_text      = "Syarat dan Ketentuan Sebagaimana Yang Telah Di Atur Oleh ".$_SESSION['hospitalname'];
+                $version           = "TNT – v.1.0.1";
+                $expireddate       = date("Y-m-d", strtotime("+7 days"))." 23:59";
+                // $expireddate       = date("Y-m-d H:i", strtotime("+3 minutes"));
+
+                
+                $datahash = CLIENT_ID_TILAKA.$consent_text.$version.$consent_timestamp;
+                $hash     = hash_hmac('sha256', $datahash, CLIENT_SECRET_TILAKA);
+                
+                $ktp_data    = file_get_contents($ktp_path);
+                $ktp_encoded = base64_encode($ktp_data);
+    
+                $responseuuid = Tilaka::uuid(urlencode($result->NAME_IDENTITY),$result->EMAIL);
+
+                if($responseuuid){
+                    if($responseuuid['success']){
+                        $body['registration_id']   = $responseuuid['data'][0];
+                        $body['email']             = $result->EMAIL;
+                        $body['name']              = $result->NAME_IDENTITY;
+                        $body['company_name']      = $_SESSION['hospitalname'];
+                        $body['date_expire']       = $expireddate;
+                        $body['nik']               = $result->IDENTITY_NO;
+                        $body['photo_ktp']         = "data:image/jpeg;base64,".$ktp_encoded;
+                        $body['consent_text']      = $consent_text;
+                        $body['is_approved']       = true;
+                        $body['version']           = $version;
+                        $body['hash_consent']      = $hash;
+                        $body['consent_timestamp'] = $consent_timestamp;
+    
+                        $response = Tilaka::registerkyc(json_encode($body));
+    
+                        if($response['success']){
+                            $data['REGISTER_ID'] = $response['data'][0];
+                            $data['CERTIFICATE'] = "";
+                            $this->md->updatedatauser($data,$userid);
+    
+                            unlink($ktp_path);
+                        }
+            
+                        $json["responCode"]   = "00";
+                        $json["responHead"]   = "success";
+                        $json["responDesc"]   = "success";
+                        $json['responResult'] = $response;
+                    }else{
+                        $json["responCode"]   = "00";
+                        $json["responHead"]   = "success";
+                        $json["responDesc"]   = "success";
+                        $json['responResult'] = $responseuuid;
+                    }
+                }else{
+                    $json["responCode"] = "01";
+                    $json["responHead"] = "error";
+                    $json["responDesc"] = "Gagal Mendapatkan UUID Registration";
+                }
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="error";
+                $json["responDesc"]="File KTP Tidak Di Temukan<br><b>".$ktp_path."<b>";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function uploadktp(){
+            $userid = $_GET['userid'];
+
+            $config['upload_path']   = './assets/ktp/';
+            $config['allowed_types'] = 'jpeg';
+            $config['file_name']     = $userid;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+                $dataupdate = array('IMAGE_IDENTITY' => "Y");
+
+                $this->md->updatedatauser($dataupdate, $userid);
+
+                echo "Upload Success";
+            }
+
+        }
 		
 	}
 
