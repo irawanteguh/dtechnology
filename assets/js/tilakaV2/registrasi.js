@@ -256,8 +256,12 @@ function datakaryawan(){
                         btnaction = btnverifpengajuan;
                     }
 
-                    if(result[i].CERTIFICATE==="0"){
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID===""){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
+                    }
+
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=""){
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah di Revoke</div><div class='small'></div></td>";
                     }
 
                     if(result[i].CERTIFICATE==="1"){
