@@ -67,7 +67,7 @@
                             $datasimpan['REVOKE_STATUS']="Y";
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                         }
-                        redirect("tilaka/registrasiV2",$data);
+                        redirect("tilakaV2/registrasi",$data);
                     }else{
                         $this->template->load("template/template-sidebar","v_registrasi",$data);
                     }
