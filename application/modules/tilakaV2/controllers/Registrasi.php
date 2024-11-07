@@ -73,8 +73,7 @@
                                 $datasimpan['CERTIFICATE']      = $response['status'];
                                 $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
                             }
-
-                            $datasimpan['REVOKE_STATUS']="Y";
+                            
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                         }
                         redirect("tilakaV2/registrasi",$data);
