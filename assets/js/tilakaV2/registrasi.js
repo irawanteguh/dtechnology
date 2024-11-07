@@ -269,13 +269,14 @@ function datakaryawan(){
                         btnaction  = btnappcertificate;
                     }
 
-                    if(result[i].CERTIFICATE==="3"){
+                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===""){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
-                        if(result[i].REVOKE_ID===""){
-                            btnaction  = btncheckstatus+btnrevoke;
-                        }else{
-                            btnaction  = btncheckstatus;
-                        }
+                        btnaction  = btncheckstatus+btnrevoke;
+                    }
+
+                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
+                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
+                        btnaction  = btncheckstatus;
                     }
 
                     tableresult +="<tr>";
