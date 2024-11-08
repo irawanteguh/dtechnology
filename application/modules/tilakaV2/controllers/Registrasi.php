@@ -323,16 +323,18 @@
                                 if($response['success']){
                                     $bodycheckcertificate['user_identifier']=$useridentifier;
                                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-    
-                                    $data['CERTIFICATE']      = $responsecheckcertificate['status'];
-                                    $data['CERTIFICATE_INFO'] = $responsecheckcertificate['message']['info'];
-                                    $data['ISSUE_ID']         = $response['data'][0];
-                                    $this->md->updatedatauseridentifier($data,$useridentifier);
 
-                                    $json["responCode"]   = "00";
-                                    $json["responHead"]   = "success";
-                                    $json["responDesc"]   = "Data Di Temukan";
-                                    $json['responResult'] = $response;
+                                    if($responsecheckcertificate['success']){
+                                        $data['CERTIFICATE']      = $responsecheckcertificate['status'];
+                                        $data['CERTIFICATE_INFO'] = $responsecheckcertificate['message']['info'];
+                                        $data['ISSUE_ID']         = $response['data'][0];
+                                        $this->md->updatedatauseridentifier($data,$useridentifier);
+    
+                                        $json["responCode"]   = "00";
+                                        $json["responHead"]   = "success";
+                                        $json["responDesc"]   = "Data Di Temukan";
+                                        $json['responResult'] = $response;
+                                    }
                                 }
                 
                                 
