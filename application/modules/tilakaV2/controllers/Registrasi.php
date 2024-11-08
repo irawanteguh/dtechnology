@@ -290,34 +290,43 @@
             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
             if($responsecheckcertificate['success']){
-                if($responsecheckcertificate['status']===0 || $responsecheckcertificate['status']===3){
-                    $consent_timestamp = date("Y-m-d H:i:s");
-                    $consent_text      = "Syarat dan Ketentuan Sebagaimana Yang Telah Di Atur Oleh ".$_SESSION['hospitalname'];
-                    $version           = "TNT – v.1.0.1";
-        
-                    $registrationid = Tilaka::uuidreenroll($useridentifier);
-                    
-                    if($registrationid!=null){
-                        if($registrationid['success']){
-                            $datahash = CLIENT_ID_TILAKA.$consent_text.$version.$consent_timestamp;
-                            $hash     = hash_hmac('sha256', $datahash, CLIENT_SECRET_TILAKA);
-                
-                            $body['registration_id']   = $registrationid['data'][0];
-                            $body['consent_text']      = $consent_text;
-                            $body['is_approved']       = true;
-                            $body['version']           = $version;
-                            $body['hash_consent']      = $hash;
-                            $body['consent_timestamp'] = $consent_timestamp;
-                
-                            $response = Tilaka::registerkyc(json_encode($body));
-                            
-                            if($response['success']){
-                                $bodycheckcertificate['user_identifier']=$useridentifier;
-                                $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+                if($responsecheckcertificate['status']==1){
+                    $data['CERTIFICATE']      = $responsecheckcertificate['status'];
+                    $data['CERTIFICATE_INFO'] = $responsecheckcertificate['message']['info'];
+                    $this->md->updatedatauseridentifier($data,$useridentifier);
 
-                                if($responsecheckcertificate['success']){
-                                    $data['CERTIFICATE'] = $responsecheckcertificate['status'];
-                                    $data['ISSUE_ID']    = $response['data'][0];
+                    $json["responCode"]   = "01";
+                    $json["responHead"]   = "error";
+                    $json["responDesc"]   = $responsecheckcertificate['message']['info'];
+                }else{
+                    if($responsecheckcertificate['status']===0 || $responsecheckcertificate['status']===3){
+                        $consent_timestamp = date("Y-m-d H:i:s");
+                        $consent_text      = "Syarat dan Ketentuan Sebagaimana Yang Telah Di Atur Oleh ".$_SESSION['hospitalname'];
+                        $version           = "TNT – v.1.0.1";
+            
+                        $registrationid = Tilaka::uuidreenroll($useridentifier);
+                        
+                        if($registrationid!=null){
+                            if($registrationid['success']){
+                                $datahash = CLIENT_ID_TILAKA.$consent_text.$version.$consent_timestamp;
+                                $hash     = hash_hmac('sha256', $datahash, CLIENT_SECRET_TILAKA);
+                    
+                                $body['registration_id']   = $registrationid['data'][0];
+                                $body['consent_text']      = $consent_text;
+                                $body['is_approved']       = true;
+                                $body['version']           = $version;
+                                $body['hash_consent']      = $hash;
+                                $body['consent_timestamp'] = $consent_timestamp;
+                    
+                                $response = Tilaka::registerkyc(json_encode($body));
+                                
+                                if($response['success']){
+                                    $bodycheckcertificate['user_identifier']=$useridentifier;
+                                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+    
+                                    $data['CERTIFICATE']      = $responsecheckcertificate['status'];
+                                    $data['CERTIFICATE_INFO'] = $responsecheckcertificate['message']['info'];
+                                    $data['ISSUE_ID']         = $response['data'][0];
                                     $this->md->updatedatauseridentifier($data,$useridentifier);
 
                                     $json["responCode"]   = "00";
@@ -325,27 +334,26 @@
                                     $json["responDesc"]   = "Data Di Temukan";
                                     $json['responResult'] = $response;
                                 }
-
+                
                                 
+                            }else{
+                                $json["responCode"]   = "01";
+                                $json["responHead"]   = "success";
+                                $json["responDesc"]   = "success";
+                                $json['responResult'] = $registrationid;
                             }
-            
-                            
                         }else{
                             $json["responCode"]   = "01";
-                            $json["responHead"]   = "success";
-                            $json["responDesc"]   = "success";
-                            $json['responResult'] = $registrationid;
+                            $json["responHead"]   = "error";
+                            $json["responDesc"]   = "Gagal Mendapatkan UUID Registration";
                         }
                     }else{
                         $json["responCode"]   = "01";
                         $json["responHead"]   = "error";
-                        $json["responDesc"]   = "Gagal Mendapatkan UUID Registration";
+                        $json["responDesc"]   = $responsecheckcertificate['data'][0]['status'];
                     }
-                }else{
-                    $json["responCode"]   = "01";
-                    $json["responHead"]   = "error";
-                    $json["responDesc"]   = $responsecheckcertificate['data'][0]['status'];
                 }
+                
             }
 
             echo json_encode($json);
