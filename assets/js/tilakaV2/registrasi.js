@@ -24,6 +24,14 @@ $('#checkboxsyarattilaka').change(function() {
     }
 });
 
+$('#checkboxsyarattilakareenroll').change(function() {
+    if(this.checked) {
+        $('#btnregistrasiusertilakareenroll').prop('disabled', false);
+    } else {
+        $('#btnregistrasiusertilakareenroll').prop('disabled', true);
+    }
+});
+
 function getdata(btn){
     var userid         = btn.attr("data-userid");
     var nik            = btn.attr("data-nik");
