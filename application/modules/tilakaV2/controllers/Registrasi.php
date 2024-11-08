@@ -290,7 +290,7 @@
             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
             if($responsecheckcertificate['success']){
-                if($responsecheckcertificate['status']===0 || $responsecheckcertificate['status']===3){
+                if($responsecheckcertificate['status']===1){
                     $consent_timestamp = date("Y-m-d H:i:s");
                     $consent_text      = "Syarat dan Ketentuan Sebagaimana Yang Telah Di Atur Oleh ".$_SESSION['hospitalname'];
                     $version           = "TNT – v.1.0.1";
