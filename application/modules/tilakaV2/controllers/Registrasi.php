@@ -312,14 +312,26 @@
                             $response = Tilaka::registerkyc(json_encode($body));
                             
                             if($response['success']){
-                                $data['ISSUE_ID']=$response['data'][0];
-                                $this->md->updatedatauseridentifier($data,$useridentifier);
+                                $bodycheckcertificate['user_identifier']=$useridentifier;
+                                $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+
+                                if($responsecheckcertificate['success']){
+                                    if($responsecheckcertificate['status']===1){
+                                        $data['CERTIFICATE']=$responsecheckcertificate['status'];
+                                    }
+                                    $data['ISSUE_ID']=$response['data'][0];
+                                    $this->md->updatedatauseridentifier($data,$useridentifier);
+
+                                    $json["responCode"]   = "00";
+                                    $json["responHead"]   = "success";
+                                    $json["responDesc"]   = "Data Di Temukan";
+                                    $json['responResult'] = $response;
+                                }
+
+                                
                             }
             
-                            $json["responCode"]   = "00";
-                            $json["responHead"]   = "success";
-                            $json["responDesc"]   = "Data Di Temukan";
-                            $json['responResult'] = $response;
+                            
                         }else{
                             $json["responCode"]   = "01";
                             $json["responHead"]   = "success";
