@@ -316,10 +316,8 @@
                                 $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
                                 if($responsecheckcertificate['success']){
-                                    if($responsecheckcertificate['status']===1){
-                                        $data['CERTIFICATE']=$responsecheckcertificate['status'];
-                                    }
-                                    $data['ISSUE_ID']=$response['data'][0];
+                                    $data['CERTIFICATE'] = $responsecheckcertificate['status'];
+                                    $data['ISSUE_ID']    = $response['data'][0];
                                     $this->md->updatedatauseridentifier($data,$useridentifier);
 
                                     $json["responCode"]   = "00";
