@@ -236,6 +236,7 @@ function datakaryawan(){
                     btnedit           = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-edituser' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil'></i> Perbaharui Data</a>";
                     btnpengajuan      = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-registerusertilaka' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Pengajuan</a>";
                     btnrevoke         = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-revoke' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
+                    btnreenroll       = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-reenroll' "+getvariabel+" onclick='getdata($(this));' title='Re Enroll'><i class='fa-solid fa-user-clock text-success'></i> Re Enroll</a>";
                     btncheckstatus    = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
                     btnverifpengajuan = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btnappcertificate = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-shield-check'></i> Activation</a>";
@@ -262,6 +263,7 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=""){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Account Sudah Di Revoke</div></td>";
+                        btnaction = btnreenroll;
                     }
 
                     if(result[i].CERTIFICATE==="1"){
