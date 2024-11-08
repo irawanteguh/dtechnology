@@ -534,7 +534,7 @@ $(document).on("submit", "#formreenroll", function (e) {
 	e.preventDefault();
 	var data = new  FormData(this);
 	$.ajax({
-        url        : url+'index.php/tilaka/registrasi/reenroll',
+        url        : url+'index.php/tilakaV2/registrasi/reenroll',
         data       : data,
         method     : "POST",
         dataType   : "JSON",

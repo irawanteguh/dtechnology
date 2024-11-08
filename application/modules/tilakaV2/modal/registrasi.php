@@ -249,7 +249,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/tilaka/registrasi/reenroll" id="formreenroll">
+            <form action="<?php echo base_url();?>index.php/tilakaV2/registrasi/reenroll" id="formreenroll">
             <input type="hidden" id="useridentifier-reenroll" name="useridentifier-reenroll">
                 <div class="modal-body">
                     <div class="row d-flex justify-content-center">
