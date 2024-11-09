@@ -109,7 +109,7 @@ function certificatestatus(btn){
                         "For Your Information",
                         result['message']['info'],
                         "info",
-                        "Please Try Again",
+                        "Please Check Again",
                         "btn btn-info"
                     );
                 };
