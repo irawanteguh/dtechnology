@@ -178,15 +178,31 @@
             $dataupdate['EMAIL']         = $email;
             $dataupdate['IDENTITY_NO']   = $noktp;
 
-            if($this->md->updatedatauserid($dataupdate,$userid)){
-                $json['responCode']="00";
-                $json['responHead']="success";
-                $json['responDesc']="Data Updated Successfully";
+            $resultcheckemail = $this->md->checkemail($_SESSION['ORG_ID'],$email);
+            $resultchecknik   = $this->md->checknik($_SESSION['ORG_ID'],$noktp);
+
+            if(empty($resultcheckemail)){
+                if(empty($resultchecknik)){
+                    if($this->md->updatedatauserid($dataupdate,$userid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Updated Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data failed to update";
+                    }
+                }else{
+                    $json['responCode'] = "01";
+                    $json['responHead'] = "info";
+                    $json['responDesc'] = "Identity No is already in use";
+                }
             }else{
-                $json['responCode']="01";
-                $json['responHead']="info";
-                $json['responDesc']="Data failed to update";
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = "Email is already in use";
             }
+            
 
             echo json_encode($json);
         }
