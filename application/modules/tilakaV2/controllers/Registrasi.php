@@ -101,7 +101,7 @@
                             $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
                             $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
 
-                            if($response['success']){
+                            if($responsecheckcertificateuser['success']){
                                 $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
                                 $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
                                 $datasimpan['CERTIFICATE_INFO'] = $respresponsecheckcertificateuseronse['message']['info'];
