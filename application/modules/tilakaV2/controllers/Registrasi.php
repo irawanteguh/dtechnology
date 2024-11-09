@@ -90,7 +90,35 @@
             //     }
             // }
 
-            $this->template->load("template/template-sidebar","v_registrasi",$data);
+            if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
+                
+                if($_GET['reason_code'] === "0" && $response['data']['status']==="S"){ // reason code 0 : Sukses KYC, status S : Sukses
+                    $body['register_id']=$_GET['register_id'];
+                    $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
+
+                    if($responsecheckregistrasiuser['success']){
+                        if($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0"){
+                            $body['user_identifier']=$resresponsecheckregistrasiuserponse['data']['tilaka_name'];
+                            $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+
+                            if($response['success']){
+                                $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
+                                $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
+                                $datasimpan['CERTIFICATE_INFO'] = $respresponsecheckcertificateuseronse['message']['info'];
+                            }
+
+                            if($this->md->updatedataregister($datasimpan,$_GET['register_id'])){
+                                redirect("tilakaV2/registrasi",$data);
+                            }
+
+                        }
+                    }
+                }
+
+            }else{
+                $this->template->load("template/template-sidebar","v_registrasi",$data);
+            }
+            
 		}
 
         public function loadcombobox(){
