@@ -98,7 +98,7 @@
 
                     if($responsecheckregistrasiuser['success']){
                         if($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0"){
-                            $body['user_identifier']=$resresponsecheckregistrasiuserponse['data']['tilaka_name'];
+                            $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
                             $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
 
                             if($response['success']){
