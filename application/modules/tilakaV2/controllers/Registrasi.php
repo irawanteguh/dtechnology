@@ -178,14 +178,14 @@
             $dataupdate['EMAIL']         = $email;
             $dataupdate['IDENTITY_NO']   = $noktp;
 
-            if($this->md->updatedatauser($dataupdate,$userid)){
+            if($this->md->updatedatauserid($dataupdate,$userid)){
                 $json['responCode']="00";
                 $json['responHead']="success";
-                $json['responDesc']="Perbaharui Data Sukses";
+                $json['responDesc']="Data Updated Successfully";
             }else{
                 $json['responCode']="01";
                 $json['responHead']="info";
-                $json['responDesc']="Perbaharui Data gagal";
+                $json['responDesc']="Data failed to update";
             }
 
             echo json_encode($json);
