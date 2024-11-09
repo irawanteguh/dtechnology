@@ -117,7 +117,7 @@ function certificatestatus(btn){
                 if(result['status']===3){
                     showAlert(
                         "For Your Information",
-                        "<b>Message : ${result['data'][0]['status']}<br>Serial Number : ${result['data'][0]['serialnumber']}<br>Expired Date : ${result['data'][0]['expiry_date']}</b>",
+                        "Message : "+result['data'][0]['status']+"<br>Serial Number : "+result['data'][0]['serialnumber']+"<br>Expired Date : "+result['data'][0]['expiry_date'],
                         "success",
                         "Yeah, got it!",
                         "btn btn-success"
