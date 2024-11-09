@@ -378,7 +378,7 @@ $(document).on("submit", "#formedituser", function (e) {
                 $('#modal-edituser').modal('hide');
             }else{
                 Swal.fire({
-                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
+                    title            : "<h1 class='font-weight-bold'>For Your Information</h1>",
                     html             : "<b>"+data.responDesc+"</b>",
                     icon             : data.responHead,
                     confirmButtonText: 'Please Try Again',
@@ -396,18 +396,16 @@ $(document).on("submit", "#formedituser", function (e) {
 		},
         error: function(xhr, status, error) {
             Swal.fire({
-                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                title            : "<h1 class='font-weight-bold'>I'm Sorry</h1>",
                 html             : "<b>"+error+"</b>",
                 icon             : "error",
                 confirmButtonText: "Please Try Again",
                 buttonsStyling   : false,
                 timerProgressBar : true,
                 timer            : 5000,
-                customClass      : {
-                    confirmButton: "btn btn-danger"
-                },
-                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
-                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
             });
 		}
 	});
