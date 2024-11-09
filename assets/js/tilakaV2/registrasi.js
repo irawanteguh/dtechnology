@@ -104,6 +104,16 @@ function certificatestatus(btn){
 
             if(result['success']){
                 
+                if(result['status']===1){
+                    showAlert(
+                        "For Your Information",
+                        "<b>Message : ${result['message']['info']}<br>Please Please re-register</b>",
+                        "info",
+                        "Please Try Again",
+                        "btn btn-info"
+                    );
+                };
+
                 if(result['status']===3){
                     showAlert(
                         "For Your Information",
