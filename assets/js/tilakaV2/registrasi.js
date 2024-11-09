@@ -13,9 +13,10 @@ $('#modal-registerusertilaka').on('shown.bs.modal', function (e) {
 
 $('#modal-edituser').on('hidden.bs.modal', function (e) {
     if (Dropzone.instances.length > 0) {
-        Dropzone.instances.forEach(dz => dz.destroy()); // Destroys all Dropzone instances
+        Dropzone.instances.forEach(dz => dz.destroy());
     }
-    Dropzone.autoDiscover = false; // Prevents automatic reinitialization
+    Dropzone.autoDiscover = false;
+    datakaryawan();
 });
 
 $('#checkboxsyarattilaka').change(function() {
@@ -372,11 +373,26 @@ $(document).on("submit", "#formedituser", function (e) {
             toastr["info"]("Sending request...", "Please wait");
         },
 		success: function (data) {
-			toastr[data.responHead](data.responDesc, "INFORMATION");
+            if(data.responCode==="00"){
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+                $('#modal-edituser').modal('hide');
+            }else{
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
+                    html             : "<b>"+data.responDesc+"</b>",
+                    icon             : data.responHead,
+                    confirmButtonText: 'Please Try Again',
+                    customClass      : {confirmButton: 'btn btn-danger'},
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                });
+            }
+			
 		},
         complete: function () {
-            $('#modal-edituser').modal('hide');
-            datakaryawan();
+            
 		},
         error: function(xhr, status, error) {
             Swal.fire({
