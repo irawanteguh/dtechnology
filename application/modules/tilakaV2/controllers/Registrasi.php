@@ -316,7 +316,7 @@
             }else{
                 $json["responCode"]   = "01";
                 $json["responHead"]   = "info";
-                $json["responDesc"]   = "Connection Service Tilaka Failed";
+                $json["responDesc"]   = $response['message']['info'];
                 $json['responResult'] = $response;
             }
             
