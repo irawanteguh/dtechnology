@@ -107,10 +107,8 @@
                                 $datasimpan['CERTIFICATE_INFO'] = $respresponsecheckcertificateuseronse['message']['info'];
                             }
 
-                            if($this->md->updatedataregister($datasimpan,$_GET['register_id'])){
-                                redirect("tilakaV2/registrasi",$data);
-                            }
-
+                            $this->md->updatedataregister($datasimpan,$_GET['register_id']);
+                            redirect("tilakaV2/registrasi",$data);
                         }
                     }
                 }
