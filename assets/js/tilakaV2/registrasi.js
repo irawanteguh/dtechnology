@@ -312,7 +312,7 @@ function datakaryawan(){
                                 tableresult +="</div>";
                                 tableresult +="<div class='d-flex flex-column'>";
                                     if(result[i].REGISTER_ID!=""){
-                                        tableresult +="<a class='text-gray-800 text-hover-primary mb-1' "+getvariabel+" onclick='certificatestatus(this)' style='cursor: pointer;'>"+result[i].NAME+"</a>";
+                                        tableresult +="<a class='text-gray-800 text-hover-primary mb-1' "+getvariabel+" onclick='certificatestatus(this)' style='cursor: pointer;' title='Click For Cretificate Status'>"+result[i].NAME+"</a>";
                                     }else{
                                         tableresult +="<a class='text-gray-800 text-hover-primary mb-1'>"+result[i].NAME+"</a>";
                                     }
