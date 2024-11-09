@@ -156,7 +156,7 @@ function getDaySuffix(day) {
         case 3: return 'rd';
         default: return 'th';
     }
-}
+};
 
 function exportTableToExcel(tableID, filename = ''){
     $("#"+tableID).table2excel({
@@ -164,5 +164,19 @@ function exportTableToExcel(tableID, filename = ''){
         name: "Worksheet Name",
         filename: filename+".xls", // do include extension
         preserveColors: false // set to true if you want background colors and font colors preserved
+    });
+};
+
+function showAlert(title, htmlContent, icon, confirmButtonText, buttonClass, timer = 5000) {
+    Swal.fire({
+        title            : `<h1 class='font-weight-bold' style='color:#234974;'>${title}</h1>`,
+        html             : htmlContent,
+        icon             : icon,
+        confirmButtonText: confirmButtonText,
+        customClass      : {confirmButton: buttonClass},
+        timerProgressBar : true,
+        timer            : timer,
+        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
     });
 }

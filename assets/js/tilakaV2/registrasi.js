@@ -103,105 +103,47 @@ function certificatestatus(btn){
             var result = data.responResult;
 
             if(result['success']){
-                if(result['status']===0){
-                    Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<b>Message : "+result['data'][0]['status']+"<br>Serial Number : "+result['data'][0]['serialnumber']+"<br>Expired Date : "+result['data'][0]['expiry_date']+"</b>",
-                        icon             : "info",
-                        confirmButtonText: 'Please Try Again',
-                        customClass      : {confirmButton: 'btn btn-danger'},
-                        timerProgressBar : true,
-                        timer            : 5000,
-                        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                    });
-                };
-    
-                if(result['status']===1){
-                    Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<h6>"+result['message']['info']+"</br> Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</b>",
-                        icon             : "info",
-                        confirmButtonText: 'Please Try Again',
-                        customClass      : {confirmButton: 'btn btn-danger'},
-                        timerProgressBar : true,
-                        timer            : 10000,
-                        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                    });
-                };
-    
-                if(result['status']===2){
-                    Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<b>Message : "+result['message']['info']+"<br>Serial Number : "+result['message']['serialnumber']+"<br>Unique Id : "+result['message']['uniqueId']+"</b>",
-                        icon             : "info",
-                        confirmButtonText: 'Please Try Again',
-                        customClass      : {confirmButton: 'btn btn-danger'},
-                        timerProgressBar : true,
-                        timer            : 5000,
-                        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                    });
-                };
-    
+                
                 if(result['status']===3){
-                    Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<h6>Status : "+result['data'][0]['status']+"<br>Serial Number : "+result['data'][0]['serialnumber']+"<br>Active Date : "+result['data'][0]['start_active_date']+"<br>Expired Date : "+result['data'][0]['expiry_date']+"</b>",
-                        icon             : "success",
-                        confirmButtonText: 'Yeah, got it!',
-                        customClass      : {confirmButton: 'btn btn-success'},
-                        timerProgressBar : true,
-                        timer            : 10000,
-                        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                    });
+                    showAlert(
+                        "For Your Information",
+                        "<b>Message : ${result['data'][0]['status']}<br>Serial Number : ${result['data'][0]['serialnumber']}<br>Expired Date : ${result['data'][0]['expiry_date']}</b>",
+                        "success",
+                        "Yeah, got it!",
+                        "btn btn-success"
+                    );
                 };
     
                 if(result['status']===4){
-                    Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<b>Message : "+result['message']['info']+"</b>",
-                        icon             : "success",
-                        confirmButtonText: 'Please Try Again',
-                        customClass      : {confirmButton: 'btn btn-danger'},
-                        timerProgressBar : true,
-                        timer            : 5000,
-                        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                    });
+                    showAlert(
+                        "For Your Information",
+                        "<b>Message : ${result['message']['info']}<br>Please Please re-register</b>",
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
                 };
             }else{
-                Swal.fire({
-                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                    html             : "<b>"+result['message']['info']+"</b>",
-                    icon             : "error",
-                    confirmButtonText: 'Please Try Again',
-                    customClass      : {confirmButton: 'btn btn-danger'},
-                    timerProgressBar : true,
-                    timer            : 5000,
-                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                });
+                showAlert(
+                    "For Your Information",
+                    "<b>Message : ${result['message']['info']}</b>",
+                    "error",
+                    "Please Try Again",
+                    "btn btn-danger"
+                );
             }
         },
-        error: function(xhr, status, error) {
-            Swal.fire({
-                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html             : "<b>"+error+"</b>",
-                icon             : "error",
-                confirmButtonText: "Please Try Again",
-                buttonsStyling   : false,
-                timerProgressBar : true,
-                timer            : 5000,
-                customClass      : {confirmButton: "btn btn-danger"},
-                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-            });
-		},
-		complete: function () {
+        complete: function () {
 			datakaryawan();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                "<b>"+error+"</b>",
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
 		}
     });
     return false;
