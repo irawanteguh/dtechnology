@@ -1,4 +1,10 @@
 <?php
+      // - status 0 → tidak ada sertifikat atas user_identifier tersebut
+      // - status 1 → registrasi sertifikat masih dalam proses verifikator/validator (belum final),
+      // - status 2 → sertifikat registered (telah diterbitkan),
+      // - status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system),
+      // - status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
+
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class Registrasi extends CI_Controller {
@@ -115,12 +121,33 @@
             echo json_encode($json);
         }
 
-        public function certificatestatus(){
-            // - status 1 → registrasi sertifikat masih dalam proses verifikator/validator (belum final),
-            // - status 2 → sertifikat registered (telah diterbitkan),
-            // - status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system),
-            // - status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
+        public function uploadktp(){
+            $userid = $_GET['userid'];
 
+            $config['upload_path']   = './assets/ktp/';
+            $config['allowed_types'] = 'jpeg';
+            $config['file_name']     = $userid;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+                $dataupdate = array('IMAGE_IDENTITY' => "Y");
+
+                $this->md->updatedatauser($dataupdate, $userid);
+
+                echo "Upload Success";
+            }
+
+        }
+
+        public function certificatestatus(){
             $userid         = $this->input->post("userid");
             $useridentifier = $this->input->post("useridentifier");
             $registerid     = $this->input->post("registerid");
@@ -132,7 +159,7 @@
                 $data['CERTIFICATE']      = $response['status'];
                 $data['CERTIFICATE_INFO'] = $response['message']['info'];
                 
-
+                // status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system)
                 if($response['status']===3){
                     $data['REVOKE_ID']   = "";
                     $data['ISSUE_ID']    = "";
@@ -140,6 +167,7 @@
                     $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                 }
 
+                // status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
                 if($response['status']===4){
                     $data['USER_IDENTIFIER']  = "";
                     $data['REGISTER_ID']      = "";
@@ -231,33 +259,7 @@
 
             echo json_encode($json);
         }
-
-        public function uploadktp(){
-            $userid = $_GET['userid'];
-
-            $config['upload_path']   = './assets/ktp/';
-            $config['allowed_types'] = 'jpeg';
-            $config['file_name']     = $userid;
-            $config['overwrite']     = TRUE;
-
-            $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('file')) {
-                $error = array('error' => $this->upload->display_errors());
-
-                log_message('error', 'File upload error: ' . implode(' ', $error));
-                echo json_encode($error);
-            } else {
-                $upload_data = $this->upload->data();
-                $dataupdate = array('IMAGE_IDENTITY' => "Y");
-
-                $this->md->updatedatauser($dataupdate, $userid);
-
-                echo "Upload Success";
-            }
-
-        }
-		
+        
         public function revoke(){
             $useridentifier = $this->input->post("useridentifier");
 

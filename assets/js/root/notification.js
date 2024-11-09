@@ -1,5 +1,5 @@
 information();
-selfreportkpi();
+// selfreportkpi();
 
 function information(){
     $.ajax({
