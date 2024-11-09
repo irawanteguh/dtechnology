@@ -317,6 +317,7 @@
                 $json["responCode"]   = "01";
                 $json["responHead"]   = "info";
                 $json["responDesc"]   = "Connection Service Tilaka Failed";
+                $json['responResult'] = $response;
             }
             
             echo json_encode($json);
