@@ -207,49 +207,6 @@
             echo json_encode($json);
         }
 
-        // public function certificatestatus(){
-        //     $userid         = $this->input->post("userid");
-        //     $useridentifier = $this->input->post("useridentifier");
-        //     $registerid     = $this->input->post("registerid");
-
-        //     $body['user_identifier']=$useridentifier;
-        //     $response = Tilaka::checkcertificateuser(json_encode($body));
-            
-        //     if($response['success']){
-        //         $data['CERTIFICATE']      = $response['status'];
-        //         $data['CERTIFICATE_INFO'] = $response['message']['info'];
-                
-        //         // status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system)
-        //         if($response['status']===3){
-        //             $data['REVOKE_ID']   = "";
-        //             $data['ISSUE_ID']    = "";
-        //             $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
-        //             $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
-        //         }
-
-        //         // status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
-        //         if($response['status']===4){
-        //             $data['USER_IDENTIFIER']  = "";
-        //             $data['REGISTER_ID']      = "";
-        //             $data['REVOKE_ID']        = "";
-        //             $data['ISSUE_ID']         = "";
-        //         }
-
-        //         $this->md->updatedatauserid($data,$userid);
-
-        //         $json["responCode"]   = "00";
-        //         $json["responHead"]   = "success";
-        //         $json["responDesc"]   = "success";
-        //         $json['responResult'] = $response;
-        //     }else{
-        //         $json["responCode"]   = "01";
-        //         $json["responHead"]   = "info";
-        //         $json["responDesc"]   = "Connection Service Tilaka Failed";
-        //     }
-            
-        //     echo json_encode($json);
-        // }
-
         public function registrasiuser(){
             $userid   = $this->input->post("userid-registrasi");
             $result   = $this->md->dataregistrasi($_SESSION['orgid'],$userid);
@@ -323,6 +280,49 @@
 
             echo json_encode($json);
         }
+        
+        public function certificatestatus(){
+            $userid         = $this->input->post("userid");
+            $useridentifier = $this->input->post("useridentifier");
+            $registerid     = $this->input->post("registerid");
+
+            $body['user_identifier']=$useridentifier;
+            $response = Tilaka::checkcertificateuser(json_encode($body));
+            
+            if($response['success']){
+                $data['CERTIFICATE']      = $response['status'];
+                $data['CERTIFICATE_INFO'] = $response['message']['info'];
+                
+                if($response['status']===3){ // status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system)
+                    $data['REVOKE_ID']   = "";
+                    $data['ISSUE_ID']    = "";
+                    $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
+                    $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
+                }
+
+                if($response['status']===4){ // status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
+                    $data['USER_IDENTIFIER']  = "";
+                    $data['REGISTER_ID']      = "";
+                    $data['REVOKE_ID']        = "";
+                    $data['ISSUE_ID']         = "";
+                }
+
+                $this->md->updatedatauserid($data,$userid);
+
+                $json["responCode"]   = "00";
+                $json["responHead"]   = "success";
+                $json["responDesc"]   = "success";
+                $json['responResult'] = $response;
+            }else{
+                $json["responCode"]   = "01";
+                $json["responHead"]   = "info";
+                $json["responDesc"]   = "Connection Service Tilaka Failed";
+            }
+            
+            echo json_encode($json);
+        }
+
+       
         
         // public function revoke(){
         //     $useridentifier = $this->input->post("useridentifier");
