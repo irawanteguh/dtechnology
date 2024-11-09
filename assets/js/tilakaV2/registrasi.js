@@ -12,8 +12,10 @@ $('#modal-registerusertilaka').on('shown.bs.modal', function (e) {
 });
 
 $('#modal-edituser').on('hidden.bs.modal', function (e) {
-    Dropzone.autoDiscover = false;
-    datakaryawan();
+    if (Dropzone.instances.length > 0) {
+        Dropzone.instances.forEach(dz => dz.destroy()); // Destroys all Dropzone instances
+    }
+    Dropzone.autoDiscover = false; // Prevents automatic reinitialization
 });
 
 $('#checkboxsyarattilaka').change(function() {
