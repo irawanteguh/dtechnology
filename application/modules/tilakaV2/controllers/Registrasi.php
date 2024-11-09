@@ -92,7 +92,7 @@
 
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
                 
-                if($_GET['reason_code'] === "0" && $response['data']['status']==="S"){ // reason code 0 : Sukses KYC, status S : Sukses
+                if($_GET['reason_code'] === "0" && $_GET['status']==="S"){ // reason code 0 : Sukses KYC, status S : Sukses
                     $body['register_id']=$_GET['register_id'];
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
 
