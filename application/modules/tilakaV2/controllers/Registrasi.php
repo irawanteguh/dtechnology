@@ -97,7 +97,7 @@
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
 
                     if($responsecheckregistrasiuser['success']){
-                        if($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0"){
+                        if($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0"){ // reason code 0 : Sukses KYC, status S : Sukses
                             $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
                             $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
 
@@ -311,6 +311,17 @@
             $userid         = $this->input->post("userid");
             $useridentifier = $this->input->post("useridentifier");
             $registerid     = $this->input->post("registerid");
+
+            if($useridentifier===""){
+                $body['register_id']=$registerid;
+                $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
+                if($responsecheckregistrasiuser['success']){
+                    if($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0"){
+                        $useridentifier = $responsecheckregistrasiuser['data']['tilaka_name'];
+                    }
+                }
+            }
+            
 
             $body['user_identifier']=$useridentifier;
             $response = Tilaka::checkcertificateuser(json_encode($body));
