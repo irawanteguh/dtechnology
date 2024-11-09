@@ -178,8 +178,8 @@
             $dataupdate['EMAIL']         = $email;
             $dataupdate['IDENTITY_NO']   = $noktp;
 
-            $resultcheckemail = $this->md->checkemail($_SESSION['ORG_ID'],$email);
-            $resultchecknik   = $this->md->checknik($_SESSION['ORG_ID'],$noktp);
+            $resultcheckemail = $this->md->checkemail($_SESSION['orgid'],$email);
+            $resultchecknik   = $this->md->checknik($_SESSION['orgid'],$noktp);
 
             if(empty($resultcheckemail)){
                 if(empty($resultchecknik)){
