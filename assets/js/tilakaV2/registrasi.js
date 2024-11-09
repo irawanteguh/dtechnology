@@ -370,14 +370,11 @@ $(document).on("submit", "#formedituser", function (e) {
             toastr["info"]("Sending request...", "Please wait");
         },
 		success: function (data) {
-			if(data.responCode === "00"){
-				datakaryawan();
-			}
-
 			toastr[data.responHead](data.responDesc, "INFORMATION");
 		},
         complete: function () {
             $('#modal-edituser').modal('hide');
+            datakaryawan();
 		},
         error: function(xhr, status, error) {
             Swal.fire({
