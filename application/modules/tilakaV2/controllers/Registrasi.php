@@ -295,7 +295,7 @@
                             $data['ISSUE_ID']         = "";
                             $data['REASON_CODE']      = "";
 
-                            if($this->md->updatedatauser($data,$userid)){
+                            if($this->md->updatedatauserid($data,$userid)){
                                 unlink($ktp_path);
                             }
                         }
