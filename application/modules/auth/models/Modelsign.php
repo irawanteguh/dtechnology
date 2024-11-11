@@ -1,7 +1,7 @@
 <?php
     class Modelsign extends CI_Model{
 
-        function login($orgid,$username,$password){
+        function login($username,$password){
             $query =
                     "
                         select a.user_id
