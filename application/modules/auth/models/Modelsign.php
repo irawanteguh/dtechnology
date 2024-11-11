@@ -7,7 +7,7 @@
                         select a.user_id
                         from dt01_gen_user_data a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        and   a.org_id<>'3cfc3139-5290-407d-a77a-3bdc893f4194'
                         and   a.username='".$username."'
                         and   a.password='".$password."'
                     ";
