@@ -210,7 +210,7 @@ function datakaryawan(){
                         btnaction = btnedit;
                     }
 
-                    if(result[i].REGISTER_ID==="" && result[i].IDENTITY_NO!=null && result[i].EMAIL!=null && result[i].IMAGE_IDENTITY==="Y"){
+                    if((result[i].REGISTER_ID==="" || result[i].REGISTER_ID===null) && result[i].IDENTITY_NO!=null && result[i].EMAIL!=null && result[i].IMAGE_IDENTITY==="Y"){
                         statususer ="<td><div class='badge badge-light-success fw-bolder'>Data lengkap</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
                         btnaction = btnedit+btnpengajuan;
                     }
