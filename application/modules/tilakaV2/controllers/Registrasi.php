@@ -105,7 +105,7 @@
                             if($responsecheckcertificateuser['success']){
                                 $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
                                 $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
-                                $datasimpan['CERTIFICATE_INFO'] = $respresponsecheckcertificateuseronse['message']['info'];
+                                $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                             }
 
                             $this->md->updatedataregister($datasimpan,$_GET['register_id']);
