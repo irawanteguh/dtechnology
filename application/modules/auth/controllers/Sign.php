@@ -17,7 +17,7 @@
             $username        = $this->input->post("username");
             $password        = encodedata($this->input->post("password"));
 
-            $checkauth =$this->md->login($username,$password);
+            $checkauth =$this->md->login($_SESSION['orgid'],$username,$password);
             
             if(!empty($checkauth)){
                 $datasession      = $this->md->datasession($checkauth->user_id);

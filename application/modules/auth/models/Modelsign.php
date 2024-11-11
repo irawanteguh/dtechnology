@@ -1,12 +1,13 @@
 <?php
     class Modelsign extends CI_Model{
 
-        function login($username,$password){
+        function login($orgid,$username,$password){
             $query =
                     "
                         select a.user_id
                         from dt01_gen_user_data a
                         where a.active='1'
+                        and   a.org_id='".$orgid."'
                         and   a.username='".$username."'
                         and   a.password='".$password."'
                     ";
