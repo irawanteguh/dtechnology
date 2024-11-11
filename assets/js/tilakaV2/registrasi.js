@@ -229,6 +229,11 @@ function datakaryawan(){
                         btnaction = btnreenroll;
                     }
 
+                    if(result[i].status_expdate==="1"){
+                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Sialakan Melakukan Pengajuan Kembali</div></td>";
+                        btnaction = btnreenroll;
+                    }
+
                     if(result[i].CERTIFICATE==="1"){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btncheckstatus;
