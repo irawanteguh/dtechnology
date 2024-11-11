@@ -4,6 +4,13 @@ dataexecutesign();
 //     dataexecutesign();
 // }, 10000);
 
+$('#modal_upload_document').on('hidden.bs.modal', function (e) {
+    if (Dropzone.instances.length > 0) {
+        Dropzone.instances.forEach(dz => dz.destroy());
+    }
+    Dropzone.autoDiscover = false;
+});
+
 function dataexecutesign(){
     $.ajax({
         url     : url+"index.php/tilaka/signdocument/dataexecutesign",
