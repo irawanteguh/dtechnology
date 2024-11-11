@@ -97,6 +97,8 @@
 
                     if($responsecheckregistrasiuser['success']){
                         if($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0"){ // reason code 0 : Sukses KYC, status S : Sukses
+                            
+                            
                             $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
                             $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
 
@@ -110,6 +112,18 @@
                             redirect("tilakaV2/registrasi",$data);
                         }
                     }
+                }
+
+                if($_GET['reason_code'] === "3" && $_GET['status']==="F"){ // reason code 3 : Request Id Expired, status F : Fail dukcapil (ada data yang tidak sesuai, misal nik tidak ditemukan pada database dukcapil
+                    $datasimpan['IMAGE_IDENTITY']  = "N";
+                    $datasimpan['REASON_CODE']     = $_GET['reason_code'];
+                    $datasimpan['USER_IDENTIFIER'] = "";
+                    $datasimpan['REGISTER_ID']     = "";
+                    $datasimpan['REVOKE_ID']       = "";
+                    $datasimpan['ISSUE_ID']        = "";
+                    
+                    $this->md->updatedataregister($datasimpan,$_GET['register_id']);
+                    redirect("tilakaV2/registrasi",$data);
                 }
             }else{
                 if(isset($_GET['revoke_id']) && isset($_GET['status'])){
