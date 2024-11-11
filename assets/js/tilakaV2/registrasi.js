@@ -229,11 +229,6 @@ function datakaryawan(){
                         btnaction = btnreenroll;
                     }
 
-                    if(result[i].status_expdate==="1"){
-                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Sialakan Melakukan Pengajuan Kembali</div></td>";
-                        btnaction = btnreenroll;
-                    }
-
                     if(result[i].CERTIFICATE==="1"){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btncheckstatus;
@@ -245,8 +240,13 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===""){
-                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
-                        btnaction  = btncheckstatus+btnrevoke;
+                        if(result[i].status_expdate==="0"){
+                            statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
+                            btnaction  = btncheckstatus+btnrevoke;
+                        }else{
+                            statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Sialakan Melakukan Pengajuan Kembali</div></td>";
+                            btnaction = btncheckstatus+btnreenroll;
+                        }   
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
