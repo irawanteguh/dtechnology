@@ -59,23 +59,20 @@
 
                 
                 $dataroles['org_id']          = $orgid;
-                $dataroles['trans_id']        = generateuuid();
-                $dataroles['role_id']         = $roleidIT;
+                $dataroles['role_id']         = generateuuid();
                 $dataroles['role']            = "IT Operation";
                 $dataroles['created_by']      = $userid;
                 $dataroles['last_updated_by'] = $userid;
                 $this->md->insertrolems($dataroles);
 
                 $dataroles['org_id']          = $orgid;
-                $dataroles['trans_id']        = generateuuid();
-                $dataroles['role_id']         = $roleidDefault;
+                $dataroles['role_id']         = generateuuid();
                 $dataroles['role']            = "Default";
                 $dataroles['created_by']      = $userid;
                 $dataroles['last_updated_by'] = $userid;
                 $this->md->insertrolems($dataroles);
 
                 $dataroles['org_id']          = $orgid;
-                $dataroles['trans_id']        = generateuuid();
                 $dataroles['role_id']         = "34c2e933-4b1b-47cd-8497-71de44ac4e01";
                 $dataroles['role']            = "Admin Tilaka";
                 $dataroles['created_by']      = $userid;
