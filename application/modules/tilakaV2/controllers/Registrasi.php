@@ -131,10 +131,10 @@
                     $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
 
                     if($responsecheckcertificateuser['success']){
-                        $datasimpan['CERTIFICATE']      = $response['status'];
-                        $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
-                        $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
-                        $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
+                        $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
+                        $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
+                        $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
+                        $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                     }
 
                     $this->md->updatedataregister($datasimpan,$_GET['request_id']);
