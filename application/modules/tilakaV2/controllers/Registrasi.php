@@ -91,7 +91,6 @@
             // }
 
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
-                
                 if($_GET['reason_code'] === "0" && $_GET['status']==="S"){ // reason code 0 : Sukses KYC, status S : Sukses
                     $body['register_id']=$_GET['register_id'];
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
@@ -112,9 +111,18 @@
                         }
                     }
                 }
-
             }else{
-                $this->template->load("template/template-sidebar","v_registrasi",$data);
+                if(isset($_GET['status']) && isset($_GET['revoke_id'])){
+                    
+                    if($_GET['status'] === "Gagal"){
+                        $data['REVOKE_ID']="";
+                        $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
+                        redirect("tilakaV2/registrasi",$data);
+                    }
+                }else{
+                    $this->template->load("template/template-sidebar","v_registrasi",$data);
+                }
+                
             }
             
 		}
