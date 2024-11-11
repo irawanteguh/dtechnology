@@ -115,8 +115,8 @@
                 if(isset($_GET['revoke_id']) && isset($_GET['status'])){
 
                     if($_GET['status'] === "Gagal"){
-                        $data['REVOKE_ID']="";
-                        $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
+                        $datasimpan['REVOKE_ID']="";
+                        $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                         redirect("tilakaV2/registrasi",$data);
                     }
                 }else{
