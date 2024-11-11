@@ -14,10 +14,11 @@
         }
 
         public function signin(){
-            $username        = $this->input->post("username");
-            $password        = encodedata($this->input->post("password"));
+            $orgId    = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : '10c84edd-500b-49e3-93a5-a2c8cd2c8524';
+            $username = $this->input->post("username");
+            $password = encodedata($this->input->post("password"));
 
-            $checkauth =$this->md->login($_SESSION['orgid'],$username,$password);
+            $checkauth =$this->md->login($orgId,$username,$password);
             
             if(!empty($checkauth)){
                 $datasession      = $this->md->datasession($checkauth->user_id);
