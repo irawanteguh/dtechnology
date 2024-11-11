@@ -126,14 +126,29 @@
                     redirect("tilakaV2/registrasi",$data);
                 }
             }else{
-                if(isset($_GET['revoke_id']) && isset($_GET['status'])){
-                    if($_GET['status'] === "Gagal"){
-                        $datasimpan['REVOKE_ID']="";
-                        $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
-                        redirect("tilakaV2/registrasi",$data);
+                if(isset($_GET['request_id']) && isset($_GET['tilaka_name']) && isset($_GET['tilaka-name']) && isset($_GET['request-id'])){
+                    $body['user_identifier']=$_GET['tilaka_name'];
+                    $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+
+                    if($responsecheckcertificateuser['success']){
+                        $datasimpan['CERTIFICATE']      = $response['status'];
+                        $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                        $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
+                        $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                     }
+
+                    $this->md->updatedataregister($datasimpan,$_GET['request_id']);
+                    redirect("tilakaV2/registrasi",$data);
                 }else{
-                    $this->template->load("template/template-sidebar","v_registrasi",$data);
+                    if(isset($_GET['revoke_id']) && isset($_GET['status'])){
+                        if($_GET['status'] === "Gagal"){
+                            $datasimpan['REVOKE_ID']="";
+                            $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
+                            redirect("tilakaV2/registrasi",$data);
+                        }
+                    }else{
+                        $this->template->load("template/template-sidebar","v_registrasi",$data);
+                    }
                 }
             }
             
