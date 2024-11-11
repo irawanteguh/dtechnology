@@ -113,7 +113,6 @@
                 }
             }else{
                 if(isset($_GET['revoke_id']) && isset($_GET['status'])){
-
                     if($_GET['status'] === "Gagal"){
                         $datasimpan['REVOKE_ID']="";
                         $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
@@ -122,7 +121,6 @@
                 }else{
                     $this->template->load("template/template-sidebar","v_registrasi",$data);
                 }
-                
             }
             
 		}
