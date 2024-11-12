@@ -243,7 +243,7 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="1"){
                         if(result[i].ISSUE_ID!=''){
-                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-info fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                             btnaction  = btnverifikasienroll;
                         }else{
                             statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
