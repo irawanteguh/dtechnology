@@ -147,7 +147,7 @@
                             redirect("tilakaV2/registrasi",$data);
                         }
                         if($_GET['status'] === "Berhasil"){
-                            $result   = $this->md->dataregistrasirevokeid($_SESSION['orgid'],$_GET['revoke_id']);
+                            $result   = $this->md->checkrevokeid($_SESSION['orgid'],$_GET['revoke_id']);
 
                             $body['user_identifier']=$result->USER_IDENTIFIER;
                             $response = Tilaka::checkcertificateuser(json_encode($body));
