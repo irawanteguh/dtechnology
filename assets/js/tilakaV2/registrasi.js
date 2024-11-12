@@ -237,7 +237,7 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=""){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Account Sudah Di Revoke</div></td>";
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di Revoke</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
                         btnaction = btnreenroll;
                     }
 
