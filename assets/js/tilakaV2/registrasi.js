@@ -531,25 +531,7 @@ $(document).on("submit", "#formreenroll", function (e) {
 
             if(data.responCode === "00"){
                 if(result['success']){
-                    Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>Success</h1>",
-                        html             : "<b>"+result['message']+"<br>Dengan Nomor Issue Id : </b><br><b>"+result['data'][0]+"</b>",
-                        icon             : data.responHead,
-                        confirmButtonText: 'Yeah, got it!',
-                        customClass      : {confirmButton: 'btn btn-success'},
-                        timerProgressBar : true,
-                        timer            : 5000,
-                        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                    }).then(function (result) {
-                        if(result.isConfirmed){
-                            window.open(tilakabaseurl+"ersonal-webview/kyc/revoke?revoke_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
-                        }else{
-                            if(Swal.DismissReason.backdrop || Swal.DismissReason.cancel || Swal.DismissReason.close || Swal.DismissReason.esc || Swal.DismissReason.timer){
-                                window.open(tilakabaseurl+"ersonal-webview/kyc/revoke?revoke_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilaka/registrasi", "_self");
-                            }
-                        }
-                    }); 
+                    window.location.href = tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result['data'][0]+"&redirect_url="+url+"index.php/tilakaV2/registrasi";
                 }else{
                     Swal.fire({
                         title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
