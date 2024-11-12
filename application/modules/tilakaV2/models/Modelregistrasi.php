@@ -101,7 +101,22 @@
             $recordset = $this->db->query($query);
             $recordset = $recordset->row();
             return $recordset;
-        }       
+        }
+        
+        function checkissueid($orgid,$issueid){
+            $query =
+                    "
+                        select a.*
+                        from dt01_gen_user_data a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        and   a.issue_id='".$issueid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        } 
 
         function updatedatauserid($data, $userid){           
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("USER_ID"=>$userid));
@@ -120,6 +135,11 @@
 
         function updatedatarevokeid($data, $revokeid){           
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("REVOKE_ID"=>$revokeid));
+            return $sql;
+        }
+
+        function updatedataissueid($data, $issueid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("ISSUE_ID"=>$issueid));
             return $sql;
         }
     }
