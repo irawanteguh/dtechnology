@@ -160,7 +160,7 @@
                             
     
                             $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                            $listpdfsignatures['reason']          = "Assign By ".$a->assignname;
+                            $listpdfsignatures['reason']          = "Berkas Perawatan Pasien";
                             $listpdfsignatures['location']        = $files->orgname;
                             $listpdfsignatures['width']           = floatval(WIDTH);
                             $listpdfsignatures['height']          = floatval(HEIGHT);
