@@ -321,6 +321,59 @@
             $summaryresponse[]=$responseservice;
             $this->response($summaryresponse,REST_Controller::HTTP_OK);
         }
+
+        public function getfile_GET(){
+            $orgId    = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : '10c84edd-500b-49e3-93a5-a2c8cd2c8524';
+            $location = FCPATH . "/assets/documenttemp/";
+            if (is_dir($location)) {
+                $pdfFiles = glob($location . "*.pdf");
+        
+                if (!empty($pdfFiles)) {
+                    foreach ($pdfFiles as $file) {
+                        // Use basename to get only the filename for splitting
+                        $partsfile = explode("-", basename($file));
+        
+                        if (count($partsfile) === 5) {
+                            $nofile      = $partsfile[0];
+                            $jenisdoc    = $partsfile[1];
+                            $assign      = $partsfile[2];
+                            $pasienid    = $partsfile[3];
+                            $transaksiid = str_replace(".pdf", "", $partsfile[4]);
+        
+                            $data['org_id']        = $orgId;
+                            $data['no_file']       = $nofile;
+                            $data['status_file']   = "1";
+                            $data['jenis_doc']     = $jenisdoc;
+                            $data['assign']        = $assign;
+                            $data['pasien_idx']    = $pasienid;
+                            $data['transaksi_idx'] = $transaksiid;
+                            $data['source_file']   = "DTECHNOLOGY";
+        
+                            if ($this->md->insertsigndocument($data)) {
+                                // Define the new location with only the filename for the new path
+                                $newLocation = FCPATH . "/assets/document/" . $nofile . ".pdf";
+        
+                                // Move the file to the new location
+                                if (rename($file, $newLocation)) {
+                                    $this->response("Data Added Successfully and file moved", 200);
+                                } else {
+                                    $this->response("Data Added Successfully, but file failed to move", 200);
+                                }
+                            } else {
+                                $this->response("Data Failed to Add", 200);
+                            }
+                        } else {
+                            $this->response("The array does not have 5 elements", 200);
+                        }
+                    }
+                } else {
+                    $this->response("No PDF files found in the directory.", 200);
+                }
+            } else {
+                $this->response("Directory does not exist.", 200);
+            }
+        }
+        
     }
 
 ?>

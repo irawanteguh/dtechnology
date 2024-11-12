@@ -47,8 +47,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-				<h1>Better Solutions For Your Business</h1>
-				<h2>We are team of talented designers making websites with Bootstrap</h2>
+        <h1>Better Solutions for Your Healthcare Facility</h1>
+        <h2>We are a team of skilled developers creating integrated hospital applications with seamless functionality</h2>
 				<div class="d-flex justify-content-center justify-content-lg-start">
 					<a href="index.php/auth/sign" class="btn-get-started scrollto">Get Started</a>
 					<a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
@@ -80,25 +80,23 @@
 
         <div class="row content">
           <div class="col-lg-6">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-            </ul>
+              <p>
+                  Our mission is to empower hospitals with integrated software solutions that simplify and enhance every aspect of patient care and hospital management. We specialize in developing user-centric applications that bridge the gap between healthcare providers, patients, and administrative staff.
+              </p>
+              <ul>
+                  <li><i class="ri-check-double-line"></i> Comprehensive solutions for streamlined hospital workflows</li>
+                  <li><i class="ri-check-double-line"></i> Seamless integration across departments for better communication</li>
+                  <li><i class="ri-check-double-line"></i> Secure, scalable, and efficient technology designed for healthcare</li>
+              </ul>
           </div>
           <div class="col-lg-6 pt-4 pt-lg-0">
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <a href="#" class="btn-learn-more">Learn More</a>
+              <p>
+                  By focusing on quality, reliability, and innovation, we provide hospitals with the tools they need to improve patient outcomes, enhance operational efficiency, and stay at the forefront of healthcare technology. Our team is dedicated to supporting healthcare institutions as they transition to modern, digital-first systems that make healthcare accessible and efficient.
+              </p>
+              <a href="#" class="btn-learn-more">Learn More</a>
           </div>
-        </div>
+      </div>
+
 
       </div>
     </section>

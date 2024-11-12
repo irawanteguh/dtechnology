@@ -3,12 +3,13 @@
 
     $route['default_controller'] = 'landingpage/landingpage';
 
-    $route['authtilaka']         = 'restapi/tilaka/TilakaserviceV5/auth';
-    $route['uploadallfile']      = 'restapi/tilaka/TilakaserviceV5/uploadallfile';
-    $route['requestsign']        = 'restapi/tilaka/TilakaserviceV5/requestsign';
-    $route['excutesign']         = 'restapi/tilaka/TilakaserviceV5/excutesign';
-    $route['statussign']         = 'restapi/tilaka/TilakaserviceV5/statussign';
-    $route['appkyc']             = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
+    $route['authtilaka']    = 'restapi/tilaka/TilakaserviceV5/auth';
+    $route['uploadallfile'] = 'restapi/tilaka/TilakaserviceV5/uploadallfile';
+    $route['requestsign']   = 'restapi/tilaka/TilakaserviceV5/requestsign';
+    $route['excutesign']    = 'restapi/tilaka/TilakaserviceV5/excutesign';
+    $route['statussign']    = 'restapi/tilaka/TilakaserviceV5/statussign';
+    $route['appkyc']        = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
+    $route['getfile']       = 'restapi/tilaka/TilakaserviceV5/getfile';
 
     $route['authtilaka/bulk']        = 'restapi/tilaka/Tilakaservicebulk/auth';
     $route['uploadallfile/bulk']     = 'restapi/tilaka/Tilakaservicebulk/uploadallfile';
