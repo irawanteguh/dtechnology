@@ -201,15 +201,16 @@ function datakaryawan(){
                                     "data-issueid='"+result[i].ISSUE_ID+"'"+
                                     "data-email='"+result[i].EMAIL+"'";
 
-                    btnedit           = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-edituser' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil'></i> Perbaharui Data</a>";
-                    btnpengajuan      = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-registerusertilaka' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Pengajuan</a>";
-                    btnrevoke         = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-revoke' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
-                    btnreenroll       = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-reenroll' "+getvariabel+" onclick='getdata($(this));' title='Re Enroll'><i class='fa-solid fa-user-clock text-success'></i> Re Enroll</a>";
-                    btncheckstatus    = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
-                    btnverifpengajuan = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
-                    btnappcertificate = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-shield-check'></i> Activation</a>";
-                    btnapprevoke      = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/revoke?revoke_id="+result[i].REVOKE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi' title='Revoke Approval'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
-                    btngantimfa       = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/login?setting=2&tilaka_name="+result[i].USER_IDENTIFIER+"&redirect_url="+url+"index.php/tilakaV2/registrasi&channel_id="+clientidtilaka+"'><i class='fa-solid fa-arrows-spin text-primary'></i> Change MFA</a>";
+                    btnedit             = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-edituser' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil'></i> Perbaharui Data</a>";
+                    btnpengajuan        = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-registerusertilaka' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Pengajuan</a>";
+                    btnrevoke           = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-revoke' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Revoke</a>";
+                    btnreenroll         = "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-reenroll' "+getvariabel+" onclick='getdata($(this));' title='Re Enroll'><i class='fa-solid fa-user-clock text-success'></i> Re Enroll</a>";
+                    btncheckstatus      = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
+                    btnverifpengajuan   = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
+                    btnappcertificate   = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-shield-check'></i> Activation</a>";
+                    btnapprevoke        = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/revoke?revoke_id="+result[i].REVOKE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi' title='Revoke Approval'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
+                    btngantimfa         = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/login?setting=2&tilaka_name="+result[i].USER_IDENTIFIER+"&redirect_url="+url+"index.php/tilakaV2/registrasi&channel_id="+clientidtilaka+"'><i class='fa-solid fa-arrows-spin text-primary'></i> Change MFA</a>";
+                    btnverifikasienroll = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
 
                     if(result[i].REGISTER_ID==="" || result[i].REGISTER_ID===null){
                         if(result[i].REASON_CODE==="3"){
@@ -241,8 +242,13 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="1"){
-                        statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
-                        btnaction  = btncheckstatus;
+                        if(result[i].ISSUE_ID!=''){
+                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-info fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                            btnaction  = btnverifikasienroll;
+                        }else{
+                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
+                            btnaction  = btncheckstatus;
+                        }
                     }
 
                     if(result[i].CERTIFICATE==="2"){
