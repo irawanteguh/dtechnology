@@ -237,18 +237,19 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=""){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di Revoke</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
-                        btnaction = btnreenroll;
+                        if(result[i].ISSUE_ID===''){
+                            statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di Revoke</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
+                            btnaction = btnreenroll;
+                        }else{
+                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                            btnaction  = btnverifikasienroll;
+                        }
+                        
                     }
 
                     if(result[i].CERTIFICATE==="1"){
-                        if(result[i].ISSUE_ID!=''){
-                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
-                            btnaction  = btnverifikasienroll;
-                        }else{
-                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
-                            btnaction  = btncheckstatus;
-                        }
+                        statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
+                        btnaction  = btncheckstatus;
                     }
 
                     if(result[i].CERTIFICATE==="2"){
