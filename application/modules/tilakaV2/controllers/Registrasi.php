@@ -146,6 +146,19 @@
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                             redirect("tilakaV2/registrasi",$data);
                         }
+                        if($_GET['status'] === "Berhasil"){
+                            $result   = $this->md->dataregistrasirevokeid($_SESSION['orgid'],$_GET['revoke_id']);
+
+                            $body['user_identifier']=$result->USER_IDENTIFIER;
+                            $response = Tilaka::checkcertificateuser(json_encode($body));
+
+                            if($response['success']){
+                                $datasimpan['CERTIFICATE']      = $response['status'];
+                                $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                            }
+                            $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
+                            redirect("tilakaV2/registrasi",$data);
+                        }
                     }else{
                         if(isset($_GET['tilaka_name'])){
                             redirect("tilakaV2/registrasi",$data);
