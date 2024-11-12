@@ -170,9 +170,10 @@
                                 if($response['success']){
                                     $datasimpan['CERTIFICATE']      = $response['status'];
                                     $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+
+                                    $this->md->updatedataissueid($datasimpan,$_GET['issue_id']);
+                                    redirect("tilakaV2/registrasi",$data);
                                 }
-                                $this->md->updatedataissueid($datasimpan,$_GET['issue_id']);
-                                redirect("tilakaV2/registrasi",$data);
                             }
                         }else{
                             if(isset($_GET['tilaka_name'])){
@@ -426,17 +427,26 @@
             $response = Tilaka::revoke(json_encode($body));
             
             if($response['success']){
-                $data['REVOKE_ID']=$response['data'][0];
-                $data['ISSUE_ID']="";
-                $this->md->updatedatauseridentifier($data,$useridentifier);
+                $result   = $this->md->checkrevokeid($_SESSION['orgid'],$response['data'][0]);
+
+                $body['user_identifier']=$result->USER_IDENTIFIER;
+                $response = Tilaka::checkcertificateuser(json_encode($body));
+
+                if($response['success']){
+                    $datasimpan['CERTIFICATE']      = $response['status'];
+                    $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                    $datasimpan['REVOKE_ID']        = $response['data'][0];
+                    $datasimpan['ISSUE_ID']         = "";
+                    $this->md->updatedatarevokeid($datasimpan,$response['data'][0]);
+
+                    $json["responCode"]   = "00";
+                    $json["responHead"]   = "success";
+                    $json["responDesc"]   = "Data Di Temukan";
+                    $json['responResult'] = $response;
+
+                    echo json_encode($json);
+                }
             }
-
-            $json["responCode"]   = "00";
-            $json["responHead"]   = "success";
-            $json["responDesc"]   = "Data Di Temukan";
-            $json['responResult'] = $response;
-
-            echo json_encode($json);
         }
 
         public function reenroll(){
