@@ -11,6 +11,11 @@ $('#modal-registerusertilaka').on('shown.bs.modal', function (e) {
     $('#checkboxsyarattilaka').prop('checked', false);
 });
 
+$('#modal-reenroll').on('shown.bs.modal', function (e) {
+    $('#btnregistrasiusertilakareenroll').prop('disabled', true);
+    $('#checkboxsyarattilakareenroll').prop('checked', false);
+});
+
 $('#modal-edituser').on('hidden.bs.modal', function (e) {
     if (Dropzone.instances.length > 0) {
         Dropzone.instances.forEach(dz => dz.destroy());
