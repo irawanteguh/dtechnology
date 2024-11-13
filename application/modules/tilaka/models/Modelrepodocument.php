@@ -12,10 +12,10 @@
                                      (select NAME from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
                                     (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
                             from dt01_gen_document_file_dt a
-                            where a.active='1'
-                            and   a.status_sign<>'0'
+                            where a.status_sign<>'0'
                             ".$parameter." 
                             and a.created_date >= NOW() - INTERVAL 3 DAY
+                            a.active='1'
                             union
                             select a.NO_FILE, FILENAME, STATUS_SIGN, STATUS_FILE, LINK, NOTE, SOURCE_FILE, created_date, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
                                     (select USER_IDENTIFIER from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
@@ -23,9 +23,9 @@
                                      (select NAME from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
                                     (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
                             from dt01_gen_document_file_dt a
-                            where a.active='1'
-                            and   a.status_sign='0'
+                            where a.status_sign='0'
                             ".$parameter."
+                            a.active='1'
                         )x
                         order by created_date desc
                     ";
