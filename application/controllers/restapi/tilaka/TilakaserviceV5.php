@@ -66,7 +66,6 @@
                                     }
                                     $responseall['ResponseTilaka'] = $response;
                                 }else{
-                                    $data['ACTIVE']     = "0";
                                     $data['NOTE'] = $responsecheckcertificate['data'][0]['status'];
                                     $responseall['ResponseTilaka'] = $responsecheckcertificate;
                                 }
