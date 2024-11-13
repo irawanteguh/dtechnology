@@ -152,7 +152,7 @@
                         if($_GET['status'] === "Berhasil"){
                             $result   = $this->md->checkrevokeid($_SESSION['orgid'],$_GET['revoke_id']);
 
-                            $body['user_identifier']=$result->user_identifier;
+                            $body['user_identifier']=$result->USER_IDENTIFIER;
                             $response = Tilaka::checkcertificateuser(json_encode($body));
 
                             if($response['success']){
