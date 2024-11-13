@@ -87,6 +87,21 @@
             $recordset = $recordset->row();
             return $recordset;
         }
+
+        function checkrevokeid($orgid,$revokeid){
+            $query =
+                    "
+                        select a.*
+                        from dt01_gen_user_data a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        and   a.revoke_id='".$revokeid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
         
         function checkissueid($orgid,$issueid){
             $query =
