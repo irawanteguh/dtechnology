@@ -430,9 +430,8 @@
             $response = Tilaka::revoke(json_encode($body));
             
             if($response['success']){
-                $result   = $this->md->checkrevokeid($_SESSION['orgid'],$response['data'][0]);
 
-                $body['user_identifier']=$result->USER_IDENTIFIER;
+                $body['user_identifier']=$useridentifier;
                 $response = Tilaka::checkcertificateuser(json_encode($body));
 
                 if($response['success']){
