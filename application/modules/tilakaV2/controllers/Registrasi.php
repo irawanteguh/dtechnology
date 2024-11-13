@@ -432,9 +432,9 @@
             if($response['success']){
 
                 $body['user_identifier']=$useridentifier;
-                $response = Tilaka::checkcertificateuser(json_encode($body));
+                $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
 
-                if($response['success']){
+                if($responsecheckcertificateuser['success']){
                     $datasimpan['CERTIFICATE']      = $response['status'];
                     $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
                     $datasimpan['REVOKE_ID']        = $response['data'][0];
