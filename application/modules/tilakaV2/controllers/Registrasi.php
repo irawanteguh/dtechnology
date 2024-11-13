@@ -435,8 +435,8 @@
                 $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
 
                 if($responsecheckcertificateuser['success']){
-                    $datasimpan['CERTIFICATE']      = $response['status'];
-                    $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                    $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
+                    $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                     $datasimpan['REVOKE_ID']        = $response['data'][0];
                     $datasimpan['ISSUE_ID']         = "";
                     $this->md->updatedatarevokeid($datasimpan,$response['data'][0]);
