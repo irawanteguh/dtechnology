@@ -91,6 +91,7 @@
             // }
 
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
+                
                 if($_GET['reason_code'] === "0" && $_GET['status']==="S"){ // reason code 0 : Sukses KYC, status S : Sukses
                     $body['register_id']=$_GET['register_id'];
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
@@ -106,6 +107,8 @@
                                 $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
                                 $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
                                 $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
+                                $datasimpan['REVOKE_ID']        = "";
+                                $datasimpan['ISSUE_ID']         = "";
                             }
 
                             $this->md->updatedataregister($datasimpan,$_GET['register_id']);
