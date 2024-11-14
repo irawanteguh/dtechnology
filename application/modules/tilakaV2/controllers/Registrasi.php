@@ -414,7 +414,7 @@
             }else{
                 $json["responCode"]   = "01";
                 $json["responHead"]   = "info";
-                $json["responDesc"]   = $response['message']['info'];
+                $json["responDesc"]   = $response['message'];
                 $json['responResult'] = $response;
             }
             
