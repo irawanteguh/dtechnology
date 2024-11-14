@@ -244,11 +244,11 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].USER_IDENTIFIER!=""){
-                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Sialakan Melakukan Pengajuan Kembali</div></td>";
+                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Silakan Melakukan Pengajuan Kembali</div></td>";
                         btnaction = btnreenroll;
                     }
 
-                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID===""){
+                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER==="" && result[i].REVOKE_ID===""){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
                     }
 
@@ -282,7 +282,7 @@ function datakaryawan(){
                             statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
                             btnaction  = btncheckstatus+btnrevoke+btngantimfa;
                         }else{
-                            statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Sialakan Melakukan Pengajuan Kembali</div></td>";
+                            statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Silakan Melakukan Pengajuan Kembali</div></td>";
                             btnaction = btncheckstatus+btnreenroll;
                         }   
                     }
