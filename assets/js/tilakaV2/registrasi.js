@@ -195,6 +195,7 @@ function datakaryawan(){
 
             if(data.responCode==="00"){
                 var result = data.responResult;
+
                 for(var i in result){
                     var randomIndex = Math.floor(Math.random() * color.length);
                     var randomColor = color[randomIndex];
@@ -240,6 +241,11 @@ function datakaryawan(){
                     if(result[i].REGISTER_ID!="" && result[i].CERTIFICATE===""){
                         statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                         btnaction = btnverifpengajuan;
+                    }
+
+                    if(result[i].CERTIFICATE==="0" && result[i].USER_IDENTIFIER!=""){
+                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Sialakan Melakukan Pengajuan Kembali</div></td>";
+                        btnaction = btnreenroll;
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID===""){
