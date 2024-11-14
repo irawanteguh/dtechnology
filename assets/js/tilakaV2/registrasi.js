@@ -109,6 +109,16 @@ function certificatestatus(btn){
 
             if(result['success']){
                 
+                if(result['status']===0){
+                    showAlert(
+                        "For Your Information",
+                        result['message']['info'],
+                        "info",
+                        "Please Check Again",
+                        "btn btn-info"
+                    );
+                };
+
                 if(result['status']===1){
                     showAlert(
                         "For Your Information",
