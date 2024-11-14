@@ -141,7 +141,7 @@ function certificatestatus(btn){
             }else{
                 showAlert(
                     "For Your Information",
-                    result['message']['info'],
+                    result['message'],
                     "error",
                     "Please Try Again",
                     "btn btn-danger"
