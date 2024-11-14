@@ -273,7 +273,7 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan revoke account tilaka</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
-                        btnaction  = btncheckstatus+btnapprevoke;
+                        btnaction  = btnapprevoke;
                     }
 
                     tableresult +="<tr>";
