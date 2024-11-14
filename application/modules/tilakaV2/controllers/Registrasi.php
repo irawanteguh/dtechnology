@@ -319,6 +319,12 @@
                 $data['CERTIFICATE']      = $response['status'];
                 $data['CERTIFICATE_INFO'] = $response['message']['info'];
                 
+                if($response['status']===0){ 
+                    if($response['data'][0]['status']==="Expired"){
+                        $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
+                    }
+                }
+
                 if($response['status']===3){ // status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system)
                     $data['REVOKE_ID']   = "";
                     $data['ISSUE_ID']    = "";
