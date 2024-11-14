@@ -439,7 +439,8 @@
                     $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                     $datasimpan['REVOKE_ID']        = $response['data'][0];
                     $datasimpan['ISSUE_ID']         = "";
-                    $this->md->updatedatarevokeid($datasimpan,$response['data'][0]);
+
+                    $this->md->updatedatauseridentifier($datasimpan,$useridentifier);
 
                     $json["responCode"]   = "00";
                     $json["responHead"]   = "success";
