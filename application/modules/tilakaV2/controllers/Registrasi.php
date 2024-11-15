@@ -42,6 +42,18 @@
                             $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                             redirect("tilakaV2/registrasi",$data);
                         }
+
+                        if($responsecheckregistrasiuser['data']['status']==="F"){ // reason code 0 : Sukses KYC, status S : Sukses
+                            $datasimpan['IMAGE_IDENTITY']  = "N";
+                            $datasimpan['REASON_CODE']     = $_GET['reason_code'];
+                            $datasimpan['USER_IDENTIFIER'] = "";
+                            $datasimpan['REGISTER_ID']     = "";
+                            $datasimpan['REVOKE_ID']       = "";
+                            $datasimpan['ISSUE_ID']        = "";
+                            
+                            $this->md->updatedataregister($datasimpan,$_GET['register_id']);
+                            redirect("tilakaV2/registrasi",$data);
+                        }
                     }
                 }
 
