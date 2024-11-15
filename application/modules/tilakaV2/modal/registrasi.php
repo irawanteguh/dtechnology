@@ -377,7 +377,7 @@
                                 Segala sengketa terkait dengan penafsiran atau pelaksanaan dari S&K ini, para pihak sepakat untuk menyelesaikan secara musyawarah untuk mufakat. Apabila penyelesaian secara musyawarah untuk mencapai sepakat tersebut tidak tercapai, maka para pihak sepakat untuk menyelesaikannya melalui Pengadilan Negeri Jakarta Selatan sesuai domisili PSrE TILAKA.
                             </p>
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" value="" id="checkboxsyarattilaka"/>
+                                <input class="form-check-input" type="checkbox" value="" id="checkboxsyarattilakareenroll"/>
                                 <label class="form-check-label" for="flexCheckDefault">
                                 Dengan Ini Saya Telah Membaca, Memahaminya dan Menyetujui Syarat dan Kententuan Yang Berlaku
                                 </label>
