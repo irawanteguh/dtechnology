@@ -161,7 +161,7 @@
                                 <li>Pelanggan adalah Korporasi atau Personal yang berlangganan Layanan TILAKA.</li>
                                 <li><b>PT Tilaka Nusa Teknologi</b> (“PSrE TILAKA”) adalah PSrE dengan status pengakuan berinduk yang Sertifikatnya telah ditandatangani oleh PSrE Induk.</li>
                                 <li>Mitra Bisnis adalah perorangan, badan hukum, dan/atau badan usaha yang memiliki hubungan hukum baik secara langsung maupun tidak langsung dengan PSrE TILAKA dan dapat dibuktikan oleh suatu dokumen yang dapat menunjukkan hubungan hukum tersebut.</li>
-                                <li>Repositori Tilaka adalah suatu halaman pada website PSrE TILAKA yang berisi semua dokumen publik milik PSrE TILAKA, yang dapat diakses melalui <a href="https://repository.tilaka.id/" target="_blank">https://repository.tilaka.id/.</li>
+                                <li>Repositori Tilaka adalah suatu halaman pada website PSrE TILAKA yang berisi semua dokumen publik milik PSrE TILAKA, yang dapat diakses melalui <a href="https://repository.tilaka.id/" target="_blank">https://repository.tilaka.id/</a>.</li>
                                 <li>Sertifikat adalah Sertifikat yang bersifat elektronik yang memuat tanda tangan elektronik dan identitas yang menunjukkan status subjek hukum para pihak dalam transaksi elektronik.</li>
                                 <li>Sertifikat Pemilik adalah Sertifikat yang diterbitkan oleh PSrE TILAKA.</li>
                             </ol>
