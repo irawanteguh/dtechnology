@@ -133,7 +133,7 @@
                             <p class="text-xs" style="text-align: justify;">
                                 Dengan ini, <b>PT Tilaka Nusa Teknologi</b> (“PSrE TILAKA” atau “Kami”) ingin menyampaikan
                                 bahwa selaku pemilik dan pengelola dari Layanan Tanda Tangan Elektronik yang dapat digunakan baik
-                                dengan mengakses secara langsung melalui URL: <a href="https://corporate.tilaka.id/ca-corporate-portal/login.xhtml">https://corporate.tilaka.id/ca-corporate-portal/login.xhtml</a>
+                                dengan mengakses secara langsung melalui URL: <a href="https://corporate.tilaka.id/ca-corporate-portal/login.xhtml" target="_blank">https://corporate.tilaka.id/ca-corporate-portal/login.xhtml</a>
                                 atau melalui aplikasi yang dibuat, dikelola, dikembangkan, atau dimiliki oleh Mitra Bisnis (“Layanan TILAKA”)
                                 memiliki syarat dan ketentuan (“S&K”) yang harus Pemilik dan/atau Pemohon (“Anda”) setujui sebelum menggunakan Layanan TILAKA.
                                 Anda berkewajiban untuk membaca, memahami, dan menyetujui isi dari S&K ini sebelum melakukan permohonan penerbitan,
