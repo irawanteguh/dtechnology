@@ -25,7 +25,7 @@
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
 
                     if($responsecheckregistrasiuser['success']){
-                        if($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0"){ // reason code 0 : Sukses KYC, status S : Sukses
+                        if(($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0") || ($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="2")){ // reason code 0 : Sukses KYC, status S : Sukses
                             
                             
                             $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
@@ -43,17 +43,6 @@
                             redirect("tilakaV2/registrasi",$data);
                         }
 
-                        if($responsecheckregistrasiuser['data']['status']==="F"){ // reason code 0 : Sukses KYC, status S : Sukses
-                            $datasimpan['IMAGE_IDENTITY']  = "N";
-                            $datasimpan['REASON_CODE']     = $_GET['reason_code'];
-                            $datasimpan['USER_IDENTIFIER'] = "";
-                            $datasimpan['REGISTER_ID']     = "";
-                            $datasimpan['REVOKE_ID']       = "";
-                            $datasimpan['ISSUE_ID']        = "";
-                            
-                            $this->md->updatedataregister($datasimpan,$_GET['register_id']);
-                            redirect("tilakaV2/registrasi",$data);
-                        }
                     }
                 }
 
