@@ -131,9 +131,22 @@
                             <br>
                             <h5>Selamat datang di Layanan TILAKA!</h5>
                             <p class="text-xs" style="text-align: justify;">
-                                Dengan ini, <b>PT Tilaka Nusa Teknologi</b> (“PSrE TILAKA” atau “Kami”) ingin menyampaikan bahwa  selaku pemilik dan pengelola dari Layanan Tanda Tangan Elektronik yang dapat digunakan baik dengan mengakses secara langsung melalui URL: <a href="https://corporate.tilaka.id/ca-corporate-portal/login.xhtml">https://corporate.tilaka.id/ca-corporate-portal/login.xhtml</a> atau melalui aplikasi yang dibuat, dikelola, dikembangkan, atau dimiliki oleh <?php $_SESSION['hospitalname']?> (“Layanan TILAKA”) memiliki syarat dan ketentuan (“S&K”) yang harus Pemilik dan/atau Pemohon (“Anda”) setujui sebelum menggunakan Layanan TILAKA. Anda berkewajiban untuk membaca, memahami, dan menyetujui isi dari S&K ini sebelum melakukan melakukan permohonan penerbitan, permohonan penerbitan ulang, permohonan penggantian kunci, menerima, dan/atau menggunakan Sertifikat Pemilik (“Mengakses Layanan TILAKA”). Dalam hal Anda tidak menyetujui sebagian atau seluruh ketentuan yang diatur dalam S&K ini, maka Anda tidak diperkenankan untuk Mengakses Layanan TILAKA.
-                                S&K ini berlaku efektif setelah ditampilkan pada salah satu halaman pada Layanan TILAKA saat Anda mengajukan permohonan penerbitan, permohonan penerbitan ulang, dan/atau permohonan penggantian kunci Sertifikat Pemilik. Atas permohonan permohonan penerbitan, permohonan penerbitan ulang, permohonan penggantian kunci Sertifikat Pemilik yang dilakukan setelah S&K ini berlaku efektif, maka ketentuan pada S&K ini berlaku untuk Pemilik.
-                                Anda dengan ini mengetahui, mengerti, dan menyetujui bahwa S&K ini merupakan Dokumen Elektronik dan tindakan Anda memberikan tanda “centang” saat permohonan permohonan penerbitan, permohonan penerbitan ulang, dan/atau permohonan penggantian kunci Sertifikat Pemilik merupakan persetujuan Anda secara aktif untuk mengikatkan diri dan tunduk pada ketentuan yang terdapat pada S&K ini. Oleh karena itu, S&K ini telah berlaku sah dan mengikat Anda secara hukum dan terus berlaku sepanjang anda Mengakses Layanan TILAKA.
+                                Dengan ini, <b>PT Tilaka Nusa Teknologi</b> (“PSrE TILAKA” atau “Kami”) ingin menyampaikan
+                                bahwa selaku pemilik dan pengelola dari Layanan Tanda Tangan Elektronik yang dapat digunakan baik
+                                dengan mengakses secara langsung melalui URL: <a href="https://corporate.tilaka.id/ca-corporate-portal/login.xhtml">https://corporate.tilaka.id/ca-corporate-portal/login.xhtml</a>
+                                atau melalui aplikasi yang dibuat, dikelola, dikembangkan, atau dimiliki oleh Mitra Bisnis (“Layanan TILAKA”)
+                                memiliki syarat dan ketentuan (“S&K”) yang harus Pemilik dan/atau Pemohon (“Anda”) setujui sebelum menggunakan Layanan TILAKA.
+                                Anda berkewajiban untuk membaca, memahami, dan menyetujui isi dari S&K ini sebelum melakukan permohonan penerbitan,
+                                permohonan penerbitan ulang, permohonan penggantian kunci, menerima, dan/atau menggunakan Sertifikat Pemilik (“Mengakses Layanan TILAKA”).
+                                Dalam hal Anda tidak menyetujui sebagian atau seluruh ketentuan yang diatur dalam S&K ini, maka Anda tidak diperkenankan untuk Mengakses Layanan TILAKA.
+                                S&K ini berlaku efektif setelah ditampilkan pada salah satu halaman pada Layanan TILAKA saat Anda mengajukan permohonan penerbitan, permohonan penerbitan ulang,
+                                dan/atau permohonan penggantian kunci Sertifikat Pemilik. Atas permohonan penerbitan, permohonan penerbitan ulang, dan/atau permohonan penggantian
+                                kunci Sertifikat Pemilik yang dilakukan setelah S&K ini berlaku efektif, maka ketentuan pada S&K ini berlaku untuk Pemilik.
+                                Anda dengan ini mengetahui, mengerti, dan menyetujui bahwa S&K ini merupakan Dokumen Elektronik dan tindakan Anda memberikan tanda “centang”
+                                saat permohonan penerbitan, permohonan penerbitan ulang, dan/atau permohonan penggantian kunci Sertifikat
+                                Pemilik merupakan persetujuan Anda secara aktif untuk mengikatkan diri dan tunduk pada ketentuan
+                                yang terdapat pada S&K ini. Oleh karena itu, S&K ini telah berlaku sah dan mengikat Anda secara hukum
+                                dan terus berlaku sepanjang anda Mengakses Layanan TILAKA.
                             </p>
                             <br>
                             <h5>Definisi</h5>
