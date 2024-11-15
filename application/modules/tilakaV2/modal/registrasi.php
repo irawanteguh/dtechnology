@@ -157,10 +157,11 @@
                                 <li>Hari Kalender adalah semua hari dalam satu tahun sesuai kalender gregorius tanpa kecuali termasuk hari Sabtu, Minggu, dan hari libur nasional yang ditetapkan sewaktu-waktu oleh Pemerintah.</li>
                                 <li>Kontrak Elektronik adalah Perjanjian yang dibuat melalui sistem elektronik.</li>
                                 <li>Pemilik adalah Warga Negara Indonesia yang berada dalam ruang lingkup Pelanggan dan merupakan subjek dari Sertifikat Pemilik.</li>
-                                <li>Pemohon adalah Warga Negara Indonesia yang berada dalam ruang lingkup Pelanggan yang mengajukan permohonan penerbitan atau penerbitan ulang atau penggantian kunci Sertifikat dalam ruang lingkup Pelanggan. Setelah Sertifikat diterbitkan, Pemohon disebut sebagai Pemilik.</li>
+                                <li>Pemohon adalah Warga Negara Indonesia yang berada dalam ruang lingkup Pelanggan yang mengajukan permohonan penerbitan, penerbitan ulang, atau penggantian kunci Sertifikat Pemilik dalam ruang lingkup Pelanggan. Setelah Sertifikat diterbitkan, Pemohon disebut sebagai Pemilik.</li>
                                 <li>Pelanggan adalah Korporasi atau Personal yang berlangganan Layanan TILAKA.</li>
                                 <li><b>PT Tilaka Nusa Teknologi</b> (“PSrE TILAKA”) adalah PSrE dengan status pengakuan berinduk yang Sertifikatnya telah ditandatangani oleh PSrE Induk.</li>
-                                <li>Repositori Tilaka adalah suatu halaman pada website PSrE TILAKA yang berisi semua dokumen publik milik PSrE TILAKA, yang dapat diakses melalui <a href="https://repository.tilaka.id/">https://repository.tilaka.id/</a>.</li>
+                                <li>Mitra Bisnis adalah perorangan, badan hukum, dan/atau badan usaha yang memiliki hubungan hukum baik secara langsung maupun tidak langsung dengan PSrE TILAKA dan dapat dibuktikan oleh suatu dokumen yang dapat menunjukkan hubungan hukum tersebut.</li>
+                                <li>Repositori Tilaka adalah suatu halaman pada website PSrE TILAKA yang berisi semua dokumen publik milik PSrE TILAKA, yang dapat diakses melalui <a href="https://repository.tilaka.id/" target="_blank">https://repository.tilaka.id/.</li>
                                 <li>Sertifikat adalah Sertifikat yang bersifat elektronik yang memuat tanda tangan elektronik dan identitas yang menunjukkan status subjek hukum para pihak dalam transaksi elektronik.</li>
                                 <li>Sertifikat Pemilik adalah Sertifikat yang diterbitkan oleh PSrE TILAKA.</li>
                             </ol>
