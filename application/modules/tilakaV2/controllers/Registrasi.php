@@ -107,6 +107,13 @@
                                     redirect("tilakaV2/registrasi",$data);
                                 }
                             }
+
+                            if($_GET['status'] === "Selesai" && ($_GET['reason_code'] === "2" || $_GET['reason_code'] === "3")){
+                                $datasimpan['ISSUE_ID']      = "";
+
+                                $this->md->updatedataissueid($datasimpan,$_GET['issue_id']);
+                                redirect("tilakaV2/registrasi",$data);
+                            }
                         }else{
                             if(isset($_GET['tilaka_name'])){
                                 redirect("tilakaV2/registrasi",$data);
