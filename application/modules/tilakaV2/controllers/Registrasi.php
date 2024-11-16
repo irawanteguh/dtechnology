@@ -78,6 +78,7 @@
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                             redirect("tilakaV2/registrasi",$data);
                         }
+
                         if($_GET['status'] === "Berhasil"){
                             $result   = $this->md->checkrevokeid($_SESSION['orgid'],$_GET['revoke_id']);
 
@@ -108,8 +109,8 @@
                                 }
                             }
 
-                            if($_GET['status'] === "Selesai" && ($_GET['reason_code'] === "2" || $_GET['reason_code'] === "3")){
-                                $datasimpan['ISSUE_ID']      = "";
+                            if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "2" ){
+                                $datasimpan['REASON_CODE']     = $_GET['reason_code'];
 
                                 $this->md->updatedataissueid($datasimpan,$_GET['issue_id']);
                                 redirect("tilakaV2/registrasi",$data);
