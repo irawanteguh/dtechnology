@@ -243,6 +243,11 @@ function datakaryawan(){
                         btnaction = btnverifpengajuan;
                     }
 
+                    if(result[i].CERTIFICATE==="0" && result[i].status_expdate==="1"){
+                        statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Silakan Melakukan Pengajuan Kembali</div></td>";
+                        btnaction = btnreenroll;
+                    }
+
                     if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER==="" && result[i].REVOKE_ID===""){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
                     }
