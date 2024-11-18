@@ -1,9 +1,12 @@
 <?php
-      // - status 0 → tidak ada sertifikat atas user_identifier tersebut
-      // - status 1 → registrasi sertifikat masih dalam proses verifikator/validator (belum final),
-      // - status 2 → sertifikat registered (telah diterbitkan),
-      // - status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system),
-      // - status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
+    // - status 0 → tidak ada sertifikat atas user_identifier tersebut
+    // - status 1 → registrasi sertifikat masih dalam proses verifikator/validator (belum final),
+    // - status 2 → sertifikat registered (telah diterbitkan),
+    // - status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system),
+    // - status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
+
+    
+
 
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -57,6 +60,7 @@
                     $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                     redirect("tilakaV2/registrasi",$data);
                 }
+
             }else{
                 if(isset($_GET['request_id']) && isset($_GET['tilaka_name']) && isset($_GET['tilaka-name']) && isset($_GET['request-id'])){
                     $body['user_identifier']=$_GET['tilaka_name'];
@@ -72,12 +76,7 @@
                     $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                     redirect("tilakaV2/registrasi",$data);
                 }else{
-                    if(isset($_GET['revoke_id']) && isset($_GET['status'])){
-                        if($_GET['status'] === "Gagal"){
-                            $datasimpan['REVOKE_ID']="";
-                            $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
-                            redirect("tilakaV2/registrasi",$data);
-                        }
+                    if(isset($_GET['revoke_id']) && isset($_GET['status'])){ // Proses Revoke
 
                         if($_GET['status'] === "Berhasil"){
                             $result   = $this->md->checkrevokeid($_SESSION['orgid'],$_GET['revoke_id']);
@@ -92,9 +91,23 @@
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                             redirect("tilakaV2/registrasi",$data);
                         }
+
+                        if($_GET['status'] === "Gagal"){
+                            $datasimpan['REVOKE_ID']="";
+                            $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
+                            redirect("tilakaV2/registrasi",$data);
+                        }
+
                     }else{
+                        // Proses Re Enroll
+                        // - Reason Code 0 → Sukses KYC
+                        // - Reason Code 1 → Gagal dukcapil (ada data yang tidak sesuai, misal nik tidak ditemukan pada database dukcapil)
+                        // - Reason Code 2 → Liveness Gagal
+                        // - Reason Code 3 → RegisterId expired
+                        
                         if(isset($_GET['issue_id']) && isset($_GET['status']) && isset($_GET['reason_code'])){
-                            if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "0"){
+
+                            if($_GET['status'] === "Selesai" && ($_GET['reason_code'] === "0" || $_GET['reason_code'] === "2")){ 
                                 $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
 
                                 $body['user_identifier']=$result->USER_IDENTIFIER;
@@ -103,18 +116,14 @@
                                 if($response['success']){
                                     $datasimpan['CERTIFICATE']      = $response['status'];
                                     $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                                    $datasimpan['REASON_CODE']      = $_GET['reason_code'];
+                                    $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
 
-                                    $this->md->updatedataissueid($datasimpan,$_GET['issue_id']);
+                                    $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
                                     redirect("tilakaV2/registrasi",$data);
                                 }
                             }
 
-                            if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "2" ){
-                                $datasimpan['REASON_CODE']     = $_GET['reason_code'];
-
-                                $this->md->updatedataissueid($datasimpan,$_GET['issue_id']);
-                                redirect("tilakaV2/registrasi",$data);
-                            }
                         }else{
                             if(isset($_GET['tilaka_name'])){
                                 redirect("tilakaV2/registrasi",$data);
