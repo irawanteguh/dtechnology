@@ -282,7 +282,7 @@ function datakaryawan(){
                         btnaction  = btnappcertificate;
                     }
 
-                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===""){
+                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID===""){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
                         btnaction  = btncheckstatus+btnrevoke+btngantimfa;   
                     }
