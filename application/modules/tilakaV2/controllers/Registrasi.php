@@ -104,10 +104,10 @@
                         // - Reason Code 1 → Gagal dukcapil (ada data yang tidak sesuai, misal nik tidak ditemukan pada database dukcapil)
                         // - Reason Code 2 → Liveness Gagal
                         // - Reason Code 3 → RegisterId expired
-                        
+
                         if(isset($_GET['issue_id']) && isset($_GET['status']) && isset($_GET['reason_code'])){
 
-                            if($_GET['status'] === "Selesai" && ($_GET['reason_code'] === "0" || $_GET['reason_code'] === "2")){ 
+                            if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "0"){ 
                                 $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
 
                                 $body['user_identifier']=$result->USER_IDENTIFIER;
@@ -117,8 +117,27 @@
                                     $datasimpan['CERTIFICATE']      = $response['status'];
                                     $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
                                     $datasimpan['REASON_CODE']      = $_GET['reason_code'];
-                                    $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
+                                    $datasimpan['REVOKE_ID']        = "";
+                                    $datasimpan['ISSUE_ID']         = "";
+                                    
 
+                                    $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
+                                    redirect("tilakaV2/registrasi",$data);
+                                }
+                            }
+
+                            if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "2"){ 
+                                $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
+
+                                $body['user_identifier']=$result->USER_IDENTIFIER;
+                                $response = Tilaka::checkcertificateuser(json_encode($body));
+
+                                if($response['success']){                                    
+                                    $datasimpan['CERTIFICATE']      = $response['status'];
+                                    $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                                    $datasimpan['REASON_CODE']      = $_GET['reason_code'];
+                                    $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
+                                    
                                     $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
                                     redirect("tilakaV2/registrasi",$data);
                                 }
