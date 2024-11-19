@@ -30,20 +30,18 @@
             </div>
             <div class="card-body py-3">
                 <div class="table-responsive">
-                    <table class="table align-middle gs-0 gy-4 table-bordered" id="tablemastermodules">
+                    <table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemastermodules">
                         <thead>
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="ps-4 rounded-start">No Transaction</th>
-                                <th>Created Date</th>
-                                <th>Medical Record</th>
-                                <th>Name</th>
+                                <th>Identity Patient</th>
                                 <th>Polyclinic</th>
-                                <th>Doctor</th>
                                 <th>Provider</th>
+                                <th>Document</th>
                                 <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="align-middle" id="resultlistregistrasi"></tbody>
+                        <tbody class="text-gray-600 fw-bold" id="resultlistregistrasi"></tbody>
                     </table>
                 </div>
             </div>
