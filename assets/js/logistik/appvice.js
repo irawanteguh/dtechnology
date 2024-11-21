@@ -1,41 +1,8 @@
 datarequest();
 
-$('#modal-upload-lampiran').on('hidden.bs.modal', function (e) {
-    if (Dropzone.instances.length > 0) {
-        Dropzone.instances.forEach(dz => dz.destroy());
-    }
-    Dropzone.autoDiscover = false;
-    datarequest();
-});
-
 $('#modal_detail_barang').on('hidden.bs.modal', function (e) {
     datarequest();
 });
-
-function getdetail(btn){
-    var $btn = $(btn);
-    var data_nopemesanan = $btn.attr("data_nopemesanan");
-    var data_status      = $btn.attr("data_status");
-
-    $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
-    $(":hidden[name='no_pemesanan_upload']").val(data_nopemesanan);
-    datadetail(data_nopemesanan,data_status);
-
-    var myDropzone = new Dropzone("#file_doc", {
-        url               : url + "index.php/logistik/request/uploaddocument?no_pemesanan="+data_nopemesanan,
-        acceptedFiles     : '.pdf',
-        paramName         : "file",
-        dictDefaultMessage: "Drop files here or click to upload",
-        maxFiles          : 1,
-        maxFilesize       : 2,
-        addRemoveLinks    : true,
-        autoProcessQueue  : true,
-        accept            : function(file, done) {
-            done();
-            $('#modal-upload-lampiran').modal('hide');
-        }
-    });
-};
 
 function viewdoc(btn) {
     var filename = $(btn).attr("data-dirfile");
@@ -72,14 +39,24 @@ function viewdoc(btn) {
     }
 };
 
+function getdetail(btn){
+    var $btn             = $(btn);
+    var data_nopemesanan = $btn.attr("data_nopemesanan");
+    var data_status      = $btn.attr("data_status");
+
+    $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
+    datadetail(data_nopemesanan,data_status);
+
+};
+
 function datarequest(){
     $.ajax({
-        url       : url+"index.php/logistik/request/datarequest",
+        url       : url+"index.php/logistik/appvice/datarequest",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
-            $("#resultdatarequest").html("");
+            $("#resultappfinance").html("");
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
         },
@@ -97,13 +74,14 @@ function datarequest(){
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_detail_barang' "+getvariabel+" onclick='getdetail(this)'>"+result[i].no_pemesanan+"</a></td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    tableresult +="<td>"+result[i].unit+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     if(result[i].attachment==="0"){
                         tableresult +="<td class='text-center'><a class='btn btn-light-info btn-sm' data-bs-toggle='modal' data-bs-target='#modal-upload-lampiran' "+getvariabel+" onclick='getdetail(this)'>Upload Attachment</a></td>";
                     }else{
-                        tableresult +="<td class='text-center'><a class='btn btn-light-success btn-sm m-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>View</a><a class='btn btn-light-info btn-sm' data-bs-toggle='modal' data-bs-target='#modal-upload-lampiran' "+getvariabel+" onclick='getdetail(this)'>Re Upload</a></td>";
+                        tableresult +="<td class='text-center'><a class='btn btn-light-success btn-sm m-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>View</a></td>";
                     }
                     
                     if(result[i].status==="0"){
@@ -152,7 +130,7 @@ function datarequest(){
 
                     tableresult += "<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
                     
-                    if(result[i].status==="0"){
+                    if(result[i].status==="6"){
                         tableresult += "<td class='text-end'>";
                             tableresult += "<div class='btn-group' role='group'>";
                                 tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
@@ -165,13 +143,12 @@ function datarequest(){
                     }else{
                         tableresult +="<td></td>";
                     }
-                    
 
                     tableresult +="</tr>";
                 }
             }
 
-            $("#resultdatarequest").html(tableresult);
+            $("#resultappfinance").html(tableresult);
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         error: function(xhr, status, error) {
@@ -206,7 +183,7 @@ function datadetail(data_nopemesanan, data_status) {
             if (data.responCode === "00") {
                 result = data.responResult;
                 for (let i in result) {
-                    // Perhitungan VAT dan Subtotal
+
                     const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
                     const harga      = parseFloat(result[i].harga) || 0;
                     const vatPercent = parseFloat(result[i].ppn) || 0;
@@ -219,7 +196,7 @@ function datadetail(data_nopemesanan, data_status) {
                     tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
                     tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
 
-                    if (data_status === "0") {
+                    if (data_status === "6") {
                         tableresult += `<td class='text-end'>
                             <input class='form-control form-control-sm text-end' 
                                    id='qty_${result[i].item_id}' 
@@ -231,7 +208,7 @@ function datadetail(data_nopemesanan, data_status) {
                         tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
                     }
 
-                    if (data_status === "0") {
+                    if (data_status === "6") {
                         tableresult += `<td class='text-end'>
                             <input class='form-control form-control-sm text-end' 
                                    id='harga_${result[i].item_id}' 
@@ -243,7 +220,7 @@ function datadetail(data_nopemesanan, data_status) {
                         tableresult += `<td class='text-end'>${todesimal(result[i].harga)}</td>`;
                     }
 
-                    if (data_status === "0") {
+                    if (data_status === "6") {
                         tableresult += `<td class='text-end'>
                             <input class='form-control form-control-sm text-end' 
                                    id='vat_${result[i].item_id}' 
@@ -364,7 +341,7 @@ function updateVatAndTotal(input) {
 
         // Kirim data perubahan ke database
         var no_pemesanan = $("#no_pemesanan").val();
-        var validasi     = "KAINS";
+        var validasi     = "VICE";
         $.ajax({
             url: url + "index.php/logistik/request/updatedetailitem",
             method: "POST",
@@ -400,7 +377,7 @@ function updateVatAndTotal(input) {
 
 function cancelled(btn){
     var datanopemesanan = btn.attr("data_nopemesanan");
-    var status           = "1";
+    var status           = "7";
 	$.ajax({
         url        : url+"index.php/logistik/request/updateheader",
         data       : {datanopemesanan:datanopemesanan,status:status},
@@ -436,7 +413,7 @@ function cancelled(btn){
 
 function approve(btn){
     var datanopemesanan = btn.attr("data_nopemesanan");
-    var status           = "2";
+    var status           = "8";
 	$.ajax({
         url        : url+"index.php/logistik/request/updateheader",
         data       : {datanopemesanan:datanopemesanan,status:status},

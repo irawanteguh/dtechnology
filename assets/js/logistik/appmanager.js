@@ -98,6 +98,30 @@ function datarequest(){
                                 }else{
                                     if(result[i].status==="4"){
                                         tableresult +="<td><div class='badge badge-light-info fw-bolder'>Approval Manager</div></td>";
+                                    }else{
+                                        if(result[i].status==="5"){
+                                            tableresult +="<td><div class='badge badge-light-danger fw-bolder'>Canceled Finance</div></td>";
+                                        }else{
+                                            if(result[i].status==="6"){
+                                                tableresult +="<td><div class='badge badge-light-info fw-bolder'>Approval Finance</div></td>";
+                                            }else{
+                                                if(result[i].status==="7"){
+                                                    tableresult +="<td><div class='badge badge-light-danger fw-bolder'>Cancelled Vice Director</div></td>";
+                                                }else{
+                                                    if(result[i].status==="8"){
+                                                        tableresult +="<td><div class='badge badge-light-info fw-bolder'>Approval Vice Director</div></td>";
+                                                    }else{
+                                                        if(result[i].status==="9"){
+                                                            tableresult +="<td><div class='badge badge-light-danger fw-bolder'>Cancelled Director</div></td>";
+                                                        }else{
+                                                            if(result[i].status==="10"){
+                                                                tableresult +="<td><div class='badge badge-light-info fw-bolder'>Approval Director</div></td>";
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

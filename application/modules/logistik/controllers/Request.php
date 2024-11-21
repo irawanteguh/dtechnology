@@ -66,6 +66,24 @@
                 $data['MANAGER_ID']   = $_SESSION['userid'];
                 $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
             }
+
+            if($validasi==="FINANCE"){
+                $data['QTY_KEU']  = $qty;
+                $data['KEU_ID']   = $_SESSION['userid'];
+                $data['KEU_DATE'] = date('Y-m-d H:i:s');
+            }
+
+            if($validasi==="VICE"){
+                $data['QTY_WADIR']  = $qty;
+                $data['WADIR_ID']   = $_SESSION['userid'];
+                $data['WADIR_DATE'] = date('Y-m-d H:i:s');
+            }
+
+            if($validasi==="DIR"){
+                $data['QTY_DIR']  = $qty;
+                $data['DIR_ID']   = $_SESSION['userid'];
+                $data['DIR_DATE'] = date('Y-m-d H:i:s');
+            }
             
             $data['HARGA']     = $harga;
             $data['PPN']       = $ppn*100;
@@ -122,13 +140,28 @@
 
         public function updateheader() {
             $datanopemesanan = $this->input->post('datanopemesanan');
-            $status       = $this->input->post('status');
+            $status          = $this->input->post('status');
             
             $data['STATUS'] = $status;
 
             if($status==="3" || $status==="4"){
                 $data['MANAGER_ID']   = $_SESSION['userid'];
                 $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
+            }
+
+            if($status==="5" || $status==="6"){
+                $data['KEU_ID']   = $_SESSION['userid'];
+                $data['KEU_DATE'] = date('Y-m-d H:i:s');
+            }
+
+            if($status==="7" || $status==="8"){
+                $data['WADIR_ID']   = $_SESSION['userid'];
+                $data['WADIR_DATE'] = date('Y-m-d H:i:s');
+            }
+
+            if($status==="9" || $status==="10"){
+                $data['WADIR_ID']   = $_SESSION['userid'];
+                $data['WADIR_DATE'] = date('Y-m-d H:i:s');
             }
             
 
