@@ -1,22 +1,24 @@
 # Daftar URL tujuan
 $uris = @(
-    "http://localhost/dtechnology/index.php/uploadallfile",
-    "http://localhost/dtechnology/index.php/requestsign",
-    "http://localhost/dtechnology/index.php/excutesign",
-    "http://localhost/dtechnology/index.php/statussign",
-    "http://localhost/dtechnology/index.php/pegawai"
+    @{ Uri = "http://localhost/dtechnology/index.php/uploadallfile"; Method = "POST" },
+    @{ Uri = "http://localhost/dtechnology/index.php/requestsign"; Method = "POST" },
+    @{ Uri = "http://localhost/dtechnology/index.php/excutesign"; Method = "POST" },
+    @{ Uri = "http://localhost/dtechnology/index.php/statussign"; Method = "POST" },
+    @{ Uri = "http://localhost/dtechnology/index.php/pegawai"; Method = "GET" }
 )
 
-# Loop untuk mengirim permintaan POST ke setiap URL
-foreach ($uri in $uris) {
+# Loop untuk mengirim permintaan ke setiap URL
+foreach ($endpoint in $uris) {
+    $uri = $endpoint.Uri
+    $method = $endpoint.Method
     try {
-        # Permintaan POST tanpa body
-        $response = Invoke-RestMethod -Uri $uri -Method POST
+        # Kirim permintaan GET atau POST sesuai kebutuhan
+        $response = Invoke-RestMethod -Uri $uri -Method $method
 
         # Output respons (opsional untuk debug/logging)
-        Write-Output "Success for ${uri}: ${response}"
+        Write-Output "Success for ${uri} (${method}): ${response}"
     } catch {
         # Tangani kesalahan (log atau tampilkan pesan)
-        Write-Output "Error for ${uri}: $_"
+        Write-Output "Error for ${uri} (${method}): $_"
     }
 }
