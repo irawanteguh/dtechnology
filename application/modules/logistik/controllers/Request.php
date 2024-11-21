@@ -46,5 +46,42 @@
 
             echo json_encode($json);
         }
+
+        public function updatedetailitem() {
+            $no_pemesanan = $this->input->post('no_pemesanan');
+            $item_id      = $this->input->post('item_id');
+            $qty          = $this->input->post('qty');
+            $harga        = $this->input->post('harga');
+            $ppn          = $this->input->post('ppn');
+            $subtotal     = $this->input->post('subtotal');
+            $vat_amount   = $this->input->post('vat_amount');
+            
+            $data['QTY_MINTA'] = $qty;
+            $data['HARGA']     = $harga;
+            $data['PPN']       = $ppn*100;
+            $data['HARGA_PPN'] = $vat_amount;
+            $data['TOTAL']     = $subtotal;
+
+            if($this->md->updatedetailitem($item_id,$data)){
+                $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+
+                $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                $dataheader['TOTAL']     = $resulthitungdetail->total;
+
+                $this->md->updateheader($no_pemesanan,$dataheader);
+
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
+            }
+
+            echo json_encode($json);
+        }
+        
     }
 ?>

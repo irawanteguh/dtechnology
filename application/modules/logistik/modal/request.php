@@ -9,6 +9,7 @@
                 </div>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="no_pemesanan" name="no_pemesanan">
                 <div class="text-center mb-5">
                     <h1 class="mb-3">Goods Procurement Details</h1>
                     <div class="text-muted fw-bold fs-5"></div>

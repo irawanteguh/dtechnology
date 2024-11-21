@@ -1,10 +1,15 @@
 datarequest();
 
+$('#modal_detail_barang').on('hidden.bs.modal', function (e) {
+    datarequest();
+});
+
 function getdetail(btn){
     var $btn = $(btn);
     var data_nopemesanan = $btn.attr("data_nopemesanan");
     var data_status      = $btn.attr("data_status");
 
+    $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
     datadetail(data_nopemesanan,data_status)
 };
 
@@ -74,20 +79,21 @@ function datadetail(data_nopemesanan, data_status) {
             toastr["info"]("Sending request...", "Please wait");
         },
         success: function (data) {
-            var result = "";
-            var tableresult = "";
-            var tfoot = "";
-            var totalvat = 0;
-            var grandtotal = 0;
+            let result = "";
+            let tableresult = "";
+            let tfoot = "";
+            let totalvat = 0;
+            let grandtotal = 0;
 
             if (data.responCode === "00") {
                 result = data.responResult;
-                for (var i in result) {
-                    // Perhitungan VAT
+                for (let i in result) {
+                    // Perhitungan VAT dan Subtotal
                     const qty = parseFloat(result[i].qty_minta) || 0;
                     const harga = parseFloat(result[i].harga) || 0;
-                    const vatPercent = parseFloat(result[i].ppn) || 0; // Persentase VAT
-                    const vatAmount = qty * (harga * vatPercent / 100); // Rumus VAT
+                    const vatPercent = parseFloat(result[i].ppn) || 0;
+                    const vatAmount = qty * (harga * vatPercent / 100);
+                    const subtotal = (qty * harga) + vatAmount;
 
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
@@ -96,27 +102,55 @@ function datadetail(data_nopemesanan, data_status) {
                     tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
 
                     if (data_status === "0") {
-                        tableresult += "<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_" + result[i].item_id + "' name='qty_" + result[i].item_id + "' value='" + todesimal(result[i].qty_minta) + "' onchange='updateVatAndTotal(this)'></td>";
+                        tableresult += `<td class='text-end'>
+                            <input class='form-control form-control-sm text-end' 
+                                   id='qty_${result[i].item_id}' 
+                                   name='qty_${result[i].item_id}' 
+                                   value='${todesimal(result[i].qty_minta)}' 
+                                   onchange='updateVatAndTotal(this)'>
+                        </td>`;
                     } else {
-                        tableresult += "<td class='text-end'>" + todesimal(result[i].qty_minta) + "</td>";
+                        tableresult += `<td class='text-end'>${todesimal(result[i].qty_minta)}</td>`;
                     }
 
                     if (data_status === "0") {
-                        tableresult += "<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_" + result[i].item_id + "' name='harga_" + result[i].item_id + "' value='" + todesimal(result[i].harga) + "' onchange='updateVatAndTotal(this)'></td>";
+                        tableresult += `<td class='text-end'>
+                            <input class='form-control form-control-sm text-end' 
+                                   id='harga_${result[i].item_id}' 
+                                   name='harga_${result[i].item_id}' 
+                                   value='${todesimal(result[i].harga)}' 
+                                   onchange='updateVatAndTotal(this)'>
+                        </td>`;
                     } else {
-                        tableresult += "<td class='text-end'>" + todesimal(result[i].harga) + "</td>";
+                        tableresult += `<td class='text-end'>${todesimal(result[i].harga)}</td>`;
                     }
 
-                    tableresult += "<td class='text-end'>" + todesimal(vatPercent) + "%</td>"; // Persentase VAT
-                    tableresult += "<td class='text-end' id='vat_" + result[i].item_id + "'>" + todesimal(vatAmount) + "</td>"; // Nilai VAT
-                    tableresult += "<td class='text-end pe-4'>" + todesimal(result[i].total) + "</td>";
+                    if (data_status === "0") {
+                        tableresult += `<td class='text-end'>
+                            <input class='form-control form-control-sm text-end' 
+                                   id='vat_${result[i].item_id}' 
+                                   name='vat_${result[i].item_id}' 
+                                   value='${todesimal(vatPercent)}' 
+                                   onchange='updateVatAndTotal(this)'>
+                        </td>`;
+                    } else {
+                        tableresult += `<td class='text-end'>${todesimal(vatPercent)}%</td>`;
+                    }
+
+                    tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
+                    tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
                     tableresult += "</tr>";
 
-                    totalvat += vatAmount; // Tambahkan ke total VAT
-                    grandtotal += parseFloat(result[i].total); // Tambahkan ke grand total
+                    totalvat   += vatAmount;
+                    grandtotal += subtotal;
                 }
 
-                tfoot = "<tr><th class='ps-4' colspan='6'>Grand Total</th><th class='text-end'>" + todesimal(totalvat) + "</th><th class='text-end pe-4'>" + todesimal(grandtotal) + "</th></tr>";
+                tfoot = `<tr>
+                            <th class='ps-4' colspan='7'>Grand Total</th>
+                            <th class='text-end' id='total_vat'>${todesimal(totalvat)}</th>
+                            <th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th>
+                        </tr>`;
+
             }
 
             $("#resultdetail").html(tableresult);
@@ -149,33 +183,98 @@ function updateVatAndTotal(input) {
         return; // Hentikan fungsi jika input tidak valid
     }
 
-    // Ambil ID barang dari input (misalnya "qty-123" -> "123")
+    // Ambil ID barang dari input (misalnya "qty_123" -> "123")
     const itemId = input.id.split("_")[1];
 
-    // Ambil elemen qty, harga, dan VAT yang sesuai
+    // Ambil elemen qty, harga, VAT, dan elemen untuk grand total
     const qtyInput = document.getElementById(`qty_${itemId}`);
     const hargaInput = document.getElementById(`harga_${itemId}`);
-    const vatElement = document.getElementById(`vat_${itemId}`); // Elemen VAT
+    const vatElement = document.getElementById(`vat_${itemId}`);
+    const vatAmountElement = document.getElementById(`vat_amount_${itemId}`);
+    const subtotalElement = document.getElementById(`subtotal_${itemId}`);
+    const totalVatElement = document.getElementById("total_vat");
+    const grandTotalElement = document.getElementById("grand_total");
 
-    
-    
     // Cek apakah elemen ada
-    if (qtyInput && hargaInput && vatElement) {
-        const qty = parseFloat(qtyInput.value) || 0;
-        const harga = parseFloat(hargaInput.value) || 0;
-        const vatPercent = parseFloat(vatElement.dataset.vat) || 0; // VAT dari atribut data
+    if (qtyInput && hargaInput && vatElement && vatAmountElement) {
+        // Ambil nilai-nilai dari elemen
+        const qty = parseFloat(qtyInput.value);
+        const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", ".")); // Konversi format desimal
+        const ppn = parseFloat(vatElement.value) / 100;
 
-        console.error(qty);
-        console.error(harga);
-        console.error(vatPercent);
+        // Validasi nilai-nilai yang diperlukan
+        if (isNaN(qty) || isNaN(harga) || isNaN(ppn)) {
+            console.error("Nilai qty, harga, atau VAT tidak valid.");
+            return;
+        }
 
-        // Hitung VAT baru
-        const newVat = qty * (harga * vatPercent / 100);
+        // Hitung VAT dan Total
+        const newVat = qty * (harga * ppn);
+        const itemTotal = (qty * harga) + newVat;
 
-        // Perbarui elemen VAT
-        vatElement.innerText = todesimal(newVat);
+        // Perbarui VAT Amount dan Subtotal di elemen tabel
+        vatAmountElement.innerText = todesimal(newVat);
+        subtotalElement.innerText = todesimal(itemTotal);
+
+        // Hitung ulang total VAT dan grand total
+        let totalVat = 0;
+        let grandTotal = 0;
+
+        document.querySelectorAll("[id^='vat_amount_']").forEach((vat) => {
+            totalVat += parseFloat(vat.innerText.replace(/\./g, "").replace(",", ".")) || 0;
+        });
+
+        document.querySelectorAll("[id^='qty_']").forEach((qtyElem) => {
+            const id        = qtyElem.id.split("_")[1];
+            const hargaElem = document.getElementById(`harga_${id}`);
+            const vatElem   = document.getElementById(`vat_${id}`);
+
+            const qtyVal   = parseFloat(qtyElem.value);
+            const hargaVal = parseFloat(hargaElem.value.replace(/\./g, "").replace(",", "."));
+            const ppnVal   = parseFloat(vatElem.value) / 100;
+
+            if (!isNaN(qtyVal) && !isNaN(hargaVal) && !isNaN(ppnVal)) {
+                const vatAmount = qtyVal * (hargaVal * ppnVal);
+                const itemTotal = (qtyVal * hargaVal) + vatAmount;
+                grandTotal += itemTotal;
+            }
+        });
+
+        // Perbarui elemen footer
+        if (totalVatElement) totalVatElement.innerText = todesimal(totalVat);
+        if (grandTotalElement) grandTotalElement.innerText = todesimal(grandTotal);
+
+        // Kirim data perubahan ke database
+        var no_pemesanan = $("#no_pemesanan").val();
+        $.ajax({
+            url: url + "index.php/logistik/request/updatedetailitem",
+            method: "POST",
+            dataType: "JSON",
+            data: {
+                no_pemesanan: no_pemesanan,
+                item_id     : itemId,
+                qty         : qty,
+                harga       : harga,
+                ppn         : ppn,
+                subtotal    : itemTotal,
+                vat_amount  : newVat
+            },
+            beforeSend: function () {
+                toastr.clear();
+                toastr["info"]("Updating data...", "Please wait");
+            },
+            success: function (response) {
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+            },
+            error: function (xhr, status, error) {
+                toastr["error"]("Terjadi kesalahan: " + error, "Error");
+            },
+            complete: function () {
+                toastr.clear();
+            }
+        });
     } else {
-        console.error("Element qty, harga, atau VAT tidak ditemukan.");
+        console.error("Element qty, harga, VAT, atau VAT Amount tidak ditemukan.");
     }
 }
 

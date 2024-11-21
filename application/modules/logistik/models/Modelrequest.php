@@ -4,7 +4,7 @@
         function datarequest($orgid){
             $query =
                     "
-                        select a.no_pemesanan, judul_pemesanan, note, subtotal, ppn, harga_ppn, total, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, judul_pemesanan, note, subtotal, harga_ppn, total, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit
                         from dt01_lgu_pemesanan_hd a
@@ -35,6 +35,30 @@
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
+        }
+
+        function hitungdetail($orgid,$nopemesanan){
+            $query =
+                    "
+                        select sum(harga)harga, sum(harga_ppn)harga_ppn, sum(total)total
+                        from dt01_lgu_pemesanan_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.no_pemesanan='".$nopemesanan."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function updateheader($nopemesanan,$data){           
+            $sql =   $this->db->update("dt01_lgu_pemesanan_hd",$data,array("no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
+        function updatedetailitem($itemid,$data){           
+            $sql =   $this->db->update("dt01_lgu_pemesanan_dt",$data,array("item_id"=>$itemid));
+            return $sql;
         }
 
     }
