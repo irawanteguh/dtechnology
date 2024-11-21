@@ -28,5 +28,23 @@
 
             echo json_encode($json);
         }
+
+        public function detailbarang(){
+            $nopemesanan =$this->input->post("data_nopemesanan");
+            $result = $this->md->detailbarang($_SESSION['orgid'],$nopemesanan);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
     }
 ?>
