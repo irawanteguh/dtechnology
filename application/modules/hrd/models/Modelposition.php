@@ -110,6 +110,7 @@
         function masterunit($orgid,$headerid){
             $query =
                     "
+                        select 'x'department_id,':: Head ::'department union
                         select a.department_id, replace(replace(department,'Wakil Direktur ',''),'Manajer ','')department
                         from dt01_gen_department_ms a
                         where a.active='1'

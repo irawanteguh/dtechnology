@@ -49,6 +49,7 @@
 
         public function updatedetailitem() {
             $no_pemesanan = $this->input->post('no_pemesanan');
+            $validasi     = $this->input->post('validasi');
             $item_id      = $this->input->post('item_id');
             $qty          = $this->input->post('qty');
             $harga        = $this->input->post('harga');
@@ -56,7 +57,16 @@
             $subtotal     = $this->input->post('subtotal');
             $vat_amount   = $this->input->post('vat_amount');
             
-            $data['QTY_MINTA'] = $qty;
+            if($validasi==="KAINS"){
+                $data['QTY_MINTA'] = $qty;
+            }
+
+            if($validasi==="MANAGER"){
+                $data['QTY_MANAGER']  = $qty;
+                $data['MANAGER_ID']   = $_SESSION['userid'];
+                $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
+            }
+            
             $data['HARGA']     = $harga;
             $data['PPN']       = $ppn*100;
             $data['HARGA_PPN'] = $vat_amount;
@@ -108,6 +118,32 @@
                 echo "Upload Success";
             }
 
+        }
+
+        public function updateheader() {
+            $datanopemesanan = $this->input->post('datanopemesanan');
+            $status       = $this->input->post('status');
+            
+            $data['STATUS'] = $status;
+
+            if($status==="3" || $status==="4"){
+                $data['MANAGER_ID']   = $_SESSION['userid'];
+                $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
+            }
+            
+
+            if($this->md->updateheader($datanopemesanan,$data)){
+
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
+            }
+
+            echo json_encode($json);
         }
         
     }
