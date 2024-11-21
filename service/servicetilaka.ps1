@@ -4,7 +4,7 @@ $uris = @(
     "http://localhost/dtechnology/index.php/requestsign",
     "http://localhost/dtechnology/index.php/excutesign",
     "http://localhost/dtechnology/index.php/statussign",
-    "http://localhost/dtechnology/index.php/pegawai",
+    "http://localhost/dtechnology/index.php/pegawai"
 )
 
 # Loop untuk mengirim permintaan POST ke setiap URL
