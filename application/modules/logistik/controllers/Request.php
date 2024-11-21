@@ -160,8 +160,8 @@
             }
 
             if($status==="9" || $status==="10"){
-                $data['WADIR_ID']   = $_SESSION['userid'];
-                $data['WADIR_DATE'] = date('Y-m-d H:i:s');
+                $data['DIR_ID']   = $_SESSION['userid'];
+                $data['DIR_DATE'] = date('Y-m-d H:i:s');
             }
             
 
