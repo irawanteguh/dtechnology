@@ -9,11 +9,65 @@
         }
 
         public function index(){
-            $this->template->load("template/template-sidebar", "v_request");
+            $data = $this->loadcombobox();
+            $this->template->load("template/template-sidebar", "v_request",$data);
+        }
+
+        public function loadcombobox(){
+            $resultmastersupplier = $this->md->mastersupplier($_SESSION['orgid']);
+            
+            $mastersupplier="";
+            foreach($resultmastersupplier as $a ){
+                $mastersupplier.="<option value='".$a->supplier_id."'>".$a->supplier."</option>";
+            }
+
+            $data['mastersupplier']           = $mastersupplier;
+            
+            return $data;
+		}
+
+        public function newrequest(){
+            
+            $data['org_id']          = $_SESSION['orgid'];
+            $data['no_pemesanan']    = $this->md->buatnopemesanan($_SESSION['orgid'])->nomor_pemesanan;
+            $data['judul_pemesanan'] = $this->input->post("modal_new_request_nama");
+            $data['note']            = $this->input->post("keterangan");
+            $data['department_id']   = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+            $data['supplier_id']     = $this->input->post("modal_new_request_supplier");
+            $data['created_by']      = $_SESSION['userid'];
+
+            if($this->md->insertheader($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Berhasil Di Tambah";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Gagal Di Tambah";
+            }
+
+            echo json_encode($json);
         }
 
         public function datarequest(){
-            $result = $this->md->datarequest($_SESSION['orgid']);
+            $result = $this->md->datarequest($_SESSION['orgid'],$this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function masterbarang(){
+            $result = $this->md->masterbarang($_SESSION['orgid']);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

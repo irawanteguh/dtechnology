@@ -1,4 +1,6 @@
 datarequest();
+masterbarang();
+
 
 $('#modal-upload-lampiran').on('hidden.bs.modal', function (e) {
     if (Dropzone.instances.length > 0) {
@@ -97,6 +99,7 @@ function datarequest(){
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_detail_barang' "+getvariabel+" onclick='getdetail(this)'>"+result[i].no_pemesanan+"</a></td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    tableresult +="<td>"+result[i].namasupplier+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -133,6 +136,7 @@ function datarequest(){
                             tableresult += "<div class='btn-group' role='group'>";
                                 tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                    tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                     tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" onclick='approve($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" onclick='cancelled($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
                                 tableresult +="</div>";
@@ -159,6 +163,101 @@ function datarequest(){
     });
     return false;
 };
+
+const filteritemname = new Tagify(document.querySelector("#filteritemname"), { enforceWhitelist: true });
+const filtercategory = new Tagify(document.querySelector("#filtercategory"), { enforceWhitelist: true });
+const filterunit     = new Tagify(document.querySelector("#filterunit"), { enforceWhitelist: true });
+
+function masterbarang(){
+    $.ajax({
+        url       : url+"index.php/logistik/request/masterbarang",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            $("#resultmasterbarang").html("");
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result     = data.responResult;
+                var namabarang = new Set();
+                var jenis      = new Set();
+                var satuan     = new Set();
+
+                for(var i in result){
+
+                    namabarang.add(result[i].nama_barang);
+                    jenis.add(result[i].jenis);
+                    satuan.add(result[i].satuanbeli);
+
+                    tableresult +="<tr>";
+                    tableresult +="<td class='ps-4'>"+result[i].nama_barang+"</td>";
+                    tableresult +="<td>"+result[i].jenis+"</td>";
+                    tableresult +="<td>"+(result[i].satuanbeli ? result[i].satuanbeli : "")+"</td>";
+                    tableresult += `<td class='text-end'>
+                                        <input class='form-control form-control-sm text-end' 
+                                            id='qty_${result[i].item_id}' 
+                                            onchange='updateVatAndTotal(this)'>
+                                    </td>`;
+                    tableresult += `<td class='text-end'>
+                                        <input class='form-control form-control-sm text-end' 
+                                                onchange='updateVatAndTotal(this)'>
+                                    </td>`;
+                    tableresult += `<td class='text-end'>
+                                        <input class='form-control form-control-sm text-end' 
+                                                onchange='updateVatAndTotal(this)'>
+                                    </td>`;
+                    tableresult +="</tr>";
+                }
+            }
+
+            $("#resultmasterbarang").html(tableresult);
+
+            filteritemname.settings.whitelist = Array.from(namabarang);
+            filtercategory.settings.whitelist = Array.from(jenis);
+            filterunit.settings.whitelist     = Array.from(satuan);
+
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        error: function(xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
+		},
+		complete: function () {
+			toastr.clear();
+		}
+    });
+    return false;
+};
+
+function filterTable() {
+    const itemnamefilter = filteritemname.value.map(tag => tag.value);
+    const categoryfilter = filtercategory.value.map(tag => tag.value);
+    const unitfilter     = filterunit.value.map(tag => tag.value);
+
+    const table = document.getElementById("tablemasterbarang");
+    const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+    for (const row of rows) {
+        const itemname = row.getElementsByTagName("td")[0].textContent;
+        const category = row.getElementsByTagName("td")[1].textContent;
+        const unit = row.getElementsByTagName("td")[2].textContent;
+
+        const showRow = 
+            (itemnamefilter.length === 0 || itemnamefilter.includes(itemname)) &&
+            (categoryfilter.length === 0 || categoryfilter.includes(category)) &&
+            (unitfilter.length === 0 || unitfilter.includes(unit));
+
+        row.style.display = showRow ? "" : "none";
+    }
+}
+
+filteritemname.on('change', filterTable);
+filtercategory.on('change', filterTable);
+filterunit.on('change', filterTable);
 
 function datadetail(data_nopemesanan, data_status) {
     $.ajax({
@@ -445,3 +544,65 @@ function approve(btn){
 	});
 	return false;
 };
+
+$(document).on("submit", "#formnewrequest", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#btn_position_add").addClass("disabled");
+        },
+		success: function (data) {
+            toastr.clear();
+
+            if (data.responCode == "00") {
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+                $("#modal_new_request").modal("hide");
+                datarequest();
+			}else{
+                $("#btn_position_add").removeClass("disabled");
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
+                    html             : "<b>"+data.responDesc+"</b>",
+                    icon             : data.responHead,
+                    confirmButtonText: "Please Try Again",
+                    buttonsStyling   : false,
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    customClass      : {confirmButton: "btn btn-danger"},
+                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                });
+            };
+			
+		},
+        complete: function () {
+            toastr.clear();
+            $("#btn_position_add").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+	});
+    return false;
+});

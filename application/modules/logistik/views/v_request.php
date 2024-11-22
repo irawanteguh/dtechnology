@@ -24,7 +24,7 @@
                             <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Action</div>
                         </div>
                         <div class="menu-item px-3">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_sign_add" class="menu-link px-3">New Request</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_new_request" class="menu-link px-3">New Request</a>
                         </div>
                     </div>
                 </div>
@@ -36,6 +36,7 @@
 							<tr class="fw-bolder text-muted bg-light align-middle">
 								<th class="ps-4 rounded-start">No Pemesanan</th>
                                 <th>Pengadaan</th>
+                                <th>Suppliers</th>
                                 <th class="text-end">Sub Total</th>
                                 <th class="text-end">Ppn</th>
                                 <th class="text-end">Grand Total</th>
