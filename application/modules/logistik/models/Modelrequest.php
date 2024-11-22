@@ -42,13 +42,19 @@
             return $recordset;
         }
 
-        function masterbarang($orgid){
+        function masterbarang($orgid,$nopemesanan){
             $query =
                     "
                         select a.barang_id,nama_barang,
-                               (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_beli_id)satuanbeli,
-                               (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_pakai_id)satuanpakai,
-                               (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=a.jenis_id)jenis
+                            (select qty_minta from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qty,
+                            (select harga from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')harga,
+                            (select ppn from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')ppn,
+                            (select harga_ppn from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')hargappn,
+                            (select total from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')total,
+                            
+                            (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_beli_id)satuanbeli,
+                            (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_pakai_id)satuanpakai,
+                            (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=a.jenis_id)jenis
                         from dt01_lgu_barang_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
@@ -138,6 +144,11 @@
 
         function insertheader($data){           
             $sql =   $this->db->insert("dt01_lgu_pemesanan_hd",$data);
+            return $sql;
+        }
+
+        function insertitem($data){           
+            $sql =   $this->db->insert("dt01_lgu_pemesanan_dt",$data);
             return $sql;
         }
 

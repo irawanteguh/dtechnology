@@ -49,6 +49,48 @@
             echo json_encode($json);
         }
 
+        public function additem(){
+            $no_pemesanan = $this->input->post('no_pemesanan');
+            $validasi     = $this->input->post('validasi');
+            $barangid      = $this->input->post('barangid');
+            $qty          = $this->input->post('qty');
+            $harga        = $this->input->post('harga');
+            $ppn          = $this->input->post('ppn');
+            $subtotal     = $this->input->post('subtotal');
+            $vat_amount   = $this->input->post('vat_amount');
+
+            $data['org_id']       = $_SESSION['orgid'];
+            $data['item_id']      = generateuuid();
+            $data['no_pemesanan'] = $no_pemesanan;
+            $data['barang_id']    = $barangid;
+            $data['qty_minta']    = $qty;
+            $data['harga']        = $harga;
+            $data['ppn']          = $ppn*100;
+            $data['harga_ppn']    = $vat_amount;
+            $data['total']        = $subtotal;
+            $data['created_by']   = $_SESSION['userid'];
+
+            if($this->md->insertitem($data)){
+                $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+
+                $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                $dataheader['TOTAL']     = $resulthitungdetail->total;
+
+                $this->md->updateheader($no_pemesanan,$dataheader);
+
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Berhasil Di Tambah";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Gagal Di Tambah";
+            }
+
+            echo json_encode($json);
+        }
+
         public function datarequest(){
             $result = $this->md->datarequest($_SESSION['orgid'],$this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id);
             
@@ -67,7 +109,8 @@
         }
 
         public function masterbarang(){
-            $result = $this->md->masterbarang($_SESSION['orgid']);
+            $data_nopemesanan = $this->input->post("data_nopemesanan");
+            $result = $this->md->masterbarang($_SESSION['orgid'],$data_nopemesanan);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

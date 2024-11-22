@@ -54,6 +54,7 @@
                 </div>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="no_pemesanan_item" name="no_pemesanan_item">
                 <div class="text-center mb-5">
                     <h1 class="mb-3">Add Item</h1>
                     <div class="text-muted fw-bold fs-5"></div>
