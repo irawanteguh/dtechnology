@@ -51,6 +51,7 @@
                             (select ppn from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')ppn,
                             (select harga_ppn from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')hargappn,
                             (select total from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')total,
+                            (select note from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')note,
                             
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_beli_id)satuanbeli,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_pakai_id)satuanpakai,
@@ -98,10 +99,27 @@
         function datarequest($orgid,$departmentid){
             $query =
                     "
-                        select a.no_pemesanan, judul_pemesanan, note, subtotal, harga_ppn, total, status, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, judul_pemesanan, note, invoice, subtotal, harga_ppn, total, status, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
-                            (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit
+                            (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit,
+
+                            case 
+                                when status = '0'  then 'badge-light-info|New'
+                                when status = '1'  then 'badge-light-danger|Cancelled'
+                                when status = '2'  then 'badge-light-info|Waiting Approval Manager'
+                                when status = '3'  then 'badge-light-danger|Cancelled Manager'
+                                when status = '4'  then 'badge-light-info|Approval Manager'
+                                when status = '5'  then 'badge-light-danger|Cancelled Finance'
+                                when status = '6'  then 'badge-light-info|Approval Finance'
+                                when status = '7'  then 'badge-light-danger|Cancelled Vice Director'
+                                when status = '8'  then 'badge-light-info|Approval Vice Director'
+                                when status = '9'  then 'badge-light-danger|Cancelled Director'
+                                when status = '10' then 'badge-light-info|Approval Director'
+                                when status = '11' then 'badge-light-info|Invoice Submission'
+                                else 'badge-light-secondary|Unknown'
+                            end as decoded_status
+
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'
                         and   a.department_id='".$departmentid."'
@@ -116,7 +134,7 @@
         function detailbarang($orgid,$nopemesanan){
             $query =
                     "
-                        select a.item_id, barang_id, qty_minta, qty_manager, qty_keu, qty_wadir, qty_dir, harga, harga_ppn, ppn, total,
+                        select a.item_id, barang_id, note, qty_minta, qty_manager, qty_keu, qty_wadir, qty_dir, harga, harga_ppn, ppn, total,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_beli_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanbeli,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_pakai_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanpakai,
                             (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=(select jenis_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))jenis,

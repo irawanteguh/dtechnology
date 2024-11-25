@@ -52,12 +52,13 @@
         public function additem(){
             $no_pemesanan = $this->input->post('no_pemesanan');
             $validasi     = $this->input->post('validasi');
-            $barangid      = $this->input->post('barangid');
+            $barangid     = $this->input->post('barangid');
             $qty          = $this->input->post('qty');
             $harga        = $this->input->post('harga');
             $ppn          = $this->input->post('ppn');
             $subtotal     = $this->input->post('subtotal');
             $vat_amount   = $this->input->post('vat_amount');
+            $note         = $this->input->post('note');
 
             $data['org_id']       = $_SESSION['orgid'];
             $data['item_id']      = generateuuid();
@@ -68,6 +69,7 @@
             $data['ppn']          = $ppn*100;
             $data['harga_ppn']    = $vat_amount;
             $data['total']        = $subtotal;
+            $data['note']         = $note;
             $data['created_by']   = $_SESSION['userid'];
 
             if(empty($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid))){
@@ -176,6 +178,7 @@
             $ppn          = $this->input->post('ppn');
             $subtotal     = $this->input->post('subtotal');
             $vat_amount   = $this->input->post('vat_amount');
+            $note         = $this->input->post('note');
             
             if($validasi==="KAINS"){
                 $data['QTY_MINTA'] = $qty;
@@ -209,6 +212,7 @@
             $data['PPN']       = $ppn*100;
             $data['HARGA_PPN'] = $vat_amount;
             $data['TOTAL']     = $subtotal;
+            $data['NOTE']      = $note;
 
             if($this->md->updatedetailitem($item_id,$data)){
                 $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
@@ -250,6 +254,34 @@
                 $upload_data = $this->upload->data();
 
                 $dataupdate = array('ATTACHMENT' => "1");
+
+                $this->md->updateheader($no_pemesanan,$dataupdate);
+
+                echo "Upload Success";
+            }
+
+        }
+
+        public function uploadinvoice(){
+            $no_pemesanan= $_GET['no_pemesanan'];
+
+            $config['upload_path']   = './assets/invoice/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $no_pemesanan;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+
+                $dataupdate['INVOICE']="1";
+                $dataupdate['STATUS']="11";
 
                 $this->md->updateheader($no_pemesanan,$dataupdate);
 
