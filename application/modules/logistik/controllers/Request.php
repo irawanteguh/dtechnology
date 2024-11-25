@@ -70,23 +70,46 @@
             $data['total']        = $subtotal;
             $data['created_by']   = $_SESSION['userid'];
 
-            if($this->md->insertitem($data)){
-                $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+            if(empty($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid))){
+                if($this->md->insertitem($data)){
 
-                $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
-                $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
-                $dataheader['TOTAL']     = $resulthitungdetail->total;
-
-                $this->md->updateheader($no_pemesanan,$dataheader);
-
-                $json['responCode']="00";
-                $json['responHead']="success";
-                $json['responDesc']="Data Berhasil Di Tambah";
-            } else {
-                $json['responCode']="01";
-                $json['responHead']="info";
-                $json['responDesc']="Data Gagal Di Tambah";
+                    $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+    
+                    $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                    $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                    $dataheader['TOTAL']     = $resulthitungdetail->total;
+    
+                    $this->md->updateheader($no_pemesanan,$dataheader);
+    
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Berhasil Di Tambah";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Gagal Di Tambah";
+                }
+            }else{
+                if($this->md->updatebarangid($barangid,$no_pemesanan,$data)){
+                    $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+    
+                    $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                    $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                    $dataheader['TOTAL']     = $resulthitungdetail->total;
+    
+                    $this->md->updateheader($no_pemesanan,$dataheader);
+    
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Berhasil Di Tambah";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Gagal Di Tambah";
+                }
             }
+
+            
 
             echo json_encode($json);
         }

@@ -224,59 +224,63 @@ function masterbarang(data_nopemesanan){
                     jenis.add(result[i].jenis);
                     satuan.add(result[i].satuanbeli);
 
-                    const qty        = 0;
-                    const harga      = 0;
-                    const vatPercent = 0;
+                    const qty        = parseFloat(result[i].qty) || 0;
+                    const harga      = parseFloat(result[i].harga) || 0;
+                    const vatPercent = parseFloat(result[i].ppn) || 0;
                     const vatAmount  = qty * (harga * vatPercent / 100);
                     const subtotal   = (qty * harga) + vatAmount;
+
+
 
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].nama_barang+"</td>";
                     tableresult +="<td>"+result[i].jenis+"</td>";
                     tableresult +="<td>"+(result[i].satuanbeli ? result[i].satuanbeli : "")+"</td>";
-                    if(result[i].qty!='NULL'){
+
+
+                    if(result[i].qty!=null){
                         tableresult += `<td class='text-end'>
-                                        <input class='form-control form-control-sm text-end' 
-                                            id='qty_${result[i].barang_id}'
-                                            value='${todesimal(result[i].qty)}'  
-                                            onchange='simpandata(this)'>
-                                    </td>`;
+                                            <input class='form-control form-control-sm text-end' 
+                                                id='qty_${result[i].barang_id}'
+                                                value='${todesimal(result[i].qty)}'  
+                                                onchange='simpandata(this)'>
+                                        </td>`;
                     }else{
                         tableresult += `<td class='text-end'>
-                                        <input class='form-control form-control-sm text-end' 
-                                            id='qty_${result[i].barang_id}'
-                                            onchange='simpandata(this)'>
-                                    </td>`;
+                                            <input class='form-control form-control-sm text-end' 
+                                                id='qty_${result[i].barang_id}'
+                                                onchange='simpandata(this)'>
+                                        </td>`;
                     }
 
-                    if(result[i].harga!='NULL'){
+                    if(result[i].harga!=null){
                         tableresult += `<td class='text-end'>
-                                        <input class='form-control form-control-sm text-end' 
-                                            id='qty_${result[i].barang_id}'
-                                            value='${todesimal(result[i].harga)}'  
-                                            onchange='simpandata(this)'>
-                                    </td>`;
+                                            <input class='form-control form-control-sm text-end' 
+                                                id='harga_${result[i].barang_id}'
+                                                value='${todesimal(result[i].harga)}'  
+                                                onchange='simpandata(this)'>
+                                        </td>`;
                     }else{
                         tableresult += `<td class='text-end'>
-                                        <input class='form-control form-control-sm text-end' 
-                                            id='qty_${result[i].barang_id}'
-                                            onchange='simpandata(this)'>
-                                    </td>`;
+                                            <input class='form-control form-control-sm text-end' 
+                                                id='harga_${result[i].barang_id}'
+                                                onchange='simpandata(this)'>
+                                        </td>`;
                     }
 
-                    if(result[i].ppn!='NULL'){
+                    if(result[i].ppn!=null){
                         tableresult += `<td class='text-end'>
-                                        <input class='form-control form-control-sm text-end' 
-                                            id='qty_${result[i].barang_id}'
-                                            value='${todesimal(result[i].ppn)}'  
-                                            onchange='simpandata(this)'>
-                                    </td>`;
+                                            <input class='form-control form-control-sm text-end' 
+                                                id='vat_${result[i].barang_id}'
+                                                value='${todesimal(result[i].ppn)}'  
+                                                onchange='simpandata(this)'>
+                                        </td>`;
                     }else{
                         tableresult += `<td class='text-end'>
-                                        <input class='form-control form-control-sm text-end' 
-                                            id='qty_${result[i].barang_id}'
-                                            onchange='simpandata(this)'>
-                                    </td>`;
+                                            <input class='form-control form-control-sm text-end' 
+                                                id='vat_${result[i].barang_id}'
+                                                onchange='simpandata(this)'>
+                                        </td>`;
                     }
 
                     tableresult += `<td class='text-end' id='vat_amount_${result[i].barang_id}'>${todesimal(vatAmount)}</td>`;
@@ -429,7 +433,7 @@ function datadetail(data_nopemesanan, data_status) {
         }
     });
     return false;
-}
+};
 
 function updateVatAndTotal(input) {
     const value = input.value;
@@ -451,12 +455,12 @@ function updateVatAndTotal(input) {
     const itemId = input.id.split("_")[1];
 
     // Ambil elemen qty, harga, VAT, dan elemen untuk grand total
-    const qtyInput = document.getElementById(`qty_${itemId}`);
-    const hargaInput = document.getElementById(`harga_${itemId}`);
-    const vatElement = document.getElementById(`vat_${itemId}`);
-    const vatAmountElement = document.getElementById(`vat_amount_${itemId}`);
-    const subtotalElement = document.getElementById(`subtotal_${itemId}`);
-    const totalVatElement = document.getElementById("total_vat");
+    const qtyInput          = document.getElementById(`qty_${itemId}`);
+    const hargaInput        = document.getElementById(`harga_${itemId}`);
+    const vatElement        = document.getElementById(`vat_${itemId}`);
+    const vatAmountElement  = document.getElementById(`vat_amount_${itemId}`);
+    const subtotalElement   = document.getElementById(`subtotal_${itemId}`);
+    const totalVatElement   = document.getElementById("total_vat");
     const grandTotalElement = document.getElementById("grand_total");
 
     // Cek apakah elemen ada
@@ -539,7 +543,7 @@ function updateVatAndTotal(input) {
     } else {
         console.error("Element qty, harga, VAT, atau VAT Amount tidak ditemukan.");
     }
-}
+};
 
 function simpandata(input) {
     const value = input.value;
@@ -566,6 +570,11 @@ function simpandata(input) {
     const vatElement       = document.getElementById(`vat_${barangid}`);
     const vatAmountElement = document.getElementById(`vat_amount_${barangid}`);
     const subtotalElement  = document.getElementById(`subtotal_${barangid}`);
+
+    console.log(qtyInput);
+    console.log(hargaInput);
+    console.log(vatElement);
+    console.log(vatAmountElement);
 
     // Cek apakah elemen ada
     if (qtyInput && hargaInput && vatElement && vatAmountElement) {
@@ -641,7 +650,7 @@ function simpandata(input) {
     } else {
         console.error("Element qty, harga, VAT, atau VAT Amount tidak ditemukan.");
     }
-}
+};
 
 function cancelled(btn){
     var datanopemesanan = btn.attr("data_nopemesanan");

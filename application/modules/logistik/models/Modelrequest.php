@@ -80,6 +80,21 @@
             return $recordset;
         }
 
+        function cekitemid($orgid,$nopemesanan,$barangid){
+            $query =
+                    "
+                        select a.*
+                        from dt01_lgu_pemesanan_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.no_pemesanan='".$nopemesanan."'
+                        and   a.barang_id='".$barangid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         function datarequest($orgid,$departmentid){
             $query =
                     "
@@ -149,6 +164,11 @@
 
         function insertitem($data){           
             $sql =   $this->db->insert("dt01_lgu_pemesanan_dt",$data);
+            return $sql;
+        }
+
+        function updatebarangid($barangid,$nopemesanan,$data){           
+            $sql =   $this->db->update("dt01_lgu_pemesanan_dt",$data,array("barang_id"=>$barangid,"no_pemesanan"=>$nopemesanan));
             return $sql;
         }
 
