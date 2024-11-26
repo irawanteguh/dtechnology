@@ -117,6 +117,15 @@
                                 when status = '9'  then 'badge-light-danger|Cancelled Director'
                                 when status = '10' then 'badge-light-info|Approval Director'
                                 when status = '11' then 'badge-light-info|Invoice Submission'
+                                when status = '12' then 'badge-light-danger|Invoice Cancelled Manager'
+                                when status = '13' then 'badge-light-info|Invoice Approval Manager'
+                                when status = '14' then 'badge-light-danger|Invoice Cancelled Vice Director'
+                                when status = '15' then 'badge-light-info|Invoice Approval Vice Director'
+                                when status = '16' then 'badge-light-danger|Invoice Cancelled Director'
+                                when status = '17' then 'badge-light-info|Invoice Approval Director'
+                                when status = '18' then 'badge-light-danger|Invoice Cancelled Finance'
+                                when status = '19' then 'badge-light-info|Invoice Approval Finance'
+                                when status = '20' then 'badge-light-success|Payment Success'
                                 else 'badge-light-secondary|Unknown'
                             end as decoded_status
 
@@ -154,7 +163,7 @@
         function hitungdetail($orgid,$nopemesanan){
             $query =
                     "
-                        select sum(harga)harga, sum(harga_ppn)harga_ppn, sum(total)total
+                        select sum((total-harga_ppn))harga, sum(harga_ppn)harga_ppn, sum(total)total
                         from dt01_lgu_pemesanan_dt a
                         where a.org_id='".$orgid."'
                         and   a.no_pemesanan='".$nopemesanan."'

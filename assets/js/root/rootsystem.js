@@ -34,7 +34,6 @@ if (window.location.href !== url+'index.php/auth/sign') {
     });
 };
 
-
 document.addEventListener("DOMContentLoaded", function() {
     var form = document.querySelector("#formnewpassword");
     var submitButton = document.querySelector("#kt_new_password_submit");

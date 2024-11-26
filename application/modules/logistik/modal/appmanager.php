@@ -15,10 +15,9 @@
                     <div class="text-muted fw-bold fs-5"></div>
                 </div>
                 <div class="table-responsive">
-					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
+					<table class="table align-middle table-row-dashed fs-6 gy-2">
 						<thead>
 							<tr class="fw-bolder text-muted bg-light align-middle">
-                                <!-- <th class="ps-4 rounded-start">Suppliers</th> -->
 								<th class="ps-4 rounded-start">Item Name</th>
                                 <th>Category</th>
                                 <th>Purchase Unit</th>
@@ -27,7 +26,8 @@
                                 <th class="text-end">Price</th>
                                 <th class="text-end">% VAT</th>
                                 <th class="text-end">VAT</th>
-								<th class="pe-4 text-end rounded-end">Grand Total</th>
+								<th class="text-end">Grand Total</th>
+								<th class="pe-4 text-end rounded-end">Note</th>
 							</tr>
 						</thead>
 						<tbody class="text-gray-600 fw-bold" id="resultdetail"></tbody>
