@@ -38,7 +38,7 @@
                                 <th>Pengadaan</th>
                                 <th>Suppliers</th>
                                 <th class="text-end">Sub Total</th>
-                                <th class="text-end">Ppn</th>
+                                <th class="text-end">Vat</th>
                                 <th class="text-end">Grand Total</th>
                                 <th class="text-center">Attachment</th>
                                 <th>Status</th>
