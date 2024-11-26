@@ -12,11 +12,17 @@ function getdetail(btn){
     var $btn = $(btn);
     var data_nopemesanan = $btn.attr("data_nopemesanan");
     var data_status      = $btn.attr("data_status");
+    var data_suppliers   = $btn.attr("data_suppliers");
+    var data_createddate = $btn.attr("data_createddate");
 
     $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_item']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_upload']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
+
+    $("#pono").html(data_nopemesanan);
+    $("#suppliers").html(data_suppliers);
+    $("#orderdate").html(data_createddate);
 
     datadetail(data_nopemesanan,data_status);
     masterbarang(data_nopemesanan);
@@ -94,6 +100,8 @@ function datarequest(){
                 for(var i in result){
 
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
+                                      "data_suppliers='"+result[i].namasupplier+"'"+
+                                      "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_status='"+result[i].status+"'";
 
                     tableresult +="<tr>";
@@ -316,7 +324,7 @@ function datadetail(data_nopemesanan,data_status) {
                     grandtotal += subtotal;
                 }
 
-                tfoot = `<tr><th class='ps-4' colspan='7'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th></tr>`;
+                tfoot = `<tr><th class='ps-4' colspan='7'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
 
             }
 
