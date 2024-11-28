@@ -204,7 +204,6 @@
                             $responseall['ResponseTilaka'] = $responsecheckcertificate;
                         }
                     }
-
                     
                     $responseservice[]=$responseall;
                 }
