@@ -370,8 +370,6 @@
                 }
 
                 if($response['status']===4){ // status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
-                    $data['USER_IDENTIFIER']  = "";
-                    $data['REGISTER_ID']      = "";
                     $data['REVOKE_ID']        = "";
                     $data['ISSUE_ID']         = "";
                 }
