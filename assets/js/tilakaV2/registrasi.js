@@ -294,7 +294,7 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="4" && result[i].REGISTER_ID!="" && result[i].USER_IDENTIFIER!=""){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
-                        btnaction  = btnreenroll;
+                        btnaction  = btnedit+btnpengajuan;
                     }
 
                     tableresult +="<tr>";
