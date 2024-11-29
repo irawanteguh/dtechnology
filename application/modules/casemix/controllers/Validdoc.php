@@ -13,7 +13,10 @@
 		}
         
         public function datatransaksi(){
-            $result = $this->md->datatransaksi();
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
+
+            $result = $this->md->datatransaksi($startDate,$endDate);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

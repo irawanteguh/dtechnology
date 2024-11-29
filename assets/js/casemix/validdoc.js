@@ -1,4 +1,32 @@
-datatransaksi();
+let startDate, endDate;
+
+flatpickr('[name="dateperiode"]', {
+    mode: "range", // Mengaktifkan mode range
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate: "today",
+    onChange: function (selectedDates, dateStr, instance) {
+        // instance.close();
+        
+        startDate = selectedDates[0] ? selectedDates[0].toISOString().split('T')[0] : null; // Format ISO
+        endDate = selectedDates[1] ? selectedDates[1].toISOString().split('T')[0] : null;
+
+        console.log("Start Date:", startDate);
+        console.log("End Date:", endDate);
+    }
+});
+
+
+$(document).on("click", ".btn-apply", function (e) {
+    e.preventDefault();
+
+    if (!startDate || !endDate) {
+        toastr["warning"]("Please select a valid date range", "Warning");
+        return;
+    }
+
+    datatransaksi(startDate, endDate);
+});
 
 function viewdoc(btn) {
     var filename = $(btn).attr("data-dirfile");
@@ -35,9 +63,10 @@ function viewdoc(btn) {
     }
 };
 
-function datatransaksi(){
+function datatransaksi(startDate,endDate){
     $.ajax({
         url       : url+"index.php/casemix/validdoc/datatransaksi",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,

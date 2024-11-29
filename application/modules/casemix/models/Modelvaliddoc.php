@@ -1,7 +1,7 @@
 <?php
     class Modelvaliddoc extends CI_Model{
 
-        function datatransaksi(){
+        function datatransaksi($startDate,$endDate){
             $query =
                     "
                         select a.no_rawat, concat(date_format(tgl_registrasi, '%d.%m.%Y'),' ',jam_reg) tanggalmasuk, no_rkm_medis,
@@ -25,7 +25,7 @@
                         where a.stts ='Sudah'
                         and   a.status_lanjut ='Ralan'
                         and   a.kd_poli='U0005'
-                        and   date(tgl_registrasi) = CURDATE()
+                        AND   a.tgl_registrasi BETWEEN '".$startDate."' AND '".$endDate."'
                         order by tgl_registrasi desc
                     ";
 
