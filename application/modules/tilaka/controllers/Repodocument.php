@@ -1,4 +1,7 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, HEAD");
+    header("Access-Control-Allow-Headers: *");
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class Repodocument extends CI_Controller {
