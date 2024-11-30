@@ -181,23 +181,27 @@
             $note         = $this->input->post('note');
             
             if($validasi==="KAINS"){
-                $data['QTY_MINTA'] = $qty;
+                $data['QTY_MINTA']   = $qty;
+                $data['QTY_MANAGER'] = $qty;
             }
 
             if($validasi==="MANAGER"){
                 $data['QTY_MANAGER']  = $qty;
+                $data['QTY_KEU']      = $qty;
                 $data['MANAGER_ID']   = $_SESSION['userid'];
                 $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
             }
 
             if($validasi==="FINANCE"){
-                $data['QTY_KEU']  = $qty;
-                $data['KEU_ID']   = $_SESSION['userid'];
-                $data['KEU_DATE'] = date('Y-m-d H:i:s');
+                $data['QTY_KEU']   = $qty;
+                $data['QTY_WADIR'] = $qty;
+                $data['KEU_ID']    = $_SESSION['userid'];
+                $data['KEU_DATE']  = date('Y-m-d H:i:s');
             }
 
             if($validasi==="VICE"){
                 $data['QTY_WADIR']  = $qty;
+                $data['QTY_DIR']    = $qty;
                 $data['WADIR_ID']   = $_SESSION['userid'];
                 $data['WADIR_DATE'] = date('Y-m-d H:i:s');
             }

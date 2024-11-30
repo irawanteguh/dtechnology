@@ -260,7 +260,7 @@
         }
 
         function updateuserdata($data,$userid){           
-            echo $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_id"=>$userid));
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_id"=>$userid));
             return $sql;
         }
 

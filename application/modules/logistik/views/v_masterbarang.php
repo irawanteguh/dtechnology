@@ -35,7 +35,7 @@
 						<thead>
 							<tr class="fw-bolder text-muted bg-light align-middle">
 								<th class="ps-4 rounded-start">Item Name</th>
-                                <th>Category</th>
+                                <th class="min-w-200px">Category</th>
                                 <th>Purchase Unit</th>
                                 <th>Unit of Use</th>
                                 <th class="text-center">Last Stock</th>
