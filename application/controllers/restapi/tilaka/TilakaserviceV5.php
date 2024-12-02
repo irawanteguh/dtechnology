@@ -47,6 +47,8 @@
                         $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
                     }
 
+                    $location = str_replace("/www/wwwroot/", "http://",$location);
+
                     if(file_exists($location)){
                         $fileSize = 0;
                         $fileSize = filesize($location);
@@ -136,6 +138,8 @@
                         }else{
                             $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                         }
+
+                        $filename = str_replace("/www/wwwroot/", "http://",$filename);
                         
                         if(file_exists($filename)){
                             if($files->source_file==="DTECHNOLOGY"){
