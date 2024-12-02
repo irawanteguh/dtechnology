@@ -7,7 +7,7 @@
                         <span class="card-label fw-bolder fs-3 mb-1">List Of Department</span>
                         <span class="text-muted mt-1 fw-bold fs-7" id="info_list_activity"></span>
                     </h3>
-                    <div class="card-toolbar">
+                    <!-- <div class="card-toolbar">
                         <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                             <span class="svg-icon svg-icon-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
@@ -26,21 +26,10 @@
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Add Activity" aria-label="Specify a target name for future usage and reference"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="card-body py-3">
-                    <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
-                            <thead>
-                                <tr class="fw-bolder text-muted bg-light">
-                                    <th class="ps-4 rounded-start">Department</th>
-                                    <th>Part Of</th>
-                                    <th class="pe-4 text-end rounded-end">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-600 fw-bold" id="resultmasterdepartment"></tbody>
-                        </table>
-                    </div>
+                    <div class="mh-450px scroll-y me-n5 pe-5" id="listdepartment"></div>
                 </div>
             </div>
         </div>
