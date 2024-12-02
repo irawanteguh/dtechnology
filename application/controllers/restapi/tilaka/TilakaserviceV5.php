@@ -47,7 +47,7 @@
                         $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
                     }
 
-                    $location = str_replace("/www/wwwroot/", "http://",$location);
+                    // $location = str_replace("/www/wwwroot/", "http://",$location);
 
                     if(file_exists($location)){
                         $fileSize = 0;
