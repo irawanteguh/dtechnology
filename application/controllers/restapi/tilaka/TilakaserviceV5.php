@@ -80,7 +80,8 @@
                     }else{
                         $data['ACTIVE']     = "0";
                         $data['NOTE'] = "File Tidak Di Temukan";
-                        $responseall['ResponseDTechnology'] = "File Tidak Di Temukan";
+                        $responseall['ResponseDTechnology']['Note'] = "File Tidak Di Temukan";
+                        $responseall['ResponseDTechnology']['Location'] = $location;
                     }
 
                     $this->md->updatefile($data,$a->NO_FILE);
