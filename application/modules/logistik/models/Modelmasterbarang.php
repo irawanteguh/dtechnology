@@ -24,5 +24,10 @@
             return $sql;
         }
 
+        function insertitem($data){           
+            $sql =   $this->db->insert("dt01_lgu_barang_ms",$data);
+            return $sql;
+        }
+
     }
 ?>

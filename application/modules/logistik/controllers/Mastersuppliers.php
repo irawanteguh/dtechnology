@@ -1,19 +1,19 @@
 <?php
     defined('BASEPATH') or exit('No direct script access allowed');
-    class Masterbarang extends CI_Controller{
+    class Mastersuppliers extends CI_Controller{
 
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelmasterbarang", "md");
+            $this->load->model("Modelmastersuppliers", "md");
         }
 
         public function index(){
-            $this->template->load("template/template-sidebar", "v_masterbarang");
+            $this->template->load("template/template-sidebar", "v_mastersuppliers");
         }
 
-        public function masterbarang(){
-            $result = $this->md->masterbarang($_SESSION['orgid']);
+        public function mastersuppliers(){
+            $result = $this->md->mastersuppliers($_SESSION['orgid']);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -30,10 +30,10 @@
         }
         
         public function nonactive(){
-            $barangid = $this->input->post("barangid");
+            $supplierid = $this->input->post("supplierid");
             $data['active'] = "0";
 
-            if($this->md->updatemasterbarang($data,$barangid)){
+            if($this->md->updatesupplier($data,$supplierid)){
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Updated Successfully";
@@ -46,15 +46,15 @@
             echo json_encode($json);
         }
 
-        public function additem(){
-            $namabarang = $this->input->post('modal_new_item');
+        public function addsuppliers(){
+            $suppliers = $this->input->post('modal_new_suppliers');
 
             $data['org_id']      = $_SESSION['orgid'];
-            $data['barang_id']   = generateuuid();
-            $data['nama_barang'] = $namabarang;
+            $data['supplier_id'] = generateuuid();
+            $data['supplier']    = $suppliers;
             $data['created_by']  = $_SESSION['userid'];
 
-            if($this->md->insertitem($data)){
+            if($this->md->insertsuppliers($data)){
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Berhasil Di Tambah";

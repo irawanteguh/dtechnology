@@ -3,7 +3,7 @@
 		<div class="card">
 			<div class="card-header border-0 pt-5">
 				<h3 class="card-title align-items-start flex-column">
-					<span class="card-label fw-bolder fs-3 mb-1">Item Master</span>
+					<span class="card-label fw-bolder fs-3 mb-1">Master Suppliers</span>
 					<span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
 				</h3>
 				<div class="card-toolbar">
@@ -24,7 +24,7 @@
                             <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Action</div>
                         </div>
                         <div class="menu-item px-3">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_new_barang" class="menu-link px-3">Add Item</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_new_suppliers" class="menu-link px-3">Add Suppliers</a>
                         </div>
                     </div>
                 </div>
@@ -34,15 +34,11 @@
 					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
 						<thead>
 							<tr class="fw-bolder text-muted bg-light align-middle">
-								<th class="ps-4 rounded-start">Item Name</th>
-                                <th class="min-w-200px">Category</th>
-                                <th>Purchase Unit</th>
-                                <th>Unit of Use</th>
-                                <th class="text-center">Last Stock</th>
+								<th class="ps-4 rounded-start">Suppliers Name</th>
 								<th class="pe-4 text-end rounded-end">Action</th>
 							</tr>
 						</thead>
-						<tbody class="text-gray-600 fw-bold" id="resultmasterbarang"></tbody>
+						<tbody class="text-gray-600 fw-bold" id="resultmastersuppliers"></tbody>
 					</table>
 				</div>
 			</div>

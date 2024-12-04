@@ -8,6 +8,7 @@
                         from dt01_lgu_supplier_ms a
                         where a.org_id='".$orgid."'
                         and   a.active='1'
+                        order by supplier asc
                     ";
 
             $recordset = $this->db->query($query);
