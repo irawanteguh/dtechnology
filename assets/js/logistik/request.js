@@ -274,7 +274,9 @@ function datadetail(data_nopemesanan,data_status) {
         success: function (data) {
             let result      = "";
             let tableresult = "";
+            let tablepo     = "";
             let tfoot       = "";
+            let tfootpo     = "";
             let totalvat    = 0;
             let grandtotal  = 0;
 
@@ -318,6 +320,12 @@ function datadetail(data_nopemesanan,data_status) {
                     
                     tableresult += "</tr>";
 
+                    tablepo += "<tr>";
+                    tablepo += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+                    tablepo += `<td class='text-end'>${todesimal(qty)}</td>`;
+                    tablepo += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
+                    tablepo += "</tr>";
+
                     
 
                     totalvat   += vatAmount;
@@ -325,14 +333,15 @@ function datadetail(data_nopemesanan,data_status) {
                 }
 
                 tfoot = `<tr><th class='ps-4' colspan='7'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
+                // tfootpo = `<tr><th class='ps-4 rounded-start'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4 rounded-end' id='grand_total'>${todesimal(grandtotal)}</th></tr>`;
 
             }
 
             $("#resultdetail").html(tableresult);
             $("#resultdetailfoot").html(tfoot);
 
-            $("#resultdetailpo").html(tableresult);
-            $("#resultdetailfootpo").html(tfoot);
+            $("#resultdetailpo").html(tablepo);
+            // $("#resultdetailfootpo").html(tfootpo);
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
