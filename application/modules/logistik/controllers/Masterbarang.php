@@ -9,8 +9,38 @@
         }
 
         public function index(){
-            $this->template->load("template/template-sidebar", "v_masterbarang");
+            $data = $this->loadcombobox();
+            $this->template->load("template/template-sidebar", "v_masterbarang",$data);
         }
+
+        public function loadcombobox(){
+            $resulcategory = $this->md->category($_SESSION['orgid']);
+            $resulclassification = $this->md->classification();
+            $resulsatuan = $this->md->satuan($_SESSION['orgid']);
+            
+            $category="";
+            foreach($resulcategory as $a ){
+                $category.="<option value='".$a->jenis_id."'>".$a->jenis."</option>";
+            }
+
+            $classification="";
+            foreach($resulclassification as $a ){
+                $classification.="<option value='".$a->typeid."'>".$a->type."</option>";
+            }
+
+            $satuan="";
+            foreach($resulsatuan as $a ){
+                $satuan.="<option value='".$a->satuan_id."'>".$a->satuan."</option>";
+            }
+
+
+            $data['category']       = $category;
+            $data['classification'] = $classification;
+            $data['pu']             = $satuan;
+            $data['uu']             = $satuan;
+            
+            return $data;
+		}
 
         public function masterbarang(){
             $result = $this->md->masterbarang($_SESSION['orgid']);

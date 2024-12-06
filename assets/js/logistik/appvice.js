@@ -119,11 +119,11 @@ function datarequest(){
                     tableresult += '<div class="col-xl-4">';
                     tableresult += '<div class="card bgi-no-repeat card-xl-stretch mb-xl-8" style="background-position: right top; background-size: 30% auto; background-image: url(' + url + 'assets/images/svg/shapes/' + randomImage + '.svg)">';
                     tableresult += '<div class="card-body">';
-                    tableresult += "<div class='row d-flex justify-content-between align-items-center'>"; // Align vertically for better spacing
-                    tableresult += "<div class='col-auto'>"; // To ensure proper alignment
+                    tableresult += "<div class='row d-flex justify-content-between align-items-center'>";
+                    tableresult += "<div class='col-auto'>";
                     tableresult += '<a class="card-title fw-bolder text-muted text-hover-primary fs-4" href="#" data-bs-toggle="modal" data-bs-target="#modal_detail_barang" '+getvariabel+' onclick="getdetail(this)">' + result[i].no_pemesanan + '</a>';
                     tableresult += "</div>";
-                    tableresult += "<div class='col-auto'>"; // Align the badge to the right
+                    tableresult += "<div class='col-auto'>";
                     tableresult += getStatusBadge(result[i].decoded_status);
                     tableresult += "</div>";
                     tableresult += "</div>";

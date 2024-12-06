@@ -37,7 +37,7 @@ function masterbarang(){
                     tableresult +="<tr>";
 
                     tableresult +="<td class='ps-4'>"+result[i].nama_barang+" "+type+"</td>";
-                    tableresult +="<td>"+result[i].jenis+"</td>";
+                    tableresult +="<td>"+(result[i].jenis ? result[i].jenis : "")+"</td>";
                     tableresult +="<td>"+(result[i].satuanbeli ? result[i].satuanbeli : "")+"</td>";
                     tableresult +="<td>"+(result[i].satuanpakai ? result[i].satuanpakai : "")+"</td>";
                     tableresult +="<td class='text-center'>"+result[i].final_stok+"</td>";
@@ -46,7 +46,7 @@ function masterbarang(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                tableresult += "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Edit</a>";
+                                tableresult += "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal_edit_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square'></i> Edit</a>";
                                 tableresult += "<a class='dropdown-item btn btn-sm btn-light-danger' "+getvariabel+" onclick='nonactive($(this));'><i class='bi bi-trash'></i> Non Active</a>";
                             tableresult +="</div>";
                         tableresult +="</div>";

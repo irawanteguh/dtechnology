@@ -19,6 +19,48 @@
             return $recordset;
         }
 
+        function category($orgid){
+            $query =
+                    "
+                        select a.jenis_id, jenis
+                        from dt01_lgu_jenis_barang_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        order by jenis asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function classification(){
+            $query =
+                    "
+                        select '1' typeid, 'consumable' type union
+                        select '2' typeid, 'assets' type
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function satuan($orgid){
+            $query =
+                    "
+                        select a.satuan_id, satuan
+                        from dt01_lgu_satuan_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        order by satuan asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function updatemasterbarang($data,$barangid){           
             $sql =   $this->db->update("dt01_lgu_barang_ms",$data,array("barang_id"=>$barangid));
             return $sql;
