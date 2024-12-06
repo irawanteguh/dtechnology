@@ -4,10 +4,11 @@
         function masterbarang($orgid){
             $query =
                     "
-                        select a.barang_id, nama_barang, final_stok, type,
+                        select a.barang_id, nama_barang, final_stok, type, jenis_id, satuan_beli_id, satuan_pakai_id, date_format(last_updated_date, '%d.%m.%Y %H:%i:%s')last_updated_date,
                                (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_beli_id)satuanbeli,
                                (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_pakai_id)satuanpakai,
-                               (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=a.jenis_id)jenis
+                               (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=a.jenis_id)jenis,
+                               (select name from dt01_gen_user_data where org_id=a.org_id and active='1' and user_id=a.last_updated_by)namaupdate
                         from dt01_lgu_barang_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'

@@ -40,6 +40,7 @@
                 </div>
             </div>
             <form action="<?php echo base_url();?>index.php/logistik/masterbarang/edititem" id="formedititem">
+                <input type="hidden" name="modal_edit_itemid" id="modal_edit_itemid">
                 <div class="modal-body">
                     <div class="text-center mb-5">
                         <h1 class="mb-3">Edit Item Master</h1>
@@ -89,7 +90,7 @@
                     </div>
                 </div>
                 <div class="modal-footer p-1">				
-                    <input class="btn btn-light-primary" id="btn_position_add" type="submit" value="UPDATE" name="simpan" >
+                    <input class="btn btn-light-primary" id="btn_item_edit" type="submit" value="UPDATE" name="simpan" >
                 </div>
             </form>
         </div>

@@ -39,6 +39,7 @@
                                 <th>Purchase Unit</th>
                                 <th>Unit of Use</th>
                                 <th class="text-center">Last Stock</th>
+                                <th>Last Update</th>
 								<th class="pe-4 text-end rounded-end">Action</th>
 							</tr>
 						</thead>

@@ -76,6 +76,36 @@
             echo json_encode($json);
         }
 
+        public function edititem(){
+            $barangid       = $this->input->post("modal_edit_itemid");
+            $namabarang     = $this->input->post("modal_edit_item");
+            $category       = $this->input->post("modal_edit_category");
+            $classification = $this->input->post("modal_edit_classification");
+            $pu             = $this->input->post("modal_edit_pu");
+            $uu             = $this->input->post("modal_edit_uu");
+
+            
+            $data['nama_barang']       = $namabarang;
+            $data['jenis_id']          = $category;
+            $data['type']              = $classification;
+            $data['satuan_beli_id']    = $pu;
+            $data['satuan_pakai_id']   = $uu;
+            $data['last_updated_by']   = $_SESSION['userid'];
+            $data['last_updated_date'] = date("Y-m-d H:i:s");
+
+            if($this->md->updatemasterbarang($data,$barangid)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="error";
+                $json['responDesc']="Data failed to update";
+            }
+
+            echo json_encode($json);
+        }
+
         public function additem(){
             $namabarang = $this->input->post('modal_new_item');
 
