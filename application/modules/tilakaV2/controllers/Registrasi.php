@@ -469,6 +469,10 @@
                                         $json["responDesc"]   = "Data Di Temukan";
                                         $json['responResult'] = $response;
                                     }
+                                }else{
+                                    $json["responCode"]   = "01";
+                                    $json["responHead"]   = "error";
+                                    $json["responDesc"]   = $response['message'];
                                 }
                                 
                             }else{
