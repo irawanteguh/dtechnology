@@ -136,7 +136,7 @@
                                     $datasimpan['CERTIFICATE']      = $response['status'];
                                     $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
                                     $datasimpan['REASON_CODE']      = $_GET['reason_code'];
-                                    $datasimpan['ISSUE_ID']         = "";
+                                    $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
                                     
                                     $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
                                     redirect("tilakaV2/registrasi",$data);
