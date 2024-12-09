@@ -430,6 +430,7 @@
                 $json["responCode"]   = "01";
                 $json["responHead"]   = "error";
                 $json["responDesc"]   = $response['message'];
+                $json['responResult'] = $response;
             }
 
             echo json_encode($json);
