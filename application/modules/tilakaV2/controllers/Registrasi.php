@@ -88,6 +88,8 @@
                                 if($response['status']===3){
                                     $datasimpan['REVOKE_ID']        = "";
                                     $datasimpan['ISSUE_ID']         = "";
+                                    $datasimpan['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
+                                    $datasimpan['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                                 }
                                 $datasimpan['CERTIFICATE']      = $response['status'];
                                 $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
