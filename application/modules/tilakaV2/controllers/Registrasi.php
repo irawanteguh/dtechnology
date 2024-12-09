@@ -85,6 +85,10 @@
                             $response = Tilaka::checkcertificateuser(json_encode($body));
 
                             if($response['success']){
+                                if($response['status']===3){
+                                    $datasimpan['REVOKE_ID']        = "";
+                                    $datasimpan['ISSUE_ID']         = "";
+                                }
                                 $datasimpan['CERTIFICATE']      = $response['status'];
                                 $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
                             }
