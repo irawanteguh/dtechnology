@@ -171,6 +171,9 @@
                             $listpdfsignatures['coordinate_y']    = $coordinatey;
                             $listpdfsignatures['page_number']     = $page;
                             $listpdfsignatures['qrcombine']       = "QRONLY";
+                            if(CERTIFICATE==="PERSONAL"){
+                                $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                            }
     
                             $listpdf['filename']     = $files->filename;
                             $listpdf['signatures'][] = $listpdfsignatures;
