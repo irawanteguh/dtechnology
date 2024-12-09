@@ -429,7 +429,7 @@
             }else{
                 $json["responCode"]   = "01";
                 $json["responHead"]   = "error";
-                $json["responDesc"]   = $responsecheckcertificateuser['message'];
+                $json["responDesc"]   = $response['message'];
             }
 
             echo json_encode($json);
