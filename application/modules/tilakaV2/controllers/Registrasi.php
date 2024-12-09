@@ -424,9 +424,15 @@
                     $json["responDesc"]   = "Data Di Temukan";
                     $json['responResult'] = $response;
 
-                    echo json_encode($json);
+                    
                 }
+            }else{
+                $json["responCode"]   = "01";
+                $json["responHead"]   = "error";
+                $json["responDesc"]   = $responsecheckcertificateuser['message'];
             }
+
+            echo json_encode($json);
         }
 
         public function reenroll(){
