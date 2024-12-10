@@ -37,6 +37,8 @@
 								<th class="ps-4 rounded-start">Transaction Id</th>
                                 <th>Location</th>
                                 <th>Item Name</th>
+                                <th class="text-center">In</th>
+                                <th class="text-center">Out</th>
                                 <th class="text-center">Last Stock</th>
                                 <th>Created By</th>
 								<th class="pe-4 text-end rounded-end">Created Date</th>

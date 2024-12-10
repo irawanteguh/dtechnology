@@ -30,13 +30,14 @@
                                 when status = '18' then 'badge-light-danger|Invoice Cancelled Finance'
                                 when status = '19' then 'badge-light-info|Invoice Approval Finance'
                                 when status = '20' then 'badge-light-success|Payment Success'
+                                when status = '21' then 'badge-light-success|File Transfer Available'
                                 else 'badge-light-secondary|Unknown'
                             end as decoded_status
 
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'
                         and   a.active='1'
-                        and   a.status in ('4','5','6','17','18','19','20')
+                        and   a.status in ('4','5','6','17','18','19','20','21')
                     ";
 
             $recordset = $this->db->query($query);

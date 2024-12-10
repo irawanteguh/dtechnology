@@ -6,7 +6,24 @@ function getdetail(btn){
     var data_status      = $btn.attr("data_status");
 
     $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
+    $(":hidden[name='no_pemesanan_buktibayar']").val(data_nopemesanan);
+
     datadetail(data_nopemesanan,data_status);
+
+    var myDropzone = new Dropzone("#file_bukti_bayar", {
+        url               : url + "index.php/logistik/request/uploadbuktibayar?no_pemesanan="+data_nopemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept            : function(file, done) {
+            done();
+            $('#modal-upload-buktibayar').modal('hide');
+        }
+    });
 };
 
 function datarequest(){
@@ -49,6 +66,9 @@ function datarequest(){
                                 if(result[i].invoice==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Invoice</a>";
                                 }
+                                if(result[i].status==="21"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Bukti Transfer / Bayar</a>";
+                                }
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
@@ -57,26 +77,35 @@ function datarequest(){
 
                     tableresult += "<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
                     
-                    tableresult += "<td class='text-end'>";
-                        tableresult += "<div class='btn-group' role='group'>";
-                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                            tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                if(result[i].status==="4"){
-                                    tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='6' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='5' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
-                                }else{
-                                    if(result[i].status==="17"){
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='19' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved Invoice</a>";
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='18' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled Invoice</a>";
+                    if(result[i].status!="21"){
+                        tableresult += "<td class='text-end'>";
+                            tableresult += "<div class='btn-group' role='group'>";
+                                tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                                tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                    if(result[i].status==="4"){
+                                        tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='6' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='5' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
                                     }else{
-                                        if(result[i].status==="19"){
-                                            tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='20' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
+                                        if(result[i].status==="17"){
+                                            tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='19' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved Invoice</a>";
+                                            tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='18' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled Invoice</a>";
+                                        }else{
+                                            if(result[i].status==="19"){
+                                                tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='20' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
+                                            }else{
+                                                if(result[i].status==="20"){
+                                                    tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-success'></i> Upload Bukti Transfer / Bayar</a>";
+                                                }
+                                            }
                                         }
                                     }
-                                }
+                                tableresult +="</div>";
                             tableresult +="</div>";
-                        tableresult +="</div>";
-                    tableresult +="</td>";
+                        tableresult +="</td>";
+                    }else{
+                        tableresult +="<td></td>";
+                    }
+                    
 
                     tableresult +="</tr>";
                 }

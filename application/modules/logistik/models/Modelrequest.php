@@ -16,6 +16,17 @@
             return $recordset;
         }
 
+        function paymentmethod(){
+            $query =
+                    "
+                        select '1'id, 'Invoice'metod union select '2'id, 'Cash / Bon' metod
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function buatnopemesanan($orgid){
             $query =
                     "
@@ -47,6 +58,7 @@
             $query =
                     "
                         select a.barang_id,nama_barang,
+                            (select stock from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')stock,
                             (select qty_minta from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qty,
                             (select harga from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')harga,
                             (select ppn from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')ppn,
@@ -100,7 +112,7 @@
         function datarequest($orgid,$departmentid){
             $query =
                     "
-                        select a.no_pemesanan, judul_pemesanan, note, invoice, subtotal, harga_ppn, total, status, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, judul_pemesanan, note, invoice, method, subtotal, harga_ppn, total, status, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit,
@@ -127,6 +139,7 @@
                                 when status = '18' then 'badge-light-danger|Invoice Cancelled Finance'
                                 when status = '19' then 'badge-light-info|Invoice Approval Finance'
                                 when status = '20' then 'badge-light-success|Payment Success'
+                                when status = '21' then 'badge-light-success|File Transfer Available'
                                 else 'badge-light-secondary|Unknown'
                             end as decoded_status
 
@@ -144,7 +157,7 @@
         function detailbarang($orgid,$nopemesanan){
             $query =
                     "
-                        select a.item_id, barang_id, note, qty_minta, qty_manager, qty_keu, qty_wadir, qty_dir, harga, harga_ppn, ppn, total,
+                        select a.item_id, barang_id, note, stock, qty_minta, qty_manager, qty_keu, qty_wadir, qty_dir, harga, harga_ppn, ppn, total,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_beli_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanbeli,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_pakai_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanpakai,
                             (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=(select jenis_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))jenis,
@@ -197,6 +210,16 @@
 
         function updatebarangid($barangid,$nopemesanan,$data){           
             $sql =   $this->db->update("dt01_lgu_pemesanan_dt",$data,array("barang_id"=>$barangid,"no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
+        function insertstock($data){           
+            $sql =   $this->db->insert("dt01_lgu_mutasi_barang",$data);
+            return $sql;
+        }
+
+        function updatestock($transaksiid,$data){           
+            $sql =   $this->db->update("dt01_lgu_mutasi_barang",$data,array("transaksi_id"=>$transaksiid));
             return $sql;
         }
 

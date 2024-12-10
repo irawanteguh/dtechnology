@@ -43,6 +43,7 @@ function updateVatAndTotal(input) {
         return;
     }
 
+    const stockInput        = document.getElementById(`stock_${itemId}`);
     const qtyInput          = document.getElementById(`qty_${itemId}`);
     const hargaInput        = document.getElementById(`harga_${itemId}`);
     const vatElement        = document.getElementById(`vat_${itemId}`);
@@ -52,7 +53,8 @@ function updateVatAndTotal(input) {
     const grandTotalElement = document.getElementById("grand_total");
     const note              = document.getElementById(`note_${itemId}`);
 
-    if(qtyInput && hargaInput && vatElement && vatAmountElement){
+    if(stockInput && qtyInput && hargaInput && vatElement && vatAmountElement){
+        const stock = parseFloat(stockInput.value);
         const qty   = parseFloat(qtyInput.value);
         const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
         const ppn   = parseFloat(vatElement.value) / 100;
@@ -105,6 +107,7 @@ function updateVatAndTotal(input) {
                 validasi    : validasi,
                 item_id     : itemId,
                 note        : note ? note.value: "",
+                stock       : stock,
                 qty         : qty,
                 harga       : harga,
                 ppn         : ppn,

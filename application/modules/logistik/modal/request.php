@@ -16,17 +16,26 @@
                         <div class="text-muted fw-bold fs-5"></div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-6 mb-5">
+                        <div class="col-md-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Procurement Name :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_new_request_nama" name="modal_new_request_nama" required>
                         </div>
-                        <div class="col-md-6 mb-5">
+                        <div class="col-md-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span class="required">Suppliers</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Suppliers"></i>
                             </label>
                             <select data-control="select2" data-dropdown-parent="#modal_new_request" data-placeholder="Please Select Suppliers" class="form-select form-select-solid" name="modal_new_request_supplier" id="modal_new_request_supplier" required>
                                 <?php echo $mastersupplier;?>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Payment Method</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Payment Method"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_new_request" data-placeholder="Please Select Payment Method" class="form-select form-select-solid" name="modal_new_request_method" id="modal_new_request_method" required>
+                                <?php echo $paymentmethod;?>
                             </select>
                         </div>
                     </div>
@@ -44,7 +53,7 @@
 </div>
 
 <div class="modal fade" id="modal_master_item" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -66,6 +75,7 @@
                                 <th class="ps-4 rounded-start">Item Name</th>
                                 <th>Category</th>
                                 <th>Purchase Unit</th>
+                                <th class="text-end">Stock</th>
                                 <th class="text-end">Qty</th>
                                 <th class="text-end">Price</th>
                                 <th class="text-end">% VAT</th>
@@ -89,7 +99,7 @@
 </div>
 
 <div class="modal fade" id="modal_detail_barang" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -108,11 +118,11 @@
 					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
 						<thead>
 							<tr class="fw-bolder text-muted bg-light align-middle">
-                                <!-- <th class="ps-4 rounded-start">Suppliers</th> -->
 								<th class="ps-4 rounded-start">Item Name</th>
                                 <th>Category</th>
                                 <th>Purchase Unit</th>
                                 <th>Unit of Use</th>
+                                <th class="text-end">Stock</th>
                                 <th class="text-end">Qty</th>
                                 <th class="text-end">Price</th>
                                 <th class="text-end">% VAT</th>

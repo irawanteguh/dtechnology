@@ -15,13 +15,20 @@
 
         public function loadcombobox(){
             $resultmastersupplier = $this->md->mastersupplier($_SESSION['orgid']);
+            $resultpaymentmethod  = $this->md->paymentmethod();
             
             $mastersupplier="";
             foreach($resultmastersupplier as $a ){
                 $mastersupplier.="<option value='".$a->supplier_id."'>".$a->supplier."</option>";
             }
 
+            $paymentmethod="";
+            foreach($resultpaymentmethod as $a ){
+                $paymentmethod.="<option value='".$a->id."'>".$a->metod."</option>";
+            }
+
             $data['mastersupplier']           = $mastersupplier;
+            $data['paymentmethod']           = $paymentmethod;
             
             return $data;
 		}
@@ -34,6 +41,7 @@
             $data['note']            = $this->input->post("keterangan");
             $data['department_id']   = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
             $data['supplier_id']     = $this->input->post("modal_new_request_supplier");
+            $data['method']          = $this->input->post("modal_new_request_method");
             $data['created_by']      = $_SESSION['userid'];
 
             if($this->md->insertheader($data)){
@@ -53,17 +61,19 @@
             $no_pemesanan = $this->input->post('no_pemesanan');
             $validasi     = $this->input->post('validasi');
             $barangid     = $this->input->post('barangid');
+            $stock        = $this->input->post('stock');
             $qty          = $this->input->post('qty');
             $harga        = $this->input->post('harga');
             $ppn          = $this->input->post('ppn');
             $subtotal     = $this->input->post('subtotal');
             $vat_amount   = $this->input->post('vat_amount');
             $note         = $this->input->post('note');
+            $itemid       = generateuuid();
 
             $data['org_id']       = $_SESSION['orgid'];
-            $data['item_id']      = generateuuid();
             $data['no_pemesanan'] = $no_pemesanan;
             $data['barang_id']    = $barangid;
+            $data['stock']        = $stock;
             $data['qty_minta']    = $qty;
             $data['harga']        = $harga;
             $data['ppn']          = $ppn*100;
@@ -73,6 +83,7 @@
             $data['created_by']   = $_SESSION['userid'];
 
             if(empty($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid))){
+                $data['item_id']      = $itemid;
                 if($this->md->insertitem($data)){
 
                     $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
@@ -83,6 +94,16 @@
     
                     $this->md->updateheader($no_pemesanan,$dataheader);
     
+                    $datastock['org_id']        = $_SESSION['orgid'];
+                    $datastock['transaksi_id']  = $itemid;
+                    $datastock['department_id'] = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+                    $datastock['barang_id']     = $barangid;
+                    $datastock['qty']           = $stock;
+                    $datastock['jenis_id']      = "1";
+                    $datastock['created_by']    = $_SESSION['userid'];
+
+                    $this->md->insertstock($datastock);
+
                     $json['responCode']="00";
                     $json['responHead']="success";
                     $json['responDesc']="Data Berhasil Di Tambah";
@@ -100,6 +121,18 @@
                     $dataheader['TOTAL']     = $resulthitungdetail->total;
     
                     $this->md->updateheader($no_pemesanan,$dataheader);
+
+                    $updatedatastock['org_id']        = $_SESSION['orgid'];
+                    $updatedatastock['department_id'] = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+                    $updatedatastock['barang_id']     = $barangid;
+                    $updatedatastock['qty']           = $stock;
+                    $updatedatastock['jenis_id']      = "1";
+                    $updatedatastock['created_by']    = $_SESSION['userid'];
+
+                    if(!empty($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid))){
+                        $this->md->updatestock($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid)->ITEM_ID,$updatedatastock);
+                    }
+                    
     
                     $json['responCode']="00";
                     $json['responHead']="success";
@@ -174,6 +207,7 @@
             $validasi     = $this->input->post('validasi');
             $item_id      = $this->input->post('item_id');
             $qty          = $this->input->post('qty');
+            $stock        = $this->input->post('stock');
             $harga        = $this->input->post('harga');
             $ppn          = $this->input->post('ppn');
             $subtotal     = $this->input->post('subtotal');
@@ -212,6 +246,7 @@
                 $data['DIR_DATE'] = date('Y-m-d H:i:s');
             }
             
+            $data['STOCK']     = $stock;
             $data['HARGA']     = $harga;
             $data['PPN']       = $ppn*100;
             $data['HARGA_PPN'] = $vat_amount;
@@ -226,6 +261,14 @@
                 $dataheader['TOTAL']     = $resulthitungdetail->total;
 
                 $this->md->updateheader($no_pemesanan,$dataheader);
+
+                $updatedatastock['org_id']        = $_SESSION['orgid'];
+                $updatedatastock['department_id'] = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+                $updatedatastock['qty']           = $stock;
+                $updatedatastock['jenis_id']      = "1";
+                $updatedatastock['created_by']    = $_SESSION['userid'];
+
+                $this->md->updatestock($item_id,$updatedatastock);
 
                 $json["responCode"]="00";
                 $json["responHead"]="success";
@@ -286,6 +329,33 @@
 
                 $dataupdate['INVOICE']="1";
                 $dataupdate['STATUS']="11";
+
+                $this->md->updateheader($no_pemesanan,$dataupdate);
+
+                echo "Upload Success";
+            }
+
+        }
+
+        public function uploadbuktibayar(){
+            $no_pemesanan= $_GET['no_pemesanan'];
+
+            $config['upload_path']   = './assets/buktitransfer/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $no_pemesanan;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+
+                $dataupdate['STATUS']="21";
 
                 $this->md->updateheader($no_pemesanan,$dataupdate);
 

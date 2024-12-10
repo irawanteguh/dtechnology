@@ -20,10 +20,12 @@ function mutasibarang(){
                 for(var i in result){
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].transaksi_id+"</td>";
-                    tableresult +="<td>"+result[i].location+"</td>";
+                    tableresult +="<td><div>"+(result[i].unit ? result[i].unit : "-")+"</div><div>"+(result[i].location ? result[i].location : "-")+"</div></td>";
                     tableresult +="<td>"+result[i].namabarang+"</td>";
+                    tableresult +="<td class='text-center'>"+result[i].masuk+"</td>";
+                    tableresult +="<td class='text-center'>"+result[i].keluar+"</td>";
                     tableresult +="<td class='text-center'>"+result[i].qty+"</td>";
-                    tableresult +="<td>"+result[i].dibuatoleh+"</td>";
+                    tableresult +="<td>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "-")+"</td>";
                     tableresult +="<td class='pe-4 text-end'>"+result[i].tgltransaksi+"</td>";
                     tableresult +="</tr>";
                 }
