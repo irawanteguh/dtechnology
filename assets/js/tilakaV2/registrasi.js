@@ -243,7 +243,7 @@ function datakaryawan(){
                         btnaction = btnverifpengajuan;
                     }
 
-                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER!="" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID===""  && result[i].status_expdate==="1"){
+                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER!="" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID==="" && result[i].status_expdate==="1"){
                         statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Silakan Melakukan Pengajuan Kembali</div></td>";
                         btnaction = btnreenroll;
                     }

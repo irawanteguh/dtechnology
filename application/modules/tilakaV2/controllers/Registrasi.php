@@ -125,6 +125,7 @@
                                     $datasimpan['REASON_CODE']      = $_GET['reason_code'];
                                     $datasimpan['REVOKE_ID']        = "";
                                     $datasimpan['ISSUE_ID']         = "";
+                                    $datasimpan['EXPIRED_DATE']     = "";
                                     
 
                                     $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
@@ -423,8 +424,6 @@
                     $json["responHead"]   = "success";
                     $json["responDesc"]   = "Data Di Temukan";
                     $json['responResult'] = $response;
-
-                    
                 }
             }else{
                 $json["responCode"]   = "01";
