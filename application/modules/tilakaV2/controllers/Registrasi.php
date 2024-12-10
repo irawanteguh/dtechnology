@@ -127,7 +127,6 @@
                                     $datasimpan['ISSUE_ID']         = "";
                                     $datasimpan['EXPIRED_DATE']     = "";
                                     
-
                                     $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
                                     redirect("tilakaV2/registrasi",$data);
                                 }
