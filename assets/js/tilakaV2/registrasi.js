@@ -248,7 +248,7 @@ function datakaryawan(){
                         btnaction = btnreenroll;
                     }
 
-                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER!="" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID==="" && result[i].REASON_CODE==="0"){
+                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER!="" && result[i].REVOKE_ID!="" && result[i].ISSUE_ID!="" && result[i].REASON_CODE==="0"){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btncheckstatus;
                     }
