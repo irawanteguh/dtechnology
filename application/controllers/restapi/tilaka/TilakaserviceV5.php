@@ -66,6 +66,8 @@
                                                 $data['USER_IDENTIFIER'] = $a->useridentifier;
                                                 $data['STATUS_SIGN']     = "1";
                                             }
+                                        }else{
+                                            $data['NOTE'] = "Gagal Upload Document";
                                         }
                                         
                                         $responseall['ResponseTilaka'] = $response;
@@ -75,6 +77,7 @@
                                     }
                                 }
                             }else{
+                                $data['NOTE']                  = "Gagal Check Certificate User";
                                 $responseall['ResponseTilaka'] = $responsecheckcertificate;
                             }
                         }else{
