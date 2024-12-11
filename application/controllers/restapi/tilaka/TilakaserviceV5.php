@@ -27,12 +27,12 @@
             
             if(!empty($result)){
                 foreach($result as $a){
-                    $response    = [];
-                    $responseall = [];
-                    $data        = [];
-                    $location    = "";
-                    $bodycheckcertificate = [];
+                    $response                 = [];
+                    $responseall              = [];
+                    $data                     = [];
+                    $bodycheckcertificate     = [];
                     $responsecheckcertificate = [];
+                    $location                 = "";
 
                     $responseall['NoFile']                   = $a->NO_FILE;
                     $responseall['Type']                     = $a->jenisdocumen;
@@ -46,8 +46,6 @@
                     }else{
                         $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
                     }
-
-                    // $location = str_replace("/www/wwwroot/", "http://",$location);
 
                     if(file_exists($location)){
                         $fileSize = 0;
@@ -68,19 +66,19 @@
                                     }
                                     $responseall['ResponseTilaka'] = $response;
                                 }else{
-                                    $data['NOTE'] = $responsecheckcertificate['data'][0]['status'];
+                                    $data['NOTE']                  = $responsecheckcertificate['data'][0]['status'];
                                     $responseall['ResponseTilaka'] = $responsecheckcertificate;
                                 }
                             }
                         }else{
-                            $data['ACTIVE']     = "0";
-                            $data['NOTE'] = "File Corrupted, File Size : ".$fileSize;
+                            $data['ACTIVE']                     = "0";
+                            $data['NOTE']                       = "File Corrupted, File Size : ".$fileSize;
                             $responseall['ResponseDTechnology'] = "File Corrupted, File Size : ".$fileSize;
                         }
                     }else{
-                        $data['ACTIVE']     = "0";
-                        $data['NOTE'] = "File Tidak Di Temukan";
-                        $responseall['ResponseDTechnology']['Note'] = "File Tidak Di Temukan";
+                        $data['ACTIVE']                                 = "0";
+                        $data['NOTE']                                   = "File Tidak Di Temukan";
+                        $responseall['ResponseDTechnology']['Note']     = "File Tidak Di Temukan";
                         $responseall['ResponseDTechnology']['Location'] = $location;
                     }
 
