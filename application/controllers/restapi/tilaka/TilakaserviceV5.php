@@ -59,12 +59,15 @@
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
                                         $response = Tilaka::uploadfile($location);
-                                        if($response['success']){
-                                            $data['NOTE']            = "";
-                                            $data['FILENAME']        = $response['filename'];
-                                            $data['USER_IDENTIFIER'] = $a->useridentifier;
-                                            $data['STATUS_SIGN']     = "1";
+                                        if(isset($response['success'])){
+                                            if($response['success']){
+                                                $data['NOTE']            = "";
+                                                $data['FILENAME']        = $response['filename'];
+                                                $data['USER_IDENTIFIER'] = $a->useridentifier;
+                                                $data['STATUS_SIGN']     = "1";
+                                            }
                                         }
+                                        
                                         $responseall['ResponseTilaka'] = $response;
                                     }else{
                                         $data['NOTE']                  = $responsecheckcertificate['data'][0]['status'];
