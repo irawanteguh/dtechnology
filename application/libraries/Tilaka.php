@@ -90,18 +90,24 @@
         }
 
         public static function checkcertificateuser($body){
-            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+            $oauthResponse = Tilaka::oauth();
+            if(isset($oauthResponse['access_token'])){
+                $header = array("Content-Type: application/json","Authorization: Bearer ".$oauthResponse['access_token']);
 
-            $responsecurl = curl([
-                'url'     => TILAKA_BASE_URL."checkcertstatus",
-                'method'  => "POST",
-                'header'  => $header,
-                'body'    => $body,
-                'savelog' => true,
-                'source'  => "TILAKA-CHECKCERTIFICATEUSER"
-            ]);
+                $responsecurl = curl([
+                    'url'     => TILAKA_BASE_URL."checkcertstatus",
+                    'method'  => "POST",
+                    'header'  => $header,
+                    'body'    => $body,
+                    'savelog' => true,
+                    'source'  => "TILAKA-CHECKCERTIFICATEUSER"
+                ]);
+    
+                return json_decode($responsecurl,TRUE); 
 
-            return json_decode($responsecurl,TRUE); 
+            }else{
+                return json_decode($oauthResponse, TRUE); 
+            }
         }
 
         public static function revoke($body){
@@ -119,50 +125,30 @@
             return json_decode($responsecurl,TRUE); 
         }
 
-        // public static function uploadfile($location){
-        //     $header = array("Authorization: Bearer ".Tilaka::oauth()['access_token']);
-            
-        //     $mimedoc =mime_content_type($location);
-        //     $infodoc =pathinfo($location);
-        //     $namedoc =$infodoc['basename'];
-
-        //     $requestbody = array(
-        //         'file' => new CURLFILE($location,$mimedoc,$namedoc)
-        //     );
-
-        //     $responsecurl = curl([
-        //         'url'     => TILAKALITE_URL."api/v1/upload",
-        //         'method'  => "POST",
-        //         'header'  => $header,
-        //         'body'    => $requestbody,
-        //         'savelog' => false,
-        //         'source'  => "TILAKA-UPLOADFILE"
-        //     ]);
-
-        //     return json_decode($responsecurl,TRUE); 
-        // }
-
         public static function uploadfile($location){
             $oauthResponse = Tilaka::oauth();
             if(isset($oauthResponse['access_token'])){
-                $header = array("Authorization: Bearer ".$oauthResponse['access_token']);
-                $infodoc = pathinfo($location);
+                $header    = array("Authorization: Bearer ".$oauthResponse['access_token']);
+                $infodoc   = pathinfo($location);
                 $extension = strtolower($infodoc['extension']);
                 
                 switch ($extension) {
                     case 'pdf':
                         $mimedoc = 'application/pdf';
-                        break;
+                    break;
+
                     case 'jpg':
                     case 'jpeg':
                         $mimedoc = 'image/jpeg';
-                        break;
+                    break;
+
                     case 'png':
                         $mimedoc = 'image/png';
-                        break;
+                    break;
+
                     default:
                         $mimedoc = 'application/octet-stream';
-                        break;
+                    break;
                 }
                 
                 $namedoc = $infodoc['basename'];
@@ -182,7 +168,7 @@
             
                 return json_decode($responsecurl, TRUE); 
             }else{
-                return json_decode(Tilaka::oauth(), TRUE); 
+                return json_decode($oauthResponse, TRUE); 
             }
         }
         
