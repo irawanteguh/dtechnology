@@ -154,6 +154,7 @@ function validasi(btn){
 				datarequest();
 			}
 
+            toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
 		}
 	});

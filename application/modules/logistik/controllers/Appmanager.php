@@ -5,7 +5,7 @@
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelappmanager", "md");
+            $this->load->model("Modelrequest", "md");
         }
 
         public function index(){
@@ -13,7 +13,19 @@
         }
 
         public function datarequest(){
-            $result = $this->md->datarequest($_SESSION['orgid'],$_SESSION['userid']);
+            $status="
+                        and   a.status in ('2','3','4','11','12','13','20')
+                        and   a.department_id in (
+                                                    select department_id
+                                                    from dt01_gen_department_ms
+                                                    where header_id in (
+                                                                            select department_id
+                                                                            from dt01_gen_department_ms
+                                                                            where user_id='".$_SESSION['userid']."'
+                                                                    )
+                                                )
+                    ";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

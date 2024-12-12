@@ -6,25 +6,39 @@ filteritemname.on('change', filterTable);
 filtercategory.on('change', filterTable);
 filterunit.on('change', filterTable);
 
+$("#modal_new_request").on('hide.bs.modal', function(){
+    $("input[name='modal_new_request_nama']").val("");
+    $("textarea[name='modal_new_request_note']").val("");
+    $("input[name='modal_new_request_cito']").prop("checked", false);
+});
+
+$("#modal-upload-lampiran").on('hide.bs.modal', function(){
+    $("input[name='no_pemesanan_upload']").val("");
+    $("textarea[name='modal-upload-lampiran-note']").val("");
+});
+
 datarequest();
 
 function getdetail(btn){
     var $btn = $(btn);
-    var data_nopemesanan = $btn.attr("data_nopemesanan");
-    var data_status      = $btn.attr("data_status");
-    var data_suppliers   = $btn.attr("data_suppliers");
-    var data_createddate = $btn.attr("data_createddate");
+    var data_nopemesanan     = $btn.attr("data_nopemesanan");
+    var data_status          = $btn.attr("data_status");
+    var data_suppliers       = $btn.attr("data_suppliers");
+    var data_createddate     = $btn.attr("data_createddate");
+    var data_attachment_note = $btn.attr("data_attachment_note");
 
-    $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
+    // $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_item']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_upload']").val(data_nopemesanan);
-    $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
+    // $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
 
-    $("#pono").html(data_nopemesanan);
-    $("#suppliers").html(data_suppliers);
-    $("#orderdate").html(data_createddate);
+    $("textarea[name='modal-upload-lampiran-note']").val(data_attachment_note);
 
-    datadetail(data_nopemesanan,data_status);
+    // $("#pono").html(data_nopemesanan);
+    // $("#suppliers").html(data_suppliers);
+    // $("#orderdate").html(data_createddate);
+
+    // datadetail(data_nopemesanan,data_status);
     masterbarang(data_nopemesanan);
 
     var myDropzone = new Dropzone("#file_doc", {
@@ -38,24 +52,23 @@ function getdetail(btn){
         autoProcessQueue  : true,
         accept            : function(file, done) {
             done();
-            $('#modal-upload-lampiran').modal('hide');
         }
     });
 
-    var myDropzone = new Dropzone("#file_invoice", {
-        url               : url + "index.php/logistik/request/uploadinvoice?no_pemesanan="+data_nopemesanan,
-        acceptedFiles     : '.pdf',
-        paramName         : "file",
-        dictDefaultMessage: "Drop files here or click to upload",
-        maxFiles          : 1,
-        maxFilesize       : 2,
-        addRemoveLinks    : true,
-        autoProcessQueue  : true,
-        accept            : function(file, done) {
-            done();
-            $('#modal-upload-invoice').modal('hide');
-        }
-    });
+    // var myDropzone = new Dropzone("#file_invoice", {
+    //     url               : url + "index.php/logistik/request/uploadinvoice?no_pemesanan="+data_nopemesanan,
+    //     acceptedFiles     : '.pdf',
+    //     paramName         : "file",
+    //     dictDefaultMessage: "Drop files here or click to upload",
+    //     maxFiles          : 1,
+    //     maxFilesize       : 2,
+    //     addRemoveLinks    : true,
+    //     autoProcessQueue  : true,
+    //     accept            : function(file, done) {
+    //         done();
+    //         $('#modal-upload-invoice').modal('hide');
+    //     }
+    // });
 };
 
 function filterTable() {
@@ -98,70 +111,47 @@ function datarequest(){
             if(data.responCode==="00"){
                 result = data.responResult;
                 for(var i in result){
-
+                    var cito = "";
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
+                                      "data_attachment_note='"+result[i].attachment_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
-                    tableresult +="<tr>";
-
-                    if(result[i].status==="10"){
-                        tableresult +="<td class='ps-4'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_print_po' "+getvariabel+" onclick='getdetail(this)'>"+result[i].no_pemesanan+"</a></td>";
-                    }else{
-                        tableresult +="<td class='ps-4'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_detail_barang' "+getvariabel+" onclick='getdetail(this)'>"+result[i].no_pemesanan+"</a></td>";
+                    if(result[i].cito==="Y"){
+                        cito =" <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>";
                     }
-                    
-                    tableresult +="<td><div>"+result[i].judul_pemesanan+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    tableresult +="<td>" + (result[i].namasupplier ? result[i].namasupplier : "") + " <div class='badge badge-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : "Cash / Bon") + "</div></td>";
+
+                    tableresult +="<tr>";
+                    tableresult +="<td class='ps-4'>"+result[i].no_pemesanan+"</td>";
+                    tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    tableresult +="<td>" + (result[i].namasupplier ? result[i].namasupplier : "") + " <div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : "Cash / Bon") + "</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    tableresult +=getStatusBadge(result[i].decoded_status);
+                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
-                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>View Document</button>";
+                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                if(result[i].status==="0"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+                                    if(result[i].attachment==="0"){
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-lampiran' onclick='getdetail(this)'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
+                                    }
+                                    
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                                }
                                 if(result[i].attachment==="1"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Data Pendukung</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                                 }
-                                if(result[i].invoice==="1"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Invoice</a>";
-                                }
-                                if(result[i].status==="21"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Bukti Transfer / Bayar</a>";
-                                }
-                                tableresult +="<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-upload-lampiran' "+getvariabel+" onclick='getdetail(this)'>Upload Document</a>";
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
 
-                    tableresult += getStatusBadge(result[i].decoded_status);
-                    tableresult += "<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
-
-                    if(result[i].status!="21"){
-                        tableresult += "<td class='text-end'>";
-                            tableresult += "<div class='btn-group' role='group'>";
-                                tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                                tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                    if(result[i].status==="0"){
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
-                                    }else{
-                                        if(result[i].status==="10"){
-                                            tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
-                                            tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-invoice' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Invoce</a>";
-                                        }
-                                    }
-                                tableresult +="</div>";
-                            tableresult +="</div>";
-                        tableresult +="</td>";
-                    }else{
-                        tableresult +="<td></td>";
-                    }
-                    
-                    
                     tableresult +="</tr>";
                 }
             }
@@ -178,6 +168,105 @@ function datarequest(){
     });
     return false;
 };
+
+// function datarequest(){
+//     $.ajax({
+//         url       : url+"index.php/logistik/request/datarequest",
+//         method    : "POST",
+//         dataType  : "JSON",
+//         cache     : false,
+//         beforeSend: function () {
+//             $("#resultdatarequest").html("");
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+//         },
+//         success:function(data){
+//             var result      = "";
+//             var tableresult = "";
+
+//             if(data.responCode==="00"){
+//                 result = data.responResult;
+//                 for(var i in result){
+
+//                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
+//                                       "data_suppliers='"+result[i].namasupplier+"'"+
+//                                       "data_createddate='"+result[i].tglbuat+"'"+
+//                                       "data_status='"+result[i].status+"'";
+
+//                     tableresult +="<tr>";
+
+//                     if(result[i].status==="10"){
+//                         tableresult +="<td class='ps-4'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_print_po' "+getvariabel+" onclick='getdetail(this)'>"+result[i].no_pemesanan+"</a></td>";
+//                     }else{
+//                         tableresult +="<td class='ps-4'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_detail_barang' "+getvariabel+" onclick='getdetail(this)'>"+result[i].no_pemesanan+"</a></td>";
+//                     }
+                    
+//                     tableresult +="<td><div>"+result[i].judul_pemesanan+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
+//                     tableresult +="<td>" + (result[i].namasupplier ? result[i].namasupplier : "") + " <div class='badge badge-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : "Cash / Bon") + "</div></td>";
+//                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
+//                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+//                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+
+//                     tableresult += "<td class='text-end'>";
+//                         tableresult += "<div class='btn-group' role='group'>";
+//                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>View Document</button>";
+//                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+//                                 if(result[i].attachment==="1"){
+//                                     tableresult +="<a class='dropdown-item btn btn-sm href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Data Pendukung</a>";
+//                                 }
+//                                 if(result[i].invoice==="1"){
+//                                     tableresult +="<a class='dropdown-item btn btn-sm' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Invoice</a>";
+//                                 }
+//                                 if(result[i].status==="21"){
+//                                     tableresult +="<a class='dropdown-item btn btn-sm' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'>Bukti Transfer / Bayar</a>";
+//                                 }
+//                                 tableresult +="<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal-upload-lampiran' "+getvariabel+" onclick='getdetail(this)'>Upload Document</a>";
+//                             tableresult +="</div>";
+//                         tableresult +="</div>";
+//                     tableresult +="</td>";
+
+//                     tableresult += getStatusBadge(result[i].decoded_status);
+//                     tableresult += "<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+
+//                     if(result[i].status!="21"){
+//                         tableresult += "<td class='text-end'>";
+//                             tableresult += "<div class='btn-group' role='group'>";
+//                                 tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+//                                 tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+//                                     if(result[i].status==="0"){
+//                                         tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+//                                         tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+//                                         tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+//                                     }else{
+//                                         if(result[i].status==="10"){
+//                                             tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+//                                             tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-invoice' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Invoce</a>";
+//                                         }
+//                                     }
+//                                 tableresult +="</div>";
+//                             tableresult +="</div>";
+//                         tableresult +="</td>";
+//                     }else{
+//                         tableresult +="<td></td>";
+//                     }
+                    
+                    
+//                     tableresult +="</tr>";
+//                 }
+//             }
+
+//             $("#resultdatarequest").html(tableresult);
+//             toastr[data.responHead](data.responDesc, "INFORMATION");
+//         },
+//         error: function(xhr, status, error) {
+//             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");
+// 		},
+// 		complete: function () {
+// 			toastr.clear();
+// 		}
+//     });
+//     return false;
+// };
 
 function masterbarang(data_nopemesanan){
     $.ajax({
@@ -274,104 +363,104 @@ function masterbarang(data_nopemesanan){
     return false;
 };
 
-function datadetail(data_nopemesanan,data_status) {
-    $.ajax({
-        url       : url+"index.php/logistik/request/detailbarang",
-        data      : {data_nopemesanan:data_nopemesanan},
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            $("#resultdetail").html("");
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-        },
-        success: function (data) {
-            let result      = "";
-            let tableresult = "";
-            let tablepo     = "";
-            let tfoot       = "";
-            let tfootpo     = "";
-            let totalvat    = 0;
-            let grandtotal  = 0;
+// function datadetail(data_nopemesanan,data_status) {
+//     $.ajax({
+//         url       : url+"index.php/logistik/request/detailbarang",
+//         data      : {data_nopemesanan:data_nopemesanan},
+//         method    : "POST",
+//         dataType  : "JSON",
+//         cache     : false,
+//         beforeSend: function () {
+//             $("#resultdetail").html("");
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+//         },
+//         success: function (data) {
+//             let result      = "";
+//             let tableresult = "";
+//             let tablepo     = "";
+//             let tfoot       = "";
+//             let tfootpo     = "";
+//             let totalvat    = 0;
+//             let grandtotal  = 0;
 
-            if (data.responCode === "00") {
-                result = data.responResult;
-                for (let i in result) {
-                    const stock      = parseFloat(result[i].stock) || 0;
-                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
-                    const harga      = parseFloat(result[i].harga) || 0;
-                    const vatPercent = parseFloat(result[i].ppn) || 0;
-                    const vatAmount  = qty * (harga * vatPercent / 100);
-                    const subtotal   = (qty * harga) + vatAmount;
+//             if (data.responCode === "00") {
+//                 result = data.responResult;
+//                 for (let i in result) {
+//                     const stock      = parseFloat(result[i].stock) || 0;
+//                     const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
+//                     const harga      = parseFloat(result[i].harga) || 0;
+//                     const vatPercent = parseFloat(result[i].ppn) || 0;
+//                     const vatAmount  = qty * (harga * vatPercent / 100);
+//                     const subtotal   = (qty * harga) + vatAmount;
 
-                    tableresult += "<tr>";
-                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
-                    tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
-                    tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
-                    tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
+//                     tableresult += "<tr>";
+//                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+//                     tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
+//                     tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
+//                     tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
 
-                    if (data_status === "0") {
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
-                    } else {
-                        tableresult += `<td class='text-end'>${todesimal(stock)}</td>`;
-                        tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
-                        tableresult += `<td class='text-end'>${todesimal(result[i].harga)}</td>`;
-                        tableresult += `<td class='text-end'>${todesimal(vatPercent)}%</td>`;
-                    }
+//                     if (data_status === "0") {
+//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data-validasi='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+//                     } else {
+//                         tableresult += `<td class='text-end'>${todesimal(stock)}</td>`;
+//                         tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
+//                         tableresult += `<td class='text-end'>${todesimal(result[i].harga)}</td>`;
+//                         tableresult += `<td class='text-end'>${todesimal(vatPercent)}%</td>`;
+//                     }
 
-                    tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
-                    tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
+//                     tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
+//                     tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
                     
-                    if(data_status === "0"){
-                        if(result[i].note!=null){
-                            tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' onchange='updateVatAndTotal(this)'></td>`;
-                        }else{
-                            tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' onchange='updateVatAndTotal(this)'></td>`;
-                        }
-                    }else{
-                        tableresult += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
-                    }
+//                     if(data_status === "0"){
+//                         if(result[i].note!=null){
+//                             tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' onchange='updateVatAndTotal(this)'></td>`;
+//                         }else{
+//                             tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' onchange='updateVatAndTotal(this)'></td>`;
+//                         }
+//                     }else{
+//                         tableresult += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
+//                     }
                     
-                    tableresult += "</tr>";
+//                     tableresult += "</tr>";
 
-                    tablepo += "<tr>";
-                    tablepo += "<td class='ps-4'>" + result[i].namabarang + "</td>";
-                    tablepo += `<td class='text-end'>${todesimal(qty)}</td>`;
-                    tablepo += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
-                    tablepo += "</tr>";
+//                     tablepo += "<tr>";
+//                     tablepo += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+//                     tablepo += `<td class='text-end'>${todesimal(qty)}</td>`;
+//                     tablepo += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
+//                     tablepo += "</tr>";
 
                     
 
-                    totalvat   += vatAmount;
-                    grandtotal += subtotal;
-                }
+//                     totalvat   += vatAmount;
+//                     grandtotal += subtotal;
+//                 }
 
-                tfoot = `<tr><th class='ps-4' colspan='8'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
-                // tfootpo = `<tr><th class='ps-4 rounded-start'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4 rounded-end' id='grand_total'>${todesimal(grandtotal)}</th></tr>`;
+//                 tfoot = `<tr><th class='ps-4' colspan='8'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
+//                 // tfootpo = `<tr><th class='ps-4 rounded-start'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4 rounded-end' id='grand_total'>${todesimal(grandtotal)}</th></tr>`;
 
-            }
+//             }
 
-            $("#resultdetail").html(tableresult);
-            $("#resultdetailfoot").html(tfoot);
+//             $("#resultdetail").html(tableresult);
+//             $("#resultdetailfoot").html(tfoot);
 
-            $("#resultdetailpo").html(tablepo);
-            // $("#resultdetailfootpo").html(tfootpo);
+//             $("#resultdetailpo").html(tablepo);
+//             // $("#resultdetailfootpo").html(tfootpo);
 
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-        },
-        error: function (xhr, status, error) {
-            toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
-        },
-        complete: function () {
-            toastr.clear();
-        }
-    });
-    return false;
-};
+//             toastr[data.responHead](data.responDesc, "INFORMATION");
+//         },
+//         error: function (xhr, status, error) {
+//             toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
+//         },
+//         complete: function () {
+//             toastr.clear();
+//         }
+//     });
+//     return false;
+// };
 
 function simpandata(input) {
     const barangid = input.id.split("_")[1];
@@ -490,7 +579,7 @@ $(document).on("submit", "#formnewrequest", function (e) {
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-			$("#btn_position_add").addClass("disabled");
+			$("#btn_new_request").addClass("disabled");
         },
 		success: function (data) {
 
@@ -503,8 +592,54 @@ $(document).on("submit", "#formnewrequest", function (e) {
             toastr[data.responHead](data.responDesc, "INFORMATION");
 		},
         complete: function () {
+            $("#btn_new_request").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formlampiran", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
             toastr.clear();
-            $("#btn_position_add").removeClass("disabled");
+            toastr["info"]("Sending request...", "Please wait");
+			$("#formlampiran").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal-upload-lampiran").modal("hide");
+                datarequest();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#formlampiran").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             Swal.fire({
