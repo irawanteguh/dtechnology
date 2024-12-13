@@ -109,7 +109,7 @@
             <div class="modal-body">
                 <div class="col-xl-12 mb-5">
                     <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Note :</label>
-                    <textarea class="form-control form-control-solid" name="modal_view_pdf_note" id="modal_view_pdf_note"></textarea>
+                    <textarea class="form-control form-control-solid" name="modal_view_pdf_note" id="modal_view_pdf_note" readonly></textarea>
                 </div>
                 <div id="viewdocnote" style="height:600px;"></div>
             </div>

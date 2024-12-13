@@ -13,7 +13,7 @@
         }
 
         public function datarequest(){
-            $status = "and a.status in ('4','5','6','17','18','19','20','21')";
+            $status = "and a.status in ('4','5','6','12','13','14','15','16')";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){

@@ -312,60 +312,59 @@
 
         }
 
-        // public function uploadinvoice(){
-        //     $no_pemesanan= $_GET['no_pemesanan'];
+        public function uploadinvoice(){
+            $no_pemesanan= $_GET['no_pemesanan'];
 
-        //     $config['upload_path']   = './assets/invoice/';
-        //     $config['allowed_types'] = 'pdf';
-        //     $config['file_name']     = $no_pemesanan;
-        //     $config['overwrite']     = TRUE;
+            $config['upload_path']   = './assets/invoice/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $no_pemesanan;
+            $config['overwrite']     = TRUE;
 
-        //     $this->load->library('upload', $config);
+            $this->load->library('upload', $config);
 
-        //     if (!$this->upload->do_upload('file')) {
-        //         $error = array('error' => $this->upload->display_errors());
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
 
-        //         log_message('error', 'File upload error: ' . implode(' ', $error));
-        //         echo json_encode($error);
-        //     } else {
-        //         $upload_data = $this->upload->data();
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
 
-        //         $dataupdate['INVOICE']="1";
-        //         $dataupdate['STATUS']="11";
+                $dataupdate['INVOICE']="1";
+                $dataupdate['STATUS']="11";
 
-        //         $this->md->updateheader($no_pemesanan,$dataupdate);
+                $this->md->updateheader($no_pemesanan,$dataupdate);
 
-        //         echo "Upload Success";
-        //     }
+                echo "Upload Success";
+            }
+        }
 
-        // }
+        public function uploadbuktibayar(){
+            $no_pemesanan= $_GET['no_pemesanan'];
 
-        // public function uploadbuktibayar(){
-        //     $no_pemesanan= $_GET['no_pemesanan'];
+            $config['upload_path']   = './assets/buktitransfer/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $no_pemesanan;
+            $config['overwrite']     = TRUE;
 
-        //     $config['upload_path']   = './assets/buktitransfer/';
-        //     $config['allowed_types'] = 'pdf';
-        //     $config['file_name']     = $no_pemesanan;
-        //     $config['overwrite']     = TRUE;
+            $this->load->library('upload', $config);
 
-        //     $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
 
-        //     if (!$this->upload->do_upload('file')) {
-        //         $error = array('error' => $this->upload->display_errors());
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
 
-        //         log_message('error', 'File upload error: ' . implode(' ', $error));
-        //         echo json_encode($error);
-        //     } else {
-        //         $upload_data = $this->upload->data();
+                $dataupdate['STATUS']="16";
 
-        //         $dataupdate['STATUS']="21";
+                $this->md->updateheader($no_pemesanan,$dataupdate);
 
-        //         $this->md->updateheader($no_pemesanan,$dataupdate);
+                echo "Upload Success";
+            }
 
-        //         echo "Upload Success";
-        //     }
-
-        // }
+        }
 
         public function updateheader() {
             $datanopemesanan = $this->input->post('datanopemesanan');
@@ -429,6 +428,25 @@
             }
             
 
+            echo json_encode($json);
+        }
+
+        public function noinvoice(){
+            $nopemesanan = $this->input->post("no_pemesanan_invoice");
+            $noinvoice   = $this->input->post("modal_upload_invoice_no");
+
+            $dataupdate['invoice_no'] = $noinvoice;
+
+            if($this->md->updateheader($nopemesanan,$dataupdate)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data failed to update";
+            }
+            
             echo json_encode($json);
         }
         

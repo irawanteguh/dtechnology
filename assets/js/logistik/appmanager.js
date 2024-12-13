@@ -42,11 +42,16 @@ function datarequest(){
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].no_pemesanan+"</td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    tableresult +="<td>" + (result[i].namasupplier ? result[i].namasupplier : "") + " <div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : "Cash / Bon") + "</div></td>";
+                    tableresult +="<td>" + (result[i].namasupplier ? result[i].namasupplier : "") + " <div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : "Cash / Bon") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +=getStatusBadge(result[i].decoded_status);
+                    if(result[i].status!="6"){
+                        tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
+                    }else{
+                        tableresult +="<td><div class='badge badge-light-info fw-bolder'>Invoice Submission</div></td>";
+                    }
+                    
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -57,9 +62,15 @@ function datarequest(){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='4' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='3' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                                }else{
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='8' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='7' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
                                 }
                                 if(result[i].attachment==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                                }
+                                if(result[i].invoice==="1"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Invoice</a>";
                                 }
                             tableresult +="</div>";
                         tableresult +="</div>";

@@ -26,13 +26,15 @@ function getdetail(btn){
     var data_suppliers       = $btn.attr("data_suppliers");
     var data_createddate     = $btn.attr("data_createddate");
     var data_attachment_note = $btn.attr("data_attachment_note");
+    var data_no_invoice      = $btn.attr("data_no_invoice");
 
     // $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_item']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_upload']").val(data_nopemesanan);
-    // $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
+    $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
 
     $("textarea[name='modal-upload-lampiran-note']").val(data_attachment_note);
+    $("input[name='modal_upload_invoice_no']").val(data_no_invoice);
 
     $("#pono").html(data_nopemesanan);
     $("#suppliers").html(data_suppliers);
@@ -55,20 +57,20 @@ function getdetail(btn){
         }
     });
 
-    // var myDropzone = new Dropzone("#file_invoice", {
-    //     url               : url + "index.php/logistik/request/uploadinvoice?no_pemesanan="+data_nopemesanan,
-    //     acceptedFiles     : '.pdf',
-    //     paramName         : "file",
-    //     dictDefaultMessage: "Drop files here or click to upload",
-    //     maxFiles          : 1,
-    //     maxFilesize       : 2,
-    //     addRemoveLinks    : true,
-    //     autoProcessQueue  : true,
-    //     accept            : function(file, done) {
-    //         done();
-    //         $('#modal-upload-invoice').modal('hide');
-    //     }
-    // });
+    var myDropzone = new Dropzone("#file_invoice", {
+        url               : url + "index.php/logistik/request/uploadinvoice?no_pemesanan="+data_nopemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept            : function(file, done) {
+            done();
+            $('#modal-upload-invoice').modal('hide');
+        }
+    });
 };
 
 function filterTable() {
@@ -119,6 +121,7 @@ function datarequest(){
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
+                                      "data_no_invoice='"+result[i].invoice_no+"'"+
                                       "data_status='"+result[i].status+"'";
 
                     if(result[i].cito==="Y"){
@@ -142,14 +145,19 @@ function datarequest(){
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].no_pemesanan+"</td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    tableresult +="<td>" + (result[i].namasupplier ? result[i].namasupplier : "") + " <div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : "Cash / Bon") + "</div></td>";
+                    tableresult +="<td>" + (result[i].namasupplier ? result[i].namasupplier : "") + " <div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : "Cash / Bon") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     if(result[i].status!="6"){
                         tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
                     }else{
-                        tableresult +="<td>"+vice+dir+"</td>";
+                        if(result[i].invoice==="0" || result[i].invoice_no===null){
+                            tableresult +="<td>"+vice+dir+"</td>";
+                        }else{
+                            tableresult +="<td><div class='badge badge-light-info fw-bolder'>Invoice Submission</div></td>";
+                        }
+                        
                     }
                     
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
@@ -170,10 +178,20 @@ function datarequest(){
 
                                 if(result[i].status==="6" && result[i].status_vice==="Y" && result[i].status_dir==="Y"){
                                     tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                    if(result[i].invoice==="0" || result[i].invoice_no===null){
+                                        tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-invoice' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Invoce</a>";
+                                    }
+                                    
                                 }
 
                                 if(result[i].attachment==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                                }
+                                if(result[i].invoice==="1"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Invoice</a>";
+                                }
+                                if(result[i].status==="16"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 }
                             tableresult +="</div>";
                         tableresult +="</div>";
@@ -653,7 +671,7 @@ $(document).on("submit", "#formlampiran", function (e) {
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-			$("#formlampiran").addClass("disabled");
+			$("#btnproses").addClass("disabled");
         },
 		success: function (data) {
 
@@ -666,7 +684,54 @@ $(document).on("submit", "#formlampiran", function (e) {
             toastr[data.responHead](data.responDesc, "INFORMATION");
 		},
         complete: function () {
-            $("#formlampiran").removeClass("disabled");
+            $("#btnproses").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#forminvoice", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#btnproses").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal-upload-invoice").modal("hide");
+                datarequest();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#btnproses").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             Swal.fire({

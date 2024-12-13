@@ -14,7 +14,7 @@
 
         public function datarequest(){
             $status="
-                        and   a.status in ('2','3','4','11','12','13','20')
+                        and   a.status in ('2','3','4','6','7','8')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
