@@ -5,7 +5,7 @@
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelappfinance", "md");
+            $this->load->model("Modelrequest", "md");
         }
 
         public function index(){
@@ -13,7 +13,8 @@
         }
 
         public function datarequest(){
-            $result = $this->md->datarequest($_SESSION['orgid']);
+            $status = "and a.status in ('4','5','6','17','18','19','20','21')";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

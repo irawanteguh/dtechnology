@@ -147,10 +147,26 @@
                             }
 
                         }else{
-                            if(isset($_GET['tilaka_name'])){
+                            if(isset($_GET['request_id']) && isset($_GET['tilaka_name'])){
+                                $body['user_identifier']=$_GET['tilaka_name'];
+                                $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+
+                                if($responsecheckcertificateuser['success']){
+                                    $datasimpan['USER_IDENTIFIER']  = $_GET['tilaka_name'];
+                                    $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
+                                    $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
+                                    $datasimpan['REVOKE_ID']        = "";
+                                    $datasimpan['ISSUE_ID']         = "";
+                                }
+    
+                                $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                                 redirect("tilakaV2/registrasi",$data);
                             }else{
-                                $this->template->load("template/template-sidebar","v_registrasi",$data);
+                                if(isset($_GET['tilaka_name'])){
+                                    redirect("tilakaV2/registrasi",$data);
+                                }else{
+                                    $this->template->load("template/template-sidebar","v_registrasi",$data);
+                                }
                             }
                         }
                     }

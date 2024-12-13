@@ -1,4 +1,4 @@
-<!-- <div class="row gy-5 g-xl-8 mb-xl-8">
+<div class="row gy-5 g-xl-8 mb-xl-8">
     <div class="col-xl-12">
 		<div class="card">
 			<div class="card-header border-0 pt-5">
@@ -6,7 +6,7 @@
 					<span class="card-label fw-bolder fs-3 mb-1">List Waiting Approval</span>
 					<span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
 				</h3>
-				<div class="card-toolbar">
+				<!-- <div class="card-toolbar">
                     <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                         <span class="svg-icon svg-icon-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
@@ -27,7 +27,7 @@
                             <a href="" data-bs-toggle="modal" data-bs-target="#modal_sign_add" class="menu-link px-3">New Request</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
 			</div>
 			<div class="card-body py-3">
 				<div class="table-responsive">
@@ -40,22 +40,15 @@
                                 <th class="text-end">Sub Total</th>
                                 <th class="text-end">Ppn</th>
                                 <th class="text-end">Grand Total</th>
-                                <th class="text-center">Attachment</th>
                                 <th>Status</th>
                                 <th>Created By</th>
 								<th class="pe-4 text-end rounded-end">Action</th>
 							</tr>
 						</thead>
-						<tbody class="text-gray-600 fw-bold" id="resultappfinance"></tbody>
+						<tbody class="text-gray-600 fw-bold" id="resultdatarequest"></tbody>
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
-</div> -->
-
-<div class="row gy-5 g-xl-8 mb-xl-8">
-    <div class="col-xl-12" >
-        <div class="row gy-5 g-xl-8 mb-xl-8" id="resultappvice"></div>
-    </div>
 </div>

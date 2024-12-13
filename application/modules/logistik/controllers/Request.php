@@ -34,7 +34,6 @@
 		}
 
         public function newrequest(){
-            
             $data['org_id']          = $_SESSION['orgid'];
             $data['no_pemesanan']    = $this->md->buatnopemesanan($_SESSION['orgid'])->nomor_pemesanan;
             $data['judul_pemesanan'] = $this->input->post("modal_new_request_nama");
@@ -185,103 +184,106 @@
             echo json_encode($json);
         }
 
-        // public function detailbarang(){
-        //     $nopemesanan =$this->input->post("data_nopemesanan");
-        //     $result = $this->md->detailbarang($_SESSION['orgid'],$nopemesanan);
+        public function detailbarang(){
+            $nopemesanan =$this->input->post("data_nopemesanan");
+            $result = $this->md->detailbarang($_SESSION['orgid'],$nopemesanan);
             
-		// 	if(!empty($result)){
-        //         $json["responCode"]="00";
-        //         $json["responHead"]="success";
-        //         $json["responDesc"]="Data Successfully Found";
-		// 		$json['responResult']=$result;
-        //     }else{
-        //         $json["responCode"]="01";
-        //         $json["responHead"]="info";
-        //         $json["responDesc"]="Data Failed to Find";
-        //     }
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
 
-        //     echo json_encode($json);
-        // }
+            echo json_encode($json);
+        }
 
-        // public function updatedetailitem() {
-        //     $no_pemesanan = $this->input->post('no_pemesanan');
-        //     $validasi     = $this->input->post('validasi');
-        //     $item_id      = $this->input->post('item_id');
-        //     $qty          = $this->input->post('qty');
-        //     $stock        = $this->input->post('stock');
-        //     $harga        = $this->input->post('harga');
-        //     $ppn          = $this->input->post('ppn');
-        //     $subtotal     = $this->input->post('subtotal');
-        //     $vat_amount   = $this->input->post('vat_amount');
-        //     $note         = $this->input->post('note');
+        public function updatedetailitem() {
+            $no_pemesanan = $this->input->post('no_pemesanan');
+            $validasi     = $this->input->post('validasi');
+            $item_id      = $this->input->post('item_id');
+            $qty          = $this->input->post('qty');
+            $stock        = $this->input->post('stock');
+            $harga        = $this->input->post('harga');
+            $ppn          = $this->input->post('ppn');
+            $subtotal     = $this->input->post('subtotal');
+            $vat_amount   = $this->input->post('vat_amount');
+            $note         = $this->input->post('note');
             
-        //     if($validasi==="KAINS"){
-        //         $data['QTY_MINTA']   = $qty;
-        //         $data['QTY_MANAGER'] = $qty;
-        //     }
+            if($validasi==="KAINS"){
+                $data['QTY_MINTA']   = $qty;
+                $data['QTY_MANAGER'] = $qty;
+            }
 
-        //     if($validasi==="MANAGER"){
-        //         $data['QTY_MANAGER']  = $qty;
-        //         $data['QTY_KEU']      = $qty;
-        //         $data['MANAGER_ID']   = $_SESSION['userid'];
-        //         $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
-        //     }
+            if($validasi==="MANAGER"){
+                $data['QTY_MANAGER']  = $qty;
+                $data['QTY_KEU']      = $qty;
+                $data['MANAGER_ID']   = $_SESSION['userid'];
+                $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
+            }
 
-        //     if($validasi==="FINANCE"){
-        //         $data['QTY_KEU']   = $qty;
-        //         $data['QTY_WADIR'] = $qty;
-        //         $data['KEU_ID']    = $_SESSION['userid'];
-        //         $data['KEU_DATE']  = date('Y-m-d H:i:s');
-        //     }
+            if($validasi==="FINANCE"){
+                $data['QTY_KEU']   = $qty;
+                $data['QTY_WADIR'] = $qty;
+                $data['KEU_ID']    = $_SESSION['userid'];
+                $data['KEU_DATE']  = date('Y-m-d H:i:s');
+            }
 
-        //     if($validasi==="VICE"){
-        //         $data['QTY_WADIR']  = $qty;
-        //         $data['QTY_DIR']    = $qty;
-        //         $data['WADIR_ID']   = $_SESSION['userid'];
-        //         $data['WADIR_DATE'] = date('Y-m-d H:i:s');
-        //     }
+            if($validasi==="VICE"){
+                $data['QTY_WADIR']  = $qty;
+                $data['QTY_DIR']    = $qty;
+                $data['WADIR_ID']   = $_SESSION['userid'];
+                $data['WADIR_DATE'] = date('Y-m-d H:i:s');
+            }
 
-        //     if($validasi==="DIR"){
-        //         $data['QTY_DIR']  = $qty;
-        //         $data['DIR_ID']   = $_SESSION['userid'];
-        //         $data['DIR_DATE'] = date('Y-m-d H:i:s');
-        //     }
+            if($validasi==="DIR"){
+                $data['QTY_DIR']  = $qty;
+                $data['DIR_ID']   = $_SESSION['userid'];
+                $data['DIR_DATE'] = date('Y-m-d H:i:s');
+            }
             
-        //     $data['STOCK']     = $stock;
-        //     $data['HARGA']     = $harga;
-        //     $data['PPN']       = $ppn*100;
-        //     $data['HARGA_PPN'] = $vat_amount;
-        //     $data['TOTAL']     = $subtotal;
-        //     $data['NOTE']      = $note;
+            $data['STOCK']     = $stock;
+            $data['HARGA']     = $harga;
+            $data['PPN']       = $ppn*100;
+            $data['HARGA_PPN'] = $vat_amount;
+            $data['TOTAL']     = $subtotal;
+            $data['NOTE']      = $note;
 
-        //     if($this->md->updatedetailitem($item_id,$data)){
-        //         $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+            if($this->md->updatedetailitem($item_id,$data)){
+                $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
 
-        //         $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
-        //         $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
-        //         $dataheader['TOTAL']     = $resulthitungdetail->total;
+                $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                $dataheader['TOTAL']     = $resulthitungdetail->total;
 
-        //         $this->md->updateheader($no_pemesanan,$dataheader);
+                $this->md->updateheader($no_pemesanan,$dataheader);
 
-        //         $updatedatastock['org_id']        = $_SESSION['orgid'];
-        //         $updatedatastock['department_id'] = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
-        //         $updatedatastock['qty']           = $stock;
-        //         $updatedatastock['jenis_id']      = "1";
-        //         $updatedatastock['created_by']    = $_SESSION['userid'];
+                if($validasi==="KAINS"){
+                    $updatedatastock['org_id']        = $_SESSION['orgid'];
+                    $updatedatastock['department_id'] = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+                    $updatedatastock['qty']           = $stock;
+                    $updatedatastock['jenis_id']      = "1";
+                    $updatedatastock['created_by']    = $_SESSION['userid'];
+    
+                    $this->md->updatestock($item_id,$updatedatastock);
+                }
+                
 
-        //         $this->md->updatestock($item_id,$updatedatastock);
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
+            }
 
-        //         $json["responCode"]="00";
-        //         $json["responHead"]="success";
-        //         $json["responDesc"]="Update successful";
-        //     }else{
-        //         $json["responCode"]="01";
-        //         $json["responHead"]="info";
-        //         $json["responDesc"]="Failed to update database";
-        //     }
-
-        //     echo json_encode($json);
-        // }
+            echo json_encode($json);
+        }
 
         public function uploaddocument(){
             $no_pemesanan= $_GET['no_pemesanan'];
@@ -368,8 +370,22 @@
         public function updateheader() {
             $datanopemesanan = $this->input->post('datanopemesanan');
             $status          = $this->input->post('status');
+            $position        = $this->input->post('position');
             
-            $data['STATUS'] = $status;
+            if($position==="VICE"){
+                $data['STATUS_VICE'] = $status;
+                $data['WADIR_ID']    = $_SESSION['userid'];
+                $data['WADIR_DATE']  = date('Y-m-d H:i:s');
+            }else{
+                if($position==="DIR"){
+                    $data['STATUS_DIR'] = $status;
+                    $data['DIR_ID']     = $_SESSION['userid'];
+                    $data['DIR_DATE']   = date('Y-m-d H:i:s');
+                }else{
+                    $data['STATUS'] = $status;
+                }
+            }
+            
 
             if($status==="3" || $status==="4"){
                 $data['MANAGER_ID']   = $_SESSION['userid'];
@@ -380,17 +396,6 @@
                 $data['KEU_ID']   = $_SESSION['userid'];
                 $data['KEU_DATE'] = date('Y-m-d H:i:s');
             }
-
-            if($status==="7" || $status==="8"){
-                $data['WADIR_ID']   = $_SESSION['userid'];
-                $data['WADIR_DATE'] = date('Y-m-d H:i:s');
-            }
-
-            if($status==="9" || $status==="10"){
-                $data['DIR_ID']   = $_SESSION['userid'];
-                $data['DIR_DATE'] = date('Y-m-d H:i:s');
-            }
-            
 
             if($this->md->updateheader($datanopemesanan,$data)){
 

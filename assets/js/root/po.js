@@ -24,14 +24,14 @@ $('#modal_master_item').on('hidden.bs.modal', function (e) {
 
 function getStatusBadge(decodedStatus) {
     const [badgeClass, statusText] = decodedStatus.split('|');
-    return `<td><div class='badge ${badgeClass} fw-bolder'>${statusText}</div></td>`;
+    return `<div class='badge ${badgeClass} fw-bolder'>${statusText}</div>`;
 };
 
 function updateVatAndTotal(input) {
     const itemId = input.id.split("_")[1];
     const value  = input.value;
 
-    if (input.id !== `note_${itemId}` && (isNaN(value) || value.trim() === "")) {
+    if(input.id !== `note_${itemId}` && (isNaN(value) || value.trim() === "")){
         showAlert(
             "I'm Sorry",
             "Masukkan nilai numerik yang valid!",
@@ -139,9 +139,10 @@ function updateVatAndTotal(input) {
 function validasi(btn){
     var datanopemesanan = btn.attr("data_nopemesanan");
     var status          = btn.attr("data_validasi");
+    var position        = btn.attr("data_position");
 	$.ajax({
         url        : url+"index.php/logistik/request/updateheader",
-        data       : {datanopemesanan:datanopemesanan,status:status},
+        data       : {datanopemesanan:datanopemesanan,status:status,position:position},
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -203,13 +204,14 @@ function printPDF() {
 
 function viewdoc(btn) {
     var filename     = $(btn).attr("data-dirfile");
+    var note         = $(btn).attr("data_attachment_note");
     var filename     = filename.replace('/www/wwwroot/', 'http://');
     var responsefile = jQuery.ajax({url: filename,type: 'HEAD',async: false}).status;
 
     if (responsefile === 200) {
         var viewfile = "<embed src='" + filename + "' width='100%' height='100%' type='application/pdf' id='view'>";
-        $("#viewdoc").html(viewfile);
-        
+        $("#viewdocnote").html(viewfile);
+        $("textarea[name='modal_view_pdf_note']").val(note);
         $('#openInNewTabButton').data('filename', filename);
     } else {
         var viewfile = `
@@ -226,7 +228,7 @@ function viewdoc(btn) {
                 </div>
             </div>
         `;
-        $("#viewdoc").html(viewfile);
+        $("#viewdocnote").html(viewfile);
         $('#openInNewTabButton').data('filename', '');
     }
 };

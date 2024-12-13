@@ -1,10 +1,10 @@
 # Daftar URL tujuan
 $uris = @(
-    @{ Uri = "http://localhost/dtechnology/index.php/uploadallfile"; Method = "POST" },
-    @{ Uri = "http://localhost/dtechnology/index.php/requestsign"; Method = "POST" },
-    @{ Uri = "http://localhost/dtechnology/index.php/excutesign"; Method = "POST" },
-    @{ Uri = "http://localhost/dtechnology/index.php/statussign"; Method = "POST" },
-    @{ Uri = "http://localhost/dtechnology/index.php/pegawai"; Method = "GET" }
+    @{ Uri = "http://192.168.102.13/dtechnology/index.php/uploadallfile"; Method = "POST" },
+    @{ Uri = "http://192.168.102.13/dtechnology/index.php/requestsign"; Method = "POST" },
+    @{ Uri = "http://192.168.102.13/dtechnology/index.php/excutesign"; Method = "POST" },
+    @{ Uri = "http://192.168.102.13/dtechnology/index.php/statussign"; Method = "POST" },
+    @{ Uri = "http://192.168.102.13/dtechnology/index.php/pegawai"; Method = "GET" }
 )
 
 # Loop untuk mengirim permintaan ke setiap URL

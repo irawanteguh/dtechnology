@@ -15,13 +15,14 @@
                     <div class="text-muted fw-bold fs-5"></div>
                 </div>
                 <div class="table-responsive">
-					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
+					<table class="table align-middle table-row-dashed fs-6 gy-2">
 						<thead>
 							<tr class="fw-bolder text-muted bg-light align-middle">
 								<th class="ps-4 rounded-start">Item Name</th>
                                 <th>Category</th>
                                 <th>Purchase Unit</th>
                                 <th>Unit of Use</th>
+                                <th class="text-end">Stock</th>
                                 <th class="text-end">Qty</th>
                                 <th class="text-end">Price</th>
                                 <th class="text-end">% VAT</th>
