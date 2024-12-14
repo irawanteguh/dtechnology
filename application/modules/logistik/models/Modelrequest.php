@@ -19,7 +19,7 @@
         function paymentmethod(){
             $query =
                     "
-                        select '1'id, 'Invoice'metod union select '2'id, 'Cash / Bon' metod
+                        select '1'id, 'Invoice'metod union select '2'id, 'Cash / Bon' metod union select '3'id, 'Invoice dan Cash / Bon' metod
                     ";
 
             $recordset = $this->db->query($query);
