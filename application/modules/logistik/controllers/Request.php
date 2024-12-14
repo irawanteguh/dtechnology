@@ -331,7 +331,7 @@
                 $upload_data = $this->upload->data();
 
                 $dataupdate['INVOICE']="1";
-                $dataupdate['STATUS']="11";
+                $dataupdate['STATUS']="7";
 
                 $this->md->updateheader($no_pemesanan,$dataupdate);
 
