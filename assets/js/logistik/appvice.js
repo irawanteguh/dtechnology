@@ -63,7 +63,12 @@ function datarequest(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     
                     if(result[i].status==="6"){
-                        tableresult +="<td>"+vice+dir+"</td>";
+                        if(result[i].status_vice===null && result[i].status_dir===null ){
+                            tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
+                        }else{
+                            tableresult +="<td>"+vice+dir+"</td>";
+                        }
+                        
                     }else{
                         tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
                     }
