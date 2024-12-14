@@ -8,8 +8,9 @@
                             (select NAME from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)name,
                             (select NIK from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)nik,
                             (select IDENTITY_NO from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)noktp,
-                            (select EMAIL from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)email
-                            
+                            (select EMAIL from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)email,
+                            (select count(request_id) from dt01_gen_document_file_dt where org_id=a.org_id and active='1' and status_sign in ('2','3') and user_identifier<>'' and request_id=a.request_id)jmlfile
+
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.status_sign in ('2','3')

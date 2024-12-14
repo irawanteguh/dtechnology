@@ -34,6 +34,7 @@
                         <thead>
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="ps-4 rounded-start">Status</th>
+                                <th class="text-center">Count File</th>
                                 <th>Tilaka Name</th>
                                 <th>Name</th>
                                 <th>Identity No</th>

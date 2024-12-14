@@ -42,6 +42,7 @@ function dataexecutesign(){
                     }else{
                         tableresult +="<td class='ps-4'><div class='badge badge-light-info fw-bolder'>Request Execute File</div></td>";  
                     }
+                    tableresult +="<td class='text-center'>"+(result[i].jmlfile ? result[i].jmlfile : "")+"</td>";
                     tableresult +="<td>"+(result[i].USER_IDENTIFIER ? result[i].USER_IDENTIFIER : "")+"</td>";
                     tableresult +="<td>"+(result[i].name ? result[i].name : "")+"</td>";
                     tableresult +="<td><div>"+(result[i].nik ? result[i].nik : "")+"</div><div>"+(result[i].noktp ? result[i].noktp : "")+"</div></td>";
