@@ -81,7 +81,7 @@ function datarequest(){
                                         if(result[i].status==="15"){
                                             tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
                                         }else{
-                                            if(result[i].status==="16"){
+                                            if(result[i].status==="17"){
                                                 tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
                                             }
                                         }
