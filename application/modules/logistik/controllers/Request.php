@@ -357,7 +357,7 @@
             } else {
                 $upload_data = $this->upload->data();
 
-                $dataupdate['STATUS']="16";
+                $dataupdate['STATUS']="17";
 
                 $this->md->updateheader($no_pemesanan,$dataupdate);
 

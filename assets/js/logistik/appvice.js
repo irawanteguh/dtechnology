@@ -68,7 +68,6 @@ function datarequest(){
                         }else{
                             tableresult +="<td>"+vice+dir+"</td>";
                         }
-                        
                     }else{
                         tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
                     }
