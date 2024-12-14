@@ -14,6 +14,14 @@ $('#modal-upload-invoice').on('hidden.bs.modal', function (e) {
     datarequest();
 });
 
+$('#modal-upload-buktibayar').on('hidden.bs.modal', function (e) {
+    if (Dropzone.instances.length > 0) {
+        Dropzone.instances.forEach(dz => dz.destroy());
+    }
+    Dropzone.autoDiscover = false;
+    datarequest();
+});
+
 $('#modal_detail_barang').on('hidden.bs.modal', function (e) {
     datarequest();
 });
