@@ -13,7 +13,7 @@ initialize_log() {
 # Fungsi untuk mencatat log tambahan
 log_message() {
     local MESSAGE="$1"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $MESSAGE" > "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $MESSAGE" >> "$LOG_FILE"
 }
 
 # Fungsi untuk menjalankan permintaan HTTP
