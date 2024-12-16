@@ -192,7 +192,7 @@
                 ]);
                 return json_decode($responsecurl,TRUE); 
             }else{
-                return json_decode(Tilaka::oauth(), TRUE); 
+                return json_decode($oauthResponse, TRUE); 
             }
         }
 
@@ -211,7 +211,7 @@
                 ]);
                 return json_decode($responsecurl,TRUE); 
             }else{
-                return json_decode(Tilaka::oauth(), TRUE); 
+                return json_decode($oauthResponse, TRUE); 
             }
         }
 
@@ -230,7 +230,7 @@
                 ]);
                 return json_decode($responsecurl,TRUE); 
             }else{
-                return json_decode(Tilaka::oauth(),TRUE); 
+                return json_decode($oauthResponse,TRUE); 
             }
         }
     }
