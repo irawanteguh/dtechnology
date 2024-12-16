@@ -3,9 +3,11 @@
 # Lokasi file log
 LOG_FILE="/www/wwwroot/192.168.102.13/dtechnology/service/servicetilaka.log"
 
-# Fungsi untuk mencatat log (overwrite log sebelumnya jika script mulai dari awal)
+# Fungsi untuk mencatat log (append tanpa menghapus log sebelumnya)
 initialize_log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Log initialized" > "$LOG_FILE"
+    if [ ! -f "$LOG_FILE" ]; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - Log initialized" > "$LOG_FILE"
+    fi
 }
 
 # Fungsi untuk mencatat log tambahan
