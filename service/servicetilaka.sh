@@ -49,3 +49,6 @@ run_request "GET" "http://192.168.102.13/dtechnology/index.php/pegawai"
 
 # Penutup log
 log_message "Script servicetilaka.sh finished."
+
+# Clear log setelah selesai
+> "$LOG_FILE"
