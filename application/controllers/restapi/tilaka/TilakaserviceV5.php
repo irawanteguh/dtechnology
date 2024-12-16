@@ -302,31 +302,34 @@
                     $body['request_id'] = $a->request_id;
                     $response = Tilaka::excutesignstatus(json_encode($body));
 
-                    if($response['success']){
-                        foreach($response['list_pdf'] as $listpdfs){
-                            // if($listpdfs['error']===false){
-                                $data        = [];
-                                $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
-                                $fileContent = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
-
-                                if($fileContent !== false){
-
-                                    if($a->source_file==="DTECHNOLOGY"){
-                                        $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
-                                    }else{
-                                        $destinationPath = PATHFILE_POST_TILAKA.DIRECTORY_SEPARATOR.$nofile.".pdf";
+                    if(isset($response['success'])){
+                        if($response['success']){
+                            foreach($response['list_pdf'] as $listpdfs){
+                                // if($listpdfs['error']===false){
+                                    $data        = [];
+                                    $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                    $fileContent = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
+    
+                                    if($fileContent !== false){
+    
+                                        if($a->source_file==="DTECHNOLOGY"){
+                                            $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
+                                        }else{
+                                            $destinationPath = PATHFILE_POST_TILAKA.DIRECTORY_SEPARATOR.$nofile.".pdf";
+                                        }
+    
+                                        if(file_put_contents($destinationPath,$fileContent)){
+                                            $data['STATUS_SIGN'] = "5";
+                                            $data['LINK']        = $listpdfs['presigned_url'];
+                                            
+                                            $this->md->updatefile($data,$nofile);
+                                        }
                                     }
-
-                                    if(file_put_contents($destinationPath,$fileContent)){
-                                        $data['STATUS_SIGN'] = "5";
-                                        $data['LINK']        = $listpdfs['presigned_url'];
-                                        
-                                        $this->md->updatefile($data,$nofile);
-                                    }
-                                }
-                            // }
+                                // }
+                            }
                         }
                     }
+                    
 
                     $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
                     $responseall['Assign']['Name']           = $a->assignname;
