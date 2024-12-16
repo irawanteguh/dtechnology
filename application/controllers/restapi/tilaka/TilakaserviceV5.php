@@ -238,7 +238,7 @@
             $summaryresponse = [];
             $responseservice = [];
 
-            $status ="and a.status_sign ='3' limit 50;";
+            $status ="and a.status_sign ='3' limit 10;";
             $result = $this->md->listexecute(ORG_ID,$status);
 
             if(!empty($result)){
@@ -269,16 +269,14 @@
                             $data['URL']             = "";
                             $this->md->updatefile($data,$a->no_file);
                         }
-    
-                        $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
-                        $responseall['Assign']['Name']           = $a->assignname;
-                        $responseall['File']['Filename']         = $a->no_file;
-                        $responseall['File']['RequestId']        = $a->request_id;
-                        $responseall['Response']                 = $response;
-                        $responseservice[]=$responseall;
-                    }else{
-                        $responseservice[]=$response;
                     }
+
+                    $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
+                    $responseall['Assign']['Name']           = $a->assignname;
+                    $responseall['File']['Filename']         = $a->no_file;
+                    $responseall['File']['RequestId']        = $a->request_id;
+                    $responseall['Response']                 = $response;
+                    $responseservice[]=$responseall;
                     
                 }
             }else{
