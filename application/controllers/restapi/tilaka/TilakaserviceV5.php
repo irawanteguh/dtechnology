@@ -238,7 +238,7 @@
             $summaryresponse = [];
             $responseservice = [];
 
-            $status ="and a.status_sign ='3' limit 10;";
+            $status ="and a.status_sign ='3' limit 50;";
             $result = $this->md->listexecute(ORG_ID,$status);
 
             if(!empty($result)){
