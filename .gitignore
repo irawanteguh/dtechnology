@@ -11,6 +11,10 @@ application/sessions/*
 
 !application/*/.htaccess
 
+application/config/database.php
+application/hooks/EnvironmentLoader.php
+.env
+
 composer.lock
 tests/mocks/database/ci_test.sqlite
 
@@ -18,12 +22,6 @@ user_guide_src/build/*
 user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
-
-application/config/database.php
-application/hooks/EnvironmentLoader.php
-.env
-
-
 
 # IDE Files
 #-------------------------
