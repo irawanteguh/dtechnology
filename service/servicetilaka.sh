@@ -39,7 +39,7 @@ run_request() {
 initialize_log
 
 # Jalankan semua permintaan HTTP
-run_request "POST" "http://192.168.102.13/dtechnology/aindex.php/uploadallfile"
+run_request "POST" "http://192.168.102.13/dtechnology/index.php/uploadallfile"
 run_request "POST" "http://192.168.102.13/dtechnology/index.php/requestsign"
 run_request "POST" "http://192.168.102.13/dtechnology/index.php/excutesign"
 run_request "POST" "http://192.168.102.13/dtechnology/index.php/statussign"
