@@ -45,6 +45,9 @@ function datarequest(){
                 result = data.responResult;
                 for(var i in result){
                     var cito = "";
+                    var vice = "";
+                    var dir  = "";
+                    
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
@@ -54,6 +57,18 @@ function datarequest(){
                     if(result[i].cito==="Y"){
                         cito =" <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>";
                     }
+                    if(result[i].status_vice==="N"){
+                        vice =" <div class='badge badge-light-danger fw-bolder'>Cancelled Vice Director</div>";
+                    }
+                    if(result[i].status_vice==="Y"){
+                        vice =" <div class='badge badge-light-info fw-bolder'>Approval Vice Director</div>";
+                    }
+                    if(result[i].status_dir==="N"){
+                        dir =" <div class='badge badge-light-danger fw-bolder'>Cancelled Director</div>";
+                    }
+                    if(result[i].status_dir==="Y"){
+                        dir =" <div class='badge badge-light-info fw-bolder'>Approval Director</div>";
+                    }
 
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].no_pemesanan+"</td>";
@@ -62,7 +77,17 @@ function datarequest(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
+
+                    if(result[i].status==="6"){
+                        if(result[i].status_vice===null && result[i].status_dir===null ){
+                            tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
+                        }else{
+                            tableresult +="<td>"+vice+dir+"</td>";
+                        }
+                    }else{
+                        tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
+                    }
+
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -73,20 +98,25 @@ function datarequest(){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='6' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='5' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
-                                }else{
-                                    if(result[i].status==="13"){
-                                        tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='15' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
-                                        tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
-                                    }else{
-                                        if(result[i].status==="15"){
-                                            tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
-                                        }else{
-                                            if(result[i].status==="17"){
-                                                tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
-                                            }
-                                        }
-                                    }
                                 }
+
+                                if(result[i].status==="5"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='4' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled Status</a>";
+                                }
+
+                                if(result[i].status==="13"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='15' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
+                                }
+
+                                if(result[i].status==="15"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
+                                }
+
+                                if(result[i].status==="17"){
+                                    tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
+                                }
+
                                 if(result[i].attachment==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                                 }

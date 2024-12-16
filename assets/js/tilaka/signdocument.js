@@ -4,12 +4,12 @@ dataexecutesign();
 //     dataexecutesign();
 // }, 10000);
 
-$('#modal_upload_document').on('hidden.bs.modal', function (e) {
-    if (Dropzone.instances.length > 0) {
-        Dropzone.instances.forEach(dz => dz.destroy());
-    }
-    Dropzone.autoDiscover = false;
-});
+// $('#modal_upload_document').on('hidden.bs.modal', function (e) {
+//     if (Dropzone.instances.length > 0) {
+//         Dropzone.instances.forEach(dz => dz.destroy());
+//     }
+//     Dropzone.autoDiscover = false;
+// });
 
 function dataexecutesign(){
     $.ajax({
@@ -31,11 +31,6 @@ function dataexecutesign(){
                 result        = data.responResult;
                 for(var i in result){
 
-                    btnnote = "<button type='button' class='btn btn-sm btn-icon btn-light btn-active-light-primary toggle me-4' data-kt-table-widget-4='expand_row'>";
-                    btnnote += "<i class='bi bi-plus fs-4 m-0 toggle-off'></i>";
-                    btnnote += "<i class='bi bi-dash fs-4 m-0 toggle-on'></i>";
-                    btnnote += "</button>";
-
                     tableresult +="<tr>";
                     if(result[i].STATUS_SIGN==="2"){
                         tableresult +="<td class='ps-4'><div class='badge badge-light-warning fw-bolder'>Request Sign</div></td>";
@@ -48,18 +43,25 @@ function dataexecutesign(){
                     tableresult +="<td><div>"+(result[i].nik ? result[i].nik : "")+"</div><div>"+(result[i].noktp ? result[i].noktp : "")+"</div></td>";
                     tableresult +="<td>"+(result[i].email ? result[i].email : "")+"</td>";
 
-                    if(result[i].STATUS_SIGN==="2"){
-                        tableresult +="<td class='text-end'>"+btnnote+"<a class='btn btn-sm btn-light-primary' href='"+result[i].URL+"&redirect_url="+url+"index.php/tilaka/signdocument'>Sign</a></td>";
-                    }else{
-                        tableresult +="<td>"+btnnote+"</td>";
-                    }
+                    tableresult += "<td class='text-end'>";
+                        tableresult += "<div class='btn-group' role='group'>";
+                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-info pe-4' data-kt-table-widget-4='expand_row'><i class='bi bi-card-text text-info'></i> Note</a>";
+                                if(result[i].STATUS_SIGN==="2"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary pe-4' href='"+result[i].URL+"&redirect_url="+url+"index.php/tilaka/signdocument'><i class='bi bi-check-circle text-primary'></i> Sign</a>";
+                                }
+                            tableresult +="</div>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
+
                     tableresult +="</tr>";
 
                     tableresult += "<tr class='d-none'>";
                     tableresult += "<td colspan='7'>";
                     tableresult += "<div class='row col-md-12'>";
-                    tableresult += "<h6>Response</h6>";
-                    tableresult += "<textarea data-kt-autosize='true' class='form-control form-control-solid' readonly>" + (result[i].REQUEST_ID ? result[i].REQUEST_ID : "") + "</textarea>";
+                    tableresult += "<h6>Note : </h6>";
+                    tableresult += "<textarea data-kt-autosize='true' class='form-control form-control-solid' readonly> Request Id : " + (result[i].REQUEST_ID ? result[i].REQUEST_ID : "") + "</textarea>";
                     tableresult += "</div>";
                     tableresult += "</td>";
                     tableresult += "</tr>";
