@@ -1,12 +1,17 @@
 #!/bin/bash
 
 # Lokasi file log
-LOG_FILE="/www/wwwroot/dtechnology.192.168.111.227/dtechnology/service/servicetilaka.log"
+LOG_FILE="/www/wwwroot/192.168.102.13/dtechnology/service/servicetilaka.log"
 
-# Fungsi untuk mencatat log (overwrite log sebelumnya)
+# Fungsi untuk mencatat log (overwrite log sebelumnya jika script mulai dari awal)
+initialize_log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Log initialized" > "$LOG_FILE"
+}
+
+# Fungsi untuk mencatat log tambahan
 log_message() {
     local MESSAGE="$1"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $MESSAGE" > "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $MESSAGE" >> "$LOG_FILE"
 }
 
 # Fungsi untuk menjalankan permintaan HTTP
@@ -14,7 +19,7 @@ run_request() {
     local METHOD="$1"
     local URL="$2"
 
-    # Overwrite log sebelum mencatat permintaan
+    # Catat log sebelum melakukan permintaan
     log_message "Starting $METHOD request to $URL"
     
     # Jalankan permintaan HTTP dan tangkap respon
@@ -30,12 +35,15 @@ run_request() {
     fi
 }
 
+# Inisialisasi log
+initialize_log
+
 # Jalankan semua permintaan HTTP
-run_request "POST" "http://192.168.111.227:85/dtechnology/index.php/uploadallfile"
-run_request "POST" "http://192.168.111.227:85/dtechnology/index.php/requestsign"
-run_request "POST" "http://192.168.111.227:85/dtechnology/index.php/excutesign"
-run_request "POST" "http://192.168.111.227:85/dtechnology/index.php/statussign"
-run_request "GET" "http://192.168.111.227:85/dtechnology/index.php/pegawai"
+run_request "POST" "http://192.168.102.13/dtechnology/aindex.php/uploadallfile"
+run_request "POST" "http://192.168.102.13/dtechnology/index.php/requestsign"
+run_request "POST" "http://192.168.102.13/dtechnology/index.php/excutesign"
+run_request "POST" "http://192.168.102.13/dtechnology/index.php/statussign"
+run_request "GET" "http://192.168.102.13/dtechnology/index.php/pegawai"
 
 # Penutup log
 log_message "Script servicetilaka.sh finished."

@@ -193,33 +193,36 @@
                     $bodycheckcertificate['user_identifier']=$a->user_identifier;
                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
-                    if($responsecheckcertificate['success']){
-                        if($responsecheckcertificate['status']===3){
-                            $response = Tilaka::requestsign(json_encode($body));
-
-                            if($response['success']){
-                                foreach($response['auth_urls'] as $authurls){
-                                    $data['REQUEST_ID']  = $requestid;
-                                    $data['STATUS_SIGN'] = "2";
-                                    $data['URL']         = $authurls['url'];   
+                    if(isset($responsecheckcertificate['success'])){
+                        if($responsecheckcertificate['success']){
+                            if($responsecheckcertificate['status']===3){
+                                $response = Tilaka::requestsign(json_encode($body));
+    
+                                if($response['success']){
+                                    foreach($response['auth_urls'] as $authurls){
+                                        $data['REQUEST_ID']  = $requestid;
+                                        $data['STATUS_SIGN'] = "2";
+                                        $data['URL']         = $authurls['url'];   
+                                    }
+                                }else{
+                                    foreach($listfile as $a){
+                                        $data['REQUEST_ID']  = $requestid;
+                                        $data['STATUS_SIGN'] = "0";
+                                        $data['NOTE']        = $response['message'];
+                                    }
                                 }
+    
+                                foreach($nofile as $a){
+                                    $this->md->updatefile($data,$a);
+                                }                    
+    
+                                $responseall['ResponseTilaka']           = $response;
                             }else{
-                                foreach($listfile as $a){
-                                    $data['REQUEST_ID']  = $requestid;
-                                    $data['STATUS_SIGN'] = "0";
-                                    $data['NOTE']        = $response['message'];
-                                }
+                                $responseall['ResponseTilaka'] = $responsecheckcertificate;
                             }
-
-                            foreach($nofile as $a){
-                                $this->md->updatefile($data,$a);
-                            }                    
-
-                            $responseall['ResponseTilaka']           = $response;
-                        }else{
-                            $responseall['ResponseTilaka'] = $responsecheckcertificate;
                         }
                     }
+                    
                     
                     $responseservice[]=$responseall;
                 }
@@ -250,28 +253,33 @@
 
                     $response = Tilaka::excutesign(json_encode($body));
 
-                    if($response['status']==="DONE"){
-                        $data['STATUS_SIGN']="4";
-                        $this->md->updatefile($data,$a->no_file);
+                    if(isset($response['success'])){
+                        if($response['status']==="DONE"){
+                            $data['STATUS_SIGN']="4";
+                            $this->md->updatefile($data,$a->no_file);
+                        }
+    
+                        if($response['status']==="FAILED"){
+                            $data['STATUS_SIGN']     = "0";
+                            $data['STATUS_FILE']     = "1";
+                            $data['REQUEST_ID']      = "";
+                            $data['LINK']            = "";
+                            $data['NOTE']            = "";
+                            $data['USER_IDENTIFIER'] = "";
+                            $data['URL']             = "";
+                            $this->md->updatefile($data,$a->no_file);
+                        }
+    
+                        $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
+                        $responseall['Assign']['Name']           = $a->assignname;
+                        $responseall['File']['Filename']         = $a->no_file;
+                        $responseall['File']['RequestId']        = $a->request_id;
+                        $responseall['Response']                 = $response;
+                        $responseservice[]=$responseall;
+                    }else{
+                        $responseservice[]=$response;
                     }
-
-                    if($response['status']==="FAILED"){
-                        $data['STATUS_SIGN']     = "0";
-                        $data['STATUS_FILE']     = "1";
-                        $data['REQUEST_ID']      = "";
-                        $data['LINK']            = "";
-                        $data['NOTE']            = "";
-                        $data['USER_IDENTIFIER'] = "";
-                        $data['URL']             = "";
-                        $this->md->updatefile($data,$a->no_file);
-                    }
-
-                    $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
-                    $responseall['Assign']['Name']           = $a->assignname;
-                    $responseall['File']['Filename']         = $a->no_file;
-                    $responseall['File']['RequestId']        = $a->request_id;
-                    $responseall['Response']                 = $response;
-                    $responseservice[]=$responseall;
+                    
                 }
             }else{
                 $responseservice['ResponseDTechnology'] = "Tidak Ada List Untuk Di Execute";
