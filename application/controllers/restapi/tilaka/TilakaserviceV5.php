@@ -198,24 +198,26 @@
                             if($responsecheckcertificate['status']===3){
                                 $response = Tilaka::requestsign(json_encode($body));
     
-                                if($response['success']){
-                                    foreach($response['auth_urls'] as $authurls){
-                                        $data['REQUEST_ID']  = $requestid;
-                                        $data['STATUS_SIGN'] = "2";
-                                        $data['URL']         = $authurls['url'];   
+                                if(isset($response['success'])){
+                                    if($response['success']){
+                                        foreach($response['auth_urls'] as $authurls){
+                                            $data['REQUEST_ID']  = $requestid;
+                                            $data['STATUS_SIGN'] = "2";
+                                            $data['URL']         = $authurls['url'];   
+                                        }
+                                    }else{
+                                        foreach($listfile as $a){
+                                            $data['REQUEST_ID']  = $requestid;
+                                            $data['STATUS_SIGN'] = "0";
+                                            $data['NOTE']        = $response['message'];
+                                        }
                                     }
-                                }else{
-                                    foreach($listfile as $a){
-                                        $data['REQUEST_ID']  = $requestid;
-                                        $data['STATUS_SIGN'] = "0";
-                                        $data['NOTE']        = $response['message'];
+        
+                                    foreach($nofile as $a){
+                                        $this->md->updatefile($data,$a);
                                     }
                                 }
-    
-                                foreach($nofile as $a){
-                                    $this->md->updatefile($data,$a);
-                                }                    
-    
+                                                 
                                 $responseall['ResponseTilaka']           = $response;
                             }else{
                                 $responseall['ResponseTilaka'] = $responsecheckcertificate;
