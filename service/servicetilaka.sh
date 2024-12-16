@@ -5,9 +5,8 @@ LOG_FILE="/www/wwwroot/192.168.102.13/dtechnology/service/servicetilaka.log"
 
 # Fungsi untuk mencatat log (append tanpa menghapus log sebelumnya)
 initialize_log() {
-    if [ ! -f "$LOG_FILE" ]; then
-        echo "$(date '+%Y-%m-%d %H:%M:%S') - Log initialized" > "$LOG_FILE"
-    fi
+    # Clear log saat inisialisasi
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Log initialized" > "$LOG_FILE"
 }
 
 # Fungsi untuk mencatat log tambahan
@@ -49,6 +48,3 @@ run_request "GET" "http://192.168.102.13/dtechnology/index.php/pegawai"
 
 # Penutup log
 log_message "Script servicetilaka.sh finished."
-
-# Clear log setelah selesai
-> "$LOG_FILE"
