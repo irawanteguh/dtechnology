@@ -165,7 +165,9 @@
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_beli_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanbeli,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_pakai_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanpakai,
                             (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=(select jenis_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))jenis,
-                            (select nama_barang from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id)namabarang
+                            (select nama_barang from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id)namabarang,
+                            (select coalesce(sum(masuk),0) from dt01_lgu_mutasi_barang where org_id=a.org_id and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id)jmlmasuk
+
                         from dt01_lgu_pemesanan_dt a
                         where a.org_id='".$orgid."'
                         and   a.no_pemesanan='".$nopemesanan."'
@@ -185,6 +187,24 @@
                         from dt01_lgu_pemesanan_dt a
                         where a.org_id='".$orgid."'
                         and   a.no_pemesanan='".$nopemesanan."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function ceklaststok($orgid,$barangid){
+            $query =
+                    "
+                        select coalesce(qty,0)jml
+                        from dt01_lgu_mutasi_barang a
+                        where a.org_id='".$orgid."'
+                        and   a.department_id='f2998547-2c01-4710-97fb-e2b37eb11f8e'
+                        and   a.location_id='f47399ac-bb19-4ee9-9e47-86dbae594dad'
+                        and   a.barang_id='".$barangid."'
+                        order by created_date desc 
+                        limit 1;
                     ";
 
             $recordset = $this->db->query($query);
