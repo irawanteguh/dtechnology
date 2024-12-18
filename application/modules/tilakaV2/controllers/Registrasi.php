@@ -53,10 +53,10 @@
                     $body['register_id']=$_GET['register_id'];
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
 
-                    if($response['data']['status']==="F" && $response['data']['reason_code']==="1" && $response['data']['manual_registration_status']==="F"){
-                        $data['REGISTER_ID']    = "";
-                        $data['IMAGE_IDENTITY'] = "N";
-                        $this->md->updatedataregister($data,$_GET['register_id']);
+                    if($responsecheckregistrasiuser['data']['status']==="F" && $$responsecheckregistrasiuser['data']['reason_code']==="1" && $$responsecheckregistrasiuser['data']['manual_registration_status']==="F"){
+                        $datasimpan['REGISTER_ID']    = "";
+                        $datasimpan['IMAGE_IDENTITY'] = "N";
+                        $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                         redirect("tilakaV2/registrasi",$data);
                     }
                 }

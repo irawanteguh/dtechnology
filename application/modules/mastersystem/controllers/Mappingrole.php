@@ -61,11 +61,11 @@
                     $data['active'] = "0";
                 }
         
-                $resultcheckdata = $this->md->checkdata($_SESSION['orgid'], $roleid, $switchId);
+                $resultcheckdata = $this->md->checkdata($_SESSION['orgid'],$roleid,$switchId);
         
-                if (!empty($resultcheckdata)) {
+                if(!empty($resultcheckdata)){
                     $data['last_update_date'] = date("Y-m-d H:i:s");
-                    $data['last_update_by'] = $_SESSION['userid'];
+                    $data['last_update_by']   = $_SESSION['userid'];
         
                     if ($this->md->updatemapping($roleid, $switchId, $data)) {
                         $json["responCode"] = "00";
@@ -76,13 +76,13 @@
                         $json["responHead"] = "info";
                         $json["responDesc"] = "Activity Failed";
                     }
-                } else {
-                    $data['org_id'] = $_SESSION['orgid'];
-                    $data['trans_id'] = generateuuid();
-                    $data['role_id'] = $roleid;
-                    $data['modules_id'] = $switchId;
-                    $data['created_by'] = $_SESSION['userid'];
-                    $data['last_update_by'] = $_SESSION['userid'];
+                }else{
+                    $data['org_id']           = $_SESSION['orgid'];
+                    $data['trans_id']         = generateuuid();
+                    $data['role_id']          = $roleid;
+                    $data['modules_id']       = $switchId;
+                    $data['created_by']       = $_SESSION['userid'];
+                    $data['last_update_by']   = $_SESSION['userid'];
                     $data['last_update_date'] = date("Y-m-d H:i:s");
         
                     if ($this->md->insertmapping($data)) {
