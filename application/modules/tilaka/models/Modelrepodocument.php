@@ -13,9 +13,8 @@
                                     (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
                             from dt01_gen_document_file_dt a
                             where a.status_sign<>'0'
-                            and   a.no_file='202410060006840061701081'
                             ".$parameter." 
-                            -- and a.created_date >= NOW() - INTERVAL 3 DAY
+                            and a.created_date >= NOW() - INTERVAL 3 DAY
                             and a.active='1'
                             union
                             select a.NO_FILE, FILENAME, STATUS_SIGN, STATUS_FILE, LINK, NOTE, SOURCE_FILE, created_date, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
@@ -27,6 +26,7 @@
                             where a.status_sign='0'
                             ".$parameter."
                             and   a.active='1'
+                            and   a.assign  = (select assign from dt01_gen_user_data where org_id=a.org_id and active='1' and nik=a.assign and user_identifier<>'')
                         )x
                         order by created_date desc
                     ";

@@ -273,7 +273,6 @@
                     if(isset($response['success'])){
                         if($response['status']==="DONE"){
                             $data['STATUS_SIGN']="4";
-                            $this->md->updatefile($data,$a->no_file);
                         }
     
                         if($response['status']==="FAILED"){
@@ -284,8 +283,9 @@
                             $data['NOTE']            = "";
                             $data['USER_IDENTIFIER'] = "";
                             $data['URL']             = "";
-                            $this->md->updatefile($data,$a->no_file);
                         }
+
+                        $this->md->updatefile($data,$a->no_file);
                     }
 
                     $responseall['Assign']['UserIdentifier'] = $a->user_identifier;

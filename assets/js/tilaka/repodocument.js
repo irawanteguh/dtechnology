@@ -50,12 +50,6 @@ function viewdoc(btn) {
             $('#openInNewTabButton').data('filename', filename);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status === 404) {
-                alert("File tidak ditemukan (404).");
-            } else {
-                alert("Terjadi kesalahan. Status: " + jqXHR.status);
-            }
-
             var viewfile = `
                 <div class='alert alert-dismissible bg-light-info border border-info border-3 border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-10 fa-fade'>
                     <span class='svg-icon svg-icon-2hx svg-icon-info me-4 mb-5 mb-sm-0'>
