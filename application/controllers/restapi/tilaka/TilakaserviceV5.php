@@ -5,6 +5,8 @@
     require APPPATH . '/libraries/REST_Controller.php';
     include FCPATH."assets/vendors/phpqrcode/qrlib.php";
     include FCPATH."assets/vendors/pdfparse/Pdfparse.php";
+    require 'vendor/autoload.php';
+    use Smalot\PdfParser\Parser;
 
     class TilakaserviceV5 extends REST_Controller{
         
@@ -152,6 +154,21 @@
                             if($files->source_file==="DTECHNOLOGY"){
                                 $pdfParse          = new Pdfparse($filename);
                                 $specimentposition = $pdfParse->findText('$');
+
+                                // return var_dump($specimentposition);
+
+                                // $parser = new Parser();
+                                // $pdf  = $parser->parseFile($filename);
+                                // $text = $pdf->getText();
+
+                                // return var_dump($text,'$');
+
+                                // // Cari simbol $
+                                // if (strpos($text, '$') !== false) {
+                                //     echo "Simbol '$' ditemukan dalam file PDF.\n";
+                                // } else {
+                                //     echo "Simbol '$' tidak ditemukan.\n";
+                                // }
         
                                 if(isset($specimentposition['content']['$'][0]['x']) && isset($specimentposition['content']['$'][0]['y']) && isset($specimentposition['content']['$'][0]['page'])){
                                     $coordinatex = floatval($specimentposition['content']['$'][0]['x'])-(floatval(WIDTH)/2);
