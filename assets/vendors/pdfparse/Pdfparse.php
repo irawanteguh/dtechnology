@@ -183,9 +183,20 @@ class Pdfparse
             rmdir($dir);
         }
     }
+    // private function _convertToHtml($inputPath, $output)
+    // {
+    //     $command = $this->_binPath() . ' -q "' . $inputPath . '" "' . $output . '"';
+    //     shell_exec($command);
+    // }
+
     private function _convertToHtml($inputPath, $output)
     {
         $command = $this->_binPath() . ' -q "' . $inputPath . '" "' . $output . '"';
-        shell_exec($command);
+        exec($command, $outputLines, $returnVar);
+
+        if ($returnVar !== 0) {
+            throw new Exception("Command execution failed: " . implode("\n", $outputLines));
+        }
     }
+
 }

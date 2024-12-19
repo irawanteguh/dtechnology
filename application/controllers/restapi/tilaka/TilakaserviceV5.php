@@ -147,8 +147,6 @@
                         }else{
                             $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                         }
-
-                        // $filename = str_replace("/www/wwwroot/", "http://",$filename);
                         
                         if(file_exists($filename)){
                             if($files->source_file==="DTECHNOLOGY"){
