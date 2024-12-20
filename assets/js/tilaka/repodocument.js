@@ -138,13 +138,13 @@ function dataupload(){
                             tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Request Sign</span></td>"; 
                         }else{
                             if(result[i].STATUS_SIGN==="2"){
-                                tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Request Sign</span></td>"; 
+                                tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Sign</span></td>"; 
                             }else{
                                 if(result[i].STATUS_SIGN==="3"){
-                                    tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Request Execute File</span></td>";
+                                    tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Execute File</span></td>";
                                 }else{
                                     if(result[i].STATUS_SIGN==="4"){
-                                        tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Request Download File</span></td>"; 
+                                        tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Download File</span></td>"; 
                                     }else{
                                         if(result[i].STATUS_SIGN==="5"){
                                             tableresult +="<td class='ps-4'><span class='badge badge-light-success fs-7 fw-bold'>Finish</span></td>"; 
