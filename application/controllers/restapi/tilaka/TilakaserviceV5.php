@@ -256,7 +256,7 @@
                     $response = Tilaka::excutesign(json_encode($body));
 
                     if(isset($response['success'])){
-                        if($response['success']){
+                        if($response['status']!="PARAMERR"){
                             if($response['status']==="DONE"){
                                 $data['STATUS_SIGN']="4";
                                 $this->md->updatefile($data,$a->no_file);
