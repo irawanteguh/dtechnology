@@ -1,24 +1,54 @@
-# Daftar URL tujuan
-$uris = @(
-    @{ Uri = "http://192.168.102.13/dtechnology/index.php/uploadallfile"; Method = "POST" },
-    @{ Uri = "http://192.168.102.13/dtechnology/index.php/requestsign"; Method = "POST" },
-    @{ Uri = "http://192.168.102.13/dtechnology/index.php/excutesign"; Method = "POST" },
-    @{ Uri = "http://192.168.102.13/dtechnology/index.php/statussign"; Method = "POST" },
-    @{ Uri = "http://192.168.102.13/dtechnology/index.php/pegawai"; Method = "GET" }
-)
+# Lokasi file log
+$LogFile = "C:\xampp\htdocs\dtechnology\service\servicetilaka.log"
 
-# Loop untuk mengirim permintaan ke setiap URL
-foreach ($endpoint in $uris) {
-    $uri = $endpoint.Uri
-    $method = $endpoint.Method
+# Fungsi untuk mencatat log (append tanpa menghapus log sebelumnya)
+function Initialize-Log {
+    # Hapus file log jika sudah ada (reset log)
+    if (Test-Path $LogFile) {
+        Remove-Item $LogFile
+    }
+    $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "$date - Log initialized" | Out-File -FilePath $LogFile -Append
+}
+
+# Fungsi untuk mencatat log tambahan
+function Log-Message {
+    param (
+        [string]$Message
+    )
+    $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "$date - $Message" | Out-File -FilePath $LogFile -Append
+}
+
+# Fungsi untuk menjalankan permintaan HTTP
+function Run-Request {
+    param (
+        [string]$Method,
+        [string]$Url
+    )
+
+    # Catat log sebelum melakukan permintaan
+    Log-Message "Starting $Method request to $Url"
+
+    # Jalankan permintaan HTTP dan tangkap respon
     try {
-        # Kirim permintaan GET atau POST sesuai kebutuhan
-        $response = Invoke-RestMethod -Uri $uri -Method $method
-
-        # Output respons (opsional untuk debug/logging)
-        Write-Output "Success for ${uri} (${method}): ${response}"
-    } catch {
-        # Tangani kesalahan (log atau tampilkan pesan)
-        Write-Output "Error for ${uri} (${method}): $_"
+        $response = Invoke-RestMethod -Uri $Url -Method $Method -ErrorAction Stop
+        Log-Message "Request to $Url succeeded with response: $($response | Out-String)"
+    }
+    catch {
+        Log-Message "Request to $Url failed. Error: $_"
     }
 }
+
+# Inisialisasi log
+Initialize-Log
+
+# Jalankan semua permintaan HTTP
+Run-Request "POST" "http://localhost/dtechnology/index.php/uploadallfile"
+Run-Request "POST" "http://localhost/dtechnology/index.php/requestsign"
+Run-Request "POST" "http://localhost/dtechnology/index.php/excutesign"
+Run-Request "POST" "http://localhost/dtechnology/index.php/statussign"
+Run-Request "GET" "http://localhost/dtechnology/index.php/getfile"
+
+# Penutup log
+Log-Message "Script servicetilaka.ps1 finished."

@@ -24,7 +24,7 @@
             $summaryresponse = [];
             $responseservice = [];
 
-            $status ="and a.status_sign ='0'";
+            $status ="and a.status_sign ='0' order by note asc limit 50;";
             $result = $this->md->dataupload(ORG_ID,$status);
             
             if(!empty($result)){
@@ -155,38 +155,62 @@
                                 $pdfParse          = new Pdfparse($filename);
                                 $specimentposition = $pdfParse->findText('$');
         
-                                if(isset($specimentposition['content']['$'][0]['x']) && isset($specimentposition['content']['$'][0]['y']) && isset($specimentposition['content']['$'][0]['page'])){
-                                    $coordinatex = floatval($specimentposition['content']['$'][0]['x'])-(floatval(WIDTH)/2);
-                                    $coordinatey = floatval($specimentposition['content']['$'][0]['y'])-(floatval(HEIGHT)/2);
-                                    $page        = floatval($specimentposition['content']['$'][0]['page']);
-                                }else{
-                                    $coordinatex = floatval(COORDINATE_X);
-                                    $coordinatey = floatval(COORDINATE_Y);
-                                    $page        = floatval(PAGE);
+                                foreach ($specimentposition['content']['$'] as $specimen) {
+
+                                    if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
+                                        $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
+                                        $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
+                                        $page        = floatval($specimen['page']);
+                                    } else {
+                                        $coordinatex = floatval(COORDINATE_X);
+                                        $coordinatey = floatval(COORDINATE_Y);
+                                        $page        = floatval(PAGE);
+                                    }
+                            
+                                    // Membuat array untuk setiap tanda tangan
+                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                    $listpdfsignatures['location'] = $files->orgname;
+                                    $listpdfsignatures['width'] = floatval(WIDTH);
+                                    $listpdfsignatures['height'] = floatval(HEIGHT);
+                                    $listpdfsignatures['coordinate_x'] = $coordinatex;
+                                    $listpdfsignatures['coordinate_y'] = $coordinatey;
+                                    $listpdfsignatures['page_number'] = $page;
+                                    $listpdfsignatures['qrcombine'] = "QRONLY";
+                            
+                                    if (CERTIFICATE === "PERSONAL") {
+                                        $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                    }
+                            
+                                    // Menambahkan signature ke dalam array listpdf
+                                    $listpdf['filename'] = $files->filename;
+                                    $listpdf['signatures'][] = $listpdfsignatures;
                                 }
+                            
+                                // Menambahkan pdf ke dalam list_pdf
+                                $body['list_pdf'][] = $listpdf;
                             }else{
                                 $coordinatex = floatval(COORDINATE_X);
                                 $coordinatey = floatval(COORDINATE_Y);
                                 $page        = floatval(PAGE);
+
+
+                                $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                $listpdfsignatures['location']        = $files->orgname;
+                                $listpdfsignatures['width']           = floatval(WIDTH);
+                                $listpdfsignatures['height']          = floatval(HEIGHT);
+                                $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                $listpdfsignatures['page_number']     = $page;
+                                $listpdfsignatures['qrcombine']       = "QRONLY";
+                                if(CERTIFICATE==="PERSONAL"){
+                                    $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                }
+        
+                                $listpdf['filename']     = $files->filename;
+                                $listpdf['signatures'][] = $listpdfsignatures;
+
+                                $body['list_pdf'][]=$listpdf;
                             }
-                            
-    
-                            $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                            $listpdfsignatures['location']        = $files->orgname;
-                            $listpdfsignatures['width']           = floatval(WIDTH);
-                            $listpdfsignatures['height']          = floatval(HEIGHT);
-                            $listpdfsignatures['coordinate_x']    = $coordinatex;
-                            $listpdfsignatures['coordinate_y']    = $coordinatey;
-                            $listpdfsignatures['page_number']     = $page;
-                            $listpdfsignatures['qrcombine']       = "QRONLY";
-                            if(CERTIFICATE==="PERSONAL"){
-                                $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
-                            }
-    
-                            $listpdf['filename']     = $files->filename;
-                            $listpdf['signatures'][] = $listpdfsignatures;
-    
-                            $body['list_pdf'][]=$listpdf;
                         }
                     }
 
@@ -349,7 +373,7 @@
         }
 
         public function getfile_GET(){
-            $orgId    = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : '10c84edd-500b-49e3-93a5-a2c8cd2c8524';
+            $orgId    = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : ORG_ID;
             $location = FCPATH . "/assets/documenttemp/";
             if (is_dir($location)) {
                 $pdfFiles = glob($location . "*.pdf");
