@@ -9,6 +9,22 @@ application/logs/*
 application/sessions/*
 !application/sessions/index.html
 
+assets/buktitransfer/*
+!assets/buktitransfer/index.html
+
+assets/document/*
+!assets/document/index.html
+!assets/document/Contoh Dokument.pdf
+
+assets/documentpo/*
+!assets/documentpo/index.html
+
+assets/documenttemp/*
+!assets/documenttemp/index.html
+
+ssets/invoice/*
+!assets/invoice/index.html
+
 !application/*/.htaccess
 
 application/config/database.php
