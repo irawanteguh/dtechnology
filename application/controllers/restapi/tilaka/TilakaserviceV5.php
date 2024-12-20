@@ -256,21 +256,23 @@
                     $response = Tilaka::excutesign(json_encode($body));
 
                     if(isset($response['success'])){
-                        if($response['status']==="DONE"){
-                            $data['STATUS_SIGN']="4";
-                        }
+                        if($response['success']){
+                            if($response['status']==="DONE"){
+                                $data['STATUS_SIGN']="4";
+                            }
+        
+                            if($response['status']==="FAILED"){
+                                $data['STATUS_SIGN']     = "0";
+                                $data['STATUS_FILE']     = "1";
+                                $data['REQUEST_ID']      = "";
+                                $data['LINK']            = "";
+                                $data['NOTE']            = "";
+                                $data['USER_IDENTIFIER'] = "";
+                                $data['URL']             = "";
+                            }
     
-                        if($response['status']==="FAILED"){
-                            $data['STATUS_SIGN']     = "0";
-                            $data['STATUS_FILE']     = "1";
-                            $data['REQUEST_ID']      = "";
-                            $data['LINK']            = "";
-                            $data['NOTE']            = "";
-                            $data['USER_IDENTIFIER'] = "";
-                            $data['URL']             = "";
+                            $this->md->updatefile($data,$a->no_file);
                         }
-
-                        $this->md->updatefile($data,$a->no_file);
                     }
 
                     $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
