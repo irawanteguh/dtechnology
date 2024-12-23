@@ -83,6 +83,21 @@
                         $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                         $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
                         $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
+                    }else{
+                        $body['register_id']=$_GET['request_id'];
+                        $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
+                    
+                        if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="3"){ // reason code 3 : Request Id Expired, status F : Fail dukcapil (ada data yang tidak sesuai, misal nik tidak ditemukan pada database dukcapil
+                            $datasimpan['IMAGE_IDENTITY']  = "N";
+                            $datasimpan['REASON_CODE']     = $_GET['reason_code'];
+                            $datasimpan['USER_IDENTIFIER'] = "";
+                            $datasimpan['REGISTER_ID']     = "";
+                            $datasimpan['REVOKE_ID']       = "";
+                            $datasimpan['ISSUE_ID']        = "";
+                            
+                            $this->md->updatedataregister($datasimpan,$_GET['request_id']);
+                            redirect("tilakaV2/registrasi",$data);
+                        }
                     }
 
                     $this->md->updatedataregister($datasimpan,$_GET['request_id']);
