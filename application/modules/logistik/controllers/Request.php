@@ -34,11 +34,13 @@
 		}
 
         public function newrequest(){
+            $departmentid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+
             $data['org_id']          = $_SESSION['orgid'];
-            $data['no_pemesanan']    = $this->md->buatnopemesanan($_SESSION['orgid'])->nomor_pemesanan;
+            $data['no_pemesanan']    = $this->md->buatnopemesanan($_SESSION['orgid'],$departmentid)->nomor_pemesanan;
             $data['judul_pemesanan'] = $this->input->post("modal_new_request_nama");
             $data['note']            = $this->input->post("modal_new_request_note");
-            $data['department_id']   = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+            $data['department_id']   = $departmentid;
             $data['supplier_id']     = $this->input->post("modal_new_request_supplier");
             $data['method']          = $this->input->post("modal_new_request_method");
             $data['cito']            = $this->input->post("modal_new_request_cito");

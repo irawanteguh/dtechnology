@@ -27,25 +27,39 @@
             return $recordset;
         }
 
-        function buatnopemesanan($orgid){
+        function buatnopemesanan($orgid,$departmentid){
             $query =
                     "
-                        SELECT CONCAT(
-                                'SPM', 
-                                DATE_FORMAT(NOW(), '%Y%m%d'), 
-                                LPAD(
-                                    COALESCE(
-                                        (SELECT COUNT(no_pemesanan) + 1 
-                                        FROM dt01_lgu_pemesanan_hd 
-                                        WHERE org_id='".$orgid."'
-                                        and   DATE_FORMAT(created_date, '%d.%m.%Y') = DATE_FORMAT(CURRENT_DATE, '%d.%m.%Y')
-                                        ), 
-                                        1
-                                    ), 
-                                    3, 
-                                    '0'
-                                )
-                            ) AS nomor_pemesanan
+                        select concat(
+                                        lpad(
+                                            coalesce(
+                                                (
+                                                    select COUNT(no_pemesanan)+1
+                                                    from dt01_lgu_pemesanan_hd
+                                                    where org_id='".$orgid."'
+                                                    and   department_id='".$departmentid."'
+                                                    and   DATE_FORMAT(created_date, '%Y') = DATE_FORMAT(CURRENT_DATE, '%Y')
+                                                ),
+                                                1
+                                            ),
+                                            3,
+                                            '0'
+                                        ),
+                                        '/',
+                                        COALESCE(
+                                                    (
+                                                        select code
+                                                        from dt01_gen_department_ms
+                                                        where org_id='".$orgid."'
+                                                        and   department_id='".$departmentid."'
+                                                    ),
+                                                    'XXX'
+                                        ),
+                                        '/',
+                                        DATE_FORMAT(NOW(), '%m'),
+                                        '/',
+                                        DATE_FORMAT(NOW(), '%Y')
+                                ) nomor_pemesanan
 
                     ";
 
