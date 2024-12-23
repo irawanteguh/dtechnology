@@ -7,12 +7,23 @@ $("#modal_department_addsubdepartment").on('hide.bs.modal', function(){
 });
 
 function getdata(btn) {
-    var departmentid = btn.attr("data_departmentid");
-    var levelid = btn.attr("data_levelid");
+    var departmentid        = btn.attr("data_departmentid");
+    var data_department     = btn.attr("data_department");
+    var data_departmentcode = btn.attr("data_departmentcode");
+    var levelid             = btn.attr("data_levelid");
 
     $(":hidden[name='headerid']").val(departmentid);
     $(":hidden[name='departmentid']").val(departmentid);
+    $(":hidden[name='departmentidedit']").val(departmentid);
     $(":hidden[name='levelid']").val(parseFloat(levelid)+1);
+
+    $("input[name='department_name_edit']").val(data_department);
+    if(data_departmentcode==="null"){
+        $("input[name='department_code_edit']").val('');
+    }else{
+        $("input[name='department_code_edit']").val(data_departmentcode);
+    }
+   
 
     masteruser();
 };
@@ -32,7 +43,6 @@ function masterdepartment() {
             if (data.responCode === "00") {
                 var result = data.responResult;
 
-                // Recursive function to generate child elements
                 function generateChildElements(parentId, level) {
                     var childElements = "";
                     for (var j in result) {
@@ -40,11 +50,13 @@ function masterdepartment() {
                             var indent = level * 20;
 
                             getvariabel =   "data_departmentid='" + result[j].department_id + "'"+
+                                            "data_department='" + result[j].department + "'"+
+                                            "data_departmentcode='" + result[j].code + "'"+
                                             "data_levelid='" + result[j].level_id + "'";
 
                             childElements += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' style='margin-left:" + indent + "px;' data-kt-search-element='customer'>";
                             childElements += "<div class='fw-bold'>";
-                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+ result[j].department + "</span><br>";
+                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].code ? "["+result[j].code+"] " : "")+ result[j].department + "</span><br>";
                             childElements += "<span class='fs-6 text-muted me-2'>"+ (result[j].namapj ? result[j].namapj : "") + " </span>";
                             childElements += "</div>";
                             childElements += "<div class='fw-bold d-flex justify-content-end'>";
@@ -53,6 +65,7 @@ function masterdepartment() {
                             childElements += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             childElements += "<a class='dropdown-item btn btn-sm text-primary'  data-bs-toggle='modal' data-bs-target='#modal_department_adduser' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-primary'></i> Add User</a>";
                             childElements += "<a class='dropdown-item btn btn-sm text-success' data-bs-toggle='modal' data-bs-target='#modal_department_addsubdepartment' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-check2-circle text-success'></i> Add Sub Department</a>";
+                            childElements += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_department_editsubdepartment' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-primary'></i> Edit Department</a>";
                             childElements += "<a class='dropdown-item btn btn-sm text-danger'  data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Delete Department</a>";
                             childElements +="</div>";
                             childElements +="</div>";
@@ -162,6 +175,54 @@ $(document).on("submit", "#forminsertdepartment", function (e) {
 	});
     return false;
 });
+
+$(document).on("submit", "#formeditdepartment", function (e) {
+	e.preventDefault();
+	var form = $(this);
+    var url  = $(this).attr("action");
+
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#btn_department_edit").addClass("disabled");
+        },
+		success: function (data) {
+            toastr.clear();
+
+            if(data.responCode == "00"){
+                masterdepartment();
+                $('#modal_department_editsubdepartment').modal('hide');
+			}
+
+			toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#btn_department_edit").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}		
+	});
+    return false;
+});
+
 
 function masteruser(){
     $.ajax({

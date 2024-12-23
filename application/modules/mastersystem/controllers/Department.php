@@ -53,6 +53,7 @@
             $data['header_id']     = $this->input->post("headerid");
             $data['level_id']      = $this->input->post("levelid");
             $data['department']    = $this->input->post("department_name");
+            $data['code']          = $this->input->post("department_code");
             $data['created_by']    = $_SESSION['userid'];
             $data['created_date']  = date("Y-m-d H:i:s");
 
@@ -69,9 +70,24 @@
             echo json_encode($json);
         }
 
-        public function adduser(){
+        public function editdepartment(){
+            $data['department'] = $this->input->post("department_name_edit");
+            $data['code']       = $this->input->post("department_code_edit");
 
-            
+            if($this->md->updatedepartment($data,$this->input->post("departmentidedit"))){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function adduser(){
             $data['user_id']     = $this->input->post("userid");
 
             if($this->md->updatedepartment($data,$this->input->post("departmentid"))){

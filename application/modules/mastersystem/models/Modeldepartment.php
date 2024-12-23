@@ -4,7 +4,7 @@
         function masterdepartment($orgid){
             $query =
                     "
-                        select a.department_id, header_id, department, level_id,
+                        select a.department_id, header_id, department, level_id, code,
                                (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.user_id)namapj
                         from dt01_gen_department_ms a
                         where a.org_id='".$orgid."'
