@@ -45,7 +45,7 @@
 								<!-- <th class="pe-4 text-end rounded-end">Actions</th> -->
                             </tr>
                         </thead>
-                        <tbody id="summmarykpi"></tbody>
+                        <tbody class="text-gray-600" id="summmarykpi"></tbody>
                     </table>
                 </div>
             </div>

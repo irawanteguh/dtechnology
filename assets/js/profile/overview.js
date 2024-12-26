@@ -22,7 +22,7 @@ function summarykpi() {
                     tableresult +="<td class='text-end'>"+(result[i].dibuat ? todesimal(result[i].dibuat)  : "0")+" Minutes</td>";
                     tableresult +="<td class='text-end'>"+(result[i].wait ? todesimal(result[i].wait)  : "0")+" Minutes</td>";
                     tableresult +="<td class='text-end'>"+(result[i].approve ? todesimal(result[i].approve)  : "0")+" Minutes</td>";
-                    tableresult +="<td class='text-end'>"+(result[i].tolak ? todesimal(tolak[i].tolak)  : "0")+" Minutes</td>";
+                    tableresult +="<td class='text-end'>"+(result[i].tolak ? todesimal(result[i].tolak)  : "0")+" Minutes</td>";
                     tableresult +="<td class='text-center'>"+(result[i].presentasiactivity ? todesimal(result[i].presentasiactivity)  : "0")+"%</td>";
                     tableresult +="<td class='text-center'>"+(result[i].presentasiperilaku ? todesimal(result[i].presentasiperilaku)  : "0")+"%</td>";
                     tableresult +="<td class='text-center'>"+(result[i].resultkpi ? todesimal(result[i].resultkpi)  : "0")+"%</td>";

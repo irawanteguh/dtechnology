@@ -13,13 +13,13 @@
                         from(
                         select org_id, date_format(a.start_date,'%m.%Y')periode, 
                             (select hours_month from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)hours_month,
-                            (select sum(nilai) from dt01_hrd_assessment_dt where org_id=a.org_id and user_id=a.user_id and periode=date_format(a.start_date,'%m.%Y'))jmlnilaiassessment,
+                            (select coalesce(sum(nilai),0) from dt01_hrd_assessment_dt where org_id=a.org_id and user_id=a.user_id and periode=date_format(a.start_date,'%m.%Y'))jmlnilaiassessment,
                             (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id and periode=date_format(a.start_date,'%m.%Y'))jmlkomponenpenilaian,
-                            sum(case when a.active='1' then total end)dibuat,
-                            sum(case when a.active='1' and status='0' then total end)wait,
-                            sum(case when a.active='1' and status='1' then total end)approve,
-                            sum(case when a.active='1' and status='2' then total end)revisi,
-                            sum(case when a.active='1' and status='9' then total end)tolak
+                            coalesce(sum(case when a.active='1' then total end),0)dibuat,
+                            coalesce(sum(case when a.active='1' and status='0' then total end),0)wait,
+                            coalesce(sum(case when a.active='1' and status='1' then total end),0)approve,
+                            coalesce(sum(case when a.active='1' and status='2' then total end),0)revisi,
+                            coalesce(sum(case when a.active='1' and status='9' then total end),0)tolak
                         from dt01_hrd_activity_dt a
                         where a.org_id='".$orgid."'
                         and   a.user_id='".$userid."'
