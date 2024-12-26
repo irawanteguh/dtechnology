@@ -134,7 +134,7 @@
         function datarequest($orgid,$status){
             $query =
                     "
-                        select a.no_pemesanan, judul_pemesanan, note, invoice, invoice_no, method, cito, attachment_note, subtotal, harga_ppn, total, status, status_vice, status_dir, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, invoice, invoice_no, method, cito, attachment_note, subtotal, harga_ppn, total, status, status_vice, status_dir, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit,

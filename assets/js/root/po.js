@@ -214,6 +214,7 @@ function viewdoc(btn) {
     var filename     = $(btn).attr("data-dirfile");
     var note         = $(btn).attr("data_attachment_note");
     var filename     = filename.replace('/www/wwwroot/', 'http://');
+    alert(filename);
     var responsefile = jQuery.ajax({url: filename,type: 'HEAD',async: false}).status;
 
     if (responsefile === 200) {
