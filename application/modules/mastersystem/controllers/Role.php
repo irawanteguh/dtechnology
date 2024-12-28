@@ -48,7 +48,6 @@
         }
 
         public function addrole(){
-
             $data['org_id']            = $_SESSION['orgid'];
             $data['role_id']           = generateuuid();
             $data['role']              = $this->input->post("data_role_name_add");
@@ -70,57 +69,57 @@
             echo json_encode($json);
         }
 
-        public function mappingrole() {
-            $allSwitchStatuses = $this->input->post("allSwitchStatuses");
-            $roleid = $this->input->post("roleid");
-        
-            foreach ($allSwitchStatuses as $status) {
-                $switchId = $status['id'];
-                $switchValue = $status['value'];
-        
-                if ($switchValue === "true" || $switchValue === true) {
-                    $data['active'] = "1";
+        public function mappingrole(){
+            $roleid      = $this->input->post("roleid");
+            $switchId    = $this->input->post("switchId");
+            $switchValue = $this->input->post("switchValue");
+    
+            if ($switchValue === "true" || $switchValue === true) {
+                $data['active'] = "1";
+            } else {
+                $data['active'] = "0";
+            }
+    
+            $resultcheckdata = $this->md->checkdata($_SESSION['orgid'], $roleid, $switchId);
+    
+            if (!empty($resultcheckdata)) {
+                $data['last_update_date'] = date("Y-m-d H:i:s");
+                $data['last_update_by']   = $_SESSION['userid'];
+    
+                if ($this->md->updatemapping($roleid, $switchId, $data)) {
+                    $json["responCode"] = "00";
+                    $json["responHead"] = "success";
+                    $json["responDesc"] = "Update Role Success";
                 } else {
-                    $data['active'] = "0";
+                    $json["responCode"] = "01";
+                    $json["responHead"] = "info";
+                    $json["responDesc"] = "Update Role Failed";
                 }
-        
-                $resultcheckdata = $this->md->checkdata($_SESSION['orgid'], $roleid, $switchId);
-        
-                if (!empty($resultcheckdata)) {
-                    $data['last_update_date'] = date("Y-m-d H:i:s");
-                    $data['last_update_by']   = $_SESSION['userid'];
-        
-                    if ($this->md->updatemapping($roleid, $switchId, $data)) {
-                        $json["responCode"] = "00";
-                        $json["responHead"] = "success";
-                        $json["responDesc"] = "Activity Success";
-                    } else {
-                        $json["responCode"] = "01";
-                        $json["responHead"] = "info";
-                        $json["responDesc"] = "Activity Failed";
-                    }
-                } else {
-                    $data['org_id']           = $_SESSION['orgid'];
-                    $data['trans_id']         = generateuuid();
-                    $data['role_id']          = $roleid;
-                    $data['modules_id']       = $switchId;
-                    $data['created_by']       = $_SESSION['userid'];
-                    $data['last_update_by']   = $_SESSION['userid'];
-                    $data['last_update_date'] = date("Y-m-d H:i:s");
-        
-                    if($this->md->insertmapping($data)){
-                        $json["responCode"] = "00";
-                        $json["responHead"] = "success";
-                        $json["responDesc"] = "Activity Success";
-                    }else{
-                        $json["responCode"] = "01";
-                        $json["responHead"] = "info";
-                        $json["responDesc"] = "Activity Failed";
-                    }
+            } else {
+                $data['org_id']           = $_SESSION['orgid'];
+                $data['trans_id']         = generateuuid();
+                $data['role_id']          = $roleid;
+                $data['modules_id']       = $switchId;
+                $data['created_by']       = $_SESSION['userid'];
+                $data['last_update_by']   = $_SESSION['userid'];
+                $data['last_update_date'] = date("Y-m-d H:i:s");
+    
+                if($this->md->insertmapping($data)){
+                    $json["responCode"] = "00";
+                    $json["responHead"] = "success";
+                    $json["responDesc"] = "Update Role Success";
+                }else{
+                    $json["responCode"] = "01";
+                    $json["responHead"] = "info";
+                    $json["responDesc"] = "Update Role Failed";
                 }
             }
         
             echo json_encode($json);
         }
+
+
+        
+        
 	}
 ?>

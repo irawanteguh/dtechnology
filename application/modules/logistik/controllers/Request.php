@@ -151,20 +151,29 @@
         }
 
         public function datarequest(){
-            $departmentid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
-            $status="and   a.department_id='".$departmentid."'";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
-            
-			if(!empty($result)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Successfully Found";
-				$json['responResult']=$result;
+            $resultcekunitid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid']);
+
+            if(!empty($resultcekunitid)){
+                $status="and   a.department_id='".$resultcekunitid->department_id."'";
+                $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                
+                if(!empty($result)){
+                    $json["responCode"]="00";
+                    $json["responHead"]="success";
+                    $json["responDesc"]="Data Successfully Found";
+                    $json['responResult']=$result;
+                }else{
+                    $json["responCode"]="01";
+                    $json["responHead"]="info";
+                    $json["responDesc"]="Data Failed to Find";
+                }
             }else{
                 $json["responCode"]="01";
                 $json["responHead"]="info";
-                $json["responDesc"]="Data Failed to Find";
+                $json["responDesc"]="You Don't Have Access";
             }
+
+            
 
             echo json_encode($json);
         }

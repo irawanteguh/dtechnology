@@ -30,7 +30,7 @@
 </div>
 
 <div class="modal fade" id="modal_role_list" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -45,7 +45,7 @@
                     <div class="text-muted fw-bold fs-5">Please Add Detail Role</div>
                 </div>
                 <div class="row">
-                    <div class="mh-450px scroll-y me-n5 pe-5" id="listmodules"></div>
+                    <div class="mh-600px scroll-y me-n5 pe-5" id="listmodules"></div>
                 </div>
             </div>
         </div>
