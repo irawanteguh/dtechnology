@@ -53,8 +53,8 @@
             return $sql;
         }
 
-        function updatefile($data,$nofile){           
-            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("NO_FILE"=>$nofile));
+        function updatefile($data,$transid){           
+            $sql =   $this->db->update("dt01_gen_tte_hd",$data,array("trans_id"=>$transid));
             return $sql;
         }
 

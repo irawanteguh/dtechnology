@@ -97,7 +97,7 @@
                 $upload_data = $this->upload->data();
 
                 $data['status']="1";
-                $this->md->updatefile($data, $transid);
+                $this->md->updatefile($data,$transid);
                 echo "Upload Success";
             }
 
