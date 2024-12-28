@@ -8,23 +8,26 @@ $('#modal_upload_document').on('hidden.bs.modal', function (e) {
 });
 
 function uploadfile(btn){
-	var transid  = $(btn).attr("data_transid");
     var nofile  = $(btn).attr("data_nofile");
+    var transid = $(btn).attr("data_transid");
 
     var myDropzone = new Dropzone("#file_doc", {
-        url               : url + "index.php/tilakaV2/repodocument/uploadfile?transid="+transid+"&nofile="+nofile,
-        acceptedFiles     : '.pdf',
-        paramName         : "file",
+        url             : url + "index.php/tilakaV2/repodocument/uploadfile?nofile="+nofile+"&transid="+transid,
+        acceptedFiles   : '.PDF',
+        paramName       : "file",
         dictDefaultMessage: "Drop files here or click to upload",
-        maxFiles          : 1,
-        maxFilesize       : 10,
-        addRemoveLinks    : true,
-        autoProcessQueue  : true,
+        maxFiles        : 1,
+        maxFilesize     : 10,
+        addRemoveLinks  : true,
+        autoProcessQueue: true,
         accept: function(file, done) {
             done();
-            datarepository();
-            $('#modal_upload_document').modal('hide'); 
         }
+    });
+
+    myDropzone.on("success", function(file, response) {
+        datarepository(); 
+        $('#modal_upload_document').modal('hide');
     });
 };
 

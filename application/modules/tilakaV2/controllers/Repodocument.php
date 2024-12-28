@@ -28,7 +28,6 @@
                 $assign.="<option value='".$a->nik."'>".$a->name."</option>";
             }
 
-
             $data['document'] = $document;
             $data['assign']   = $assign;
             return $data;
@@ -88,11 +87,13 @@
             $config['overwrite']     = TRUE;
             $this->load->library('upload', $config);
 
+			
+
             if (!$this->upload->do_upload('file')) {
                 $error = array('error' => $this->upload->display_errors());
                 log_message('error', 'File upload error: ' . implode(' ', $error));
                 echo json_encode($error);
-            } else {
+            }else{
                 $upload_data = $this->upload->data();
 
                 $data['status']="1";

@@ -53,5 +53,10 @@
             return $sql;
         }
 
+        function updatefile($data,$nofile){           
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("NO_FILE"=>$nofile));
+            return $sql;
+        }
+
     }
 ?>
