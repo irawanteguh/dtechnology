@@ -6,7 +6,13 @@
                     "
                         select a.trans_id, no_file, filename, note_1, note_2, location, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam, status,
                                 (select name from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
-                                (select document_name from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument
+                                (select document_name from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument,
+                                (
+                                    SELECT GROUP_CONCAT((select name from dt01_gen_user_data where nik=b.nik) SEPARATOR ';') 
+                                    FROM dt01_gen_tte_it b
+                                    WHERE b.active='1'
+                                    and   b.no_file=a.no_file
+                                ) assign
                         from dt01_gen_tte_hd a
                         where a.active='1'
                         ".$parameter."
@@ -35,7 +41,7 @@
         function userassign($orgid){
             $query =
                     "
-                        select a.nik, name
+                        select a.nik, replace(name,',','.')name
                         from dt01_gen_user_data a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
@@ -50,6 +56,11 @@
 
         function insertsigndocument($data){           
             $sql =   $this->db->insert("dt01_gen_tte_hd",$data);
+            return $sql;
+        }
+
+        function insertsigndocumentassign($data){           
+            $sql =   $this->db->insert("dt01_gen_tte_it",$data);
             return $sql;
         }
 

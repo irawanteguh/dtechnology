@@ -24,15 +24,13 @@
 								<?php echo $document;?>
 							</select>
 						</div>
-                        <!-- <div class="col-md-12 mb-5">
-							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-								<span class="required">Assign</span>
-								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Assign"></i>
-							</label>
-							<select data-control="select2" data-dropdown-parent="#modal_sign_add" data-placeholder="Please Select Assign" class="form-select form-select-solid" name="modal_sign_add_assign" id="modal_sign_add_assign" required>
-								<?php echo $assign;?>
-							</select>
-						</div> -->
+                        <div class="d-flex flex-column mb-8 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                <span class="required">Assign</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a target priorty"></i>
+                            </label>
+                            <input class="form-control form-control-solid" name="modal_sign_add_assign" id="modal_sign_add_assign"/>
+                        </div>
                         <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Note 1 :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_sign_add_informasi1" name="modal_sign_add_informasi1" required>
