@@ -214,11 +214,10 @@ function viewdoc(btn) {
     var filename     = $(btn).attr("data-dirfile");
     var note         = $(btn).attr("data_attachment_note");
     var filename     = filename.replace('/www/wwwroot/', 'http://');
-    alert(filename);
     var responsefile = jQuery.ajax({url: filename,type: 'HEAD',async: false}).status;
 
     if (responsefile === 200) {
-        var viewfile = "<embed src='" + filename + "' width='100%' height='100%' type='application/pdf' id='view'>";
+        var viewfile = "<embed src='"+filename+"' width='100%' height='100%' type='application/pdf' id='view'>";
         $("#viewdocnote").html(viewfile);
         $("textarea[name='modal_view_pdf_note']").val(note);
         $('#openInNewTabButton').data('filename', filename);

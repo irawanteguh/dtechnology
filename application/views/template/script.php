@@ -41,9 +41,16 @@
             foreach ($jsFiles as $jsFile) {
                 $jsFilename = basename($jsFile);
 
+
                 if($this->uri->segment(1) != "auth"){
+                    if ($this->uri->segment(1) != 'logistik' && $jsFilename === 'po.js') {
+                        continue;
+                    }
+
                     echo "\t\t<script type='text/javascript' src='".base_url('assets/js/root/'.$jsFilename)."'></script>".PHP_EOL;
                 }
+
+                
             }
         };
 

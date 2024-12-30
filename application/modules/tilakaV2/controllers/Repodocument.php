@@ -73,6 +73,7 @@
             $data['jenis_doc']  = $type;
             $data['note_1']     = $info1;
             $data['note_2']     = $info2;
+            $data['type']       = count($assign) == 1 ? 'S' : 'B';
             $data['location']   = "DTECHNOLOGY";
             $data['created_by'] = $_SESSION['userid'];
         
