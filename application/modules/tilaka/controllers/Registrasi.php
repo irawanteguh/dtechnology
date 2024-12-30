@@ -151,8 +151,8 @@
             }else{
                 if(isset($_GET['status']) && isset($_GET['revoke_id'])){
                     if($_GET['status'] === "Berhasil"){
-                        $data['CERTIFICATE']="X";
-                        $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
+                        $datasimpan['CERTIFICATE']="X";
+                        $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                     }else{
                         $data['REVOKE_ID']="";
                         $this->md->updatedatarevokeid($data,$_GET['revoke_id']);
