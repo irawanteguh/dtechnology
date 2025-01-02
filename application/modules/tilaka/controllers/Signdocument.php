@@ -25,7 +25,8 @@
                 if(isset($_GET['issue_id']) && isset($_GET['status']) && isset($_GET['reason_code'])){
 
                     if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "0"){
-                        $bodycheckcertificate['user_identifier']=$useridentifier;
+                        $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
+                        $bodycheckcertificate['user_identifier']=$result->USER_IDENTIFIER;
                         $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
                         if($responsecheckcertificate['success']){
@@ -33,7 +34,6 @@
                             $data['CERTIFICATE_INFO'] = $responsecheckcertificate['message']['info'];
                             $data['ISSUE_ID']         = $response['data'][0];
                             $this->md->updatedatauseridentifier($data,$useridentifier);
-                            redirect("tilakaV2/registrasi",$data);
                         }
                     }
 
