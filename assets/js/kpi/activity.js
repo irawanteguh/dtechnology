@@ -140,7 +140,7 @@ function calendar() {
                     pilihtgl  = pilihtgl.substr(8,2)+'.'+pilihtgl.substr(5,2)+'.'+pilihtgl.substr(0,4);
                 var periodeid = pilihtgl.substr(3,7);
 
-                if (batasperiodeid === periodeid || periodeid > batasperiodeid) {
+                if (periodeid <= batasperiodeid) {
                     $(":input[name='data_activity_date_add']").val(pilihtgl);
                     $('#modal_activity_add').modal('show');
                 } else {
