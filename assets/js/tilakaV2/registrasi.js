@@ -252,6 +252,10 @@ function datakaryawan(){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
                     }
 
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Revoke"){
+                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
+                    }
+
                     if(result[i].CERTIFICATE==="1"){
                         if(result[i].ISSUE_ID===''){
                             statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
@@ -272,31 +276,31 @@ function datakaryawan(){
                         btnaction  = btnappcertificate;
                     }
 
-                    if(result[i].CERTIFICATE==="3"){
-                        if(result[i].REVOKE_ID==="" && result[i].ISSUE_ID===""){
-                            statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
-                            btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
-                        }else{
-                            if(result[i].REVOKE_ID!=""){
-                                statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di Revoke</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
-                                btnaction = btnreenroll;
-                            }else{
-                                if(result[i].ISSUE_ID===''){
-                                    statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di Revoke</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
-                                    btnaction = btnreenroll;
-                                }else{
-                                    if(result[i].ISSUE_ID!=''){
-                                        statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
-                                        btnaction  = btnverifikasienroll;
-                                    }else{
-                                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
-                                        btnaction  = btncheckstatus;
-                                    }
-                                }
-                            }
-                        }
+                    // if(result[i].CERTIFICATE==="3"){
+                    //     if(result[i].REVOKE_ID==="" && result[i].ISSUE_ID===""){
+                    //         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
+                    //         btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
+                    //     }else{
+                    //         if(result[i].REVOKE_ID!=""){
+                    //             statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di Revoke</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
+                    //             btnaction = btnreenroll;
+                    //         }else{
+                    //             if(result[i].ISSUE_ID===''){
+                    //                 statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di Revoke</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
+                    //                 btnaction = btnreenroll;
+                    //             }else{
+                    //                 if(result[i].ISSUE_ID!=''){
+                    //                     statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                    //                     btnaction  = btnverifikasienroll;
+                    //                 }else{
+                    //                     statususer = "<td><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
+                    //                     btnaction  = btncheckstatus;
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
                           
-                    }
+                    // }
 
                     // if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
                     //     if(result[i].ISSUE_ID===''){
