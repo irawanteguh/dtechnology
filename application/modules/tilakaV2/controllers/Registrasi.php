@@ -420,7 +420,6 @@
                     $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
                 }
                 
-                
                 if($response['status']===0){ 
                     if($response['data'][0]['status']==="Expired"){
                         $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
