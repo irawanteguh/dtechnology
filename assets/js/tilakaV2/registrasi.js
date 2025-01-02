@@ -262,6 +262,11 @@ function datakaryawan(){
                         btnaction  = btnverifikasienroll;
                     }
 
+                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID!="" && result[i].ISSUE_ID!='' && result[i].REASON_CODE==="0"){
+                        statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
+                        btnaction  = btncheckstatus;
+                    }
+
                     // if(result[i].CERTIFICATE==="1"){
                     //     if(result[i].ISSUE_ID===''){
                     //         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
