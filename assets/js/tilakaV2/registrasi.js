@@ -253,7 +253,8 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Revoke"){
-                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Pengajuan Re Enroll</div></td>";
+                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Account Sudah Di "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Pengajuan Re Enroll</div></td>";
+                        btnaction = btnreenroll;
                     }
 
                     if(result[i].CERTIFICATE==="1"){
