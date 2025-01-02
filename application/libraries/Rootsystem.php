@@ -36,6 +36,7 @@
             $menuheader          = "";
             $menuprofile         = "";
             $menuprofileshortcut = "";
+            $menusupport         = "";
 
             foreach (self::$resultmenu as $cat) {
                 if($cat["PARENT"] === "C"){
@@ -68,6 +69,15 @@
                             $menuprofileshortcut .="<a class='menu-link px-5' href='".base_url()."index.php/".$cat['PACKAGE']."/".$cat['DEF_CONTROLLER']."'>".$cat['MODULES_NAME']."</a>";
                             $menuprofileshortcut .="</div>";
                         }
+
+                        if($cat['PACKAGE']==="support"){
+                            $isActive = ($cat['PACKAGE'] === self::$segment1 && $cat['DEF_CONTROLLER'] === self::$segment2);
+                            $classbtn = $isActive ? "active" : "";
+
+                            $menusupport .="<li class='nav-item my-1'>";
+                            $menusupport .="<a class='btn btn-color-gray-600 btn-active-white btn-active-color-primary fw-boldest fs-8 fs-lg-base nav-link px-3 px-lg-8 mx-1 text-uppercase ".$classbtn."' href='".base_url()."index.php/".$cat['PACKAGE']."/".$cat['DEF_CONTROLLER']."'>".$cat['MODULES_NAME']."</a>";
+                            $menusupport .="</li>";
+                        }
                     }
                 }
             }
@@ -75,6 +85,7 @@
             $data["menu"]                = !empty($category) ? $category    : "";
             $data["menuheader"]          = !empty($menuheader) ? $menuheader: "";
             $data["menuprofile"]         = !empty($menuprofile) ? $menuprofile: "";
+            $data["menusupport"]         = !empty($menusupport) ? $menusupport: "";
             $data["menuprofileshortcut"] = !empty($menuprofileshortcut) ? $menuprofileshortcut: "";
 
             self::$app->load->vars($data);

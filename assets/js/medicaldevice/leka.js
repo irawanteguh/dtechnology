@@ -128,6 +128,7 @@ function listexamination(){
                     tableresult +="<td>"+(result[i].nation ? result[i].nation : "")+"</td>";
                     tableresult +="<td>"+(result[i].address ? result[i].address : "")+"</td>";
                     tableresult +="<td>"+(result[i].encounter_id ? result[i].encounter_id : "")+"</td>";
+                    tableresult +="<td>"+(result[i].createddate ? result[i].createddate : "")+"</td>";
                     
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";

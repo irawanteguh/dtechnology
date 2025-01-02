@@ -19,6 +19,7 @@
 								<th>Nation</th>
 								<th>Address</th>
                                 <th>Encounter</th>
+								<th>Created Date</th>
 								<th class="pe-4 text-end rounded-end">Actions</th>
 							</tr>
 						</thead>

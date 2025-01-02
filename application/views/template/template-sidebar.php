@@ -47,6 +47,10 @@
 										include(APPPATH."views/template/profile.php");
 									}
 
+									if($this->uri->segment(1) === "support"){
+										include(APPPATH."views/template/support.php");
+									}
+
 									echo $contents
 								?>
 							</div>
