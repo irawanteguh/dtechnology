@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="modal-footer p-1">				
-                    <input class="btn btn-light-primary" id="btn-modules-edit" type="submit" value="PERBAHARUI DATA" name="simpan" >
+                    <input class="btn btn-light-primary" id="btn-modules-edit" type="submit" value="UPDATE DATA" name="simpan" >
                 </div>
             </form>
         </div>
@@ -128,7 +128,7 @@
                     </div>
                 </div>
                 <div class="modal-footer p-1">				
-                    <input class="btn btn-light-danger" id="btn-modules-hapus" type="submit" value="HAPUS DATA" name="simpan" >
+                    <input class="btn btn-light-danger" id="btn-modules-hapus" type="submit" value="DELETE DATA" name="simpan" >
                 </div>
             </form>
         </div>

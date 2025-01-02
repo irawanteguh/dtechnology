@@ -120,7 +120,6 @@
         }
         
 		public function uploadfile(){
-			$transid = $_GET['transid'];
 			$nofile  = $_GET['nofile'];
 
             $config['upload_path']   = './assets/document/';
@@ -129,19 +128,25 @@
             $config['overwrite']     = TRUE;
             $this->load->library('upload', $config);
 
-			
-
             if (!$this->upload->do_upload('file')) {
                 $error = array('error' => $this->upload->display_errors());
                 log_message('error', 'File upload error: ' . implode(' ', $error));
-                echo json_encode($error);
+
+                $json["responCode"]="01";
+                $json["responHead"]="error";
+                $json["responDesc"]=json_encode($error);
             }else{
                 $upload_data = $this->upload->data();
 
                 $data['status']="1";
-                $this->md->updatefile($data,$transid);
-                echo "Upload Success";
+                $this->md->updatefile($data,$nofile);
+                
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Upload File Success";
             }
+
+            echo json_encode($json);
 
         }
 	}

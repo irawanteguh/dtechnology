@@ -4,7 +4,7 @@
         function datarepository($parameter){
             $query =
                     "
-                        select a.trans_id, no_file, filename, note_1, note_2, location, type, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam, status,
+                        select a.no_file, filename, note_1, note_2, location, type, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam, status,
                                 (select name from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
                                 (select document_name from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument,
                                 (
@@ -64,8 +64,8 @@
             return $sql;
         }
 
-        function updatefile($data,$transid){           
-            $sql =   $this->db->update("dt01_gen_tte_hd",$data,array("trans_id"=>$transid));
+        function updatefile($data,$nofile){           
+            $sql =   $this->db->update("dt01_gen_tte_hd",$data,array("no_file"=>$nofile));
             return $sql;
         }
 

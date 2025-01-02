@@ -92,6 +92,97 @@ function getdata(btn){
 
 };
 
+// function masterapps(){
+//     $.ajax({
+//         url       : url+"index.php/masterroot/Mastermodules/masterapps",
+//         method    : "GET",
+//         dataType  : "JSON",
+//         cache     : false,
+//         beforeSend: function () {
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+//             $("#resultmastermodules > tr").remove();
+//         },
+//         success:function(data){
+//             var result      = "";
+//             var getvariabel = "";
+//             var tableresult = "";
+//             var action      = "";
+            
+//             if(data.responCode == "00"){
+//                 result        = data.responResult;
+
+//                 for(var i in result){
+//                     getvariabel =   "data-modulesid='"+result[i].modules_id+"'"+
+//                                     "data-modulesname='"+result[i].modules_name+"'"+
+//                                     "data-modulesversion='"+result[i].version+"'"+
+//                                     "data-modulesicon='"+result[i].icon+"'"+
+//                                     "data-modulespackage='"+result[i].package+"'"+
+//                                     "data-modulesparent='"+result[i].parent+"'"+
+//                                     "data-modulesstatus='"+result[i].status+"'"+
+//                                     "data-modulesheader='"+result[i].modulesheader+"'"+
+//                                     "data-modulesheaderid='"+result[i].modules_header_id+"'"+
+//                                     "data-status='"+result[i].status+"'"+
+//                                     "data-modulescontrollers='"+result[i].def_controller+"'";
+
+//                     if(result[i].active==="1"){
+//                         action ="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#editmodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-pencil-fill text-primary'></i></a>";
+//                         action +="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#hidemodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-eye-slash-fill text-info'></i></a>";
+//                         action +="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#hapusmodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-trash-fill text-danger'></i></a>";
+//                     }else{
+//                         action +="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#unhidemodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-eye-fill text-success'></i></a>";
+//                     }
+
+//                     tableresult +="<tr>";
+                    
+//                     if(result[i].active==="1"){
+//                         if(result[i].status==="0"){
+//                             tableresult +="<td><span class='badge badge-light-primary fs-7 fw-bold'>"+result[i].statusdesc+"</span></td>";
+//                         }else{
+//                             if(result[i].status==="1"){
+//                                 tableresult +="<td><span class='badge badge-light-warning fs-7 fw-bold'>"+result[i].statusdesc+"</span></td>";
+//                             }else{
+//                                 tableresult +="<td><span class='badge badge-light-success fs-7 fw-bold'>"+result[i].statusdesc+"</span></td>";
+//                             }
+//                         }
+//                     }else{
+//                         tableresult +="<td><span class='badge badge-light-danger fs-7 fw-bold'>Hidden</span></td>";
+//                     }
+
+//                     tableresult +="<td data-bs-target='license'>"+result[i].modules_id+"</td>";
+//                     tableresult +="<td><button data-action='copy' class='btn btn-active-color-primary btn-icon btn-sm btn-outline-light'><span class='svg-icon svg-icon-2'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'><path opacity='0.5' d='M18 2H9C7.34315 2 6 3.34315 6 5H8C8 4.44772 8.44772 4 9 4H18C18.5523 4 19 4.44772 19 5V16C19 16.5523 18.5523 17 18 17V19C19.6569 19 21 17.6569 21 16V5C21 3.34315 19.6569 2 18 2Z' fill='black' /><path fill-rule='evenodd' clip-rule='evenodd' d='M14.7857 7.125H6.21429C5.62255 7.125 5.14286 7.6007 5.14286 8.1875V18.8125C5.14286 19.3993 5.62255 19.875 6.21429 19.875H14.7857C15.3774 19.875 15.8571 19.3993 15.8571 18.8125V8.1875C15.8571 7.6007 15.3774 7.125 14.7857 7.125ZM6.21429 5C4.43908 5 3 6.42709 3 8.1875V18.8125C3 20.5729 4.43909 22 6.21429 22H14.7857C16.5609 22 18 20.5729 18 18.8125V8.1875C18 6.42709 16.5609 5 14.7857 5H6.21429Z' fill='black' /></svg></span></button></i></td>";
+//                     tableresult +="<td><div class='d-flex align-items-center'><div class='symbol symbol-50px me-5'><i class='"+result[i].icon+"'></i></div><div class='d-flex justify-content-start flex-column'><span class='fw-bold d-block fs-7'>"+result[i].modules_name+"</span><span class='text-muted fw-bold d-block fs-7'>"+result[i].package+" - "+result[i].def_controller+"</span></div></div></td>";
+                    
+//                     tableresult +="<td class='text-end'>"+action+"</td>";
+//                     tableresult +="</tr>";
+//                 }
+//             }
+
+//             $("#resultmastermodules").html(tableresult);
+//             toastr.clear();
+// 			toastr[data.responHead](data.responDesc, "INFORMATION");
+//         },
+// 		complete: function () {
+
+// 		},
+//         error: function(xhr, status, error) {
+//            Swal.fire({
+//                     title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+//                     html             : "<b>"+error+"</b>",
+//                     icon             : "error",
+//                     confirmButtonText: "Please Try Again",
+//                     buttonsStyling   : false,
+//                     timerProgressBar : true,
+//                     timer            : 5000,
+//                     customClass      : {confirmButton: "btn btn-danger"},
+//                     showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+//                     hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+//                 });
+// 		}
+//     });
+//     return false;
+// };
+
 function masterapps(){
     $.ajax({
         url       : url+"index.php/masterroot/Mastermodules/masterapps",
@@ -113,48 +204,75 @@ function masterapps(){
                 result        = data.responResult;
 
                 for(var i in result){
-                    getvariabel =   "data-modulesid='"+result[i].modules_id+"'"+
-                                    "data-modulesname='"+result[i].modules_name+"'"+
-                                    "data-modulesversion='"+result[i].version+"'"+
-                                    "data-modulesicon='"+result[i].icon+"'"+
-                                    "data-modulespackage='"+result[i].package+"'"+
-                                    "data-modulesparent='"+result[i].parent+"'"+
-                                    "data-modulesstatus='"+result[i].status+"'"+
-                                    "data-modulesheader='"+result[i].modulesheader+"'"+
-                                    "data-modulesheaderid='"+result[i].modules_header_id+"'"+
-                                    "data-status='"+result[i].status+"'"+
-                                    "data-modulescontrollers='"+result[i].def_controller+"'";
+                    if(result[i].parent==="C"){
+                        tableresult += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' data-kt-search-element='customer'>";
+                        tableresult += "<div class='fw-bold'>";
+                        tableresult += "<span class='fs-6 text-gray-800 me-2'>"+ result[i].modules_name + "</span><br>";
+                        tableresult += "</div>";
+                        tableresult += "<div class='fw-bold d-flex justify-content-end'>";
+                        tableresult += "</div>";
+                        tableresult += "</div>";
 
-                    if(result[i].active==="1"){
-                        action ="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#editmodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-pencil-fill text-primary'></i></a>";
-                        action +="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#hidemodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-eye-slash-fill text-info'></i></a>";
-                        action +="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#hapusmodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-trash-fill text-danger'></i></a>";
-                    }else{
-                        action +="<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1' data-bs-toggle='modal' data-bs-target='#unhidemodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-eye-fill text-success'></i></a>";
+                        // Generate children for the top-level element
+                        tableresult += generateChildElements(result[i].modules_id, 1);
                     }
 
-                    tableresult +="<tr>";
-                    
-                    if(result[i].active==="1"){
-                        if(result[i].status==="0"){
-                            tableresult +="<td><span class='badge badge-light-primary fs-7 fw-bold'>"+result[i].statusdesc+"</span></td>";
-                        }else{
-                            if(result[i].status==="1"){
-                                tableresult +="<td><span class='badge badge-light-warning fs-7 fw-bold'>"+result[i].statusdesc+"</span></td>";
-                            }else{
-                                tableresult +="<td><span class='badge badge-light-success fs-7 fw-bold'>"+result[i].statusdesc+"</span></td>";
+                    function generateChildElements(parentId, level) {
+                        var childElements = "";
+                        for (var j in result) {
+                            if (result[j].modules_header_id === parentId) {
+                                var active = "";
+                                var indent = level * 20;
+    
+                                getvariabel =   "data-modulesid='"+result[j].modules_id+"'"+
+                                                "data-modulesname='"+result[j].modules_name+"'"+
+                                                "data-modulesversion='"+result[j].version+"'"+
+                                                "data-modulesicon='"+result[j].icon+"'"+
+                                                "data-modulespackage='"+result[j].package+"'"+
+                                                "data-modulesparent='"+result[j].parent+"'"+
+                                                "data-modulesstatus='"+result[j].status+"'"+
+                                                "data-modulesheader='"+result[j].modulesheader+"'"+
+                                                "data-modulesheaderid='"+result[j].modules_header_id+"'"+
+                                                "data-status='"+result[j].status+"'"+
+                                                "data-modulescontrollers='"+result[j].def_controller+"'";
+
+                                if(result[j].active==="1"){
+                                    active = "<span class='badge badge-light-primary fs-7 fw-bold'>Active</span>";
+                                }else{
+                                    active = "<span class='badge badge-light-danger fs-7 fw-bold'>Hide Modules</span>";
+                                }
+
+                                childElements += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' style='margin-left:" + indent + "px;' data-kt-search-element='customer'>";
+                                childElements += "<div class='fw-bold'>";
+                                childElements += "<i class='"+result[j].icon+"'></i> <span class='fs-6 text-gray-800 me-2'>"+result[j].modules_name+"</span><br>";
+                                childElements += "<span class='fs-6 text-muted me-2'>"+(result[j].package ? result[j].package : "")+(result[j].def_controller ? " - "+result[j].def_controller : "")+"</span><br>";
+                                childElements += "<span class='badge badge-light-primary fs-7 fw-bold'>"+result[j].statusdesc+"</span> "+active;
+                                childElements += "</div>";
+                                childElements += "<div class='fw-bold d-flex justify-content-end'>";
+                                childElements += "<div class='btn-group' role='group'>";
+                                childElements += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                                childElements += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                childElements += "<a class='dropdown-item btn btn-sm text-success' data-bs-toggle='modal' data-bs-target='#modal_department_addsubdepartment' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-check2-circle text-success'></i> Add Sub Modules</a>";
+                                childElements += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#editmodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-pencil-square text-primary'></i> Edit Modules</a>";
+                                if(result[j].active==="1"){
+                                    childElements += "<a class='dropdown-item btn btn-sm text-info' data-bs-toggle='modal' data-bs-target='#hidemodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-eye-slash-fill text-info'></i> Hide Modules</a>";
+                                }else{
+                                    childElements += "<a class='dropdown-item btn btn-sm text-success' data-bs-toggle='modal' data-bs-target='#unhidemodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-eye-fill text-success'></i> Unhide Modules</a>";
+                                }
+
+                                childElements += "<a class='dropdown-item btn btn-sm text-danger' data-bs-toggle='modal' data-bs-target='#hapusmodules' "+getvariabel+" onclick='getdata(this)'><i class='bi bi-trash-fill text-danger'></i> Non Active Modules</a>";
+                                
+                                childElements +="</div>";
+                                childElements +="</div>";
+                                childElements += "</div>";
+                                childElements += "</div>";
+    
+                                // Recursively generate children for the current module
+                                childElements += generateChildElements(result[j].modules_id, level + 1);
                             }
                         }
-                    }else{
-                        tableresult +="<td><span class='badge badge-light-danger fs-7 fw-bold'>Hidden</span></td>";
+                        return childElements;
                     }
-
-                    tableresult +="<td data-bs-target='license'>"+result[i].modules_id+"</td>";
-                    tableresult +="<td><button data-action='copy' class='btn btn-active-color-primary btn-icon btn-sm btn-outline-light'><span class='svg-icon svg-icon-2'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'><path opacity='0.5' d='M18 2H9C7.34315 2 6 3.34315 6 5H8C8 4.44772 8.44772 4 9 4H18C18.5523 4 19 4.44772 19 5V16C19 16.5523 18.5523 17 18 17V19C19.6569 19 21 17.6569 21 16V5C21 3.34315 19.6569 2 18 2Z' fill='black' /><path fill-rule='evenodd' clip-rule='evenodd' d='M14.7857 7.125H6.21429C5.62255 7.125 5.14286 7.6007 5.14286 8.1875V18.8125C5.14286 19.3993 5.62255 19.875 6.21429 19.875H14.7857C15.3774 19.875 15.8571 19.3993 15.8571 18.8125V8.1875C15.8571 7.6007 15.3774 7.125 14.7857 7.125ZM6.21429 5C4.43908 5 3 6.42709 3 8.1875V18.8125C3 20.5729 4.43909 22 6.21429 22H14.7857C16.5609 22 18 20.5729 18 18.8125V8.1875C18 6.42709 16.5609 5 14.7857 5H6.21429Z' fill='black' /></svg></span></button></i></td>";
-                    tableresult +="<td><div class='d-flex align-items-center'><div class='symbol symbol-50px me-5'><i class='"+result[i].icon+"'></i></div><div class='d-flex justify-content-start flex-column'><span class='fw-bold d-block fs-7'>"+result[i].modules_name+"</span><span class='text-muted fw-bold d-block fs-7'>"+result[i].package+" - "+result[i].def_controller+"</span></div></div></td>";
-                    
-                    tableresult +="<td class='text-end'>"+action+"</td>";
-                    tableresult +="</tr>";
                 }
             }
 
@@ -163,21 +281,21 @@ function masterapps(){
 			toastr[data.responHead](data.responDesc, "INFORMATION");
         },
 		complete: function () {
-
+            toastr.clear();
 		},
         error: function(xhr, status, error) {
            Swal.fire({
-                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                    html             : "<b>"+error+"</b>",
-                    icon             : "error",
-                    confirmButtonText: "Please Try Again",
-                    buttonsStyling   : false,
-                    timerProgressBar : true,
-                    timer            : 5000,
-                    customClass      : {confirmButton: "btn btn-danger"},
-                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                });
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
 		}
     });
     return false;

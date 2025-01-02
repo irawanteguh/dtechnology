@@ -40,7 +40,7 @@
 
                 <?php echo $menusupport ?>
             </ul>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket" class="btn btn-primary fw-bolder fs-8 fs-lg-base">Create Ticket</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal_new_eticket" class="btn btn-primary fw-bolder fs-8 fs-lg-base">Create Ticket</a>
         </div>
     </div>
 </div>

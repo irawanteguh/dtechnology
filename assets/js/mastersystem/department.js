@@ -82,25 +82,25 @@ function masterdepartment() {
                 // Generate top-level elements
                 for(var i in result) {
                     if(result[i].level_id==="1"){
-                    tableresult += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' data-kt-search-element='customer'>";
-                    tableresult += "<div class='fw-bold'>";
-                    tableresult += "<span class='fs-6 text-gray-800 me-2'>"+ result[i].department + "</span><br>";
-                    tableresult += "<span class='fs-6 text-muted me-2'>"+ (result[i].namapj ? result[i].namapj : "") + " </span>";
-                    tableresult += "</div>";
-                    tableresult += "<div class='fw-bold d-flex justify-content-end'>";
-                        // tableresult += "<div class='btn-group' role='group'>";
-                        //     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                        //     tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                        //         tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
-                        //         tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                        //         tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
-                        //     tableresult +="</div>";
-                        // tableresult +="</div>";
-                    tableresult += "</div>";
-                    tableresult += "</div>";
+                        tableresult += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' data-kt-search-element='customer'>";
+                        tableresult += "<div class='fw-bold'>";
+                        tableresult += "<span class='fs-6 text-gray-800 me-2'>"+ result[i].department + "</span><br>";
+                        tableresult += "<span class='fs-6 text-muted me-2'>"+ (result[i].namapj ? result[i].namapj : "") + " </span>";
+                        tableresult += "</div>";
+                        tableresult += "<div class='fw-bold d-flex justify-content-end'>";
+                            // tableresult += "<div class='btn-group' role='group'>";
+                            //     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            //     tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                            //         tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+                            //         tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+"data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                            //         tableresult += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                            //     tableresult +="</div>";
+                            // tableresult +="</div>";
+                        tableresult += "</div>";
+                        tableresult += "</div>";
 
-                    // Generate children for the top-level element
-                    tableresult += generateChildElements(result[i].department_id, 1);
+                        // Generate children for the top-level element
+                        tableresult += generateChildElements(result[i].department_id, 1);
                     }
                     
                 }
@@ -222,7 +222,6 @@ $(document).on("submit", "#formeditdepartment", function (e) {
 	});
     return false;
 });
-
 
 function masteruser(){
     $.ajax({

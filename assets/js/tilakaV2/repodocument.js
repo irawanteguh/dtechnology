@@ -64,10 +64,9 @@ function masterassign() {
 
 function uploadfile(btn){
     var nofile  = $(btn).attr("data_nofile");
-    var transid = $(btn).attr("data_transid");
 
     var myDropzone = new Dropzone("#file_doc", {
-        url             : url + "index.php/tilakaV2/repodocument/uploadfile?nofile="+nofile+"&transid="+transid,
+        url             : url + "index.php/tilakaV2/repodocument/uploadfile?transid="+transid,
         acceptedFiles   : '.pdf',
         paramName       : "file",
         dictDefaultMessage: "Drop files here or click to upload",
@@ -153,7 +152,7 @@ function datarepository(){
                     }
 
                     if(result[i].status==="0"){
-                        tableresult += "<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument+" <div class='badge badge-light-info'>"+(result[i].type === 'S' ? "Single" : "Bulk")+"</div>" : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_transid='" + result[i].trans_id + "' data_nofile='" + result[i].no_file + "' onclick='uploadfile(this)'>" + (result[i].no_file || "-") + "</a></div><div>" + (result[i].filename || "-") + "</div></td>";
+                        tableresult += "<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument+" <div class='badge badge-light-info'>"+(result[i].type === 'S' ? "Single" : "Bulk")+"</div>" : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_nofile='" + result[i].no_file + "' onclick='uploadfile(this)'>" + (result[i].no_file || "-") + "</a></div><div>" + (result[i].filename || "-") + "</div></td>";
                     }else{
                         if(result[i].location==="DTECHNOLOGY"){
                             tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument+" <div class='badge badge-light-info'>"+(result[i].type === 'S' ? "Single" : "Bulk")+"</div>" : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";

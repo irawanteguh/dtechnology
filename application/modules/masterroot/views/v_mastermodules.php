@@ -5,7 +5,7 @@
         </h3>
     </div>
     <div class="card-body py-3">
-        <div class="table-responsive">
+        <!-- <div class="table-responsive">
             <table class="table align-middle gs-0 gy-4 table-bordered" id="tablemastermodules">
                 <thead>
                     <tr class="fw-bolder text-muted bg-light">
@@ -18,6 +18,7 @@
                 </thead>
                 <tbody class="align-middle" id="resultmastermodules"></tbody>
             </table>
-        </div>
+        </div> -->
+        <div class="mh-450px scroll-y me-n5 pe-5" id="resultmastermodules"></div>
     </div>
 </div>

@@ -36,7 +36,7 @@
                 $datausser['org_id']     = $_SESSION['orgid'];
                 $datausser['user_id']    = generateuuid();
                 $datausser['username']   = $this->input->post("data_user_username_add");
-                $datausser['nik']        = generateUniqueCode();
+                $datausser['nik']        = $this->input->post("data_user_username_add");
                 $datausser['name']       = $this->input->post("data_user_name_add");;
                 $datausser['created_by'] = $_SESSION['userid'];
     

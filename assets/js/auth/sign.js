@@ -4,7 +4,7 @@ var validatorsignin = function () {
 
     function signin() {
         var formdata = new FormData(form);
-        var url = form.getAttribute('action');
+        var url      = form.getAttribute('action');
 
         $.ajax({
             url        : url,
@@ -70,7 +70,6 @@ var validatorsignin = function () {
                             }
                         });
                     }
-                    
                 }
             },
             complete: function () {

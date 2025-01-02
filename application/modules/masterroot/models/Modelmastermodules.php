@@ -6,7 +6,7 @@
                     "
                         select x.*
                         from(
-                            select a.modules_id, modules_name, version, modules_header_id, parent, icon, active, status,
+                            select a.modules_id, modules_name, version, modules_header_id, parent, icon, active, status, urut,
                                 LOWER(package)package, LOWER(def_controller)def_controller,
                                 CASE 
                                         WHEN a.status = '0' THEN 'Development'
@@ -27,10 +27,8 @@
                                 ( select modules_name  from dt01_gen_modules_ms where active ='1' AND modules_id=a.modules_header_id )modulesheader
                             from dt01_gen_modules_ms a
                             where a.active in ('1','9')
-                            and   a.package <> ''
-                            and   a.def_controller <> ''
                         )x
-                        order by package asc, modules_name asc
+                        order by urut asc
                     ";
 
             $recordset = $this->db->query($query);

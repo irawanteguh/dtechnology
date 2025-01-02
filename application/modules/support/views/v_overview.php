@@ -18,7 +18,7 @@
                     <h1 class="text-dark mb-10">Your Tickets</h1>
                     <div class="mb-10" id="resultdataeticket"></div>
                     
-                    <ul class="pagination">
+                    <!-- <ul class="pagination">
                         <li class="page-item previous disabled">
                             <a href="#" class="page-link">
                                 <i class="previous"></i>
@@ -47,10 +47,8 @@
                                 <i class="next"></i>
                             </a>
                         </li>
-                    </ul>
-                    <!--end::Pagination-->
+                    </ul> -->
                 </div>
-                <!--end::Tickets-->
             </div>
             <!--end::Content-->
             <!--begin::Sidebar-->

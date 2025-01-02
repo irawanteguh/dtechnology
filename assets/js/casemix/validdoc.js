@@ -8,8 +8,8 @@ flatpickr('[name="dateperiode"]', {
     onChange: function (selectedDates, dateStr, instance) {
         // instance.close();
         
-        startDate = selectedDates[0] ? selectedDates[0].toISOString().split('T')[0] : null; // Format ISO
-        endDate = selectedDates[1] ? selectedDates[1].toISOString().split('T')[0] : null;
+        startDate = selectedDates[0] ? selectedDates[0].toISOString().split('T')[0] : null;  // Format ISO
+        endDate   = selectedDates[1] ? selectedDates[1].toISOString().split('T')[0] : null;
 
         console.log("Start Date:", startDate);
         console.log("End Date:", endDate);
@@ -94,8 +94,6 @@ function datatransaksi(startDate,endDate){
 
                     for(var j = 0; j < document.length; j++){
                         var detail = document[j].trim().split(':');
-
-
                         if(detail[1]!='NULL'){
                             tableresult +="<a class='badge badge-light-success fw-bolder m-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+detail[1]+".pdf' onclick='viewdoc(this)'>"+detail[0]+"</a>";
                         }else{
@@ -105,18 +103,18 @@ function datatransaksi(startDate,endDate){
                     }
 
                     tableresult += "</td>";
-
                     tableresult += "<td class='text-end pe-4'></td>";
                     tableresult += "</tr>";
                 }
             }
 
-
             $("#resultlistregistrasi").html(tableresult);
+
+            toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-			//
+			toastr.clear();
 		},
         error: function(xhr, status, error) {
             Swal.fire({
