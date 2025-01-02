@@ -257,20 +257,25 @@ function datakaryawan(){
                         btnaction = btnreenroll;
                     }
 
-                    if(result[i].CERTIFICATE==="1"){
-                        if(result[i].ISSUE_ID===''){
-                            statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
-                            btnaction  = btncheckstatus;
-                        }else{
-                            if(result[i].REASON_CODE==="0"){
-                                statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
-                                btnaction  = btncheckstatus;
-                            }else{
-                                statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
-                                btnaction  = btnverifikasienroll;
-                            }
-                        }
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Revoke" && result[i].ISSUE_ID!=''){
+                        statususer = "<td><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                        btnaction  = btnverifikasienroll;
                     }
+
+                    // if(result[i].CERTIFICATE==="1"){
+                    //     if(result[i].ISSUE_ID===''){
+                    //         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
+                    //         btnaction  = btncheckstatus;
+                    //     }else{
+                    //         if(result[i].REASON_CODE==="0"){
+                    //             statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
+                    //             btnaction  = btncheckstatus;
+                    //         }else{
+                    //             statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
+                    //             btnaction  = btnverifikasienroll;
+                    //         }
+                    //     }
+                    // }
 
                     if(result[i].CERTIFICATE==="2"){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Aktivasi</div></td>";

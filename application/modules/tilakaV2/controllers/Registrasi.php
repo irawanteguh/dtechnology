@@ -532,7 +532,6 @@
                                     $json["responHead"]   = "error";
                                     $json["responDesc"]   = $response['message'];
                                 }
-                                
                             }else{
                                 $json["responCode"]   = "01";
                                 $json["responHead"]   = "error";
