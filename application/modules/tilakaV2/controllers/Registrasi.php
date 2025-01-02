@@ -405,7 +405,7 @@
             
             if($response['success']){
                 $data['CERTIFICATE']      = $response['status'];
-                $data['CERTIFICATE_INFO'] = $response['message']['info'];
+                $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
                 
                 if($response['status']===0){ 
                     if($response['data'][0]['status']==="Expired"){
@@ -414,10 +414,12 @@
                 }
 
                 if($response['status']===3){ // status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system)
-                    $data['REVOKE_ID']   = "";
-                    $data['ISSUE_ID']    = "";
-                    $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
-                    $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
+                    if($response['data'][0]['status']==="Aktif"){
+                        $data['REVOKE_ID']   = "";
+                        $data['ISSUE_ID']    = "";
+                        $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
+                        $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
+                    }
                 }
 
                 if($response['status']===4){ // status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
