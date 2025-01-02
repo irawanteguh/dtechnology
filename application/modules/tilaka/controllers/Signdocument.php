@@ -32,7 +32,6 @@
                         if($responsecheckcertificate['success']){
                             $data['CERTIFICATE']      = $responsecheckcertificate['status'];
                             $data['CERTIFICATE_INFO'] = $responsecheckcertificate['message']['info'];
-                            $data['ISSUE_ID']         = $response['data'][0];
                             $this->md->updatedatauseridentifier($data,$useridentifier);
                         }
                     }
