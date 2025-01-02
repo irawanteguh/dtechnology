@@ -406,7 +406,7 @@
             if($response['success']){
                 $data['CERTIFICATE']      = $response['status'];
 
-                if($response['status']===1){
+                if($response['status']===1 || $response['status']===3){
                     $data['CERTIFICATE_INFO'] = $response['message']['info'];
                 }else{
                     $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
