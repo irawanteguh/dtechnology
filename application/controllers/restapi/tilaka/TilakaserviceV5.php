@@ -151,23 +151,17 @@
                         }
                         
                         if(file_exists($filename)){
-                            if($files->source_file==="DTECHNOLOGY"){
-                                $pdfParse          = new Pdfparse($filename);
-                                $specimentposition = $pdfParse->findText('$');
-        
-                                foreach ($specimentposition['content']['$'] as $specimen) {
+                            $pdfParse          = new Pdfparse($filename);
+                            $specimentposition = $pdfParse->findText('$');
 
-                                    if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
+                            if(count($specimentposition['content']) > 0){
+                                foreach ($specimentposition['content']['$'] as $specimen) {
+                                    if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
                                         $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
                                         $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
                                         $page        = floatval($specimen['page']);
-                                    } else {
-                                        $coordinatex = floatval(COORDINATE_X);
-                                        $coordinatey = floatval(COORDINATE_Y);
-                                        $page        = floatval(PAGE);
                                     }
-                            
-                                    // Membuat array untuk setiap tanda tangan
+
                                     $listpdfsignatures['user_identifier'] = $a->user_identifier;
                                     $listpdfsignatures['location'] = $files->orgname;
                                     $listpdfsignatures['width'] = floatval(WIDTH);
@@ -176,17 +170,12 @@
                                     $listpdfsignatures['coordinate_y'] = $coordinatey;
                                     $listpdfsignatures['page_number'] = $page;
                                     $listpdfsignatures['qrcombine'] = "QRONLY";
-                            
                                     if (CERTIFICATE === "PERSONAL") {
                                         $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
                                     }
-                            
-                                    // Menambahkan signature ke dalam array listpdf
                                     $listpdf['filename'] = $files->filename;
                                     $listpdf['signatures'][] = $listpdfsignatures;
                                 }
-                            
-                                // Menambahkan pdf ke dalam list_pdf
                                 $body['list_pdf'][] = $listpdf;
                             }else{
                                 $coordinatex = floatval(COORDINATE_X);
@@ -205,12 +194,76 @@
                                 if(CERTIFICATE==="PERSONAL"){
                                     $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
                                 }
-        
                                 $listpdf['filename']     = $files->filename;
                                 $listpdf['signatures'][] = $listpdfsignatures;
 
                                 $body['list_pdf'][]=$listpdf;
                             }
+
+
+                            // if($files->source_file==="DTECHNOLOGY"){
+                            //     $pdfParse          = new Pdfparse($filename);
+                            //     $specimentposition = $pdfParse->findText('$');
+        
+                            //     if(count($specimentposition['content']) > 0){
+                            //         foreach ($specimentposition['content']['$'] as $specimen) {
+
+                            //             if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
+                            //                 $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
+                            //                 $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
+                            //                 $page        = floatval($specimen['page']);
+                            //             } else {
+                            //                 $coordinatex = floatval(COORDINATE_X);
+                            //                 $coordinatey = floatval(COORDINATE_Y);
+                            //                 $page        = floatval(PAGE);
+                            //             }
+                                
+                            //             // Membuat array untuk setiap tanda tangan
+                            //             $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                            //             $listpdfsignatures['location'] = $files->orgname;
+                            //             $listpdfsignatures['width'] = floatval(WIDTH);
+                            //             $listpdfsignatures['height'] = floatval(HEIGHT);
+                            //             $listpdfsignatures['coordinate_x'] = $coordinatex;
+                            //             $listpdfsignatures['coordinate_y'] = $coordinatey;
+                            //             $listpdfsignatures['page_number'] = $page;
+                            //             $listpdfsignatures['qrcombine'] = "QRONLY";
+                                
+                            //             if (CERTIFICATE === "PERSONAL") {
+                            //                 $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                            //             }
+                                
+                            //             // Menambahkan signature ke dalam array listpdf
+                            //             $listpdf['filename'] = $files->filename;
+                            //             $listpdf['signatures'][] = $listpdfsignatures;
+                            //         }
+                                
+                            //         // Menambahkan pdf ke dalam list_pdf
+                            //         $body['list_pdf'][] = $listpdf;
+                            //     }
+                                
+                            // }else{
+                            //     $coordinatex = floatval(COORDINATE_X);
+                            //     $coordinatey = floatval(COORDINATE_Y);
+                            //     $page        = floatval(PAGE);
+
+
+                            //     $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                            //     $listpdfsignatures['location']        = $files->orgname;
+                            //     $listpdfsignatures['width']           = floatval(WIDTH);
+                            //     $listpdfsignatures['height']          = floatval(HEIGHT);
+                            //     $listpdfsignatures['coordinate_x']    = $coordinatex;
+                            //     $listpdfsignatures['coordinate_y']    = $coordinatey;
+                            //     $listpdfsignatures['page_number']     = $page;
+                            //     $listpdfsignatures['qrcombine']       = "QRONLY";
+                            //     if(CERTIFICATE==="PERSONAL"){
+                            //         $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                            //     }
+        
+                            //     $listpdf['filename']     = $files->filename;
+                            //     $listpdf['signatures'][] = $listpdfsignatures;
+
+                            //     $body['list_pdf'][]=$listpdf;
+                            // }
                         }
                     }
 
