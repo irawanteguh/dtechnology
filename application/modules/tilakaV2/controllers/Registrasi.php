@@ -405,7 +405,13 @@
             
             if($response['success']){
                 $data['CERTIFICATE']      = $response['status'];
-                $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
+
+                if($response['status']===1){
+                    $data['CERTIFICATE_INFO'] = $response['message']['info'];
+                }else{
+                    $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
+                }
+                
                 
                 if($response['status']===0){ 
                     if($response['data'][0]['status']==="Expired"){
