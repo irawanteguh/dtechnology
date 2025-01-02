@@ -123,7 +123,7 @@
                                     $datasimpan['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                                 }
                                 $datasimpan['CERTIFICATE']      = $response['status'];
-                                $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                                $datasimpan['CERTIFICATE_INFO'] = $response['data'][0]['status'];
 
                                 $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                                 redirect("tilakaV2/registrasi",$data);
