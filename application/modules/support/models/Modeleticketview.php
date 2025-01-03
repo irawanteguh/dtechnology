@@ -4,7 +4,7 @@
         function dataeticket($orgid,$user){
             $query =
                     "
-                        select a.trans_id, subject, description, status, severity, attachment, date_format(created_date, '%d.%m.%Y %H:%i:%s')createddate,
+                        select a.trans_id, subject, description, status, severity, attachment, category, date_format(created_date, '%d.%m.%Y %H:%i:%s')createddate,
                                (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.created_by)dibuatoleh,
                                (select department from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department
                         from dt01_it_support_eticket_hd a

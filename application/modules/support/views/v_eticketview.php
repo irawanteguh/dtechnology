@@ -8,6 +8,8 @@
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="ps-4 rounded-start">Status</th>
                                 <th>Subject / Description</th>
+                                <th>Severity</th>
+                                <th>Category</th>
                                 <th>Attachment</th>
                                 <th>Department</th>
                                 <th>Created</th>

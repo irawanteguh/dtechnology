@@ -44,6 +44,34 @@ function dataeticket(){
                         tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Approve Head Unit</span></td>";
                     }
                     tableresult +="<td><div class='text-gray-800 text-hover-primary'>"+result[i].subject+"</div><div>"+result[i].description+"</div></td>";
+                    tableresult +="<td>";
+                    if(result[i].severity==="0"){
+                        tableresult +="<span class='badge badge-light-success my-1'>Low</span>";
+                    }
+                    if(result[i].severity==="1"){
+                        tableresult +="<span class='badge badge-light-warning my-1'>Middle</span>";
+                    }
+                    if(result[i].severity==="2"){
+                        tableresult +="<span class='badge badge-light-danger my-1'>High</span>";
+                    }
+                    tableresult +="</td>";
+                    tableresult +="<td>";
+                    if(result[i].category==="0"){
+                        tableresult +="<span class='badge badge-light-info my-1'>Software</span>";
+                    }
+                    if(result[i].category==="1"){
+                        tableresult +="<span class='badge badge-light-info my-1'>Database Administrator</span>";
+                    }
+                    if(result[i].category==="2"){
+                        tableresult +="<span class='badge badge-light-info my-1'>Network</span>";
+                    }
+                    if(result[i].category==="3"){
+                        tableresult +="<span class='badge badge-light-info my-1'>Hardware</span>";
+                    }
+                    if(result[i].category==="4"){
+                        tableresult +="<span class='badge badge-light-info my-1'>Analyst</span>";
+                    }
+                    tableresult +="</td>";
                     if(result[i].attachment==="1"){
                         tableresult += "<td><a class='badge badge-light-info my-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='" + url + "assets/documentsupport/" + (result[i].trans_id ? result[i].trans_id : "") + ".pdf' onclick='viewdoc(this)'>View Attachment</a></td>";
                     }else{
@@ -85,3 +113,46 @@ function dataeticket(){
     });
     return false;
 };
+
+$(document).on("submit", "#formfollowup", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#btn_followup_eticket").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_followup_eticket").modal("hide");
+                dataeticket();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#btn_followup_eticket").removeClass("disabled");
+            toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});

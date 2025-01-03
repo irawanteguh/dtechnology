@@ -51,22 +51,23 @@
             echo json_encode($json);
         }
 
-        // public function validasi(){
-        //     $data['status']      = $this->input->post("status");
-        //     $data['atasan_id']   = $_SESSION['userid'];
-        //     $data['atasan_date'] = date('Y-m-d H:i:s');
+        public function followup(){
+            $data['severity']      = $this->input->post("modal_followup_eticket_severity");
+            $data['category']      = $this->input->post("modal_followup_eticket_pic");
+            $data['followup_id']   = $_SESSION['userid'];
+            $data['followup_date'] = date('Y-m-d H:i:s');
 
-        //     if($this->md->updateeticket($this->input->post("transid"),$data)){
-        //         $json['responCode']="00";
-        //         $json['responHead']="success";
-        //         $json['responDesc']="Data Berhasil Di Tambah";
-        //     } else {
-        //         $json['responCode']="01";
-        //         $json['responHead']="info";
-        //         $json['responDesc']="Data Gagal Di Tambah";
-        //     }
+            if($this->md->updateeticket($this->input->post("modal_followup_eticket_transid"),$data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Berhasil Di Tambah";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Gagal Di Tambah";
+            }
             
-        //     echo json_encode($json);
-        // }
+            echo json_encode($json);
+        }
 	}
 ?>

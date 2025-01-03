@@ -8,7 +8,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/support/overview/neweticket" id="formneweticket">
+            <form action="<?php echo base_url();?>index.php/support/eticketview/followup" id="formfollowup">
                 <div class="modal-body">
                     <div class="text-center mb-5">
                         <h1 class="mb-3">Follow Up E-Ticket</h1>
@@ -40,10 +40,10 @@
                         </div>
                         <div class="col-xl-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                <span class="required">Personal In Charge</span>
-                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Personal In Charge"></i>
+                                <span class="required">Category</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Category"></i>
                             </label>
-                            <select data-control="select2" data-dropdown-parent="#modal_followup_eticket" data-placeholder="Please Select Personal In Charge" class="form-select form-select-solid" name="modal_followup_eticket_pic" id="modal_followup_eticket_pic" required>
+                            <select data-control="select2" data-dropdown-parent="#modal_followup_eticket" data-placeholder="Please Select Category" class="form-select form-select-solid" name="modal_followup_eticket_pic" id="modal_followup_eticket_pic" required>
                                 <?php echo $masterpic;?>
                             </select>
                         </div>
@@ -51,7 +51,7 @@
                     
                 </div>
                 <div class="modal-footer p-1">				
-                    <input class="btn btn-light-primary" id="btn_new_eticket" type="submit" value="SUBMIT" name="simpan" >
+                    <input class="btn btn-light-primary" id="btn_followup_eticket" type="submit" value="SUBMIT" name="simpan" >
                 </div>
             </form>
         </div>
