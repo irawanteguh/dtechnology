@@ -4,12 +4,15 @@
         function dataeticket($orgid,$user){
             $query =
                     "
-                        select a.trans_id, subject, description, status, severity, attachment, category, date_format(created_date, '%d.%m.%Y %H:%i:%s')createddate,
+                        select a.trans_id, subject, description, status, severity_id, attachment, category_id, date_format(created_date, '%d.%m.%Y %H:%i:%s')createddate,
                                (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.created_by)dibuatoleh,
-                               (select department from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department
+                               (select department from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department,
+                               (select master_name from dt01_gen_master_ms where active='1' and org_id=a.org_id and master_id=a.severity_id)severity,
+                               (select master_name from dt01_gen_master_ms where active='1' and org_id=a.org_id and master_id=a.category_id)category,
+                               (select master_name from dt01_gen_master_ms where active='1' and org_id=a.org_id and master_id=a.problem_id)problem
                         from dt01_it_support_eticket_hd a
                         where a.active='1'
-                        and   a.status='2'
+                        and   a.status in ('2','4')
                         and   a.org_id='".$orgid."'
                         and   a.created_by='".$user."'
                         and   a.subject <> ''
@@ -22,12 +25,15 @@
             return $recordset;
         }
 
-        function masterseverity(){
+        function masterseverity($orgid){
             $query =
                     "
-                        select '0'id, 'Low'metod union
-                        select '1'id, 'Middle' metod union
-                        select '2'id, 'High' metod
+                        select a.master_id, master_name
+                        from dt01_gen_master_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.jenis_id='Severity_1'
+                        order by urut asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -35,14 +41,31 @@
             return $recordset;
         }
 
-        function masterpic(){
+        function masterpic($orgid){
             $query =
                     "
-                        select '0'id, 'Software'metod union
-                        select '1'id, 'Database Administrator' metod union
-                        select '2'id, 'Network' metod union
-                        select '3'id, 'Hardware' metod union
-                        select '4'id, 'Analyst' metod
+                        select a.master_id, master_name
+                        from dt01_gen_master_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.jenis_id='Category_1'
+                        order by urut asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masterproblem($orgid){
+            $query =
+                    "
+                        select a.master_id, master_name
+                        from dt01_gen_master_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.jenis_id='Problem_1'
+                        order by urut asc
                     ";
 
             $recordset = $this->db->query($query);

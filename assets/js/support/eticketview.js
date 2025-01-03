@@ -3,11 +3,19 @@ dataeticket();
 function getdetail(btn){
     var data_transid     = btn.attr("data_transid");
     var data_subject     = btn.attr("data_subject");
+    var data_severity    = btn.attr("data_severity");
+    var data_category    = btn.attr("data_category");
     var data_description = btn.attr("data_description");
 
     $("textarea[name='modal_followup_eticket_description']").val(data_description);
     $("input[name='modal_followup_eticket_transid']").val(data_transid);
     $("input[name='modal_followup_eticket_subject']").val(data_subject);
+
+    var $severity = $('#modal_followup_eticket_severity').select2();
+    $severity.val(data_severity).trigger('change');
+
+    var $pic = $('#modal_followup_eticket_pic').select2();
+    $pic.val(data_category).trigger('change');
 };
 
 function dataeticket(){
@@ -31,7 +39,21 @@ function dataeticket(){
                 for(var i in result){
                     var getvariabel = "data_transid='"+result[i].trans_id+"'"+
                                       "data_subject='"+result[i].subject+"'"+
+                                      "data_severity='"+result[i].severity_id+"'"+
+                                      "data_category='"+result[i].category_id+"'"+
                                       "data_description='"+result[i].description+"'";
+
+                    var severityClass = "";
+
+                    if (result[i].severity_id === "9f642ff7-4b89-49ee-bca4-acdd258f4361") {
+                        severityClass = "badge-light-success";
+                    } else if (result[i].severity_id === "e4680723-0f36-4b6e-9092-4abc804b01f1") {
+                        severityClass = "badge-light-warning";
+                    } else if (result[i].severity_id === "24cdd330-d6d6-4380-bc37-0638da4e801f") {
+                        severityClass = "badge-light-danger";
+                    } else {
+                        severityClass = "badge-light-secondary"; // Warna default abu-abu
+                    }
 
                     tableresult +="<tr>";
                     if(result[i].status==="0"){
@@ -43,35 +65,20 @@ function dataeticket(){
                     if(result[i].status==="2"){
                         tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Approve Head Unit</span></td>";
                     }
+                    if(result[i].status==="3"){
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-danger'>Decline IT</span></td>";
+                    }
+                    if(result[i].status==="4"){
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Follow Up IT</span></td>";
+                    }
                     tableresult +="<td><div class='text-gray-800 text-hover-primary'>"+result[i].subject+"</div><div>"+result[i].description+"</div></td>";
-                    tableresult +="<td>";
-                    if(result[i].severity==="0"){
-                        tableresult +="<span class='badge badge-light-success my-1'>Low</span>";
+                    tableresult +="<td><span class='badge "+severityClass+" my-1'>"+result[i].severity+"</span></td>";
+                    if(result[i].status==="2"){
+                        tableresult +="<td><span class='badge badge-light-info my-1'>"+result[i].category+"</span></td>";
+                    }else{
+                        tableresult +="<td><div><span class='badge badge-light-info my-1'>"+result[i].category+"</span></div><div><span class='badge badge-light-info my-1'>"+result[i].problem+"</span></div></td>";
                     }
-                    if(result[i].severity==="1"){
-                        tableresult +="<span class='badge badge-light-warning my-1'>Middle</span>";
-                    }
-                    if(result[i].severity==="2"){
-                        tableresult +="<span class='badge badge-light-danger my-1'>High</span>";
-                    }
-                    tableresult +="</td>";
-                    tableresult +="<td>";
-                    if(result[i].category==="0"){
-                        tableresult +="<span class='badge badge-light-info my-1'>Software</span>";
-                    }
-                    if(result[i].category==="1"){
-                        tableresult +="<span class='badge badge-light-info my-1'>Database Administrator</span>";
-                    }
-                    if(result[i].category==="2"){
-                        tableresult +="<span class='badge badge-light-info my-1'>Network</span>";
-                    }
-                    if(result[i].category==="3"){
-                        tableresult +="<span class='badge badge-light-info my-1'>Hardware</span>";
-                    }
-                    if(result[i].category==="4"){
-                        tableresult +="<span class='badge badge-light-info my-1'>Analyst</span>";
-                    }
-                    tableresult +="</td>";
+                    
                     if(result[i].attachment==="1"){
                         tableresult += "<td><a class='badge badge-light-info my-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='" + url + "assets/documentsupport/" + (result[i].trans_id ? result[i].trans_id : "") + ".pdf' onclick='viewdoc(this)'>View Attachment</a></td>";
                     }else{
@@ -114,36 +121,42 @@ function dataeticket(){
     return false;
 };
 
-$(document).on("submit", "#formfollowup", function (e) {
-	e.preventDefault();
-    e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
-	$.ajax({
+$(document).on("click",".btn-followup", function(e){            
+    e.preventDefault();
+    followup(this);
+});
+
+function followup(button) {
+    var form   = $("#formfollowup");
+    var url    = form.attr("action");
+    var status = $(button).attr('name');
+
+    var formData = form.serialize();
+    formData += '&status=' + encodeURIComponent(status);
+
+    $.ajax({
         url       : url,
-        data      : form.serialize(),
+        data      : formData,
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-			$("#btn_followup_eticket").addClass("disabled");
+            $("#btn_followup_eticket").addClass("disabled");
         },
-		success: function (data) {
-
+        success: function (data) {
             if(data.responCode == "00"){
                 $("#modal_followup_eticket").modal("hide");
                 dataeticket();
-			}
-
+            }
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
+        },
         complete: function () {
             $("#btn_followup_eticket").removeClass("disabled");
             toastr.clear();
-		},
+        },
         error: function(xhr, status, error) {
             showAlert(
                 "I'm Sorry",
@@ -152,7 +165,9 @@ $(document).on("submit", "#formfollowup", function (e) {
                 "Please Try Again",
                 "btn btn-danger"
             );
-		}
-	});
+        }
+    });
+
     return false;
-});
+}
+

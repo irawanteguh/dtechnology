@@ -79,6 +79,12 @@ function dataeticket(){
                     if(result[i].status==="2"){
                         tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Approve Head Unit</span></td>";
                     }
+                    if(result[i].status==="3"){
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-danger'>Decline IT</span></td>";
+                    }
+                    if(result[i].status==="4"){
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Follow Up IT</span></td>";
+                    }
                     tableresult +="<td><div class='text-gray-800 text-hover-primary'>"+result[i].subject+"</div><div>"+result[i].description+"</div></td>";
                     if(result[i].attachment==="1"){
                         tableresult += "<td><a class='badge badge-light-info my-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='" + url + "assets/documentsupport/" + (result[i].trans_id ? result[i].trans_id : "") + ".pdf' onclick='viewdoc(this)'>View Attachment</a></td>";

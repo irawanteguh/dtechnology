@@ -147,8 +147,6 @@
                         <span data-kt-calendar="event_end_date" id="eventenddate" name="eventenddate"></span>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

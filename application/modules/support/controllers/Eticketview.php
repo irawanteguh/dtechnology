@@ -14,22 +14,29 @@
 		}
 
         public function loadcombobox(){
-            $resultmasterseverity  = $this->md->masterseverity();
-            $resultmasterpic  = $this->md->masterpic();
+            $resultmasterseverity = $this->md->masterseverity($_SESSION['orgid']);
+            $resultmasterpic      = $this->md->masterpic($_SESSION['orgid']);
+            $resultmasterproblem  = $this->md->masterproblem($_SESSION['orgid']);
             
 
             $masterseverity="";
             foreach($resultmasterseverity as $a ){
-                $masterseverity.="<option value='".$a->id."'>".$a->metod."</option>";
+                $masterseverity.="<option value='".$a->master_id."'>".$a->master_name."</option>";
             }
 
             $masterpic="";
             foreach($resultmasterpic as $a ){
-                $masterpic.="<option value='".$a->id."'>".$a->metod."</option>";
+                $masterpic.="<option value='".$a->master_id."'>".$a->master_name."</option>";
+            }
+
+            $masterproblem="";
+            foreach($resultmasterproblem as $a ){
+                $masterproblem.="<option value='".$a->master_id."'>".$a->master_name."</option>";
             }
 
             $data['masterseverity'] = $masterseverity;
             $data['masterpic']      = $masterpic;
+            $data['masterproblem']  = $masterproblem;
             
             return $data;
 		}
@@ -52,10 +59,15 @@
         }
 
         public function followup(){
-            $data['severity']      = $this->input->post("modal_followup_eticket_severity");
-            $data['category']      = $this->input->post("modal_followup_eticket_pic");
+            $status = $this->input->post('status');
+            $valid  = ($status === 'approve') ? '4' : '3';
+
+            $data['severity_id']   = $this->input->post("modal_followup_eticket_severity");
+            $data['category_id']   = $this->input->post("modal_followup_eticket_pic");
+            $data['problem_id']    = $this->input->post("modal_followup_eticket_problem");
             $data['followup_id']   = $_SESSION['userid'];
             $data['followup_date'] = date('Y-m-d H:i:s');
+            $data['status']        = $valid;
 
             if($this->md->updateeticket($this->input->post("modal_followup_eticket_transid"),$data)){
                 $json['responCode']="00";

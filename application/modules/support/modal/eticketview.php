@@ -28,8 +28,8 @@
                         <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Description :</label>
                         <textarea class="form-control form-control-solid" name="modal_followup_eticket_description" id="modal_followup_eticket_description" readonly></textarea>
                     </div>
-                    <div class="col-xl-12 mb-5 row">
-                        <div class="col-xl-4 mb-5">
+                    <div class="row">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span class="required">Severity</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Severity"></i>
@@ -38,7 +38,7 @@
                                 <?php echo $masterseverity;?>
                             </select>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span class="required">Category</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Category"></i>
@@ -47,11 +47,21 @@
                                 <?php echo $masterpic;?>
                             </select>
                         </div>
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Problem</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Problem"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_followup_eticket" data-placeholder="Please Select Problem" class="form-select form-select-solid" name="modal_followup_eticket_problem" id="modal_followup_eticket_problem" required>
+                                <?php echo $masterproblem;?>
+                            </select>
+                        </div>
                     </div>
                     
                 </div>
-                <div class="modal-footer p-1">				
-                    <input class="btn btn-light-primary" id="btn_followup_eticket" type="submit" value="SUBMIT" name="simpan" >
+                <div class="modal-footer p-1">
+                    <button type="submit" class="btn btn-light-danger btn-followup" name="decline" value="DECLINE">DECLINE</button>
+                    <button type="submit" class="btn btn-light-primary btn-followup" name="approve" value="APPROVE">FOLLOW UP</button>
                 </div>
             </form>
         </div>
