@@ -22,6 +22,9 @@ assets/documentpo/*
 assets/documenttemp/*
 !assets/documenttemp/index.html
 
+assets/documentsupport/*
+!assets/documentsupport/index.html
+
 ssets/invoice/*
 !assets/invoice/index.html
 

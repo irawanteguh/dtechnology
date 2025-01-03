@@ -50,7 +50,7 @@ function viewdoc(btn) {
 
 function dataeticket(){
     $.ajax({
-        url        : url+"index.php/support/overview/dataeticket",
+        url        : url+"index.php/support/eticketlist/dataeticket",
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -58,7 +58,7 @@ function dataeticket(){
         beforeSend : function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-            $("#resultdataeticket").html("");
+            $("#resulteticketlist").html("");
         },
         success:function(data){
            
@@ -67,29 +67,41 @@ function dataeticket(){
             if(data.responCode==="00"){
                 var result        = data.responResult;
                 for(var i in result){
-                    tableresult +="<div class='d-flex mb-10 animate__animated animate__fadeInUp'>";
-                        if(result[i].status==="0"){
-                            tableresult +="<i class='bi bi-file-earmark-plus text-warning fa-2x'></i>";
-                        }
-                        
-                        tableresult +="<div class='d-flex flex-column'>";
-                            tableresult +="<div class='d-flex align-items-center mb-2'>";
-                                tableresult +="<a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' class='text-dark text-hover-primary fs-4 me-3 fw-bold' data-dirfile='"+url+"assets/documentsupport/"+(result[i].trans_id ? result[i].trans_id : "")+".pdf' onclick='viewdoc(this)'>"+result[i].subject+"</a>";
-                                if(result[i].severity==="0"){
-                                    tableresult +="<span class='badge badge-light-success my-1'>Low</span>";
-                                }
-                                if(result[i].attachment==="1"){
-                                    tableresult += "<a class='badge badge-light-info my-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='" + url + "assets/documentsupport/" + (result[i].trans_id ? result[i].trans_id : "") + ".pdf' onclick='viewdoc(this)'>View Attachment</a>";
-                                }
+                    var getvariabel = "data_transid='"+result[i].trans_id+"'";
+
+                    tableresult +="<tr>";
+                    if(result[i].status==="0"){
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-info'>New Eticket</span></td>";
+                    }
+                    if(result[i].status==="1"){
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-danger'>Reject Head Unit</span></td>";
+                    }
+                    if(result[i].status==="2"){
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Approve Head Unit</span></td>";
+                    }
+                    tableresult +="<td><div class='text-gray-800 text-hover-primary'>"+result[i].subject+"</div><div>"+result[i].description+"</div></td>";
+                    if(result[i].attachment==="1"){
+                        tableresult += "<td><a class='badge badge-light-info my-1' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='" + url + "assets/documentsupport/" + (result[i].trans_id ? result[i].trans_id : "") + ".pdf' onclick='viewdoc(this)'>View Attachment</a></td>";
+                    }else{
+                        tableresult +="<td></td>";
+                    }
+                    tableresult +="<td><div class='text-gray-800 text-hover-primary'>"+result[i].dibuatoleh+"</div><div>"+result[i].createddate+"</div></td>";
+                    tableresult +="<td class='text-end'>";
+                        tableresult += "<div class='btn-group' role='group'>";
+                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                            if(result[i].status==="0"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                            }
                             tableresult +="</div>";
-                            tableresult +="<span class='text-muted fw-bold fs-6'>"+result[i].description+"</span>";
                         tableresult +="</div>";
-                       
-                    tableresult +="</div>";
+                    tableresult +="</td>";
+                    tableresult +="</tr>";
                 }
             }
 
-            $("#resultdataeticket").html(tableresult);
+            $("#resulteticketlist").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -108,6 +120,31 @@ function dataeticket(){
 		}
     });
     return false;
+};
+
+function validasi(btn){
+    var transid = btn.attr("data_transid");
+    var status  = btn.attr("data_validasi");
+	$.ajax({
+        url        : url+"index.php/support/eticketlist/validasi",
+        data       : {transid:transid,status:status},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        beforeSend : function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+		success : function (data) {
+			if(data.responCode === "00"){
+				dataeticket();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		}
+	});
+	return false;
 };
 
 function gettransid(){

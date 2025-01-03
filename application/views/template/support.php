@@ -14,30 +14,11 @@
                 </div>
             </div>
             <div class="flex-equal d-flex justify-content-center align-items-end ms-5">
-                <img src="assets/media/illustrations/sketchy-1/20.png" alt="" class="mw-100 mh-125px mh-lg-275px mb-lg-n12" />
+                <img src="<?php echo base_url() ?>assets/images/illustrations/sketchy-1/20.png" alt="" class="mw-100 mh-125px mh-lg-275px mb-lg-n12" />
             </div>
         </div>
         <div class="card-rounded bg-light d-flex flex-stack flex-wrap p-5">
             <ul class="nav flex-wrap border-transparent fw-bolder">
-                <!-- <li class="nav-item my-1">
-                    <a class="btn btn-color-gray-600 btn-active-white btn-active-color-primary fw-boldest fs-8 fs-lg-base nav-link px-3 px-lg-8 mx-1 text-uppercase active" href="../../demo1/dist/apps/support-center/overview.html">Overview</a>
-                </li>
-                <li class="nav-item my-1">
-                    <a class="btn btn-color-gray-600 btn-active-white btn-active-color-primary fw-boldest fs-8 fs-lg-base nav-link px-3 px-lg-8 mx-1 text-uppercase" href="../../demo1/dist/apps/support-center/tickets/list.html">tickets</a>
-                </li>
-                <li class="nav-item my-1">
-                    <a class="btn btn-color-gray-600 btn-active-white btn-active-color-primary fw-boldest fs-8 fs-lg-base nav-link px-3 px-lg-8 mx-1 text-uppercase" href="../../demo1/dist/apps/support-center/tutorials/list.html">Tutorials</a>
-                </li>
-                <li class="nav-item my-1">
-                    <a class="btn btn-color-gray-600 btn-active-white btn-active-color-primary fw-boldest fs-8 fs-lg-base nav-link px-3 px-lg-8 mx-1 text-uppercase" href="../../demo1/dist/apps/support-center/faq.html">FAQ</a>
-                </li>
-                <li class="nav-item my-1">
-                    <a class="btn btn-color-gray-600 btn-active-white btn-active-color-primary fw-boldest fs-8 fs-lg-base nav-link px-3 px-lg-8 mx-1 text-uppercase" href="../../demo1/dist/apps/support-center/licenses.html">Licenses</a>
-                </li>
-                <li class="nav-item my-1">
-                    <a class="btn btn-color-gray-600 btn-active-white btn-active-color-primary fw-boldest fs-8 fs-lg-base nav-link px-3 px-lg-8 mx-1 text-uppercase" href="../../demo1/dist/apps/support-center/contact.html">Contact US</a>
-                </li> -->
-
                 <?php echo $menusupport ?>
             </ul>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modal_new_eticket" class="btn btn-primary fw-bolder fs-8 fs-lg-base">Create Ticket</a>

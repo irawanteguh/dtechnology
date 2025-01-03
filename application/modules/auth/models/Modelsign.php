@@ -22,7 +22,7 @@
                         select a.user_id, name, image_profile, org_id, username, suspended, upper(LEFT(a.name, 1)) initial, email, address,
                                (select org_name from dt01_gen_organization_ms where active='1' and org_id=a.org_id)hospitalname,
                                (select website  from dt01_gen_organization_ms where active='1' and org_id=a.org_id)website,
-                               (select trial    from dt01_gen_organization_ms where active='1' and org_id=a.org_id)trial
+                               (select trial    from dt01_gen_organization_ms where active='1' and org_id=a.org_id)trial                               
 
                         from dt01_gen_user_data a
                         where a.active='1'
