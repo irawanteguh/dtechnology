@@ -23,7 +23,7 @@
                 $transid = generateuuid();
     
                 $json_data = json_encode($body, JSON_PRETTY_PRINT);
-                file_put_contents(FCPATH."/assets/log/aktivo/leka/" . $transid . '.json', $json_data);
+                file_put_contents(FCPATH."assets/log/aktivo/leka/" . $transid . '.json', $json_data);
     
                 $data['ORG_ID']                   = $resultmasterorganization[0]->org_id;
                 $data['TRANSAKSI_ID']             = $transid;
