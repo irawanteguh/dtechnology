@@ -65,6 +65,7 @@
             $data['severity_id']   = $this->input->post("modal_followup_eticket_severity");
             $data['category_id']   = $this->input->post("modal_followup_eticket_pic");
             $data['problem_id']    = $this->input->post("modal_followup_eticket_problem");
+            $data['note']          = $this->input->post("modal_followup_eticket_note");
             $data['followup_id']   = $_SESSION['userid'];
             $data['followup_date'] = date('Y-m-d H:i:s');
             $data['status']        = $valid;

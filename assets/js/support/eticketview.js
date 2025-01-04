@@ -69,7 +69,7 @@ function dataeticket(){
                         tableresult +="<td class='ps-4'><span class='badge badge-light-danger'>Decline IT</span></td>";
                     }
                     if(result[i].status==="4"){
-                        tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Follow Up IT</span></td>";
+                        tableresult +="<td class='ps-4'><span class='badge badge-light-success'>Resolved</span></td>";
                     }
                     tableresult +="<td><div class='text-gray-800 text-hover-primary'>"+result[i].subject+"</div><div>"+result[i].description+"</div></td>";
                     tableresult +="<td><span class='badge "+severityClass+" my-1'>"+result[i].severity+"</span></td>";

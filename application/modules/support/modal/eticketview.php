@@ -57,7 +57,10 @@
                             </select>
                         </div>
                     </div>
-                    
+                    <div class="col-xl-12 mb-5">
+                        <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Note :</label>
+                        <textarea class="form-control form-control-solid" name="modal_followup_eticket_note" id="modal_followup_eticket_note" required></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer p-1">
                     <button type="submit" class="btn btn-light-danger btn-followup" name="decline" value="DECLINE">DECLINE</button>
