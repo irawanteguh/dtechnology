@@ -214,7 +214,7 @@
             echo json_encode($json);
         }
 
-        public function updatedetailitem() {
+        public function updatedetailitem(){
             $no_pemesanan = $this->input->post('no_pemesanan');
             $validasi     = $this->input->post('validasi');
             $item_id      = $this->input->post('item_id');
@@ -378,7 +378,7 @@
 
         }
 
-        public function updateheader() {
+        public function updateheader(){
             $datanopemesanan = $this->input->post('datanopemesanan');
             $status          = $this->input->post('status');
             $position        = $this->input->post('position');
@@ -396,7 +396,6 @@
                     $data['STATUS'] = $status;
                 }
             }
-            
 
             if($status==="3" || $status==="4"){
                 $data['MANAGER_ID']   = $_SESSION['userid'];
@@ -409,7 +408,6 @@
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){
-
                 $json["responCode"]="00";
                 $json["responHead"]="success";
                 $json["responDesc"]="Update successful";

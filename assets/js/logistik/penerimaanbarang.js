@@ -6,7 +6,7 @@ function getdetail(btn){
     var data_status      = $btn.attr("data_status");
 
     $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
-    datadetail(data_nopemesanan,data_status);
+    datadetail(data_nopemesanan);
 };
 
 function datarequest(){
@@ -78,7 +78,7 @@ function datarequest(){
     return false;
 };
 
-function datadetail(data_nopemesanan,data_status){
+function datadetail(data_nopemesanan){
     $.ajax({
         url       : url + "index.php/logistik/request/detailbarang",
         data      : { data_nopemesanan: data_nopemesanan },

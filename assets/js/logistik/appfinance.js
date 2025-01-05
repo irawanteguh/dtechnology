@@ -9,6 +9,7 @@ function getdetail(btn){
     $(":hidden[name='no_pemesanan_buktibayar']").val(data_nopemesanan);
 
     datadetail(data_nopemesanan,data_status);
+    datadetailpenerimaan(data_nopemesanan);
 
     var myDropzone = new Dropzone("#file_bukti_bayar", {
         url               : url + "index.php/logistik/request/uploadbuktibayar?no_pemesanan="+data_nopemesanan,
@@ -105,16 +106,14 @@ function datarequest(){
                                 }
 
                                 if(result[i].status==="13"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang_terima' onclick='getdetail($(this));'><i class='bi bi-eye text-primary'></i> View Accept Goods</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='15' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
                                 }
 
                                 if(result[i].status==="15"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
-                                }
-
-                                if(result[i].status==="17"){
                                     tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
                                 }
 
                                 if(result[i].attachment==="1"){
@@ -220,6 +219,53 @@ function datadetail(data_nopemesanan,data_status){
 
             $("#resultdetail").html(tableresult);
             $("#resultdetailfoot").html(tfoot);
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        error: function (xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
+        },
+        complete: function () {
+            toastr.clear();
+        }
+    });
+    return false;
+};
+
+function datadetailpenerimaan(data_nopemesanan){
+    $.ajax({
+        url       : url + "index.php/logistik/request/detailbarang",
+        data      : { data_nopemesanan: data_nopemesanan },
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            $("#resultdetailpenerimaan").html("");
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success: function (data) {
+            let result      = "";
+            let tableresult = "";
+
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (let i in result) {
+                    const qty        = parseFloat(result[i].qty_minta) || 0;
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+                    tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
+                    tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
+                    tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='order_${result[i].barang_id}' name='order_${result[i].barang_id}' value='${todesimal(result[i].qty_minta)}' disabled></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='jmlmasuk_${result[i].barang_id}' name='jmlmasuk_${result[i].barang_id}' value='${todesimal(result[i].jmlmasuk)}' disabled></td>`;
+                    
+                    tableresult += "</tr>";
+
+                }
+            }
+
+            $("#resultdetailpenerimaan").html(tableresult);
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         error: function (xhr, status, error) {
