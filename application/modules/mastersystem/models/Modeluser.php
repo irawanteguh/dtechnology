@@ -6,8 +6,9 @@
                     "
                         select a.username, name
                         from dt01_gen_user_data a
-                        where a.org_id='".$orgid."'
-                        and   a.active='1'
+                        where a.active='1'
+                        and a.org_id='".$orgid."'
+                           
                     ";
 
             $recordset = $this->db->query($query);
