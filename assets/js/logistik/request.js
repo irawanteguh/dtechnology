@@ -22,6 +22,7 @@ datarequest();
 function getdetail(btn){
     var $btn = $(btn);
     var data_nopemesanan     = $btn.attr("data_nopemesanan");
+    var data_nopemesanan_unit     = $btn.attr("data_nopemesanan_unit");
     var data_status          = $btn.attr("data_status");
     var data_suppliers       = $btn.attr("data_suppliers");
     var data_createddate     = $btn.attr("data_createddate");
@@ -36,7 +37,7 @@ function getdetail(btn){
     $("textarea[name='modal-upload-lampiran-note']").val(data_attachment_note);
     $("input[name='modal_upload_invoice_no']").val(data_no_invoice);
 
-    $("#pono").html(data_nopemesanan);
+    $("#pono").html(data_nopemesanan_unit);
     $("#suppliers").html(data_suppliers);
     $("#orderdate").html(data_createddate);
 
@@ -118,6 +119,7 @@ function datarequest(){
                     var dir  = "";
 
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
+                                      "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_no_invoice='"+result[i].invoice_no+"'"+
