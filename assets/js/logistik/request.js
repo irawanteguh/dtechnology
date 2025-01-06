@@ -21,21 +21,31 @@ datarequest();
 
 function getdetail(btn){
     var $btn = $(btn);
-    var data_nopemesanan     = $btn.attr("data_nopemesanan");
-    var data_nopemesanan_unit     = $btn.attr("data_nopemesanan_unit");
-    var data_status          = $btn.attr("data_status");
-    var data_suppliers       = $btn.attr("data_suppliers");
-    var data_createddate     = $btn.attr("data_createddate");
-    var data_attachment_note = $btn.attr("data_attachment_note");
-    var data_no_invoice      = $btn.attr("data_no_invoice");
+    var data_nopemesanan      = $btn.attr("data_nopemesanan");
+    var data_nopemesanan_unit = $btn.attr("data_nopemesanan_unit");
+    var data_status           = $btn.attr("data_status");
+    var data_suppliers        = $btn.attr("data_suppliers");
+    var data_createddate      = $btn.attr("data_createddate");
+    var data_attachment_note  = $btn.attr("data_attachment_note");
+    var data_no_invoice       = $btn.attr("data_no_invoice");
 
     // $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_item']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_upload']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
 
-    $("textarea[name='modal-upload-lampiran-note']").val(data_attachment_note);
-    $("input[name='modal_upload_invoice_no']").val(data_no_invoice);
+    if(data_attachment_note!='null'){
+        $("textarea[name='modal-upload-lampiran-note']").val(data_attachment_note);
+    }else{
+        $("textarea[name='modal-upload-lampiran-note']").val('');
+    }
+    
+    if(data_no_invoice!='null'){
+        $("input[name='modal_upload_invoice_no']").val(data_no_invoice);
+    }else{
+        $("input[name='modal_upload_invoice_no']").val('');
+    }
+    
 
     $("#pono").html(data_nopemesanan_unit);
     $("#suppliers").html(data_suppliers);
@@ -187,7 +197,12 @@ function datarequest(){
                                     if(result[i].invoice==="0" || result[i].invoice_no===null){
                                         tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-invoice' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Invoce</a>";
                                     }
-                                    
+                                }
+
+                                if(result[i].status==="7" && result[i].status_vice==="Y" && result[i].status_dir==="Y"){
+                                    if(result[i].invoice==="0" || result[i].invoice_no===null){
+                                        tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-invoice' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Invoce</a>";
+                                    }
                                 }
 
                                 if(result[i].attachment==="0"){

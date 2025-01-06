@@ -219,7 +219,13 @@ function viewdoc(btn) {
     if (responsefile === 200) {
         var viewfile = "<embed src='"+filename+"' width='100%' height='100%' type='application/pdf' id='view'>";
         $("#viewdocnote").html(viewfile);
-        $("textarea[name='modal_view_pdf_note']").val(note);
+
+        if(note!='null'){
+            $("textarea[name='modal_view_pdf_note']").val(note);
+        }else{
+            $("textarea[name='modal_view_pdf_note']").val('');
+        }
+        
         $('#openInNewTabButton').data('filename', filename);
     } else {
         var viewfile = `
