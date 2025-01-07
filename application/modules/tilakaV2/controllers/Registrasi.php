@@ -410,7 +410,7 @@
 
             $body['user_identifier']=$useridentifier;
             $response = Tilaka::checkcertificateuser(json_encode($body));
-            
+
             if($response['success']){
                 $data['CERTIFICATE']      = $response['status'];
 
@@ -456,6 +456,7 @@
                 $json['responResult'] = $response;
             }
             
+            
             echo json_encode($json);
         }
 
@@ -467,6 +468,8 @@
 
             $response = Tilaka::revoke(json_encode($body));
             
+            return var_dump($response);
+
             if($response['success']){
 
                 $body['user_identifier']=$useridentifier;
@@ -491,6 +494,7 @@
                 $json["responDesc"]   = $response['message'];
                 $json['responResult'] = $response;
             }
+            
 
             echo json_encode($json);
         }

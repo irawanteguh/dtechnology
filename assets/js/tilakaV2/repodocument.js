@@ -1,6 +1,9 @@
 datarepository();
 
 $('#modal_sign_add').on('show.bs.modal', function (e) {
+    $("input[name='modal_sign_add_informasi1']").val('');
+    $("input[name='modal_sign_add_informasi2']").val('');
+
     masterassign();
 });
 
@@ -12,37 +15,44 @@ $('#modal_upload_document').on('hidden.bs.modal', function (e) {
 });
 
 function masterassign() {
+    var inputElement = document.querySelector('[name="modal_sign_add_assign"]');
+    
+    // Reset input/tag yang sudah dipilih sebelumnya
+    if (inputElement && inputElement.tagify) {
+        inputElement.tagify.removeAllTags(); // Menghapus semua tag yang ada
+    }
+
     $.ajax({
-        url     : url + "index.php/tilakaV2/repodocument/masterassign",
-        method  : "POST",
-        dataType: "JSON",
-        cache   : false,
+        url       : url + "index.php/tilakaV2/repodocument/masterassign",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
         beforeSend: function () {
             toastr.clear();
         },
         success: function(data) {
             if (data.responCode === "00") {
                 var result = data.responResult;
-                var inputElement = document.querySelector('[name="modal_sign_add_assign"]');
-                
-                inputElement.value = '';
 
+                // Membuat whitelist dari hasil AJAX
                 var whitelist = result.map(function(item) {
                     return item.name + ' - ' + item.nik;
                 });
 
-                var tagify = new Tagify(inputElement, {
-                    whitelist: whitelist,
-                    maxTags: 10,
-                    dropdown: {
-                        maxItems: 10,
-                        enabled: 0,
-                        closeOnSelect: true
-                    }
-                });
-
-                if (inputElement.value) {
-                    tagify.addTags(inputElement.value);
+                if (!inputElement.tagify) {
+                    // Inisialisasi Tagify jika belum ada
+                    inputElement.tagify = new Tagify(inputElement, {
+                        whitelist: whitelist,
+                        maxTags: 10,
+                        dropdown: {
+                            maxItems: 10,
+                            enabled: 0,
+                            closeOnSelect: true
+                        }
+                    });
+                } else {
+                    // Update whitelist jika Tagify sudah ada
+                    inputElement.tagify.whitelist = whitelist;
                 }
             }
         },
@@ -59,6 +69,7 @@ function masterassign() {
             );
         }
     });
+
     return false;
 };
 
@@ -162,6 +173,18 @@ function datarepository(){
                         tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Signing Success</span></div><div class='fst-italic small'>Waiting Execute File</div></td>"; 
                     }
 
+                    if(result[i].status==="5"){
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Execute Success</span></div><div class='fst-italic small'>Waiting Download Document</div></td>"; 
+                    }
+
+                    if(result[i].status==="98"){
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-danger fs-7 fw-bold'>Failed Request Sign</span></div><div class='fst-italic small'>Please wait for the next upload queue</div></td>"; 
+                    }
+
+                    if(result[i].status==="99"){
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-danger fs-7 fw-bold'>Failed Upload Tilaka Lite</span></div><div class='fst-italic small'>Please wait for the next upload queue</div></td>"; 
+                    }
+
                     if(result[i].status==="0"){
                         tableresult += "<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument+" <div class='badge badge-light-info'>"+(result[i].type === 'S' ? "Single" : "Bulk")+"</div>" : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_nofile='" + result[i].no_file + "' onclick='uploadfile(this)' title='Click For Upload Document'>" + (result[i].no_file || "-") + "</a></div><div>" + (result[i].filename || "-") + "</div></td>";
                     }else{
@@ -177,11 +200,22 @@ function datarepository(){
                     var assign = result[i].assign ? result[i].assign.split(';') : [];
                     tableresult += "<td>";
                     for (var j = 0; j < assign.length; j++) {
-                        tableresult +="<div>"+assign[j]+"</div>";
+                        var assignDetail = assign[j] ? assign[j].split('_') : [];
+                        var name =assignDetail[0];
+                        var type =assignDetail[1];
+
+                        if(type==="D"){
+                            var type = " <i class='bi bi-d-circle-fill text-info'></i>";
+                        }else{
+                            var type = " <i class='bi bi-c-circle-fill text-info'></i>";
+                        }
+
+                        tableresult +="<div>"+name+type+"</div>";
                     }
                     tableresult += "</td>";
 
-                    tableresult +="<td><div>"+(result[i].createdby ? result[i].createdby : "")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
+                    tableresult +="<td><div class='badge badge-light-info'>"+(result[i].response ? result[i].response : "")+"</div></td>";
+                    tableresult +="<td class='text-end pe-4'><div>"+(result[i].createdby ? result[i].createdby : "")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
                     tableresult += "</tr>";
 
                     jml ++;

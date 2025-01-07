@@ -38,8 +38,8 @@
 								<th>Filename</th>
 								<th>Note</th>
 								<th>Assign By</th>
-								<th>Created</th>
-								<th class="pe-4 text-end rounded-end">Response</th>
+								<th>Response</th>
+								<th class="pe-4 text-end rounded-end">Created</th>
 							</tr>
 						</thead>
 						<tbody class="text-gray-600 fw-bold" id="resultrepodocument"></tbody>

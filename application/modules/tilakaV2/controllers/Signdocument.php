@@ -13,8 +13,10 @@
             if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
 
                 if($_GET['status']==="Sukses"){
-                    $datasimpanhd['status']="4";
-                    $datasimpanit['status']="2";
+                    $datasimpanhd['status']    = "4";
+                    $datasimpanit['status']    = "2";
+                    $datasimpanit['sign_by']   = $_SESSION['userid'];
+                    $datasimpanit['sign_date'] = date('Y-m-d H:i:s');
                 }
 
                 $this->md->updatefile($datasimpanhd,$_GET['request_id']);

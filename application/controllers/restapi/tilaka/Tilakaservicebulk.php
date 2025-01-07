@@ -50,6 +50,7 @@
                                 if($responsetilaka['success']){
                                     $datasimpanhd['filename']           = $responsetilaka['filename'];
                                     $datasimpanhd['status']             = "2";
+                                    $datasimpanhd['response']           = "";
                                     $datasimpanhd['date_upload_tilaka'] = date('Y-m-d H:i:s');
 
                                     $datasimpanit['coordinate_x']    = floatval(COORDINATE_X);
@@ -69,7 +70,8 @@
                         }
                         $datasimpanhd['filesize'] = $filesize;
                     }else{
-                        $files['issue']         = "File not found";
+                        $files['issue']           = "File not found";
+                        $datasimpanhd['status']   = "99";
                         $datasimpanhd['response'] = "File not found";
                     }
 
@@ -142,9 +144,19 @@
                                 $datasimpanhd['status']     = "3";
                                 $this->md->updatefile($datasimpanhd,$listfiles->no_file);
 
+                                $datasimpanit['request_id'] = $requestid;
                                 $datasimpanit['link_sign']  = $responserequestsign['auth_urls'][0]['url'];
                                 $datasimpanit['status']     = "1";
                                 $this->md->updatesigner($datasimpanit,$listfiles->no_file);
+                            }
+                        }else{
+                            foreach($responserequestsign['failed_doc_name'] as $faileddocname){
+                                $datasimpanhd = [];
+
+                                $datasimpanhd['response'] = $responserequestsign['message'];
+                                $datasimpanhd['status']   = "98";
+                                $datasimpanhd['filename'] = "";
+                                $this->md->updatefilename($datasimpanhd,$faileddocname);
                             }
                         }
                     }
@@ -153,11 +165,98 @@
                     $response['response']['tilaka'] = $responserequestsign;
                 }
             }else{
-                $response['response']['dtechnology']="There is no data to upload";
+                $response['response']['dtechnology']="There is no data to request sign";
             }
 
             $this->response($response,REST_Controller::HTTP_OK);
 
+        }
+
+        public function executesignsingle_POST(){
+            $response  = [];
+            $result    = $this->md->dataexecute(ORG_ID);
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $body        = [];
+                   
+                    $body['request_id']      = $a->request_id;
+                    $body['user_identifier'] = $a->useridentifier;
+
+                    $responseexcutesign = Tilaka::excutesign(json_encode($body));
+
+                    if(isset($responseexcutesign['success'])){
+                        if($responseexcutesign['status']!="PARAMERR"){
+                            if($responseexcutesign['status']==="DONE"){
+                                $datasimpanhd = [];
+
+                                $datasimpanhd['status']="5";
+                                $datasimpanhd['response']="";
+                                $this->md->updatehdrequestid($datasimpanhd,$a->request_id);
+                            }
+
+                            if($responseexcutesign['status']==="PROCESS"){
+                                $datasimpanhd = [];
+
+                                $datasimpanhd['response']=$responseexcutesign['message'];
+                                $this->md->updatehdrequestid($datasimpanhd,$a->request_id);
+                            }
+                        }
+                    }
+
+                    $response['response']['tilaka'] = $responseexcutesign;
+                }
+            }else{
+                $response['response']['dtechnology']="There is no data to execute sign";
+            }
+
+            $this->response($response,REST_Controller::HTTP_OK);
+        }
+
+        public function downloadfilesingle_POST(){
+            $response  = [];
+            $result    = $this->md->datadownloadfile(ORG_ID);
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $body        = [];
+                   
+                    $body['request_id']       = $a->request_id;
+                    $responseexcutesignstatus = Tilaka::excutesignstatus(json_encode($body));
+
+                    if(isset($responseexcutesignstatus['success'])){
+                        if($responseexcutesignstatus['success']){
+                            foreach($responseexcutesignstatus['list_pdf'] as $listpdfs){
+                                $datasimpanhd = [];
+
+                                $nofile       = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                $fileContent  = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
+
+                                if($fileContent !== false){
+                                    if($a->location==="DTECHNOLOGY"){
+                                        $path = FCPATH."assets/document/".$nofile.".pdf";
+                                    }else{
+                                        $path = PATHFILE_POST_TILAKA.DIRECTORY_SEPARATOR.$nofile.".pdf";
+                                    }
+
+                                    if(file_put_contents($path,$fileContent)){
+                                        $datasimpanhd['status']        = "6";
+                                        $datasimpanhd['link_download'] = $listpdfs['presigned_url'];
+                                        
+                                        $this->md->updatefile($datasimpanhd,$nofile);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $response['response']['tilaka'] = $responseexcutesignstatus;
+                }
+            }else{
+                $response['response']['dtechnology']="There is no data to execute sign";
+            }
+
+            $this->response($response,REST_Controller::HTTP_OK);
         }
     }
 

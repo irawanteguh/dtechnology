@@ -36,6 +36,40 @@
             return $recordset;
         }
 
+        function dataexecute($orgid){
+            $query =
+                    "
+                        select distinct a.request_id, nik,
+                            (select user_identifier from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.nik)useridentifier
+                        from dt01_gen_tte_it a
+                        where a.active='1'
+                        and   a.status='2'
+                        and   a.org_id='".$orgid."'
+                        and   a.nik=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and user_identifier<>'' and nik=a.nik)
+                        and   a.no_file=(select no_file from dt01_gen_tte_hd where org_id=a.org_id and active='1' and status='4' and type='S' and no_file=a.no_file)
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function datadownloadfile($orgid){
+            $query =
+                    "
+                        select distinct a.request_id, location
+                        from dt01_gen_tte_hd a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.type='S'
+                        and   a.status='5'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function datalisfile($orgid,$nik){
             $query =
                     "
@@ -78,6 +112,11 @@
 
         function updatefilename($data,$filename){           
             $sql =   $this->db->update("dt01_gen_tte_hd",$data,array("filename"=>$filename));
+            return $sql;
+        }
+
+        function updatehdrequestid($data,$requestid){           
+            $sql =   $this->db->update("dt01_gen_tte_hd",$data,array("request_id"=>$requestid));
             return $sql;
         }
 

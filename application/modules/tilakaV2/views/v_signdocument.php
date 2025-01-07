@@ -14,9 +14,8 @@
                                 <th class="ps-4 rounded-start">Status</th>
                                 <th class="text-center">Count File</th>
                                 <th>Tilaka Name</th>
-                                <th>Name</th>
-                                <th>Identity No</th>
-                                <th>Email Address</th>
+                                <th>Name / Email Address</th>
+                                <!-- <th>Identity No</th> -->
                                 <th class="pe-4 rounded-end text-end">Action</th>
                             </tr>
                         </thead>

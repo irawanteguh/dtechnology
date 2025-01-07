@@ -16,13 +16,20 @@
 
 		public function loadcombobox(){
             $resultmasterdocument = $this->md->masterdocument($_SESSION['orgid']);
+            $resultmasterposition = $this->md->masterposition();
 
             $document="";
             foreach($resultmasterdocument as $a ){
                 $document.="<option value='".$a->jenis_doc."'>".$a->document_name."</option>";
             }
 
-            $data['document'] = $document;
+            $masterposition="";
+            foreach($resultmasterposition as $a ){
+                $masterposition.="<option value='".$a->id."'>".$a->metod."</option>";
+            }
+
+            $data['document']       = $document;
+            $data['masterposition'] = $masterposition;
             return $data;
 		}
 
@@ -48,25 +55,26 @@
             $result = $this->md->datarepository($parameter);
             
 			if(!empty($result)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Di Temukan";
-				$json['responResult']=$result;
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = "We Get The Data You Want";
+				$json['responResult'] = $result;
             }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Data Tidak Di Temukan";
+                $json["responCode"] = "01";
+                $json["responHead"] = "info";
+                $json["responDesc"] = "We Didn't Get The Data You Wanted";
             }
 
             echo json_encode($json);
         }
 
 		public function signdocument() {
-            $type    = $this->input->post("modal_sign_add_document_type");
-            $assign  = json_decode($this->input->post("modal_sign_add_assign"),true);
-            $info1   = $this->input->post("modal_sign_add_informasi1");
-            $info2   = $this->input->post("modal_sign_add_informasi2");
-            $transid = generateuuid();
+            $type     = $this->input->post("modal_sign_add_document_type");
+            $assign   = json_decode($this->input->post("modal_sign_add_assign"),true);
+            $position = $this->input->post("modal_sign_add_document_position");
+            $info1    = $this->input->post("modal_sign_add_informasi1");
+            $info2    = $this->input->post("modal_sign_add_informasi2");
+            $transid  = generateuuid();
 
             $data['org_id']     = $_SESSION['orgid'];
             $data['no_file']    = $transid;
@@ -89,7 +97,7 @@
                         $nik  = trim($nik);
         
                         $dataassign['org_id']     = $_SESSION['orgid'];
-                        $dataassign['type']       = "E";
+                        $dataassign['type']       = $position;
                         $dataassign['nik']        = $nik;
                         $dataassign['tag']        = $nik;
                         $dataassign['no_file']    = $transid;

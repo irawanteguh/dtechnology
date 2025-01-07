@@ -4,15 +4,15 @@
         function datarepository($parameter){
             $query =
                     "
-                        select a.no_file, filename, note_1, note_2, location, type, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam, status,
+                        select a.no_file, filename, note_1, note_2, location, type, status, response, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam,
                                 (select name from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
                                 (select document_name from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument,
                                 (
-                                    SELECT GROUP_CONCAT((select name from dt01_gen_user_data where nik=b.nik) SEPARATOR ';') 
-                                    FROM dt01_gen_tte_it b
-                                    WHERE b.active='1'
+                                    select group_concat(concat((select name from dt01_gen_user_data where nik=b.nik),'_',b.type) SEPARATOR ';') 
+                                    from dt01_gen_tte_it b
+                                    where b.active='1'
                                     and   b.no_file=a.no_file
-                                ) assign
+                                )assign
                         from dt01_gen_tte_hd a
                         where a.active='1'
                         ".$parameter."
@@ -32,6 +32,18 @@
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         order by document_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masterposition(){
+            $query =
+                    "
+                        select 'D'id, 'Default By System'metod union
+                        select 'C'id, 'By Tag Coordinate' metod
                     ";
 
             $recordset = $this->db->query($query);
