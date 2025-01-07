@@ -11,9 +11,9 @@
     $route['appkyc']        = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
     $route['getfile']       = 'restapi/tilaka/TilakaserviceV5/getfile';
 
-    // $route['authtilaka/bulk']        = 'restapi/tilaka/Tilakaservicebulk/auth';
-    $route['uploadfile/bulk']        = 'restapi/tilaka/Tilakaservicebulk/uploadfile';
-    $route['setsignerdocument/bulk'] = 'restapi/tilaka/Tilakaservicebulk/setsignerdocument';
+    $route['authtilaka/bulk']        = 'restapi/tilaka/Tilakaservicebulk/auth';
+    $route['uploadfilesingle/bulk']        = 'restapi/tilaka/Tilakaservicebulk/uploadfilesingle';
+    $route['requestsignsingle/bulk'] = 'restapi/tilaka/Tilakaservicebulk/requestsignsingle';
 
     $route['pegawai']            = 'restapi/Khanza/pegawai';
     

@@ -63,10 +63,9 @@ function masterassign() {
 };
 
 function uploadfile(btn){
-    var nofile  = $(btn).attr("data_nofile");
-
+    var data_nofile  = $(btn).attr("data_nofile");
     var myDropzone = new Dropzone("#file_doc", {
-        url             : url + "index.php/tilakaV2/repodocument/uploadfile?transid="+transid,
+        url             : url + "index.php/tilakaV2/repodocument/uploadfile?nofile="+data_nofile,
         acceptedFiles   : '.pdf',
         paramName       : "file",
         dictDefaultMessage: "Drop files here or click to upload",
@@ -144,15 +143,27 @@ function datarepository(){
                     tableresult +="<tr>";
 
                     if(result[i].status==="0"){
-                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>New Document</span></div><div class='fst-italic small'>Waiting Document Upload DTechnology</div></td>"; 
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>New Document</span></div><div class='fst-italic small'>Please Upload Document</div></td>"; 
                     }
 
                     if(result[i].status==="1"){
-                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Upload File Success</span></div><div class='fst-italic small'>Waiting Document Upload Tilaka Lite</div></td>"; 
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Upload File Dtechnology Success</span></div><div class='fst-italic small'>Waiting Document Upload Tilaka Lite</div></td>"; 
+                    }
+
+                    if(result[i].status==="2"){
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Upload File Tilaka Lite Success</span></div><div class='fst-italic small'>Waiting Request Sign</div></td>"; 
+                    }
+
+                    if(result[i].status==="3"){
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Request Sign Success</span></div><div class='fst-italic small'>Waiting Sign User</div></td>"; 
+                    }
+
+                    if(result[i].status==="4"){
+                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Signing Success</span></div><div class='fst-italic small'>Waiting Execute File</div></td>"; 
                     }
 
                     if(result[i].status==="0"){
-                        tableresult += "<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument+" <div class='badge badge-light-info'>"+(result[i].type === 'S' ? "Single" : "Bulk")+"</div>" : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_nofile='" + result[i].no_file + "' onclick='uploadfile(this)'>" + (result[i].no_file || "-") + "</a></div><div>" + (result[i].filename || "-") + "</div></td>";
+                        tableresult += "<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument+" <div class='badge badge-light-info'>"+(result[i].type === 'S' ? "Single" : "Bulk")+"</div>" : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_nofile='" + result[i].no_file + "' onclick='uploadfile(this)' title='Click For Upload Document'>" + (result[i].no_file || "-") + "</a></div><div>" + (result[i].filename || "-") + "</div></td>";
                     }else{
                         if(result[i].location==="DTECHNOLOGY"){
                             tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument+" <div class='badge badge-light-info'>"+(result[i].type === 'S' ? "Single" : "Bulk")+"</div>" : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";

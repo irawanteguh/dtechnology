@@ -16,6 +16,7 @@
                         from dt01_gen_tte_hd a
                         where a.active='1'
                         ".$parameter."
+                        order by created_date desc
                     ";
 
             $recordset = $this->db->query($query);
