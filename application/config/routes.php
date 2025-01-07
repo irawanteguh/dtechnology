@@ -12,7 +12,7 @@
     $route['getfile']       = 'restapi/tilaka/TilakaserviceV5/getfile';
 
     // $route['authtilaka/bulk']        = 'restapi/tilaka/Tilakaservicebulk/auth';
-    $route['uploadfile/bulk']     = 'restapi/tilaka/Tilakaservicebulk/uploadfile';
+    $route['uploadfile/bulk']        = 'restapi/tilaka/Tilakaservicebulk/uploadfile';
     $route['setsignerdocument/bulk'] = 'restapi/tilaka/Tilakaservicebulk/setsignerdocument';
 
     $route['pegawai']            = 'restapi/Khanza/pegawai';
@@ -23,7 +23,11 @@
     $route['ListExamination/(:any)']      = 'restapi/aktivo/Leka/ListExamination/$1';
     $route['GetResultLeka/(:any)/(:any)'] = 'restapi/aktivo/Leka/GetResultLeka/$1/$2';
     $route['UpdateLeka/(:any)']           = 'restapi/aktivo/Leka/UpdateLeka/$1';
-    $route['Sendsatusehat/(:any)']        = 'restapi/aktivo/Leka/Sendsatusehat/$1';
+
+    $route['loadserver']        = 'root/Loadserver/load';
+
+
+    $route['getfile']       = 'restapi/tilaka/TilakaserviceV5/getfile';
 
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';
