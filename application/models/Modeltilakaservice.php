@@ -116,7 +116,7 @@
         }
 
         function updatefile($data,$nofile){           
-            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("NO_FILE"=>$nofile));
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("status_sign"=>"0","no_file"=>$nofile));
             return $sql;
         }
 
