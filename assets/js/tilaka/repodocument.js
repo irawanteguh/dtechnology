@@ -244,6 +244,7 @@ function dataupload(){
             //     });
             // });
 
+            toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         error: function(xhr, status, error) {
