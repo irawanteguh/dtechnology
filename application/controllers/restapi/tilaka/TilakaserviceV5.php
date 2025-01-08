@@ -71,8 +71,11 @@
                         }
                     }else{
                         $listfile['issue']           = "File not found";
-                        $datasimpanhd['status_sign'] = "99";
-                        $datasimpanhd['note']        = "File not found";
+                        $datasimpanhd['status_sign']     = "99";
+                        $datasimpanhd['note']            = "File not found";
+                        $datasimpanhd['status_file']     = "0";
+                        $datasimpanhd['user_identifier'] = "";
+                        $datasimpanhd['url']             = "";
                     }
 
                     $this->md->updatefile($datasimpanhd,$a->no_file);
