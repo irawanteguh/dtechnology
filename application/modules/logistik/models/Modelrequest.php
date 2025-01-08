@@ -165,6 +165,7 @@
                         where a.org_id='".$orgid."'
                         ".$status."
                         and   a.active='1'
+                        order by created_date asc
                     ";
 
             $recordset = $this->db->query($query);
