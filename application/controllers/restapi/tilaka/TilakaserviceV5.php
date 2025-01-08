@@ -23,7 +23,7 @@
         public function uploadallfile_POST(){
             $responseservice = [];
 
-            $status          = "and a.status_sign ='0'";
+            $status          = "and a.status_sign ='0' limit 50;";
             $result          = $this->md->uploaddata(ORG_ID,$status);
 
             if(!empty($result)){
