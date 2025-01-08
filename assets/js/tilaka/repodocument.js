@@ -125,31 +125,33 @@ function dataupload(){
                 for(var i in result){
                     tableresult +="<tr>";
 
-                    
-
-                    if(result[i].STATUS_SIGN==="0"){
-                        if(result[i].STATUS_FILE==="0"){
-                            tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Upload File</span></td>";
+                    if(result[i].status_sign==="0"){
+                        if(result[i].status_file==="0"){
+                            tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>New Document</span></div><div class='fst-italic small'>Please Upload Document</div></td>";
                         }else{
-                            tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Request Upload Tilaka Lite</span></td>";
+                            tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span></div><div class='fst-italic small'>Waiting Request Upload Tilaka Lite</div></td>";
                         }
                     }else{
-                        if(result[i].STATUS_SIGN==="1"){
-                            tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Request Sign</span></td>"; 
+                        if(result[i].status_sign==="1"){
+                            tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span><div class='fst-italic small'>Waiting Request Sign</div></td>"; 
                         }else{
-                            if(result[i].STATUS_SIGN==="2"){
+                            if(result[i].status_sign==="2"){
                                 tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Sign</span></td>"; 
                             }else{
-                                if(result[i].STATUS_SIGN==="3"){
+                                if(result[i].status_sign==="3"){
                                     tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Execute File</span></td>";
                                 }else{
-                                    if(result[i].STATUS_SIGN==="4"){
+                                    if(result[i].status_sign==="4"){
                                         tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Download File</span></td>"; 
                                     }else{
-                                        if(result[i].STATUS_SIGN==="5"){
+                                        if(result[i].status_sign==="5"){
                                             tableresult +="<td class='ps-4'><span class='badge badge-light-success fs-7 fw-bold'>Finish</span></td>"; 
                                         }else{
-                                            tableresult +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Unknown</span></td>";
+                                            if(result[i].status_sign==="99"){
+                                                tableresult +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Failed Process</span></td>"; 
+                                            }else{
+                                                tableresult +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Unknown</span></td>";
+                                            }
                                         }
                                     }
                                 }
@@ -157,42 +159,44 @@ function dataupload(){
                         }
                     }
 
-                    if(result[i].STATUS_SIGN==="0"){
-                        if(result[i].SOURCE_FILE==="DTECHNOLOGY"){
-                            if(result[i].STATUS_FILE==="0"){
-                                tableresult +="<td><div>"+(result[i].jenisdocumen ? result[i].jenisdocumen : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].NO_FILE+"' onclick='uploadfile(this)'>"+(result[i].NO_FILE ? result[i].NO_FILE : "-")+"</a></div><div>"+(result[i].FILENAME ? result[i].FILENAME : "-")+"</div></td>";
+                    if(result[i].status_sign==="0"){
+                        if(result[i].source_file==="DTECHNOLOGY"){
+                            if(result[i].status_sign==="0"){
+                                tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].no_file+"' onclick='uploadfile(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
                             }else{
-                                tableresult +="<td><div>"+(result[i].jenisdocumen ? result[i].jenisdocumen : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].NO_FILE ? result[i].NO_FILE : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].NO_FILE ? result[i].NO_FILE : "-")+"</a></div><div>"+(result[i].FILENAME ? result[i].FILENAME : "-")+"</div></td>";
+                                tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
                             }
                         }else{
-                            tableresult +="<td><div>"+(result[i].jenisdocumen ? result[i].jenisdocumen : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].NO_FILE ? result[i].NO_FILE : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].NO_FILE ? result[i].NO_FILE : "-")+"</a></div><div>"+(result[i].FILENAME ? result[i].FILENAME : "-")+"</div></td>";
+                            tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
                         }
                     }else{
                         if(result[i].SOURCE_FILE==="DTECHNOLOGY"){
-                            tableresult +="<td><div>"+(result[i].jenisdocumen ? result[i].jenisdocumen : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].NO_FILE ? result[i].NO_FILE : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].NO_FILE ? result[i].NO_FILE : "-")+"</a></div><div>"+(result[i].FILENAME ? result[i].FILENAME : "-")+"</div></td>";
+                            tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
                         }else{
-                            tableresult +="<td><div>"+(result[i].jenisdocumen ? result[i].jenisdocumen : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].NO_FILE ? result[i].NO_FILE : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].NO_FILE ? result[i].NO_FILE : "-")+"</a></div><div>"+(result[i].FILENAME ? result[i].FILENAME : "-")+"</div></td>";
+                            tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
                         }
                     }
                     
                     tableresult +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
                     tableresult +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
-                    tableresult +="<td><div>"+(result[i].createdby ? result[i].createdby : "")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
-                    tableresult += "<td class='pe-4 text-end'>";
-                    tableresult += "<button type='button' class='btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px' data-kt-table-widget-4='expand_row'>";
-                    tableresult += "<i class='bi bi-plus fs-4 m-0 toggle-off'></i>";
-                    tableresult += "<i class='bi bi-dash fs-4 m-0 toggle-on'></i>";
-                    tableresult += "</button>";
-                    tableresult +="</tr>";
+                    tableresult +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
+                    tableresult +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
+                    
+                    // tableresult += "<td class='pe-4 text-end'>";
+                    // tableresult += "<button type='button' class='btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px' data-kt-table-widget-4='expand_row'>";
+                    // tableresult += "<i class='bi bi-plus fs-4 m-0 toggle-off'></i>";
+                    // tableresult += "<i class='bi bi-dash fs-4 m-0 toggle-on'></i>";
+                    // tableresult += "</button>";
+                    // tableresult +="</tr>";
 
-                    tableresult += "<tr class='d-none'>";
-                    tableresult += "<td colspan='7'>";
-                    tableresult += "<div class='row col-md-12'>";
-                    tableresult += "<h6>Response</h6>";
-                    tableresult += "<textarea data-kt-autosize='true' class='form-control form-control-solid' readonly>" + (result[i].NOTE ? result[i].NOTE : "") + "</textarea>";
-                    tableresult += "</div>";
-                    tableresult += "</td>";
-                    tableresult += "</tr>";
+                    // tableresult += "<tr class='d-none'>";
+                    // tableresult += "<td colspan='7'>";
+                    // tableresult += "<div class='row col-md-12'>";
+                    // tableresult += "<h6>Response</h6>";
+                    // tableresult += "<textarea data-kt-autosize='true' class='form-control form-control-solid' readonly>" + (result[i].NOTE ? result[i].NOTE : "") + "</textarea>";
+                    // tableresult += "</div>";
+                    // tableresult += "</td>";
+                    // tableresult += "</tr>";
 
                     jml ++;
                 }
@@ -201,47 +205,46 @@ function dataupload(){
             $("#resultrepodocument").html(tableresult);
             $("#info_list_document").html(jml+" Document");
 
-            document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
-                button.addEventListener('click', function() {
-                    const tr = this.closest('tr');
-                    const nextTr = tr.nextElementSibling;
+            // document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
+            //     button.addEventListener('click', function() {
+            //         const tr = this.closest('tr');
+            //         const nextTr = tr.nextElementSibling;
             
-                    // Check if the next row is expanded
-                    const isExpanded = !nextTr.classList.contains('d-none');
+            //         // Check if the next row is expanded
+            //         const isExpanded = !nextTr.classList.contains('d-none');
             
-                    // Close any previously expanded rows if it's not the same row that is clicked
-                    if (!isExpanded) {
-                        document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
-                            openRow.classList.add('d-none');
-                            openRow.removeAttribute('data-kt-table-widget-4');
+            //         // Close any previously expanded rows if it's not the same row that is clicked
+            //         if (!isExpanded) {
+            //             document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
+            //                 openRow.classList.add('d-none');
+            //                 openRow.removeAttribute('data-kt-table-widget-4');
             
-                            const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
-                            if (openButton) {
-                                openButton.classList.remove('active');
-                                openButton.closest('tr').setAttribute('aria-expanded', 'false');
-                            }
-                        });
-                    }
+            //                 const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
+            //                 if (openButton) {
+            //                     openButton.classList.remove('active');
+            //                     openButton.closest('tr').setAttribute('aria-expanded', 'false');
+            //                 }
+            //             });
+            //         }
             
-                    // Toggle the clicked row
-                    if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
-                        if (isExpanded) {
-                            nextTr.classList.add('d-none');
-                            tr.setAttribute('aria-expanded', 'false');
-                            nextTr.removeAttribute('data-kt-table-widget-4');
-                            this.classList.remove('active'); // Remove the active class from the button
-                        } else {
-                            nextTr.classList.remove('d-none');
-                            tr.setAttribute('aria-expanded', 'true');
-                            nextTr.setAttribute('data-kt-table-widget-4', 'subtable_template');
-                            this.classList.add('active'); // Add the active class to the button
-                        }
-                    }
-                });
-            });
+            //         // Toggle the clicked row
+            //         if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
+            //             if (isExpanded) {
+            //                 nextTr.classList.add('d-none');
+            //                 tr.setAttribute('aria-expanded', 'false');
+            //                 nextTr.removeAttribute('data-kt-table-widget-4');
+            //                 this.classList.remove('active'); // Remove the active class from the button
+            //             } else {
+            //                 nextTr.classList.remove('d-none');
+            //                 tr.setAttribute('aria-expanded', 'true');
+            //                 nextTr.setAttribute('data-kt-table-widget-4', 'subtable_template');
+            //                 this.classList.add('active'); // Add the active class to the button
+            //             }
+            //         }
+            //     });
+            // });
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
-
         },
         error: function(xhr, status, error) {
             toastr["error"]("Terjadi kesalahan : "+error, "Opps !");

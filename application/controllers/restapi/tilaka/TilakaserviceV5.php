@@ -21,89 +21,160 @@
         }
 
         public function uploadallfile_POST(){
-            $summaryresponse = [];
             $responseservice = [];
 
-            $status ="and a.status_sign ='0' order by note asc limit 50;";
-            $result = $this->md->dataupload(ORG_ID,$status);
-            
+            $status          = "and a.status_sign ='0'";
+            $result          = $this->md->uploaddata(ORG_ID,$status);
+
             if(!empty($result)){
                 foreach($result as $a){
-                    $response                 = [];
-                    $responseall              = [];
-                    $data                     = [];
-                    $bodycheckcertificate     = [];
-                    $responsecheckcertificate = [];
-                    $location                 = "";
+                    $location = "";
+                    $listfile = [];
+                    $filesize = 0;
 
-                    $responseall['NoFile']                   = $a->NO_FILE;
-                    $responseall['Type']                     = $a->jenisdocumen;
-                    $responseall['Directory']                = $location;
-                    $responseall['Source']                   = $a->SOURCE_FILE;
-                    $responseall['Assign']['UserIdentifier'] = $a->useridentifier;
-                    $responseall['Assign']['Name']           = $a->assignname;
-                    
-                    if($a->SOURCE_FILE==="DTECHNOLOGY"){
-                        $location = FCPATH."/assets/document/".$a->NO_FILE.".pdf";
+                    if($a->source_file==="DTECHNOLOGY"){
+                        $location = FCPATH."assets/document/".$a->no_file.".pdf";
                     }else{
-                        $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
+                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
                     }
 
                     if(file_exists($location)){
-                        $fileSize = 0;
-                        $fileSize = filesize($location);
-
-                        if($fileSize!=0){
+                        $filesize = filesize($location);
+                        if($filesize!=0){
                             $bodycheckcertificate['user_identifier']=$a->useridentifier;
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
-                                        $response = Tilaka::uploadfile($location);
-                                        if(isset($response['success'])){
-                                            if($response['success']){
-                                                $data['NOTE']            = "";
-                                                $data['FILENAME']        = $response['filename'];
-                                                $data['USER_IDENTIFIER'] = $a->useridentifier;
-                                                $data['STATUS_SIGN']     = "1";
+                                        $responseuploadfile = Tilaka::uploadfile($location);
+                                        if(isset($responseuploadfile['success'])){
+                                            if($responseuploadfile['success']){
+                                                $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                                $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                $datasimpanhd['status_sign']     = "1";
+                                                $datasimpanhd['note']            = "";
                                             }
-                                        }else{
-                                            $data['NOTE'] = "Gagal Upload Document";
                                         }
-                                        
-                                        $responseall['ResponseTilaka'] = $response;
-                                    }else{
-                                        $data['NOTE']                  = $responsecheckcertificate['data'][0]['status'];
-                                        $responseall['ResponseTilaka'] = $responsecheckcertificate;
+                                        $listfile['responsetilaka'] = $responseuploadfile;
                                     }
+                                }else{
+                                    $listfile['responsetilaka'] = $responsecheckcertificate;
                                 }
                             }else{
-                                $data['NOTE']                  = "Gagal Check Certificate User";
-                                $responseall['ResponseTilaka'] = $responsecheckcertificate;
+                                $listfile['responsetilaka'] = $responsecheckcertificate;
                             }
                         }else{
-                            $data['ACTIVE']                     = "0";
-                            $data['NOTE']                       = "File Corrupted, File Size : ".$fileSize;
-                            $responseall['ResponseDTechnology'] = "File Corrupted, File Size : ".$fileSize;
+                            $listfile['issue']           = "File Corrupted, File Size : ".$filesize;
+                            $datasimpanhd['status_sign'] = "98";
+                            $datasimpanhd['note']        = "File Corrupted";
                         }
                     }else{
-                        $data['ACTIVE']                                 = "0";
-                        $data['NOTE']                                   = "File Tidak Di Temukan";
-                        $responseall['ResponseDTechnology']['Note']     = "File Tidak Di Temukan";
-                        $responseall['ResponseDTechnology']['Location'] = $location;
+                        $listfile['issue']           = "File not found";
+                        $datasimpanhd['status_sign'] = "99";
+                        $datasimpanhd['note']        = "File not found";
                     }
 
-                    $this->md->updatefile($data,$a->NO_FILE);
-                    $responseservice[]=$responseall;
-                }
-            }else{
-                $responseservice['ResponseDTechnology'] = "Tidak Ada List File Untuk Di Upload Ke Tilaka Lite";
-            }
+                    $this->md->updatefile($datasimpanhd,$a->no_file);
 
-            $summaryresponse[]=$responseservice;
-            $this->response($summaryresponse,REST_Controller::HTTP_OK);
+                    $listfile['nofile']                   = $a->no_file;
+                    $listfile['sourcefile']               = $a->source_file;
+                    $listfile['typedocument']             = $a->jenisdocument;
+                    $listfile['path']                     = $location;
+                    $listfile['filesize']                 = $filesize;
+                    $listfile['signer']['useridentifier'] = $a->useridentifier;
+                    $listfile['signer']['name']           = $a->assignname;
+
+                    $responseservice['listfile'][]=$listfile;
+                }
+            }
+            $this->response($responseservice,REST_Controller::HTTP_OK);
         }
+
+        // public function uploadallfile_POST(){
+        //     $summaryresponse = [];
+        //     $responseservice = [];
+
+        //     $status ="and a.status_sign ='0' order by note asc limit 50;";
+        //     $result = $this->md->dataupload(ORG_ID,$status);
+            
+        //     if(!empty($result)){
+        //         foreach($result as $a){
+        //             $response                 = [];
+        //             $responseall              = [];
+        //             $data                     = [];
+        //             $bodycheckcertificate     = [];
+        //             $responsecheckcertificate = [];
+        //             $location                 = "";
+
+        //             $responseall['NoFile']                   = $a->NO_FILE;
+        //             $responseall['Type']                     = $a->jenisdocumen;
+        //             $responseall['Directory']                = $location;
+        //             $responseall['Source']                   = $a->SOURCE_FILE;
+        //             $responseall['Assign']['UserIdentifier'] = $a->useridentifier;
+        //             $responseall['Assign']['Name']           = $a->assignname;
+                    
+        //             if($a->SOURCE_FILE==="DTECHNOLOGY"){
+        //                 $location = FCPATH."/assets/document/".$a->NO_FILE.".pdf";
+        //             }else{
+        //                 $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
+        //             }
+
+        //             if(file_exists($location)){
+        //                 $fileSize = 0;
+        //                 $fileSize = filesize($location);
+
+        //                 if($fileSize!=0){
+        //                     $bodycheckcertificate['user_identifier']=$a->useridentifier;
+        //                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+
+        //                     if(isset($responsecheckcertificate['success'])){
+        //                         if($responsecheckcertificate['success']){
+        //                             if($responsecheckcertificate['status']===3){
+        //                                 $response = Tilaka::uploadfile($location);
+        //                                 if(isset($response['success'])){
+        //                                     if($response['success']){
+        //                                         $data['NOTE']            = "";
+        //                                         $data['FILENAME']        = $response['filename'];
+        //                                         $data['USER_IDENTIFIER'] = $a->useridentifier;
+        //                                         $data['STATUS_SIGN']     = "1";
+        //                                     }
+        //                                 }else{
+        //                                     $data['NOTE'] = "Gagal Upload Document";
+        //                                 }
+                                        
+        //                                 $responseall['ResponseTilaka'] = $response;
+        //                             }else{
+        //                                 $data['NOTE']                  = $responsecheckcertificate['data'][0]['status'];
+        //                                 $responseall['ResponseTilaka'] = $responsecheckcertificate;
+        //                             }
+        //                         }
+        //                     }else{
+        //                         $data['NOTE']                  = "Gagal Check Certificate User";
+        //                         $responseall['ResponseTilaka'] = $responsecheckcertificate;
+        //                     }
+        //                 }else{
+        //                     $data['ACTIVE']                     = "0";
+        //                     $data['NOTE']                       = "File Corrupted, File Size : ".$fileSize;
+        //                     $responseall['ResponseDTechnology'] = "File Corrupted, File Size : ".$fileSize;
+        //                 }
+        //             }else{
+        //                 $data['ACTIVE']                                 = "0";
+        //                 $data['NOTE']                                   = "File Tidak Di Temukan";
+        //                 $responseall['ResponseDTechnology']['Note']     = "File Tidak Di Temukan";
+        //                 $responseall['ResponseDTechnology']['Location'] = $location;
+        //             }
+
+        //             $this->md->updatefile($data,$a->NO_FILE);
+        //             $responseservice[]=$responseall;
+        //         }
+        //     }else{
+        //         $responseservice['ResponseDTechnology'] = "Tidak Ada List File Untuk Di Upload Ke Tilaka Lite";
+        //     }
+
+        //     $summaryresponse[]=$responseservice;
+        //     $this->response($summaryresponse,REST_Controller::HTTP_OK);
+        // }
 
         public function requestsign_POST(){
             $summaryresponse = [];

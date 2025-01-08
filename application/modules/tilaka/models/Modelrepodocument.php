@@ -6,27 +6,16 @@
                     "
                         select x.*
                         from(
-                            select a.NO_FILE, FILENAME, STATUS_SIGN, STATUS_FILE, LINK, NOTE, SOURCE_FILE, created_date, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
-                                    (select USER_IDENTIFIER from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
-                                    (select NAME from dt01_gen_user_data where active='1' and nik=a.assign)assignname,
-                                     (select NAME from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
-                                    (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
+                            select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
+                                    (select user_identifier from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
+                                    (select name            from dt01_gen_user_data where active='1' and nik=a.assign)assignname,
+                                    (select name            from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
+                                    (select document_name   from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument
                             from dt01_gen_document_file_dt a
-                            where a.status_sign<>'0'
-                            ".$parameter." 
-                            and a.created_date >= NOW() - INTERVAL 3 DAY
-                            and a.active='1'
-                            union
-                            select a.NO_FILE, FILENAME, STATUS_SIGN, STATUS_FILE, LINK, NOTE, SOURCE_FILE, created_date, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
-                                    (select USER_IDENTIFIER from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
-                                    (select NAME from dt01_gen_user_data where active='1' and nik=a.assign)assignname,
-                                     (select NAME from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
-                                    (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
-                            from dt01_gen_document_file_dt a
-                            where a.status_sign='0'
+                            where a.status_sign in ('0','1')
                             ".$parameter."
                             and   a.active='1'
-                            and   a.assign  = (select assign from dt01_gen_user_data where org_id=a.org_id and active='1' and nik=a.assign and user_identifier<>'')
+                            and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         )x
                         order by created_date desc
                     ";
@@ -35,6 +24,41 @@
             $recordset = $recordset->result();
             return $recordset;
         }
+
+        // function dataupload($parameter){
+        //     $query =
+        //             "
+        //                 select x.*
+        //                 from(
+        //                     select a.NO_FILE, FILENAME, STATUS_SIGN, STATUS_FILE, LINK, NOTE, SOURCE_FILE, created_date, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
+        //                             (select USER_IDENTIFIER from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
+        //                             (select NAME from dt01_gen_user_data where active='1' and nik=a.assign)assignname,
+        //                              (select NAME from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
+        //                             (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
+        //                     from dt01_gen_document_file_dt a
+        //                     where a.status_sign<>'0'
+        //                     ".$parameter." 
+        //                     and a.created_date >= NOW() - INTERVAL 3 DAY
+        //                     and a.active='1'
+        //                     union
+        //                     select a.NO_FILE, FILENAME, STATUS_SIGN, STATUS_FILE, LINK, NOTE, SOURCE_FILE, created_date, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
+        //                             (select USER_IDENTIFIER from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
+        //                             (select NAME from dt01_gen_user_data where active='1' and nik=a.assign)assignname,
+        //                              (select NAME from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
+        //                             (select DOCUMENT_NAME from dt01_gen_document_ms where active='1' and JENIS_DOC=a.JENIS_DOC)jenisdocumen
+        //                     from dt01_gen_document_file_dt a
+        //                     where a.status_sign='0'
+        //                     ".$parameter."
+        //                     and   a.active='1'
+        //                     and   a.assign  = (select assign from dt01_gen_user_data where org_id=a.org_id and active='1' and nik=a.assign and user_identifier<>'')
+        //                 )x
+        //                 order by created_date desc
+        //             ";
+
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
 
         function checkroleaccess($orgid,$userid){
             $query =
