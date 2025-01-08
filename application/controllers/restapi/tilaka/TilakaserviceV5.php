@@ -90,6 +90,8 @@
 
                     $responseservice['listfile'][]=$listfile;
                 }
+            }else{
+                $responseservice['ResponseDTechnology'] = "Tidak Ada List File Untuk Di Upload Ke Tilaka Lite";
             }
             $this->response($responseservice,REST_Controller::HTTP_OK);
         }
