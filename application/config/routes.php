@@ -19,7 +19,7 @@
 
     $route['pegawai']            = 'restapi/Khanza/pegawai';
     
-    $route['masterDomisili']     = 'restapi/satusehat/MasterDomisili/domisili';
+    $route['masterDomisili'] = 'restapi/satusehat/MasterDomisili/domisili';
 
     $route['ReceiveData/(:any)']          = 'restapi/aktivo/Leka/ReceiveData/$1';
     $route['ListExamination/(:any)']      = 'restapi/aktivo/Leka/ListExamination/$1';

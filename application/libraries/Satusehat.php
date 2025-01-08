@@ -33,21 +33,21 @@
             return json_decode($responsecurl,TRUE); 
         }
 
-        // public static function masterdomisili($parameter){
-        //     $testing = Satusehat::oauth();
-        //     $header = array("Content-Type: application/json","Authorization: Bearer ".Satusehat::oauth()['access_token']);
+        public static function masterdomisili($parameter){
+            $testing = Satusehat::oauth();
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Satusehat::oauth()['access_token']);
 
-        //     $responsecurl = curl([
-        //         'url'     => SATUSEHAT_BASE_URL."/masterdata/v1/".$parameter,
-        //         'method'  => "GET",
-        //         'header'  => $header,
-        //         'body'    => "",
-        //         'savelog' => true,
-        //         'source'  => "SATUSEHAT-MASTERDOMISILI"
-        //     ]);
+            $responsecurl = curl([
+                'url'     => SATUSEHAT_BASE_URL."/masterdata/v1/".$parameter,
+                'method'  => "GET",
+                'header'  => $header,
+                'body'    => "",
+                'savelog' => true,
+                'source'  => "SATUSEHAT-MASTERDOMISILI"
+            ]);
 
-        //     return json_decode($responsecurl,TRUE); 
-        // }
+            return json_decode($responsecurl,TRUE); 
+        }
         
         public static function postbundle($body){
             $header = array("Content-Type: application/json","Authorization: Bearer ".Satusehat::oauth()['access_token']);
