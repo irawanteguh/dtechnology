@@ -79,7 +79,9 @@
                         $datasimpanhd['url']             = "";
                     }
 
-                    $this->md->updatefile($datasimpanhd,$a->no_file);
+                    if(!empty($datasimpanhd)){
+                        $this->md->updatefile($datasimpanhd, $a->no_file);
+                    }
 
                     $listfile['nofile']                   = $a->no_file;
                     $listfile['sourcefile']               = $a->source_file;
