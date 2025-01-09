@@ -14,6 +14,7 @@
                         and   a.org_id      = '".$orgid."'
                         and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         ".$status."
+                        order by created_date asc
                     ";
 
             $recordset = $this->db->query($query);
