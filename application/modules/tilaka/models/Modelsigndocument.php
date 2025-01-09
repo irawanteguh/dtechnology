@@ -1,21 +1,21 @@
 <?php
     class Modelsigndocument extends CI_Model{
 
-        function dataexecutesign($parameter){
+        function datasigndocument($parameter){
             $query =
                     "
-                        select distinct a.REQUEST_ID, USER_IDENTIFIER, URL, STATUS_SIGN,
-                            (select NAME from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)name,
-                            (select NIK from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)nik,
-                            (select IDENTITY_NO from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)noktp,
-                            (select EMAIL from dt01_gen_user_data where active='1' and USER_IDENTIFIER=a.USER_IDENTIFIER)email,
-                            (select count(request_id) from dt01_gen_document_file_dt where org_id=a.org_id and active='1' and status_sign in ('2','3') and user_identifier<>'' and request_id=a.request_id)jmlfile
+                        select distinct a.request_id, user_identifier, url, status_sign, count(no_file)jmlfile,
+                            (select name from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)name,
+                            (select nik from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)nik,
+                            (select identity_no from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)noktp,
+                            (select email from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)email
 
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.status_sign in ('2','3')
                         and   a.user_identifier<>''
                         ".$parameter."
+                        group by request_id, user_identifier, url, status_sign
                         order by created_date desc
                     ";
 
@@ -40,35 +40,35 @@
             return $recordset;
         }
 
-        function checkuseridentifier($orgid,$userid){
-            $query =
-                    "
-                        select a.user_identifier
-                        from dt01_gen_user_data a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
-                        and   a.user_id='".$userid."'
-                    ";
+        // function checkuseridentifier($orgid,$userid){
+        //     $query =
+        //             "
+        //                 select a.user_identifier
+        //                 from dt01_gen_user_data a
+        //                 where a.active='1'
+        //                 and   a.org_id='".$orgid."'
+        //                 and   a.user_id='".$userid."'
+        //             ";
 
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
 
-        function checkissueid($orgid,$issueid){
-            $query =
-                    "
-                        select a.*
-                        from dt01_gen_user_data a
-                        where a.org_id='".$orgid."'
-                        and   a.active='1'
-                        and   a.issue_id='".$issueid."'
-                    ";
+        // function checkissueid($orgid,$issueid){
+        //     $query =
+        //             "
+        //                 select a.*
+        //                 from dt01_gen_user_data a
+        //                 where a.org_id='".$orgid."'
+        //                 and   a.active='1'
+        //                 and   a.issue_id='".$issueid."'
+        //             ";
 
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->row();
-            return $recordset;
-        }
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->row();
+        //     return $recordset;
+        // }
 
         function updatefile($data,$urlid){           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("REQUEST_ID"=>$urlid));

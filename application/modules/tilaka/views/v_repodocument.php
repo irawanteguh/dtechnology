@@ -30,21 +30,53 @@
                 </div>
 			</div>
 			<div class="card-body py-3">
-				<div class="table-responsive">
-					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
-						<thead>
-							<tr class="fw-bolder text-muted bg-light align-middle">
-								<th class="ps-4 rounded-start">Status</th>
-								<th>Filename</th>
-								<th>Information</th>
-								<th>Assign By</th>
-								<th>Response</th>
-								<th class="pe-4 text-end rounded-end">Created</th>
-							</tr>
-						</thead>
-						<tbody class="text-gray-600 fw-bold" id="resultrepodocument"></tbody>
-					</table>
-				</div>
+				<ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tabonprocess">On Process</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabhold">Hold</a>
+                    </li>
+                </ul>
+
+				<div class="tab-content">
+                    <div class="tab-pane fade show active" id="tabonprocess" role="tabpanel">
+						<div class="table-responsive">
+							<table class="table align-middle table-row-dashed fs-6 gy-2">
+								<thead>
+									<tr class="fw-bolder text-muted bg-light align-middle">
+										<th class="ps-4 rounded-start">Status</th>
+										<th>Filename</th>
+										<th>Information</th>
+										<th>Assign By</th>
+										<th>Response</th>
+										<th class="pe-4 text-end rounded-end">Created</th>
+									</tr>
+								</thead>
+								<tbody class="text-gray-600 fw-bold" id="resultrepodocumentonprocess"></tbody>
+							</table>
+						</div>
+                    </div>
+                    <div class="tab-pane fade" id="tabhold" role="tabpanel">
+						<div class="table-responsive">
+							<table class="table align-middle table-row-dashed fs-6 gy-2">
+								<thead>
+									<tr class="fw-bolder text-muted bg-light align-middle">
+										<th class="ps-4 rounded-start">Status</th>
+										<th>Filename</th>
+										<th>Information</th>
+										<th>Assign By</th>
+										<th>Response</th>
+										<th class="pe-4 text-end rounded-end">Created</th>
+									</tr>
+								</thead>
+								<tbody class="text-gray-600 fw-bold" id="resultrepodocumentonhold"></tbody>
+							</table>
+						</div>
+                    </div>
+                </div>
+
+				
 			</div>
 		</div>
 	</div>

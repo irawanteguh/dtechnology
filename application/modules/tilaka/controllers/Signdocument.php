@@ -41,7 +41,7 @@
             }
 		}
 
-		public function dataexecutesign(){
+		public function datasigndocument(){
             $resultcheckroleaccess = $this->md->checkroleaccess($_SESSION['orgid'],$_SESSION['userid']);
 
             if(!empty($resultcheckroleaccess)){
@@ -51,7 +51,7 @@
                 $parameter ="and a.org_id='".$_SESSION['orgid']."' and user_identifier='".$resultcheckuseridentifier[0]->user_identifier."'";
             }
 
-            $result = $this->md->dataexecutesign($parameter);
+            $result = $this->md->datasigndocument($parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

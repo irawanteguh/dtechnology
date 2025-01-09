@@ -12,9 +12,8 @@
                                     (select name            from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
                                     (select document_name   from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument
                             from dt01_gen_document_file_dt a
-                            where a.status_sign in ('0','1')
+                            where a.active='1'
                             ".$parameter."
-                            and   a.active='1'
                             and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         )x
                         order by created_date desc
@@ -113,7 +112,7 @@
         }
 
         function updatefile($data,$nofile){           
-            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("NO_FILE"=>$nofile));
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile));
             return $sql;
         }
 
