@@ -34,6 +34,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" data-bs-toggle="tab" href="#tabonprocess">On Process</a>
                     </li>
+					<li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabfinish">Finish</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabhold">Hold</a>
                     </li>
@@ -54,6 +57,23 @@
 									</tr>
 								</thead>
 								<tbody class="text-gray-600 fw-bold" id="resultrepodocumentonprocess"></tbody>
+							</table>
+						</div>
+                    </div>
+					<div class="tab-pane fade show" id="tabfinish" role="tabpanel">
+						<div class="table-responsive">
+							<table class="table align-middle table-row-dashed fs-6 gy-2">
+								<thead>
+									<tr class="fw-bolder text-muted bg-light align-middle">
+										<th class="ps-4 rounded-start">Status</th>
+										<th>Filename</th>
+										<th>Information</th>
+										<th>Assign By</th>
+										<th>Response</th>
+										<th class="pe-4 text-end rounded-end">Created</th>
+									</tr>
+								</thead>
+								<tbody class="text-gray-600 fw-bold" id="resultrepodocumentfinish"></tbody>
 							</table>
 						</div>
                     </div>

@@ -116,77 +116,17 @@ function dataupload(){
             toastr["info"]("Sending request...", "Please wait");
         },
         success:function(data){
-            var result          = "";
-            var tableresult     = "";
-            var tableresulthold = "";
-            var jml             = 0;
+            var result            = "";
+            var tableresult       = "";
+            var tableresulthold   = "";
+            var tableresultfinish = "";
+            var jml               = 0;
 
             if(data.responCode==="00"){
                 result = data.responResult;
 
                 for(var i in result){
-                    if(result[i].status_sign!="99"){
-                        tableresult +="<tr>";
-
-                        if(result[i].status_sign==="0"){
-                            if(result[i].status_file==="0"){
-                                tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>New Document</span></div><div class='fst-italic small'>Please Upload Document</div></td>";
-                            }else{
-                                tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span></div><div class='fst-italic small'>Waiting Request Upload Tilaka Lite</div></td>";
-                            }
-                        }else{
-                            if(result[i].status_sign==="1"){
-                                tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span><div class='fst-italic small'>Waiting Request Sign</div></td>"; 
-                            }else{
-                                if(result[i].status_sign==="2"){
-                                    tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Sign</span></td>"; 
-                                }else{
-                                    if(result[i].status_sign==="3"){
-                                        tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Signing Success</span></div><div class='fst-italic small'>Waiting Execute Sign</div></td>";
-                                    }else{
-                                        if(result[i].status_sign==="4"){
-                                            tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Download File</span></td>"; 
-                                        }else{
-                                            if(result[i].status_sign==="5"){
-                                                tableresult +="<td class='ps-4'><span class='badge badge-light-success fs-7 fw-bold'>Finish</span></td>"; 
-                                            }else{
-                                                if(result[i].status_sign==="99"){
-                                                    tableresult +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Failed Process</span></td>"; 
-                                                }else{
-                                                    tableresult +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Unknown</span></td>";
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-    
-                        if(result[i].status_sign==="0"){
-                            if(result[i].source_file==="DTECHNOLOGY"){
-                                if(result[i].status_sign==="0"){
-                                    tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].no_file+"' onclick='uploadfile(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-                                }else{
-                                    tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-                                }
-                            }else{
-                                tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-                            }
-                        }else{
-                            if(result[i].SOURCE_FILE==="DTECHNOLOGY"){
-                                tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-                            }else{
-                                tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-                            }
-                        }
-                        
-                        tableresult +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
-                        tableresult +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
-                        tableresult +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
-                        tableresult +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
-                        
-                        tableresult +="</tr>";
-                    }else{
+                    if(result[i].status_sign==="99"){
                         tableresulthold +="<tr>";
 
                         if(result[i].status_sign==="0"){
@@ -247,6 +187,130 @@ function dataupload(){
                         tableresulthold +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
                         
                         tableresulthold +="</tr>";
+                    }else{
+                        if(result[i].status_sign==="5"){
+                            tableresultfinish +="<tr>";
+
+                            if(result[i].status_sign==="0"){
+                                if(result[i].status_file==="0"){
+                                    tableresultfinish +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>New Document</span></div><div class='fst-italic small'>Please Upload Document</div></td>";
+                                }else{
+                                    tableresultfinish +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span></div><div class='fst-italic small'>Waiting Request Upload Tilaka Lite</div></td>";
+                                }
+                            }else{
+                                if(result[i].status_sign==="1"){
+                                    tableresultfinish +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span><div class='fst-italic small'>Waiting Request Sign</div></td>"; 
+                                }else{
+                                    if(result[i].status_sign==="2"){
+                                        tableresultfinish +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Sign</span></td>"; 
+                                    }else{
+                                        if(result[i].status_sign==="3"){
+                                            tableresultfinish +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Signing Success</span></div><div class='fst-italic small'>Waiting Execute Sign</div></td>";
+                                        }else{
+                                            if(result[i].status_sign==="4"){
+                                                tableresultfinish +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Download File</span></td>"; 
+                                            }else{
+                                                if(result[i].status_sign==="5"){
+                                                    tableresultfinish +="<td class='ps-4'><span class='badge badge-light-success fs-7 fw-bold'>Finish</span></td>"; 
+                                                }else{
+                                                    if(result[i].status_sign==="99"){
+                                                        tableresultfinish +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Failed Process</span></td>"; 
+                                                    }else{
+                                                        tableresultfinish +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Unknown</span></td>";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+        
+                            if(result[i].status_sign==="0"){
+                                if(result[i].source_file==="DTECHNOLOGY"){
+                                    if(result[i].status_sign==="0"){
+                                        tableresultfinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].no_file+"' onclick='uploadfile(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                    }else{
+                                        tableresultfinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                    }
+                                }else{
+                                    tableresultfinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                }
+                            }else{
+                                if(result[i].SOURCE_FILE==="DTECHNOLOGY"){
+                                    tableresultfinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                }else{
+                                    tableresultfinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                }
+                            }
+                            
+                            tableresultfinish +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
+                            tableresultfinish +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
+                            tableresultfinish +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
+                            tableresultfinish +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
+                            
+                            tableresultfinish +="</tr>";
+                        }else{
+                            tableresult +="<tr>";
+
+                            if(result[i].status_sign==="0"){
+                                if(result[i].status_file==="0"){
+                                    tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>New Document</span></div><div class='fst-italic small'>Please Upload Document</div></td>";
+                                }else{
+                                    tableresult +="<td class='ps-4'><div><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span></div><div class='fst-italic small'>Waiting Request Upload Tilaka Lite</div></td>";
+                                }
+                            }else{
+                                if(result[i].status_sign==="1"){
+                                    tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Upload File Success</span><div class='fst-italic small'>Waiting Request Sign</div></td>"; 
+                                }else{
+                                    if(result[i].status_sign==="2"){
+                                        tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Sign</span></td>"; 
+                                    }else{
+                                        if(result[i].status_sign==="3"){
+                                            tableresult +="<td class='ps-4'><div><span class='badge badge-light-success fs-7 fw-bold'>Signing Success</span></div><div class='fst-italic small'>Waiting Execute Sign</div></td>";
+                                        }else{
+                                            if(result[i].status_sign==="4"){
+                                                tableresult +="<td class='ps-4'><span class='badge badge-light-info fs-7 fw-bold'>Waiting Download File</span></td>"; 
+                                            }else{
+                                                if(result[i].status_sign==="5"){
+                                                    tableresult +="<td class='ps-4'><span class='badge badge-light-success fs-7 fw-bold'>Finish</span></td>"; 
+                                                }else{
+                                                    if(result[i].status_sign==="99"){
+                                                        tableresult +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Failed Process</span></td>"; 
+                                                    }else{
+                                                        tableresult +="<td class='ps-4'><span class='badge badge-light-danger fs-7 fw-bold'>Unknown</span></td>";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+        
+                            if(result[i].status_sign==="0"){
+                                if(result[i].source_file==="DTECHNOLOGY"){
+                                    if(result[i].status_sign==="0"){
+                                        tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].no_file+"' onclick='uploadfile(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                    }else{
+                                        tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                    }
+                                }else{
+                                    tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                }
+                            }else{
+                                if(result[i].SOURCE_FILE==="DTECHNOLOGY"){
+                                    tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                }else{
+                                    tableresult +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
+                                }
+                            }
+                            
+                            tableresult +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
+                            tableresult +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
+                            tableresult +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
+                            tableresult +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
+                            
+                            tableresult +="</tr>";
+                        }
                     }
 
                     
@@ -271,10 +335,9 @@ function dataupload(){
                 }
             }
 
-            alert(tableresulthold);
-
             $("#resultrepodocumentonprocess").html(tableresult);
             $("#resultrepodocumentonhold").html(tableresulthold);
+            $("#resultrepodocumentfinish").html(tableresultfinish);
             $("#info_list_document").html(jml+" Document");
 
             // document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
