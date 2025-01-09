@@ -352,6 +352,8 @@ function datadetail(data_nopemesanan,data_status) {
             let tablepo     = "";
             let tfoot       = "";
             let tfootpo     = "";
+            let ttdkains    = "";
+            let ttdmanager  = "";
             let totalvat    = 0;
             let grandtotal  = 0;
 
@@ -408,6 +410,9 @@ function datadetail(data_nopemesanan,data_status) {
 
                     totalvat   += vatAmount;
                     grandtotal += subtotal;
+
+                    ttdkains   = result[i].createdby;
+                    ttdmanager = result[i].manager;
                 }
 
                 tfoot = `<tr><th class='ps-4' colspan='8'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
@@ -420,6 +425,9 @@ function datadetail(data_nopemesanan,data_status) {
 
             $("#resultdetailpo").html(tablepo);
             // $("#resultdetailfootpo").html(tfootpo);
+
+            $("#ttdkains").html(ttdkains);
+            $("#ttdmanager").html(ttdmanager);
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },

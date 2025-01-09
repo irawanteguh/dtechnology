@@ -185,8 +185,8 @@
                             <td>dr. Abdul Robby Azhadi MARS FISQua</td>
                             <td>dr. Leo Pratama Agung</td>
                             <td>Awang Debyansyah, S. Ak. M.M</td>
-                            <td>Nurul Arisanty Harahap, S. KM</td>
-                            <td>Rahmat Hidayat, S.T</td>
+                            <td id="ttdmanager"></td>
+                            <td id="ttdkains"></td>
                         </tr>
                         <tr>
                             <td></td>
