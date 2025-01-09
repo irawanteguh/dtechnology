@@ -26,8 +26,10 @@ assets/documentsupport/*
 assets/documenttemp/*
 !assets/documenttemp/index.html
 
-ssets/invoice/*
+assets/invoice/*
 !assets/invoice/index.html
+
+service/invoice/*
 
 !application/*/.htaccess
 
