@@ -1,6 +1,0 @@
-*/5 * * * * bash /www/wwwroot/dtechnology.192.168.111.227/dtechnology/service/servicetilaka.sh
-
-1.  Setelah kepemilikan diubah, berikan izin untuk membaca dan menulis ke file:
-        - chmod 666 /www/wwwroot/dtechnology.192.168.111.227/dtechnology/service/servicetilaka.log
-2. Jika folder tempat file log berada tidak dapat diakses oleh akun yang digunakan, pastikan folder tersebut juga memiliki izin yang sesuai:
-        - chmod 755 /www/wwwroot/dtechnology.192.168.111.227/dtechnology/service/
