@@ -97,168 +97,46 @@
             $this->response($responseservice,REST_Controller::HTTP_OK);
         }
 
-        // public function uploadallfile_POST(){
-        //     $summaryresponse = [];
-        //     $responseservice = [];
-
-        //     $status ="and a.status_sign ='0' order by note asc limit 50;";
-        //     $result = $this->md->dataupload(ORG_ID,$status);
-            
-        //     if(!empty($result)){
-        //         foreach($result as $a){
-        //             $response                 = [];
-        //             $responseall              = [];
-        //             $data                     = [];
-        //             $bodycheckcertificate     = [];
-        //             $responsecheckcertificate = [];
-        //             $location                 = "";
-
-        //             $responseall['NoFile']                   = $a->NO_FILE;
-        //             $responseall['Type']                     = $a->jenisdocumen;
-        //             $responseall['Directory']                = $location;
-        //             $responseall['Source']                   = $a->SOURCE_FILE;
-        //             $responseall['Assign']['UserIdentifier'] = $a->useridentifier;
-        //             $responseall['Assign']['Name']           = $a->assignname;
-                    
-        //             if($a->SOURCE_FILE==="DTECHNOLOGY"){
-        //                 $location = FCPATH."/assets/document/".$a->NO_FILE.".pdf";
-        //             }else{
-        //                 $location = PATHFILE_GET_TILAKA."/".$a->NO_FILE.".pdf";
-        //             }
-
-        //             if(file_exists($location)){
-        //                 $fileSize = 0;
-        //                 $fileSize = filesize($location);
-
-        //                 if($fileSize!=0){
-        //                     $bodycheckcertificate['user_identifier']=$a->useridentifier;
-        //                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-
-        //                     if(isset($responsecheckcertificate['success'])){
-        //                         if($responsecheckcertificate['success']){
-        //                             if($responsecheckcertificate['status']===3){
-        //                                 $response = Tilaka::uploadfile($location);
-        //                                 if(isset($response['success'])){
-        //                                     if($response['success']){
-        //                                         $data['NOTE']            = "";
-        //                                         $data['FILENAME']        = $response['filename'];
-        //                                         $data['USER_IDENTIFIER'] = $a->useridentifier;
-        //                                         $data['STATUS_SIGN']     = "1";
-        //                                     }
-        //                                 }else{
-        //                                     $data['NOTE'] = "Gagal Upload Document";
-        //                                 }
-                                        
-        //                                 $responseall['ResponseTilaka'] = $response;
-        //                             }else{
-        //                                 $data['NOTE']                  = $responsecheckcertificate['data'][0]['status'];
-        //                                 $responseall['ResponseTilaka'] = $responsecheckcertificate;
-        //                             }
-        //                         }
-        //                     }else{
-        //                         $data['NOTE']                  = "Gagal Check Certificate User";
-        //                         $responseall['ResponseTilaka'] = $responsecheckcertificate;
-        //                     }
-        //                 }else{
-        //                     $data['ACTIVE']                     = "0";
-        //                     $data['NOTE']                       = "File Corrupted, File Size : ".$fileSize;
-        //                     $responseall['ResponseDTechnology'] = "File Corrupted, File Size : ".$fileSize;
-        //                 }
-        //             }else{
-        //                 $data['ACTIVE']                                 = "0";
-        //                 $data['NOTE']                                   = "File Tidak Di Temukan";
-        //                 $responseall['ResponseDTechnology']['Note']     = "File Tidak Di Temukan";
-        //                 $responseall['ResponseDTechnology']['Location'] = $location;
-        //             }
-
-        //             $this->md->updatefile($data,$a->NO_FILE);
-        //             $responseservice[]=$responseall;
-        //         }
-        //     }else{
-        //         $responseservice['ResponseDTechnology'] = "Tidak Ada List File Untuk Di Upload Ke Tilaka Lite";
-        //     }
-
-        //     $summaryresponse[]=$responseservice;
-        //     $this->response($summaryresponse,REST_Controller::HTTP_OK);
-        // }
-
         public function requestsign_POST(){
-            $summaryresponse = [];
             $responseservice = [];
-            $bodycheckcertificate = [];
-            $responsecheckcertificate = [];
 
-            $status ="and a.status_sign ='1' limit 50;";
+            $status = "and   a.status_sign ='1' limit 10;";
             $result = $this->md->listrequestsign(ORG_ID,$status);
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $requestid      = "";
-                    $signatureimage = "";
-                    $response       = [];
-                    $responseall    = [];
-                    $data           = [];
-                    $body           = [];
-                    $signatures     = [];
-                    $nofile         = [];
+                    $requestid  = "";
+                    $listfile   = [];
+                    $body       = [];
+                    $signatures = [];
 
-                    $requestid   = generateuuid();
-
-                    $speciment      = FCPATH."assets/speciment/".ORG_ID.".png";
-                    $qrcode         = file_get_contents($speciment);
-                    $signatureimage = "data:image/png;base64,".base64_encode($qrcode);
-
+                    $requestid = generateuuid();
+                    
                     $signatures['user_identifier'] = $a->user_identifier;
-                    $signatures['signature_image'] = $signatureimage;
+                    $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
 
                     $body['request_id']   = $requestid;
                     $body['signatures'][] = $signatures;
 
-                    $listfile = $this->md->filerequestsign(ORG_ID,$status,$a->assign);
-                    foreach($listfile as $files){
-                        $listpdf           = [];
-                        $listpdfsignatures = [];
-
-                        $nofile[]          = $files->no_file;
+                    $resultfilerequestsign = $this->md->filerequestsign(ORG_ID,$status,$a->assign);
+                    foreach($resultfilerequestsign as $files){
 
                         if($files->source_file==="DTECHNOLOGY"){
                             $filename = FCPATH."assets/document/".$files->no_file.".pdf";
                         }else{
                             $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                         }
-                        
+
                         if(file_exists($filename)){
-                            $pdfParse          = new Pdfparse($filename);
-                            $specimentposition = $pdfParse->findText('$');
+                            if($files->source_file==="DTECHNOLOGY"){
 
-                            if(count($specimentposition['content']) > 0){
-                                foreach ($specimentposition['content']['$'] as $specimen) {
-                                    if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
-                                        $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
-                                        $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
-                                        $page        = floatval($specimen['page']);
-                                    }
-
-                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                                    $listpdfsignatures['location'] = $files->orgname;
-                                    $listpdfsignatures['width'] = floatval(WIDTH);
-                                    $listpdfsignatures['height'] = floatval(HEIGHT);
-                                    $listpdfsignatures['coordinate_x'] = $coordinatex;
-                                    $listpdfsignatures['coordinate_y'] = $coordinatey;
-                                    $listpdfsignatures['page_number'] = $page;
-                                    $listpdfsignatures['qrcombine'] = "QRONLY";
-                                    if (CERTIFICATE === "PERSONAL") {
-                                        $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
-                                    }
-                                    $listpdf['filename'] = $files->filename;
-                                    $listpdf['signatures'][] = $listpdfsignatures;
-                                }
-                                $body['list_pdf'][] = $listpdf;
                             }else{
+                                $listpdf           = [];
+                                $listpdfsignatures = [];
+
                                 $coordinatex = floatval(COORDINATE_X);
                                 $coordinatey = floatval(COORDINATE_Y);
                                 $page        = floatval(PAGE);
-
 
                                 $listpdfsignatures['user_identifier'] = $a->user_identifier;
                                 $listpdfsignatures['location']        = $files->orgname;
@@ -269,78 +147,14 @@
                                 $listpdfsignatures['page_number']     = $page;
                                 $listpdfsignatures['qrcombine']       = "QRONLY";
                                 if(CERTIFICATE==="PERSONAL"){
-                                    $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                    $listpdfsignatures['reason'] = "Signed on behalf of ".$files->orgname;
                                 }
+
                                 $listpdf['filename']     = $files->filename;
                                 $listpdf['signatures'][] = $listpdfsignatures;
 
                                 $body['list_pdf'][]=$listpdf;
                             }
-
-
-                            // if($files->source_file==="DTECHNOLOGY"){
-                            //     $pdfParse          = new Pdfparse($filename);
-                            //     $specimentposition = $pdfParse->findText('$');
-        
-                            //     if(count($specimentposition['content']) > 0){
-                            //         foreach ($specimentposition['content']['$'] as $specimen) {
-
-                            //             if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
-                            //                 $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
-                            //                 $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
-                            //                 $page        = floatval($specimen['page']);
-                            //             } else {
-                            //                 $coordinatex = floatval(COORDINATE_X);
-                            //                 $coordinatey = floatval(COORDINATE_Y);
-                            //                 $page        = floatval(PAGE);
-                            //             }
-                                
-                            //             // Membuat array untuk setiap tanda tangan
-                            //             $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                            //             $listpdfsignatures['location'] = $files->orgname;
-                            //             $listpdfsignatures['width'] = floatval(WIDTH);
-                            //             $listpdfsignatures['height'] = floatval(HEIGHT);
-                            //             $listpdfsignatures['coordinate_x'] = $coordinatex;
-                            //             $listpdfsignatures['coordinate_y'] = $coordinatey;
-                            //             $listpdfsignatures['page_number'] = $page;
-                            //             $listpdfsignatures['qrcombine'] = "QRONLY";
-                                
-                            //             if (CERTIFICATE === "PERSONAL") {
-                            //                 $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
-                            //             }
-                                
-                            //             // Menambahkan signature ke dalam array listpdf
-                            //             $listpdf['filename'] = $files->filename;
-                            //             $listpdf['signatures'][] = $listpdfsignatures;
-                            //         }
-                                
-                            //         // Menambahkan pdf ke dalam list_pdf
-                            //         $body['list_pdf'][] = $listpdf;
-                            //     }
-                                
-                            // }else{
-                            //     $coordinatex = floatval(COORDINATE_X);
-                            //     $coordinatey = floatval(COORDINATE_Y);
-                            //     $page        = floatval(PAGE);
-
-
-                            //     $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                            //     $listpdfsignatures['location']        = $files->orgname;
-                            //     $listpdfsignatures['width']           = floatval(WIDTH);
-                            //     $listpdfsignatures['height']          = floatval(HEIGHT);
-                            //     $listpdfsignatures['coordinate_x']    = $coordinatex;
-                            //     $listpdfsignatures['coordinate_y']    = $coordinatey;
-                            //     $listpdfsignatures['page_number']     = $page;
-                            //     $listpdfsignatures['qrcombine']       = "QRONLY";
-                            //     if(CERTIFICATE==="PERSONAL"){
-                            //         $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
-                            //     }
-        
-                            //     $listpdf['filename']     = $files->filename;
-                            //     $listpdf['signatures'][] = $listpdfsignatures;
-
-                            //     $body['list_pdf'][]=$listpdf;
-                            // }
                         }
                     }
 
@@ -350,45 +164,237 @@
                     if(isset($responsecheckcertificate['success'])){
                         if($responsecheckcertificate['success']){
                             if($responsecheckcertificate['status']===3){
-                                $response = Tilaka::requestsign(json_encode($body));
-    
-                                if(isset($response['success'])){
-                                    if($response['success']){
-                                        foreach($response['auth_urls'] as $authurls){
-                                            $data['REQUEST_ID']  = $requestid;
-                                            $data['STATUS_SIGN'] = "2";
-                                            $data['URL']         = $authurls['url'];   
-                                        }
-                                    }else{
-                                        foreach($listfile as $a){
-                                            $data['REQUEST_ID']  = $requestid;
-                                            $data['STATUS_SIGN'] = "0";
-                                            $data['NOTE']        = $response['message'];
-                                        }
-                                    }
-        
-                                    foreach($nofile as $a){
-                                        $this->md->updatefile($data,$a);
-                                    }
-                                }
-                                                 
-                                $responseall['ResponseTilaka'] = $response;
-                            }else{
-                                $responseall['ResponseTilaka'] = $responsecheckcertificate;
+                                $responserequestsign = Tilaka::requestsign(json_encode($body));
+
+                                $listfile['responsetilaka'] = $responserequestsign;
                             }
+                        }else{
+                            $listfile['responsetilaka'] = $responsecheckcertificate;
                         }
+                    }else{
+                        $listfile['responsetilaka'] = $responsecheckcertificate;
                     }
+
+                    $listfile['signer']['assign']         = $a->assign;
+                    $listfile['signer']['name']           = $a->assignname;
+                    $listfile['signer']['useridentifier'] = $a->user_identifier;
+                    $listfile['payload'] = $body;
                     
-                    
-                    $responseservice[]=$responseall;
+                    $responseservice['listfile'][]=$listfile;
                 }
             }else{
-                $responseservice['ResponseDTechnology'] = "Tidak Ada List Untuk Di Lakukan Request Sign";
+                $responseservice['ResponseDTechnology'] = "Tidak Ada List Request Sign";
             }
-
-            $summaryresponse[]=$responseservice;
-            $this->response($summaryresponse,REST_Controller::HTTP_OK);
+            $this->response($responseservice,REST_Controller::HTTP_OK);
         }
+
+        // public function requestsign_POST(){
+        //     $summaryresponse = [];
+        //     $responseservice = [];
+        //     $bodycheckcertificate = [];
+        //     $responsecheckcertificate = [];
+
+        //     $status ="and a.status_sign ='1' limit 50;";
+        //     $result = $this->md->listrequestsign(ORG_ID,$status);
+
+        //     if(!empty($result)){
+        //         foreach($result as $a){
+        //             $requestid      = "";
+        //             $signatureimage = "";
+        //             $response       = [];
+        //             $responseall    = [];
+        //             $data           = [];
+        //             $body           = [];
+        //             $signatures     = [];
+        //             $nofile         = [];
+
+        //             $requestid   = generateuuid();
+
+        //             $speciment      = FCPATH."assets/speciment/".ORG_ID.".png";
+        //             $qrcode         = file_get_contents($speciment);
+        //             $signatureimage = "data:image/png;base64,".base64_encode($qrcode);
+
+        //             $signatures['user_identifier'] = $a->user_identifier;
+        //             $signatures['signature_image'] = $signatureimage;
+
+        //             $body['request_id']   = $requestid;
+        //             $body['signatures'][] = $signatures;
+
+        //             $listfile = $this->md->filerequestsign(ORG_ID,$status,$a->assign);
+        //             foreach($listfile as $files){
+        //                 $listpdf           = [];
+        //                 $listpdfsignatures = [];
+
+        //                 $nofile[]          = $files->no_file;
+
+        //                 if($files->source_file==="DTECHNOLOGY"){
+        //                     $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+        //                 }else{
+        //                     $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+        //                 }
+                        
+        //                 if(file_exists($filename)){
+        //                     $pdfParse          = new Pdfparse($filename);
+        //                     $specimentposition = $pdfParse->findText('$');
+
+        //                     if(count($specimentposition['content']) > 0){
+        //                         foreach ($specimentposition['content']['$'] as $specimen) {
+        //                             if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
+        //                                 $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
+        //                                 $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
+        //                                 $page        = floatval($specimen['page']);
+        //                             }
+
+        //                             $listpdfsignatures['user_identifier'] = $a->user_identifier;
+        //                             $listpdfsignatures['location'] = $files->orgname;
+        //                             $listpdfsignatures['width'] = floatval(WIDTH);
+        //                             $listpdfsignatures['height'] = floatval(HEIGHT);
+        //                             $listpdfsignatures['coordinate_x'] = $coordinatex;
+        //                             $listpdfsignatures['coordinate_y'] = $coordinatey;
+        //                             $listpdfsignatures['page_number'] = $page;
+        //                             $listpdfsignatures['qrcombine'] = "QRONLY";
+        //                             if (CERTIFICATE === "PERSONAL") {
+        //                                 $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+        //                             }
+        //                             $listpdf['filename'] = $files->filename;
+        //                             $listpdf['signatures'][] = $listpdfsignatures;
+        //                         }
+        //                         $body['list_pdf'][] = $listpdf;
+        //                     }else{
+        //                         $coordinatex = floatval(COORDINATE_X);
+        //                         $coordinatey = floatval(COORDINATE_Y);
+        //                         $page        = floatval(PAGE);
+
+
+        //                         $listpdfsignatures['user_identifier'] = $a->user_identifier;
+        //                         $listpdfsignatures['location']        = $files->orgname;
+        //                         $listpdfsignatures['width']           = floatval(WIDTH);
+        //                         $listpdfsignatures['height']          = floatval(HEIGHT);
+        //                         $listpdfsignatures['coordinate_x']    = $coordinatex;
+        //                         $listpdfsignatures['coordinate_y']    = $coordinatey;
+        //                         $listpdfsignatures['page_number']     = $page;
+        //                         $listpdfsignatures['qrcombine']       = "QRONLY";
+        //                         if(CERTIFICATE==="PERSONAL"){
+        //                             $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+        //                         }
+        //                         $listpdf['filename']     = $files->filename;
+        //                         $listpdf['signatures'][] = $listpdfsignatures;
+
+        //                         $body['list_pdf'][]=$listpdf;
+        //                     }
+
+
+        //                     // if($files->source_file==="DTECHNOLOGY"){
+        //                     //     $pdfParse          = new Pdfparse($filename);
+        //                     //     $specimentposition = $pdfParse->findText('$');
+        
+        //                     //     if(count($specimentposition['content']) > 0){
+        //                     //         foreach ($specimentposition['content']['$'] as $specimen) {
+
+        //                     //             if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
+        //                     //                 $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
+        //                     //                 $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
+        //                     //                 $page        = floatval($specimen['page']);
+        //                     //             } else {
+        //                     //                 $coordinatex = floatval(COORDINATE_X);
+        //                     //                 $coordinatey = floatval(COORDINATE_Y);
+        //                     //                 $page        = floatval(PAGE);
+        //                     //             }
+                                
+        //                     //             // Membuat array untuk setiap tanda tangan
+        //                     //             $listpdfsignatures['user_identifier'] = $a->user_identifier;
+        //                     //             $listpdfsignatures['location'] = $files->orgname;
+        //                     //             $listpdfsignatures['width'] = floatval(WIDTH);
+        //                     //             $listpdfsignatures['height'] = floatval(HEIGHT);
+        //                     //             $listpdfsignatures['coordinate_x'] = $coordinatex;
+        //                     //             $listpdfsignatures['coordinate_y'] = $coordinatey;
+        //                     //             $listpdfsignatures['page_number'] = $page;
+        //                     //             $listpdfsignatures['qrcombine'] = "QRONLY";
+                                
+        //                     //             if (CERTIFICATE === "PERSONAL") {
+        //                     //                 $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+        //                     //             }
+                                
+        //                     //             // Menambahkan signature ke dalam array listpdf
+        //                     //             $listpdf['filename'] = $files->filename;
+        //                     //             $listpdf['signatures'][] = $listpdfsignatures;
+        //                     //         }
+                                
+        //                     //         // Menambahkan pdf ke dalam list_pdf
+        //                     //         $body['list_pdf'][] = $listpdf;
+        //                     //     }
+                                
+        //                     // }else{
+        //                     //     $coordinatex = floatval(COORDINATE_X);
+        //                     //     $coordinatey = floatval(COORDINATE_Y);
+        //                     //     $page        = floatval(PAGE);
+
+
+        //                     //     $listpdfsignatures['user_identifier'] = $a->user_identifier;
+        //                     //     $listpdfsignatures['location']        = $files->orgname;
+        //                     //     $listpdfsignatures['width']           = floatval(WIDTH);
+        //                     //     $listpdfsignatures['height']          = floatval(HEIGHT);
+        //                     //     $listpdfsignatures['coordinate_x']    = $coordinatex;
+        //                     //     $listpdfsignatures['coordinate_y']    = $coordinatey;
+        //                     //     $listpdfsignatures['page_number']     = $page;
+        //                     //     $listpdfsignatures['qrcombine']       = "QRONLY";
+        //                     //     if(CERTIFICATE==="PERSONAL"){
+        //                     //         $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+        //                     //     }
+        
+        //                     //     $listpdf['filename']     = $files->filename;
+        //                     //     $listpdf['signatures'][] = $listpdfsignatures;
+
+        //                     //     $body['list_pdf'][]=$listpdf;
+        //                     // }
+        //                 }
+        //             }
+
+        //             $bodycheckcertificate['user_identifier']=$a->user_identifier;
+        //             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+
+        //             if(isset($responsecheckcertificate['success'])){
+        //                 if($responsecheckcertificate['success']){
+        //                     if($responsecheckcertificate['status']===3){
+        //                         $response = Tilaka::requestsign(json_encode($body));
+    
+        //                         if(isset($response['success'])){
+        //                             if($response['success']){
+        //                                 foreach($response['auth_urls'] as $authurls){
+        //                                     $data['REQUEST_ID']  = $requestid;
+        //                                     $data['STATUS_SIGN'] = "2";
+        //                                     $data['URL']         = $authurls['url'];   
+        //                                 }
+        //                             }else{
+        //                                 foreach($listfile as $a){
+        //                                     $data['REQUEST_ID']  = $requestid;
+        //                                     $data['STATUS_SIGN'] = "0";
+        //                                     $data['NOTE']        = $response['message'];
+        //                                 }
+        //                             }
+        
+        //                             foreach($nofile as $a){
+        //                                 $this->md->updatefile($data,$a);
+        //                             }
+        //                         }
+                                                 
+        //                         $responseall['ResponseTilaka'] = $response;
+        //                     }else{
+        //                         $responseall['ResponseTilaka'] = $responsecheckcertificate;
+        //                     }
+        //                 }
+        //             }
+                    
+                    
+        //             $responseservice[]=$responseall;
+        //         }
+        //     }else{
+        //         $responseservice['ResponseDTechnology'] = "Tidak Ada List Untuk Di Lakukan Request Sign";
+        //     }
+
+        //     $summaryresponse[]=$responseservice;
+        //     $this->response($summaryresponse,REST_Controller::HTTP_OK);
+        // }
 
         public function excutesign_POST(){
             $summaryresponse = [];
