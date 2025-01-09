@@ -28,7 +28,6 @@
                                 (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
                         from dt01_gen_document_file_dt a
                         where a.active='1'
-                        and   a.assign='1801144'
                         and   a.org_id='".$orgid."'
                         and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         ".$status."
