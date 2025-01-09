@@ -168,6 +168,8 @@
                                 if(isset($responserequestsign['success'])){
                                     if($responserequestsign['success']){
                                         foreach($resultfilerequestsign as $files){
+                                            $datasimpanhd = [];
+                                            
                                             $datasimpanhd['request_id']  = $requestid;
                                             $datasimpanhd['status_sign'] = "2";
                                             $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
