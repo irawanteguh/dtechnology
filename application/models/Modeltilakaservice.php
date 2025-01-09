@@ -97,17 +97,17 @@
         }
 
         function updatefile($data,$nofile){           
-            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("status_sign"=>"0","no_file"=>$nofile));
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile));
             return $sql;
         }
 
         function updaterequestid($data,$requestid){           
-            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("REQUEST_ID"=>$requestid));
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("request_id"=>$requestid));
             return $sql;
         }
 
         function updatedatauseridentifier($data, $useridentifier){           
-            $sql =   $this->db->update("dt01_gen_user_data",$data,array("USER_IDENTIFIER"=>$useridentifier));
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_identifier"=>$useridentifier));
             return $sql;
         }
 
