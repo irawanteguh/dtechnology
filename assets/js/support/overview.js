@@ -75,7 +75,7 @@ function dataeticket(){
                         tableresult +="<div class='d-flex flex-column'>";
                             tableresult +="<div class='d-flex align-items-center mb-2'>";
                                 tableresult +="<a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' class='text-dark text-hover-primary fs-4 me-3 fw-bold' data-dirfile='"+url+"assets/documentsupport/"+(result[i].trans_id ? result[i].trans_id : "")+".pdf' onclick='viewdoc(this)'>"+result[i].subject+"</a>";
-                                if(result[i].severity==="0"){
+                                if(result[i].severity_id==="0"){
                                     tableresult +="<span class='badge badge-light-success my-1'>Low</span>";
                                 }
                                 if(result[i].attachment==="1"){

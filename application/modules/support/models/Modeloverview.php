@@ -4,7 +4,7 @@
         function dataeticket($orgid,$user){
             $query =
                     "
-                        select a.trans_id, subject, description, status, severity, attachment
+                        select a.trans_id, subject, description, status, severity_id, attachment
                         from dt01_it_support_eticket_hd a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
@@ -22,7 +22,7 @@
         function cekdataeticket($orgid,$transid){
             $query =
                     "
-                        select a.subject, description, status, severity
+                        select a.subject, description, status, severity_id
                         from dt01_it_support_eticket_hd a
                         where a.active='1'
                         and   a.org_id='".$orgid."'

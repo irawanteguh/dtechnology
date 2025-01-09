@@ -28,9 +28,10 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $location = "";
-                    $listfile = [];
-                    $filesize = 0;
+                    $location     = "";
+                    $listfile     = [];
+                    $datasimpanhd = [];
+                    $filesize     = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
