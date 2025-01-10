@@ -8,7 +8,10 @@
                             (select name from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)name,
                             (select nik from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)nik,
                             (select identity_no from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)noktp,
-                            (select email from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)email
+                            (select email from dt01_gen_user_data where active='1' and user_identifier=a.user_identifier)email,
+                            (select master_name     from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=a.status_sign)status,
+                            (select description     from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=a.status_sign)descriptionstatus,
+                            (select color           from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=a.status_sign)colorstatus
 
                         from dt01_gen_document_file_dt a
                         where a.active='1'
@@ -16,7 +19,7 @@
                         and   a.user_identifier<>''
                         ".$parameter."
                         group by request_id, user_identifier, url, status_sign
-                        order by created_date desc
+                        order by status_sign asc, created_date asc
                     ";
 
             $recordset = $this->db->query($query);

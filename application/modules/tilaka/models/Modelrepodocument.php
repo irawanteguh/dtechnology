@@ -4,30 +4,18 @@
         function dataupload($parameter){
             $query =
                     "
-                        select x.*
+                        select x.*,
+                            (select user_identifier from dt01_gen_user_data   where active='1' and nik=x.assign)useridentifier,
+                            (select name            from dt01_gen_user_data   where active='1' and nik=x.assign)assignname,
+                            (select name            from dt01_gen_user_data   where active='1' and user_id=x.created_by)createdby,
+                            (select document_name   from dt01_gen_document_ms where active='1' and jenis_doc=x.jenis_doc)jenisdocument,
+                            (select master_name     from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=x.status_sign)status,
+                            (select description     from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=x.status_sign)descriptionstatus,
+                            (select color           from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=x.status_sign)colorstatus
                         from(
-                            select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
-                                    (select user_identifier from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
-                                    (select name            from dt01_gen_user_data where active='1' and nik=a.assign)assignname,
-                                    (select name            from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
-                                    (select document_name   from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument
+                            select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, assign, created_by, jenis_doc, pasien_idx, transaksi_idx, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam 
                             from dt01_gen_document_file_dt a
                             where a.active='1'
-                            and   a.status_sign in ('0','1','2','3','4')
-                            ".$parameter."
-                            and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
-
-                            union
-
-                            select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam, pasien_idx, transaksi_idx,
-                                    (select user_identifier from dt01_gen_user_data where active='1' and nik=a.assign)useridentifier,
-                                    (select name            from dt01_gen_user_data where active='1' and nik=a.assign)assignname,
-                                    (select name            from dt01_gen_user_data where active='1' and user_id=a.created_by)createdby,
-                                    (select document_name   from dt01_gen_document_ms where active='1' and jenis_doc=a.jenis_doc)jenisdocument
-                            from dt01_gen_document_file_dt a
-                            where a.active='1'
-                            and   a.status_sign not in ('0','1','2','3','4')
-                            -- and   a.created_date >= now() - interval 3 day
                             ".$parameter."
                             and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         )x

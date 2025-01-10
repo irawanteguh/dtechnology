@@ -34,6 +34,13 @@ if (window.location.href !== url+'index.php/auth/sign') {
     });
 };
 
+$('#openInNewTabButton').on('click', function() {
+    var filename = $(this).data('filename');
+    if (filename) {
+        window.open(filename, '_blank');
+    }
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     var form = document.querySelector("#formnewpassword");
     var submitButton = document.querySelector("#kt_new_password_submit");

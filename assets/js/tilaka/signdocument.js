@@ -148,15 +148,10 @@ function datasigndocument(){
                 for(var i in result){
 
                     tableresult +="<tr>";
-                    if(result[i].status_sign==="2"){
-                        tableresult +="<td class='ps-4'><div class='badge badge-light-info fw-bolder'>Request Sign Success</div><div class='fst-italic small'>Waiting Sign User</div></td>";
-                    }else{
-                        tableresult +="<td class='ps-4'><div class='badge badge-light-success fw-bolder'>Signing Success</div><div class='fst-italic small'>Waiting Execute File</div></td>";  
-                    }
+                    tableresult +="<td class='ps-4'><div><span class='badge badge-light-"+result[i].colorstatus+" fs-7 fw-bold'>"+result[i].status+"</span></div><div class='fst-italic small'>"+(result[i].descriptionstatus ? result[i].descriptionstatus : "")+"</div></td>";
                     tableresult +="<td class='text-center'>"+(result[i].jmlfile ? result[i].jmlfile : "")+"</td>";
                     tableresult +="<td>"+(result[i].user_identifier ? result[i].user_identifier : "")+"</td>";
                     tableresult +="<td><div>"+(result[i].name ? result[i].name : "")+"</div><div>"+(result[i].email ? result[i].email : "")+"</div></td>";
-                    // tableresult +="<td><div>"+(result[i].nik ? result[i].nik : "")+"</div><div>"+(result[i].noktp ? result[i].noktp : "")+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
