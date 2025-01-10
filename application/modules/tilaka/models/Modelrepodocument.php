@@ -1,7 +1,7 @@
 <?php
     class Modelrepodocument extends CI_Model{
 
-        function dataupload($parameter){
+        function dataupload($parameter,$startDate,$endDate){
             $query =
                     "
                         select x.*,
@@ -16,6 +16,17 @@
                             select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, assign, created_by, jenis_doc, pasien_idx, transaksi_idx, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam 
                             from dt01_gen_document_file_dt a
                             where a.active='1'
+                            and   a.status_sign not in ('5','99')
+                            ".$parameter."
+                            and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
+
+                            union
+
+                            select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, assign, created_by, jenis_doc, pasien_idx, transaksi_idx, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam 
+                            from dt01_gen_document_file_dt a
+                            where a.active='1'
+                            and   a.status_sign in ('5','99')
+                            and   a.created_date between '".$startDate."' and '".$endDate."'
                             ".$parameter."
                             and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         )x

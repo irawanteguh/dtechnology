@@ -35,6 +35,8 @@
 		}
 
 		public function dataupload(){
+            $startDate             = $this->input->post("startDate");
+            $endDate               = $this->input->post("endDate");
             $resultcheckroleaccess = $this->md->checkroleaccess($_SESSION['orgid'],$_SESSION['userid']);
 
             if(!empty($resultcheckroleaccess)){
@@ -43,7 +45,15 @@
                 $parameter ="and a.org_id='".$_SESSION['orgid']."' and assign='".$_SESSION['username']."' or created_by='".$_SESSION['userid']."'";
             }
 
-            $result = $this->md->dataupload($parameter);
+            if($startDate===null){
+                $startDate = $startDate = date('Y-m-d');
+            }
+
+            if($endDate===null){
+                $endDate = $endDate = date('Y-m-d');
+            }
+
+            $result = $this->md->dataupload($parameter,$startDate,$endDate);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
