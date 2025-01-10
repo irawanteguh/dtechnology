@@ -1,15 +1,14 @@
 <?php
     class Modellogservice extends CI_Model{
 
-        function datalog($orgid,$parameter){
+        function datalog($orgid,$startDate,$endDate){
             $query =
                     "
-                        select a.*, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')CREATEDDATE
+                        select a.*, date_format(created_date,'%d.%m.%Y %H:%i:%s')createddate
                         from dt01_service_api_logs_out a
                         where a.org_id='".$orgid."'
-                        ".$parameter."
+                        and   a.created_date between '".$startDate."' and '".$endDate."'
                         order by request_id desc
-                        limit 20
                     ";
 
             $recordset = $this->db->query($query);

@@ -1,4 +1,38 @@
+let startDate = null;
+let endDate = null;
+
 datalog();
+
+flatpickr('[name="dateperiode"]', {
+    mode: "range", // Mengaktifkan mode range
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate: "today",
+    onChange: function (selectedDates, dateStr, instance) {
+        // Mendapatkan tanggal sesuai dengan zona waktu lokal
+        const formatDate = (date) => {
+            if (!date) return null;
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`; // Format YYYY-MM-DD
+        };
+
+        startDate = selectedDates[0] ? formatDate(selectedDates[0]) : null;
+        endDate = selectedDates[1] ? formatDate(selectedDates[1]) : null;
+    }
+});
+
+$(document).on("click", ".btn-apply", function (e) {
+    e.preventDefault();
+
+    if (!startDate || !endDate) {
+        toastr["warning"]("Please select a valid date range", "Warning");
+        return;
+    }
+
+    datalog(startDate, endDate);
+});
 
 var processs = function (search) {
     var timeout = setTimeout(function () {
@@ -23,12 +57,13 @@ searchObject = new KTSearch(element);
 searchObject.on("kt.search.process", processs);
 searchObject.on("kt.search.clear", clear);
 
-function datalog(){
+function datalog(startDate,endDate){
     $.ajax({
-        url     : url+"index.php/operation/logservice/datalog",
-        method  : "POST",
-        dataType: "JSON",
-        cache   : false,
+        url       : url+"index.php/operation/logservice/datalog",
+        data      : {startDate:startDate,endDate:endDate},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");

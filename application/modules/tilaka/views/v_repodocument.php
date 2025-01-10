@@ -38,7 +38,7 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#tabfinish">Finish</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabhold">Hold</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabhold">Failed</a>
                     </li>
                 </ul>
 
