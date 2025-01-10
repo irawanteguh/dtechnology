@@ -12,8 +12,27 @@
 			$this->template->load("template/template-sidebar","v_incomedaily.php");
 		}
 
-		public function billing(){
-            $result = $this->md->billing();
+		public function billingcash(){
+            $provider ="and a.kd_pj='A09'";
+            $result = $this->md->billing($provider);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Tidak Di Temukan";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function billingbpjs(){
+            $provider ="and a.kd_pj='BPJ'";
+            $result = $this->md->billing($provider);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

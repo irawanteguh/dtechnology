@@ -24,7 +24,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane fade" id="tabumum" role="tabpanel">
+                    <div class="tab-pane fade" id="tabtotal" role="tabpanel">
                     </div>
                     <div class="tab-pane fade show active" id="tabumum" role="tabpanel">
                         <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
@@ -44,6 +44,27 @@
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultbillingumum"></tbody>
                                 <tfoot class="fw-bolder text-muted bg-light" id="footresultbillingumum"></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabbpjs" role="tabpanel">
+                        <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2 hea">
+                                <thead class="align-middle">
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th class="ps-4 rounded-start">Tanggal</th>
+                                        <th>No Rawat / No Billing</th>
+                                        <th>No RM</th>
+                                        <th>Nama Pasien</th>
+                                        <th>Cara Bayar</th>
+                                        <th>Keterangan</th>
+                                        <th>Poli Klinik / Kamar</th>
+                                        <th>Dokter</th>
+                                        <th class="pe-4 rounded-end">Pembayaran</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultbillingbpjs"></tbody>
+                                <tfoot class="fw-bolder text-muted bg-light" id="footresultbillingbpjs"></tfoot>
                             </table>
                         </div>
                     </div>
