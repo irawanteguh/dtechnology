@@ -4,10 +4,13 @@
             <div class="card-body">
                 <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
                     <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tabanalisa">Analisa</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabtotal">Rekap Total</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#tabumum">Umum</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabumum">Umum</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabbpjs">BPJS</a>
@@ -24,9 +27,26 @@
                 </ul>
 
                 <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tabanalisa" role="tabpanel">
+                        <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2 hea">
+                                <thead class="align-middle">
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th class="ps-4 rounded-start">Poli Klinik</th>
+                                        <th>Nama Dokter</th>
+                                        <th>Beban Rumah Sakit</th>
+                                        <th>Estimasi Klaim</th>
+                                        <th class="pe-4 rounded-end">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultanalisa"></tbody>
+                                <tfoot class="fw-bolder text-muted bg-light" id="footresultanalisa"></tfoot>
+                            </table>
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="tabtotal" role="tabpanel">
                     </div>
-                    <div class="tab-pane fade show active" id="tabumum" role="tabpanel">
+                    <div class="tab-pane fade" id="tabumum" role="tabpanel">
                         <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
                             <table class="table align-middle table-row-dashed fs-6 gy-2 hea">
                                 <thead class="align-middle">
@@ -52,19 +72,51 @@
                             <table class="table align-middle table-row-dashed fs-6 gy-2 hea">
                                 <thead class="align-middle">
                                     <tr class="fw-bolder text-muted bg-light">
+                                        <th class="ps-4 rounded-start rounded-end table-info" colspan="9">OutPatient / Rawat Jalan</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="9"></th>
+                                    </tr>
+                                    <tr class="fw-bolder text-muted bg-light">
                                         <th class="ps-4 rounded-start">Tanggal</th>
-                                        <th>No Rawat / No Billing</th>
+                                        <th>No Rawat / Billing</th>
                                         <th>No RM</th>
                                         <th>Nama Pasien</th>
-                                        <th>Cara Bayar</th>
+                                        <th>Provider</th>
                                         <th>Keterangan</th>
-                                        <th>Poli Klinik / Kamar</th>
+                                        <th>Poli Klinik</th>
                                         <th>Dokter</th>
-                                        <th class="pe-4 rounded-end">Pembayaran</th>
+                                        <th class="pe-4 rounded-end">Estimasi Klaim</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold" id="resultbillingbpjs"></tbody>
-                                <tfoot class="fw-bolder text-muted bg-light" id="footresultbillingbpjs"></tfoot>
+                                <tbody class="text-gray-600 fw-bold" id="resultbillingbpjsrj"></tbody>
+                                <tfoot class="fw-bolder text-muted bg-light" id="footresultbillingbpjsrj"></tfoot>
+                            </table>
+                        </div>
+                        <br>
+                        <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2 hea">
+                                <thead class="align-middle">
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th class="ps-4 rounded-start rounded-end table-info" colspan="9">InPatient / Rawat Inap</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="9"></th>
+                                    </tr>
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th class="ps-4 rounded-start">Tanggal Perawatan</th>
+                                        <th>No Rawat / Billing</th>
+                                        <th>No RM</th>
+                                        <th>Nama Pasien</th>
+                                        <th>Provider</th>
+                                        <th>Keterangan</th>
+                                        <th>Ruangan</th>
+                                        <th>Dokter</th>
+                                        <th class="pe-4 rounded-end">Estimasi Klaim</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultbillingbpjsri"></tbody>
+                                <tfoot class="fw-bolder text-muted bg-light" id="footresultbillingbpjsri"></tfoot>
                             </table>
                         </div>
                     </div>
