@@ -34,9 +34,10 @@
                                     <tr class="fw-bolder text-muted bg-light">
                                         <th class="ps-4 rounded-start">Poli Klinik</th>
                                         <th>Nama Dokter</th>
-                                        <th>Beban Rumah Sakit</th>
-                                        <th>Estimasi Klaim</th>
-                                        <th class="pe-4 rounded-end">Keterangan</th>
+                                        <th class="text-center">Jml Pasien</th>
+                                        <th class="text-end">Beban Rumah Sakit</th>
+                                        <th class="text-end">Estimasi Klaim</th>
+                                        <th class="rounded-end pe-4 text-end">Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultanalisa"></tbody>

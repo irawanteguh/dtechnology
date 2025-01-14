@@ -1,7 +1,7 @@
 <?php
     class Modelincomedaily extends CI_Model{
 
-        function billing($provider){
+        function billing($parameter,$startDate,$endDate){
             $query =
                     "
                         select y.*,
@@ -35,7 +35,7 @@
                             select x.*,
                                 biayareg+biayaobat+biayarad+biayalab+RJtindakanparamedic+RJtindakandokter+RJtindakandokterparamedic+operasi+ranapdokter+ranapdokterparamedic+ranapparamedis+kamar+dokter grandtotal
                             from(
-                                select a.no_rawat, concat(date_format(tgl_registrasi,'%d.%m.%Y'),' ',jam_reg)date, no_rkm_medis norm, status_lanjut, kd_pj, kd_poli,
+                                select a.no_rawat, concat(date_format(tgl_registrasi,'%d.%m.%Y'),' ',jam_reg)date, no_rkm_medis norm, status_lanjut, kd_pj, kd_poli, kd_dokter,
                                     case
                                         when a.status_lanjut = 'Ralan' then
                                         'OutPatient'
@@ -65,10 +65,8 @@
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Dokter')dokter
                                 from reg_periksa a
                                 where a.stts<>'Batal'
-                                ".$provider."
-                                -- and   a.kd_poli='IGDK'
-                                -- and   a.no_rawat in ('2025/01/06/000804','2025/01/06/000796')
-                                and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr='2025-01-06') 
+                                ".$parameter."
+                                and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr between '".$startDate."' and '".$endDate."') 
                             )x
                         )y
                         order by status_lanjut asc, politujuan asc, date asc
@@ -80,10 +78,10 @@
             return $recordset;
         }
 
-        function analisa(){
+        function analisa($startDate,$endDate){
             $query =
                     "
-                        select y.kd_poli, kd_dokter, sum(grandtotal)totalbeban, sum(estimasiklaim)totalestimasi,
+                        select y.kd_poli, kd_dokter, count(jmlpasien)jmlpasien, sum(grandtotal)totalbeban, sum(estimasiklaim)totalestimasi,
                             (select nm_poli   from poliklinik where kd_poli=y.kd_poli)politujuan,
                             (select nm_dokter from dokter     where kd_dokter=y.kd_dokter)namadokter
                         from(
@@ -106,7 +104,7 @@
                                         0 
                                 end estimasiklaim
                             from(
-                                select a.no_rawat, kd_poli, kd_dokter,
+                                select a.no_rawat, kd_poli, kd_dokter, 1 jmlpasien,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Registrasi' and no='Registrasi')biayareg,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Obat')biayaobat,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Radiologi')biayarad,
@@ -126,12 +124,27 @@
                                 and a.status_lanjut='Ralan'
                                 and   a.kd_poli<>'IGDK'
                                 -- and   a.no_rawat in ('2025/01/06/000804','2025/01/06/000796')
-                                and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr='2025-01-06') 
+                                and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr between '".$startDate."' and '".$endDate."') 
                             )x
                         )y
                         group by kd_poli, kd_dokter
                         order by politujuan asc, namadokter asc
                 
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function rincianbilling($norawat,$type){
+            $query =
+                    "
+                        select a.*
+                        from billing a
+                        where a.no_rawat='".$norawat."'
+                        and   a.status='".$type."'
+                        and   a.nm_perawatan<>':'
                     ";
 
             $recordset = $this->db->query($query);
