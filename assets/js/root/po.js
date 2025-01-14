@@ -144,31 +144,71 @@ function updateVatAndTotal(input) {
     }
 };
 
-function validasi(btn){
-    var datanopemesanan = btn.attr("data_nopemesanan");
-    var status          = btn.attr("data_validasi");
-    var position        = btn.attr("data_position");
-	$.ajax({
-        url        : url+"index.php/logistik/request/updateheader",
-        data       : {datanopemesanan:datanopemesanan,status:status,position:position},
-        method     : "POST",
-        dataType   : "JSON",
-        cache      : false,
-        beforeSend : function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-        },
-		success : function (data) {
-			if(data.responCode === "00"){
-				datarequest();
-			}
+// function validasi(btn){
+//     var datanopemesanan = btn.attr("data_nopemesanan");
+//     var status          = btn.attr("data_validasi");
+//     var position        = btn.attr("data_position");
+// 	$.ajax({
+//         url        : url+"index.php/logistik/request/updateheader",
+//         data       : {datanopemesanan:datanopemesanan,status:status,position:position},
+//         method     : "POST",
+//         dataType   : "JSON",
+//         cache      : false,
+//         beforeSend : function () {
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+//         },
+// 		success : function (data) {
+// 			if(data.responCode === "00"){
+// 				datarequest();
+// 			}
 
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-		}
-	});
-	return false;
-};
+//             toastr.clear();
+//             toastr[data.responHead](data.responDesc, "INFORMATION");
+// 		}
+// 	});
+// 	return false;
+// };
+
+function validasi(btn) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, proceed!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var datanopemesanan = btn.attr("data_nopemesanan");
+            var status = btn.attr("data_validasi");
+            var position = btn.attr("data_position");
+
+            $.ajax({
+                url: url + "index.php/logistik/request/updateheader",
+                data: { datanopemesanan: datanopemesanan, status: status, position: position },
+                method: "POST",
+                dataType: "JSON",
+                cache: false,
+                beforeSend: function () {
+                    toastr.clear();
+                    toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    if (data.responCode === "00") {
+                        datarequest();
+                    }
+
+                    toastr.clear();
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                }
+            });
+        }
+    });
+    return false;
+}
 
 function printPDF() {
     var printContents = document.querySelector('#modal_print_po .modal-body').innerHTML;
