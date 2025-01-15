@@ -134,38 +134,41 @@
         function datarequest($orgid,$status){
             $query =
                     "
-                        select a.no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, invoice, invoice_no, method, cito, attachment_note, subtotal, harga_ppn, total, status, status_vice, status_dir, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
-                            (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
-                            (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
-                            (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit,
+                        select x.*,
+                                (select supplier from dt01_lgu_supplier_ms where org_id=x.org_id and active=x.active and supplier_id=x.supplier_id)namasupplier,
+                                (select name from dt01_gen_user_data where org_id=x.org_id and active=x.active and user_id=x.created_by)dibuatoleh,
+                                (select department from dt01_gen_department_ms where org_id=x.org_id and active=x.active and department_id=x.department_id)unit,
 
-                            case 
-                                when status = '0'  then 'badge-light-info|New'
-                                when status = '1'  then 'badge-light-danger|Cancelled'
-                                when status = '2'  then 'badge-light-info|Waiting Approval Manager'
-                                when status = '3'  then 'badge-light-danger|Cancelled Manager'
-                                when status = '4'  then 'badge-light-info|Approval Manager'
-                                when status = '5'  then 'badge-light-danger|Cancelled Finance'
-                                when status = '6'  then 'badge-light-info|Approval Finance'
-                                when status = '7'  then 'badge-light-info|Invoice Submission'
-                                when status = '8' then 'badge-light-danger|Invoice Cancelled Manager'
-                                when status = '9' then 'badge-light-info|Invoice Approval Manager'
-                                when status = '10' then 'badge-light-danger|Invoice Cancelled Vice Director'
-                                when status = '11' then 'badge-light-info|Invoice Approval Vice Director'
-                                when status = '12' then 'badge-light-danger|Invoice Cancelled Director'
-                                when status = '13' then 'badge-light-info|Invoice Approval Director'
-                                when status = '14' then 'badge-light-danger|Invoice Cancelled Finance'
-                                when status = '15' then 'badge-light-info|Invoice Approval Finance'
-                                when status = '16' then 'badge-light-success|Payment Success'
-                                when status = '17' then 'badge-light-success|File Transfer Available'
-                                else 'badge-light-secondary|Unknown'
-                            end as decoded_status
-
-                        from dt01_lgu_pemesanan_hd a
-                        where a.org_id='".$orgid."'
-                        ".$status."
-                        and   a.active='1'
-                        order by created_date asc
+                                case 
+                                    when x.status = '0'  then 'badge-light-info|New'
+                                    when x.status = '1'  then 'badge-light-danger|Cancelled'
+                                    when x.status = '2'  then 'badge-light-info|Waiting Approval Manager'
+                                    when x.status = '3'  then 'badge-light-danger|Cancelled Manager'
+                                    when x.status = '4'  then 'badge-light-info|Approval Manager'
+                                    when x.status = '5'  then 'badge-light-danger|Cancelled Finance'
+                                    when x.status = '6'  then 'badge-light-info|Approval Finance'
+                                    when x.status = '7'  then 'badge-light-info|Invoice Submission'
+                                    when x.status = '8' then 'badge-light-danger|Invoice Cancelled Manager'
+                                    when x.status = '9' then 'badge-light-info|Invoice Approval Manager'
+                                    when x.status = '10' then 'badge-light-danger|Invoice Cancelled Vice Director'
+                                    when x.status = '11' then 'badge-light-info|Invoice Approval Vice Director'
+                                    when x.status = '12' then 'badge-light-danger|Invoice Cancelled Director'
+                                    when x.status = '13' then 'badge-light-info|Invoice Approval Director'
+                                    when x.status = '14' then 'badge-light-danger|Invoice Cancelled Finance'
+                                    when x.status = '15' then 'badge-light-info|Invoice Approval Finance'
+                                    when x.status = '16' then 'badge-light-success|Payment Success'
+                                    when x.status = '17' then 'badge-light-success|File Transfer Available'
+                                    else 'badge-light-secondary|Unknown'
+                                end as decoded_status
+                        from(
+                            select a.org_id, active, supplier_id, created_by, department_id, created_date, no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, invoice, invoice_no, method, cito, attachment_note, subtotal, harga_ppn, total, status, status_vice, status_dir, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat
+                            from dt01_lgu_pemesanan_hd a
+                            where a.org_id='".$orgid."'
+                            ".$status."
+                            and   a.active='1'
+                            
+                        )x
+                        order by created_date desc
                     ";
 
             $recordset = $this->db->query($query);
@@ -200,7 +203,7 @@
         function hitungdetail($orgid,$nopemesanan){
             $query =
                     "
-                        select sum((total-harga_ppn))harga, sum(harga_ppn)harga_ppn, sum(total)total
+                        select sum((total-harga_ppn))harga, round(sum(harga_ppn),0)harga_ppn, round(sum(total),0)total
                         from dt01_lgu_pemesanan_dt a
                         where a.org_id='".$orgid."'
                         and   a.no_pemesanan='".$nopemesanan."'

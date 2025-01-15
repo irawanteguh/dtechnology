@@ -30,7 +30,80 @@
                 </div>
 			</div>
 			<div class="card-body py-3">
-				<div class="table-responsive">
+            <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tabwaiting">On Process</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approve</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tabwaiting" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
+                                        <th>Pengadaan</th>
+                                        <th>Department</th>
+                                        <th class="text-end">Sub Total</th>
+                                        <th class="text-end">Ppn</th>
+                                        <th class="text-end">Grand Total</th>
+                                        <th>Status</th>
+                                        <th>Created By</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultdatarequest"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabapprove" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
+                                        <th>Pengadaan</th>
+                                        <th>Department</th>
+                                        <th class="text-end">Sub Total</th>
+                                        <th class="text-end">Ppn</th>
+                                        <th class="text-end">Grand Total</th>
+                                        <th>Status</th>
+                                        <th>Created By</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultdatarequestapprove"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabdecline" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
+                                        <th>Pengadaan</th>
+                                        <th>Department</th>
+                                        <th class="text-end">Sub Total</th>
+                                        <th class="text-end">Ppn</th>
+                                        <th class="text-end">Grand Total</th>
+                                        <th>Status</th>
+                                        <th>Created By</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultdatarequestdecline"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+				<!-- <div class="table-responsive">
 					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
 						<thead>
 							<tr class="fw-bolder text-muted bg-light align-middle">
@@ -47,7 +120,7 @@
 						</thead>
 						<tbody class="text-gray-600 fw-bold" id="resultdatarequest"></tbody>
 					</table>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

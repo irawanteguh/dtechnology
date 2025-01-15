@@ -154,7 +154,35 @@
             $resultcekunitid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid']);
 
             if(!empty($resultcekunitid)){
-                $status="and   a.department_id='".$resultcekunitid->department_id."'";
+                $status="and   a.department_id='".$resultcekunitid->department_id."' and a.status in ('0','2','4','6') and a.status_vice is null";
+                $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                
+                if(!empty($result)){
+                    $json["responCode"]="00";
+                    $json["responHead"]="success";
+                    $json["responDesc"]="Data Successfully Found";
+                    $json['responResult']=$result;
+                }else{
+                    $json["responCode"]="01";
+                    $json["responHead"]="info";
+                    $json["responDesc"]="Data Failed to Find";
+                }
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="You Don't Have Access";
+            }
+
+            
+
+            echo json_encode($json);
+        }
+
+        public function decline(){
+            $resultcekunitid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid']);
+
+            if(!empty($resultcekunitid)){
+                $status="and a.department_id='".$resultcekunitid->department_id."' and status in ('1','3','5')";
                 $result = $this->md->datarequest($_SESSION['orgid'],$status);
                 
                 if(!empty($result)){

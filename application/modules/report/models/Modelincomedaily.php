@@ -140,7 +140,7 @@
         function rincianbilling($norawat,$type){
             $query =
                     "
-                        select a.*
+                        select a.nm_perawatan, jumlah, biaya, totalbiaya
                         from billing a
                         where a.no_rawat='".$norawat."'
                         and   a.status='".$type."'

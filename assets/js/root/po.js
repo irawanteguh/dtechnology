@@ -197,8 +197,10 @@ function validasi(btn) {
                     toastr["info"]("Sending request...", "Please wait");
                 },
                 success: function (data) {
-                    if (data.responCode === "00") {
+                    if(data.responCode==="00"){
                         datarequest();
+                        approve();
+                        decline();
                     }
 
                     toastr.clear();

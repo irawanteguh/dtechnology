@@ -333,9 +333,9 @@ function billingbpjsrjdetail(startDate,endDate,kd_dokter){
                         tableresult += "<td>" + result[i].namadokter + "</td>";
                         tableresult += "<td class='text-end'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_rincian_pasien' "+getvariabel+" type='Registrasi' onclick='getdetail($(this));'>" + todesimal(result[i].biayareg) + "</a></td>";
                         tableresult += "<td class='text-end'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_rincian_pasien' "+getvariabel+" type='Obat' onclick='getdetail($(this));'>" + todesimal(result[i].biayaobat) + "</a></td>";
-                        tableresult += "<td class='text-end'>" + todesimal(result[i].biayarad) + "</td>";
-                        tableresult += "<td class='text-end'>" + todesimal(result[i].biayalab) + "</td>";
-                        tableresult += "<td class='text-end'>" + todesimal(result[i].RJtindakandokter) + "</td>";
+                        tableresult += "<td class='text-end'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_rincian_pasien' "+getvariabel+" type='Radiologi' onclick='getdetail($(this));'>" + todesimal(result[i].biayarad) + "</a></td>";
+                        tableresult += "<td class='text-end'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_rincian_pasien' "+getvariabel+" type='Laborat' onclick='getdetail($(this));'>" + todesimal(result[i].biayalab) + "</a></td>";
+                        tableresult += "<td class='text-end'><a href='#' data-bs-toggle='modal' data-bs-target='#modal_rincian_pasien' "+getvariabel+" type='Ralan Dokter' onclick='getdetail($(this));'>" + todesimal(result[i].RJtindakandokter) + "</a></td>";
 
                         if(parseFloat(result[i].estimasiklaim) > parseFloat(result[i].grandtotal)){
                             tableresult += "<td class='pe-4 text-end'>" + todesimal(result[i].grandtotal) + " <i class='bi bi-check-circle-fill text-success' title='Beban rumah sakit lebih rendah di bandingkan estimasi klaim : "+todesimal(result[i].estimasiklaim)+"'></i></td>";
