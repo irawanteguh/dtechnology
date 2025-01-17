@@ -31,7 +31,7 @@
                                     else 'badge-light-secondary|Unknown'
                                 end as decoded_status
                         from(
-                            select a.org_id, active, supplier_id, created_by, department_id, created_date, no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, invoice, invoice_no, method, cito, attachment_note, subtotal, harga_ppn, total, status, status_vice, status_dir, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat
+                            select a.org_id, active, supplier_id, created_by, department_id, created_date, no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, invoice, invoice_no, method, cito, attachment_note, round(subtotal,0)subtotal, round(harga_ppn,0)harga_ppn, round(total,0)total, status, status_vice, status_dir, attachment, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat
                             from dt01_lgu_pemesanan_hd a
                             where a.org_id='".$orgid."'
                             ".$status."

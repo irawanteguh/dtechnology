@@ -72,7 +72,7 @@
 
         public function decline(){
             $status="
-                        and   a.status in ('3','5','6')
+                        and   a.status in ('3','5')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
