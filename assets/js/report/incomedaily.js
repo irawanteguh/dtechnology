@@ -32,9 +32,10 @@ $(document).on("click", ".btn-apply", function (e) {
     }
 
     analisa(startDate, endDate);
-    billingcash(startDate, endDate);
-    billingbpjsrj(startDate, endDate);
-    billingbpjsri(startDate, endDate);
+    // billingcash(startDate, endDate);
+    // billingbpjsrj(startDate, endDate);
+    // billingbpjsri(startDate, endDate);
+    downloadexcel(startDate, endDate);
 });
 
 $("#modal_detail_pasien").on('shown.bs.modal', function() {
@@ -586,13 +587,9 @@ function analisa(startDate, endDate){
                     
                     tableresult += "</tr>";
 
-                    // Perbarui subtotal dan total
-                    // subtotal += parseFloat(result[i].grandtotal);
                     totalbeban    += parseFloat(result[i].totalbeban);
                     totalestimasi += parseFloat(result[i].totalestimasi);
 
-                    // Perbarui lastpoli
-                    // lastpoli = result[i].politujuan;
                 }
 
                 tableresultfoot = "<tr>";
@@ -611,6 +608,61 @@ function analisa(startDate, endDate){
             // Perbarui tabel dan footer di halaman
             $("#resultanalisa").html(tableresult);
             $("#footresultanalisa").html(tableresultfoot);
+        
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },        
+        complete: function () {
+            toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
+
+function downloadexcel(startDate, endDate){
+    $.ajax({
+        url        : url+"index.php/report/incomedaily/analisa",
+        data      : {startDate:startDate,endDate:endDate},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#tableheader").html("");
+        },
+        success: function (data) {
+            var tableresult     = "";
+        
+            if (data.responCode === "00") {
+                var result = data.responResult;
+                for (var i in result) {
+                    tableresult +="<tr>";
+                    tableresult +="<td>"+result[i].politujuan+"</td>";
+                    tableresult +="<td>"+result[i].namadokter+"</td>";
+                    tableresult +="<td>"+result[i].jmlpasien+"</td>";
+                    tableresult +="<td>"+todesimal(result[i].totalbeban)+"</td>";
+                    tableresult +="<td>"+todesimal(result[i].totalestimasi)+"</td>";
+                    tableresult +="</tr>";
+                }
+            }
+        
+            $("#tableheader").html(tableresult);
         
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");

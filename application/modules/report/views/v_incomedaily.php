@@ -29,7 +29,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tabanalisa" role="tabpanel">
                         <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2 hea">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead class="align-middle">
                                     <tr class="fw-bolder text-muted bg-light">
                                         <th class="ps-4 rounded-start">Poli Klinik</th>
@@ -126,4 +126,12 @@
             </div>
         </div>
     </div>
+    <table class="table align-middle table-row-dashed fs-6 gy-2 table-bordered">
+        <thead>
+            <tr>
+                <th>ads</th>
+            </tr>
+        </thead>
+        <tbody id="tableheader"></tbody>
+    </table>
 </div>
