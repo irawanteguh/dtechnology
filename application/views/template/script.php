@@ -43,7 +43,7 @@
 
 
                 if($this->uri->segment(1) != "auth"){
-                    if ($this->uri->segment(1) != 'logistik' && $jsFilename === 'po.js') {
+                    if ($this->uri->segment(1) != 'logistik' && $this->uri->segment(1) != 'paymentpo' && $jsFilename === 'po.js') {
                         continue;
                     }
 

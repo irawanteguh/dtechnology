@@ -15,11 +15,18 @@
 
         public function loadcombobox(){
             $resultmastersupplier = $this->md->mastersupplier($_SESSION['orgid']);
+            $resultcekunitid      = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid']);
             $resultpaymentmethod  = $this->md->paymentmethod();
+            
             
             $mastersupplier="";
             foreach($resultmastersupplier as $a ){
                 $mastersupplier.="<option value='".$a->supplier_id."'>".$a->supplier."</option>";
+            }
+
+            $department="";
+            foreach($resultcekunitid as $a ){
+                $department.="<option value='".$a->department_id."'>".$a->department."</option>";
             }
 
             $paymentmethod="";
@@ -27,21 +34,20 @@
                 $paymentmethod.="<option value='".$a->id."'>".$a->metod."</option>";
             }
 
-            $data['mastersupplier']           = $mastersupplier;
-            $data['paymentmethod']           = $paymentmethod;
+            $data['mastersupplier'] = $mastersupplier;
+            $data['department']     = $department;
+            $data['paymentmethod']  = $paymentmethod;
             
             return $data;
 		}
 
         public function newrequest(){
-            $departmentid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
-
             $data['org_id']            = $_SESSION['orgid'];
             $data['no_pemesanan']      = generateuuid();
-            $data['no_pemesanan_unit'] = $this->md->buatnopemesanan($_SESSION['orgid'],$departmentid)->nomor_pemesanan;
+            $data['no_pemesanan_unit'] = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_request_department"))->nomor_pemesanan;
             $data['judul_pemesanan']   = $this->input->post("modal_new_request_nama");
             $data['note']              = $this->input->post("modal_new_request_note");
-            $data['department_id']     = $departmentid;
+            $data['department_id']     = $this->input->post("modal_new_request_department");
             $data['supplier_id']       = $this->input->post("modal_new_request_supplier");
             $data['method']            = $this->input->post("modal_new_request_method");
             $data['cito']              = $this->input->post("modal_new_request_cito");
@@ -50,11 +56,64 @@
             if($this->md->insertheader($data)){
                 $json['responCode']="00";
                 $json['responHead']="success";
-                $json['responDesc']="Data Berhasil Di Tambah";
+                $json['responDesc']="Data Added Successfully";
             } else {
                 $json['responCode']="01";
                 $json['responHead']="info";
-                $json['responDesc']="Data Gagal Di Tambah";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function datarequest(){
+            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and a.status in ('0','2','4')";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function decline(){
+            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and a.status in ('1','3','5','6','8') and (a.status='6' and a.status_vice='N') or (a.status='8' and (a.status_vice='Y' or a.status_dir='Y'))";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+            echo json_encode($json);
+        }
+
+        public function approve(){
+            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and a.status in ('6')";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
             }
 
             echo json_encode($json);
@@ -99,7 +158,7 @@
     
                     $datastock['org_id']        = $_SESSION['orgid'];
                     $datastock['transaksi_id']  = $itemid;
-                    $datastock['department_id'] = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+                    $datastock['department_id'] = $this->input->post('departmentid');
                     $datastock['barang_id']     = $barangid;
                     $datastock['qty']           = $stock;
                     $datastock['jenis_id']      = "1";
@@ -109,11 +168,11 @@
 
                     $json['responCode']="00";
                     $json['responHead']="success";
-                    $json['responDesc']="Data Berhasil Di Tambah";
+                    $json['responDesc']="Data Added Successfully";
                 } else {
                     $json['responCode']="01";
                     $json['responHead']="info";
-                    $json['responDesc']="Data Gagal Di Tambah";
+                    $json['responDesc']="Data Failed to Add";
                 }
             }else{
                 if($this->md->updatebarangid($barangid,$no_pemesanan,$data)){
@@ -126,7 +185,7 @@
                     $this->md->updateheader($no_pemesanan,$dataheader);
 
                     $updatedatastock['org_id']        = $_SESSION['orgid'];
-                    $updatedatastock['department_id'] = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid'])->department_id;
+                    $updatedatastock['department_id'] = $this->input->post('departmentid');
                     $updatedatastock['barang_id']     = $barangid;
                     $updatedatastock['qty']           = $stock;
                     $updatedatastock['jenis_id']      = "1";
@@ -136,72 +195,15 @@
                         $this->md->updatestock($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid)->ITEM_ID,$updatedatastock);
                     }
                     
-    
                     $json['responCode']="00";
                     $json['responHead']="success";
-                    $json['responDesc']="Data Berhasil Di Tambah";
+                    $json['responDesc']="Data Added Successfully";
                 } else {
                     $json['responCode']="01";
                     $json['responHead']="info";
-                    $json['responDesc']="Data Gagal Di Tambah";
+                    $json['responDesc']="Data Failed to Add";
                 }
             }
-
-            echo json_encode($json);
-        }
-
-        public function datarequest(){
-            $resultcekunitid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid']);
-
-            if(!empty($resultcekunitid)){
-                $status="and   a.department_id='".$resultcekunitid->department_id."' and a.status in ('0','2','4','6') and a.status_vice is null";
-                $result = $this->md->datarequest($_SESSION['orgid'],$status);
-                
-                if(!empty($result)){
-                    $json["responCode"]="00";
-                    $json["responHead"]="success";
-                    $json["responDesc"]="Data Successfully Found";
-                    $json['responResult']=$result;
-                }else{
-                    $json["responCode"]="01";
-                    $json["responHead"]="info";
-                    $json["responDesc"]="Data Failed to Find";
-                }
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="You Don't Have Access";
-            }
-
-            
-
-            echo json_encode($json);
-        }
-
-        public function decline(){
-            $resultcekunitid = $this->md->cekunitid($_SESSION['orgid'],$_SESSION['userid']);
-
-            if(!empty($resultcekunitid)){
-                $status="and a.department_id='".$resultcekunitid->department_id."' and status in ('1','3','5')";
-                $result = $this->md->datarequest($_SESSION['orgid'],$status);
-                
-                if(!empty($result)){
-                    $json["responCode"]="00";
-                    $json["responHead"]="success";
-                    $json["responDesc"]="Data Successfully Found";
-                    $json['responResult']=$result;
-                }else{
-                    $json["responCode"]="01";
-                    $json["responHead"]="info";
-                    $json["responDesc"]="Data Failed to Find";
-                }
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="You Don't Have Access";
-            }
-
-            
 
             echo json_encode($json);
         }

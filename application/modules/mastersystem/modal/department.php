@@ -90,12 +90,16 @@
                 </div>
                 <div class="row">
                     <div class="table-responsive">
-                        <table class="table align-middle gs-0 gy-4 table-bordered" id="tablemastermodules">
+                        <table class="table align-middle gs-0 gy-4 table-bordered" id="tablemasteruser">
                             <thead>
                                 <tr class="fw-bolder text-muted bg-light">
                                     <th class="ps-4 rounded-start">Username</th>
                                     <th>Name</th>
                                     <th class="pe-4 text-end rounded-end">Actions</th>
+                                </tr>
+                                <tr>
+                                    <th><input id="filterusername" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Username"></th>
+                                    <th><input id="filtername" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Name"></th>
                                 </tr>
                             </thead>
                             <tbody class="align-middle" id="resultmasteruser"></tbody>

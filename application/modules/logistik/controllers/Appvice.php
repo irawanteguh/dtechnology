@@ -13,9 +13,7 @@
         }
 
         public function datarequest(){
-            // $status = "and   a.status in ('6','8','9','10','11')";
-            // $status = "and   a.status in ('11')";
-            $status = "and   a.status in ('6','9') and a.status_vice not in ('N','Y') or a.status_dir not in ('N','Y')";
+            $status = "and   a.status in ('6') and a.status_vice is null";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
@@ -33,7 +31,7 @@
         }
 
         public function approve(){
-            $status = "and   a.status in ('6','11','13') and a.status_vice = 'Y'";
+            $status = "and   a.status in ('6') and a.status_vice = 'Y'";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
@@ -51,7 +49,7 @@
         }
 
         public function decline(){
-            $status = "and   a.status in ('6','10') and a.status_vice = 'N'";
+            $status = "and   a.status in ('6') and a.status_vice = 'N'";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){

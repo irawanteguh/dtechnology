@@ -4,6 +4,8 @@ $('#modal-upload-lampiran').on('hidden.bs.modal', function (e) {
     }
     Dropzone.autoDiscover = false;
     datarequest();
+    approve();
+    decline();
 });
 
 $('#modal-upload-invoice').on('hidden.bs.modal', function (e) {
@@ -12,6 +14,8 @@ $('#modal-upload-invoice').on('hidden.bs.modal', function (e) {
     }
     Dropzone.autoDiscover = false;
     datarequest();
+    approve();
+    decline();
 });
 
 $('#modal-upload-buktibayar').on('hidden.bs.modal', function (e) {
@@ -20,14 +24,20 @@ $('#modal-upload-buktibayar').on('hidden.bs.modal', function (e) {
     }
     Dropzone.autoDiscover = false;
     datarequest();
+    approve();
+    decline();
 });
 
 $('#modal_detail_barang').on('hidden.bs.modal', function (e) {
     datarequest();
+    approve();
+    decline();
 });
 
 $('#modal_master_item').on('hidden.bs.modal', function (e) {
     datarequest();
+    approve();
+    decline();
 });
 
 function getStatusBadge(decodedStatus) {
@@ -72,8 +82,8 @@ function updateVatAndTotal(input) {
             return;
         }
 
-        const newVat    = qty*(harga*ppn);
-        const itemTotal = (qty*harga)+newVat;
+        const newVat    = parseFloat((qty * (harga * ppn)).toFixed(0));
+        const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
 
         vatAmountElement.innerText = todesimal(newVat);
         subtotalElement.innerText  = todesimal(itemTotal);
@@ -95,8 +105,8 @@ function updateVatAndTotal(input) {
             const ppnVal   = parseFloat(vatElem.value) / 100;
 
             if (!isNaN(qtyVal) && !isNaN(hargaVal) && !isNaN(ppnVal)) {
-                const vatAmount = qtyVal * (hargaVal * ppnVal);
-                const itemTotal = (qtyVal * hargaVal) + vatAmount;
+                const vatAmount = parseFloat((qtyVal * (hargaVal * ppnVal)).toFixed(0)); // Pembulatan ke 0 desimal
+                const itemTotal = parseFloat(((qtyVal * hargaVal) + vatAmount).toFixed(0));
                 grandTotal += itemTotal;
             }
         });
@@ -183,8 +193,8 @@ function validasi(btn) {
     }).then((result) => {
         if (result.isConfirmed) {
             var datanopemesanan = btn.attr("data_nopemesanan");
-            var status = btn.attr("data_validasi");
-            var position = btn.attr("data_position");
+            var status          = btn.attr("data_validasi");
+            var position        = btn.attr("data_position");
 
             $.ajax({
                 url: url + "index.php/logistik/request/updateheader",

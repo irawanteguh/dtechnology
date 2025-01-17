@@ -57,7 +57,7 @@ function datarequest(){
                     }
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -85,7 +85,7 @@ function datarequest(){
                                 // }
                                 if(result[i].status==="6"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_position='VICE' data_validasi='Y' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_position='VICE' data_validasi='N' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_position='VICE' data_validasi='N' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }else{
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='11' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='10' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
@@ -166,7 +166,7 @@ function approve(){
                     }
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -193,8 +193,8 @@ function approve(){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                 // }
                                 if(result[i].status==="6"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_position='VICE' data_validasi='Y' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_position='VICE' data_validasi='N' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                                    // tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_position='VICE' data_validasi='Y' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_position='VICE' data_validasi='N' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }else{
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='11' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='10' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
@@ -275,7 +275,7 @@ function decline(){
                     }
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -299,11 +299,11 @@ function decline(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                 // if(result[i].status_vice!="Y"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+                                    // tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                 // }
                                 if(result[i].status==="6"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_position='VICE' data_validasi='Y' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_position='VICE' data_validasi='N' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                                    // tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_position='VICE' data_validasi='N' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }else{
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='11' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='10' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
@@ -366,8 +366,8 @@ function datadetail(data_nopemesanan,data_status){
                     const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
                     const harga      = parseFloat(result[i].harga) || 0;
                     const vatPercent = parseFloat(result[i].ppn) || 0;
-                    const vatAmount  = qty*(harga*vatPercent/100);
-                    const subtotal   = (qty*harga)+vatAmount;
+                    const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
+                    const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
 
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";

@@ -15,11 +15,11 @@
                         <div class="text-muted fw-bold fs-5"></div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Procurement Name :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_new_request_nama" name="modal_new_request_nama" required>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span class="required">Suppliers</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Suppliers"></i>
@@ -28,13 +28,22 @@
                                 <?php echo $mastersupplier;?>
                             </select>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span class="required">Payment Method</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Payment Method"></i>
                             </label>
                             <select data-control="select2" data-dropdown-parent="#modal_new_request" data-placeholder="Please Select Payment Method" class="form-select form-select-solid" name="modal_new_request_method" id="modal_new_request_method" required>
                                 <?php echo $paymentmethod;?>
+                            </select>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Department</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_new_request" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_new_request_department" id="modal_new_request_department" required>
+                                <?php echo $department;?>
                             </select>
                         </div>
                     </div>
@@ -70,6 +79,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="no_pemesanan_item" name="no_pemesanan_item">
+                <input type="hidden" id="departmentid" name="departmentid">
                 <div class="text-center mb-5">
                     <h1 class="mb-3">Add Item</h1>
                     <div class="text-muted fw-bold fs-5"></div>
@@ -84,8 +94,8 @@
                                 <th class="text-end">Stock</th>
                                 <th class="text-end">Qty</th>
                                 <th class="text-end">Price</th>
-                                <th class="text-end">% VAT</th>
-                                <th class="text-end">VAT</th>
+                                <th class="text-end">% Vat</th>
+                                <th class="text-end">Vat</th>
                                 <th class="text-end">Grand Total</th>
 								<th class="pe-4 text-end rounded-end">Note</th>
                             </tr>
