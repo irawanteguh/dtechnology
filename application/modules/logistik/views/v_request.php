@@ -69,7 +69,7 @@
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Pemesanan</th>
                                         <th>Pengadaan</th>
-                                        <th>Department</th>
+                                        <th>Supplier</th>
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Grand Total</th>

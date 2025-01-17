@@ -34,7 +34,7 @@
 
         public function decline(){
             $status="
-                        and   a.status in ('10','12')
+                        and   a.status in ('10','12','14')
                     ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
@@ -54,7 +54,7 @@
 
         public function approve(){
             $status="
-                        and   a.status in ('11','13')
+                        and   a.status in ('11','13','15','16')
                     ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
