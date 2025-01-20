@@ -66,6 +66,34 @@
             echo json_encode($json);
         }
 
+        public function newinvoice(){
+            $data['org_id']            = $_SESSION['orgid'];
+            $data['no_pemesanan']      = generateuuid();
+            $data['no_pemesanan_unit'] = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_invoice_department"))->nomor_pemesanan;
+            $data['judul_pemesanan']   = $this->input->post("modal_new_invoice_nama");
+            $data['note']              = $this->input->post("modal_new_invoice_note");
+            $data['department_id']     = $this->input->post("modal_new_invoice_department");
+            $data['supplier_id']       = $this->input->post("modal_new_invoice_supplier");
+            $data['method']            = $this->input->post("modal_new_invoice_method");
+            $data['cito']              = $this->input->post("modal_new_invoice_cito");
+            $data['type']              = "1";
+            $data['status_vice']       = "Y";
+            $data['status_dir']        = "Y";
+            $data['created_by']        = $_SESSION['userid'];
+
+            if($this->md->insertheader($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
         public function datarequest(){
             $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and a.status in ('0','2','4')";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
@@ -102,7 +130,7 @@
         }
 
         public function approve(){
-            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and a.status in ('6')";
+            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and a.status in ('6','7')";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){

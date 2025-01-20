@@ -25,6 +25,7 @@
                         </div>
                         <div class="menu-item px-3">
                             <a href="" data-bs-toggle="modal" data-bs-target="#modal_new_request" class="menu-link px-3">New Request</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_new_invoice" class="menu-link px-3">New Invoice</a>
                         </div>
                     </div>
                 </div>

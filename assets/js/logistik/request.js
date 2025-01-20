@@ -137,6 +137,7 @@ function datarequest(){
                     var cito = "";
                     var vice = "";
                     var dir  = "";
+                    var type = "";
 
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
@@ -147,6 +148,10 @@ function datarequest(){
                                       "data_no_invoice='"+result[i].invoice_no+"'"+
                                       "data_no_invoice='"+result[i].invoice_no+"'"+
                                       "data_status='"+result[i].status+"'";
+
+                    if(result[i].type==="1"){
+                        type =" <div class='badge badge-light-info fw-bolder fa-fade'>Invoice Submission</div>";
+                    }
 
                     if(result[i].cito==="Y"){
                         cito =" <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>";
@@ -167,7 +172,7 @@ function datarequest(){
                     }
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+type+"</td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -197,7 +202,12 @@ function datarequest(){
                                 if(result[i].status==="0"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                     if(result[i].jmlitem!="0"){
-                                        tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        if(result[i].type==="0"){
+                                            tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        }else{
+                                            tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='6' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        }
+                                        
                                         tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                     }
                                 }
@@ -901,6 +911,53 @@ $(document).on("submit", "#forminvoice", function (e) {
 
             if(data.responCode == "00"){
                 $("#modal-upload-invoice").modal("hide");
+                datarequest();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#btnproses").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formnewinvoice", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#btnproses").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_new_invoice").modal("hide");
                 datarequest();
 			}
 
