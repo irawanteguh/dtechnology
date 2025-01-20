@@ -72,6 +72,32 @@
             echo json_encode($json);
         }
 
+        public function uploadinvoice(){
+            $no_pemesanan= $_GET['no_pemesanan'];
+
+            $config['upload_path']   = './assets/invoice/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $no_pemesanan;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+
+                $dataupdate['INVOICE']="1";
+
+                $this->md->updateheader($no_pemesanan,$dataupdate);
+
+                echo "Upload Success";
+            }
+        }
+
         
     }
 ?>

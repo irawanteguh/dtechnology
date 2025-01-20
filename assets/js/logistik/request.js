@@ -287,6 +287,7 @@ function approve(){
                     var cito = "";
                     var vice = "";
                     var dir  = "";
+                    var type = "";
 
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
@@ -296,6 +297,9 @@ function approve(){
                                       "data_no_invoice='"+result[i].invoice_no+"'"+
                                       "data_status='"+result[i].status+"'";
 
+                    if(result[i].type==="1"){
+                        type =" <div class='badge badge-light-info fw-bolder fa-fade'>Invoice Submission</div>";
+                    }
                     if(result[i].cito==="Y"){
                         cito =" <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>";
                     }
@@ -315,7 +319,7 @@ function approve(){
                     }
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+type+"</td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -423,6 +427,7 @@ function decline(){
                     var cito = "";
                     var vice = "";
                     var dir  = "";
+                    var type = "";
 
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
@@ -432,6 +437,9 @@ function decline(){
                                       "data_no_invoice='"+result[i].invoice_no+"'"+
                                       "data_status='"+result[i].status+"'";
 
+                    if(result[i].type==="1"){
+                        type =" <div class='badge badge-light-info fw-bolder fa-fade'>Invoice Submission</div>";
+                    }
                     if(result[i].cito==="Y"){
                         cito =" <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>";
                     }
@@ -451,7 +459,7 @@ function decline(){
                     }
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+type+"</td>";
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
