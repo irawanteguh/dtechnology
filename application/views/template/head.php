@@ -4,11 +4,10 @@
     <script> var clientidtilaka = '<?php echo CLIENT_ID_TILAKA ?>'; </script>
     <script> var pathposttilaka = '<?php echo addslashes(PATHFILE_POST_TILAKA); ?>'.replace(/\\/g, '/').replace(/^[CDEcde]:\/xampp\/htdocs/, 'http://' + window.location.host); </script>
 
-
-
-
-
     <title>DTechnology</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="icon" type="image/gif" href="<?php echo base_url();?>assets/favicon/favicon.png">
     <link rel="apple-touch-icon" type="image/gif" href="<?php echo base_url();?>assets/favicon/favicon.png">
     <link rel="stylesheet" type="text/css"  href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -38,6 +37,7 @@
             foreach ($cssfiles as $cssfile) {
                 $cssfilename = basename($cssfile);
                 echo "\t\t<link rel='stylesheet' type='text/css' href='".base_url()."assets/css/root/".$cssfilename."'></link>".PHP_EOL;
+                
             }
         }
 
