@@ -32,10 +32,9 @@ $(document).on("click", ".btn-apply", function (e) {
     }
 
     analisa(startDate, endDate);
-    // billingcash(startDate, endDate);
-    // billingbpjsrj(startDate, endDate);
-    // billingbpjsri(startDate, endDate);
-    downloadexcel(startDate, endDate);
+    billingcash(startDate, endDate);
+    billingbpjsrj(startDate, endDate);
+    billingbpjsri(startDate, endDate);
 });
 
 $("#modal_detail_pasien").on('shown.bs.modal', function() {
@@ -54,7 +53,6 @@ $("#modal_rincian_pasien").on('shown.bs.modal', function() {
     var type     = $(":hidden[name='type']").val();
     rincianbilling(no_rawat,type);
 });
-
 
 function getdetail(btn){
     var kd_dokter = btn.attr("kd_dokter");
@@ -180,39 +178,44 @@ function billingbpjsrj(startDate, endDate){
             toastr["info"]("Sending request...", "Please wait");
             $("#resultbillingbpjsrj").html("");
             $("#footresultbillingbpjsrj").html("");
+
+            $("#resultdownload").html("");
+            $("#footresultdownload").html("");
         },
         success: function (data) {
-            var tableresult     = "";
-            var tableresultfoot = "";
-            var lastpoli        = null;
-            var subtotal        = 0;
-            var total           = 0;
+            var tableresult             = "";
+            var tableresultfoot         = "";
+            var tableresultdownload     = "";
+            var tableresultfootdownload = "";
+            var lastpoli                = null;
+            var subtotal                = 0;
+            var subtotaldownload        = 0;
+            var subestimasidownload     = 0;
+            var subselisihdownload      = 0;
+            var total                   = 0;
         
             if (data.responCode === "00") {
                 var result = data.responResult;
         
                 for (var i in result) {
                     if(result[i].status_lanjut==='Ralan'){
-                        // Jika ada perubahan `politujuan`, tambahkan subtotal
-                        if (lastpoli !== null && lastpoli !== result[i].politujuan) {
+
+                        if (lastpoli !== null && lastpoli !== result[i].politujuan+" "+result[i].namadokter) {
                             tableresult += "<tr>";
                             tableresult += "<td colspan='8' class='text-end fw-bold'>Subtotal "+lastpoli+" :</td>";
                             tableresult += "<td class='pe-4 text-end fw-bold'>" + todesimal(subtotal) + "</td>";
                             tableresult += "</tr>";
                             tableresult += "<tr><td colspan='8'></td></tr>";
 
-                            // Reset subtotal untuk grup baru
                             subtotal = 0;
                         }
 
-                        // Jika `politujuan` berubah, tambahkan header baru
-                        if (lastpoli !== result[i].politujuan) {
+                        if (lastpoli !== result[i].politujuan+" "+result[i].namadokter) {
                             tableresult += "<tr>";
-                            tableresult += "<td colspan='9' class='ps-4 table-warning'>" + result[i].politujuan + "</td>";
+                            tableresult += "<td colspan='17' class='ps-4 table-warning'>"+result[i].politujuan+" "+result[i].namadokter+"</td>";
                             tableresult += "</tr>";
                         }
 
-                        // Tambahkan data baris
                         tableresult += "<tr>";
                         tableresult += "<td class='ps-4'>" + result[i].tglbilling + "</td>";
                         tableresult += "<td>" + result[i].nobilling + "</td>";
@@ -230,12 +233,77 @@ function billingbpjsrj(startDate, endDate){
                         
                         tableresult += "</tr>";
 
-                        // Perbarui subtotal dan total
-                        subtotal += parseFloat(result[i].estimasiklaim);
-                        total += parseFloat(result[i].estimasiklaim);
+                        //Tab Download
+                        if (lastpoli !== null && lastpoli !== result[i].politujuan+" "+result[i].namadokter) {
+                            tableresultdownload += "<tr>";
+                            tableresultdownload += "<td class='text-end fw-bold'>Subtotal "+lastpoli+" :</td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td></td>";
+                            tableresultdownload += "<td class='pe-4 text-end fw-bold'>" + todesimal(subtotaldownload) + "</td>";
+                            tableresultdownload += "<td class='pe-4 text-end fw-bold'>" + todesimal(subestimasidownload) + "</td>";
+                            tableresultdownload += "<td class='pe-4 text-end fw-bold'>" + todesimal(subselisihdownload) + "</td>";
+                            tableresultdownload += "</tr>";
+                            tableresultdownload += "<tr><td colspan='13'></td></tr>";
 
-                        // Perbarui lastpoli
-                        lastpoli = result[i].politujuan;
+                            subtotaldownload    = 0;
+                            subestimasidownload = 0;
+                            subselisihdownload  = 0;
+                        }
+
+                        if (lastpoli !== result[i].politujuan+" "+result[i].namadokter) {
+                            tableresultdownload += "<tr>";
+                            tableresultdownload += "<td colspan='17' class='ps-4 table-warning'>"+result[i].politujuan+" "+result[i].namadokter+"</td>";
+                            tableresultdownload += "</tr>";
+                        }
+                        tableresultdownload +="<tr>";
+                        tableresultdownload += "<td class='ps-4'>" + result[i].tglbilling + "</td>";
+                        tableresultdownload += "<td>" + result[i].nobilling + "</td>";
+                        tableresultdownload += "<td>" + result[i].norm + "</td>";
+                        tableresultdownload += "<td>" + result[i].namapasien + "</td>";
+                        tableresultdownload += "<td>" + result[i].provider + "</td>";
+                        tableresultdownload += "<td>" + result[i].jenisepisode + "</td>";
+                        tableresultdownload += "<td>" + result[i].politujuan + "</td>";
+                        tableresultdownload += "<td>" + result[i].namadokter + "</td>";
+                        tableresultdownload += "<td class='text-end'>" + todesimal(result[i].biayareg) + "</td>";
+                        tableresultdownload += "<td class='text-end'>" + todesimal(result[i].biayaobat) + "</td>";
+                        tableresultdownload += "<td class='text-end'>" + todesimal(result[i].biayarad) + "</td>";
+                        tableresultdownload += "<td class='text-end'>" + todesimal(result[i].biayalab) + "</td>";
+                        tableresultdownload += "<td class='text-end'>" + todesimal(result[i].RJtindakandokter) + "</td>";
+                        tableresultdownload += "<td class='text-end'>" + todesimal(result[i].grandtotal) + "</td>";
+                        tableresultdownload += "<td class='text-end'>" + todesimal(result[i].estimasiklaim) + "</td>";
+
+                        if(parseFloat(result[i].grandtotal) > parseFloat(result[i].estimasiklaim)){
+                            tableresultdownload += "<td class='text-end'>- " + todesimal(parseFloat(result[i].grandtotal)-parseFloat(result[i].estimasiklaim)) + "</td>";
+                        }else{
+                            tableresultdownload += "<td class='text-end'>" + todesimal(parseFloat(result[i].grandtotal)-parseFloat(result[i].estimasiklaim)) + "</td>";
+                        }
+
+                        if(parseFloat(result[i].grandtotal) > parseFloat(result[i].estimasiklaim)){
+                            tableresultdownload += "<td class='text-end pe-4'>Beban biaya rumah sakit lebih tinggi dibandingkan harga klaim</td>";
+                        }else{
+                            tableresultdownload += "<td class='text-end pe-4'>Beban biaya rumah sakit lebih rendah dibandingkan harga klaim</td>";
+                        }
+                        
+                        tableresultdownload +="</tr>";
+
+
+                        subtotal            += parseFloat(result[i].estimasiklaim);
+                        subtotaldownload    += parseFloat(result[i].grandtotal);
+                        subestimasidownload += parseFloat(result[i].estimasiklaim);
+                        subselisihdownload  += parseFloat(parseFloat(result[i].grandtotal)-parseFloat(result[i].estimasiklaim));
+                        total               += parseFloat(result[i].estimasiklaim);
+                        lastpoli             = result[i].politujuan+" "+result[i].namadokter;
+
                     }
                 }
 
@@ -246,9 +314,11 @@ function billingbpjsrj(startDate, endDate){
 
             }
         
-            // Perbarui tabel dan footer di halaman
             $("#resultbillingbpjsrj").html(tableresult);
             $("#footresultbillingbpjsrj").html(tableresultfoot);
+
+            $("#resultdownload").html(tableresultdownload);
+            $("#footresultdownload").html(tableresultfootdownload);
         
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -608,61 +678,6 @@ function analisa(startDate, endDate){
             // Perbarui tabel dan footer di halaman
             $("#resultanalisa").html(tableresult);
             $("#footresultanalisa").html(tableresultfoot);
-        
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-        },        
-        complete: function () {
-            toastr.clear();
-		},
-        error: function(xhr, status, error) {
-            Swal.fire({
-                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html             : "<b>"+error+"</b>",
-                icon             : "error",
-                confirmButtonText: "Please Try Again",
-                buttonsStyling   : false,
-                timerProgressBar : true,
-                timer            : 5000,
-                customClass      : {confirmButton: "btn btn-danger"},
-                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-            });
-		}
-    });
-    return false;
-};
-
-function downloadexcel(startDate, endDate){
-    $.ajax({
-        url        : url+"index.php/report/incomedaily/analisa",
-        data      : {startDate:startDate,endDate:endDate},
-        method     : "POST",
-        dataType   : "JSON",
-        cache      : false,
-        processData: true,
-        beforeSend : function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-            $("#tableheader").html("");
-        },
-        success: function (data) {
-            var tableresult     = "";
-        
-            if (data.responCode === "00") {
-                var result = data.responResult;
-                for (var i in result) {
-                    tableresult +="<tr>";
-                    tableresult +="<td>"+result[i].politujuan+"</td>";
-                    tableresult +="<td>"+result[i].namadokter+"</td>";
-                    tableresult +="<td>"+result[i].jmlpasien+"</td>";
-                    tableresult +="<td>"+todesimal(result[i].totalbeban)+"</td>";
-                    tableresult +="<td>"+todesimal(result[i].totalestimasi)+"</td>";
-                    tableresult +="</tr>";
-                }
-            }
-        
-            $("#tableheader").html(tableresult);
         
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");

@@ -165,19 +165,11 @@
 						<thead>
 							<tr class="fw-bolder text-muted bg-light align-middle">
 								<th class="ps-4 rounded-start">Item Name</th>
-                                <!-- <th>Category</th>
-                                <th>Purchase Unit</th>
-                                <th>Unit of Use</th> -->
                                 <th class="text-end">Qty</th>
-                                <!-- <th class="text-end">Price</th>
-                                <th class="text-end">% VAT</th>
-                                <th class="text-end">VAT</th>
-								<th class="text-end">Grand Total</th> -->
 								<th class="pe-4 text-end rounded-end">Note</th>
 							</tr>
 						</thead>
 						<tbody class="text-gray-600 fw-bold" id="resultdetailpo"></tbody>
-                        <!-- <tfoot class="fw-bolder text-muted bg-light" id="resultdetailfootpo"></tfoot> -->
 					</table>
 				</div>
                 <table class="table table-bordered" style="margin-top:50px;">
