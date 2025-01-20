@@ -196,8 +196,10 @@ function datarequest(){
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                 if(result[i].status==="0"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                                    if(result[i].jmlitem!="0"){
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                                    }
                                 }
 
                                 if(result[i].status==="1"){

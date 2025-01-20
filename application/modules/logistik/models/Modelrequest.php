@@ -140,7 +140,7 @@
                                 (select supplier from dt01_lgu_supplier_ms where org_id=x.org_id and active=x.active and supplier_id=x.supplier_id)namasupplier,
                                 (select name from dt01_gen_user_data where org_id=x.org_id and active=x.active and user_id=x.created_by)dibuatoleh,
                                 (select department from dt01_gen_department_ms where org_id=x.org_id and active=x.active and department_id=x.department_id)unit,
-
+                                (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=x.org_id and active=x.active and no_pemesanan=x.no_pemesanan)jmlitem,
                                 case 
                                     when x.status = '0'  then 'badge-light-info|New'
                                     when x.status = '1'  then 'badge-light-danger|Cancelled'
