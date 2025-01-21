@@ -42,9 +42,10 @@
 		}
 
         public function newrequest(){
+            $parameter = "and type<>'20'";
             $data['org_id']            = $_SESSION['orgid'];
             $data['no_pemesanan']      = generateuuid();
-            $data['no_pemesanan_unit'] = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_request_department"))->nomor_pemesanan;
+            $data['no_pemesanan_unit'] = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_request_department"),$parameter)->nomor_pemesanan;
             $data['judul_pemesanan']   = $this->input->post("modal_new_request_nama");
             $data['note']              = $this->input->post("modal_new_request_note");
             $data['department_id']     = $this->input->post("modal_new_request_department");
