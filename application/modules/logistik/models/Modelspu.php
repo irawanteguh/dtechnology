@@ -97,11 +97,8 @@
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
-                            case 
-                                when a.status = '90'  then 'badge-light-info|New'
-                                when a.status = '91'  then 'badge-light-info|Waiting Unit'
-                                else 'badge-light-secondary|Unknown'
-                            end as decoded_status
+                            (select color from dt01_gen_master_ms where org_id=a.org_id and code=a.status)colorstatus,
+                            (select master_name from dt01_gen_master_ms where org_id=a.org_id and code=a.status)namestatus
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'
                         ".$status."
@@ -129,7 +126,7 @@
                             select a.barang_id,nama_barang,
                                 (select item_id            from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')itemid,
                                 (select stock              from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')stock,
-                                (select qty_minta          from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qty,
+                                (select qty_req            from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qty,
                                 (select harga              from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')harga,
                                 (select ppn                from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')ppn,
                                 (select round(harga_ppn,0) from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')hargappn,

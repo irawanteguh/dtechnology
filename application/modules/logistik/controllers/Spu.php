@@ -54,6 +54,42 @@
             echo json_encode($json);
         }
 
+        public function approve(){
+            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('92') ";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function decline(){
+            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('93') ";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function masterbarang(){
             $nopemesanan = $this->input->post("nopemesanan");
             $result      = $this->md->masterbarang($_SESSION['orgid'],$nopemesanan);
@@ -160,7 +196,7 @@
             $data['no_pemesanan'] = $no_pemesanan;
             $data['barang_id']    = $barangid;
             $data['stock']        = $stock;
-            $data['qty_minta']    = $qty;
+            $data['qty_req']      = $qty;
             $data['harga']        = $harga;
             $data['ppn']          = $ppn*100;
             $data['harga_ppn']    = $vat_amount;
@@ -232,6 +268,35 @@
             echo json_encode($json);
         }
 
+        public function updateheader(){
+            $datanopemesanan = $this->input->post('datanopemesanan');
+            $status          = $this->input->post('status');
+            $validator        = $this->input->post('validator');
+            
+            $data['status'] = $status;
+
+            if($validator==="REQ"){
+                $data['request_id']    = $_SESSION['userid'];
+                $data['request_date']  = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="REQMANAGER"){
+                $data['request_manager_id']    = $_SESSION['userid'];
+                $data['request_manager_date']  = date('Y-m-d H:i:s');
+            }
+
+            if($this->md->updateheader($datanopemesanan,$data)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
+            }
+
+            echo json_encode($json);
+        }
         
     }
 ?>

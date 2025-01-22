@@ -7,6 +7,8 @@ filtercategory.on('change', filterTable);
 filterunit.on('change', filterTable);
 
 datarequest();
+approve();
+decline();
 
 function filterTable() {
     const itemnamefilter = filteritemname.value.map(tag => tag.value);
@@ -92,7 +94,7 @@ function datarequest(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
+                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -100,13 +102,13 @@ function datarequest(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             if(result[i].status==="90"){
-                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
                             }
                             if(result[i].jmlitem!="0"){
                                 if(result[i].status==="90"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='91' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='91' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                 }else{
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='90' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='90' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
                                 }
                             }
                             tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' onclick='getdetail(this)'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
@@ -122,6 +124,133 @@ function datarequest(){
             }
 
             $("#resultdatarequest").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function approve(){
+    $.ajax({
+        url       : url+"index.php/logistik/spu/approve",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdataapprove").html("");
+        },
+        success:function(data){
+            var result      = "";
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                result = data.responResult;
+                for(var i in result){
+                    var getvariabel = " data_nopemesanan='"+result[i].no_pemesanan+"'"+
+                                      " data_fromdepartmentid='"+result[i].from_department_id+"'";
+
+                    cito = result[i].cito === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
+
+                    tableresult +="<tr>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
+                    tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    tableresult +="<td><div>"+result[i].unitdituju+"</div></td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+
+                    tableresult += "<td class='text-end'>";
+                        tableresult += "<div class='btn-group' role='group'>";
+                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' onclick='getdetail(this)'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
+                            if(result[i].attachment==="1"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                            }
+                            tableresult +="</div>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
+
+                    tableresult +="</tr>";
+                }
+            }
+
+            $("#resultdataapprove").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function decline(){
+    $.ajax({
+        url       : url+"index.php/logistik/spu/decline",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdatadecline").html("");
+        },
+        success:function(data){
+            var result      = "";
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                result = data.responResult;
+                for(var i in result){
+                    var getvariabel = " data_nopemesanan='"+result[i].no_pemesanan+"'"+
+                                      " data_fromdepartmentid='"+result[i].from_department_id+"'";
+
+                    cito = result[i].cito === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
+
+                    tableresult +="<tr>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
+                    tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    tableresult +="<td><div>"+result[i].unitdituju+"</div></td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="</tr>";
+                }
+            }
+
+            $("#resultdatadecline").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");

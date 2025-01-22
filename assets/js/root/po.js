@@ -40,11 +40,6 @@ $('#modal_master_item').on('hidden.bs.modal', function (e) {
     decline();
 });
 
-function getStatusBadge(decodedStatus) {
-    const [badgeClass, statusText] = decodedStatus.split('|');
-    return `<div class='badge ${badgeClass} fw-bolder'>${statusText}</div>`;
-};
-
 function updateVatAndTotal(input) {
     const itemId = input.id.split("_")[1];
     const value  = input.value;
@@ -182,26 +177,26 @@ function updateVatAndTotal(input) {
 
 function validasi(btn) {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, proceed!',
-        cancelButtonText: 'Cancel'
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
             var datanopemesanan = btn.attr("data_nopemesanan");
             var status          = btn.attr("data_validasi");
-            var position        = btn.attr("data_position");
+            var validator       = btn.attr("data_validator");
 
             $.ajax({
-                url: url + "index.php/logistik/request/updateheader",
-                data: { datanopemesanan: datanopemesanan, status: status, position: position },
-                method: "POST",
-                dataType: "JSON",
-                cache: false,
+                url       : url+"index.php/logistik/spu/updateheader",
+                data      : {datanopemesanan:datanopemesanan,status:status,validator:validator},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
                 beforeSend: function () {
                     toastr.clear();
                     toastr["info"]("Sending request...", "Please wait");

@@ -29,6 +29,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-bold" id="resultdetailspu"></tbody>
+                        <tfoot class="fw-bolder text-muted bg-light" id="resultdetailfootspu"></tfoot>
                     </table>
                 </div>
             </div>
