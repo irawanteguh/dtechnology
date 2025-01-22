@@ -329,7 +329,7 @@ function approve(){
                         tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
                     }else{
                         if(result[i].invoice==="0" || result[i].invoice_no===null){
-                            if(result[i].status_vice===null && result[i].status_dir===null ){
+                            if((result[i].status_vice===null || result[i].status_vice==="") && (result[i].status_dir===null || result[i].status_dir==="") ){
                                 tableresult +="<td>"+getStatusBadge(result[i].decoded_status)+"</td>";
                             }else{
                                 tableresult +="<td>"+vice+dir+"</td>";
