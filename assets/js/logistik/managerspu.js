@@ -7,6 +7,24 @@ $("#modal_master_detail_spu").on('shown.bs.modal', function(){
     detailbarangspu(nopemesanan);
 });
 
+$("#modal_upload_lampiran").on('shown.bs.modal', function(){
+    var no_pemesanan = $(":hidden[name='no_pemesanan_upload']").val();
+
+    var myDropzone = new Dropzone("#file_doc", {
+        url               : url + "index.php/logistik/spu/uploaddocument?no_pemesanan="+no_pemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept            : function(file, done) {
+            done();
+        }
+    });
+});
+
 function getdetail(btn){
     var $btn                  = $(btn);
     var data_nopemesanan      = $btn.attr("data_nopemesanan");
@@ -126,7 +144,9 @@ function approve(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='91' data_validator='REQMANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Approved</a>";
+                            if(result[i].status==="92"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='91' data_validator='REQMANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Approved</a>";
+                            }
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
@@ -193,7 +213,10 @@ function decline(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='91' data_validator='REQMANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
+                            if(result[i].status==="93"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='91' data_validator='REQMANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
+                            }
+                            
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";

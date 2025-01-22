@@ -55,7 +55,7 @@
         }
 
         public function approve(){
-            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('92') ";
+            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('92','94') ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){
@@ -73,7 +73,7 @@
         }
 
         public function decline(){
-            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('93') ";
+            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('93','95') ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){
@@ -288,6 +288,13 @@
                 $data['req_manager_date'] = date('Y-m-d H:i:s');
             }
 
+            if($validator==="KAINS"){
+                $data['qty_minta']  = $qty;
+                $data['qty_manager']        = $qty;
+                $data['kains_id']   = $_SESSION['userid'];
+                $data['kains_date'] = date('Y-m-d H:i:s');
+            }
+
             // if($validasi==="KAINS"){
             //     $data['QTY_MINTA']   = $qty;
             //     $data['QTY_MANAGER'] = $qty;
@@ -362,6 +369,11 @@
             if($validator==="REQMANAGER"){
                 $data['request_manager_id']    = $_SESSION['userid'];
                 $data['request_manager_date']  = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="KAINS"){
+                $data['kains_id']    = $_SESSION['userid'];
+                $data['kains_date']  = date('Y-m-d H:i:s');
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){

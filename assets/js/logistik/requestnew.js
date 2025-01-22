@@ -16,7 +16,7 @@ function getdetail(btn){
 
 function datarequest(){
     $.ajax({
-        url       : url+"index.php/logistik/request/datarequest",
+        url       : url+"index.php/logistik/requestnew/datarequest",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -39,7 +39,12 @@ function datarequest(){
                     spu = result[i].type === "20" ? " <div class='badge badge-light-success fw-bolder'>SPU</div>" : "";
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+"</td>";
+                    if(result[i].type === "20"){
+                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_spu+"</div>"+spu+"</td>";
+                    }else{
+                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+"</td>";
+                    }
+                    
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>"+result[i].unitdituju+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -53,6 +58,11 @@ function datarequest(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
+                            tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='94' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                            tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='95' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                            if(result[i].attachment==="1"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                            }
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
@@ -84,7 +94,7 @@ function datarequest(){
 
 function detailbarangspu(nopemesanan){
     $.ajax({
-        url       : url+"index.php/logistik/request/detailbarangspu",
+        url       : url+"index.php/logistik/requestnew/detailbarangspu",
         data      : {nopemesanan:nopemesanan},
         method    : "POST",
         dataType  : "JSON",
@@ -93,10 +103,14 @@ function detailbarangspu(nopemesanan){
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
             $("#resultdetailspu").html("");
+            $("#resultdetailfootspu").html("");
         },
         success: function (data) {
             let result      = "";
             let tableresult = "";
+            let tfoot       = "";
+            let totalvat    = 0;
+            let grandtotal  = 0;
 
             if (data.responCode === "00") {
                 result = data.responResult;
@@ -112,17 +126,31 @@ function detailbarangspu(nopemesanan){
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
 
-                    // tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)' disabled></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' disabled></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
 
-                    
-
+                    tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
+                    tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
+                    if(result[i].note!=null){
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+                    }else{
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+                    }
                     tableresult += "</tr>";
 
+                    totalvat   += vatAmount;
+                    grandtotal += subtotal;
                 }
+
+                tfoot = `<tr><th class='ps-4 fw-bolder text-muted bg-light align-middle' colspan='5'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
 
             }
 
             $("#resultdetailspu").html(tableresult);
+            $("#resultdetailfootspu").html(tfoot);
+
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },

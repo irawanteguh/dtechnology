@@ -44,7 +44,7 @@
 
         public function approve(){
             $status="
-                        and   a.status in ('92')
+                        and   a.status in ('92','94')
                         and   a.from_department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -74,7 +74,7 @@
 
         public function decline(){
             $status="
-                        and   a.status in ('93')
+                        and   a.status in ('93','95')
                         and   a.from_department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms

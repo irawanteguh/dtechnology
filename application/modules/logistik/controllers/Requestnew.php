@@ -13,7 +13,7 @@
         }
 
         public function datarequest(){
-            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('91') ";
+            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('92') ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){
