@@ -13,7 +13,7 @@
         }
 
         public function datarequest(){
-            $status = "and   a.status in ('6') and a.status_vice is null";
+            $status = "and   a.status in ('6') and a.status_vice is null or a.status_vice=''";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
