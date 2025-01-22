@@ -92,7 +92,7 @@
         function datarequest($orgid,$status){
             $query =
                     "
-                        select a.no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, attachment, attachment_note, from_department_id, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, no_spu, no_pemesanan_unit, judul_pemesanan, note, attachment, attachment_note, from_department_id, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.from_department_id)unit,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
@@ -171,6 +171,11 @@
 
         function updateitem($barangid,$nopemesanan,$data){           
             $sql =   $this->db->update("dt01_lgu_pemesanan_dt",$data,array("barang_id"=>$barangid,"no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
+        function updatedetailitem($itemid,$data){           
+            $sql =   $this->db->update("dt01_lgu_pemesanan_dt",$data,array("item_id"=>$itemid));
             return $sql;
         }
 

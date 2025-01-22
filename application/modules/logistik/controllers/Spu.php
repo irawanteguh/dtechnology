@@ -156,7 +156,7 @@
 
             $data['org_id']             = $_SESSION['orgid'];
             $data['no_pemesanan']       = generateuuid();
-            $data['no_pemesanan_unit']  = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_request_department"),$parameter)->nomor_pemesanan;
+            $data['no_spu']             = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_request_department"),$parameter)->nomor_pemesanan;
             $data['judul_pemesanan']    = $this->input->post("modal_new_request_nama");
             $data['note']               = $this->input->post("modal_new_request_note");
             $data['from_department_id'] = $this->input->post("modal_new_request_department");
@@ -192,17 +192,18 @@
             $note         = $this->input->post('note');
             $itemid       = generateuuid();
 
-            $data['org_id']       = $_SESSION['orgid'];
-            $data['no_pemesanan'] = $no_pemesanan;
-            $data['barang_id']    = $barangid;
-            $data['stock']        = $stock;
-            $data['qty_req']      = $qty;
-            $data['harga']        = $harga;
-            $data['ppn']          = $ppn*100;
-            $data['harga_ppn']    = $vat_amount;
-            $data['total']        = $subtotal;
-            $data['note']         = $note;
-            $data['created_by']   = $_SESSION['userid'];
+            $data['org_id']          = $_SESSION['orgid'];
+            $data['no_pemesanan']    = $no_pemesanan;
+            $data['barang_id']       = $barangid;
+            $data['stock']           = $stock;
+            $data['qty_req']         = $qty;
+            $data['qty_req_manager'] = $qty;
+            $data['harga']           = $harga;
+            $data['ppn']             = $ppn*100;
+            $data['harga_ppn']       = $vat_amount;
+            $data['total']           = $subtotal;
+            $data['note']            = $note;
+            $data['created_by']      = $_SESSION['userid'];
 
             if(empty($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid))){
                 $data['item_id']      = $itemid;
@@ -263,6 +264,84 @@
                     $json['responHead']="info";
                     $json['responDesc']="Data Failed to Add";
                 }
+            }
+
+            echo json_encode($json);
+        }
+
+        public function updatedetailitem(){
+            $no_pemesanan = $this->input->post('no_pemesanan');
+            $validator     = $this->input->post('validator');
+            $item_id      = $this->input->post('item_id');
+            $qty          = $this->input->post('qty');
+            $stock        = $this->input->post('stock');
+            $harga        = $this->input->post('harga');
+            $ppn          = $this->input->post('ppn');
+            $subtotal     = $this->input->post('subtotal');
+            $vat_amount   = $this->input->post('vat_amount');
+            $note         = $this->input->post('note');
+
+            if($validator==="REQMANAGER"){
+                $data['qty_req_manager']  = $qty;
+                $data['qty_minta']        = $qty;
+                $data['req_manager_id']   = $_SESSION['userid'];
+                $data['req_manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            // if($validasi==="KAINS"){
+            //     $data['QTY_MINTA']   = $qty;
+            //     $data['QTY_MANAGER'] = $qty;
+            // }
+
+            // if($validasi==="MANAGER"){
+            //     $data['QTY_MANAGER']  = $qty;
+            //     $data['QTY_KEU']      = $qty;
+            //     $data['MANAGER_ID']   = $_SESSION['userid'];
+            //     $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
+            // }
+
+            // if($validasi==="FINANCE"){
+            //     $data['QTY_KEU']   = $qty;
+            //     $data['QTY_WADIR'] = $qty;
+            //     $data['KEU_ID']    = $_SESSION['userid'];
+            //     $data['KEU_DATE']  = date('Y-m-d H:i:s');
+            // }
+
+            // if($validasi==="VICE"){
+            //     $data['QTY_WADIR']  = $qty;
+            //     $data['QTY_DIR']    = $qty;
+            //     $data['WADIR_ID']   = $_SESSION['userid'];
+            //     $data['WADIR_DATE'] = date('Y-m-d H:i:s');
+            // }
+
+            // if($validasi==="DIR"){
+            //     $data['QTY_DIR']  = $qty;
+            //     $data['DIR_ID']   = $_SESSION['userid'];
+            //     $data['DIR_DATE'] = date('Y-m-d H:i:s');
+            // }
+            
+            $data['stock']     = $stock;
+            $data['harga']     = $harga;
+            $data['ppn']       = $ppn*100;
+            $data['harga_ppn'] = $vat_amount;
+            $data['total']     = $subtotal;
+            $data['note']      = $note;
+
+            if($this->md->updatedetailitem($item_id,$data)){
+                $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+
+                $dataheader['subtotal']  = $resulthitungdetail->harga;
+                $dataheader['harga_ppn'] = $resulthitungdetail->harga_ppn;
+                $dataheader['total']     = $resulthitungdetail->total;
+                $this->md->updateheader($no_pemesanan,$dataheader);
+
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
             }
 
             echo json_encode($json);

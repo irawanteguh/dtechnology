@@ -1,5 +1,5 @@
 <?php
-    class Modelrequest extends CI_Model{
+    class Modelrequestnew extends CI_Model{
         
         function datarequest($orgid,$status){
             $query =

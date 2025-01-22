@@ -1,15 +1,15 @@
 <?php
     defined('BASEPATH') or exit('No direct script access allowed');
-    class Request extends CI_Controller{
+    class Requestnew extends CI_Controller{
 
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelrequest", "md");
+            $this->load->model("Modelrequestnew", "md");
         }
 
         public function index(){
-            $this->template->load("template/template-sidebar", "v_request");
+            $this->template->load("template/template-sidebar", "v_requestnew");
         }
 
         public function datarequest(){
