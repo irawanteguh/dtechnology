@@ -5,7 +5,7 @@
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelrequest", "md");
+            $this->load->model("Modelrequestnew", "md");
         }
 
         public function index(){
@@ -14,7 +14,7 @@
 
         public function datarequest(){
             $status="
-                        and   a.status in ('2')
+                        and   a.status in ('7')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -43,7 +43,7 @@
 
         public function approve(){
             $status="
-                        and   a.status in ('4','6')
+                        and   a.status in ('4','9')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -72,7 +72,7 @@
 
         public function decline(){
             $status="
-                        and   a.status in ('3','5')
+                        and   a.status in ('8')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms

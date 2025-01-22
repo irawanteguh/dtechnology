@@ -36,7 +36,7 @@
                         <a class="nav-link active" data-bs-toggle="tab" href="#tabwaiting">On Process</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approve Vice Director / Director</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approved</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>

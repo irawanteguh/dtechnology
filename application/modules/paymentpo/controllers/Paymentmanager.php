@@ -72,7 +72,7 @@
 
         public function approve(){
             $status="
-                        and   a.status in ('9','11','13','15','16')
+                        and   a.status in ('9')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
