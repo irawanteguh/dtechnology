@@ -54,7 +54,7 @@
 
         public function approve(){
             $status="
-                        and   a.status in ('15','16')
+                        and   a.status in ('15','16','17')
                     ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             

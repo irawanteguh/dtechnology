@@ -20,6 +20,24 @@ function getdetail(btn){
             $('#modal-upload-invoice').modal('hide');
         }
     });
+
+    var myDropzone = new Dropzone("#file_bukti_bayar", {
+        url               : url + "index.php/logistik/request/uploadbuktibayar?no_pemesanan="+data_nopemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept            : function(file, done) {
+            done();
+            datarequest();
+            decline();
+            approve();
+            $('#modal-upload-buktibayar').modal('hide');
+        }
+    });
 };
 
 function datarequest(){
@@ -329,7 +347,7 @@ function approve(){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
                                 }
                                 if(result[i].status==="17"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 }
                             tableresult +="</div>";
                         tableresult +="</div>";

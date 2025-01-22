@@ -40,6 +40,11 @@ $('#modal_master_item').on('hidden.bs.modal', function (e) {
     decline();
 });
 
+function getStatusBadge(decodedStatus) {
+    const [badgeClass, statusText] = decodedStatus.split('|');
+    return `<div class='badge ${badgeClass} fw-bolder'>${statusText}</div>`;
+};
+
 function updateVatAndTotal(input) {
     const itemId = input.id.split("_")[1];
     const value  = input.value;

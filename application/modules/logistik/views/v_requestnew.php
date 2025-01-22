@@ -48,9 +48,9 @@
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">No Pemesanan</th>
+                                        <th class="ps-4 rounded-start">No Request</th>
                                         <th>Pengadaan</th>
-                                        <th>Supplier</th>
+                                        <th>To Unit</th>
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">%Vat</th>
                                         <th class="text-end">Vat</th>
