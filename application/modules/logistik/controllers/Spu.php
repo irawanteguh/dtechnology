@@ -135,6 +135,32 @@
 
         }
 
+        public function uploadinvoice(){
+            $no_pemesanan= $_GET['no_pemesanan'];
+
+            $config['upload_path']   = './assets/invoice/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $no_pemesanan;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+
+                $dataupdate['invoice']="1";
+
+                $this->md->updateheader($no_pemesanan,$dataupdate);
+
+                echo "Upload Success";
+            }
+        }
+
         public function notelampiran(){            
             $dataupdate['attachment_note'] = $this->input->post("modal_upload_lampiran_note");
 
@@ -359,21 +385,40 @@
             $status          = $this->input->post('status');
             $validator        = $this->input->post('validator');
             
-            $data['status'] = $status;
-
             if($validator==="REQ"){
-                $data['request_id']    = $_SESSION['userid'];
-                $data['request_date']  = date('Y-m-d H:i:s');
+                $data['status']       = $status;
+                $data['request_id']   = $_SESSION['userid'];
+                $data['request_date'] = date('Y-m-d H:i:s');
             }
 
             if($validator==="REQMANAGER"){
-                $data['request_manager_id']    = $_SESSION['userid'];
-                $data['request_manager_date']  = date('Y-m-d H:i:s');
+                $data['status']               = $status;
+                $data['request_manager_id']   = $_SESSION['userid'];
+                $data['request_manager_date'] = date('Y-m-d H:i:s');
             }
 
             if($validator==="KAINS"){
-                $data['kains_id']    = $_SESSION['userid'];
-                $data['kains_date']  = date('Y-m-d H:i:s');
+                $data['status']     = $status;
+                $data['kains_id']   = $_SESSION['userid'];
+                $data['kains_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="MANAGER"){
+                $data['status']       = $status;
+                $data['manager_id']   = $_SESSION['userid'];
+                $data['manager_Date'] = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="VICE"){
+                $data['status_vice'] = $status;
+                $data['wadir_id']    = $_SESSION['userid'];
+                $data['wadir_date']  = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="DIR"){
+                $data['status_dir'] = $status;
+                $data['dir_id']     = $_SESSION['userid'];
+                $data['dir_date']   = date('Y-m-d H:i:s');
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){

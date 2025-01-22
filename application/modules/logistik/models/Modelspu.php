@@ -97,8 +97,8 @@
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
-                            (select color from dt01_gen_master_ms where org_id=a.org_id and code=a.status)colorstatus,
-                            (select master_name from dt01_gen_master_ms where org_id=a.org_id and code=a.status)namestatus
+                            (select color from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)colorstatus,
+                            (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)namestatus
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'
                         ".$status."

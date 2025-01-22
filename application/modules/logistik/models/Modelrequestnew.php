@@ -1,22 +1,106 @@
 <?php
     class Modelrequestnew extends CI_Model{
         
+        function mastersupplier($orgid){
+            $query =
+                    "
+                        select a.supplier_id, supplier
+                        from dt01_lgu_supplier_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        order by supplier asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function paymentmethod(){
+            $query =
+                    "
+                        select '1'id, 'Invoice'metod union select '2'id, 'Cash / Bon' metod union select '3'id, 'Invoice dan Cash / Bon' metod
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masterunit($orgid,$parameter){
+            $query =
+                    "
+                        select a.department_id, department
+                        from dt01_gen_department_ms a
+                        where a.org_id='".$orgid."'
+                        ".$parameter."
+                        and   a.active='1'
+                        order by department asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function buatnopemesanan($orgid,$departmentid,$parameter){
+            $query =
+                    "
+                        select concat(
+                                        lpad(
+                                            coalesce(
+                                                (
+                                                    select COUNT(no_pemesanan)+1
+                                                    from dt01_lgu_pemesanan_hd
+                                                    where org_id='".$orgid."'
+                                                    and   department_id='".$departmentid."'
+                                                    ".$parameter."
+                                                    and   DATE_FORMAT(created_date, '%Y') = DATE_FORMAT(CURRENT_DATE, '%Y')
+                                                ),
+                                                1
+                                            ),
+                                            3,
+                                            '0'
+                                        ),
+                                        '/',
+                                        COALESCE(
+                                                    (
+                                                        select code
+                                                        from dt01_gen_department_ms
+                                                        where org_id='".$orgid."'
+                                                        and   department_id='".$departmentid."'
+                                                    ),
+                                                    'XXX'
+                                        ),
+                                        '/',
+                                        DATE_FORMAT(NOW(), '%m'),
+                                        '/',
+                                        DATE_FORMAT(NOW(), '%Y')
+                                ) nomor_pemesanan
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         function datarequest($orgid,$status){
             $query =
                     "
-                        select a.no_pemesanan, no_spu, no_pemesanan_unit, judul_pemesanan, note, attachment, attachment_note, from_department_id, type, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, no_spu, no_pemesanan_unit, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, type, method, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                            (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.from_department_id)unit,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
                             (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.created_by)dibuatoleh,
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
-                            (select color from dt01_gen_master_ms where org_id=a.org_id and code=a.status)colorstatus,
-                            (select master_name from dt01_gen_master_ms where org_id=a.org_id and code=a.status)namestatus
+                            (select color from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)colorstatus,
+                            (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)namestatus
 
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'
                         ".$status."
                         and   a.active='1'
-                        and   a.type='20'
                         order by created_date desc
                     ";
 
@@ -49,6 +133,10 @@
             return $recordset;
         }
 
+        function insertheader($data){           
+            $sql =   $this->db->insert("dt01_lgu_pemesanan_hd",$data);
+            return $sql;
+        }
 
 
     }
