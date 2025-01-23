@@ -18,9 +18,9 @@ function datarequest(){
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
-            $("#resultdatarequest").html("");
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
+            $("#resultdatarequest").html("");
         },
         success:function(data){
             var result      = "";
@@ -32,6 +32,7 @@ function datarequest(){
                     var cito = "";
                     var vice = "";
                     var dir  = "";
+                    
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+

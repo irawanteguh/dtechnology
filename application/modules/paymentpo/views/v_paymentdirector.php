@@ -13,7 +13,7 @@
                         <a class="nav-link active" data-bs-toggle="tab" href="#tabwaiting">Waiting</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approve</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approved</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>

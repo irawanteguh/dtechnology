@@ -424,12 +424,15 @@
             }
 
             if($validator==="FINANCE"){
-                $data['status']       = $status;
-                $data['finance_id']   = $_SESSION['userid'];
-                $data['finance_date'] = date('Y-m-d H:i:s');
+                if($status==="13" || $status==="14" || $status==="15" || $status==="16"){
+                    $data['status']       = $status;
+                    $data['inv_keu_id']   = $_SESSION['userid'];
+                    $data['inv_keu_Date'] = date('Y-m-d H:i:s');
+                }
+                // $data['status']       = $status;
+                // $data['finance_id']   = $_SESSION['userid'];
+                // $data['finance_date'] = date('Y-m-d H:i:s');
             }
-
-            
 
             if($validator==="VICE"){
                 if($status==="9" || $status==="10" || $status==="11"){
@@ -443,9 +446,14 @@
             }
 
             if($validator==="DIR"){
-                $data['status_dir'] = $status;
-                $data['dir_id']     = $_SESSION['userid'];
-                $data['dir_date']   = date('Y-m-d H:i:s');
+                if($status==="11" || $status==="12" || $status==="13"){
+                    $data['status']       = $status;
+                    $data['inv_dir_id']   = $_SESSION['userid'];
+                    $data['inv_dir_Date'] = date('Y-m-d H:i:s');
+                }
+                // $data['status_dir'] = $status;
+                // $data['dir_id']     = $_SESSION['userid'];
+                // $data['dir_date']   = date('Y-m-d H:i:s');
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){
