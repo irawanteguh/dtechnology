@@ -415,7 +415,7 @@
 
             if($validator==="MANAGER"){
 
-                if($status==="8" || $status==="9"){
+                if($status==="7" || $status==="8" || $status==="9"){
                     $data['status']       = $status;
                     $data['inv_manager_id']   = $_SESSION['userid'];
                     $data['inv_manager_Date'] = date('Y-m-d H:i:s');
