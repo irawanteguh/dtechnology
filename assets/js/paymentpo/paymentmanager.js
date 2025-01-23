@@ -20,9 +20,6 @@ function datarequest(){
             if(data.responCode==="00"){
                 result = data.responResult;
                 for(var i in result){
-                    var cito = "";
-                    var vice = "";
-                    var dir  = "";
                     
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
@@ -39,14 +36,11 @@ function datarequest(){
 
                     tableresult +="<tr>";
                     
-                    if(result[i].type === "20"){
-                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_spu+"</div>"+spu+"</td>";
-                    }else{
+                    if(result[i].type === "0" || result[i].type === "1"){
                         tableresult +="<td class='ps-4'><div>"+(result[i].unitdituju ? result[i].unitdituju : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+type+"</td>";
                     }
-
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
+                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -75,6 +69,11 @@ function datarequest(){
                                 //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data_validasi='2' onclick='validasi($(this));'><i class='bi bi-check2-circle text-primary'></i> Re Waiting</a>";
                                 // }
 
+                                
+                                // if(result[i].status==="17"){
+                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
+                                // }
+
                                 if(result[i].status==="7"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='9' data_validator='MANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='8' data_validator='MANAGER' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
@@ -86,9 +85,6 @@ function datarequest(){
                                 if(result[i].attachment==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                                 }
-                                // if(result[i].status==="17"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
-                                // }
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
@@ -128,9 +124,6 @@ function decline(){
             if(data.responCode==="00"){
                 result = data.responResult;
                 for(var i in result){
-                    var cito = "";
-                    var vice = "";
-                    var dir  = "";
                     
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
@@ -138,26 +131,19 @@ function decline(){
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
-                    if(result[i].cito==="Y"){
-                        cito =" <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>";
-                    }
-                    if(result[i].status_vice==="N"){
-                        vice =" <div class='badge badge-light-danger fw-bolder'>Cancelled Vice Director</div>";
-                    }
-                    if(result[i].status_vice==="Y"){
-                        vice =" <div class='badge badge-light-info fw-bolder'>Approval Vice Director</div>";
-                    }
-                    if(result[i].status_dir==="N"){
-                        dir =" <div class='badge badge-light-danger fw-bolder'>Cancelled Director</div>";
-                    }
-                    if(result[i].status_dir==="Y"){
-                        dir =" <div class='badge badge-light-info fw-bolder'>Approval Director</div>";
-                    }
+                    cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
+                    spu  = result[i].type        === "20" ? " <div class='badge badge-light-success fw-bolder'>SPU</div>" : "";
+                    type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
+                    vice = result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>Cancelled Vice Director</div>" : " <div class='badge badge-light-info fw-bolder'>Approval Vice Director</div>";
+                    dir  = result[i].status_dir  === "N" ? " <div class='badge badge-light-danger fw-bolder'>Cancelled Director</div>" : " <div class='badge badge-light-info fw-bolder'>Approval Director</div>";
+                
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
+                    if(result[i].type === "0" || result[i].type === "1"){
+                        tableresult +="<td class='ps-4'><div>"+(result[i].unitdituju ? result[i].unitdituju : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+type+"</td>";
+                    }
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
+                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -258,14 +244,11 @@ function approve(){
 
                     tableresult +="<tr>";
                     
-                    if(result[i].type === "20"){
-                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_spu+"</div>"+spu+"</td>";
-                    }else{
+                    if(result[i].type === "0" || result[i].type === "1"){
                         tableresult +="<td class='ps-4'><div>"+(result[i].unitdituju ? result[i].unitdituju : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+type+"</td>";
                     }
-
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
+                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";

@@ -398,16 +398,38 @@
             }
 
             if($validator==="KAINS"){
-                $data['status']     = $status;
-                $data['kains_id']   = $_SESSION['userid'];
-                $data['kains_date'] = date('Y-m-d H:i:s');
+
+                if($status==="0" || $status==="1"){
+                    $data['status']     = $status;
+                    $data['kains_id']   = $_SESSION['userid'];
+                    $data['kains_date'] = date('Y-m-d H:i:s');
+                }
+
+                if($status==="7"){
+                    $data['status']     = $status;
+                    $data['inv_kains_id']   = $_SESSION['userid'];
+                    $data['inv_kains_date'] = date('Y-m-d H:i:s');
+                }
+                
             }
 
             if($validator==="MANAGER"){
-                $data['status']       = $status;
-                $data['manager_id']   = $_SESSION['userid'];
-                $data['manager_Date'] = date('Y-m-d H:i:s');
+
+                if($status==="8" || $status==="9"){
+                    $data['status']       = $status;
+                    $data['inv_manager_id']   = $_SESSION['userid'];
+                    $data['inv_manager_Date'] = date('Y-m-d H:i:s');
+                }
+                
             }
+
+            if($validator==="FINANCE"){
+                $data['status']     = $status;
+                $data['finance_id']   = $_SESSION['userid'];
+                $data['finance_date'] = date('Y-m-d H:i:s');
+            }
+
+            
 
             if($validator==="VICE"){
                 $data['status_vice'] = $status;

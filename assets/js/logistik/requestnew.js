@@ -130,25 +130,13 @@ function datarequest(){
                     dir  = result[i].status_dir  === "N" ? " <div class='badge badge-light-danger fw-bolder'>Cancelled Director</div>" : " <div class='badge badge-light-info fw-bolder'>Approval Director</div>";
                 
                     tableresult +="<tr>";
-                    if(result[i].type === "20"){
-                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_spu+"</div>"+spu+"</td>";
-                    }else{
+
+                    if(result[i].type === "0" || result[i].type === "1"){
                         tableresult +="<td class='ps-4'><div>"+(result[i].unitdituju ? result[i].unitdituju : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+type+"</td>";
                     }
-                    
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    if(result[i].type === "20"){
-                        tableresult +="<td><div>"+result[i].unitdituju+"</div></td>";
-                    }else{
-                        tableresult +="<td></td>";
-                    }
-                    
-                    if(result[i].supplier_id!=null){
-                        tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
-                    }else{
-                        tableresult +="<td></td>";
-                    }
-                    
+                    tableresult +="<td></td>";
+                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -169,7 +157,7 @@ function datarequest(){
                                             tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                         }
                                         tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice' data_invoice_no='"+result[i].invoice_no+"' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice' data_invoice_no='"+result[i].invoice_no+"' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                     }
                                 }   
                             }
@@ -276,12 +264,6 @@ function approve(){
                 
                     tableresult +="<tr>";
 
-                    if(result[i].type === "20"){
-                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_spu+"</div>"+spu+"</td>";
-                    }else{
-                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+"</td>";
-                    }
-                    
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>"+result[i].unitdituju+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -356,21 +338,12 @@ function decline(){
                     type = result[i].type === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
 
                     tableresult +="<tr>";
-                    if(result[i].type === "20"){
-                        tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_spu+"</div>"+spu+"</td>";
-                    }else{
+                    if(result[i].type === "0" || result[i].type === "1"){
                         tableresult +="<td class='ps-4'><div>"+(result[i].unitdituju ? result[i].unitdituju : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+type+"</td>";
                     }
-                    
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
-                    tableresult +="<td><div>"+result[i].unitdituju+"</div></td>";
-                    
-                    if(result[i].supplier_id!=null){
-                        tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
-                    }else{
-                        tableresult +="<td></td>";
-                    }
-
+                    tableresult +="<td></td>";
+                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -382,7 +355,7 @@ function decline(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             if(result[i].status==="1"){
-                                tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='0' data_validator='REQMANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='0' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
                             }
                             tableresult +="</div>";
                         tableresult +="</div>";
