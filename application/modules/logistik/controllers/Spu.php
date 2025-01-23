@@ -416,7 +416,7 @@
             if($validator==="MANAGER"){
 
                 if($status==="7" || $status==="8" || $status==="9"){
-                    $data['status']       = $status;
+                    $data['status']           = $status;
                     $data['inv_manager_id']   = $_SESSION['userid'];
                     $data['inv_manager_Date'] = date('Y-m-d H:i:s');
                 }
@@ -424,7 +424,7 @@
             }
 
             if($validator==="FINANCE"){
-                $data['status']     = $status;
+                $data['status']       = $status;
                 $data['finance_id']   = $_SESSION['userid'];
                 $data['finance_date'] = date('Y-m-d H:i:s');
             }
@@ -432,9 +432,14 @@
             
 
             if($validator==="VICE"){
-                $data['status_vice'] = $status;
-                $data['wadir_id']    = $_SESSION['userid'];
-                $data['wadir_date']  = date('Y-m-d H:i:s');
+                if($status==="9" || $status==="10" || $status==="11"){
+                    $data['status']        = $status;
+                    $data['inv_vice_id']   = $_SESSION['userid'];
+                    $data['inv_vice_Date'] = date('Y-m-d H:i:s');
+                }
+                // $data['status_vice'] = $status;
+                // $data['wadir_id']    = $_SESSION['userid'];
+                // $data['wadir_date']  = date('Y-m-d H:i:s');
             }
 
             if($validator==="DIR"){
