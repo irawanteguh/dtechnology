@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-upload-buktibayar" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_upload_buktibayar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0">

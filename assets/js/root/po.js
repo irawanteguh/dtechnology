@@ -38,10 +38,15 @@ $('#modal_upload_invoice').on('hidden.bs.modal', function (e) {
     decline();
 });
 
-function getStatusBadge(decodedStatus) {
-    const [badgeClass, statusText] = decodedStatus.split('|');
-    return `<div class='badge ${badgeClass} fw-bolder'>${statusText}</div>`;
-};
+$('#modal_upload_buktibayar').on('hidden.bs.modal', function (e) {
+    if (Dropzone.instances.length > 0) {
+        Dropzone.instances.forEach(dz => dz.destroy());
+    }
+    Dropzone.autoDiscover = false;
+    datarequest();
+    approve();
+    decline();
+});
 
 function validasi(btn) {
     Swal.fire({

@@ -399,7 +399,7 @@
 
             if($validator==="KAINS"){
 
-                if($status==="0" || $status==="1"){
+                if($status==="0" || $status==="1" || $status==="2"){
                     $data['status']     = $status;
                     $data['kains_id']   = $_SESSION['userid'];
                     $data['kains_date'] = date('Y-m-d H:i:s');
@@ -414,6 +414,12 @@
             }
 
             if($validator==="MANAGER"){
+
+                if($status==="2" || $status==="3" || $status==="4"){
+                    $data['status']     = $status;
+                    $data['manager_id']   = $_SESSION['userid'];
+                    $data['manager_date'] = date('Y-m-d H:i:s');
+                }
 
                 if($status==="7" || $status==="8" || $status==="9"){
                     $data['status']           = $status;

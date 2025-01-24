@@ -5,7 +5,7 @@
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelrequest", "md");
+            $this->load->model("Modelrequestnew", "md");
         }
 
         public function index(){

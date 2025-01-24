@@ -2,42 +2,29 @@ datarequest();
 decline();
 approve();
 
+$("#modal_upload_buktibayar").on('shown.bs.modal', function(){
+    var no_pemesanan = $(":hidden[name='no_pemesanan_buktibayar']").val();
+
+    var myDropzone = new Dropzone("#file_bukti_bayar", {
+        url               : url + "index.php/logistik/request/uploadbuktibayar?no_pemesanan="+no_pemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept            : function(file, done) {
+            done();
+            $('#modal_upload_buktibayar').modal('hide');
+        }
+    });
+});
+
 function getdetail(btn){
     var $btn                  = $(btn);
     var data_nopemesanan      = $btn.attr("data_nopemesanan");
-
-    var myDropzone = new Dropzone("#file_invoice", {
-        url               : url + "index.php/paymentpo/paymentfinance/uploadinvoice?no_pemesanan="+data_nopemesanan,
-        acceptedFiles     : '.pdf',
-        paramName         : "file",
-        dictDefaultMessage: "Drop files here or click to upload",
-        maxFiles          : 1,
-        maxFilesize       : 2,
-        addRemoveLinks    : true,
-        autoProcessQueue  : true,
-        accept            : function(file, done) {
-            done();
-            $('#modal-upload-invoice').modal('hide');
-        }
-    });
-
-    var myDropzone = new Dropzone("#file_bukti_bayar", {
-        url               : url + "index.php/logistik/request/uploadbuktibayar?no_pemesanan="+data_nopemesanan,
-        acceptedFiles     : '.pdf',
-        paramName         : "file",
-        dictDefaultMessage: "Drop files here or click to upload",
-        maxFiles          : 1,
-        maxFilesize       : 2,
-        addRemoveLinks    : true,
-        autoProcessQueue  : true,
-        accept            : function(file, done) {
-            done();
-            datarequest();
-            decline();
-            approve();
-            $('#modal-upload-buktibayar').modal('hide');
-        }
-    });
+    $(":hidden[name='no_pemesanan_buktibayar']").val(data_nopemesanan);
 };
 
 function datarequest(){
@@ -325,7 +312,10 @@ function approve(){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
                                 }
                                 if(result[i].status==="16"){
-                                    tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='15' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Payment Success</a>";
+                                }
+                                if(result[i].status!="15"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
                                 }
                                 if(result[i].status==="17"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
