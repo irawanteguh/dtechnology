@@ -31,7 +31,7 @@
         }
 
         public function approve(){
-            $status = "and   a.status in ('6') and a.status_vice = 'Y'";
+            $status = "and   a.status in ('6') and a.status_vice = 'Y' and (a.status_dir is null or a.status_dir='' or a.status_dir='Y')";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
@@ -49,7 +49,8 @@
         }
 
         public function decline(){
-            $status = "and   a.status in ('6') and a.status_vice = 'N'";
+            $status = "and   a.status in ('6') and (a.status_vice = 'N' or a.status_dir = 'N')
+            ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){

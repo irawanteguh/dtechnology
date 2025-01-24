@@ -463,9 +463,6 @@
                     $data['inv_keu_id']   = $_SESSION['userid'];
                     $data['inv_keu_Date'] = date('Y-m-d H:i:s');
                 }
-                // $data['status']       = $status;
-                // $data['finance_id']   = $_SESSION['userid'];
-                // $data['finance_date'] = date('Y-m-d H:i:s');
             }
 
             if($validator==="VICE"){
@@ -487,9 +484,11 @@
                     $data['inv_dir_id']   = $_SESSION['userid'];
                     $data['inv_dir_Date'] = date('Y-m-d H:i:s');
                 }
-                // $data['status_dir'] = $status;
-                // $data['dir_id']     = $_SESSION['userid'];
-                // $data['dir_date']   = date('Y-m-d H:i:s');
+                if($status==="" || $status==="N" || $status==="Y"){
+                    $data['status_dir'] = $status;
+                    $data['dir_id']    = $_SESSION['userid'];
+                    $data['dir_date']  = date('Y-m-d H:i:s');
+                }
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){
