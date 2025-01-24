@@ -296,6 +296,10 @@ function approve(){
                         }else{
                             if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
                                 tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                            }else{
+                                if(result[i].status === "6" && result[i].status_vice != null && result[i].status_dir != null){
+                                    tableresult +="<td>"+vice+dir+"</td>";
+                                }
                             }
                         }
                     }
@@ -388,6 +392,10 @@ function decline(){
                         }else{
                             if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
                                 tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                            }else{
+                                if(result[i].status === "6" && result[i].status_vice != null && result[i].status_dir != null){
+                                    tableresult +="<td>"+vice+dir+"</td>";
+                                }
                             }
                         }
                     }

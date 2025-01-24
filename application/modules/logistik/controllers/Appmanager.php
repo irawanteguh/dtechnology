@@ -44,6 +44,7 @@
         public function approve(){
             $status="
                         and   a.status in ('4','6')
+                        and   (((a.status='6' and a.status_vice='Y') or (a.status='6' and a.status_dir='Y')))
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -72,7 +73,8 @@
 
         public function decline(){
             $status="
-                        and   a.status in ('3','5')
+                        and   a.status in ('3','5','6')
+                        and   ((a.status='5' and a.status_vice is null) or ((a.status='6' and a.status_vice='N') or (a.status='6' and a.status_dir='N')))
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms

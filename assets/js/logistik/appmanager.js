@@ -277,7 +277,23 @@ function decline(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult += (result[i].status_vice === null || result[i].status_dir === null || result[i].status_vice === '' || result[i].status_dir === '') ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
+
+                    if(result[i].status != "6"){
+                        tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                    }else{
+                        if(result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null){
+                            tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                        }else{
+                            if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
+                                tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                            }else{
+                                if(result[i].status === "6" && result[i].status_vice != null && result[i].status_dir != null){
+                                    tableresult +="<td>"+vice+dir+"</td>";
+                                }
+                            }
+                        }
+                    }
+                    //tableresult += (result[i].status_vice === null || result[i].status_dir === null || result[i].status_vice === '' || result[i].status_dir === '') ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
