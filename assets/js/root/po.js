@@ -250,3 +250,65 @@ function viewdoc(btn) {
         $('#openInNewTabButton').data('filename', '');
     }
 };
+
+function printpo(nopemesanan){
+    $.ajax({
+        url       : url+"index.php/logistik/requestnew/detailbarangspu",
+        data      : {nopemesanan:nopemesanan},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdetailpo").html("");
+        },
+        success: function (data) {
+            let result      = "";
+            let tableresult = "";
+            let ttdkains    = "";
+            let ttdmanager  = "";
+            let totalvat    = 0;
+            let grandtotal  = 0;
+
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (let i in result) {
+                    const stock      = parseFloat(result[i].stock) || 0;
+                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
+                    const harga      = parseFloat(result[i].harga) || 0;
+                    const vatPercent = parseFloat(result[i].ppn) || 0;
+                    const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
+                    const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+                    tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
+                    tableresult += `<td class='text-end pe-4'>${result[i].note ? result[i].note : ""}</td>`;
+                    tableresult += "</tr>";
+
+                    totalvat   += vatAmount;
+                    grandtotal += subtotal;
+
+                    ttdkains   = result[i].createdby;
+                    ttdmanager = result[i].manager;
+                }
+            }
+
+            $("#resultdetailpo").html(tableresult);
+
+            $("#ttdkains").html(ttdkains);
+            $("#ttdmanager").html(ttdmanager);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
+        }
+    });
+    return false;
+};

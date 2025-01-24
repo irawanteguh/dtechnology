@@ -39,8 +39,8 @@ function datarequest(){
                     cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
                     spu  = result[i].type        === "20" ? " <div class='badge badge-light-success fw-bolder'>SPU</div>" : "";
                     type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
-                    vice = result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>Cancelled Vice Director</div>" : " <div class='badge badge-light-info fw-bolder'>Approval Vice Director</div>";
-                    dir  = result[i].status_dir  === "N" ? " <div class='badge badge-light-danger fw-bolder'>Cancelled Director</div>" : " <div class='badge badge-light-info fw-bolder'>Approval Director</div>";
+                    vice = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
+                    dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
                 
                     tableresult +="<tr>";
 
@@ -52,18 +52,15 @@ function datarequest(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    if(result[i].status != "6"){
+                    if(result[i].status!="6"){
                         tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
                     }else{
-                        if(result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null){
+                        if(vice==="" && dir===""){
                             tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
                         }else{
-                            if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
-                                tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
-                            }
+                            tableresult +="<td>"+vice+dir+"</td>";
                         }
                     }
-                    // tableresult += ((result[i].status != "6") || (result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null)) ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -151,7 +148,7 @@ function approve(){
                     type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
                     vice = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
                     dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
-
+                
                     tableresult +="<tr>";
 
                     if(result[i].type === "0" || result[i].type === "1"){
@@ -162,7 +159,15 @@ function approve(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td>"+vice+dir+"</td>";
+                    if(result[i].status!="6"){
+                        tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                    }else{
+                        if(vice==="" && dir===""){
+                            tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                        }else{
+                            tableresult +="<td>"+vice+dir+"</td>";
+                        }
+                    }
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -246,7 +251,7 @@ function decline(){
                     type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
                     vice = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
                     dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
-                                  
+                
                     tableresult +="<tr>";
 
                     if(result[i].type === "0" || result[i].type === "1"){
@@ -257,7 +262,15 @@ function decline(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult += ((result[i].status === "5") || (result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null)) ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
+                    if(result[i].status!="6"){
+                        tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                    }else{
+                        if(vice==="" && dir===""){
+                            tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                        }else{
+                            tableresult +="<td>"+vice+dir+"</td>";
+                        }
+                    }
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -314,87 +327,87 @@ function decline(){
     return false;
 };
 
-function datadetail(data_nopemesanan,data_status){
-    $.ajax({
-        url       : url + "index.php/logistik/request/detailbarang",
-        data      : { data_nopemesanan: data_nopemesanan },
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            $("#resultdetail").html("");
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-        },
-        success: function (data) {
-            let result      = "";
-            let tableresult = "";
-            let tfoot       = "";
-            let totalvat    = 0;
-            let grandtotal  = 0;
+// function datadetail(data_nopemesanan,data_status){
+//     $.ajax({
+//         url       : url + "index.php/logistik/request/detailbarang",
+//         data      : { data_nopemesanan: data_nopemesanan },
+//         method    : "POST",
+//         dataType  : "JSON",
+//         cache     : false,
+//         beforeSend: function () {
+//             $("#resultdetail").html("");
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+//         },
+//         success: function (data) {
+//             let result      = "";
+//             let tableresult = "";
+//             let tfoot       = "";
+//             let totalvat    = 0;
+//             let grandtotal  = 0;
 
-            if (data.responCode === "00") {
-                result = data.responResult;
-                for (let i in result) {
+//             if (data.responCode === "00") {
+//                 result = data.responResult;
+//                 for (let i in result) {
 
-                    const stock      = parseFloat(result[i].stock) || 0;
-                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
-                    const harga      = parseFloat(result[i].harga) || 0;
-                    const vatPercent = parseFloat(result[i].ppn) || 0;
-                    const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
-                    const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
+//                     const stock      = parseFloat(result[i].stock) || 0;
+//                     const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
+//                     const harga      = parseFloat(result[i].harga) || 0;
+//                     const vatPercent = parseFloat(result[i].ppn) || 0;
+//                     const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
+//                     const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
 
-                    tableresult += "<tr>";
-                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
-                    tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
-                    tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
-                    tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
+//                     tableresult += "<tr>";
+//                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+//                     tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
+//                     tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
+//                     tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
 
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)' disabled></td>`;
+//                     tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)' disabled></td>`;
 
-                    if(data_status==="6"){
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
-                    } else {
-                        tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
-                        tableresult += `<td class='text-end'>${todesimal(result[i].harga)}</td>`;
-                        tableresult += `<td class='text-end'>${todesimal(vatPercent)}</td>`;
-                    }
+//                     if(data_status==="6"){
+//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
+//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
+//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
+//                     } else {
+//                         tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
+//                         tableresult += `<td class='text-end'>${todesimal(result[i].harga)}</td>`;
+//                         tableresult += `<td class='text-end'>${todesimal(vatPercent)}</td>`;
+//                     }
 
-                    tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
-                    tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
+//                     tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
+//                     tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
 
-                    if(data_status === "6"){
-                        if(result[i].note!=null){
-                            tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' onchange='updateVatAndTotal(this)'></td>`;
-                        }else{
-                            tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' onchange='updateVatAndTotal(this)'></td>`;
-                        }
-                    }else{
-                        tableresult += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
-                    }
+//                     if(data_status === "6"){
+//                         if(result[i].note!=null){
+//                             tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' onchange='updateVatAndTotal(this)'></td>`;
+//                         }else{
+//                             tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' onchange='updateVatAndTotal(this)'></td>`;
+//                         }
+//                     }else{
+//                         tableresult += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
+//                     }
 
-                    tableresult += "</tr>";
+//                     tableresult += "</tr>";
 
-                    totalvat   += vatAmount;
-                    grandtotal += subtotal;
-                }
+//                     totalvat   += vatAmount;
+//                     grandtotal += subtotal;
+//                 }
 
-                tfoot = `<tr><th class='ps-4 fw-bolder text-muted bg-light align-middle' colspan='8'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
+//                 tfoot = `<tr><th class='ps-4 fw-bolder text-muted bg-light align-middle' colspan='8'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
 
-            }
+//             }
 
-            $("#resultdetail").html(tableresult);
-            $("#resultdetailfoot").html(tfoot);
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-        },
-        error: function (xhr, status, error) {
-            toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
-        },
-        complete: function () {
-            toastr.clear();
-        }
-    });
-    return false;
-};
+//             $("#resultdetail").html(tableresult);
+//             $("#resultdetailfoot").html(tfoot);
+//             toastr[data.responHead](data.responDesc, "INFORMATION");
+//         },
+//         error: function (xhr, status, error) {
+//             toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
+//         },
+//         complete: function () {
+//             toastr.clear();
+//         }
+//     });
+//     return false;
+// };

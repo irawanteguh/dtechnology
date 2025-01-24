@@ -138,7 +138,6 @@
                                 (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=a.jenis_id)jenis
                             from dt01_lgu_barang_ms a
                             where a.active='1'
-                            and   a.jenis_id='542476c2-186a-4a2c-bb6f-17c34e44d6a9'
                             and   a.org_id='".$orgid."'
                         )x
                         order by status desc, nama_barang asc

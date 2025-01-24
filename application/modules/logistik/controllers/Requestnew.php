@@ -119,9 +119,22 @@
         }
 
         public function approve(){
-            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                     and   a.status in ('2','4','6')
-                     and   (((a.status='6' and a.status_vice='Y') or (a.status='6' and a.status_dir='Y')))
+            $status="
+                        and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+                        and   a.status in ('2','4','6')
+                        and (
+                                (
+                                    a.status <> '6' 
+                                    and (a.status_vice is null or a.status_vice = '') 
+                                    and (a.status_dir is null or a.status_dir = '')
+                                ) 
+                                or
+                                (
+                                    a.status = '6' 
+                                    and a.status_vice = 'Y' 
+                                    and a.status_dir = 'Y'
+                                )
+                            )
                      ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
@@ -143,7 +156,19 @@
             $status="
                         and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
                         and   a.status in ('1','3','5','6')
-                        and   ((a.status='5' and a.status_vice is null) or ((a.status='6' and a.status_vice='N') or (a.status='6' and a.status_dir='N')))
+                        and (
+                                (
+                                    a.status <> '6' 
+                                    and (a.status_vice is null or a.status_vice = '') 
+                                    and (a.status_dir is null or a.status_dir = '')
+                                ) 
+                                or
+                                (
+                                    a.status = '6' 
+                                    and a.status_vice = 'N' 
+                                    and a.status_dir = 'N'
+                                )
+                            )
                      ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             

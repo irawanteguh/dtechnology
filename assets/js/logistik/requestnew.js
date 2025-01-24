@@ -56,6 +56,11 @@ $("#modal_master_item").on('shown.bs.modal', function(){
     masterbarang(nopemesanan);
 });
 
+$("#modal_print_po").on('shown.bs.modal', function(){
+    var no_pemesanan = $(":hidden[name='no_pemesanan_po']").val();
+    printpo(no_pemesanan);
+});
+
 function filterTable() {
     const itemnamefilter = filteritemname.value.map(tag => tag.value);
     const categoryfilter = filtercategory.value.map(tag => tag.value);
@@ -81,13 +86,17 @@ function filterTable() {
 function getdetail(btn){
     var $btn                  = $(btn);
     var data_nopemesanan      = $btn.attr("data_nopemesanan");
+    var data_nopemesanan_unit = $btn.attr("data_nopemesanan_unit");
     var data_fromdepartmentid = $btn.attr("data_fromdepartmentid");
+    var data_suppliers        = $btn.attr("data_suppliers");
     var data_invoice_no       = $btn.attr("data_invoice_no");
     var data_attachment_note  = $btn.attr("data_attachment_note");
+    var data_createddate      = $btn.attr("data_createddate");
 
     $(":hidden[name='no_pemesanan_upload']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
     $(":hidden[name='nopemesanan_item']").val(data_nopemesanan);
+    $(":hidden[name='no_pemesanan_po']").val(data_nopemesanan);
 
     if(data_attachment_note!='null'){
         $("textarea[name='modal_upload_lampiran_note']").val(data_attachment_note);
@@ -100,6 +109,10 @@ function getdetail(btn){
     }else{
         $("input[name='modal_upload_invoice_no']").val('');
     }
+
+    $("#pono").html(data_nopemesanan_unit);
+    $("#suppliers").html(data_suppliers);
+    $("#orderdate").html(data_createddate);
 };
 
 function datarequest(){
@@ -270,7 +283,10 @@ function approve(){
                 result = data.responResult;
                 for(var i in result){
                     var getvariabel = " data_nopemesanan='"+result[i].no_pemesanan+"'"+
-                                      " data_fromdepartmentid='"+result[i].from_department_id+"'";
+                                      " data_fromdepartmentid='"+result[i].from_department_id+"'"+
+                                      " data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
+                                      " data_suppliers='"+result[i].namasupplier+"'"+
+                                      " data_createddate='"+result[i].tglbuat+"'";
 
                     cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
                     spu  = result[i].type        === "20" ? " <div class='badge badge-light-success fw-bolder'>SPU</div>" : "";
@@ -279,7 +295,9 @@ function approve(){
                     dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div>"+(result[i].unit ? result[i].unit : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div></td>";
+                    if(result[i].type === "0" || result[i].type === "1"){
+                        tableresult +="<td class='ps-4'><div>"+(result[i].unitdituju ? result[i].unitdituju : "")+"</div><div>"+result[i].no_pemesanan_unit+"</div>"+spu+type+"</td>";
+                    }
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td><div>" + (result[i].namasupplier ? result[i].namasupplier : "") + "</div><div class='badge badge-light-info fw-bolder'>" + (result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown") + "</div><div>"+(result[i].invoice_no ? "Invoice no : "+result[i].invoice_no : "")+"</div></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -307,6 +325,7 @@ function approve(){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
                             }
                             if(result[i].status_vice==="Y" && result[i].status_dir==="Y"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice' data_invoice_no='"+result[i].invoice_no+"' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                             }
                             tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"' onclick='getdetail(this)'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";

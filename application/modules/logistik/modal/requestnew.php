@@ -321,3 +321,97 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_print_po" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="no_pemesanan_po" name="no_pemesanan_po">
+                <div class="text-center mb-5">
+                    <div class="col-md-12 row">
+                        <div class="col-md-4 d-flex justify-content-start">
+                            <img alt="Logo" src="<?php echo base_url('assets/images/clients/'.ORG_ID.'.png'); ?>" class="h-60px"/>
+                        </div>
+                        <div class="col-md-4">
+                            <h1 class="mb-3">Purchase Request</h1>
+                            <div class="text-muted fw-bold fs-5"></div>
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+                    
+                <table class="table align-middle" id="tableheader">
+                    <tbody>
+                        <tr>
+                            <td class="align-middle min-w-100px">Purchase No</td>
+                            <td class="align-middle min-w-10px">:</td>
+                            <td class="align-middle min-w-100px" id="pono"></td>
+                            <td class="align-middle min-w-100px">Order Date</td>
+                            <td class="align-middle min-w-10px">:</td>
+                            <td class="align-middle min-w-100px" id="orderdate"></td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle min-w-100px">Suppliers</td>
+                            <td class="align-middle min-w-10px">:</td>
+                            <td class="align-middle min-w-100px"><h6 id="suppliers"></h6></td>
+                            <td class="align-middle min-w-100px">Print Date</td>
+                            <td class="align-middle min-w-10px">:</td>
+                            <td class="align-middle min-w-100px"><?php echo date('d.m.Y H:i:s'); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-responsive" style="margin-top:50px;">
+					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
+						<thead>
+							<tr class="fw-bolder text-muted bg-light align-middle">
+								<th class="ps-4 rounded-start">Item Name</th>
+                                <th class="text-end">Qty</th>
+								<th class="pe-4 text-end rounded-end">Note</th>
+							</tr>
+						</thead>
+						<tbody class="text-gray-600 fw-bold" id="resultdetailpo"></tbody>
+					</table>
+				</div>
+                <table class="table table-bordered" style="margin-top:50px;">
+                    <tbody class="text-center">
+                        <tr>
+                            <td></td>
+                            <td><img alt="Logo" src="<?php echo base_url('assets/speciment/director.png'); ?>" class="h-60px"/></td>
+                            <td><img alt="Logo" src="<?php echo base_url('assets/speciment/vice.png'); ?>" class="h-60px"/></td>
+                            <td><img alt="Logo" src="<?php echo base_url('assets/speciment/finance.png'); ?>" class="h-60px"/></td>
+                            <td><img alt="Logo" src="<?php echo base_url('assets/speciment/manager.png'); ?>" class="h-60px"/></td>
+                            <td><img alt="Logo" src="<?php echo base_url('assets/speciment/kains.png'); ?>" class="h-60px"/></td>
+                        </tr>
+                        <tr>
+                            <td>Elsa Asmelia, SE</td>
+                            <td>dr. Abdul Robby Azhadi MARS FISQua</td>
+                            <td>dr. Leo Pratama Agung</td>
+                            <td>Awang Debyansyah, S. Ak. M.M</td>
+                            <td id="ttdmanager"></td>
+                            <td id="ttdkains"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Director</td>
+                            <td>Vice Director</td>
+                            <td>Finance</td>
+                            <td>Manager</td>
+                            <td>Head Division</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer p-1">	
+                <button class="btn btn-light-primary" onclick="printPDF()">PRINT PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
