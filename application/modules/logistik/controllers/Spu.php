@@ -206,6 +206,7 @@
         }
 
         public function additem(){
+            $type         = $this->input->post('type');
             $no_pemesanan = $this->input->post('no_pemesanan');
             $validasi     = $this->input->post('validasi');
             $barangid     = $this->input->post('barangid');
@@ -222,8 +223,14 @@
             $data['no_pemesanan']    = $no_pemesanan;
             $data['barang_id']       = $barangid;
             $data['stock']           = $stock;
-            $data['qty_req']         = $qty;
-            $data['qty_req_manager'] = $qty;
+
+            if($type==="INVOICE"){
+                $data['qty_minta']   = $qty;
+                $data['qty_manager'] = $qty;
+                $data['kains_id']    = $_SESSION['userid'];
+                $data['kains_date']  = date('Y-m-d H:i:s');
+            }
+            
             $data['harga']           = $harga;
             $data['ppn']             = $ppn*100;
             $data['harga_ppn']       = $vat_amount;
@@ -315,10 +322,24 @@
             }
 
             if($validator==="KAINS"){
-                $data['qty_minta']  = $qty;
-                $data['qty_manager']        = $qty;
-                $data['kains_id']   = $_SESSION['userid'];
-                $data['kains_date'] = date('Y-m-d H:i:s');
+                $data['qty_minta']   = $qty;
+                $data['qty_manager'] = $qty;
+                $data['kains_id']    = $_SESSION['userid'];
+                $data['kains_date']  = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="MANAGER"){
+                $data['qty_manager']  = $qty;
+                $data['qty_keu']      = $qty;
+                $data['manager_id']   = $_SESSION['userid'];
+                $data['manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="FINANCE"){
+                $data['qty_keu']   = $qty;
+                $data['qty_wadir'] = $qty;
+                $data['keu_id']    = $_SESSION['userid'];
+                $data['keu_date']  = date('Y-m-d H:i:s');
             }
 
             // if($validasi==="KAINS"){
@@ -416,7 +437,7 @@
             if($validator==="MANAGER"){
 
                 if($status==="2" || $status==="3" || $status==="4"){
-                    $data['status']     = $status;
+                    $data['status']       = $status;
                     $data['manager_id']   = $_SESSION['userid'];
                     $data['manager_date'] = date('Y-m-d H:i:s');
                 }
@@ -430,6 +451,13 @@
             }
 
             if($validator==="FINANCE"){
+
+                if($status==="4" || $status==="5" || $status==="6"){
+                    $data['status']   = $status;
+                    $data['keu_id']   = $_SESSION['userid'];
+                    $data['keu_date'] = date('Y-m-d H:i:s');
+                }
+
                 if($status==="13" || $status==="14" || $status==="15" || $status==="16"){
                     $data['status']       = $status;
                     $data['inv_keu_id']   = $_SESSION['userid'];
@@ -446,9 +474,11 @@
                     $data['inv_vice_id']   = $_SESSION['userid'];
                     $data['inv_vice_Date'] = date('Y-m-d H:i:s');
                 }
-                // $data['status_vice'] = $status;
-                // $data['wadir_id']    = $_SESSION['userid'];
-                // $data['wadir_date']  = date('Y-m-d H:i:s');
+                if($status==="" || $status==="N" || $status==="Y"){
+                    $data['status_vice'] = $status;
+                    $data['wadir_id']    = $_SESSION['userid'];
+                    $data['wadir_date']  = date('Y-m-d H:i:s');
+                }
             }
 
             if($validator==="DIR"){

@@ -140,7 +140,18 @@ function datarequest(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    if(result[i].status != "6"){
+                        tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                    }else{
+                        if(result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null){
+                            tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                        }else{
+                            if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
+                                tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                            }
+                        }
+                    }
+                    //tableresult += ((result[i].status != "6") || (result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null)) ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -277,7 +288,18 @@ function approve(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    if(result[i].status != "6"){
+                        tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                    }else{
+                        if(result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null){
+                            tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                        }else{
+                            if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
+                                tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                            }
+                        }
+                    }
+                    //tableresult += ((result[i].status != "6") || (result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null)) ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -358,7 +380,18 @@ function decline(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    if(result[i].status != "6"){
+                        tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                    }else{
+                        if(result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null){
+                            tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                        }else{
+                            if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
+                                tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                            }
+                        }
+                    }
+                    // tableresult += ((result[i].status != "6") || (result[i].status === "6" && (result[i].status_vice === null || result[i].status_vice === '') && (result[i].status_dir === null || result[i].status_dir === ''))) ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -650,14 +683,16 @@ function simpandata(input) {
             }
         });
 
+        const type         = $("#type").val();
         const no_pemesanan = $("#nopemesanan_item").val();
-
+        
         $.ajax({
             url     : url + "index.php/logistik/spu/additem",
             method  : "POST",
             dataType: "JSON",
             data    : {
                 no_pemesanan: no_pemesanan,
+                type        : type,
                 barangid    : barangid,
                 note        : note ? note.value: "",
                 stock       : stock,

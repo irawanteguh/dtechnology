@@ -56,7 +56,7 @@ function datarequest(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult += (result[i].status_vice === null || result[i].status_dir === null || result[i].status_vice === '' || result[i].status_dir === '') ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -176,7 +176,7 @@ function approve(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult += (result[i].status_vice === null || result[i].status_dir === null || result[i].status_vice === '' || result[i].status_dir === '') ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -277,7 +277,7 @@ function decline(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult += (result[i].status_vice === null || result[i].status_dir === null || result[i].status_vice === '' || result[i].status_dir === '') ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -373,16 +373,16 @@ function detailbarangspu(nopemesanan){
                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
 
                     tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' disabled></td>`;
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data_validator='MANAGER' onchange='updateVatAndTotal(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data_validator='MANAGER' onchange='updateVatAndTotal(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data_validator='MANAGER' onchange='updateVatAndTotal(this)'></td>`;
 
                     tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
                     tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
                     if(result[i].note!=null){
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' data_validator='MANAGER' onchange='updateVatAndTotal(this)'></td>`;
                     }else{
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' data_validator='KAINS' onchange='updateVatAndTotal(this)'></td>`;
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' data_validator='MANAGER' onchange='updateVatAndTotal(this)'></td>`;
                     }
                     tableresult += "</tr>";
 

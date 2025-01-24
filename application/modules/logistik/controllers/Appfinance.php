@@ -50,7 +50,8 @@
         }
 
         public function approve(){
-            $status = "and a.status in ('6') and ((a.status_vice is null or a.status_vice='Y') and (a.status_dir is null or a.status_dir='Y'))";
+            // $status = "and a.status in ('6') and ((a.status_vice is null or a.status_vice='Y') and (a.status_dir is null or a.status_dir='Y'))";
+            $status = "and a.status in ('6')";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){

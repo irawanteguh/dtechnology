@@ -101,7 +101,7 @@
         }
 
         public function datarequest(){
-            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('0','2') ";
+            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('0') ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){
@@ -119,7 +119,7 @@
         }
 
         public function approve(){
-            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('4','6') ";
+            $status="and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('2','4','6') ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){

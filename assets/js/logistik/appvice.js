@@ -52,7 +52,18 @@ function datarequest(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    if(result[i].status != "6"){
+                        tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                    }else{
+                        if(result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null){
+                            tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                        }else{
+                            if(result[i].status === "6" && result[i].status_vice === '' && result[i].status_dir === ''){
+                                tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
+                            }
+                        }
+                    }
+                    // tableresult += ((result[i].status != "6") || (result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null)) ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -79,6 +90,11 @@ function datarequest(){
                                 // if(result[i].status==="17"){
                                 //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 // }
+                                if(result[i].status==="6"){
+                                    // tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='Y' data_validator='VICE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='N' data_validator='VICE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                                }
                                 if(result[i].invoice==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
                                 }
@@ -218,9 +234,6 @@ function decline(){
             if(data.responCode==="00"){
                 result = data.responResult;
                 for(var i in result){
-                    var cito = "";
-                    var vice = "";
-                    var dir  = "";
 
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
@@ -233,7 +246,7 @@ function decline(){
                     type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
                     vice = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
                     dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
-
+                                  
                     tableresult +="<tr>";
 
                     if(result[i].type === "0" || result[i].type === "1"){
@@ -244,7 +257,7 @@ function decline(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td>"+vice+dir+"</td>";
+                    tableresult += ((result[i].status === "5") || (result[i].status === "6" && result[i].status_vice === null && result[i].status_dir === null)) ? "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>" : "<td>" + vice + dir + "</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -271,6 +284,9 @@ function decline(){
                                 // if(result[i].status==="17"){
                                 //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 // }
+                                if(result[i].status==="6"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='' data_validator='VICE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
+                                }
                                 if(result[i].invoice==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
                                 }
