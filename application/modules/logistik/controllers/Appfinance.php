@@ -13,7 +13,16 @@
         }
 
         public function datarequest(){
-            $status = "and a.status in ('4')";
+            $status = "
+                        and a.status in ('4')
+                        and (
+                                (
+                                    a.status <> '6' 
+                                    and (a.status_vice is null or a.status_vice = '') 
+                                    and (a.status_dir is null or a.status_dir = '')
+                                )
+                            )
+                    ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
@@ -34,26 +43,18 @@
             $status = "
                             and a.status in ('5','6')
                             and (
-                                (
-                                    a.status <> '6' 
-                                    and (a.status_vice is null or a.status_vice = '') 
-                                    and (a.status_dir is null or a.status_dir = '')
-                                ) 
-                                or
-                                (
-                                    a.status = '6' 
-                                    and a.status_vice = 'N' 
-                                    and a.status_dir = 'N'
+                                    (
+                                        a.status <> '6' 
+                                        and (a.status_vice is null or a.status_vice = '') 
+                                        and (a.status_dir is null or a.status_dir = '')
+                                    )
+                                    or
+                                    (
+                                        a.status = '6'
+                                        and (a.status_vice = 'N' or a.status_dir = 'N')
+                                    )
                                 )
-                                or
-                                (
-                                    a.status = '6' 
-                                    and a.status_vice = 'N' 
-                                    and (a.status_dir is null or a.status_dir ='')
-                                )
-                            )
                       ";
-            // $status = "and a.status in ('5')";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
@@ -71,28 +72,39 @@
         }
 
         public function approve(){
-            // $status = "and a.status in ('6') and ((a.status_vice is null or a.status_vice='Y') and (a.status_dir is null or a.status_dir='Y'))";
             $status =   "
                             and a.status in ('6')
                             and (
-                                (
-                                    a.status <> '6' 
-                                    and (a.status_vice is null or a.status_vice = '') 
-                                    and (a.status_dir is null or a.status_dir = '')
-                                ) 
-                                or
-                                (
-                                    a.status = '6' 
-                                    and a.status_vice = 'Y' 
-                                    and a.status_dir = 'Y'
+                                    (
+                                        a.status <> '6' 
+                                        and (a.status_vice is null or a.status_vice = '') 
+                                        and (a.status_dir is null or a.status_dir = '')
+                                    )
+                                    or
+                                    (
+                                        a.status='6' 
+                                        and (a.status_vice is null or a.status_vice = '') 
+                                        and (a.status_dir is null or a.status_dir = '')
+                                    )
+                                    or
+                                    (
+                                        a.status='6'
+                                        and a.status_vice='Y'
+                                        and (a.status_dir is null or a.status_dir = '')
+                                    )
+                                    or
+                                    (
+                                        a.status='6'
+                                        and a.status_dir='Y'
+                                        and (a.status_vice is null or a.status_vice = '')
+                                    )
+                                    or
+                                    (
+                                        a.status='6'
+                                        and a.status_vice='Y'
+                                        and a.status_dir='Y'
+                                    )
                                 )
-                                or
-                                (
-                                    a.status = '6' 
-                                    and a.status_vice = 'Y' 
-                                    and (a.status_dir is null or a.status_dir ='')
-                                )
-                            )
                         ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             

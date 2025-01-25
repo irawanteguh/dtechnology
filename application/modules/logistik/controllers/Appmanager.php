@@ -15,6 +15,13 @@
         public function datarequest(){
             $status="
                         and   a.status in ('2')
+                        and (
+                                (
+                                    a.status <> '6' 
+                                    and (a.status_vice is null or a.status_vice = '') 
+                                    and (a.status_dir is null or a.status_dir = '')
+                                )
+                            )
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -49,18 +56,30 @@
                                     a.status <> '6' 
                                     and (a.status_vice is null or a.status_vice = '') 
                                     and (a.status_dir is null or a.status_dir = '')
-                                ) 
-                                or
-                                (
-                                    a.status = '6' 
-                                    and a.status_vice = 'Y' 
-                                    and a.status_dir = 'Y'
                                 )
                                 or
                                 (
-                                    a.status = '6' 
-                                    and a.status_vice = 'Y' 
-                                    and (a.status_dir is null or a.status_dir ='')
+                                    a.status='6' 
+                                    and (a.status_vice is null or a.status_vice = '') 
+                                    and (a.status_dir is null or a.status_dir = '')
+                                )
+                                or
+                                (
+                                    a.status='6'
+                                    and a.status_vice='Y'
+                                    and (a.status_dir is null or a.status_dir = '')
+                                )
+                                or
+                                (
+                                    a.status='6'
+                                    and a.status_dir='Y'
+                                    and (a.status_vice is null or a.status_vice = '')
+                                )
+                                or
+                                (
+                                    a.status='6'
+                                    and a.status_vice='Y'
+                                    and a.status_dir='Y'
                                 )
                             )
                         and   a.department_id in (
@@ -97,18 +116,11 @@
                                     a.status <> '6' 
                                     and (a.status_vice is null or a.status_vice = '') 
                                     and (a.status_dir is null or a.status_dir = '')
-                                ) 
-                                or
-                                (
-                                    a.status = '6' 
-                                    and a.status_vice = 'N' 
-                                    and a.status_dir = 'N'
                                 )
                                 or
                                 (
-                                    a.status = '6' 
-                                    and a.status_vice = 'N' 
-                                    and (a.status_dir is null or a.status_dir ='')
+                                    a.status = '6'
+                                    and (a.status_vice = 'N' or a.status_dir = 'N')
                                 )
                             )
                         and   a.department_id in (
