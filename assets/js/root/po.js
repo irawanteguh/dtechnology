@@ -312,3 +312,43 @@ function printpo(nopemesanan){
     });
     return false;
 };
+
+function printPDF() {
+    var printContents = document.querySelector('#modal_print_po .modal-body').innerHTML;
+    var printWindow = window.open('', '', 'height=700,width=900');
+    printWindow.document.write('<html>');
+        printWindow.document.write('<head>');
+            printWindow.document.write('<title>Purchase Request</title>');
+
+            printWindow.document.write('<style>');
+                // Global styles
+                printWindow.document.write('body, * { font-size: 10px; font-family: Arial, sans-serif; margin: 0; padding: 0; }');
+                printWindow.document.write('table { border-collapse: collapse; width: 100%; }');
+                printWindow.document.write('th, td { padding: 5px; }');
+                printWindow.document.write('h1 { font-size: 30px; text-align: center; }');
+                printWindow.document.write('h6 { font-size: 10px; text-align: left; }');
+                printWindow.document.write('img { height: 60px; display: block; margin: 0 auto; }');
+
+                // Styles specific to the header table
+                printWindow.document.write('#tableheader { border: none; }');
+                printWindow.document.write('#tableheader th, #tableheader td { border: none; }');
+
+                // Ensure other tables retain their borders
+                printWindow.document.write('table:not(#tableheader), table:not(#tableheader) th, table:not(#tableheader) td { border: 1px solid black; }');
+
+                // Full-page layout for print
+                printWindow.document.write('@page { size: A4; margin: 0; }');
+                printWindow.document.write('body { margin: 0; }');
+            printWindow.document.write('</style>');
+
+        printWindow.document.write('</head>');
+        printWindow.document.write('<body>');
+        
+            // Konten untuk dicetak
+            printWindow.document.write(printContents);
+        
+        printWindow.document.write('</body>');
+    printWindow.document.write('</html>');
+    printWindow.document.close();
+    printWindow.print();
+};
