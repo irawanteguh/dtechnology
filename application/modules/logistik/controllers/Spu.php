@@ -304,7 +304,7 @@
 
         public function updatedetailitem(){
             $no_pemesanan = $this->input->post('no_pemesanan');
-            $validator     = $this->input->post('validator');
+            $validator    = $this->input->post('validator');
             $item_id      = $this->input->post('item_id');
             $qty          = $this->input->post('qty');
             $stock        = $this->input->post('stock');
@@ -338,41 +338,24 @@
             if($validator==="FINANCE"){
                 $data['qty_keu']   = $qty;
                 $data['qty_wadir'] = $qty;
+                $data['qty_dir']   = $qty;
                 $data['keu_id']    = $_SESSION['userid'];
                 $data['keu_date']  = date('Y-m-d H:i:s');
             }
 
-            // if($validasi==="KAINS"){
-            //     $data['QTY_MINTA']   = $qty;
-            //     $data['QTY_MANAGER'] = $qty;
-            // }
+            if($validator==="VICE"){
+                $data['qty_wadir']  = $qty;
+                $data['qty_dir']    = $qty;
+                $data['wadir_id']   = $_SESSION['userid'];
+                $data['wadir_date'] = date('Y-m-d H:i:s');
+            }
 
-            // if($validasi==="MANAGER"){
-            //     $data['QTY_MANAGER']  = $qty;
-            //     $data['QTY_KEU']      = $qty;
-            //     $data['MANAGER_ID']   = $_SESSION['userid'];
-            //     $data['MANAGER_DATE'] = date('Y-m-d H:i:s');
-            // }
-
-            // if($validasi==="FINANCE"){
-            //     $data['QTY_KEU']   = $qty;
-            //     $data['QTY_WADIR'] = $qty;
-            //     $data['KEU_ID']    = $_SESSION['userid'];
-            //     $data['KEU_DATE']  = date('Y-m-d H:i:s');
-            // }
-
-            // if($validasi==="VICE"){
-            //     $data['QTY_WADIR']  = $qty;
-            //     $data['QTY_DIR']    = $qty;
-            //     $data['WADIR_ID']   = $_SESSION['userid'];
-            //     $data['WADIR_DATE'] = date('Y-m-d H:i:s');
-            // }
-
-            // if($validasi==="DIR"){
-            //     $data['QTY_DIR']  = $qty;
-            //     $data['DIR_ID']   = $_SESSION['userid'];
-            //     $data['DIR_DATE'] = date('Y-m-d H:i:s');
-            // }
+            if($validator==="DIR"){
+                $data['qty_wadir'] = $qty;
+                $data['qty_dir']   = $qty;
+                $data['dir_id']    = $_SESSION['userid'];
+                $data['dir_date']  = date('Y-m-d H:i:s');
+            }
             
             $data['stock']     = $stock;
             $data['harga']     = $harga;
@@ -404,7 +387,7 @@
         public function updateheader(){
             $datanopemesanan = $this->input->post('datanopemesanan');
             $status          = $this->input->post('status');
-            $validator        = $this->input->post('validator');
+            $validator       = $this->input->post('validator');
             
             if($validator==="REQ"){
                 $data['status']       = $status;

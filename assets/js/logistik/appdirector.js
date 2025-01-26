@@ -2,13 +2,17 @@ datarequest();
 approve();
 decline();
 
+$("#modal_master_detail_spu").on('shown.bs.modal', function(){
+    var nopemesanan  = $(":hidden[name='nopemesanan_item']").val();
+    detailbarangspu(nopemesanan);
+});
+
 function getdetail(btn){
     var $btn             = $(btn);
     var data_nopemesanan = $btn.attr("data_nopemesanan");
     var data_status      = $btn.attr("data_status");
 
-    $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
-    datadetail(data_nopemesanan,data_status);
+    $(":hidden[name='nopemesanan_item']").val(data_nopemesanan);
 };
 
 function datarequest(){
@@ -88,7 +92,7 @@ function datarequest(){
                                 //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 // }
                                 if(result[i].status==="6"){
-                                    // tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='Y' data_validator='DIR' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='N' data_validator='DIR' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }
@@ -331,87 +335,80 @@ function decline(){
     return false;
 };
 
-// function datadetail(data_nopemesanan,data_status){
-//     $.ajax({
-//         url       : url + "index.php/logistik/request/detailbarang",
-//         data      : { data_nopemesanan: data_nopemesanan },
-//         method    : "POST",
-//         dataType  : "JSON",
-//         cache     : false,
-//         beforeSend: function () {
-//             $("#resultdetail").html("");
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-//         },
-//         success: function (data) {
-//             let result      = "";
-//             let tableresult = "";
-//             let tfoot       = "";
-//             let totalvat    = 0;
-//             let grandtotal  = 0;
+function detailbarangspu(nopemesanan){
+    $.ajax({
+        url       : url+"index.php/logistik/requestnew/detailbarangspu",
+        data      : {nopemesanan:nopemesanan},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdetailspu").html("");
+            $("#resultdetailfootspu").html("");
+        },
+        success: function (data) {
+            let result      = "";
+            let tableresult = "";
+            let tfoot       = "";
+            let totalvat    = 0;
+            let grandtotal  = 0;
 
-//             if (data.responCode === "00") {
-//                 result = data.responResult;
-//                 for (let i in result) {
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (let i in result) {
 
-//                     const stock      = parseFloat(result[i].stock) || 0;
-//                     const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
-//                     const harga      = parseFloat(result[i].harga) || 0;
-//                     const vatPercent = parseFloat(result[i].ppn) || 0;
-//                     const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
-//                     const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
+                    const stock      = parseFloat(result[i].stock) || 0;
+                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) || parseFloat(result[i].qty_minta) || parseFloat(result[i].qty_req) || 0;
+                    const harga      = parseFloat(result[i].harga) || 0;
+                    const vatPercent = parseFloat(result[i].ppn) || 0;
+                    const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
+                    const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
 
-//                     tableresult += "<tr>";
-//                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
-//                     tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
-//                     tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
-//                     tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
 
-//                     tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)' disabled></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' disabled></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data_validator='DIR' onchange='updateVatAndTotal(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data_validator='DIR' onchange='updateVatAndTotal(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data_validator='DIR' onchange='updateVatAndTotal(this)'></td>`;
 
-//                     if(data_status==="6"){
-//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
-//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
-//                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data-validasi='FINANCE' onchange='updateVatAndTotal(this)'></td>`;
-//                     } else {
-//                         tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
-//                         tableresult += `<td class='text-end'>${todesimal(result[i].harga)}</td>`;
-//                         tableresult += `<td class='text-end'>${todesimal(vatPercent)}</td>`;
-//                     }
+                    tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
+                    tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
+                    if(result[i].note!=null){
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' data_validator='DIR' onchange='updateVatAndTotal(this)'></td>`;
+                    }else{
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' data_validator='DIR' onchange='updateVatAndTotal(this)'></td>`;
+                    }
+                    tableresult += "</tr>";
 
-//                     tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
-//                     tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
+                    totalvat   += vatAmount;
+                    grandtotal += subtotal;
+                }
 
-//                     if(data_status === "6"){
-//                         if(result[i].note!=null){
-//                             tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' onchange='updateVatAndTotal(this)'></td>`;
-//                         }else{
-//                             tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' onchange='updateVatAndTotal(this)'></td>`;
-//                         }
-//                     }else{
-//                         tableresult += `<td class='text-end'>${result[i].note ? result[i].note : ""}</td>`;
-//                     }
+                tfoot = `<tr><th class='ps-4 fw-bolder text-muted bg-light align-middle' colspan='5'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
 
-//                     tableresult += "</tr>";
+            }
 
-//                     totalvat   += vatAmount;
-//                     grandtotal += subtotal;
-//                 }
+            $("#resultdetailspu").html(tableresult);
+            $("#resultdetailfootspu").html(tfoot);
 
-//                 tfoot = `<tr><th class='ps-4 fw-bolder text-muted bg-light align-middle' colspan='8'>Grand Total</th><th class='text-end' id='total_vat'>${todesimal(totalvat)}</th><th class='text-end pe-4' id='grand_total'>${todesimal(grandtotal)}</th><th></th></tr>`;
-
-//             }
-
-//             $("#resultdetail").html(tableresult);
-//             $("#resultdetailfoot").html(tfoot);
-//             toastr[data.responHead](data.responDesc, "INFORMATION");
-//         },
-//         error: function (xhr, status, error) {
-//             toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
-//         },
-//         complete: function () {
-//             toastr.clear();
-//         }
-//     });
-//     return false;
-// };
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+        }
+    });
+    return false;
+};

@@ -466,49 +466,49 @@ function detailbarangspu(nopemesanan){
     return false;
 };
 
-function datadetailpenerimaan(data_nopemesanan){
-    $.ajax({
-        url       : url + "index.php/logistik/request/detailbarang",
-        data      : { data_nopemesanan: data_nopemesanan },
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            $("#resultdetailpenerimaan").html("");
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-        },
-        success: function (data) {
-            let result      = "";
-            let tableresult = "";
+// function datadetailpenerimaan(data_nopemesanan){
+//     $.ajax({
+//         url       : url + "index.php/logistik/request/detailbarang",
+//         data      : { data_nopemesanan: data_nopemesanan },
+//         method    : "POST",
+//         dataType  : "JSON",
+//         cache     : false,
+//         beforeSend: function () {
+//             $("#resultdetailpenerimaan").html("");
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+//         },
+//         success: function (data) {
+//             let result      = "";
+//             let tableresult = "";
 
-            if (data.responCode === "00") {
-                result = data.responResult;
-                for (let i in result) {
-                    const qty        = parseFloat(result[i].qty_minta) || 0;
+//             if (data.responCode === "00") {
+//                 result = data.responResult;
+//                 for (let i in result) {
+//                     const qty        = parseFloat(result[i].qty_minta) || 0;
 
-                    tableresult += "<tr>";
-                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
-                    tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
-                    tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
-                    tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='order_${result[i].barang_id}' name='order_${result[i].barang_id}' value='${todesimal(result[i].qty_minta)}' disabled></td>`;
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='jmlmasuk_${result[i].barang_id}' name='jmlmasuk_${result[i].barang_id}' value='${todesimal(result[i].jmlmasuk)}' disabled></td>`;
+//                     tableresult += "<tr>";
+//                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+//                     tableresult += "<td>" + (result[i].jenis ? result[i].jenis : "") + "</td>";
+//                     tableresult += "<td>" + (result[i].satuanbeli ? result[i].satuanbeli : "") + "</td>";
+//                     tableresult += "<td>" + (result[i].satuanpakai ? result[i].satuanpakai : "") + "</td>";
+//                     tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='order_${result[i].barang_id}' name='order_${result[i].barang_id}' value='${todesimal(result[i].qty_minta)}' disabled></td>`;
+//                     tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='jmlmasuk_${result[i].barang_id}' name='jmlmasuk_${result[i].barang_id}' value='${todesimal(result[i].jmlmasuk)}' disabled></td>`;
                     
-                    tableresult += "</tr>";
+//                     tableresult += "</tr>";
 
-                }
-            }
+//                 }
+//             }
 
-            $("#resultdetailpenerimaan").html(tableresult);
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-        },
-        error: function (xhr, status, error) {
-            toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
-        },
-        complete: function () {
-            toastr.clear();
-        }
-    });
-    return false;
-};
+//             $("#resultdetailpenerimaan").html(tableresult);
+//             toastr[data.responHead](data.responDesc, "INFORMATION");
+//         },
+//         error: function (xhr, status, error) {
+//             toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
+//         },
+//         complete: function () {
+//             toastr.clear();
+//         }
+//     });
+//     return false;
+// };
