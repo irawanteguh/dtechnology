@@ -16,7 +16,7 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approved</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Payment Success</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabpayment">Payment Success</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>
@@ -60,6 +60,26 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultdatarequestapprove"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabpayment" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
+                                        <th>Pengadaan</th>
+                                        <th>Supplier</th>
+                                        <th class="text-end">Sub Total</th>
+                                        <th class="text-end">Ppn</th>
+                                        <th class="text-end">Grand Total</th>
+                                        <th>Status</th>
+                                        <th>Created By</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultdatapayment"></tbody>
                             </table>
                         </div>
                     </div>

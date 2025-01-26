@@ -54,7 +54,27 @@
 
         public function approve(){
             $status="
-                        and   a.status in ('15','16','17')
+                        and   a.status in ('15')
+                    ";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function payment(){
+            $status="
+                        and   a.status in ('16','17')
                     ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
