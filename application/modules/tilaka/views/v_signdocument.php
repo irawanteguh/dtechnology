@@ -15,7 +15,7 @@
                                 <th class="text-center">Count File</th>
                                 <th>Tilaka Name</th>
                                 <th>Name / Email Address</th>
-                                <!-- <th>Identity No</th> -->
+                                <th>Request Id</th>
                                 <th class="pe-4 rounded-end text-end">Action</th>
                             </tr>
                         </thead>

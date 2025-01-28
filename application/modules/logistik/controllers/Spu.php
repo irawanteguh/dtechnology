@@ -409,7 +409,7 @@
                     $data['kains_date'] = date('Y-m-d H:i:s');
                 }
 
-                if($status==="7"){
+                if($status==="7" || $status==="13"){
                     $data['status']     = $status;
                     $data['inv_kains_id']   = $_SESSION['userid'];
                     $data['inv_kains_date'] = date('Y-m-d H:i:s');

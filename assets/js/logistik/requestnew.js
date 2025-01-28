@@ -149,7 +149,7 @@ function datarequest(){
                     }
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";
                     tableresult +="<td></td>";
-                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
+                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : result[i].method === "4" ? "On The Spot (BBM / Snack / Etc)" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -220,7 +220,11 @@ function datarequest(){
 
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].invoice==="1"){
-                                            tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                            if(result[i].method==="4"){
+                                                tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='13' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                            }else{
+                                                tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                            }
                                         }
                                         tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                         tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice' data_invoice_no='"+result[i].invoice_no+"' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
