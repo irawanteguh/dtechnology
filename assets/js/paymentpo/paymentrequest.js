@@ -2,6 +2,39 @@ datarequest();
 decline();
 approve();
 
+
+$("#modal_upload_invoice").on('shown.bs.modal', function(){
+    var no_pemesanan = $(":hidden[name='no_pemesanan_invoice']").val();
+
+    var myDropzone = new Dropzone("#file_invoice", {
+        url               : url + "index.php/logistik/spu/uploadinvoice?no_pemesanan="+no_pemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept            : function(file, done) {
+            done();
+        }
+    });
+});
+
+function getdetail(btn){
+    var $btn                  = $(btn);
+    var data_nopemesanan      = $btn.attr("data_nopemesanan");
+    var data_invoice_no       = $btn.attr("data_invoice_no");
+
+    $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
+
+    if(data_invoice_no!='null'){
+        $("input[name='modal_upload_invoice_no']").val(data_invoice_no);
+    }else{
+        $("input[name='modal_upload_invoice_no']").val('');
+    }
+};
+
 function datarequest(){
     $.ajax({
         url       : url+"index.php/paymentpo/paymentrequest/datarequest",
@@ -80,7 +113,7 @@ function datarequest(){
                                 // if(result[i].status==="17"){
                                 //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 // }
-
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice' data_invoice_no='"+result[i].invoice_no+"' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                 if(result[i].invoice==="1"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
                                 }
@@ -289,7 +322,9 @@ function approve(){
                                 // if(result[i].status==="17"){
                                 //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 // }
-
+                                if(result[i].status!="17"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice' data_invoice_no='"+result[i].invoice_no+"' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                }
                                 if(result[i].status==="17"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
                                 }
@@ -319,3 +354,45 @@ function approve(){
     });
     return false;
 };
+
+$(document).on("submit", "#forminvoice", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#btn_upload_invoice").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_upload_invoice").modal("hide");
+                datarequest();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#btn_upload_invoice").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});

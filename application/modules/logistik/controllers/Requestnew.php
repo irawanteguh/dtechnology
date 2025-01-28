@@ -105,9 +105,17 @@
                         and   a.status in ('0')
                         and (
                                 (
-                                    a.status <> '6' 
+                                    a.status <> '6'
+                                    and a.type='0'
                                     and (a.status_vice is null or a.status_vice = '') 
                                     and (a.status_dir is null or a.status_dir = '')
+                                )
+                                or
+                                (
+                                    a.status <> '6'
+                                    and a.type='1'
+                                    and a.status_vice='Y'
+                                    and a.status_dir='Y'
                                 )
                             )
                     ";
