@@ -21,6 +21,21 @@
             return $recordset;
         }
 
+        function checkfilename($orgid,$filename){
+            $query =
+                    "
+                        select a.filename
+                        from dt01_gen_document_file_dt a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.filename='".$filename."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function listrequestsign($orgid,$status){
             $query =
                     "

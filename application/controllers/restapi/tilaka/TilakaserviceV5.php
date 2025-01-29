@@ -28,10 +28,11 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $location     = "";
-                    $listfile     = [];
-                    $datasimpanhd = [];
-                    $filesize     = 0;
+                    $location           = "";
+                    $listfile           = [];
+                    $datasimpanhd       = [];
+                    $responseuploadfile = [];
+                    $filesize           = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
@@ -51,10 +52,15 @@
                                         $responseuploadfile = Tilaka::uploadfile($location);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
-                                                $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                                $datasimpanhd['user_identifier'] = $a->useridentifier;
-                                                $datasimpanhd['status_sign']     = "1";
-                                                $datasimpanhd['note']            = "";
+                                                $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
+                                                if(empty($resultcheckfilename)){
+                                                    $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                                    $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                    $datasimpanhd['status_sign']     = "1";
+                                                    $datasimpanhd['note']            = "";
+                                                }else{
+                                                    $datasimpanhd['note']        = "Filename Duplicate";
+                                                }
                                             }
                                         }
                                         $listfile['responsetilaka'] = $responseuploadfile;
@@ -71,7 +77,7 @@
                             $datasimpanhd['note']        = "File Corrupted";
                         }
                     }else{
-                        $listfile['issue']           = "File not found";
+                        $listfile['issue']               = "File not found";
                         $datasimpanhd['status_sign']     = "99";
                         $datasimpanhd['note']            = "File not found";
                         $datasimpanhd['status_file']     = "0";
