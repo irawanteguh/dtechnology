@@ -101,14 +101,13 @@ function datarequest(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            if(result[i].status==="90"){
+                            if(result[i].status==="0"){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                             }
                             if(result[i].jmlitem!="0"){
-                                if(result[i].status==="90"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='91' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                }else{
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='90' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
+                                if(result[i].status==="0"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='91' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Submit SPU</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";
                                 }
                             }
                             tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' onclick='getdetail(this)'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
@@ -182,6 +181,9 @@ function approve(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' onclick='getdetail(this)'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
+                            if(result[i].status==="91"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='0' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled Submit</a>";
+                            }
                             if(result[i].attachment==="1"){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
@@ -245,7 +247,21 @@ function decline(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
-                    tableresult +="<td class='text-end pe-4'><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+
+                    tableresult += "<td class='text-end'>";
+                        tableresult += "<div class='btn-group' role='group'>";
+                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                            if(result[i].status==="1"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='0' data_validator='REQ' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
+                            }
+                            if(result[i].attachment==="1"){
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                            }
+                            tableresult +="</div>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
                     tableresult +="</tr>";
                 }
             }
@@ -299,7 +315,7 @@ function masterbarang(nopemesanan){
                     satuan.add(result[i].satuanbeli);
 
                     const stock      = parseFloat(result[i].stock) || 0;
-                    const qty        = parseFloat(result[i].qty) || 0;
+                    const qty        = parseFloat(result[i].qtyreq) || 0;
                     const harga      = parseFloat(result[i].harga) || 0;
                     const vatPercent = parseFloat(result[i].ppn) || 0;
                     const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
@@ -318,8 +334,8 @@ function masterbarang(nopemesanan){
                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].barang_id}' onchange='simpandata(this)'></td>`;
                     }
 
-                    if(result[i].qty!=null){
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' value='${todesimal(result[i].qty)}' onchange='simpandata(this)'></td>`;
+                    if(result[i].qtyreq!=null){
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' value='${todesimal(result[i].qtyreq)}' onchange='simpandata(this)'></td>`;
                     }else{
                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' onchange='simpandata(this)'></td>`;
                     }
@@ -440,6 +456,7 @@ function simpandata(input) {
             }
         });
 
+        const type         = $("#type").val();
         const no_pemesanan = $("#nopemesanan_item").val();
 
         $.ajax({
@@ -448,6 +465,7 @@ function simpandata(input) {
             dataType: "JSON",
             data    : {
                 no_pemesanan: no_pemesanan,
+                type        : type,
                 barangid    : barangid,
                 note        : note ? note.value: "",
                 stock       : stock,

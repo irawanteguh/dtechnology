@@ -11,7 +11,7 @@
             <form action="<?php echo base_url();?>index.php/logistik/requestnew/newrequest" id="formnewrequest">
                 <div class="modal-body">
                     <div class="text-center mb-5">
-                        <h1 class="mb-3">Add New Request</h1>
+                        <h1 class="mb-3">Add New PO</h1>
                         <div class="text-muted fw-bold fs-5"></div>
                     </div>
                     <div class="row">
@@ -50,6 +50,75 @@
                     <div class="col-xl-12 mb-5">
                         <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Note :</label>
                         <textarea class="form-control form-control-solid" name="modal_new_request_note" id="modal_new_request_note"></textarea>
+                    </div>
+                    <div class="col-xl-12 mb-5">
+                        <label class="d-flex align-items-center fs-5 fw-bold mb-2">Classification :</label>
+                        <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="Y" name="modal_new_request_cito" id="modal_new_request_cito" />
+                            <label class="form-check-label">CITO</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-1">				
+                    <input class="btn btn-light-primary" id="btn_new_request" type="submit" value="SUBMIT" name="simpan" >
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_edit_request" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/logistik/requestnew/editrequest" id="formeditrequest">
+                <div class="modal-body">
+                    <div class="text-center mb-5">
+                        <h1 class="mb-3">Add New PO Base On Request Others Department</h1>
+                        <div class="text-muted fw-bold fs-5"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Procurement Name :</label>
+                            <input type="text" class="form-control form-control-solid" id="modal_edit_request_nama" name="modal_edit_request_nama" readonly>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Suppliers</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Suppliers"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_new_request" data-placeholder="Please Select Suppliers" class="form-select form-select-solid" name="modal_new_request_supplier" id="modal_new_request_supplier" required>
+                                <?php echo $mastersupplier;?>
+                            </select>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Payment Method</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Payment Method"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_new_request" data-placeholder="Please Select Payment Method" class="form-select form-select-solid" name="modal_new_request_method" id="modal_new_request_method" required>
+                                <?php echo $paymentmethod;?>
+                            </select>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Department</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_new_request" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_new_request_department" id="modal_new_request_department" required>
+                                <?php echo $department;?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 mb-5">
+                        <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Note :</label>
+                        <textarea class="form-control form-control-solid" name="modal_edit_request_note" id="modal_edit_request_note" readonly></textarea>
                     </div>
                     <div class="col-xl-12 mb-5">
                         <label class="d-flex align-items-center fs-5 fw-bold mb-2">Classification :</label>
@@ -147,7 +216,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="type" name="type" value="INVOICE">
+                <input type="hidden" id="type" name="type" value="PO_INVOICE">
                 <input type="hidden" id="nopemesanan_item" name="nopemesanan_item">
                 <div class="text-center mb-5">
                     <h1 class="mb-3">Add Item</h1>

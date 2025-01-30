@@ -102,8 +102,15 @@
 
         public function datarequest(){
             $status="   and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                        and   a.status in ('0')
+                        and   a.status in ('0','92')
                         and (
+                                (
+                                    a.status='92'
+                                    and a.type='20'
+                                    and (a.status_vice is null or a.status_vice = '') 
+                                    and (a.status_dir is null or a.status_dir = '')
+                                )
+                                or
                                 (
                                     a.status <> '6'
                                     and a.type='0'
@@ -191,6 +198,7 @@
         public function decline(){
             $status="
                         and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+                        and   a.type<>'20'
                         and   a.status in ('1','3','5','6')
                         and (
                                 (

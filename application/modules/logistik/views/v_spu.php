@@ -94,7 +94,8 @@
                                         <th class="text-end">%Vat</th>
                                         <th class="text-end">Vat</th>
                                         <th>Status</th>
-                                        <th class="pe-4 text-end rounded-end">Created By</th>
+                                        <th>Created By</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultdatadecline"></tbody>

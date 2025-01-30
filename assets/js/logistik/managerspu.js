@@ -271,7 +271,7 @@ function detailbarangspu(nopemesanan){
                 for (let i in result) {
 
                     const stock      = parseFloat(result[i].stock) || 0;
-                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) || parseFloat(result[i].qty_minta) || parseFloat(result[i].qty_req) || 0;
+                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) || parseFloat(result[i].qty_minta) || parseFloat(result[i].qty_req) || parseFloat(result[i].qty_req_manager) || 0;
                     const harga      = parseFloat(result[i].harga) || 0;
                     const vatPercent = parseFloat(result[i].ppn) || 0;
                     const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));

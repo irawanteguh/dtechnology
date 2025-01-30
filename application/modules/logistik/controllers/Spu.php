@@ -37,7 +37,10 @@
 		}
 
         public function datarequest(){
-            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('90','91') ";
+            $status="
+                        and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+                        and   A.status in ('0')
+                    ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){
@@ -55,7 +58,9 @@
         }
 
         public function approve(){
-            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('92','94') ";
+            $status="
+                        and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+                        and   a.status in ('91') ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){
@@ -73,7 +78,9 @@
         }
 
         public function decline(){
-            $status="and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and status in ('93','95') ";
+            $status="
+                        and   a.from_department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+                        and   a.status in ('93','1') ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
             if(!empty($result)){
@@ -190,7 +197,7 @@
             $data['cito']               = $this->input->post("modal_new_request_cito");
             $data['created_by']         = $_SESSION['userid'];
             $data['type']               = "20";
-            $data['status']             = "90";
+            $data['status']             = "0";
 
             if($this->md->insertheader($data)){
                 $json['responCode']="00";
@@ -224,11 +231,18 @@
             $data['barang_id']       = $barangid;
             $data['stock']           = $stock;
 
-            if($type==="INVOICE"){
+            if($type==="PO_INVOICE"){
                 $data['qty_minta']   = $qty;
                 $data['qty_manager'] = $qty;
                 $data['kains_id']    = $_SESSION['userid'];
                 $data['kains_date']  = date('Y-m-d H:i:s');
+            }
+
+            if($type==="SPU"){
+                $data['qty_req']         = $qty;
+                $data['qty_req_manager'] = $qty;
+                $data['req_id']          = $_SESSION['userid'];
+                $data['req_date']        = date('Y-m-d H:i:s');
             }
             
             $data['harga']           = $harga;
@@ -364,6 +378,10 @@
             $data['total']     = $subtotal;
             $data['note']      = $note;
 
+            if($qty==="0"){
+                $data['active'] = "0";
+            }
+
             if($this->md->updatedetailitem($item_id,$data)){
                 $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
 
@@ -402,13 +420,11 @@
             }
 
             if($validator==="KAINS"){
-
                 if($status==="0" || $status==="1" || $status==="2"){
                     $data['status']     = $status;
                     $data['kains_id']   = $_SESSION['userid'];
                     $data['kains_date'] = date('Y-m-d H:i:s');
                 }
-
                 if($status==="7" || $status==="13"){
                     $data['status']     = $status;
                     $data['inv_kains_id']   = $_SESSION['userid'];

@@ -98,11 +98,127 @@ function validasi(btn) {
     return false;
 };
 
+// function updateVatAndTotal(input) {
+//     const itemId = input.id.split("_")[1];
+//     const value  = input.value;
+
+//     if(input.id !== `note_${itemId}` && (isNaN(value) || value.trim() === "")){
+//         showAlert(
+//             "I'm Sorry",
+//             "Masukkan nilai numerik yang valid!",
+//             "error",
+//             "Please Try Again",
+//             "btn btn-danger"
+//         );
+//         input.value = "";
+//         return;
+//     }
+
+//     const stockInput        = document.getElementById(`stock_${itemId}`);
+//     const qtyInput          = document.getElementById(`qty_${itemId}`);
+//     const hargaInput        = document.getElementById(`harga_${itemId}`);
+//     const vatElement        = document.getElementById(`vat_${itemId}`);
+//     const vatAmountElement  = document.getElementById(`vat_amount_${itemId}`);
+//     const subtotalElement   = document.getElementById(`subtotal_${itemId}`);
+//     const totalVatElement   = document.getElementById("total_vat");
+//     const grandTotalElement = document.getElementById("grand_total");
+//     const note              = document.getElementById(`note_${itemId}`);
+
+//     if(stockInput && qtyInput && hargaInput && vatElement && vatAmountElement){
+//         const stock = parseFloat(stockInput.value);
+//         const qty   = parseFloat(qtyInput.value);
+//         const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
+//         const ppn   = parseFloat(vatElement.value) / 100;
+
+//         if(isNaN(qty) || isNaN(harga) || isNaN(ppn)){
+//             console.error("Nilai qty, harga, atau VAT tidak valid.");
+//             return;
+//         }
+
+//         const newVat    = parseFloat((qty * (harga * ppn)).toFixed(0));
+//         const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
+
+//         vatAmountElement.innerText = todesimal(newVat);
+//         subtotalElement.innerText  = todesimal(itemTotal);
+
+//         let totalVat   = 0;
+//         let grandTotal = 0;
+
+//         document.querySelectorAll("[id^='vat_amount_']").forEach((vat) => {
+//             totalVat += parseFloat(vat.innerText.replace(/\./g, "").replace(",", ".")) || 0;
+//         });
+
+//         document.querySelectorAll("[id^='qty_']").forEach((qtyElem) => {
+//             const id        = qtyElem.id.split("_")[1];
+//             const hargaElem = document.getElementById(`harga_${id}`);
+//             const vatElem   = document.getElementById(`vat_${id}`);
+
+//             const qtyVal   = parseFloat(qtyElem.value);
+//             const hargaVal = parseFloat(hargaElem.value.replace(/\./g, "").replace(",", "."));
+//             const ppnVal   = parseFloat(vatElem.value) / 100;
+
+//             if (!isNaN(qtyVal) && !isNaN(hargaVal) && !isNaN(ppnVal)) {
+//                 const vatAmount = parseFloat((qtyVal * (hargaVal * ppnVal)).toFixed(0)); // Pembulatan ke 0 desimal
+//                 const itemTotal = parseFloat(((qtyVal * hargaVal) + vatAmount).toFixed(0));
+//                 grandTotal += itemTotal;
+//             }
+//         });
+
+//         if (totalVatElement) totalVatElement.innerText = todesimal(totalVat);
+//         if (grandTotalElement) grandTotalElement.innerText = todesimal(grandTotal);
+
+//         var no_pemesanan = $("#nopemesanan_item").val();
+//         var validator     = input.getAttribute("data_validator");
+//         $.ajax({
+//             url     : url + "index.php/logistik/spu/updatedetailitem",
+//             method  : "POST",
+//             dataType: "JSON",
+//             data    : {
+//                 no_pemesanan: no_pemesanan,
+//                 validator   : validator,
+//                 item_id     : itemId,
+//                 note        : note ? note.value: "",
+//                 stock       : stock,
+//                 qty         : qty,
+//                 harga       : harga,
+//                 ppn         : ppn,
+//                 subtotal    : itemTotal,
+//                 vat_amount  : newVat
+//             },
+//             beforeSend: function () {
+//                 toastr.clear();
+//                 toastr["info"]("Updating data...", "Please wait");
+//             },
+//             success: function (data) {
+//                 toastr.clear();
+//                 toastr[data.responHead](data.responDesc, "INFORMATION");
+//             },
+//             error: function (xhr, status, error) {
+//                 showAlert(
+//                     "I'm Sorry",
+//                     "Element qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+//                     "error",
+//                     "Please Try Again",
+//                     "btn btn-danger"
+//                 );
+//             }
+//         });
+//     }else{
+//         showAlert(
+//             "I'm Sorry",
+//             "Element qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+//             "error",
+//             "Please Try Again",
+//             "btn btn-danger"
+//         );
+//     }
+// };
+
 function updateVatAndTotal(input) {
     const itemId = input.id.split("_")[1];
-    const value  = input.value;
+    const value = input.value;
 
-    if(input.id !== `note_${itemId}` && (isNaN(value) || value.trim() === "")){
+    if (input.id !== `note_${itemId}` && (isNaN(value) || value.trim() === "")) {
         showAlert(
             "I'm Sorry",
             "Masukkan nilai numerik yang valid!",
@@ -114,96 +230,120 @@ function updateVatAndTotal(input) {
         return;
     }
 
-    const stockInput        = document.getElementById(`stock_${itemId}`);
-    const qtyInput          = document.getElementById(`qty_${itemId}`);
-    const hargaInput        = document.getElementById(`harga_${itemId}`);
-    const vatElement        = document.getElementById(`vat_${itemId}`);
-    const vatAmountElement  = document.getElementById(`vat_amount_${itemId}`);
-    const subtotalElement   = document.getElementById(`subtotal_${itemId}`);
-    const totalVatElement   = document.getElementById("total_vat");
+    const stockInput = document.getElementById(`stock_${itemId}`);
+    const qtyInput = document.getElementById(`qty_${itemId}`);
+    const hargaInput = document.getElementById(`harga_${itemId}`);
+    const vatElement = document.getElementById(`vat_${itemId}`);
+    const vatAmountElement = document.getElementById(`vat_amount_${itemId}`);
+    const subtotalElement = document.getElementById(`subtotal_${itemId}`);
+    const totalVatElement = document.getElementById("total_vat");
     const grandTotalElement = document.getElementById("grand_total");
-    const note              = document.getElementById(`note_${itemId}`);
+    const note = document.getElementById(`note_${itemId}`);
 
-    if(stockInput && qtyInput && hargaInput && vatElement && vatAmountElement){
+    if (stockInput && qtyInput && hargaInput && vatElement && vatAmountElement) {
         const stock = parseFloat(stockInput.value);
-        const qty   = parseFloat(qtyInput.value);
+        const qty = parseFloat(qtyInput.value);
         const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
-        const ppn   = parseFloat(vatElement.value) / 100;
+        const ppn = parseFloat(vatElement.value) / 100;
 
-        if(isNaN(qty) || isNaN(harga) || isNaN(ppn)){
+        if (isNaN(qty) || isNaN(harga) || isNaN(ppn)) {
             console.error("Nilai qty, harga, atau VAT tidak valid.");
             return;
         }
 
-        const newVat    = parseFloat((qty * (harga * ppn)).toFixed(0));
-        const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
+        // Jika qty 0, tampilkan konfirmasi Swal
+        if (qty === 0) {
+            Swal.fire({
+                title: "Konfirmasi",
+                text: "Jumlah qty adalah 0. Apakah Anda ingin melanjutkan?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Lanjutkan",
+                cancelButtonText: "Batalkan",
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33"
+            }).then((result) => {
+                if (!result.isConfirmed) {
+                    input.value = ""; // Batalkan input jika pengguna memilih "Batalkan"
+                    return;
+                }
+                processUpdate(); // Lanjutkan jika pengguna memilih "Lanjutkan"
+            });
+        } else {
+            processUpdate();
+        }
 
-        vatAmountElement.innerText = todesimal(newVat);
-        subtotalElement.innerText  = todesimal(itemTotal);
+        function processUpdate() {
+            const newVat = parseFloat((qty * (harga * ppn)).toFixed(0));
+            const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
 
-        let totalVat   = 0;
-        let grandTotal = 0;
+            vatAmountElement.innerText = todesimal(newVat);
+            subtotalElement.innerText = todesimal(itemTotal);
 
-        document.querySelectorAll("[id^='vat_amount_']").forEach((vat) => {
-            totalVat += parseFloat(vat.innerText.replace(/\./g, "").replace(",", ".")) || 0;
-        });
+            let totalVat = 0;
+            let grandTotal = 0;
 
-        document.querySelectorAll("[id^='qty_']").forEach((qtyElem) => {
-            const id        = qtyElem.id.split("_")[1];
-            const hargaElem = document.getElementById(`harga_${id}`);
-            const vatElem   = document.getElementById(`vat_${id}`);
+            document.querySelectorAll("[id^='vat_amount_']").forEach((vat) => {
+                totalVat += parseFloat(vat.innerText.replace(/\./g, "").replace(",", ".")) || 0;
+            });
 
-            const qtyVal   = parseFloat(qtyElem.value);
-            const hargaVal = parseFloat(hargaElem.value.replace(/\./g, "").replace(",", "."));
-            const ppnVal   = parseFloat(vatElem.value) / 100;
+            document.querySelectorAll("[id^='qty_']").forEach((qtyElem) => {
+                const id = qtyElem.id.split("_")[1];
+                const hargaElem = document.getElementById(`harga_${id}`);
+                const vatElem = document.getElementById(`vat_${id}`);
 
-            if (!isNaN(qtyVal) && !isNaN(hargaVal) && !isNaN(ppnVal)) {
-                const vatAmount = parseFloat((qtyVal * (hargaVal * ppnVal)).toFixed(0)); // Pembulatan ke 0 desimal
-                const itemTotal = parseFloat(((qtyVal * hargaVal) + vatAmount).toFixed(0));
-                grandTotal += itemTotal;
-            }
-        });
+                const qtyVal = parseFloat(qtyElem.value);
+                const hargaVal = parseFloat(hargaElem.value.replace(/\./g, "").replace(",", "."));
+                const ppnVal = parseFloat(vatElem.value) / 100;
 
-        if (totalVatElement) totalVatElement.innerText = todesimal(totalVat);
-        if (grandTotalElement) grandTotalElement.innerText = todesimal(grandTotal);
+                if (!isNaN(qtyVal) && !isNaN(hargaVal) && !isNaN(ppnVal)) {
+                    const vatAmount = parseFloat((qtyVal * (hargaVal * ppnVal)).toFixed(0));
+                    const itemTotal = parseFloat(((qtyVal * hargaVal) + vatAmount).toFixed(0));
+                    grandTotal += itemTotal;
+                }
+            });
 
-        var no_pemesanan = $("#nopemesanan_item").val();
-        var validator     = input.getAttribute("data_validator");
-        $.ajax({
-            url     : url + "index.php/logistik/spu/updatedetailitem",
-            method  : "POST",
-            dataType: "JSON",
-            data    : {
-                no_pemesanan: no_pemesanan,
-                validator   : validator,
-                item_id     : itemId,
-                note        : note ? note.value: "",
-                stock       : stock,
-                qty         : qty,
-                harga       : harga,
-                ppn         : ppn,
-                subtotal    : itemTotal,
-                vat_amount  : newVat
-            },
-            beforeSend: function () {
-                toastr.clear();
-                toastr["info"]("Updating data...", "Please wait");
-            },
-            success: function (data) {
-                toastr.clear();
-                toastr[data.responHead](data.responDesc, "INFORMATION");
-            },
-            error: function (xhr, status, error) {
-                showAlert(
-                    "I'm Sorry",
-                    "Element qty, harga, VAT, atau VAT Amount tidak ditemukan.",
-                    "error",
-                    "Please Try Again",
-                    "btn btn-danger"
-                );
-            }
-        });
-    }else{
+            if (totalVatElement) totalVatElement.innerText = todesimal(totalVat);
+            if (grandTotalElement) grandTotalElement.innerText = todesimal(grandTotal);
+
+            var no_pemesanan = $("#nopemesanan_item").val();
+            var validator = input.getAttribute("data_validator");
+            $.ajax({
+                url: url + "index.php/logistik/spu/updatedetailitem",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    no_pemesanan: no_pemesanan,
+                    validator: validator,
+                    item_id: itemId,
+                    note: note ? note.value : "",
+                    stock: stock,
+                    qty: qty,
+                    harga: harga,
+                    ppn: ppn,
+                    subtotal: itemTotal,
+                    vat_amount: newVat
+                },
+                beforeSend: function () {
+                    toastr.clear();
+                    toastr["info"]("Updating data...", "Please wait");
+                },
+                success: function (data) {
+                    toastr.clear();
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        "Element qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    } else {
         showAlert(
             "I'm Sorry",
             "Element qty, harga, VAT, atau VAT Amount tidak ditemukan.",
