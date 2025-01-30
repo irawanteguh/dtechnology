@@ -22,10 +22,24 @@ $("#modal_upload_buktibayar").on('shown.bs.modal', function(){
     });
 });
 
+$("#modal_print_po").on('shown.bs.modal', function(){
+    var no_pemesanan = $(":hidden[name='no_pemesanan_po']").val();
+    printpo(no_pemesanan);
+});
+
 function getdetail(btn){
     var $btn                  = $(btn);
     var data_nopemesanan      = $btn.attr("data_nopemesanan");
+    var data_nopemesanan_unit = $btn.attr("data_nopemesanan_unit");
+    var data_suppliers        = $btn.attr("data_suppliers");
+    var data_createddate      = $btn.attr("data_createddate");
+
     $(":hidden[name='no_pemesanan_buktibayar']").val(data_nopemesanan);
+    $(":hidden[name='no_pemesanan_po']").val(data_nopemesanan);
+
+    $("#pono").html(data_nopemesanan_unit);
+    $("#suppliers").html(data_suppliers);
+    $("#orderdate").html(data_createddate);
 };
 
 function datarequest(){
@@ -51,6 +65,7 @@ function datarequest(){
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
+                                      "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
                                       "data_status='"+result[i].status+"'";
 
                     cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
@@ -77,19 +92,7 @@ function datarequest(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                // tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='15' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
-                                // tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
-                                // tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-invoice' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Re Upload invoice</a>";
-                                // tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang_terima' onclick='getdetail($(this));'><i class='bi bi-eye text-primary'></i> View Accept Goods</a>";
-                                // if(result[i].attachment==="1"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
-                                // }
-                                // if(result[i].invoice==="1"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
-                                // }
-                                // if(result[i].status==="17"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
-                                // }
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 if(result[i].status==="13"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='15' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
@@ -251,6 +254,7 @@ function approve(){
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
+                                      "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
@@ -279,36 +283,7 @@ function approve(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                // if(result[i].status==="4"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='6' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='5' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
-                                // }
-
-                                // if(result[i].status==="5"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='4' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled Status</a>";
-                                // }
-
-                                // if(result[i].status==="13"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang_terima' onclick='getdetail($(this));'><i class='bi bi-eye text-primary'></i> View Accept Goods</a>";
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='15' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
-                                // }
-
-                                // if(result[i].status==="15"){
-                                //     tableresult += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal-upload-buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
-                                // }
-
-                                // if(result[i].attachment==="1"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
-                                // }
-                                // if(result[i].invoice==="1"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
-                                // }
-                                // if(result[i].status==="17"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
-                                // }
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 if(result[i].status==="15"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline Invoice</a>";
@@ -368,6 +343,7 @@ function payment(){
                     var getvariabel = "data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
+                                      "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
@@ -396,6 +372,7 @@ function payment(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 if(result[i].status==="16"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='15' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Payment Success</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline Invoice</a>";
