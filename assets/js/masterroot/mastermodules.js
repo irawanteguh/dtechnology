@@ -146,7 +146,7 @@ function masterapps(){
                                                 "data-modulescontrollers='"+result[j].def_controller+"'";
 
                                 if(result[j].active==="1"){
-                                    active = "<span class='badge badge-light-primary fs-7 fw-bold'>Active</span>";
+                                    active = "<span class='badge badge-light-success fs-7 fw-bold'>Active</span>";
                                 }else{
                                     active = "<span class='badge badge-light-danger fs-7 fw-bold'>Hide Modules</span>";
                                 }
