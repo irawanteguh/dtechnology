@@ -46,15 +46,22 @@
             return $recordset;
         }
 
-        function transaksipettycash($orgid){
+        function transaksipettycash($orgid,$departmentid){
             $query =
                     "
+                        select x.*
+                        from(
                         select a.transaksi_id, no_kwitansi, note, cash_out,
-                               (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit
+                            (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit,
+                            (select no_pemesanan from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and ref_pettycash_id=a.transaksi_id)refnopemesanan
                         from dt01_keu_petty_cash_it a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        where a.org_id='".$orgid."'
+                        and   a.department_id='".$departmentid."'
+                        and   a.active='1'
                         and   a.cash_out<>0
+                        and   a.status='6'
+                        )x
+                        where x.refnopemesanan is null
                     ";
 
             $recordset = $this->db->query($query);
@@ -107,7 +114,7 @@
         function datarequest($orgid,$status){
             $query =
                     "
-                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, type, method, status_vice, status_dir, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id, type, method, status_vice, status_dir, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.from_department_id)unit,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
@@ -115,6 +122,7 @@
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
                             (select color from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)colorstatus,
                             (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)namestatus,
+                            (select transaksi_id from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)transaksiid,
                             (select no_kwitansi from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)nokwitansi
 
                         from dt01_lgu_pemesanan_hd a

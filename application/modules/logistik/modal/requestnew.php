@@ -495,6 +495,7 @@
                     </span>
                 </div>
             </div>
+            <input type="hidden" id="departmentid_pettycash" name="departmentid_pettycash">
             <input type="hidden" id="no_pemesanan_pettycash" name="no_pemesanan_pettycash">
             <div class="modal-body">
                 <div class="text-center mb-13">

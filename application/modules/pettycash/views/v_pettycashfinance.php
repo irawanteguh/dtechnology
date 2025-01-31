@@ -3,7 +3,7 @@
 		<div class="card">
 			<div class="card-header border-0 pt-5">
 				<h3 class="card-title align-items-start flex-column">
-					<span class="card-label fw-bolder fs-3 mb-1">Submission of Cash Advance</span>
+					<span class="card-label fw-bolder fs-3 mb-1">Approval Finance</span>
 					<span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
 				</h3>
                 <div class="card-toolbar">
@@ -24,8 +24,8 @@
                             <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Action</div>
                         </div>
                         <div class="menu-item px-3">
-                            <!-- <a href="" data-bs-toggle="modal" data-bs-target="#modal_pettycash_pemasukan" class="menu-link px-3">Cash In</a> -->
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_pettycash_pengeluaran" class="menu-link px-3">Submission</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_pettycash_pemasukan" class="menu-link px-3">Cash In</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_pettycash_pengeluaran" class="menu-link px-3">Cash Out</a>
                         </div>
                     </div>
                 </div>

@@ -128,16 +128,18 @@
                 $lastbalance =$resultcheckbalancelast[0]->balance;
             }
 
-            $data['org_id']         = $_SESSION['orgid'];
-            $data['transaksi_id']   = generateuuid();
-            $data['no_kwitansi']    = $this->md->nokwitansi($_SESSION['orgid'])->nokwitansi;
-            $data['note']           = $this->input->post("data_note");
-            $data['department_id']  = $this->input->post("data_departmentid");
-            $data['no_pemesanan']   = $this->input->post("data_nopemesanan");
-            $data['cash_in']        = strval($balance);
-            $data['before_balance'] = $lastbalance;
-            $data['balance']        = strval($lastbalance)+strval($balance);
-            $data['created_by']     = $_SESSION['userid'];
+            $data['org_id']           = $_SESSION['orgid'];
+            $data['transaksi_id']     = generateuuid();
+            $data['no_kwitansi']      = $this->md->nokwitansi($_SESSION['orgid'])->nokwitansi;
+            $data['note']             = $this->input->post("data_note");
+            $data['department_id']    = $this->input->post("data_departmentid");
+            $data['no_pemesanan']     = $this->input->post("data_nopemesanan");
+            $data['cash_in']          = strval($balance);
+            $data['before_balance']   = $lastbalance;
+            $data['balance']          = strval($lastbalance)+strval($balance);
+            $data['ref_pettycash_id'] = $this->input->post("data_refpettycase");
+            $data['status']           = "6";
+            $data['created_by']       = $_SESSION['userid'];
 
             if($this->md->insertpettycash($data)){
                 $json['responCode']="00";

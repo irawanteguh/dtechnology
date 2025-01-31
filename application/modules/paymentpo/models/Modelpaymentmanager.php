@@ -46,7 +46,7 @@
                                             3,
                                             '0'
                                         ),
-                                        '/KEU/',
+                                        '/CASH/KEU/',
                                         date_format(now(), '%m'),
                                         '/',
                                         date_format(now(), '%Y')

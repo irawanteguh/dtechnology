@@ -124,7 +124,7 @@
                                 or
                                 (
                                     a.status <> '6'
-                                    and a.type='1'
+                                    and (a.type='1' or a.method='4')
                                     and a.status_vice='Y'
                                     and a.status_dir='Y'
                                 )
@@ -252,7 +252,7 @@
         }
 
         public function transaksipettycash(){
-            $result      = $this->md->transaksipettycash($_SESSION['orgid']);
+            $result      = $this->md->transaksipettycash($_SESSION['orgid'],$this->input->post("departmentid_pettycash"));
             
 			if(!empty($result)){
                 $json["responCode"]="00";

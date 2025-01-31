@@ -4,7 +4,7 @@ approved();
 
 function datapettycash(){
     $.ajax({
-        url       : url+"index.php/pettycash/pettycashit/datapettycash",
+        url       : url+"index.php/pettycash/pettycashfinance/datapettycash",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -27,8 +27,8 @@ function datapettycash(){
                     tableresult +="<td>"+result[i].unit+"</td>";
                     tableresult +="<td>"+(result[i].note ? result[i].note : "")+"</td>";
 
-                    if(result[i].status==="0"){
-                        tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Submission</span></div></td>";
+                    if(result[i].status==="4"){
+                         tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Approval Manager</span></div></td>";
                     }else{
                         if(result[i].cash_in!=0){
                             tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
@@ -50,9 +50,9 @@ function datapettycash(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
-                                if(result[i].status==="0"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' onclick='updatepettycash($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' onclick='updatepettycash($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";   
+                                if(result[i].status==="4"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_cashout='"+parseFloat(result[i].cash_out)+"' data_validasi='6' onclick='updatepettycash($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='5' onclick='updatepettycash($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancelled</a>";   
                                 }
 
                                 tableresult += "</div>";
@@ -77,7 +77,7 @@ function datapettycash(){
 
 function approved(){
     $.ajax({
-        url       : url+"index.php/pettycash/pettycashit/approved",
+        url       : url+"index.php/pettycash/pettycashfinance/approved",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -100,22 +100,11 @@ function approved(){
                     tableresult +="<td>"+result[i].unit+"</td>";
                     tableresult +="<td>"+(result[i].note ? result[i].note : "")+"</td>";
 
-                    if(result[i].status==="2"){
-                        tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Approval Head Division</span></div></td>";
-                    }else{
-                        if(result[i].status==="4"){
-                            tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Approval Manager</span></div></td>";
+                    if(result[i].status==="6"){
+                        if(result[i].cash_in!=0){
+                            tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
                         }else{
-                            if(result[i].status==="6"){
-                                tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Approval Finance</span></div></td>";
-                            }else{
-                                if(result[i].cash_in!=0){
-                                    tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
-                                }else{
-                                    tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out</span></div></td>";
-                                }
-                            }
-                            
+                            tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out</span></div></td>";
                         }
                     }
 
@@ -156,7 +145,7 @@ function approved(){
 
 function decline(){
     $.ajax({
-        url       : url+"index.php/pettycash/pettycashit/decline",
+        url       : url+"index.php/pettycash/pettycashfinance/decline",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -179,23 +168,14 @@ function decline(){
                     tableresult +="<td>"+result[i].unit+"</td>";
                     tableresult +="<td>"+(result[i].note ? result[i].note : "")+"</td>";
 
-                    if(result[i].status==="1"){
-                        tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Decline</span></div></td>";
+                    if(result[i].status==="5"){
+                        tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Decline Finance</span></div></td>";
                     }else{
-                        if(result[i].status==="3"){
-                            tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out Decline Manager</span></div></td>";
+                        if(result[i].cash_in!=0){
+                            tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
                         }else{
-                            if(result[i].status==="5"){
-                                tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Decline Finance</span></div></td>";
-                            }else{
-                                if(result[i].cash_in!=0){
-                                    tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
-                                }else{
-                                    tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out</span></div></td>";
-                                }
-                            }
+                            tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out</span></div></td>";
                         }
-                        
                     }
 
                     
@@ -211,8 +191,8 @@ function decline(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
-                                if(result[i].status==="1"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='0' onclick='updatepettycash($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
+                                if(result[i].status==="5"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='4' onclick='updatepettycash($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
                                 }
 
                                 tableresult += "</div>";
@@ -256,6 +236,8 @@ $(document).on("submit", "#formnewpengeluaran", function (e) {
             if(data.responCode == "00"){
                 $("#modal_pettycash_pengeluaran").modal("hide");
                 datapettycash();
+                decline();
+                approved();
 			}
 
             toastr.clear();
@@ -298,6 +280,8 @@ $(document).on("submit", "#formnewpemasukan", function (e) {
             if(data.responCode == "00"){
                 $("#modal_pettycash_pemasukan").modal("hide");
                 datapettycash();
+                decline();
+                approved();
 			}
 
             toastr.clear();
@@ -333,10 +317,10 @@ function updatepettycash(btn) {
         if (result.isConfirmed) {
             var data_transaksiid = btn.attr("data_transaksiid");
             var data_validasi    = btn.attr("data_validasi");
-
+            var data_cashout     = btn.attr("data_cashout");
             $.ajax({
                 url       : url+"index.php/pettycash/pettycashit/updatepettycash",
-                data      : {data_transaksiid:data_transaksiid,data_validasi:data_validasi},
+                data      : {data_transaksiid:data_transaksiid,data_validasi:data_validasi,data_cashout:data_cashout},
                 method    : "POST",
                 dataType  : "JSON",
                 cache     : false,

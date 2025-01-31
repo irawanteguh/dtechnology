@@ -365,7 +365,7 @@ function payment(){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 if((parseFloat(result[i].cashout)-parseFloat(result[i].total)) > 0){
                                     if(result[i].transaksiid===null){
-                                        tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_nopemesanan='"+result[i].no_pemesanan+"' data_note='Pengembalian Sisa Cash Out No : "+result[i].nokwitansi+" No Pemesanan Unit : "+result[i].no_pemesanan_unit+" "+result[i].judul_pemesanan+" "+result[i].note+"' data_departmentid='"+result[i].department_id+"' data_balance='"+(parseFloat(result[i].cashout)-parseFloat(result[i].total)).toString()+"' onclick='submitpettycash($(this));'><i class='bi bi-check2-circle text-info'></i> Submit Petty Cash</a>";
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_refpettycase='"+result[i].pettycash_id+"' data_nopemesanan='"+result[i].no_pemesanan+"' data_note='Pengembalian Sisa Cash Out No : "+result[i].nokwitansi+" No Pemesanan Unit : "+result[i].no_pemesanan_unit+" "+result[i].judul_pemesanan+" "+result[i].note+"' data_departmentid='"+result[i].department_id+"' data_balance='"+(parseFloat(result[i].cashout)-parseFloat(result[i].total)).toString()+"' onclick='submitpettycash($(this));'><i class='bi bi-check2-circle text-info'></i> Submit Petty Cash</a>";
                                     }
                                 }
                                 if(result[i].status==="16"){
@@ -408,9 +408,10 @@ function submitpettycash(btn){
     var data_departmentid = btn.attr("data_departmentid");
     var data_note         = btn.attr("data_note");
     var data_nopemesanan  = btn.attr("data_nopemesanan");
+    var data_refpettycase = btn.attr("data_refpettycase");
 	$.ajax({
         url        : url+"index.php/paymentpo/paymentfinance/submitpettycash",
-        data       : {data_balance:data_balance,data_departmentid:data_departmentid,data_note:data_note,data_nopemesanan:data_nopemesanan},
+        data       : {data_refpettycase:data_refpettycase,data_balance:data_balance,data_departmentid:data_departmentid,data_note:data_note,data_nopemesanan:data_nopemesanan},
         method     : "POST",
         dataType   : "JSON",
         cache      : false,

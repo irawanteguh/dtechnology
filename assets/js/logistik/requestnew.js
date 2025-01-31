@@ -91,6 +91,7 @@ function getdetail(btn){
     var $btn                  = $(btn);
     var data_nopemesanan      = $btn.attr("data_nopemesanan");
     var data_nopemesanan_unit = $btn.attr("data_nopemesanan_unit");
+    var data_departmentid     = $btn.attr("data_departmentid");
     var data_nama             = $btn.attr("data_nama");
     var data_note             = $btn.attr("data_note");
     var data_suppliers        = $btn.attr("data_suppliers");
@@ -103,6 +104,7 @@ function getdetail(btn){
     $(":hidden[name='nopemesanan_item']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_po']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_pettycash']").val(data_nopemesanan);
+    $(":hidden[name='departmentid_pettycash']").val(data_departmentid);
 
     $("#modal_edit_request_nama").val(data_nama);
 
@@ -150,7 +152,7 @@ function datarequest(){
                     var getvariabel = " data_nopemesanan='"+result[i].no_pemesanan+"'"+
                                       " data_nama='"+result[i].judul_pemesanan+"'"+
                                       " data_note='"+result[i].note+"'"+
-                                      " data_fromdepartmentid='"+result[i].from_department_id+"'";
+                                      " data_departmentid='"+result[i].department_id+"'";
 
                     cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
                     spu  = result[i].type        === "20" ? " <div class='badge badge-light-success fw-bolder'>SPU</div>" : "";
@@ -189,7 +191,9 @@ function datarequest(){
 
                             if(result[i].type === "0"){ // Untuk Pengajuan Request
                                 if(result[i].method==="4"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_pettycash_transaksi' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Cash Out</a>";
+                                    if(result[i].transaksiid===null){
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_pettycash_transaksi' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Cash Out</a>";
+                                    }
                                 }
                                 if(result[i].status==="0"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
@@ -320,9 +324,6 @@ function approve(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            // tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
-                            // tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='94' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                            // tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='95' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                             if(result[i].invoice==="1"){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
                             }
@@ -633,8 +634,10 @@ function detailbarangspu(nopemesanan){
 };
 
 function transaksipettycash(){
+    var departmentid_pettycash = $("[name='departmentid_pettycash']").val();
     $.ajax({
         url       : url+"index.php/logistik/requestnew/transaksipettycash",
+        data       : {departmentid_pettycash:departmentid_pettycash},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,

@@ -64,22 +64,24 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="tabapprove" role="tabpanel">
-                        <table class="table align-middle table-row-dashed fs-6 gy-2">
-                            <thead>
-                                <tr class="fw-bolder text-muted bg-light align-middle">
-                                    <th class="ps-4 rounded-start">No Request</th>
-                                    <th>Pengadaan</th>
-                                    <th>Supplier</th>
-                                    <th class="text-end">Sub Total</th>
-                                    <th class="text-end">%Vat</th>
-                                    <th class="text-end">Vat</th>
-                                    <th>Status</th>
-                                    <th>Created By</th>
-                                    <th class="pe-4 text-end rounded-end">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-600 fw-bold" id="resultdataapprove"></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">No Request</th>
+                                        <th>Pengadaan</th>
+                                        <th>Supplier</th>
+                                        <th class="text-end">Sub Total</th>
+                                        <th class="text-end">%Vat</th>
+                                        <th class="text-end">Vat</th>
+                                        <th>Status</th>
+                                        <th>Created By</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultdataapprove"></tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="tabdecline" role="tabpanel">
                         <div class="table-responsive">

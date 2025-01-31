@@ -8,7 +8,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/pettycash/pettycashit/newsubmission" id="formnewpengeluaran">
+            <form action="<?php echo base_url();?>index.php/pettycash/pettycashit/newpengeluaran" id="formnewpengeluaran">
                 <div class="modal-body">
                     <div class="text-center mb-5">
                         <h1 class="mb-3">Cash Out</h1>
