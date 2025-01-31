@@ -61,6 +61,10 @@ $("#modal_print_po").on('shown.bs.modal', function(){
     printpo(no_pemesanan);
 });
 
+$("#modal_pettycash_transaksi").on('shown.bs.modal', function(){
+    transaksipettycash();
+});
+
 function filterTable() {
     const itemnamefilter = filteritemname.value.map(tag => tag.value);
     const categoryfilter = filtercategory.value.map(tag => tag.value);
@@ -98,6 +102,7 @@ function getdetail(btn){
     $(":hidden[name='no_pemesanan_invoice']").val(data_nopemesanan);
     $(":hidden[name='nopemesanan_item']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_po']").val(data_nopemesanan);
+    $(":hidden[name='no_pemesanan_pettycash']").val(data_nopemesanan);
 
     $("#modal_edit_request_nama").val(data_nama);
 
@@ -162,7 +167,7 @@ function datarequest(){
                     }
 
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>";                    
-                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : result[i].method === "4" ? "On The Spot (BBM / Snack / Etc)" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div></td>` : "<td></td>";
+                    tableresult += result[i].supplier_id != null ? `<td><div>${result[i].namasupplier || ""}</div><div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : result[i].method === "4" ? "On The Spot (BBM / Snack / Etc)" : "Unknown"}</div><div>${result[i].invoice_no ? "Invoice no : " + result[i].invoice_no : ""}</div><div>${result[i].nokwitansi ? "Cash Out : " + result[i].nokwitansi : ""}</div></td>`: "<td></td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -183,10 +188,17 @@ function datarequest(){
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
                             if(result[i].type === "0"){ // Untuk Pengajuan Request
+                                if(result[i].method==="4"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_pettycash_transaksi' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Cash Out</a>";
+                                }
                                 if(result[i].status==="0"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                     if(result[i].jmlitem!="0"){
-                                        tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        if(result[i].method==="4"){
+                                            tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='13' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                        }else{
+                                            tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        }
                                     }
                                 }
                                 tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
@@ -618,6 +630,91 @@ function detailbarangspu(nopemesanan){
         }
     });
     return false;
+};
+
+function transaksipettycash(){
+    $.ajax({
+        url       : url+"index.php/logistik/requestnew/transaksipettycash",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdatapettycash").html("");
+        },
+        success: function (data) {
+            let result      = "";
+            let tableresult = "";
+
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (let i in result) {                    
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>"+result[i].no_kwitansi+"</td>";
+                    tableresult += "<td>"+result[i].unit+"</td>";
+                    tableresult += "<td>"+result[i].note+"</td>";
+                    tableresult += "<td class='text-end'>"+todesimal(result[i].cash_out)+"</td>";
+                    tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-light-primary' data_transaksiid='"+result[i].transaksi_id+"' onclick='addpettycash($(this));'>Submit</a></td>";
+                    tableresult += "</tr>";
+                }
+            }
+
+            $("#resultdatapettycash").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+        }
+    });
+    return false;
+};
+
+function addpettycash(btn){
+    var transaksiid            = btn.attr("data_transaksiid");
+    var no_pemesanan_pettycash = $("[name='no_pemesanan_pettycash']").val();
+
+	$.ajax({
+        url        : url+"index.php/logistik/requestnew/addpettycash",
+        data       : {transaksiid:transaksiid,no_pemesanan_pettycash:no_pemesanan_pettycash},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        beforeSend : function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+		success : function (data) {
+			if(data.responCode === "00"){
+				datarequest();
+                $('#modal_pettycash_transaksi').modal('hide');
+			};
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+	return false;
 };
 
 function simpandata(input) {

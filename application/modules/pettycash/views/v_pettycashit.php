@@ -24,8 +24,8 @@
                             <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Action</div>
                         </div>
                         <div class="menu-item px-3">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_new_request" class="menu-link px-3">Penerimaan</a>
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_pettycash_pengeluaran" class="menu-link px-3">Pengeluaran</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_pettycash_pemasukan" class="menu-link px-3">Cash In</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_pettycash_pengeluaran" class="menu-link px-3">Cash Out</a>
                         </div>
                     </div>
                 </div>
@@ -38,6 +38,7 @@
                                 <th class="ps-4 rounded-start">No Kwitansi</th>
                                 <th>Department</th>
                                 <th>Note</th>
+                                <th>Status</th>
                                 <th class="text-end">Credit</th>
                                 <th class="text-end">Debit</th>
                                 <th class="text-end">Balance</th>

@@ -484,3 +484,44 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_pettycash_transaksi" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <input type="hidden" id="no_pemesanan_pettycash" name="no_pemesanan_pettycash">
+            <div class="modal-body">
+                <div class="text-center mb-13">
+                    <h1 class="mb-3">Add Cash Out</h1>
+                    <div class="text-muted fw-bold fs-5">Please Select Cash Out Transaction</div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-6 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light">
+                                    <th class="ps-4 rounded-start">No Kwitansi</th>
+                                    <th>Department</th>
+                                    <th>Note</th>
+                                    <th class="text-end">Cash Out</th>
+                                    <th class="pe-4 text-end rounded-end">Actions</th>
+                                </tr>
+                                <tr>
+                                    <th><input id="filterusername" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Username"></th>
+                                    <th><input id="filtername" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Name"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 fw-bold" id="resultdatapettycash"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

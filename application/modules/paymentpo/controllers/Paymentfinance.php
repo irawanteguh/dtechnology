@@ -118,6 +118,40 @@
             }
         }
 
+        public function submitpettycash(){
+            $balance = $this->input->post("data_balance");
+            $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid']);
+
+            if(empty($resultcheckbalancelast)){
+                $lastbalance = 0;
+            }else{
+                $lastbalance =$resultcheckbalancelast[0]->balance;
+            }
+
+            $data['org_id']         = $_SESSION['orgid'];
+            $data['transaksi_id']   = generateuuid();
+            $data['no_kwitansi']    = $this->md->nokwitansi($_SESSION['orgid'])->nokwitansi;
+            $data['note']           = $this->input->post("data_note");
+            $data['department_id']  = $this->input->post("data_departmentid");
+            $data['no_pemesanan']   = $this->input->post("data_nopemesanan");
+            $data['cash_in']        = strval($balance);
+            $data['before_balance'] = $lastbalance;
+            $data['balance']        = strval($lastbalance)+strval($balance);
+            $data['created_by']     = $_SESSION['userid'];
+
+            if($this->md->insertpettycash($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
         
     }
 ?>

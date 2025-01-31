@@ -54,6 +54,8 @@
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Grand Total</th>
+                                        <th class="text-end">Cash Out</th>
+                                        <th class="text-end">Balance</th>
                                         <th>Status</th>
                                         <th>Created By</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
@@ -74,6 +76,8 @@
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Grand Total</th>
+                                        <th class="text-end">Cash Out</th>
+                                        <th class="text-end">Balance</th>
                                         <th>Status</th>
                                         <th>Created By</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>

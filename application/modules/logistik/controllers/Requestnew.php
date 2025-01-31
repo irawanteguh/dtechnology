@@ -55,6 +55,10 @@
             $data['supplier_id']       = $this->input->post("modal_new_request_supplier");
             $data['method']            = $this->input->post("modal_new_request_method");
             $data['cito']              = $this->input->post("modal_new_request_cito");
+            if($this->input->post("modal_new_request_method")==="4"){
+                $data['status_vice']       = "Y";
+                $data['status_dir']        = "Y";
+            }
             $data['created_by']        = $_SESSION['userid'];
 
             if($this->md->insertheader($data)){
@@ -246,6 +250,41 @@
 
             echo json_encode($json);
         }
-        
+
+        public function transaksipettycash(){
+            $result      = $this->md->transaksipettycash($_SESSION['orgid']);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function addpettycash(){
+            $transaksiid            = $this->input->post('transaksiid');
+            $no_pemesanan_pettycash = $this->input->post('no_pemesanan_pettycash');
+            
+            $data['pettycash_id']=$transaksiid;
+
+            if($this->md->updateheader($no_pemesanan_pettycash,$data)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
+            }
+
+            echo json_encode($json);
+        }
     }
 ?>

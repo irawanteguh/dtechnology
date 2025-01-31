@@ -1,6 +1,36 @@
 <?php
     class Modelpettycash extends CI_Model{
         
+        function nokwitansi($orgid){
+            $query =
+                    "
+                        select concat(
+                                        
+                                        lpad(
+                                            coalesce(
+                                                (
+                                                    select COUNT(transaksi_id)+1
+                                                    from dt01_keu_petty_cash_it
+                                                    where org_id='".$orgid."'
+                                                    and   date_format(created_date, '%Y') = date_format(current_date, '%Y')
+                                                ),
+                                                1
+                                            ),
+                                            3,
+                                            '0'
+                                        ),
+                                        '/KEU/',
+                                        date_format(now(), '%m'),
+                                        '/',
+                                        date_format(now(), '%Y')
+                                ) nokwitansi
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
 
         function masterunit($orgid,$parameter){
             $query =
