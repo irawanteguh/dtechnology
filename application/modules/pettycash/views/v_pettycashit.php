@@ -75,7 +75,6 @@
                                         <th>Status</th>
                                         <th class="text-end">Credit</th>
                                         <th class="text-end">Debit</th>
-                                        <th class="text-end">Balance</th>
                                         <th>Created Date</th>
                                         <th>Created By</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>

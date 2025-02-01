@@ -30,6 +30,7 @@
         public function datapettycash(){
             $parameter = "
                             and a.status='0'
+                            and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
                          ";
             $result = $this->md->datapettycash($_SESSION['orgid'],$parameter);
             
@@ -50,6 +51,7 @@
         public function approved(){
             $parameter = "
                             and a.status in ('2','4','6')
+                            and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
                          ";
             $result = $this->md->datapettycash($_SESSION['orgid'],$parameter);
             
@@ -70,6 +72,7 @@
         public function decline(){
             $parameter = "
                             and a.status in ('1','3','5')
+                            and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
                          ";
             $result = $this->md->datapettycash($_SESSION['orgid'],$parameter);
             

@@ -149,6 +149,63 @@
             return $recordset;
         }
 
+        function checkbalancelast($orgid){
+            $query =
+                    "
+                        select a.balance
+                        from dt01_keu_petty_cash_it a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        order by created_date desc
+                        limit 1;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function nokwitansi($orgid){
+            $query =
+                    "
+                        select concat(
+                                        
+                                        lpad(
+                                            coalesce(
+                                                (
+                                                    select COUNT(transaksi_id)+1
+                                                    from dt01_keu_petty_cash_it
+                                                    where org_id='".$orgid."'
+                                                    and   date_format(created_date, '%Y') = date_format(current_date, '%Y')
+                                                ),
+                                                1
+                                            ),
+                                            3,
+                                            '0'
+                                        ),
+                                        '/CASH/KEU/',
+                                        date_format(now(), '%m'),
+                                        '/',
+                                        date_format(now(), '%Y')
+                                ) nokwitansi
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function insertpettycash($data){           
+            $sql =   $this->db->insert("dt01_keu_petty_cash_it",$data);
+            return $sql;
+        }
+
+        function updatepettycash($nopemesanan,$data){           
+            $sql =   $this->db->update("dt01_keu_petty_cash_it",$data,array("no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
         function insertheader($data){           
             $sql =   $this->db->insert("dt01_lgu_pemesanan_hd",$data);
             return $sql;

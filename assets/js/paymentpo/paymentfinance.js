@@ -324,6 +324,7 @@ function payment(){
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
+                                      "data_departmentid='"+result[i].department_id+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
@@ -346,18 +347,14 @@ function payment(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     if(result[i].cashout!=null){
                         tableresult +="<td class='text-end'>"+todesimal(result[i].cashout)+"</td>";
-                    }else{
-                        tableresult +="<td class='text-end'>0</td>";
-                    }
-                    if(result[i].cashout!=null){
                         tableresult +="<td class='text-end'>"+todesimal(parseFloat(result[i].cashout)-parseFloat(result[i].total))+"</td>";
                     }else{
+                        tableresult +="<td class='text-end'>0</td>";
                         tableresult +="<td class='text-end'>0</td>";
                     }
                     tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
                   
-
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
@@ -365,12 +362,12 @@ function payment(){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 if((parseFloat(result[i].cashout)-parseFloat(result[i].total)) > 0){
                                     if(result[i].transaksiid===null){
-                                        tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_refpettycase='"+result[i].pettycash_id+"' data_nopemesanan='"+result[i].no_pemesanan+"' data_note='Pengembalian Sisa Cash Out No : "+result[i].nokwitansi+" No Pemesanan Unit : "+result[i].no_pemesanan_unit+" "+result[i].judul_pemesanan+" "+result[i].note+"' data_departmentid='"+result[i].department_id+"' data_balance='"+(parseFloat(result[i].cashout)-parseFloat(result[i].total)).toString()+"' onclick='submitpettycash($(this));'><i class='bi bi-check2-circle text-info'></i> Submit Petty Cash</a>";
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_refpettycase='"+result[i].pettycash_id+"' data_nopemesanan='"+result[i].no_pemesanan+"' data_note='Pengembalian Sisa Cash Out No : "+result[i].nokwitansi+" No Pemesanan Unit : "+result[i].no_pemesanan_unit+" "+result[i].judul_pemesanan+" "+result[i].note+"' data_balance='"+(parseFloat(result[i].cashout)-parseFloat(result[i].total)).toString()+"' onclick='submitpettycash($(this));'><i class='bi bi-check2-circle text-info'></i> Submit Petty Cash</a>";
                                     }
                                 }
                                 if(result[i].status==="16"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='15' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Payment Success</a>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline Invoice</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_balance='"+(parseFloat(result[i].cashout)-parseFloat(result[i].total)).toString()+"' data_note='Pembatalan Pengembalian Cash In No : "+result[i].lastnokwitansi+"' data_transaksiid='"+result[i].transaksiid+"' data_validasi='15' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Payment Success</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_balance='"+(parseFloat(result[i].cashout)-parseFloat(result[i].total)).toString()+"' data_note='Pembatalan Pengembalian Cash In No : "+result[i].lastnokwitansi+"' data_transaksiid='"+result[i].transaksiid+"' data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline Invoice</a>";
                                 }
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_buktibayar' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
                                 if(result[i].status==="17"){

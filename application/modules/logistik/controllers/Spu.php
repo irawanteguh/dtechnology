@@ -317,16 +317,16 @@
         }
 
         public function updatedetailitem(){
-            $no_pemesanan = $this->input->post('no_pemesanan');
-            $validator    = $this->input->post('validator');
-            $item_id      = $this->input->post('item_id');
-            $qty          = $this->input->post('qty');
-            $stock        = $this->input->post('stock');
-            $harga        = $this->input->post('harga');
-            $ppn          = $this->input->post('ppn');
-            $subtotal     = $this->input->post('subtotal');
-            $vat_amount   = $this->input->post('vat_amount');
-            $note         = $this->input->post('note');
+            $no_pemesanan     = $this->input->post('no_pemesanan');
+            $validator        = $this->input->post('validator');
+            $item_id          = $this->input->post('item_id');
+            $qty              = $this->input->post('qty');
+            $stock            = $this->input->post('stock');
+            $harga            = $this->input->post('harga');
+            $ppn              = $this->input->post('ppn');
+            $subtotal         = $this->input->post('subtotal');
+            $vat_amount       = $this->input->post('vat_amount');
+            $note             = $this->input->post('note');
 
             if($validator==="REQMANAGER"){
                 $data['qty_req_manager']  = $qty;
@@ -403,9 +403,13 @@
         }
 
         public function updateheader(){
-            $datanopemesanan = $this->input->post('datanopemesanan');
-            $status          = $this->input->post('status');
-            $validator       = $this->input->post('validator');
+            $datanopemesanan  = $this->input->post('datanopemesanan');
+            $status           = $this->input->post('status');
+            $validator        = $this->input->post('validator');
+            $transidpettycash = $this->input->post('data_transaksiid');
+            $balance          = $this->input->post('data_balance');
+            $departmentid     = $this->input->post('data_departmentid');
+            $note             = $this->input->post('data_note');
             
             if($validator==="REQ"){
                 $data['status']       = $status;
@@ -461,6 +465,34 @@
                     $data['status']       = $status;
                     $data['inv_keu_id']   = $_SESSION['userid'];
                     $data['inv_keu_Date'] = date('Y-m-d H:i:s');
+
+                    if($transidpettycash!=null){
+                        $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid']);
+
+                        if(empty($resultcheckbalancelast)){
+                            $lastbalance = 0;
+                        }else{
+                            $lastbalance =$resultcheckbalancelast[0]->balance;
+                        }
+
+                        $dataupdatepettycash['no_pemesanan']="";
+
+                        $this->md->updatepettycash($datanopemesanan,$dataupdatepettycash);
+                        
+                        $datapettycash['org_id']           = $_SESSION['orgid'];
+                        $datapettycash['transaksi_id']     = generateuuid();
+                        $datapettycash['no_kwitansi']      = $this->md->nokwitansi($_SESSION['orgid'])->nokwitansi;
+                        $datapettycash['note']             = $note;
+                        $datapettycash['department_id']    = $departmentid;
+                        $datapettycash['cash_out']         = strval($balance);
+                        $datapettycash['before_balance']   = $lastbalance;
+                        $datapettycash['balance']          = strval($lastbalance)-strval($balance);
+                        $datapettycash['ref_pettycash_id'] = $transidpettycash;
+                        $datapettycash['status']           = "6";
+                        $datapettycash['created_by']       = $_SESSION['userid'];
+
+                        $this->md->insertpettycash($datapettycash);
+                    }
                 }
             }
 

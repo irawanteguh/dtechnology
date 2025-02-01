@@ -107,12 +107,10 @@ function approved(){
                             tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Approval Manager</span></div></td>";
                         }else{
                             if(result[i].status==="6"){
-                                tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Approval Finance</span></div></td>";
-                            }else{
                                 if(result[i].cash_in!=0){
-                                    tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
+                                    tableresult +="<td><div><span class='badge badge-light-success fs-7 fw-bold'>Approval Finance</span></div><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
                                 }else{
-                                    tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out</span></div></td>";
+                                    tableresult +="<td><div><span class='badge badge-light-success fs-7 fw-bold'>Approval Finance</span></div><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out</span></div></td>";
                                 }
                             }
                             
@@ -121,7 +119,6 @@ function approved(){
 
                     tableresult +="<td class='text-end'>"+todesimal(result[i].cash_in)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].cash_out)+"</td>";
-                    tableresult +="<td class='text-end'>"+todesimal(result[i].balance)+"</td>";
                     tableresult +="<td>"+result[i].tglbuat+"</td>";
                     tableresult +="<td>"+result[i].dibuatoleh+"</td>";
 

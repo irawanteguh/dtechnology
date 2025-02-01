@@ -53,13 +53,14 @@
                         from(
                         select a.transaksi_id, no_kwitansi, note, cash_out,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit,
-                            (select no_pemesanan from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and ref_pettycash_id=a.transaksi_id)refnopemesanan
+                            (select no_pemesanan from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and ref_pettycash_id=a.transaksi_id order by created_date desc limit 1)refnopemesanan
                         from dt01_keu_petty_cash_it a
                         where a.org_id='".$orgid."'
                         and   a.department_id='".$departmentid."'
                         and   a.active='1'
                         and   a.cash_out<>0
                         and   a.status='6'
+                        and   a.ref_pettycash_id is null
                         )x
                         where x.refnopemesanan is null
                     ";

@@ -4,7 +4,7 @@
         function datarequest($orgid,$status){
             $query =
                     "
-                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id,type, method, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id, type, method, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.from_department_id)unit,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
@@ -12,8 +12,9 @@
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
                             (select color from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)colorstatus,
                             (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)namestatus,
-                            (select transaksi_id from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)transaksiid,
+                            (select transaksi_id from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan order by created_date desc limit 1)transaksiid,
                             (select no_kwitansi from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)nokwitansi,
+                            (select no_kwitansi from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan order by created_date desc limit 1)lastnokwitansi,
                             (select cash_out from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)cashout
 
                         from dt01_lgu_pemesanan_hd a
