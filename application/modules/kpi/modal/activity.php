@@ -69,7 +69,7 @@
                     </div>
                 </div> 
                 <div class="modal-footer p-1">	
-                    <input class="btn btn-light-primary" id="btn_activity_add" type="submit" value="SIMPAN DATA" name="simpan" >			
+                    <input class="btn btn-light-primary" id="btn_activity_add" type="submit" value="SUBMIT" name="simpan" >			
                 </div>  
             </form>  
         </div>
