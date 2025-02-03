@@ -244,8 +244,7 @@ function masteremployee(){
                         }
                     }
                     tableresult += "</td>";
-
-
+                    tableresult += `<td>${result[i].suspended === "Y" ? "<div><span class='badge badge-info'>Account Suspended</span></div>" : ""}<div><span class='badge ${result[i].active === "1" ? "badge-success'>Active" : "badge-danger'>Non Active"}</span></div></td>`;
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
@@ -253,7 +252,12 @@ function masteremployee(){
                                 tableresult += "<a class='dropdown-item btn btn-sm' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_employee_registrationkategoritenaga_add' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil'></i> Classification Category</a>";
                                 tableresult += "<a class='dropdown-item btn btn-sm' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_employee_registrationposition_add' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Positioning</a>";
                                 tableresult += "<div class='separator my-2'></div>";
-                                tableresult += "<a class='dropdown-item btn btn-sm btn-light-danger' "+getvariabel+" onclick='nonactive($(this));'><i class='bi bi-trash-fill'></i> Non Active</a>";
+                                if(result[i].active==="1"){
+                                    tableresult += "<a class='dropdown-item btn btn-sm btn-light-danger' "+getvariabel+" onclick='nonactive($(this));'><i class='bi bi-trash-fill'></i> Non Active</a>";
+                                }else{
+                                    tableresult += "<a class='dropdown-item btn btn-sm btn-light-success' "+getvariabel+" onclick='active($(this));'><i class='bi bi-person-check'></i>Active</a>";
+                                }
+                                
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
@@ -476,6 +480,41 @@ function nonactive(btn){
     var userid = btn.attr("data-userid");
 	$.ajax({
         url        : url+"index.php/hrd/employee/nonactive",
+        data       : {userid:userid},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        beforeSend : function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+		success : function (data) {
+			if(data.responCode === "00"){
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+				masteremployee();
+			}else{
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
+                    html             : "<b>"+data.responDesc+"</b>",
+                    icon             : data.responHead,
+                    confirmButtonText: "Please Try Again",
+                    buttonsStyling   : false,
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    customClass      : {confirmButton: "btn btn-danger"},
+                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                });
+            }
+		}
+	});
+	return false;
+};
+
+function active(btn){
+    var userid = btn.attr("data-userid");
+	$.ajax({
+        url        : url+"index.php/hrd/employee/active",
         data       : {userid:userid},
         method     : "POST",
         dataType   : "JSON",

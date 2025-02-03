@@ -210,7 +210,7 @@
                                 (select position         from dt01_hrd_position_ms where org_id=x.org_id and active='1' and position_id=x.positioidprimary)positionprimary,
                                 (select level_fungsional from dt01_hrd_position_ms where org_id=x.org_id and active='1' and position_id=x.positioidprimary)levelfungsionalprimaryid
                             from(
-                                select a.org_id, user_id, name, email, nik, identity_no, image_profile, upper(LEFT(a.name, 1)) initial,kategori_id, duty_days, duty_hours, hours_month,
+                                select a.org_id, user_id, name, email, nik, identity_no, image_profile, upper(LEFT(a.name, 1)) initial,kategori_id, duty_days, duty_hours, hours_month, active, suspended,
                                     (select kategori from dt01_hrd_kategori_tenaga_ms where org_id=a.org_id and active='1' and kategori_id=a.kategori_id)kategori,
                                     (select trans_id    from dt01_hrd_position_dt where org_id=a.org_id and active='1' and status='1' and position_primary='Y' and user_id=a.user_id)transidprimary,
                                     (select atasan_id   from dt01_hrd_position_dt where org_id=a.org_id and active='1' and status='1' and position_primary='Y' and user_id=a.user_id)atasanidprimary,
@@ -235,13 +235,11 @@
                                         AND   b.user_id = a.user_id
                                     )  membersecondry
                                 from dt01_gen_user_data a
-                                where a.active='1'
-                                and   a.org_id='".$orgid."'
+                                where a.org_id='".$orgid."'
                                 ".$parameter."
                             )X
                         )y
                         order by name asc
-                
                     ";
 
             $recordset = $this->db->query($query);

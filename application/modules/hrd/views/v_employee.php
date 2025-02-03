@@ -38,6 +38,7 @@
 								<th>Classification</th>
 								<th>Primary</th>
 								<th>Secondary</th>
+								<th>Status</th>
 								<th class="pe-4 text-end rounded-end">Actions</th>
 							</tr>
 						</thead>

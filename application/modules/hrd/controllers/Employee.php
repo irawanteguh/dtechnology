@@ -233,7 +233,28 @@
 
         public function nonactive(){
             $userid = $this->input->post("userid");
-            $data['active'] = "0";
+            $data['active']         = "0";
+            $data['active_id']   = $_SESSION['userid'];
+            $data['active_date'] = date('Y-m-d H:i:s');
+
+            if($this->md->updateuserdata($data,$userid)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="error";
+                $json['responDesc']="Data failed to update";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function active(){
+            $userid = $this->input->post("userid");
+            $data['active']         = "1";
+            $data['active_id']   = $_SESSION['userid'];
+            $data['active_date'] = date('Y-m-d H:i:s');
 
             if($this->md->updateuserdata($data,$userid)){
                 $json['responCode']="00";
