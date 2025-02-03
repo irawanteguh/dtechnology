@@ -113,6 +113,7 @@
                                 and   a.position_primary='Y'
                                 and   a.org_id='".$orgid."'
                                 and   a.atasan_id='".$userid."'
+                                and   a.user_id=(select user_id from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)
                             )x
                         )y
                         order by name asc

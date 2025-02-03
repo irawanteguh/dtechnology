@@ -16,13 +16,13 @@
                                 select x.*,
                                         (select position from dt01_hrd_position_ms where active='1' and org_id=x.org_id and position_id=x.position_id)position,
                                         (select level_fungsional from dt01_hrd_position_ms where org_id=x.org_id and active='1' and position_id=x.position_id)levelfungsionalprimaryid,
-                                        (select name                 from dt01_gen_user_data where org_id=x.org_id and user_id=x.user_id)name,
-                                        (select upper(LEFT(name, 1)) from dt01_gen_user_data where org_id=x.org_id and user_id=x.user_id)initial,
-                                        (select image_profile        from dt01_gen_user_data where org_id=x.org_id and user_id=x.user_id)image_profile,
-                                        (select email                from dt01_gen_user_data where org_id=x.org_id and user_id=x.user_id)email,
-                                        (select kategori_id          from dt01_gen_user_data where org_id=x.org_id and user_id=x.user_id)kategori_id,
-                                        (select klinis_id            from dt01_gen_user_data where org_id=x.org_id and user_id=x.user_id)klinis_id,
-                                        (select hours_month          from dt01_gen_user_data where org_id=x.org_id and user_id=x.user_id)hours_month,
+                                        (select name                 from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)name,
+                                        (select upper(LEFT(name, 1)) from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)initial,
+                                        (select image_profile        from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)image_profile,
+                                        (select email                from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)email,
+                                        (select kategori_id          from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)kategori_id,
+                                        (select klinis_id            from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)klinis_id,
+                                        (select hours_month          from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)hours_month,
                                         (select coalesce(sum(nilai),0) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlnilaiassessment,
                                         (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlkomponenpenilaian,
                                         (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuat,
@@ -42,6 +42,7 @@
                                     and   a.status='1'
                                     and   a.org_id='".$orgid."'
                                     and   a.atasan_id='".$userid."'
+                                    and   a.user_id=(select user_id from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)
                                     union
                                     select a.org_id, user_id, 'X'position_primary, atasan_id, (select position_id from dt01_hrd_position_dt where active='1' and status='1' and org_id=a.org_id and user_id=a.user_id)position_id
                                     from dt01_hrd_activity_dt a
@@ -49,6 +50,7 @@
                                     and   a.status='0'
                                     and   a.org_id='".$orgid."'
                                     and   a.atasan_id='".$userid."'
+                                    and   a.user_id=(select user_id from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.user_id)
                                     and   a.user_id not in (select user_id from dt01_hrd_position_dt where active='1' and status='1' and org_id=a.org_id and atasan_id=a.atasan_id)
                                 )x
                             )y
