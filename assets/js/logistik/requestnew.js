@@ -199,9 +199,9 @@ function datarequest(){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].method==="4"){
-                                            if(result[i].transaksiid!=null){
+                                            // if(result[i].transaksiid!=null){
                                                 tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='13' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
-                                            }
+                                            // }
                                         }else{
                                             tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                         }
@@ -211,15 +211,20 @@ function datarequest(){
                             }
 
                             if(result[i].type === "1"){ // Untuk Pengajuan Invoice
+                                if(result[i].method==="4"){
+                                    if(result[i].transaksiid===null){
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_pettycash_transaksi' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Cash Out</a>";
+                                    }
+                                }
                                 if(result[i].status==="0"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_item' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
 
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].invoice==="1"){
                                             if(result[i].method==="4"){
-                                                if(result[i].transaksiid!=null){
+                                                // if(result[i].transaksiid!=null){
                                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='13' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
-                                                }
+                                                // }
                                             }else{
                                                 tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
                                             }
