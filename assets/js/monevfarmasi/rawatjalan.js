@@ -30,11 +30,13 @@ function datamonev(){
         
                             tableresult += "</tbody><tfoot class='text-gray-600 fw-bold table-warning'>";
                             tableresult += "<tr>";
-                            tableresult += "<td class='text-center' colspan='3'>TOTAL</td>";
+                            tableresult += "<td class='text-center' colspan='5'>TOTAL</td>";
                             tableresult += "<td class='text-end'>" + todesimal(totalModal) + "</td>";
                             tableresult += "<td class='text-end'></td>";
                             tableresult += "<td class='text-end'>" + todesimal(totalJual) + "</td>";
+                            tableresult += "<td class='text-end'></td>";
                             tableresult += "<td class='text-end'>" + todesimal(totalObat7) + "</td>";
+                            tableresult += "<td class='text-end'></td>";
                             tableresult += "<td class='pe-4 rounded-end text-end'>" + todesimal(totalObat23) + "</td>";
                             tableresult += "</tr>";
                             tableresult += "</tfoot>";
@@ -152,21 +154,27 @@ function datamonev(){
                         tableresult += "<table class='table align-middle table-row-dashed fs-6 gy-2'>";
                         tableresult += "<thead>";
                         tableresult += "<tr class='fw-bolder text-muted bg-light'>";
-                        tableresult += "<th class='ps-4 rounded-start rounded-end table-info' colspan='8'>Pharmacy Analyst</th>";
+                        tableresult += "<th class='ps-4 rounded-start rounded-end table-info' colspan='12'>Pharmacy Analyst</th>";
                         tableresult += "</tr>";
                         tableresult += "<tr class='fw-bolder text-muted bg-light'>";
-                        tableresult += "<th class='ps-4 rounded-start align-middle' rowspan='2'>Nama Obat</th>";
+                        tableresult += "<th class='ps-4 rounded-start align-middle' rowspan='2'>Drug Name</th>";
+                        tableresult += "<th class='text-center' rowspan='2'>Freq</th>";
+                        tableresult += "<th class='text-center' rowspan='2'>Dosis</th>";
                         tableresult += "<th class='text-center' rowspan='2'>Qty</th>";
                         tableresult += "<th class='text-center' colspan='2'>Modal</th>";
                         tableresult += "<th class='text-center' colspan='2'>Jual</th>";
-                        tableresult += "<th class='text-end align-middle' rowspan='2'>Obat 7 Hari</th>";
-                        tableresult += "<th class='rounded-end text-end pe-4 align-middle' rowspan='2'>Obat 23 Hari</th>";
+                        tableresult += "<th class='text-center align-middle' colspan='2'>Obat 7 Hari</th>";
+                        tableresult += "<th class='rounded-end text-end pe-4 align-middle' colspan='2'>Obat 23 Hari</th>";
                         tableresult += "</tr>";
                         tableresult += "<tr class='fw-bolder text-muted bg-light'>";
                         tableresult += "<th class='text-end'>Satuan</th>";
                         tableresult += "<th class='text-end'>Total</th>";
                         tableresult += "<th class='text-end'>Satuan</th>";
                         tableresult += "<th class='text-end'>Total</th>";
+                        tableresult += "<th class='text-end'>Qty</th>";
+                        tableresult += "<th class='text-end'>Total</th>";
+                        tableresult += "<th class='text-end'>Qty</th>";
+                        tableresult += "<th class='rounded-end text-end pe-4'>Total</th>";
                         tableresult += "</tr>";
                         tableresult += "</thead>";
                         tableresult += "<tbody class='text-gray-600 fw-bold' id='" + currentPoli + "'>";
@@ -184,21 +192,25 @@ function datamonev(){
                     // Update total per poli-dokter
                     totalModal  += parseFloat(result[i].totalmodal) || 0;
                     totalJual   += parseFloat(result[i].totaljual) || 0;
-                    totalObat7  += parseFloat(result[i].obat_7) || 0;
-                    totalObat23 += parseFloat(result[i].obat_23) || 0;
+                    totalObat7  += parseFloat(result[i].total_7) || 0;
+                    totalObat23 += parseFloat(result[i].total_23) || 0;
 
                     
         
                     // Tambahkan detail obat ke tbodyContent
                     tbodyContent += "<tr>";
-                    tbodyContent += "<td class='ps-4 min-w-350px'>" + result[i].namaobat + "</td>";
+                    tbodyContent += "<td class='ps-4 min-w-350px'><div>" + result[i].namaobat + "</div><div class='fs-8 fst-italic'>" + ( result[i].aturanpakai ? result[i].aturanpakai : "") + "</div></td>";
+                    tbodyContent += "<td class='text-center'>" + ( result[i].freq ? result[i].freq : "") + "</td>";
+                    tbodyContent += "<td class='text-center'>" + ( result[i].qtydosis ? result[i].qtydosis : "") + "</td>";
                     tbodyContent += "<td class='text-center'>" + (todesimal(result[i].jml) || '0') + "</td>";
                     tbodyContent += "<td class='text-end'>" + (todesimal(result[i].hargamodal) || '0') + "</td>";
                     tbodyContent += "<td class='text-end'>" + (todesimal(result[i].totalmodal) || '0') + "</td>";
                     tbodyContent += "<td class='text-end'>" + (todesimal(result[i].hargajual) || '0') + "</td>";
                     tbodyContent += "<td class='text-end'>" + (todesimal(result[i].totaljual) || '0') + "</td>";
-                    tbodyContent += "<td class='text-end'>" + (todesimal(result[i].obat_7) || '0') + "</td>";
-                    tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].obat_23) || '0') + "</td>";
+                    tbodyContent += "<td class='text-end'>" + (todesimal(result[i].qty_7) || '0') + "</td>";
+                    tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].total_7) || '0') + "</td>";
+                    tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].qty_23) || '0') + "</td>";
+                    tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].total_23) || '0') + "</td>";
                     tbodyContent += "</tr>";
         
                     lastpoli = currentPoli;
@@ -210,11 +222,13 @@ function datamonev(){
         
                     tableresult += "</tbody><tfoot class='text-gray-600 fw-bold table-info'>";
                     tableresult += "<tr>";
-                    tableresult += "<td class='ps-4 rounded-start text-center' colspan='3'>TOTAL</td>";
+                    tableresult += "<td class='ps-4 rounded-start text-center' colspan='5'>TOTAL</td>";
                     tableresult += "<td class='text-end'>" + todesimal(totalModal) + "</td>";
                     tableresult += "<td class='text-end'></td>";
                     tableresult += "<td class='text-end'>" + todesimal(totalJual) + "</td>";
+                    tableresult += "<td class='text-end'></td>";
                     tableresult += "<td class='text-end'>" + todesimal(totalObat7) + "</td>";
+                    tableresult += "<td class='text-end'></td>";
                     tableresult += "<td class='pe-4 rounded-end text-end'>" + todesimal(totalObat23) + "</td>";
                     tableresult += "</tr>";
                     tableresult += "</tfoot>";
