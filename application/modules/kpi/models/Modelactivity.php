@@ -1,18 +1,57 @@
 <?php
     class Modelactivity extends CI_Model{
 
+        // function calender($orgid,$userid){
+        //     $query =
+        //             "
+        //                 select a.trans_id, status, activity,
+        //                     concat(DATE_FORMAT(a.start_date, '%Y-%m-%d'),'T',start_time_in,':00') start_date,
+        //                     concat(DATE_FORMAT(a.end_date, '%Y-%m-%d'),'T',end_time_out,':00') end_date,
+        //                     (select activity from dt01_hrd_activity_ms where active='1' and org_id=a.org_id and activity_id=a.activity_id)kegiatanutama,
+        //                     (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.atasan_id)validatorkegiatan
+        //                 from dt01_hrd_activity_dt a
+        //                 where a.active='1'
+        //                 and   a.org_id='".$orgid."'
+        //                 and   a.user_id='".$userid."'
+        //             ";
+
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
+
         function calender($orgid,$userid){
             $query =
                     "
-                        select a.trans_id, status, activity,
-                            concat(DATE_FORMAT(a.start_date, '%Y-%m-%d'),'T',start_time_in,':00') start_date,
-                            concat(DATE_FORMAT(a.end_date, '%Y-%m-%d'),'T',end_time_out,':00') end_date,
-                            (select activity from dt01_hrd_activity_ms where active='1' and org_id=a.org_id and activity_id=a.activity_id)kegiatanutama,
-                            (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.atasan_id)validatorkegiatan
-                        from dt01_hrd_activity_dt a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
-                        and   a.user_id='".$userid."'
+                        select x.*
+                        from(
+                            select a.trans_id, status, activity,
+                                concat(DATE_FORMAT(a.start_date, '%Y-%m-%d'),'T',start_time_in,':00') start_date,
+                                concat(DATE_FORMAT(a.end_date, '%Y-%m-%d'),'T',end_time_out,':00') end_date,
+                                (select activity from dt01_hrd_activity_ms where active='1' and org_id=a.org_id and activity_id=a.activity_id)kegiatanutama,
+                                (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.atasan_id)validatorkegiatan
+                            from dt01_hrd_activity_dt a
+                            where a.active='1'
+                            and   a.org_id='".$orgid."'
+                            and   a.user_id='".$userid."'
+                            union
+                            select a.no_rawat trans_id,
+                                '0'status,
+                                concat(
+                                            'Melakukan Anamnesa Pasien Rawat Jalan No Rekam Medis : ',
+                                            (select no_rkm_medis from reg_periksa where no_rawat=a.no_rawat),
+                                            ' Atasnama : ',
+                                            (select nm_pasien from pasien where no_rkm_medis =(select no_rkm_medis from reg_periksa where no_rawat=a.no_rawat)),
+                                            ' By Integrated From Khanza'
+                                        )activity,
+                                concat(DATE_FORMAT(a.tgl_perawatan, '%Y-%m-%d'),'T',jam_rawat) start_date,
+                                CONCAT(DATE_FORMAT(a.tgl_perawatan, '%Y-%m-%d'), 'T', TIME_FORMAT(ADDTIME(jam_rawat, '00:10:00'), '%H:%i:%s')) end_date,
+                                (select activity from dt01_hrd_activity_ms where active='1' and activity_id='6fbb68d7-bc6f-455e-a22a-44b4bcdb13d8')kegiatanutama,
+                                (select name from dt01_gen_user_data where user_id=(select atasan_id from dt01_hrd_position_dt where user_id='".$userid."'))validatorkegiatan
+                                
+                            from pemeriksaan_ralan a
+                            where a.nip = (select nik from dt01_gen_user_data where active='1' and user_id='".$userid."')
+                        )x
                     ";
 
             $recordset = $this->db->query($query);
