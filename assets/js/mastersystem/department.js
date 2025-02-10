@@ -237,13 +237,18 @@ function masteruser(){
 			toastr.clear();
 		},
         error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
 		}		
     });
     return false;
@@ -279,13 +284,18 @@ $(document).on("submit", "#forminsertdepartment", function (e) {
             $("#btn_department_add").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
 		}		
 	});
     return false;
@@ -321,13 +331,18 @@ $(document).on("submit", "#formeditdepartment", function (e) {
             $("#btn_department_edit").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
 		}		
 	});
     return false;

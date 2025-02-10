@@ -35,7 +35,7 @@
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="ps-4 rounded-start">Username</th>
                                 <th>Name</th>
-                                <th>Role</th>
+                                <th>Assisstant</th>
                                 <th>Last Login</th>
                                 <th>Join Date</th>
                                 <th class="pe-4 text-end rounded-end">Actions</th>

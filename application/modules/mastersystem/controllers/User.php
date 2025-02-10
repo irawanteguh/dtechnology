@@ -58,5 +58,34 @@
 
             echo json_encode($json);
         }
+
+        public function adduserassistant(){
+            $resultcekassistant = $this->md->cekassistant($_SESSION['orgid'],$this->input->post("userid"),$this->input->post("useridassistant"));
+
+            if(empty($resultcekassistant)){
+                $data['org_id']     = $_SESSION['orgid'];
+                $data['trans_id']   = generateuuid();
+                $data['user_id']    = $this->input->post("userid");
+                $data['asst_id']    = $this->input->post("useridassistant");
+                $data['created_by'] = $_SESSION['userid'];
+    
+                if($this->md->insertuserassistant($data)){
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Added Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Assisstant Available";
+            }
+            
+
+            echo json_encode($json);
+        }
 	}
 ?>
