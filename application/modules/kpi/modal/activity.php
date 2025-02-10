@@ -79,7 +79,7 @@
 <div class="modal fade" id="modal_activity_view" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header border-0 justify-content-end">
+            <div class="modal-header pb-0 border-0 justify-content-end">
                 <!-- <div class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2" data-bs-toggle="tooltip" data-bs-dismiss="click" title="" id="kt_modal_view_event_edit" data-bs-original-title="Edit Event">
                     <span class="svg-icon svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -108,6 +108,11 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="transidactivityview" name="transidactivityview">
+                <div class="mb-10 text-center">
+                    <h1 class="mb-3">View Your Activity</h1>
+                    <!-- <div class="text-muted fw-bold fs-5">If you need more info, please check
+                    <a href="" class="fw-bolder link-primary" data-bs-toggle="modal" data-bs-target="#modal_activity_userguides">User Guidelines</a>.</div> -->
+                </div>
                 <div class="d-flex">
                     <span class="svg-icon svg-icon-1 svg-icon-muted me-5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

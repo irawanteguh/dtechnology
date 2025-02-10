@@ -37,6 +37,7 @@ function datamonev(){
                             tableresult += "<td class='text-end'></td>";
                             tableresult += "<td class='text-end'>" + todesimal(totalObat7) + "</td>";
                             tableresult += "<td class='text-end'></td>";
+                            tableresult += "<td class='text-end'></td>";
                             tableresult += "<td class='pe-4 rounded-end text-end'>" + todesimal(totalObat23) + "</td>";
                             tableresult += "</tr>";
                             tableresult += "</tfoot>";
@@ -93,13 +94,13 @@ function datamonev(){
                                             tableresult +="<td class='ps-4'>Total Klaim Per Episode</td>";
                                             tableresult +="<td class='ps-4'>"+todesimal(parseFloat(totalObat23)+parseFloat(biaya_klaim))+"</td>";
                                             tableresult +="<td class='pe-4'>Total Pengeluaran</td>";
-                                            tableresult +="<td class='pe-4'>"+todesimal(biaya_totalbiiling)+"</td>";
+                                            tableresult +="<td class='pe-4'>"+todesimal((parseFloat(biaya_totalbiiling)+parseFloat(totalModal)))+"</td>";
                                         tableresult +="</tr>";
                                         tableresult +="<tr>";
-                                        if(parseFloat(biaya_totalbiiling) <  (parseFloat(totalObat23)+parseFloat(biaya_klaim))){
-                                            tableresult +="<td class='ps-4 table-success rounded-start rounded-end' colspan='4'>Potensi Keuntungan : "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-biaya_totalbiiling))+"</td>";
+                                        if((parseFloat(biaya_totalbiiling)+parseFloat(totalModal)) <  (parseFloat(totalObat23)+parseFloat(biaya_klaim))){
+                                            tableresult +="<td class='ps-4 table-success rounded-start rounded-end' colspan='4'>Potensi Keuntungan : "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-(parseFloat(biaya_totalbiiling)+parseFloat(totalModal))))+"</td>";
                                         }else{
-                                            tableresult +="<td class='ps-4 table-danger rounded-start rounded-end' colspan='4'>Potensi Kerugian : - "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-biaya_totalbiiling))+"</td>";
+                                            tableresult +="<td class='ps-4 table-danger rounded-start rounded-end' colspan='4'>Potensi Kerugian : - "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-(parseFloat(biaya_totalbiiling)+parseFloat(totalModal))))+"</td>";
                                         }  
                                         tableresult +="</tr>";
                                     tableresult +="</tfoot>";
@@ -154,7 +155,7 @@ function datamonev(){
                         tableresult += "<table class='table align-middle table-row-dashed fs-6 gy-2'>";
                         tableresult += "<thead>";
                         tableresult += "<tr class='fw-bolder text-muted bg-light'>";
-                        tableresult += "<th class='ps-4 rounded-start rounded-end table-info' colspan='12'>Pharmacy Analyst</th>";
+                        tableresult += "<th class='ps-4 rounded-start rounded-end table-info' colspan='13'>Pharmacy Analyst</th>";
                         tableresult += "</tr>";
                         tableresult += "<tr class='fw-bolder text-muted bg-light'>";
                         tableresult += "<th class='ps-4 rounded-start align-middle' rowspan='2'>Drug Name</th>";
@@ -164,7 +165,7 @@ function datamonev(){
                         tableresult += "<th class='text-center' colspan='2'>Modal</th>";
                         tableresult += "<th class='text-center' colspan='2'>Jual</th>";
                         tableresult += "<th class='text-center align-middle' colspan='2'>Obat 7 Hari</th>";
-                        tableresult += "<th class='rounded-end text-end pe-4 align-middle' colspan='2'>Obat 23 Hari</th>";
+                        tableresult += "<th class='rounded-end text-end pe-4 align-middle' colspan='3'>Obat 23 Hari</th>";
                         tableresult += "</tr>";
                         tableresult += "<tr class='fw-bolder text-muted bg-light'>";
                         tableresult += "<th class='text-end'>Satuan</th>";
@@ -174,6 +175,7 @@ function datamonev(){
                         tableresult += "<th class='text-end'>Qty</th>";
                         tableresult += "<th class='text-end'>Total</th>";
                         tableresult += "<th class='text-end'>Qty</th>";
+                        tableresult += "<th class='text-end'>Satuan</th>";
                         tableresult += "<th class='rounded-end text-end pe-4'>Total</th>";
                         tableresult += "</tr>";
                         tableresult += "</thead>";
@@ -210,6 +212,7 @@ function datamonev(){
                     tbodyContent += "<td class='text-end'>" + (todesimal(result[i].qty_7) || '0') + "</td>";
                     tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].total_7) || '0') + "</td>";
                     tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].qty_23) || '0') + "</td>";
+                    tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].hargakronis) || '0') + "</td>";
                     tbodyContent += "<td class='text-end pe-4'>" + (todesimal(result[i].total_23) || '0') + "</td>";
                     tbodyContent += "</tr>";
         
@@ -228,6 +231,7 @@ function datamonev(){
                     tableresult += "<td class='text-end'>" + todesimal(totalJual) + "</td>";
                     tableresult += "<td class='text-end'></td>";
                     tableresult += "<td class='text-end'>" + todesimal(totalObat7) + "</td>";
+                    tableresult += "<td class='text-end'></td>";
                     tableresult += "<td class='text-end'></td>";
                     tableresult += "<td class='pe-4 rounded-end text-end'>" + todesimal(totalObat23) + "</td>";
                     tableresult += "</tr>";
@@ -286,13 +290,13 @@ function datamonev(){
                                     tableresult +="<td class='ps-4'>Total Klaim Per Episode</td>";
                                     tableresult +="<td class='ps-4'>"+todesimal(parseFloat(totalObat23)+parseFloat(biaya_klaim))+"</td>";
                                     tableresult +="<td class='pe-4'>Total Pengeluaran</td>";
-                                    tableresult +="<td class='pe-4'>"+todesimal(biaya_totalbiiling)+"</td>";
+                                    tableresult +="<td class='pe-4'>"+todesimal((parseFloat(biaya_totalbiiling)+parseFloat(totalModal)))+"</td>";
                                 tableresult +="</tr>";
                                 tableresult +="<tr>";
-                                if(parseFloat(biaya_totalbiiling) <  (parseFloat(totalObat23)+parseFloat(biaya_klaim))){
-                                    tableresult +="<td class='ps-4 table-success rounded-start rounded-end' colspan='4'>Potensi Keuntungan : "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-biaya_totalbiiling))+"</td>";
+                                if((parseFloat(biaya_totalbiiling)+parseFloat(totalModal)) <  (parseFloat(totalObat23)+parseFloat(biaya_klaim))){
+                                    tableresult +="<td class='ps-4 table-success rounded-start rounded-end' colspan='4'>Potensi Keuntungan : "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-(parseFloat(biaya_totalbiiling)+parseFloat(totalModal))))+"</td>";
                                 }else{
-                                    tableresult +="<td class='ps-4 table-danger rounded-start rounded-end' colspan='4'>Potensi Kerugian : - "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-biaya_totalbiiling))+"</td>";
+                                    tableresult +="<td class='ps-4 table-danger rounded-start rounded-end' colspan='4'>Potensi Kerugian : - "+todesimal(((parseFloat(totalObat23)+parseFloat(biaya_klaim))-(parseFloat(biaya_totalbiiling)+parseFloat(totalModal))))+"</td>";
                                 }  
                                 tableresult +="</tr>";
                             tableresult +="</tfoot>";

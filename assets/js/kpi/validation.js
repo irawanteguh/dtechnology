@@ -108,7 +108,6 @@ function liststaff(){
                         tableresult +="<td class='text-center'><i class='fa-regular fa-circle-question text-warning fa-2x'></i></td>";
                     }
                     
-                    
                     tableresult +="<td>";
                         tableresult +="<div class='d-flex'>";
                             tableresult +="<div class='text-start w-50'>Effective</div>";
@@ -119,14 +118,14 @@ function liststaff(){
                         tableresult +="<div class='d-flex'>";
                             tableresult +="<div class='text-start w-50'>Create</div>";
                             tableresult +="<div class='text-center w-20'>:</div>";
-                            tableresult +="<div class='text-end w-25'>"+(result[i].jmldibuatsec ? todesimal(result[i].jmldibuatsec)  : "0")+"</div>";
+                            tableresult +="<div class='text-end w-25'>"+(result[i].jmldibuatsec ? todesimal((parseFloat(result[i].jmldibuatsec)+parseFloat(result[i].jmltambahan)))  : "0")+"</div>";
                             tableresult +="<div class='ps-5 w-10'>Minutes</div>";
                         tableresult +="</div>";
                         if(result[i].jmlwaitsec > 0){
                             tableresult +="<div class='d-flex text-danger fa-fade'>";
                                 tableresult +="<div class='text-start w-50'>Waiting</div>";
                                 tableresult +="<div class='text-center w-20'>:</div>";
-                                tableresult +="<div class='text-end w-25'>"+(result[i].jmlwaitsec ? todesimal(result[i].jmlwaitsec)  : "0")+"</div>";
+                                tableresult +="<div class='text-end w-25'>"+(result[i].jmlwaitsec ? todesimal((parseFloat(result[i].jmlwaitsec)+parseFloat(result[i].jmltambahan)))  : "0")+"</div>";
                                 tableresult +="<div class='ps-5 w-10'>Minutes</div>";
                             tableresult +="</div>";
                         }else{
@@ -230,7 +229,16 @@ function detailactivity(btn){
 
                 for(var i in result){
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><input class='form-check-input h-20px w-20px' type='checkbox' name='pilih["+result[i].trans_id+"]' value='"+result[i].trans_id+"'></td>";
+                    tableresult +="<td class='ps-4'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='checkbox' name='pilih["+result[i].trans_id+"]' value='"+result[i].trans_id+"'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='type["+result[i].trans_id+"]' value='"+result[i].status+"'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='activityid["+result[i].trans_id+"]' value='"+result[i].activity_id+"'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='activity["+result[i].trans_id+"]' value='"+result[i].activity+"'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='date["+result[i].trans_id+"]' value='"+result[i].start_date+"'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='time_in["+result[i].trans_id+"]' value='"+result[i].start_time_in+"'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='time_out["+result[i].trans_id+"]' value='"+result[i].start_time_out+"'>";
+                    tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='userid["+result[i].trans_id+"]' value='"+result[i].user_id+"'>";
+                    tableresult +="</td>";
                     tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+"</div><div class='font-italic'>"+result[i].activity+"</div></td>";
                     tableresult +="<td class='text-center'>"+result[i].qty+"</td>";
                     tableresult +="<td class='pe-4 text-end'><div>"+result[i].start_date+"</div><div class='font-italic'>"+result[i].start_time_in+" - "+result[i].start_time_out+"</div></td>";

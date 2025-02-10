@@ -6,7 +6,7 @@
             $query =
                     "
                         select q.*,
-                               qty_23*hargamodal total_23
+                            qty_23*hargakronis total_23
                         from(
                             select w.*,
                                 qty_7*hargamodal total_7,
@@ -16,18 +16,18 @@
                                     qtydosis*freq*7 qty_7
                                 from(
                                     select x.*,
-                                        substr(aturanpakai, 1, 1) freq,
+                                        coalesce(substr(aturanpakai, 1, 1),0) freq,
                                         case 
                                             when substr(aturanpakai, instr(aturanpakai, ' ') + 3, instr(aturanpakai, ' TABLET') - instr(aturanpakai, ' ') - 3) = '1/2' 
                                             then '0.5' 
-                                            else substr(aturanpakai, instr(aturanpakai, ' ') + 3, instr(aturanpakai, ' TABLET') - instr(aturanpakai, ' ') - 3)
+                                            else coalesce(substr(aturanpakai, instr(aturanpakai, ' ') + 3, instr(aturanpakai, ' TABLET') - instr(aturanpakai, ' ') - 3),0)
                                         end qtydosis,
                                         jml*hargamodal totalmodal,
                                         jml*hargajual totaljual,
                                         (select nm_pasien from pasien where no_rkm_medis=x.norm)namapasien,
                                         (select nm_dokter from dokter where kd_dokter=x.dokterid)namadokter,
                                         (select nm_poli from poliklinik where kd_poli=x.poliid)namapoli,
-                                        reg+dokter+tindakan+obat+lab+rad totalbilling,
+                                        reg+dokter+tindakan+lab+rad totalbilling,
                                         case
                                             when x.poliid = 'IGDK' then 197600
                                             when x.poliid = 'U0001' then 319800
@@ -49,6 +49,7 @@
                                             jml,
                                             h_beli hargamodal,
                                             biaya_obat hargajual,
+                                            (select harga_kronis    from databarang   where kode_brng=a.kode_brng)hargakronis,
                                             (select nama_brng    from databarang   where kode_brng=a.kode_brng)namaobat,
                                             (select no_rkm_medis from reg_periksa  where no_rawat=a.no_rawat)norm,
                                             (select kd_dokter    from reg_periksa  where no_rawat=a.no_rawat)dokterid,
@@ -62,8 +63,8 @@
                                             (select coalesce(sum(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Radiologi')rad
                                         from detail_pemberian_obat a
                                         where a.status='Ralan'
-                                        -- and   a.no_rawat in ('2025/01/06/000656','2025/01/09/000202','2025/01/08/000038','2025/01/02/000111','2025/01/10/000051')
-                                        and   a.no_rawat in ('2025/01/06/000656')
+                                        and   a.no_rawat in ('2025/01/06/000656','2025/01/09/000202','2025/01/08/000038','2025/01/02/000111','2025/01/10/000051')
+                                        -- and   a.no_rawat in ('2025/01/06/000656')
                                         order by poliid asc, dokterid asc, tgl_perawatan desc, no_rawat asc, namaobat asc
                                     )x
                                 )y

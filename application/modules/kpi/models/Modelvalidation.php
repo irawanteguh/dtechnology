@@ -25,6 +25,18 @@
                                         (select hours_month          from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=x.user_id)hours_month,
                                         (select coalesce(sum(nilai),0) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlnilaiassessment,
                                         (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=x.user_id and periode='".$periodeid."')jmlkomponenpenilaian,
+                                        (
+                                            select count(no_rawat)*3
+                                            from penilaian_awal_keperawatan_ralan
+                                            where nip=(
+                                                        select nik
+                                                        from dt01_gen_user_data
+                                                        where active='1'
+                                                        and user_id=x.user_id
+                                                        and date_format(tanggal, '%m.%Y')='".$periodeid."'
+                                                    )
+                                            and   no_rawat not in (select trans_id from dt01_hrd_activity_dt where active='1')
+                                        )jmltambahan,
                                         (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and date_format(start_date, '%m.%Y')='".$periodeid."')jmldibuat,
                                         (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='0' and date_format(start_date, '%m.%Y')='".$periodeid."')jmlwait,
                                         (select coalesce(sum(total),0) from dt01_hrd_activity_dt where active='1' and org_id=x.org_id and user_id=x.user_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeid."')jmldisetujui,
@@ -66,14 +78,33 @@
         function detailactivity($orgid,$atasanid,$userid){
             $query =
                     "
-                        select a.trans_id, activity_id, activity, date_format(start_date,'%d.%m.%Y')start_date, start_time_in, start_time_out, qty,
+                        select '1'status, a.trans_id, activity_id, activity, date_format(start_date,'%d.%m.%Y')start_date, start_time_in, start_time_out, qty, user_id,
                             (select activity from dt01_hrd_activity_ms where org_id=a.org_id and active='1' and activity_id=a.activity_id)kegiatanutama
                         from dt01_hrd_activity_dt a
                         where a.active='1'
                         and   a.status='0'
                         and   a.org_id='".$orgid."'
                         and   a.atasan_id='".$atasanid."'
-                        and   a.user_id='".$userid."'       
+                        and   a.user_id='".$userid."'
+                        union
+                        select '2'status, no_rawat trans_id,'d2264ea0-54b6-443a-87b4-86ef3b4b62c0'activity_id,
+                                concat(
+                                    'Melakukan Anamnesa Pasien Rawat Jalan No Rekam Medis : ',
+                                    (select no_rkm_medis from reg_periksa where no_rawat=a.no_rawat),
+                                    ' Atasnama : ',
+                                    (select nm_pasien from pasien where no_rkm_medis =(select no_rkm_medis from reg_periksa where no_rawat=a.no_rawat)),
+                                    ' By Integrated From Khanza'
+                                )activity,
+                                date_format(tanggal,'%d.%m.%Y')start_date,
+                                date_format(tanggal,'%H:%i')start_time_in,
+                                date_format(date_add(a.tanggal, INTERVAL 3 MINUTE), '%H:%i')start_time_out,
+                                1 qty,
+                                '".$userid."' user_id,
+                            (select activity from dt01_hrd_activity_ms where active='1' and activity_id='d2264ea0-54b6-443a-87b4-86ef3b4b62c0')kegiatanutama
+                        from penilaian_awal_keperawatan_ralan a
+                        where a.nip = (select nik from dt01_gen_user_data where active='1' and user_id='".$userid."')
+                        and   a.no_rawat not in (select trans_id from dt01_hrd_activity_dt where active='1')
+                        and   a.tanggal > '2025-02-01'
                     ";
 
             $recordset = $this->db->query($query);
@@ -124,6 +155,11 @@
 
         function validasikegiatan($data,$transid){           
             $sql =   $this->db->update("dt01_hrd_activity_dt",$data,array("trans_id"=>$transid));
+            return $sql;
+        }
+
+        function insertactivity($data){           
+            $sql =   $this->db->insert("dt01_hrd_activity_dt",$data);
             return $sql;
         }
 

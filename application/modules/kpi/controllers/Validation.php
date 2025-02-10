@@ -120,17 +120,50 @@ class Validation extends CI_Controller{
     }
 
     public function validationactivity() {
-        $pilih = $this->input->post('pilih');
-        $status = $this->input->post('status');
+        $pilih      = $this->input->post('pilih');
+        $type       = $this->input->post('type');
+        $activityid = $this->input->post('activityid');
+        $activity   = $this->input->post('activity');
+        $date       = $this->input->post('date');
+        $time_in    = $this->input->post('time_in');
+        $time_out   = $this->input->post('time_out');
+        $status     = $this->input->post('status');
+        $userid     = $this->input->post('userid');
     
-        $valid = ($status === 'approve') ? '1' : '9';
+        $valid = ($status != 'approve') ? '9' : '1';
     
-        foreach($pilih as $transid => $value ) {
-            $data['STATUS']        = $valid;
-            $data['VALIDASI_BY']   = $_SESSION['userid'];
-            $data['VALIDASI_DATE'] = (new DateTime())->format('Y-m-d H:i:s');
+        foreach ($pilih as $transid => $value) {
+
+            if($type[$transid]==="1"){
+                $dataupdate['status']        = $valid;
+                $dataupdate['validasi_by']   = $_SESSION['userid'];
+                $dataupdate['validasi_date'] = (new DateTime())->format('Y-m-d H:i:s');
+                
+                $hasil = $this->md->validasikegiatan($dataupdate,$transid);
+            }else{
+                $datainsert['org_id']         = $_SESSION['orgid'];
+                $datainsert['trans_id']       = $transid;
+                $datainsert['ref']            = $transid;
+                $datainsert['activity_id']    = $activityid[$transid];
+                $datainsert['activity']       = $activity[$transid];
+                $datainsert['start_date']     = DateTime::createFromFormat('d.m.Y', $date[$transid])->format('Y-m-d');
+                $datainsert['start_time_in']  = $time_in[$transid];
+                $datainsert['start_time_out'] = $time_out[$transid];
+                $datainsert['end_date']       = DateTime::createFromFormat('d.m.Y', $date[$transid])->format('Y-m-d');
+                $datainsert['end_time_in']    = $time_in[$transid];
+                $datainsert['end_time_out']   = $time_out[$transid];
+                $datainsert['qty']            = 1;
+                $datainsert['durasi']         = 3;
+                $datainsert['total']          = 3;
+                $datainsert['status']         = $valid;
+                $datainsert['user_id']        = $userid[$transid];
+                $datainsert['atasan_id']      = $_SESSION['userid'];
+                $datainsert['validasi_by']    = $_SESSION['userid'];
+                $datainsert['validasi_date']  = (new DateTime())->format('Y-m-d H:i:s');
+                
+                $hasil = $this->md->insertactivity($datainsert);
+            }
             
-            $hasil = $this->md->validasikegiatan($data,$transid);
         }
 
         $json['responCode']="00";
