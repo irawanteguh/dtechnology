@@ -47,7 +47,7 @@
                                 concat(date_format(a.tanggal, '%Y-%m-%d'),'T',date_format(a.tanggal, '%H:%i:%S')) start_date,
                                 concat(date_format(date_add(a.tanggal, INTERVAL 3 MINUTE), '%Y-%m-%d'), 'T', date_format(date_add(a.tanggal, INTERVAL 3 MINUTE), '%H:%i:%S')) AS end_date,
                                 (select activity from dt01_hrd_activity_ms where active='1' and activity_id='d2264ea0-54b6-443a-87b4-86ef3b4b62c0')kegiatanutama,
-                                (select name from dt01_gen_user_data where user_id=(select atasan_id from dt01_hrd_position_dt where user_id='".$userid."'))validatorkegiatan
+                                (select name from dt01_gen_user_data where user_id=(select atasan_id from dt01_hrd_position_dt where active='1' and position_primary='Y' and user_id='".$userid."'))validatorkegiatan
                             from penilaian_awal_keperawatan_ralan a
                             where a.nip = (select nik from dt01_gen_user_data where active='1' and user_id='".$userid."')
                             and   a.no_rawat not in (select trans_id from dt01_hrd_activity_dt where active='1')
