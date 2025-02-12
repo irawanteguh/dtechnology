@@ -200,7 +200,7 @@ function datarequest(){
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].method==="4"){
                                             // if(result[i].transaksiid!=null){
-                                                tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='13' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                                tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
                                             // }
                                         }else{
                                             tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
@@ -221,13 +221,9 @@ function datarequest(){
 
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].invoice==="1"){
-                                            if(result[i].method==="4"){
-                                                // if(result[i].transaksiid!=null){
-                                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='13' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
-                                                // }
-                                            }else{
+                                            // if(result[i].transaksiid!=null){
                                                 tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='7' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
-                                            }
+                                            // }
                                         }
                                         tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='1' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                         tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice' data_invoice_no='"+result[i].invoice_no+"' onclick='getdetail($(this));'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";

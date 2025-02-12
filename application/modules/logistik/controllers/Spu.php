@@ -445,7 +445,7 @@
                     $data['manager_date'] = date('Y-m-d H:i:s');
                 }
 
-                if($status==="7" || $status==="8" || $status==="9"){
+                if($status==="7" || $status==="8" || $status==="9" || $status==="13"){
                     $data['status']           = $status;
                     $data['inv_manager_id']   = $_SESSION['userid'];
                     $data['inv_manager_Date'] = date('Y-m-d H:i:s');
