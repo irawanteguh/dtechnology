@@ -554,7 +554,7 @@
                             $data['transaksi_idx'] = $transaksiid;
                             $data['source_file']   = "DTECHNOLOGY";
         
-                            if ($this->md->insertsigndocument($data)) {
+                            if($this->md->insertsigndocument($data)){
                                 // Define the new location with only the filename for the new path
                                 $newLocation = FCPATH . "/assets/document/" . $nofile . ".pdf";
         
