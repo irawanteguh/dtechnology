@@ -136,33 +136,114 @@
                         }
 
                         if(file_exists($filename)){
-                            if($files->source_file==="DTECHNOLOGY"){
+                            $pdfParse          = new Pdfparse($filename);
+                            $specimentposition = $pdfParse->findText('$1');
 
-                            }else{
-                                $listpdf           = [];
-                                $listpdfsignatures = [];
+                            if(!empty($specimentposition['content']['$1'])){
+                                foreach ($specimentposition['content']['$1'] as $specimen) {
+                                    if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
+                                        $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
+                                        $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
+                                        $page        = floatval($specimen['page']);
 
-                                $coordinatex = floatval(COORDINATE_X);
-                                $coordinatey = floatval(COORDINATE_Y);
-                                $page        = floatval(PAGE);
-
-                                $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                                $listpdfsignatures['location']        = $files->orgname;
-                                $listpdfsignatures['width']           = floatval(WIDTH);
-                                $listpdfsignatures['height']          = floatval(HEIGHT);
-                                $listpdfsignatures['coordinate_x']    = $coordinatex;
-                                $listpdfsignatures['coordinate_y']    = $coordinatey;
-                                $listpdfsignatures['page_number']     = $page;
-                                $listpdfsignatures['qrcombine']       = "QRONLY";
-                                if(CERTIFICATE==="PERSONAL"){
-                                    $listpdfsignatures['reason'] = "Signed on behalf of ".$files->orgname;
+                                        $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                        $listpdfsignatures['location']        = $files->orgname;
+                                        $listpdfsignatures['width']           = floatval(WIDTH);
+                                        $listpdfsignatures['height']          = floatval(HEIGHT);
+                                        $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                        $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                        $listpdfsignatures['page_number']     = $page;
+                                        $listpdfsignatures['qrcombine']       = "QRONLY";
+                                
+                                        if(CERTIFICATE === "PERSONAL"){
+                                            $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                        }
+                                
+                                        $listpdf['filename']     = $files->filename;
+                                        $listpdf['signatures'][] = $listpdfsignatures;
+                                    }
                                 }
+                            }else{
+                                $pdfParse          = new Pdfparse($filename);
+                                $specimentposition = $pdfParse->findText('$2');
 
-                                $listpdf['filename']     = $files->filename;
-                                $listpdf['signatures'][] = $listpdfsignatures;
-
-                                $body['list_pdf'][]=$listpdf;
+                                if(!empty($specimentposition['content']['$2'])){
+                                    foreach ($specimentposition['content']['$2'] as $specimen) {
+                                        if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
+                                            $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2);
+                                            $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2);
+                                            $page        = floatval($specimen['page']);
+    
+                                            $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                            $listpdfsignatures['location']        = $files->orgname;
+                                            $listpdfsignatures['width']           = floatval(WIDTH);
+                                            $listpdfsignatures['height']          = floatval(HEIGHT);
+                                            $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                            $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                            $listpdfsignatures['page_number']     = $page;
+                                            $listpdfsignatures['qrcombine']       = "QRONLY";
+                                    
+                                            if(CERTIFICATE === "PERSONAL"){
+                                                $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                            }
+                                    
+                                            $listpdf['filename']     = $files->filename;
+                                            $listpdf['signatures'][] = $listpdfsignatures;
+                                        }
+                                    }
+                                }else{
+                                    $coordinatex = floatval(COORDINATE_X);
+                                    $coordinatey = floatval(COORDINATE_Y);
+                                    $page        = floatval(PAGE);
+    
+    
+                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                    $listpdfsignatures['location']        = $files->orgname;
+                                    $listpdfsignatures['width']           = floatval(WIDTH);
+                                    $listpdfsignatures['height']          = floatval(HEIGHT);
+                                    $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                    $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                    $listpdfsignatures['page_number']     = $page;
+                                    $listpdfsignatures['qrcombine']       = "QRONLY";
+                                    if(CERTIFICATE==="PERSONAL"){
+                                        $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                    }
+            
+                                    $listpdf['filename']     = $files->filename;
+                                    $listpdf['signatures'][] = $listpdfsignatures;
+                                }
                             }
+
+                            $body['list_pdf'][]=$listpdf;
+
+
+                            // if($files->source_file==="DTECHNOLOGY"){
+
+                            // }else{
+                            //     $listpdf           = [];
+                            //     $listpdfsignatures = [];
+
+                            //     $coordinatex = floatval(COORDINATE_X);
+                            //     $coordinatey = floatval(COORDINATE_Y);
+                            //     $page        = floatval(PAGE);
+
+                            //     $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                            //     $listpdfsignatures['location']        = $files->orgname;
+                            //     $listpdfsignatures['width']           = floatval(WIDTH);
+                            //     $listpdfsignatures['height']          = floatval(HEIGHT);
+                            //     $listpdfsignatures['coordinate_x']    = $coordinatex;
+                            //     $listpdfsignatures['coordinate_y']    = $coordinatey;
+                            //     $listpdfsignatures['page_number']     = $page;
+                            //     $listpdfsignatures['qrcombine']       = "QRONLY";
+                            //     if(CERTIFICATE==="PERSONAL"){
+                            //         $listpdfsignatures['reason'] = "Signed on behalf of ".$files->orgname;
+                            //     }
+
+                            //     $listpdf['filename']     = $files->filename;
+                            //     $listpdf['signatures'][] = $listpdfsignatures;
+
+                            //     $body['list_pdf'][]=$listpdf;
+                            // }
                         }
                     }
 

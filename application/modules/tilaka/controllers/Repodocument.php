@@ -124,15 +124,6 @@
                 $data['SOURCE_FILE']="DTECHNOLOGY";
                 $this->md->updatefile($data, $nofile);
 
-                $location ="./assets/document/".$nofile;
-                $response = Tilaka::uploadfile($location);
-                if($response['success']){
-                    $data['NOTE']        = "";
-                    $data['FILENAME']    = $response['filename'];
-                    $data['STATUS_SIGN'] = "1";
-                    $this->md->updatefile($data,$nofile);
-                }
-
                 echo "Upload Success";
             }
 
