@@ -120,6 +120,20 @@
             return $recordset;
         }
 
+        function positionsigner(){
+            $query =
+                    "
+                        select '$1'id, 'Signer 1' position union
+                        select '$2'id, 'Signer 2' position union
+                        select '$3'id, 'Signer 3' position union
+                        select '$4'id, 'Signer 4' position
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function insertsigndocument($data){           
             $sql =   $this->db->insert("dt01_gen_document_file_dt",$data);
             return $sql;

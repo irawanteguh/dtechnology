@@ -17,6 +17,7 @@
         public function loadcombobox(){
             $resultmasterdocument = $this->md->masterdocument($_SESSION['orgid']);
             $resultuserassign     = $this->md->userassign($_SESSION['orgid']);
+            $resultpositionsigner     = $this->md->positionsigner();
 
             $document="";
             foreach($resultmasterdocument as $a ){
@@ -28,9 +29,15 @@
                 $assign.="<option value='".$a->nik."'>".$a->name."</option>";
             }
 
+            $positionsigner="";
+            foreach($resultpositionsigner as $a ){
+                $positionsigner.="<option value='".$a->id."'>".$a->position."</option>";
+            }
 
-            $data['document'] = $document;
-            $data['assign']   = $assign;
+
+            $data['document']       = $document;
+            $data['assign']         = $assign;
+            $data['positionsigner'] = $positionsigner;
             return $data;
 		}
 
@@ -76,13 +83,14 @@
         }
 
         public function signdocument(){
-            $type   = $this->input->post("modal_sign_add_document_type");
-            $assign = $this->input->post("modal_sign_add_assign");
-            $info1  = $this->input->post("modal_sign_add_informasi1");
-            $info2  = $this->input->post("modal_sign_add_informasi2");
+            $type     = $this->input->post("modal_sign_add_document_type");
+            $assign   = $this->input->post("modal_sign_add_assign");
+            $info1    = $this->input->post("modal_sign_add_informasi1");
+            $info2    = $this->input->post("modal_sign_add_informasi2");
+            $position = $this->input->post("modal_sign_add_position");
 
             $data['org_id']        = $_SESSION['orgid'];
-            $data['no_file']       = generateuuid();
+            $data['no_file']       = generateuuid()."_".$position;
             $data['status_file']   = "0";
             $data['jenis_doc']     = $type;
             $data['assign']        = $assign;

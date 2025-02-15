@@ -24,13 +24,21 @@
 								<?php echo $document;?>
 							</select>
 						</div>
-                        <div class="col-md-12 mb-5">
+                        <div class="col-md-9 mb-5">
 							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 								<span class="required">Assign</span>
 								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Assign"></i>
 							</label>
 							<select data-control="select2" data-dropdown-parent="#modal_sign_add" data-placeholder="Please Select Assign" class="form-select form-select-solid" name="modal_sign_add_assign" id="modal_sign_add_assign" required>
 								<?php echo $assign;?>
+							</select>
+						</div><div class="col-md-3 mb-5">
+							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+								<span class="required">Position Signer</span>
+								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Assign"></i>
+							</label>
+							<select data-control="select2" data-dropdown-parent="#modal_sign_add" data-placeholder="Please Select Assign" class="form-select form-select-solid" name="modal_sign_add_position" id="modal_sign_add_position" required>
+								<?php echo $positionsigner;?>
 							</select>
 						</div>
                         <div class="col-xl-12 mb-5">
