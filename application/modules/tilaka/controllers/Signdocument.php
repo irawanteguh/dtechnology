@@ -61,6 +61,7 @@
                                 and a.org_id='".$_SESSION['orgid']."'
                                 and a.user_identifier in (select user_identifier from dt01_gen_user_data where active='1' and user_id in (select user_id from dt01_gen_user_asst_dt where active='1' and asst_id='".$_SESSION['userid']."'))
                                 or  a.user_identifier in (select user_identifier from dt01_gen_document_file_dt where active='1' and status_sign in ('2','3') and user_identifier<>'' and created_by='".$_SESSION['userid']."')
+                                and a.status_sign in ('2','3')
                             ";
             }
 

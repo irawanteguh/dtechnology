@@ -1,0 +1,2 @@
+ls -la /www/wwwroot/192.168.102.13/dtechnology/assets/vendors/pdfparse/bin/
+chmod -R 775 /www/wwwroot/192.168.102.13/dtechnology/assets/vendors/pdfparse/bin/
