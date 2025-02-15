@@ -90,7 +90,7 @@
             $position = $this->input->post("modal_sign_add_position");
 
             $data['org_id']        = $_SESSION['orgid'];
-            $data['no_file']       = generateuuid()."_".$position;
+            $data['no_file']       = generateuuid()."_SIGNER".$position;
             $data['status_file']   = "0";
             $data['jenis_doc']     = $type;
             $data['assign']        = $assign;
