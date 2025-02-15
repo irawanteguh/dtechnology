@@ -137,7 +137,7 @@
 
                         if(file_exists($filename)){
                             if(preg_match('/SIGNER(.*)/', $filename, $matches)) {
-                                $position = "$".$matches[1];
+                                $position = "$" . preg_replace('/\.pdf$/', '', $matches[1]);
                                 
                                 if(!empty($specimentposition['content'][$position])){ 
                                     foreach ($specimentposition['content'][$position] as $specimen) { 
