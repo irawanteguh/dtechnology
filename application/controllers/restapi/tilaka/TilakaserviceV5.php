@@ -130,7 +130,7 @@
                     foreach($resultfilerequestsign as $files){
 
                         if($files->source_file==="DTECHNOLOGY"){
-                            $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                            $filename = base_url("assets/document/".$files->no_file.".pdf");
                         }else{
                             $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                         }
