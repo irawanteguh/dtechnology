@@ -254,23 +254,28 @@
                     $response = Tilaka::excutesign(json_encode($body));
 
                     if(isset($response['success'])){
-                        if($response['status']!="PARAMERR"){
-                            if($response['status']==="DONE"){
-                                $data['STATUS_SIGN']="4";
-                                $this->md->updatefile($data,$a->no_file);
-                            }
-        
-                            if($response['status']==="FAILED"){
-                                $data['STATUS_SIGN']     = "0";
-                                $data['STATUS_FILE']     = "1";
-                                $data['REQUEST_ID']      = "";
-                                $data['LINK']            = "";
-                                $data['NOTE']            = "";
-                                $data['USER_IDENTIFIER'] = "";
-                                $data['URL']             = "";
-                                $this->md->updatefile($data,$a->no_file);
-                            }
-                        }else{
+                        if($response['status']==="DONE"){
+                            $data['STATUS_SIGN']="4";
+                            $this->md->updatefile($data,$a->no_file);
+                        }
+    
+                        if($response['status']==="FAILED"){
+                            $data['STATUS_SIGN']     = "0";
+                            $data['STATUS_FILE']     = "1";
+                            $data['REQUEST_ID']      = "";
+                            $data['LINK']            = "";
+                            $data['NOTE']            = "";
+                            $data['USER_IDENTIFIER'] = "";
+                            $data['URL']             = "";
+                            $this->md->updatefile($data,$a->no_file);
+                        }
+
+                        if($response['status']==="PROCESS"){
+                            $data['NOTE']=$response['status'];
+                            $this->md->updatefile($data,$a->no_file);
+                        }
+
+                        if($response['status']==="PARAMERR"){
                             $data['NOTE']=$response['status'];
                             $this->md->updatefile($data,$a->no_file);
                         }
