@@ -255,7 +255,8 @@
 
                     if(isset($response['success'])){
                         if($response['status']==="DONE"){
-                            $data['STATUS_SIGN']="4";
+                            $data['STATUS_SIGN'] = "4";
+                            $data['NOTE']        = "";
                             $this->md->updatefile($data,$a->no_file);
                         }
     
