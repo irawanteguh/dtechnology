@@ -270,6 +270,9 @@
                                 $data['URL']             = "";
                                 $this->md->updatefile($data,$a->no_file);
                             }
+                        }else{
+                            $data['NOTE']=$response['status'];
+                            $this->md->updatefile($data,$a->no_file);
                         }
                     }
 
