@@ -238,7 +238,7 @@
             $summaryresponse = [];
             $responseservice = [];
 
-            $status ="and a.status_sign ='3' limit 10;";
+            $status ="and a.status_sign ='3' order by note asc, created_date asc limit 10;";
             $result = $this->md->listexecute(ORG_ID,$status);
 
             if(!empty($result)){
