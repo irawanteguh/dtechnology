@@ -35,6 +35,30 @@
                 }
             }
         }
+
+        public function pasien_GET(){
+            $result = $this->md->datapasien();
+            if(!empty($result)){
+                foreach($result as $a){
+                    $data = [];
+                    
+                    $data['org_id']            = ORG_ID;
+                    $data['pasien_id']         = generateuuid();
+                    $data['int_pasien_id']     = $a->no_rkm_medis;
+                    $data['int_pasien_id_old'] = $a->no_rkm_medis;
+                    $data['name']              = $a->nm_pasien;
+                    $data['identity_no']       = $a->no_ktp;
+                    $data['sex_id']            = $a->jk;
+                    $data['tempat_lahir_txt']  = $a->tmp_lahir;
+                    $data['bod']               = $a->tgl_lahir;
+                    $data['mother_name']       = $a->nm_ibu;
+                    $data['email']             = $a->email;
+                    $data['created_by']        = "55b16625-efca-4093-8df0-20fc838f21b1";
+
+                    $this->md->insertdatapasien($data);
+                }
+            }
+        }
     }
 
 ?>

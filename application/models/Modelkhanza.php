@@ -14,6 +14,19 @@
             return $recordset;
         }
 
+        function datapasien(){
+            $query =
+                    "
+                        select a.no_rkm_medis, nm_pasien, no_ktp, jk, tmp_lahir, tgl_lahir, nm_ibu, email
+                        from pasien a
+                        where a.no_rkm_medis not in (select int_pasien_id_old from dt01_gen_pasien_ms)
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function checkdata($orgid,$nik){
             $query =
                     "
@@ -35,6 +48,11 @@
 
         function updatedatauser($data,$nik){           
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("nik"=>$nik));
+            return $sql;
+        }
+
+        function insertdatapasien($data){           
+            $sql =   $this->db->insert("dt01_gen_pasien_ms",$data);
             return $sql;
         }
         

@@ -17,7 +17,8 @@
     $route['executesignsingle/bulk']  = 'restapi/tilaka/Tilakaservicebulk/executesignsingle';
     $route['downloadfilesingle/bulk'] = 'restapi/tilaka/Tilakaservicebulk/downloadfilesingle';
 
-    $route['pegawai']            = 'restapi/Khanza/pegawai';
+    $route['pegawai'] = 'restapi/Khanza/pegawai';
+    $route['pasien']  = 'restapi/Khanza/pasien';
     
     $route['masterDomisili'] = 'restapi/satusehat/MasterDomisili/domisili';
 
