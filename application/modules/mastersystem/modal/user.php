@@ -15,13 +15,25 @@
                         <div class="text-muted fw-bold fs-5">Please Add Master User</div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-3 mb-5">
+                        <div class="col-xl-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Username</label>
-                            <input type="text" class="form-control form-control-solid" id="data_user_username_add" name="data_user_username_add" required>
+                            <input type="text" class="form-control form-control-solid" id="data_user_username_add" name="data_user_username_add" placeholder="Please enter your username" required>
                         </div>
-                        <div class="col-xl-9 mb-5">
+                        <div class="col-xl-8 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Email</label>
+                            <input type="text" class="form-control form-control-solid" id="data_user_email_add" name="data_user_email_add" placeholder="Please enter your email" required>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Identity No</label>
+                            <input type="text" class="form-control form-control-solid" id="data_user_noktp_add" name="data_user_noktp_add" placeholder="Please enter your ID card number." required>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Id Register Hospital</label>
+                            <input type="text" class="form-control form-control-solid" id="data_user_nik_add" name="data_user_nik_add" placeholder="Please enter your hospital NIK number." required>
+                        </div>
+                        <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Name</label>
-                            <input type="text" class="form-control form-control-solid" id="data_user_name_add" name="data_user_name_add" required>
+                            <input type="text" class="form-control form-control-solid" id="data_user_name_add" name="data_user_name_add" placeholder="Please enter your name" required>
                         </div>
                     </div>
                 </div>

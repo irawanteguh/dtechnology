@@ -33,12 +33,14 @@
             $resultcekusername = $this->md->cekusername($this->input->post("data_user_username_add"));
 
             if(empty($resultcekusername)){
-                $datausser['org_id']     = $_SESSION['orgid'];
-                $datausser['user_id']    = generateuuid();
-                $datausser['username']   = $this->input->post("data_user_username_add");
-                $datausser['nik']        = $this->input->post("data_user_username_add");
-                $datausser['name']       = $this->input->post("data_user_name_add");;
-                $datausser['created_by'] = $_SESSION['userid'];
+                $datausser['org_id']      = $_SESSION['orgid'];
+                $datausser['user_id']     = generateuuid();
+                $datausser['username']    = $this->input->post("data_user_username_add");
+                $datausser['nik']         = $this->input->post("data_user_nik_add");
+                $datausser['name']        = $this->input->post("data_user_name_add");
+                $datausser['email']       = $this->input->post("data_user_email_add");
+                $datausser['identity_no'] = $this->input->post("data_user_noktp_add");
+                $datausser['created_by']  = $_SESSION['userid'];
     
                 if($this->md->insertuser($datausser)){
                     $json['responCode']="00";
