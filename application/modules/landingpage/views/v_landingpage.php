@@ -56,7 +56,7 @@
 				</div>
 			</div>
 			<div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-				<img src="<?php echo base_url(); ?>assets/images/hero-img.png" class="img-fluid animated" alt="">
+				<img src="<?php echo base_url(); ?>assets/images/banner/hero-img.png" class="img-fluid animated" alt="">
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
     <section id="clients" class="clients section-bg">
       <div class="container-fluid">
         <div class="row" data-aos="zoom-in">
-			<?php echo $clients?>
+			    <?php echo $clients?>
         </div>
       </div>
     </section>
@@ -150,7 +150,7 @@
 
           </div>
 
-          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style='background-image: url("<?php echo base_url() ?>assets/images/why-us.png");' data-aos="zoom-in" data-aos-delay="150">&nbsp;</div>
+          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style='background-image: url("<?php echo base_url() ?>assets/images/banner/why-us.png");' data-aos="zoom-in" data-aos-delay="150">&nbsp;</div>
         </div>
 
       </div>
@@ -161,7 +161,7 @@
 
         <div class="row">
           <div class="col-lg-6 d-flex align-items-center" data-aos="fade-right" data-aos-delay="100">
-            <img src="<?php echo base_url(); ?>assets/images/skills.png" class="img-fluid" alt="">
+            <img src="<?php echo base_url(); ?>assets/images/banner/skills.png" class="img-fluid" alt="">
           </div>
           <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left" data-aos-delay="100">
             <h3>Voluptatem dignissimos provident quasi corporis voluptates</h3>
