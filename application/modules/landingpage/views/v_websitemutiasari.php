@@ -2,8 +2,8 @@
     <div class="container d-flex justify-content-between">
         <div class="contact-info d-flex align-items-center">
             <i class="bi bi-envelope"></i>
-            <a href="mailto:contact@example.com">contact@example.com</a>
-            <i class="bi bi-phone"></i> +1 5589 55488 55
+            <a href="mailto:contact@example.com">rs.mutiasari@gmail.com</a>
+            <i class="bi bi-phone"></i>(0765) 93635
         </div>
         <div class="d-none d-lg-flex social-links align-items-center">
             <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -23,7 +23,7 @@
             <ul>
                 <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                 <li><a class="nav-link scrollto" href="#about">Tentang Kami</a></li>
-                <li><a class="nav-link scrollto" href="#services">pelayanan</a></li>
+                <li><a class="nav-link scrollto" href="#services">Pelayanan</a></li>
                 <li><a class="nav-link scrollto" href="#departments">Unit Layanan</a></li>
                 <li><a class="nav-link scrollto" href="#doctors">Dokter</a></li>
                 <li class="dropdown"><a href="#"><span>Informasi Publik</span> <i class="bi bi-chevron-down"></i></a>
@@ -66,15 +66,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 d-flex align-items-stretch">
-                <div class="content">
-                    <h3>Why Choose RSU Mutiasari?</h3>
-                    <p>
-                        RSU Mutiasari berkomitmen memberikan pelayanan kesehatan berkualitas dengan teknologi modern dan tim medis berpengalaman. Kami mengutamakan keselamatan, kenyamanan, dan perawatan terbaik untuk setiap pasien.
-                    </p>
-                    <div class="text-center">
-                        <a href="#" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
+                    <div class="content">
+                        <h3>Why Choose RSU Mutiasari?</h3>
+                        <p>
+                            RSU Mutiasari berkomitmen memberikan pelayanan kesehatan berkualitas dengan teknologi modern dan tim medis berpengalaman. Kami mengutamakan keselamatan, kenyamanan, dan perawatan terbaik untuk setiap pasien.
+                        </p>
+                        <div class="text-center">
+                            <a href="#" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="col-lg-8 d-flex align-items-stretch">
                     <div class="icon-boxes d-flex flex-column justify-content-center">
@@ -196,63 +196,60 @@
 
     <section id="services" class="services">
         <div class="container">
-
-        <div class="section-title">
-            <h2>Services</h2>
-            <p>Kami menyediakan berbagai layanan kesehatan yang komprehensif untuk memenuhi kebutuhan medis Anda. Dengan tenaga medis profesional dan fasilitas modern, kami berkomitmen untuk memberikan pelayanan terbaik, mulai dari pemeriksaan umum, spesialisasi medis, hingga tindakan medis lanjutan. Keamanan dan kenyamanan pasien selalu menjadi prioritas utama kami.</p>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                <div class="icon-box">
-                    <div class="icon"><i class="fas fa-user-md"></i></div>
-                    <h4><a href="">Konsultasi Medis</a></h4>
-                    <p>Pelayanan konsultasi dengan dokter umum dan spesialis untuk diagnosis dan pengobatan berbagai kondisi kesehatan.</p>
-                </div>
+            <div class="section-title">
+                <h2>Pelayanan</h2>
+                <p>Kami menyediakan berbagai layanan kesehatan yang komprehensif untuk memenuhi kebutuhan medis Anda. Dengan tenaga medis profesional dan fasilitas modern, kami berkomitmen untuk memberikan pelayanan terbaik, mulai dari pemeriksaan umum, spesialisasi medis, hingga tindakan medis lanjutan. Keamanan dan kenyamanan pasien selalu menjadi prioritas utama kami.</p>
             </div>
 
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-                <div class="icon-box">
-                    <div class="icon"><i class="fas fa-vial"></i></div>
-                    <h4><a href="">Laboratorium & Diagnostik</a></h4>
-                    <p>Pemeriksaan laboratorium lengkap, termasuk tes darah, radiologi, dan diagnostik pencitraan lainnya.</p>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-user-md"></i></div>
+                        <h4><a href="">Konsultasi Medis</a></h4>
+                        <p>Pelayanan konsultasi dengan dokter umum dan spesialis untuk diagnosis dan pengobatan berbagai kondisi kesehatan.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-ambulance"></i></div>
+                        <h4><a href="">Layanan Gawat Darurat</a></h4>
+                        <p>Pelayanan darurat 24/7 dengan tim medis siap siaga untuk menangani kasus-kasus kritis.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-vial"></i></div>
+                        <h4><a href="">Laboratorium & Diagnostik</a></h4>
+                        <p>Pemeriksaan laboratorium lengkap, termasuk tes darah, radiologi, dan diagnostik pencitraan lainnya.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-procedures"></i></div>
+                        <h4><a href="">Rawat Inap</a></h4>
+                        <p>Fasilitas rawat inap dengan perawatan intensif dan kenyamanan untuk pasien yang memerlukan pengawasan lebih lanjut.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-notes-medical"></i></div>
+                        <h4><a href="">Medical Checkup</a></h4>
+                        <p>Pemeriksaan kesehatan rutin untuk mendeteksi risiko penyakit sejak dini dan memastikan kondisi tubuh tetap optimal.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-heartbeat"></i></div>
+                        <h4><a href="">Rehabilitasi & Fisioterapi</a></h4>
+                        <p>Layanan rehabilitasi untuk pemulihan pasien pascaoperasi, cedera, atau penyakit kronis.</p>
+                    </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
-                <div class="icon-box">
-                    <div class="icon"><i class="fas fa-procedures"></i></div>
-                    <h4><a href="">Rawat Inap</a></h4>
-                    <p>Fasilitas rawat inap dengan perawatan intensif dan kenyamanan untuk pasien yang memerlukan pengawasan lebih lanjut.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-                <div class="icon-box">
-                    <div class="icon"><i class="fas fa-syringe"></i></div>
-                    <h4><a href="">Vaksinasi</a></h4>
-                    <p>Program vaksinasi untuk anak-anak, dewasa, dan lansia guna mencegah berbagai penyakit menular.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-                <div class="icon-box">
-                    <div class="icon"><i class="fas fa-ambulance"></i></div>
-                    <h4><a href="">Layanan Gawat Darurat</a></h4>
-                    <p>Pelayanan darurat 24/7 dengan tim medis siap siaga untuk menangani kasus-kasus kritis.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-                <div class="icon-box">
-                    <div class="icon"><i class="fas fa-heartbeat"></i></div>
-                    <h4><a href="">Rehabilitasi & Fisioterapi</a></h4>
-                    <p>Layanan rehabilitasi untuk pemulihan pasien pascaoperasi, cedera, atau penyakit kronis.</p>
-                </div>
-            </div>
-        </div>
-
-
         </div>
     </section>
 

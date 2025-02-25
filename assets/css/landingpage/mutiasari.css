@@ -52,8 +52,8 @@ body {
     position: fixed;
     top: calc(50% - 30px);
     left: calc(50% - 30px);
-    border: 6px solid #1977cc;
-    border-top-color: #d1e6f9;
+    border: 6px solid #cc1919;
+    border-top-color: #f8d7da;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -80,7 +80,7 @@ body {
     right: 15px;
     bottom: 15px;
     z-index: 996;
-    background: #1977cc;
+    background: #cc1919;
     width: 40px;
     height: 40px;
     border-radius: 4px;
@@ -186,7 +186,7 @@ body {
   }
   
   #header .logo a {
-    color: #2c4964;
+    color: #cc1919;
   }
   
   #header .logo img {
@@ -197,21 +197,22 @@ body {
   * Appointment Button *
   */
   .appointment-btn {
-    margin-left: 25px;
-    background: #1977cc;
-    color: #fff;
-    border-radius: 50px;
-    padding: 8px 25px;
-    white-space: nowrap;
-    transition: 0.3s;
-    font-size: 14px;
-    display: inline-block;
+      margin-left: 25px;
+      background: #cc1919; /* Warna merah utama */
+      color: #fff;
+      border-radius: 50px;
+      padding: 8px 25px;
+      white-space: nowrap;
+      transition: 0.3s;
+      font-size: 14px;
+      display: inline-block;
   }
-  
+
   .appointment-btn:hover {
-    background: #166ab5;
-    color: #fff;
+      background: #b51616; /* Warna merah lebih gelap saat hover */
+      color: #fff;
   }
+
   
   @media (max-width: 768px) {
     .appointment-btn {
@@ -272,8 +273,8 @@ body {
   .navbar .active,
   .navbar .active:focus,
   .navbar li:hover>a {
-    color: #1977cc;
-    border-color: #1977cc;
+    color: #cc1919;
+    border-color: #cc1919;
   }
   
   .navbar .dropdown ul {
@@ -499,12 +500,13 @@ body {
     border-radius: 50px;
     transition: 0.5s;
     color: #fff;
-    background: #1977cc;
-  }
-  
-  #hero .btn-get-started:hover {
-    background: #3291e6;
-  }
+    background: #cc1919; /* Warna merah utama */
+}
+
+#hero .btn-get-started:hover {
+    background: #b51616; /* Warna merah lebih gelap saat hover */
+}
+
   
   @media (min-width: 1024px) {
     #hero {
@@ -549,8 +551,9 @@ body {
   }
   
   .section-bg {
-    background-color: #f1f7fd;
-  }
+    background-color: #fde8e8; /* Warna merah muda lembut */
+}
+
   
   .section-title {
     text-align: center;
@@ -730,7 +733,7 @@ body {
   .about .icon-boxes h3 {
     font-size: 28px;
     font-weight: 700;
-    color: #2c4964;
+    color: #cc1919;
     margin-bottom: 15px;
   }
   
@@ -745,19 +748,19 @@ body {
     justify-content: center;
     width: 64px;
     height: 64px;
-    border: 2px solid #8dc2f1;
+    border: 2px solid #cc1919;
     border-radius: 50px;
     transition: 0.5s;
   }
   
   .about .icon-box .icon i {
-    color: #1977cc;
+    color: #cc1919;
     font-size: 32px;
   }
   
   .about .icon-box:hover .icon {
-    background: #1977cc;
-    border-color: #1977cc;
+    background: #cc1919;
+    border-color: #cc1919;
   }
   
   .about .icon-box:hover .icon i {
@@ -772,7 +775,7 @@ body {
   }
   
   .about .icon-box .title a {
-    color: #343a40;
+    color: #cc1919;
     transition: 0.3s;
   }
   
@@ -795,16 +798,16 @@ body {
   .about .play-btn {
     width: 94px;
     height: 94px;
-    background: radial-gradient(#1977cc 50%, rgba(25, 119, 204, 0.4) 52%);
+    background: radial-gradient(#cc1919 50%, rgba(204, 25, 25, 0.4) 52%); /* Warna merah */
     border-radius: 50%;
     display: block;
     position: absolute;
     left: calc(50% - 47px);
     top: calc(50% - 47px);
     overflow: hidden;
-  }
-  
-  .about .play-btn::after {
+}
+
+.about .play-btn::after {
     content: "";
     position: absolute;
     left: 50%;
@@ -817,9 +820,9 @@ body {
     border-left: 15px solid #fff;
     z-index: 100;
     transition: all 400ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  }
-  
-  .about .play-btn::before {
+}
+
+.about .play-btn::before {
     content: "";
     position: absolute;
     width: 120px;
@@ -831,18 +834,18 @@ body {
     animation-timing-function: steps;
     opacity: 1;
     border-radius: 50%;
-    border: 5px solid rgba(25, 119, 204, 0.7);
+    border: 5px solid rgba(204, 25, 25, 0.7); /* Warna merah */
     top: -15%;
     left: -15%;
     background: rgba(198, 16, 0, 0);
-  }
-  
-  .about .play-btn:hover::after {
-    border-left: 15px solid #1977cc;
+}
+
+.about .play-btn:hover::after {
+    border-left: 15px solid #cc1919; /* Warna merah */
     transform: scale(20);
-  }
-  
-  .about .play-btn:hover::before {
+}
+
+.about .play-btn:hover::before {
     content: "";
     position: absolute;
     left: 50%;
@@ -857,7 +860,8 @@ body {
     z-index: 200;
     animation: none;
     border-radius: 0;
-  }
+}
+
   
   @keyframes pulsate-btn {
     0% {
@@ -875,7 +879,7 @@ body {
   # Counts
   --------------------------------------------------------------*/
   .counts {
-    background: #f1f7fd;
+    background: #fde8e8;
     padding: 70px 0 60px;
   }
   
@@ -931,7 +935,7 @@ body {
     margin: 0 auto;
     width: 64px;
     height: 64px;
-    background: #1977cc;
+    background: #cc1919;
     border-radius: 5px;
     transition: all 0.3s ease-out 0s;
     display: flex;
@@ -956,7 +960,7 @@ body {
     top: -8px;
     height: 100%;
     width: 100%;
-    background: rgba(25, 119, 204, 0.2);
+    background:#f8d7da;
     border-radius: 5px;
     transition: all 0.3s ease-out 0s;
     transform: translateZ(-1px);
@@ -980,8 +984,8 @@ body {
   }
   
   .services .icon-box:hover {
-    background: #1977cc;
-    border-color: #1977cc;
+    background: #cc1919;
+    border-color: #cc1919;
   }
   
   .services .icon-box:hover .icon {
@@ -989,7 +993,7 @@ body {
   }
   
   .services .icon-box:hover .icon i {
-    color: #1977cc;
+    color: #cc1919;
   }
   
   .services .icon-box:hover .icon::before {
@@ -1115,7 +1119,7 @@ body {
     transition: 0.3s;
     color: #2c4964;
     border-radius: 0;
-    border-right: 2px solid #ebf1f6;
+    border-right: 2px solid #f8d7da;
     font-weight: 600;
     font-size: 15px;
   }
@@ -1126,7 +1130,7 @@ body {
   
   .departments .nav-link.active {
     color: #1977cc;
-    border-color: #1977cc;
+    border-color: #cc1919;
   }
   
   .departments .tab-pane.active {
@@ -1358,6 +1362,7 @@ body {
     position: relative;
     background: #fff;
   }
+
   
   .testimonials .testimonial-item .testimonial-img {
     width: 90px;
@@ -1382,7 +1387,7 @@ body {
   
   .testimonials .testimonial-item .quote-icon-left,
   .testimonials .testimonial-item .quote-icon-right {
-    color: #badaf7;
+    color: #f8d7da;
     font-size: 26px;
   }
   
@@ -1414,11 +1419,11 @@ body {
     height: 12px;
     background-color: #fff;
     opacity: 1;
-    border: 1px solid #1977cc;
+    border: 1px solid #cc1919;
   }
   
   .testimonials .swiper-pagination .swiper-pagination-bullet-active {
-    background-color: #1977cc;
+    background-color: #cc1919;
   }
   
   @media (max-width: 767px) {
