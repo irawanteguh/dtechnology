@@ -16,7 +16,7 @@
 
 <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
-        <h1 class="logo me-auto"><a href="index.html">RSU Mutiasari Test</a></h1>
+        <h1 class="logo me-auto"><a href="index.html">RSU Mutiasari</a></h1>
         <a href="index.html" class="logo me-auto"><img src="assets/images/clients/10c84edd-500b-49e3-93a5-a2c8cd2c8524.png" alt="" class="img-fluid"></a>
 
         <nav id="navbar" class="navbar order-last order-lg-0">
