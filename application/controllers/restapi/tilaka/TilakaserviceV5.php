@@ -326,7 +326,7 @@
                                         if($a->source_file==="DTECHNOLOGY"){
                                             $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
                                         }else{
-                                            $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
+                                            $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdfx";
                                         }
     
                                         if(file_put_contents($destinationPath,$fileContent)){
