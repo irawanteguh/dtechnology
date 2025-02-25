@@ -129,11 +129,11 @@ body {
   }
   
   #topbar .contact-info a:hover {
-    color: #1977cc;
+    color: #cc1919;
   }
   
   #topbar .contact-info i {
-    color: #1977cc;
+    color: #cc1919;
     padding-right: 4px;
     margin-left: 15px;
     line-height: 0;
@@ -144,7 +144,7 @@ body {
   }
   
   #topbar .social-links a {
-    color: #437099;
+    color: #cc1919;
     padding-left: 15px;
     display: inline-block;
     line-height: 1px;
@@ -152,7 +152,7 @@ body {
   }
   
   #topbar .social-links a:hover {
-    color: #1977cc;
+    color: #f8d7da;
   }
   
   #topbar .social-links a:first-child {
@@ -479,13 +479,13 @@ body {
     font-weight: 700;
     line-height: 56px;
     text-transform: uppercase;
-    color: #2c4964;
+    color: #cc1919;
   }
   
   #hero h2 {
-    color: #2c4964;
+    color: #cc1919;
     margin: 10px 0 0 0;
-    font-size: 24px;
+    font-size: 20px;
   }
   
   #hero .btn-get-started {
@@ -662,7 +662,7 @@ body {
   --------------------------------------------------------------*/
   .why-us .content {
     padding: 30px;
-    background: #1977cc;
+    background: #cc1919;
     border-radius: 4px;
     color: #fff;
   }
@@ -706,7 +706,7 @@ body {
   
   .why-us .icon-boxes .icon-box i {
     font-size: 40px;
-    color: #1977cc;
+    color: #cc1919;
     margin-bottom: 30px;
   }
   
@@ -897,7 +897,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     font-size: 20px;
-    background: #1977cc;
+    background: #cc1919;
     color: #fff;
     border-radius: 50px;
     display: inline-flex;
@@ -1090,7 +1090,7 @@ body {
   }
   
   .appointment .php-email-form button[type=submit] {
-    background: #1977cc;
+    background: #cc1919;
     border: 0;
     padding: 10px 35px;
     color: #fff;
@@ -1099,7 +1099,7 @@ body {
   }
   
   .appointment .php-email-form button[type=submit]:hover {
-    background: #1c84e3;
+    background: #b51616;
   }
   
   /*--------------------------------------------------------------
