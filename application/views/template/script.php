@@ -16,11 +16,15 @@
             echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/waypoints/noframework.waypoints.js') . "'></script>" . PHP_EOL;
             echo "\t\t<script type='text/javascript' src='" . base_url('assets/js/landingpage/landingpage.js') . "'></script>" . PHP_EOL;
         }else{
-            if($this->router->fetch_class()==="websitemutiasari"){
-                echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/bootstrap/js/bootstrap.bundle.min.js') . "'></script>" . PHP_EOL;
+            if($this->router->fetch_class()==="Mutiasari"){
+                echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/purecounter/purecounter_vanilla.js') . "'></script>" . PHP_EOL;
+                echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/aos/aos.js') . "'></script>" . PHP_EOL;
+                echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/bootstrap-5.3.0/js/bootstrap.bundle.min.js') . "'></script>" . PHP_EOL;
+                // echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/bootstrap/js/bootstrap.bundle.min.js') . "'></script>" . PHP_EOL;
                 echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/glightbox/js/glightbox.min.js') . "'></script>" . PHP_EOL;
+                echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/isotope-layout/isotope.pkgd.min.js') . "'></script>" . PHP_EOL;
                 echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/swiper/swiper-bundle.min.js') . "'></script>" . PHP_EOL;
-                echo "\t\t<script type='text/javascript' src='" . base_url('assets/js/landingpage/websitemutiasari.js') . "'></script>" . PHP_EOL;
+                echo "\t\t<script type='text/javascript' src='" . base_url('assets/js/landingpage/mutiasari.js') . "'></script>" . PHP_EOL;
             }else{
                 
             }
