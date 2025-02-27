@@ -108,7 +108,7 @@
         public function requestsign_POST(){
             $responseservice = [];
 
-            $status = "and   a.status_sign ='1' limit 50;";
+            $status = "and   a.status_sign ='1' limit 20;";
             $result = $this->md->listrequestsign(ORG_ID,$status);
 
             if(!empty($result)){
@@ -199,7 +199,8 @@
                     if(isset($responsecheckcertificate['success'])){
                         if($responsecheckcertificate['success']){
                             if($responsecheckcertificate['status']===3){
-                                $responserequestsign = Tilaka::requestsign(json_encode($body));
+                                $this->response($body,REST_Controller::HTTP_OK);
+                                // $responserequestsign = Tilaka::requestsign(json_encode($body));
                                 if(isset($responserequestsign['success'])){
                                     if($responserequestsign['success']){
                                         foreach($resultfilerequestsign as $files){
@@ -231,7 +232,7 @@
             }else{
                 $responseservice['ResponseDTechnology'] = "Tidak Ada List Request Sign";
             }
-            $this->response($responseservice,REST_Controller::HTTP_OK);
+            // $this->response($responseservice,REST_Controller::HTTP_OK);
         }
 
         public function excutesign_POST(){
