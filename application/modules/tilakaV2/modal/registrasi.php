@@ -176,8 +176,9 @@
                                 <li>
                                     Anda setuju atas isi yang tercantum dalam Sertifikat Pemilik yang diterbitkan oleh PSrE TILAKA, baik dari proses permohonan penerbitan, permohonan penerbitan ulang, dan/atau permohonan penggantian kunci Sertifikat Pemilik dalam hal:
                                     <ul>
-                                        <li>Anda telah memeriksa dan menyetujui informasi yang terkandung dalam Sertifikat Pemilik; atau</li>
-                                        <li>Anda tidak memberikan tanggapan dalam jangka waktu 9 (sembilan) Hari Kalender sejak PSrE TILAKA mengirimkan email terkait penerbitan Sertifikat Pemilik.</li>
+                                        <li>Anda telah memeriksa dan menyetujui informasi yang terkandung dalam Sertifikat Pemilik;</li>
+                                        <li>Anda tidak memberikan tanggapan dalam jangka waktu 9 (sembilan) Hari Kalender sejak PSrE TILAKA mengirimkan email terkait penerbitan Sertifikat Pemilik; atau</li>
+                                        <li>Anda telah menggunakan tanda tangan elektronik yang termuat pada Sertifikat Pemilik untuk 1 (satu) atau lebih kepentingan.</li>
                                     </ul>
                                 </li>
                                 <li>
