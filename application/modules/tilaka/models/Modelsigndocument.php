@@ -19,7 +19,7 @@
                         and   a.user_identifier<>''
                         ".$parameter."
                         group by request_id, user_identifier, url, status_sign
-                        order by status_sign asc, created_date asc
+                        order by name asc, status_sign asc, created_date asc
                     ";
 
             $recordset = $this->db->query($query);
