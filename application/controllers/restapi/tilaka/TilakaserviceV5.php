@@ -23,7 +23,7 @@
         public function uploadallfile_POST(){
             $responseservice = [];
 
-            $status          = "and   a.status_sign ='0' order by created_date asc limit 20;";
+            $status          = "and   a.status_sign ='0' order by created_date asc limit 30;";
             $result          = $this->md->uploaddata(ORG_ID,$status);
 
             if(!empty($result)){
