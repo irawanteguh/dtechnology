@@ -66,10 +66,10 @@
                                         $listfile['responsetilaka'] = $responseuploadfile;
                                     }
                                 }else{
-                                    $listfile['responsetilaka'] = $responsecheckcertificate;
+                                    $listfile['responsetilakaCertificate'] = $responsecheckcertificate;
                                 }
                             }else{
-                                $listfile['responsetilaka'] = $responsecheckcertificate;
+                                $listfile['responsetilakaCertificate'] = $responsecheckcertificate;
                             }
                         }else{
                             $listfile['issue']           = "File Corrupted, File Size : ".$filesize;
