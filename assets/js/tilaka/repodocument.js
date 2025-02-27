@@ -69,15 +69,13 @@ function viewdoc(btn) {
     var filename = $(btn).attr("data-dirfile");
         filename = filename.replace('/www/wwwroot/', 'http://');
 
-        alert(filename);
-
     // Menggunakan AJAX dengan metode GET untuk memeriksa apakah file ada
     jQuery.ajax({
         url: url+filename,
         type: 'GET',
         async: false,
         success: function(data, textStatus, jqXHR) {
-            var viewfile = "<embed src='" + filename + "' width='100%' height='100%' type='application/pdf' id='view'>";
+            var viewfile = "<embed src='" +url+filename + "' width='100%' height='100%' type='application/pdf' id='view'>";
             $("#viewdoc").html(viewfile);
             
             $('#openInNewTabButton').data('filename', filename);
