@@ -144,7 +144,8 @@
 
                                 if(!empty($specimentposition['content'][$position])){ 
                                     foreach ($specimentposition['content'][$position] as $specimen) { 
-                                        if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) { 
+                                        if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
+                                            $listpdf     = [];
                                             $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
                                             $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
                                             $page        = floatval($specimen['page']);
@@ -168,6 +169,7 @@
                                     }
                                 }
                             }else{
+                                $listpdf     = [];
                                 $coordinatex = floatval(COORDINATE_X);
                                 $coordinatey = floatval(COORDINATE_Y);
                                 $page        = floatval(PAGE);
@@ -199,21 +201,20 @@
                     if(isset($responsecheckcertificate['success'])){
                         if($responsecheckcertificate['success']){
                             if($responsecheckcertificate['status']===3){
-                                $this->response($body,REST_Controller::HTTP_OK);
-                                // $responserequestsign = Tilaka::requestsign(json_encode($body));
-                                // if(isset($responserequestsign['success'])){
-                                //     if($responserequestsign['success']){
-                                //         foreach($resultfilerequestsign as $files){
-                                //             $datasimpanhd = [];
+                                $responserequestsign = Tilaka::requestsign(json_encode($body));
+                                if(isset($responserequestsign['success'])){
+                                    if($responserequestsign['success']){
+                                        foreach($resultfilerequestsign as $files){
+                                            $datasimpanhd = [];
 
-                                //             $datasimpanhd['request_id']  = $requestid;
-                                //             $datasimpanhd['status_sign'] = "2";
-                                //             $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
-                                //             $this->md->updatefile($datasimpanhd,$files->no_file);
-                                //         }
-                                //     }
-                                // }
-                                // $listfile['responsetilaka'] = $responserequestsign;
+                                            $datasimpanhd['request_id']  = $requestid;
+                                            $datasimpanhd['status_sign'] = "2";
+                                            $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
+                                            $this->md->updatefile($datasimpanhd,$files->no_file);
+                                        }
+                                    }
+                                }
+                                $listfile['responsetilaka'] = $responserequestsign;
                             }
                         }else{
                             $listfile['responsetilaka'] = $responsecheckcertificate;
@@ -232,7 +233,7 @@
             }else{
                 $responseservice['ResponseDTechnology'] = "Tidak Ada List Request Sign";
             }
-            // $this->response($responseservice,REST_Controller::HTTP_OK);
+            $this->response($responseservice,REST_Controller::HTTP_OK);
         }
 
         public function excutesign_POST(){
