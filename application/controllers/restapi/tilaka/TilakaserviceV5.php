@@ -201,19 +201,19 @@
                             if($responsecheckcertificate['status']===3){
                                 $this->response($body,REST_Controller::HTTP_OK);
                                 // $responserequestsign = Tilaka::requestsign(json_encode($body));
-                                if(isset($responserequestsign['success'])){
-                                    if($responserequestsign['success']){
-                                        foreach($resultfilerequestsign as $files){
-                                            $datasimpanhd = [];
+                                // if(isset($responserequestsign['success'])){
+                                //     if($responserequestsign['success']){
+                                //         foreach($resultfilerequestsign as $files){
+                                //             $datasimpanhd = [];
 
-                                            $datasimpanhd['request_id']  = $requestid;
-                                            $datasimpanhd['status_sign'] = "2";
-                                            $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
-                                            $this->md->updatefile($datasimpanhd,$files->no_file);
-                                        }
-                                    }
-                                }
-                                $listfile['responsetilaka'] = $responserequestsign;
+                                //             $datasimpanhd['request_id']  = $requestid;
+                                //             $datasimpanhd['status_sign'] = "2";
+                                //             $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
+                                //             $this->md->updatefile($datasimpanhd,$files->no_file);
+                                //         }
+                                //     }
+                                // }
+                                // $listfile['responsetilaka'] = $responserequestsign;
                             }
                         }else{
                             $listfile['responsetilaka'] = $responsecheckcertificate;
