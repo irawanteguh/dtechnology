@@ -165,7 +165,7 @@ class Validation extends CI_Controller{
                 if(empty($resultcheckactivity)){
                     $hasil = $this->md->insertactivity($datainsert);
                 }else{
-                    $hasil = $this->md->validasikegiatan($datainsert);
+                    $hasil = $this->md->validasikegiatan($datainsert,$transid);
                 }
                 
             }
