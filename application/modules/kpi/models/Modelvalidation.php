@@ -121,6 +121,7 @@
                             and   a.no_rawat not in (select trans_id from dt01_hrd_activity_dt where active='1')
                             and   a.tanggal > '2025-02-01'
                         )x
+                        limit 100;
                     ";
 
             $recordset = $this->db->query($query);
