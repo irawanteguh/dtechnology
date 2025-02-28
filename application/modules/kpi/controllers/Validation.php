@@ -141,6 +141,7 @@ class Validation extends CI_Controller{
                 
                 $hasil = $this->md->validasikegiatan($dataupdate,$transid);
             }else{
+                $resultcheckactivity = $this->md->checkactivity($transid);
                 $datainsert['org_id']         = $_SESSION['orgid'];
                 $datainsert['trans_id']       = $transid;
                 $datainsert['ref']            = $transid;
@@ -161,7 +162,12 @@ class Validation extends CI_Controller{
                 $datainsert['validasi_by']    = $_SESSION['userid'];
                 $datainsert['validasi_date']  = (new DateTime())->format('Y-m-d H:i:s');
                 
-                $hasil = $this->md->insertactivity($datainsert);
+                if(empty($resultcheckactivity)){
+                    $hasil = $this->md->insertactivity($datainsert);
+                }else{
+                    $hasil = $this->md->validasikegiatan($datainsert);
+                }
+                
             }
             
         }

@@ -239,7 +239,12 @@ function detailactivity(btn){
                     tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='time_out["+result[i].trans_id+"]' value='"+result[i].start_time_out+"'>";
                     tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='userid["+result[i].trans_id+"]' value='"+result[i].user_id+"'>";
                     tableresult +="</td>";
-                    tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+"</div><div class='font-italic'>"+result[i].activity+"</div></td>";
+                    if(result[i].status==="1"){
+                        tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+"</div><div class='font-italic'>"+result[i].activity+"</div></td>";
+                    }else{
+                        tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+" <span class='badge badge-light-info'>Anamnesa From Khanza</span></div><div class='font-italic'>"+result[i].activity+"</div></td>";
+                    }
+                    
                     tableresult +="<td class='text-center'>"+result[i].qty+"</td>";
                     tableresult +="<td class='pe-4 text-end'><div>"+result[i].start_date+"</div><div class='font-italic'>"+result[i].start_time_in+" - "+result[i].start_time_out+"</div></td>";
                     tableresult +="</tr>";

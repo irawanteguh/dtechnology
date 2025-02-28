@@ -43,8 +43,10 @@
                 <div class="modal-body">
                     <div class="mb-10 text-center">
                         <h1 class="mb-3">Personal Activity</h1>
-                        <div class="text-muted fw-bold fs-5">If you need more info, please check
-                        <a href="" class="fw-bolder link-primary" data-bs-toggle="modal" data-bs-target="#modal_activity_userguides">User Guidelines</a>.</div>
+                        <div class="text-muted fw-bold fs-5">
+                            The data we display is 100 activities, please revalidate if more than 100
+                            <a href="" class="fw-bolder link-primary" data-bs-toggle="modal" data-bs-target="#modal_activity_userguides">User Guidelines</a>.
+                        </div>
                     </div>
                     <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
                         <table class="table align-middle table-row-dashed fs-6 gy-2">
