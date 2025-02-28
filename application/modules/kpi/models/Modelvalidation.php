@@ -28,7 +28,7 @@
                                     SUM(CASE WHEN date_format(start_date, '%m.%Y') = '".$periodeid."' and atasan_id IS NOT NULL AND status = '9' THEN total ELSE 0 END) AS jmlditolaksec
                                 FROM dt01_hrd_activity_dt
                                 WHERE active = '1'
-                                GROUP BY org_id, user_id, atasan_id
+                                GROUP BY org_id, user_id
                             )
                             select datauser.*,
                                 dataposisi.position,level_fungsional,
@@ -77,7 +77,6 @@
                             and   masteruser.user_id=datauser.user_id
                             and   activity_summary.org_id=datauser.org_id
                             and   activity_summary.user_id=datauser.user_id
-                            and   activity_summary.atasan_id=datauser.atasan_id
                             )x
                         )y
                         order by name asc      

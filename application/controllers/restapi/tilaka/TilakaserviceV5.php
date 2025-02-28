@@ -57,6 +57,7 @@
                                                     $datasimpanhd['filename']        = $responseuploadfile['filename'];
                                                     $datasimpanhd['user_identifier'] = $a->useridentifier;
                                                     $datasimpanhd['status_sign']     = "1";
+                                                    $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
                                                 }else{
                                                     $datasimpanhd['note']        = "Filename Duplicate";
