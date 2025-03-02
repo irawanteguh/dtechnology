@@ -15,6 +15,7 @@
 				<li><a class="nav-link scrollto" href="#pricing">Medical Checkup</a></li>
 				<li class="dropdown"><a href="#"><span>Informasi Publik</span> <i class="bi bi-chevron-down"></i></a>
 					<ul>
+						<li><a class="nav-link scrollto" href="#member">Member RMB Hospital Group</a></li>
 						<li><a href="#">Survey Kepuasan Pelanggan</a></li>
 						<li class="dropdown"><a href="#"><span>Standart Pelayanan</span> <i class="bi bi-chevron-right"></i></a>
 							<ul>
@@ -50,8 +51,6 @@
 				<img src="assets/images/clients/10c84edd-500b-49e3-93a5-a2c8cd2c8524.png" alt="" class="img-fluid" style="max-height: 80px; width: auto;">
 				RSU Mutiasari
 			</h1>
-
-
 				<h2 data-aos="fade-up" data-aos-delay="400">Kami adalah tim profesional di bidang kesehatan yang berkomitmen memberikan pelayanan medis terbaik untuk Anda dan keluarga.</h2>
 				<div data-aos="fade-up" data-aos-delay="800">
 					<a href="#about" class="btn-get-started scrollto">Get Started</a>
@@ -59,7 +58,7 @@
 			</div>
 			<div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
 				<!-- <img src="assets/images/clients/10c84edd-500b-49e3-93a5-a2c8cd2c8524.png" class="img-fluid animated" alt=""> -->
-				<img src="assets/images/banner/hero-img.png" class="img-fluid animated" alt="">
+				<img src="assets/images/banner/undraw_medicine_hqqg.svg" class="img-fluid animated" alt="">
 			</div>
 		</div>
 	</div>
@@ -112,7 +111,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-xl-start" data-aos="fade-right" data-aos-delay="150">
-					<img src="assets/images/banner/counts-img.svg" alt="Hospital Stats" class="img-fluid">
+					<img src="assets/images/banner/undraw_data-trends_kv5v.svg" alt="Hospital Stats" class="img-fluid">
 				</div>
 
 				<div class="col-xl-7 d-flex align-items-stretch pt-4 pt-xl-0" data-aos="fade-left" data-aos-delay="300">
@@ -430,6 +429,22 @@
 					</div>
 				</div>
 
+			</div>
+		</div>
+	</section>
+
+	<section id="member" class="clients">
+		<div class="container">
+			<div class="section-title">
+				<h2>Member Of RMB Hospital Group</h2>
+				<p>Pemeriksaan kesehatan menyeluruh untuk mendeteksi penyakit sejak dini dan memastikan kondisi tubuh tetap optimal.</p>
+			</div>
+
+			<div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+				<div class="swiper-wrapper">
+					<?php echo $asurance; ?>
+				</div>
+				<div class="swiper-pagination"></div>
 			</div>
 		</div>
 	</section>
