@@ -119,15 +119,15 @@ function updateVatAndTotal(input) {
         return;
     }
 
-    const stockInput = document.getElementById(`stock_${itemId}`);
-    const qtyInput = document.getElementById(`qty_${itemId}`);
-    const hargaInput = document.getElementById(`harga_${itemId}`);
-    const vatElement = document.getElementById(`vat_${itemId}`);
-    const vatAmountElement = document.getElementById(`vat_amount_${itemId}`);
-    const subtotalElement = document.getElementById(`subtotal_${itemId}`);
-    const totalVatElement = document.getElementById("total_vat");
+    const stockInput        = document.getElementById(`stock_${itemId}`);
+    const qtyInput          = document.getElementById(`qty_${itemId}`);
+    const hargaInput        = document.getElementById(`harga_${itemId}`);
+    const vatElement        = document.getElementById(`vat_${itemId}`);
+    const vatAmountElement  = document.getElementById(`vat_amount_${itemId}`);
+    const subtotalElement   = document.getElementById(`subtotal_${itemId}`);
+    const totalVatElement   = document.getElementById("total_vat");
     const grandTotalElement = document.getElementById("grand_total");
-    const note = document.getElementById(`note_${itemId}`);
+    const note              = document.getElementById(`note_${itemId}`);
 
     if (stockInput && qtyInput && hargaInput && vatElement && vatAmountElement) {
         const stock = parseFloat(stockInput.value);
@@ -163,7 +163,7 @@ function updateVatAndTotal(input) {
         }
 
         function processUpdate() {
-            const newVat = parseFloat((qty * (harga * ppn)).toFixed(0));
+            const newVat    = parseFloat((qty * (harga * ppn)).toFixed(0));
             const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
 
             vatAmountElement.innerText = todesimal(newVat);

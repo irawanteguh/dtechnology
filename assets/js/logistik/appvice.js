@@ -151,7 +151,8 @@ function approve(){
                     type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
                     vice = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
                     dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
-                
+                    com  = result[i].status_com  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Commissioner</div>" : (result[i].status_com === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Commissioner</div>" : "");
+
                     tableresult +="<tr>";
 
                     if(result[i].type === "0" || result[i].type === "1"){
@@ -168,7 +169,7 @@ function approve(){
                         if(vice==="" && dir===""){
                             tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
                         }else{
-                            tableresult +="<td>"+vice+dir+"</td>";
+                            tableresult +="<td>"+vice+dir+com+"</td>";
                         }
                     }
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
@@ -177,26 +178,6 @@ function approve(){
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                // if(result[i].status_vice!="Y"){
-                                    // tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_detail_barang' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
-                                // }
-                                // if(result[i].status==="6"){
-                                    // tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_position='VICE' data_validasi='Y' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    // tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_position='VICE' data_validasi='N' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
-                                // }else{
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='11' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='10' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Cancelled</a>";
-                                // }
-                                
-                                // if(result[i].attachment==="1"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
-                                // }
-                                // if(result[i].invoice==="1"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
-                                // }
-                                // if(result[i].status==="17"){
-                                //     tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
-                                // }
                                 if(result[i].status==="6"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='' data_validator='VICE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Approved</a>";
                                 }

@@ -353,6 +353,7 @@
                 $data['qty_keu']   = $qty;
                 $data['qty_wadir'] = $qty;
                 $data['qty_dir']   = $qty;
+                $data['qty_com']   = $qty;
                 $data['keu_id']    = $_SESSION['userid'];
                 $data['keu_date']  = date('Y-m-d H:i:s');
             }
@@ -360,6 +361,7 @@
             if($validator==="VICE"){
                 $data['qty_wadir']  = $qty;
                 $data['qty_dir']    = $qty;
+                $data['qty_com']    = $qty;
                 $data['wadir_id']   = $_SESSION['userid'];
                 $data['wadir_date'] = date('Y-m-d H:i:s');
             }
@@ -367,8 +369,17 @@
             if($validator==="DIR"){
                 $data['qty_wadir'] = $qty;
                 $data['qty_dir']   = $qty;
+                $data['qty_com']   = $qty;
                 $data['dir_id']    = $_SESSION['userid'];
                 $data['dir_date']  = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="COM"){
+                $data['qty_wadir'] = $qty;
+                $data['qty_dir']   = $qty;
+                $data['qty_com']   = $qty;
+                $data['com_id']    = $_SESSION['userid'];
+                $data['com_date']  = date('Y-m-d H:i:s');
             }
             
             $data['stock']     = $stock;
@@ -519,6 +530,19 @@
                     $data['status_dir'] = $status;
                     $data['dir_id']    = $_SESSION['userid'];
                     $data['dir_date']  = date('Y-m-d H:i:s');
+                }
+            }
+
+            if($validator==="COM"){
+                if($status==="11" || $status==="12" || $status==="13"){
+                    $data['status']       = $status;
+                    $data['inv_dir_id']   = $_SESSION['userid'];
+                    $data['inv_dir_Date'] = date('Y-m-d H:i:s');
+                }
+                if($status==="" || $status==="N" || $status==="Y"){
+                    $data['status_com'] = $status;
+                    $data['com_id']    = $_SESSION['userid'];
+                    $data['com_date']  = date('Y-m-d H:i:s');
                 }
             }
 

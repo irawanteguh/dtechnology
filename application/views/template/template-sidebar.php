@@ -97,7 +97,6 @@
 			if(file_exists($directory)){
 				include($directory);
 			}
-			
 		?>
 		
 		<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">

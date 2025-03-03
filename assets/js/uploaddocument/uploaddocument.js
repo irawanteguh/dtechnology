@@ -1,19 +1,3 @@
-// var myDropzone = new Dropzone("#file_doc", {
-//     url             : url + "index.php/uploaddocument/uploaddocument/uploadfilette",
-//     acceptedFiles   : '.PDF',
-//     paramName       : "file",
-//     dictDefaultMessage: "Drop files here or click to upload",
-//     maxFiles        : 10,
-//     maxFilesize     : 10,
-//     addRemoveLinks  : true,
-//     autoProcessQueue: true,
-//     accept: function(file, done) {
-//         done();
-
-//         toastr[data.responHead](data.responDesc, "INFORMATION");
-//     }
-// });
-
 var myDropzone = new Dropzone("#file_doc", {
     url: url + "index.php/uploaddocument/uploaddocument/uploadfilette",
     acceptedFiles: '.pdf',

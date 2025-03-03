@@ -189,7 +189,8 @@ function decline(){
                     type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
                     vice = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
                     dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
-                
+                    com  = result[i].status_com  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Commissioner</div>" : (result[i].status_com === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Commissioner</div>" : "");
+
                     tableresult +="<tr>";
 
                     if(result[i].type === "0" || result[i].type === "1"){
@@ -206,7 +207,7 @@ function decline(){
                         if(vice==="" && dir===""){
                             tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
                         }else{
-                            tableresult +="<td>"+vice+dir+"</td>";
+                            tableresult +="<td>"+vice+dir+com+"</td>";
                         }
                     }
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
@@ -305,7 +306,8 @@ function approve(){
                     type = result[i].type        === "1" ? " <div class='badge badge-light-info fw-bolder'>Invoice Submission</div>" : "";
                     vice = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
                     dir  = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
-                
+                    com  = result[i].status_com  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Commissioner</div>" : (result[i].status_com === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Commissioner</div>" : "");
+
                     tableresult +="<tr>";
 
                     if(result[i].type === "0" || result[i].type === "1"){
@@ -322,7 +324,7 @@ function approve(){
                         if(vice==="" && dir===""){
                             tableresult +="<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
                         }else{
-                            tableresult +="<td>"+vice+dir+"</td>";
+                            tableresult +="<td>"+vice+dir+com+"</td>";
                         }
                     }
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";

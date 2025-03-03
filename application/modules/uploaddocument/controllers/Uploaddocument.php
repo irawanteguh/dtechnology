@@ -11,34 +11,32 @@
             $this->template->load("template/template-blank","v_uploaddocument");
         }
 
-        public function uploadfilette(){
-            header('Content-Type: application/json'); // Pastikan response JSON
+        public function uploadfilette() {
+            header('Content-Type: application/json');
             $json = [];
         
             if (!isset($_FILES['file'])) {
                 $json['responCode'] = "01";
                 $json['responHead'] = "error";
                 $json['responDesc'] = "No file uploaded.";
+                log_message('error', 'File upload error: No file uploaded.');
                 echo json_encode($json);
                 return;
             }
         
             $filename  = $_FILES['file']['name'];
             $partsfile = explode("-", basename($filename));
-
-            $nofile      = $partsfile[0];
-            $jenisdoc    = $partsfile[1];
-            $assign      = $partsfile[2];
-            $pasienid    = $partsfile[3];
-            $transaksiid = str_replace(".pdf", "", $partsfile[4]);
         
             if (count($partsfile) !== 5) {
                 $json['responCode'] = "01";
                 $json['responHead'] = "error";
-                $json['responDesc'] = "The array does not have 5 elements";
+                $json['responDesc'] = "File name format is incorrect. Expected format: nofile-jenisdoc-assign-pasienid-transaksiid.pdf";
                 echo json_encode($json);
                 return;
             }
+        
+            list($nofile, $jenisdoc, $assign, $pasienid, $transaksiid) = $partsfile;
+            $transaksiid = str_replace(".pdf", "", $transaksiid);
         
             $config['upload_path']   = './assets/document/';
             $config['allowed_types'] = 'pdf';
@@ -53,24 +51,27 @@
         
                 $json['responCode'] = "01";
                 $json['responHead'] = "error";
-                $json['responDesc'] = $error;
+                $json['responDesc'] = "File upload failed: " . $error;
             } else {
                 $upload_data = $this->upload->data();
         
-                $data['org_id']        = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : '10c84edd-500b-49e3-93a5-a2c8cd2c8524';
-                $data['no_file']       = $nofile;
-                $data['status_file']   = "1";
-                $data['jenis_doc']     = $jenisdoc;
-                $data['assign']        = $assign;
-                $data['pasien_idx']    = $pasienid;
-                $data['transaksi_idx'] = $transaksiid;
-                $data['source_file']   = "DTECHNOLOGY";
-
-                if($this->md->insertsigndocument($data)){
+                $data = [
+                    'org_id'        => $_SESSION['orgid'] ?? '10c84edd-500b-49e3-93a5-a2c8cd2c8524',
+                    'no_file'       => $nofile,
+                    'status_file'   => "1",
+                    'jenis_doc'     => $jenisdoc,
+                    'assign'        => $assign,
+                    'pasien_idx'    => $pasienid,
+                    'transaksi_idx' => $transaksiid,
+                    'source_file'   => "DTECHNOLOGY"
+                ];
+        
+                if ($this->md->insertsigndocument($data)) {
                     $json['responCode'] = "00";
                     $json['responHead'] = "success";
                     $json['responDesc'] = "Successfully uploaded";
-                }else{
+                } else {
+                    log_message('error', 'File upload error: Failed to save data');
                     $json['responCode'] = "01";
                     $json['responHead'] = "error";
                     $json['responDesc'] = "Failed to save data";
@@ -78,7 +79,7 @@
             }
         
             echo json_encode($json);
-        }
+        }        
         
     }
 ?>
