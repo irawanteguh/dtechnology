@@ -90,8 +90,6 @@ INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c6da4a54-3a97-4165-9b49-d89aaa12c1
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c6da4a54-3a97-4165-9b49-d89aaa12c1b4", "f7c0b2fb-956f-4938-b3f4-dba592c29d1f", "BASEURL_SATUSEHAT", "", "", "5", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c6da4a54-3a97-4165-9b49-d89aaa12c1b4", "fda0e07a-f1f9-4a7e-9b7f-5b2501dd5e8d", "PAGE", "1", "1", "16", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-26 09:21:18");
 
-
-
 DROP TABLE IF EXISTS `dt01_gen_level_fungsional_ms`;
 
 CREATE TABLE `dt01_gen_level_fungsional_ms` (
