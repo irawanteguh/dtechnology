@@ -150,7 +150,7 @@
                 <table class="table table-bordered" style="margin-top:50px;">
                     <tbody class="text-center">
                         <tr>
-                            <td></td>
+                            <td><img alt="Logo" src="<?php echo base_url('assets/speciment/commissioner.png'); ?>" class="h-60px"/></td>
                             <td><img alt="Logo" src="<?php echo base_url('assets/speciment/director.png'); ?>" class="h-60px"/></td>
                             <td><img alt="Logo" src="<?php echo base_url('assets/speciment/vice.png'); ?>" class="h-60px"/></td>
                             <td><img alt="Logo" src="<?php echo base_url('assets/speciment/finance.png'); ?>" class="h-60px"/></td>
@@ -166,7 +166,7 @@
                             <td id="ttdkains"></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>Commissioner</td>
                             <td>Director</td>
                             <td>Vice Director</td>
                             <td>Finance</td>

@@ -112,6 +112,21 @@
             return $recordset;
         }
 
+        function checkmanagerid($orgid,$departmentid){
+            $query =
+                    "
+                        select a.user_id
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.department_id='".$departmentid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         function datarequest($orgid,$status){
             $query =
                     "
