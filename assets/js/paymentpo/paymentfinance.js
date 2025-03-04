@@ -1,7 +1,39 @@
-datarequest();
-decline();
-approve();
-payment();
+let startDate = null;
+let endDate = null;
+
+flatpickr('[name="dateperiode"]', {
+    mode: "range", // Mengaktifkan mode range
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate: "today",
+    onChange: function (selectedDates, dateStr, instance) {
+        // Mendapatkan tanggal sesuai dengan zona waktu lokal
+        const formatDate = (date) => {
+            if (!date) return null;
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`; // Format YYYY-MM-DD
+        };
+
+        startDate = selectedDates[0] ? formatDate(selectedDates[0]) : null;
+        endDate   = selectedDates[1] ? formatDate(selectedDates[1]) : null;
+    }
+});
+
+$(document).on("click", ".btn-apply", function (e) {
+    e.preventDefault();
+
+    if (!startDate || !endDate) {
+        toastr["warning"]("Please select a valid date range", "Warning");
+        return;
+    }
+
+    datarequest(startDate, endDate);
+    decline(startDate, endDate);
+    approve(startDate, endDate);
+    payment(startDate, endDate);
+});
 
 $("#modal_upload_buktibayar").on('shown.bs.modal', function(){
     var no_pemesanan = $(":hidden[name='no_pemesanan_buktibayar']").val();
@@ -42,9 +74,10 @@ function getdetail(btn){
     $("#orderdate").html(data_createddate);
 };
 
-function datarequest(){
+function datarequest(startDate, endDate){
     $.ajax({
         url       : url+"index.php/paymentpo/paymentfinance/datarequest",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -123,9 +156,10 @@ function datarequest(){
     return false;
 };
 
-function decline(){
+function decline(startDate, endDate){
     $.ajax({
         url       : url+"index.php/paymentpo/paymentfinance/decline",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -202,9 +236,10 @@ function decline(){
     return false;
 };
 
-function approve(){
+function approve(startDate, endDate){
     $.ajax({
         url       : url+"index.php/paymentpo/paymentfinance/approve",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -301,9 +336,10 @@ function approve(){
     return false;
 };
 
-function payment(){
+function payment(startDate, endDate){
     $.ajax({
         url       : url+"index.php/paymentpo/paymentfinance/payment",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,

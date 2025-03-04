@@ -13,6 +13,9 @@
         }
 
         public function datarequest(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
+
             $status = "
                         and a.status in ('4')
                         and (
@@ -22,6 +25,7 @@
                                     and (a.status_dir is null or a.status_dir = '')
                                 )
                             )
+                        and a.created_date between '".$startDate."' and '".$endDate."'
                     ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
@@ -72,6 +76,9 @@
         // }
 
         public function decline(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
+
             $status = "
                             and a.status in ('5','6')
                             and (
@@ -87,6 +94,7 @@
                                         and (a.status_vice = 'N' or a.status_dir = 'N' or a.status_com = 'N')
                                     )
                                 )
+                            and a.created_date between '".$startDate."' and '".$endDate."'
                       ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             
@@ -156,6 +164,8 @@
         // }
 
         public function approve(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
             $status =   "
                             and a.status in ('6')
                             and (
@@ -201,6 +211,7 @@
                                         and a.status_com='Y'
                                     )
                                 )
+                            and a.created_date between '".$startDate."' and '".$endDate."'
                         ";
             $result = $this->md->datarequest($_SESSION['orgid'],$status);
             

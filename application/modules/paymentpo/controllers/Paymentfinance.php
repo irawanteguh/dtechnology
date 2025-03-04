@@ -13,10 +13,14 @@
         }
 
         public function datarequest(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
             $status="
                         and   a.status in ('13')
+                        and a.created_date between '".$startDate."' and '".$endDate."'
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                    $parameter="order by inv_dir_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -33,10 +37,14 @@
         }
 
         public function decline(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
             $status="
                         and   a.status in ('14')
+                        and a.created_date between '".$startDate."' and '".$endDate."'
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                    $parameter="order by inv_keu_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -53,10 +61,14 @@
         }
 
         public function approve(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
             $status="
                         and   a.status in ('15')
+                        and a.created_date between '".$startDate."' and '".$endDate."'
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                    $parameter="order by inv_keu_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -73,10 +85,14 @@
         }
 
         public function payment(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
             $status="
                         and   a.status in ('16','17')
+                        and a.created_date between '".$startDate."' and '".$endDate."'
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                    $parameter="order by status asc, inv_keu_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

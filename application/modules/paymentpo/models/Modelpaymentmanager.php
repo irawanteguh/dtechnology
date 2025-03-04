@@ -1,7 +1,7 @@
 <?php
     class Modelpaymentmanager extends CI_Model{
         
-        function datarequest($orgid,$status){
+        function datarequest($orgid,$status,$parameter){
             $query =
                     "
                         select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id, type, method, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
@@ -21,7 +21,7 @@
                         where a.org_id='".$orgid."'
                         ".$status."
                         and   a.active='1'
-                        order by created_date desc
+                        ".$parameter."
                     ";
 
             $recordset = $this->db->query($query);

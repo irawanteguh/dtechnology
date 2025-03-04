@@ -25,7 +25,8 @@
                                                                     )
                                                 )
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                    $parameter="order by inv_kains_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -54,7 +55,8 @@
                                                                     )
                                                 )
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                    $parameter="order by inv_manager_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -83,7 +85,8 @@
                                                                     )
                                                 )
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                    $parameter="order by inv_manager_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
