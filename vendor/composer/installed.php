@@ -3,7 +3,7 @@
         'name' => 'codeigniter/framework',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '8de6f48f587130409163a18d1cb5c273d2ecbf8a',
+        'reference' => '5f5dd8254e5ef621f945c8134e5ec039284b037b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'codeigniter/framework' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '8de6f48f587130409163a18d1cb5c273d2ecbf8a',
+            'reference' => '5f5dd8254e5ef621f945c8134e5ec039284b037b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -270,6 +270,15 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'setasign/fpdi' => array(
+            'pretty_version' => 'v2.6.3',
+            'version' => '2.6.3.0',
+            'reference' => '67c31f5e50c93c20579ca9e23035d8c540b51941',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdi',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'smalot/pdfparser' => array(
             'pretty_version' => 'v2.11.0',
