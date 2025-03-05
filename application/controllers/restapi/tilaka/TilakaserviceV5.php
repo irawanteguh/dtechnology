@@ -7,6 +7,8 @@
     include FCPATH."assets/vendors/pdfparse/Pdfparse.php";
     require 'vendor/autoload.php';
     use Smalot\PdfParser\Parser;
+    use setasign\Fpdi\Fpdi;
+    use setasign\Fpdi\PdfReader;
 
     class TilakaserviceV5 extends REST_Controller{
         
