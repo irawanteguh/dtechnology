@@ -463,7 +463,7 @@
         
                     if (!empty($resultlistmergefiles)) {
                         $outputDir  = FCPATH . "/assets/mergedocument/";
-                        $outputFile = $outputDir . $a->norm . "_" . str_replace("/", "_", $a->transaksi_idx) . ".pdf";
+                        $outputFile = $outputDir . $a->norm . "_" . str_replace("/", "-", $a->transaksi_idx) . ".pdf";
         
                         // Array untuk menyimpan file input
                         $files = [];
