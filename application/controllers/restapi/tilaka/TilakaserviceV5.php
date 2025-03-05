@@ -410,6 +410,47 @@
             }
         }
         
+        public function mergepdfs_POST() {
+            $resultlistmerge = $this->md->listmerge(ORG_ID);
+
+            if(!empty($resultlistmerge)){
+                foreach ($resultlistmerge as $a) {
+                    $resultlistmergefiles = $this->md->listmergefiles(ORG_ID,$a->transaksi_idx);
+
+                    if(!empty($resultlistmergefiles)){
+                        
+                        $outputDir  = FCPATH."/assets/mergedocument/";
+                        $outputFile = $outputDir.$a->norm."_".$a->transaksi_idx.".pdf";
+
+                        foreach ($resultlistmergefiles as $b) {
+                            $files = [];
+
+                            $files[]= FCPATH."/assets/document/".$b->no_file.".pdf";
+                        }
+
+                        $pdf = new FPDI();
+
+                        foreach ($files as $file) {
+                            if (file_exists($file)) {
+                                $pageCount = $pdf->setSourceFile($file);
+                                for ($i = 1; $i <= $pageCount; $i++) {
+                                    $tplIdx = $pdf->importPage($i);
+                                    $size   = $pdf->getTemplateSize($tplIdx);
+
+                                    $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                                    $pdf->useTemplate($tplIdx);
+                                }
+                            }
+                        }
+
+                        $pdf->Output($outputFile, 'F');
+                    }
+                
+                }
+                
+            }
+            
+        }
     }
 
 ?>

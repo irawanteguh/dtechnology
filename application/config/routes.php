@@ -11,6 +11,7 @@
     $route['statussign']    = 'restapi/tilaka/TilakaserviceV5/statussign';
     $route['appkyc']        = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
     $route['getfile']       = 'restapi/tilaka/TilakaserviceV5/getfile';
+    $route['mergepdfs']     = 'restapi/tilaka/TilakaserviceV5/mergepdfs';
 
     $route['authtilaka/bulk']         = 'restapi/tilaka/Tilakaservicebulk/auth';
     $route['uploadfilesingle/bulk']   = 'restapi/tilaka/Tilakaservicebulk/uploadfilesingle';
@@ -31,7 +32,7 @@
     $route['loadserver']        = 'root/Loadserver/load';
 
 
-    $route['getfile']       = 'restapi/tilaka/TilakaserviceV5/getfile';
+    
 
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';
