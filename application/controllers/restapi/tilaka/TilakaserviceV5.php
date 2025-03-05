@@ -482,11 +482,36 @@
                             // Gabungkan menggunakan Ghostscript
                             $cmd = "gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=" . escapeshellarg($outputFile) . " " . implode(" ", $files);
                             shell_exec($cmd);
+        
+                            // Cek apakah file berhasil dibuat
+                            if (file_exists($outputFile) && filesize($outputFile) > 0) {
+                                echo json_encode([
+                                    "status" => "success",
+                                    "message" => "File berhasil digabung: " . basename($outputFile),
+                                    "outputFile" => $outputFile
+                                ]);
+                            } else {
+                                echo json_encode([
+                                    "status" => "error",
+                                    "message" => "Gagal menyimpan file: " . basename($outputFile)
+                                ]);
+                            }
+                        } else {
+                            echo json_encode([
+                                "status" => "error",
+                                "message" => "Tidak ada file PDF yang ditemukan untuk digabung."
+                            ]);
                         }
                     }
                 }
+            } else {
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Tidak ada data merge yang ditemukan."
+                ]);
             }
         }
+        
         
     }
 
