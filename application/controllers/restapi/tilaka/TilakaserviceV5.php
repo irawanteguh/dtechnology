@@ -463,11 +463,7 @@
         
                     if (!empty($resultlistmergefiles)) {
                         $outputDir  = FCPATH . "/assets/mergedocument/";
-                        if (!file_exists($outputDir)) {
-                            mkdir($outputDir, 0777, true); // Buat folder jika belum ada
-                        }
-        
-                        $outputFile = $outputDir . $a->norm . "_" . $a->transaksi_idx . ".pdf";
+                        $outputFile = $outputDir . $a->norm . "_" . str_replace("/", "_", $a->transaksi_idx) . ".pdf";
         
                         // Array untuk menyimpan file input
                         $files = [];
@@ -479,11 +475,11 @@
                         }
         
                         if (!empty($files)) {
-                            // Gabungkan menggunakan Ghostscript
-                            $cmd = "gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=" . escapeshellarg($outputFile) . " " . implode(" ", $files);
+                            $gsPath = '"C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe"';
+                            $cmd    = "$gsPath -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=" . escapeshellarg($outputFile) . " " . implode(" ", $files);
+
                             shell_exec($cmd);
         
-                            // Cek apakah file berhasil dibuat
                             if (file_exists($outputFile) && filesize($outputFile) > 0) {
                                 echo json_encode([
                                     "status" => "success",
