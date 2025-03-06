@@ -111,16 +111,16 @@
                         select x.*,
                             (select no_rkm_medis from reg_periksa where no_rawat=x.transaksi_idx)norm
                         from(
-                        select a.transaksi_idx, count(no_file)jml
-                        from dt01_gen_document_file_dt a
-                        where a.active='1'
-                        and   a.status_file='1'
-                        and   a.status_sign='5'
-                        and   a.transaksi_idx in ('2025/02/23/000008','2025/02/13/000411')
-                        and   a.org_id='".$orgid."'
-                        group by transaksi_idx
+                            select a.transaksi_idx, count(no_file)jml
+                            from dt01_gen_document_file_dt a
+                            where a.active='1'
+                            and   a.status_file='1'
+                            and   a.status_sign='5'
+                            and   a.transaksi_idx='2025/02/13/000411'
+                            -- and   a.transaksi_idx in ('2025/02/23/000008','2025/02/13/000411','2024/07/04/000050')
+                            and   a.org_id='".$orgid."'
+                            group by transaksi_idx
                         )x
-                        where x.jml > 1
                         order by jml desc
                         limit 10;
                     ";
@@ -133,6 +133,11 @@
         function listmergefiles($orgid,$transaksiid){
             $query =
                     "
+                        select REPLACE(REPLACE(lokasi_file, 'pages/upload/', ''), '.pdf', '') no_file 
+                        from berkas_digital_perawatan
+                        where kode in ('022','023')
+                        and   no_rawat='".$transaksiid."'
+                        union
                         select a.no_file
                         from dt01_gen_document_file_dt a
                         where a.active='1'
