@@ -336,6 +336,7 @@
     
                                         if(file_put_contents($destinationPath,$fileContent)){
                                             $data['STATUS_SIGN'] = "5";
+                                            $data['NOTE']        = "";
                                             $data['LINK']        = $listpdfs['presigned_url'];
                                             
                                             $this->md->updatefile($data,$nofile);
@@ -411,76 +412,50 @@
                 $this->response("Directory does not exist.", 200);
             }
         }
-        
-        // public function mergepdfs_POST() {
-        //     $resultlistmerge = $this->md->listmerge(ORG_ID);
-
-        //     if(!empty($resultlistmerge)){
-        //         foreach ($resultlistmerge as $a) {
-        //             $resultlistmergefiles = $this->md->listmergefiles(ORG_ID,$a->transaksi_idx);
-
-        //             if(!empty($resultlistmergefiles)){
-                        
-        //                 $outputDir  = FCPATH."/assets/mergedocument/";
-        //                 $outputFile = $outputDir.$a->norm."_".$a->transaksi_idx.".pdf";
-
-        //                 foreach ($resultlistmergefiles as $b) {
-        //                     $files = [];
-
-        //                     $files[]= FCPATH."/assets/document/".$b->no_file.".pdf";
-        //                 }
-
-        //                 $pdf = new FPDI();
-
-        //                 foreach ($files as $file) {
-        //                     if (file_exists($file)) {
-        //                         $pageCount = $pdf->setSourceFile($file);
-        //                         for ($i = 1; $i <= $pageCount; $i++) {
-        //                             $tplIdx = $pdf->importPage($i);
-        //                             $size   = $pdf->getTemplateSize($tplIdx);
-
-        //                             $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-        //                             $pdf->useTemplate($tplIdx);
-        //                         }
-        //                     }
-        //                 }
-
-        //                 $pdf->Output($outputFile, 'F');
-        //             }
-                
-        //         }
-                
-        //     }
-            
-        // }
 
         public function mergepdfs_POST() {
             $resultlistmerge = $this->md->listmerge(ORG_ID);
         
-            if (!empty($resultlistmerge)) {
-                foreach ($resultlistmerge as $a) {
+            if(!empty($resultlistmerge)){
+                foreach($resultlistmerge as $a){
                     $resultlistmergefiles = $this->md->listmergefiles(ORG_ID, $a->transaksi_idx);
         
-                    if (!empty($resultlistmergefiles)) {
+                    if(!empty($resultlistmergefiles)){
                         $outputDir  = FCPATH . "/assets/mergedocument/";
                         $outputFile = $outputDir . $a->norm . "_" . str_replace("/", "-", $a->transaksi_idx) . ".pdf";
         
-                        // Array untuk menyimpan file input
                         $files = [];
-                        foreach ($resultlistmergefiles as $b) {
+                        foreach($resultlistmergefiles as $b){
                             $filePath = FCPATH . "/assets/document/" . $b->no_file . ".pdf";
                             if (file_exists($filePath)) {
                                 $files[] = escapeshellarg($filePath);
                             }
                         }
         
-                        if (!empty($files)) {
-                            $gsPath = '"C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe"';
-                            $cmd    = "$gsPath -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=" . escapeshellarg($outputFile) . " " . implode(" ", $files);
-
+                        if(!empty($files)){
+                            if (file_exists($outputFile)) {
+                                if (!@unlink($outputFile)) {
+                                    error_log("Gagal menghapus file: $outputFile, proses merge dibatalkan.");
+                                    echo json_encode([
+                                        "status" => "error",
+                                        "message" => "Gagal menghapus file lama, proses merge dibatalkan."
+                                    ]);
+                                    exit;
+                                }
+                            }
+                            
+                            $gsPath            = '"C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe"';
+                            $outputFileEscaped = escapeshellarg($outputFile);
+                            $cmd               = "$gsPath -dBATCH -dNOPAUSE -dSAFER -dQUIET -sDEVICE=pdfwrite -sOutputFile=$outputFileEscaped " . implode(" ", array_map('escapeshellarg', $files));
+                            
                             shell_exec($cmd);
-        
+                            
                             if (file_exists($outputFile) && filesize($outputFile) > 0) {
+                                foreach($resultlistmergefiles as $c){
+                                    $data['status_file'] = "2";
+                                    $this->md->updatefile($data,$c->no_file);
+                                }
+
                                 echo json_encode([
                                     "status" => "success",
                                     "message" => "File berhasil digabung: " . basename($outputFile),
@@ -492,7 +467,7 @@
                                     "message" => "Gagal menyimpan file: " . basename($outputFile)
                                 ]);
                             }
-                        } else {
+                        }else{
                             echo json_encode([
                                 "status" => "error",
                                 "message" => "Tidak ada file PDF yang ditemukan untuk digabung."
@@ -507,8 +482,6 @@
                 ]);
             }
         }
-        
-        
     }
 
 ?>

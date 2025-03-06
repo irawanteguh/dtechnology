@@ -116,7 +116,7 @@
                         where a.active='1'
                         and   a.status_file='1'
                         and   a.status_sign='5'
-                        and   a.transaksi_idx='2025/02/23/000008'
+                        and   a.transaksi_idx in ('2025/02/23/000008','2025/02/13/000411')
                         and   a.org_id='".$orgid."'
                         group by transaksi_idx
                         )x
@@ -136,7 +136,7 @@
                         select a.no_file
                         from dt01_gen_document_file_dt a
                         where a.active='1'
-                        and   a.status_file='1'
+                        and   a.status_file in ('1','2')
                         and   a.status_sign='5'
                         and   a.transaksi_idx='".$transaksiid."'
                         and   a.org_id='".$orgid."'
