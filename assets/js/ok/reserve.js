@@ -1,5 +1,14 @@
 dataok();
 
+flatpickr('[name="modal_add_plan_date"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    minDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
 function dataok(){
     $.ajax({
         url       : url+"index.php/ok/reserve/dataok",
@@ -22,7 +31,9 @@ function dataok(){
                     tableresult +="<td><div>"+(result[i].mrpasien ? result[i].mrpasien : "")+"</div><div>"+(result[i].namepasien ? result[i].namepasien : "")+"</div></td>";
                     tableresult +="<td>"+(result[i].tgltindakan ? result[i].tgltindakan : "")+"</td>";
                     tableresult +="<td>"+(result[i].tindakan ? result[i].tindakan : "")+"</td>";
-                    tableresult +="<td><div>Operator : "+(result[i].operator ? result[i].operator : "")+"</div><div>Anastesi : "+(result[i].anastesi ? result[i].anastesi : "")+"</div><div>Anak : "+(result[i].anak ? result[i].anak : "")+"</div></td>";
+                    tableresult +="<td>"+(result[i].operator ? result[i].operator : "")+"</td>";
+                    tableresult +="<td>"+(result[i].anastesi ? result[i].anastesi : "")+"</td>";
+                    tableresult +="<td>"+(result[i].anak ? result[i].anak : "")+"</td>";
                     tableresult +="<td></td>";
                     tableresult +="<td></td>";
                     tableresult +="<td class='text-end pe-4'><div>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "")+"</div><div>"+(result[i].tglbuat ? result[i].tglbuat : "")+"</div></td>";

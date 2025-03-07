@@ -23,7 +23,7 @@
                             <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Actions</div>
                         </div>
                         <div class="menu-item px-3">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_user_add" class="menu-link px-3">Add Plan</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_add_plan" class="menu-link px-3">Add Plan</a>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,9 @@
                                 <th>Identity</th>
                                 <th>Date</th>
                                 <th>Medical Treatment</th>
-                                <th>Doctor</th>
+                                <th>Operator</th>
+                                <th>Anesthesiologist</th>
+                                <th>Pediatrician</th>
                                 <th>Provider</th>
                                 <th>Last Follow Up</th>
                                 <th class="pe-4 text-end rounded-end">Created</th>

@@ -9,7 +9,22 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_reserve");
+            $data = $this->loadcombobox();
+			$this->template->load("template/template-sidebar","v_reserve",$data);
+		}
+
+        public function loadcombobox(){
+            $resultmasterpatient = $this->md->masterpatient($_SESSION['orgid']);
+            
+            
+            $patientid="";
+            foreach($resultmasterpatient as $a ){
+                $patientid.="<option value='".$a->pasien_id."'>".$a->identitaspasien."</option>";
+            }
+
+            $data['patientid'] = $patientid;
+            
+            return $data;
 		}
 
 		public function dataok(){

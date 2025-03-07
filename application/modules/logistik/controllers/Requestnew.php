@@ -80,6 +80,8 @@
             $data['org_id']            = $_SESSION['orgid'];
             $data['no_pemesanan']      = generateuuid();
             $data['no_pemesanan_unit'] = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_invoice_department"),$parameter)->nomor_pemesanan;
+            $data['kains_id']          = $_SESSION['userid'];
+            $data['kains_date']        = date('Y-m-d H:i:s');
             $data['manager_id']        = $this->md->checkmanagerid($_SESSION['orgid'],$this->input->post("modal_new_invoice_department"))->user_id;
             $data['manager_date']      = date('Y-m-d H:i:s');
             $data['judul_pemesanan']   = $this->input->post("modal_new_invoice_nama");
@@ -91,6 +93,7 @@
             $data['type']              = "1";
             $data['status_vice']       = "Y";
             $data['status_dir']        = "Y";
+            $data['status_com']        = "Y";
             $data['created_by']        = $_SESSION['userid'];
 
             if($this->md->insertheader($data)){

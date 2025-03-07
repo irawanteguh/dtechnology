@@ -1,6 +1,21 @@
 <?php
     class Modelreserve extends CI_Model{
         
+        function masterpatient($orgid){
+            $query =
+                    "
+                        select a.pasien_id, concat(int_pasien_id,' | ',name,' | ',date_format(bod,'%d.%m.%Y')) identitaspasien
+                        from dt01_gen_pasien_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        order by name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function dataok($orgid){
             $query =
                     "
