@@ -101,7 +101,6 @@ function chat(){
         cache     : false,
         beforeSend: function () {
             toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
             $("#chatfollowup").html("");
         },
         success:function(data){
@@ -152,7 +151,6 @@ function chat(){
 
 
             $("#chatfollowup").html(tableresult);
-            toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
 			//
