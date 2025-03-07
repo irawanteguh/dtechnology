@@ -41,8 +41,8 @@
                                 <th>Anesthesiologist</th>
                                 <th>Pediatrician</th>
                                 <th>Provider</th>
-                                <th>Last Follow Up</th>
-                                <th class="pe-4 text-end rounded-end">Created</th>
+                                <th>Created</th>
+                                <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-bold" id="resultdataok"></tbody>
