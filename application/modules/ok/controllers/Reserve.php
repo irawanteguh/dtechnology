@@ -73,7 +73,8 @@
         }
 
         public function chat(){
-            $result = $this->md->chat($_SESSION['orgid'],$_SESSION['userid']);
+            $operasiid = $this->input->post("operasiid");
+            $result = $this->md->chat($_SESSION['orgid'],$_SESSION['userid'],$operasiid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -104,6 +105,29 @@
             $data['created_by']   = $_SESSION['userid'];
 
             if($this->md->insertplan($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function sendChat() {
+            $chatText = $this->input->post('chat');
+            $operasiid = $this->input->post('operasiid');
+
+            $data['org_id']     = $_SESSION['orgid'];
+            $data['chat_id']    = generateuuid();
+            $data['operasi_id'] = $operasiid;
+            $data['chat']       = $chatText;
+            $data['created_by'] = $_SESSION['userid'];
+            
+            if($this->md->insertchat($data)){
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Added Successfully";

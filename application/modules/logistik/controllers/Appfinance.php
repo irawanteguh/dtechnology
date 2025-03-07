@@ -12,22 +12,18 @@
             $this->template->load("template/template-sidebar", "v_appfinance");
         }
 
+
         public function datarequest(){
-            $startDate = $this->input->post("startDate");
-            $endDate   = $this->input->post("endDate");
+            $startDate = $this->input->post("startDate") . " 00:00:00";
+            $endDate   = $this->input->post("endDate") . " 23:59:59";
 
             $status = "
-                        and a.status in ('4')
-                        and (
-                                (
-                                    a.status <> '6' 
-                                    and (a.status_vice is null or a.status_vice = '') 
-                                    and (a.status_dir is null or a.status_dir = '')
-                                )
-                            )
-                        and a.created_date between '".$startDate."' and '".$endDate."'
-                    ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+                            AND a.status IN ('4')
+                            AND a.created_date BETWEEN '".$startDate."' AND '".$endDate."'
+                        ";
+
+            $result = $this->md->datarequest($_SESSION['orgid'], $status);
+
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -42,6 +38,37 @@
 
             echo json_encode($json);
         }
+
+        // public function datarequest(){
+        //     $startDate = $this->input->post("startDate");
+        //     $endDate   = $this->input->post("endDate");
+
+        //     $status = "
+        //                 and a.status in ('4')
+        //                 and (
+        //                         (
+        //                             a.status <> '6' 
+        //                             and (a.status_vice is null or a.status_vice = '') 
+        //                             and (a.status_dir is null or a.status_dir = '')
+        //                         )
+        //                     )
+        //                 and a.created_date between '".$startDate."' and '".$endDate."'
+        //             ";
+        //     $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+		// 	if(!empty($result)){
+        //         $json["responCode"]="00";
+        //         $json["responHead"]="success";
+        //         $json["responDesc"]="Data Successfully Found";
+		// 		$json['responResult']=$result;
+        //     }else{
+        //         $json["responCode"]="01";
+        //         $json["responHead"]="info";
+        //         $json["responDesc"]="Data Failed to Find";
+        //     }
+
+        //     echo json_encode($json);
+        // }
 
         // public function decline(){
         //     $status = "
@@ -164,8 +191,8 @@
         // }
 
         public function approve(){
-            $startDate = $this->input->post("startDate");
-            $endDate   = $this->input->post("endDate");
+            $startDate = $this->input->post("startDate") . " 00:00:00";
+            $endDate   = $this->input->post("endDate") . " 23:59:59";
             $status =   "
                             and a.status in ('6')
                             and (
@@ -180,35 +207,24 @@
                                         a.status='6' 
                                         and (a.status_vice is null or a.status_vice = '') 
                                         and (a.status_dir is null or a.status_dir = '')
-                                        and (a.status_com is null or a.status_com = '')
                                     )
                                     or
                                     (
                                         a.status='6'
                                         and a.status_vice='Y'
                                         and (a.status_dir is null or a.status_dir = '')
-                                        and (a.status_com is null or a.status_com = '')
                                     )
                                     or
                                     (
                                         a.status='6'
                                         and a.status_dir='Y'
                                         and (a.status_vice is null or a.status_vice = '')
-                                        and (a.status_com is null or a.status_com = '')
-                                    )
-                                    or
-                                    (
-                                        a.status='6'
-                                        and a.status_com='Y'
-                                        and (a.status_vice is null or a.status_vice = '')
-                                        and (a.status_dir is null or a.status_dir = '')
                                     )
                                     or
                                     (
                                         a.status='6'
                                         and a.status_vice='Y'
                                         and a.status_dir='Y'
-                                        and a.status_com='Y'
                                     )
                                 )
                             and a.created_date between '".$startDate."' and '".$endDate."'

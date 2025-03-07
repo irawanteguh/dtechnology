@@ -17,11 +17,12 @@ $('#modal_add_plan').on('show.bs.modal', function (e) {
 
 function getdata(btn){
     var data_namapasien = btn.attr("data_namapasien");
-    var data_mrpasien = btn.attr("data_mrpasien");
+    var data_mrpasien   = btn.attr("data_mrpasien");
+    var data_operasiid   = btn.attr("data_operasiid");
 
     $("#kt_drawer_chat_reserve_namapasien").html(data_namapasien+" [ "+data_mrpasien+" ]");
-
-    chat();
+    $('#operasiid').val(data_operasiid);
+    chat(data_operasiid);
 };
 
 function dataok(){
@@ -42,7 +43,8 @@ function dataok(){
                 let result        = data.responResult;
                 for(var i in result){
                     var getvariabel = " data_namapasien='"+result[i].namepasien+"'"+
-                                      " data_mrpasien='"+result[i].mrpasien+"'";
+                                      " data_mrpasien='"+result[i].mrpasien+"'"+
+                                      " data_operasiid='"+result[i].transaksi_id+"'";
 
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
@@ -93,85 +95,115 @@ function dataok(){
     return false;
 };
 
-function chat(){
+function chat(operasiid) {
     $.ajax({
-        url       : url+"index.php/ok/reserve/chat",
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
+        url: url + "index.php/ok/reserve/chat",
+        data: { operasiid: operasiid },
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
         beforeSend: function () {
             toastr.clear();
             $("#chatfollowup").html("");
         },
-        success:function(data){
+        success: function (data) {
             var tableresult = "";
-            var color       = ['danger','warning','success','primary'];
+            var lastName = "";
 
-            if(data.responCode==="00"){
-                var result        = data.responResult;
-                for(var i in result){
-                    var randomIndex = Math.floor(Math.random() * color.length);
-                    var randomColor = color[randomIndex];
+            if (data.responCode === "00") {
+                var result = data.responResult;
+                for (var i in result) {
+                    var chatType = result[i].type === "in" ? "info" : "primary";
+                    var isSameUser = lastName === result[i].name;
+                    lastName = result[i].name;
 
-                    tableresult += `<div class='d-flex justify-content-${result[i].type === "in" ? "start" : "end"} mb-10'>`;
-                        tableresult += `<div class='d-flex flex-column align-items-${result[i].type === "in" ? "start" : "end"}'>`;
-                            tableresult += `<div class='d-flex align-items-center mb-2'>`;
+                    tableresult += `<div class='d-flex justify-content-${result[i].type === "in" ? "start" : "end"}'>`;
+                    tableresult += `<div class='d-flex flex-column align-items-${result[i].type === "in" ? "start" : "end"}'>`;
 
-                            if (result[i].type === "out") {
-                                tableresult += `<div class='d-flex align-items-center'>`;
-                                    tableresult += `<div class='d-flex flex-column me-3 text-end'>`;
-                                        tableresult += `<a href='#' class='fs-5 fw-bolder text-gray-900 text-hover-primary'>${result[i].name}</a>`;
-                                        tableresult += `<span class='text-muted fs-7 mb-1'>${result[i].jambuat}</span>`;
-                                    tableresult += `</div>`;
-                                    tableresult += `<div class='symbol symbol-circle symbol-50px overflow-hidden me-3'>`;
-                                        tableresult += `<div class='symbol-label fs-3 bg-light-${randomColor} text-${randomColor}'>${result[i].initial}</div>`;
-                                    tableresult += `</div>`;
-                                tableresult += `</div>`;
-                            } else {
-                                tableresult += `<div class='d-flex align-items-center'>`;
-                                    tableresult += `<div class='symbol symbol-circle symbol-50px overflow-hidden me-3'>`;
-                                        tableresult += `<div class='symbol-label fs-3 bg-light-${randomColor} text-${randomColor}'>${result[i].initial}</div>`;
-                                    tableresult += `</div>`;
-                                    tableresult += `<div class='d-flex flex-column'>`;
-                                        tableresult += `<a href='#' class='fs-5 fw-bolder text-gray-900 text-hover-primary'>${result[i].name}</a>`;
-                                        tableresult += `<span class='text-muted fs-7 mb-1'>${result[i].jambuat}</span>`;
-                                    tableresult += `</div>`;
-                                tableresult += `</div>`;
-                            }
-                            
-
+                    if (!isSameUser) {
+                        tableresult += `<div class='d-flex align-items-center mb-2'>`;
+                        if (result[i].type === "out") {
+                            tableresult += `<div class='d-flex align-items-center'>`;
+                            tableresult += `<div class='d-flex flex-column me-3 text-end'>`;
+                            tableresult += `<a href='#' class='fs-5 fw-bolder text-gray-900 text-hover-primary'>${result[i].name}</a>`;
                             tableresult += `</div>`;
-                            tableresult += `<div class='p-5 rounded bg-light-${result[i].type === "in" ? "info" : "primary"} text-dark fw-bold mw-lg-400px text-${result[i].type === "in" ? "start" : "end"}' data-kt-element='message-text'>${result[i].chat}</div>`;
-
+                            tableresult += `<div class='symbol symbol-circle symbol-35px overflow-hidden me-3'>`;
+                            tableresult += `<div class='symbol-label fs-3 bg-light-${chatType} text-${chatType}'>${result[i].initial}</div>`;
+                            tableresult += `</div>`;
+                            tableresult += `</div>`;
+                        } else {
+                            tableresult += `<div class='d-flex align-items-center'>`;
+                            tableresult += `<div class='symbol symbol-circle symbol-35px overflow-hidden me-3'>`;
+                            tableresult += `<div class='symbol-label fs-3 bg-light-${chatType} text-${chatType}'>${result[i].initial}</div>`;
+                            tableresult += `</div>`;
+                            tableresult += `<div class='d-flex flex-column'>`;
+                            tableresult += `<a href='#' class='fs-5 fw-bolder text-gray-900 text-hover-primary'>${result[i].name}</a>`;
+                            tableresult += `</div>`;
+                            tableresult += `</div>`;
+                        }
                         tableresult += `</div>`;
-                    tableresult += `</div>`;
+                    }
 
+                    tableresult += `<div class='p-5 rounded bg-light-${chatType} text-dark fw-bold mw-lg-400px text-${result[i].type === "in" ? "start" : "end"} mb-3' data-kt-element='message-text'>`;
+                    tableresult += `${result[i].chat}`;
+                    tableresult += `<div class='text-muted small mt-2'>${result[i].jambuat}</div>`;
+                    tableresult += `</div>`;
+                    
+                    tableresult += `</div>`;
+                    tableresult += `</div>`;
                 }
             }
-
 
             $("#chatfollowup").html(tableresult);
         },
         complete: function () {
-			//
-		},
-        error: function(xhr, status, error) {
+            //
+        },
+        error: function (xhr, status, error) {
             Swal.fire({
-                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html             : "<b>"+error+"</b>",
-                icon             : "error",
+                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html: "<b>" + error + "</b>",
+                icon: "error",
                 confirmButtonText: "Please Try Again",
-                buttonsStyling   : false,
-                timerProgressBar : true,
-                timer            : 5000,
-                customClass      : {confirmButton: "btn btn-danger"},
-                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                buttonsStyling: false,
+                timerProgressBar: true,
+                timer: 5000,
+                customClass: { confirmButton: "btn btn-danger" },
+                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
             });
-		}		
+        }
     });
     return false;
-};
+}
+
+
+$(document).on("click", "[data-kt-element='send']", function () {
+    var operasiid = $("#operasiid").val();
+    var message   = $("textarea[data-kt-element='input']").val();
+
+    if (message.trim() === "") {
+        alert("Pesan tidak boleh kosong!");
+        return;
+    }
+
+    $.ajax({
+        url: url + "index.php/ok/reserve/sendChat",
+        method: "POST",
+        data: { chat: message,operasiid:operasiid },
+        dataType: "JSON",
+        success: function (data) {
+
+            if (data.responCode === "00") {
+                $("textarea[data-kt-element='input']").val(""); // Kosongkan textarea
+                chat(operasiid); // Muat ulang chat
+            } else {
+                alert("Gagal mengirim pesan!");
+            }
+        }
+    });
+});
+
 
 $(document).on("submit", "#formnewreserve", function (e) {
 	e.preventDefault();

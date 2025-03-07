@@ -53,7 +53,8 @@ $("#modal_master_detail_spu").on('shown.bs.modal', function(){
 
 $("#modal_master_item").on('shown.bs.modal', function(){
     var nopemesanan  = $(":hidden[name='nopemesanan_item']").val();
-    masterbarang(nopemesanan);
+    var departmentid  = $(":hidden[name='department_id']").val();
+    masterbarang(nopemesanan,departmentid);
 });
 
 $("#modal_print_po").on('shown.bs.modal', function(){
@@ -105,6 +106,7 @@ function getdetail(btn){
     $(":hidden[name='no_pemesanan_po']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_pettycash']").val(data_nopemesanan);
     $(":hidden[name='departmentid_pettycash']").val(data_departmentid);
+    $(":hidden[name='department_id']").val(data_departmentid);
 
     $("#modal_edit_request_nama").val(data_nama);
 
@@ -461,10 +463,10 @@ function decline(){
     return false;
 };
 
-function masterbarang(nopemesanan){
+function masterbarang(nopemesanan,departmentid){
     $.ajax({
         url       : url+"index.php/logistik/spu/masterbarang",
-        data      : {nopemesanan:nopemesanan},
+        data      : {nopemesanan:nopemesanan,departmentid:departmentid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,

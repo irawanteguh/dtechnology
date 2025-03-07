@@ -218,6 +218,7 @@
             <div class="modal-body">
                 <input type="hidden" id="type" name="type" value="PO_INVOICE">
                 <input type="hidden" id="nopemesanan_item" name="nopemesanan_item">
+                <input type="hidden" id="department_id" name="department_id">
                 <div class="text-center mb-5">
                     <h1 class="mb-3">Add Item</h1>
                     <div class="text-muted fw-bold fs-5"></div>

@@ -116,42 +116,30 @@
                                     a.status <> '6' 
                                     and (a.status_vice is null or a.status_vice = '') 
                                     and (a.status_dir is null or a.status_dir = '')
-                                    and (a.status_com is null or a.status_com = '')
                                 )
                                 or
                                 (
                                     a.status='6' 
                                     and (a.status_vice is null or a.status_vice = '') 
                                     and (a.status_dir is null or a.status_dir = '')
-                                    and (a.status_com is null or a.status_com = '')
                                 )
                                 or
                                 (
                                     a.status='6'
                                     and a.status_vice='Y'
                                     and (a.status_dir is null or a.status_dir = '')
-                                    and (a.status_com is null or a.status_com = '')
                                 )
                                 or
                                 (
                                     a.status='6'
                                     and a.status_dir='Y'
                                     and (a.status_vice is null or a.status_vice = '')
-                                    and (a.status_com is null or a.status_com = '')
-                                )
-                                or
-                                (
-                                    a.status='6'
-                                    and a.status_com='Y'
-                                    and (a.status_vice is null or a.status_vice = '')
-                                    and (a.status_dir is null or a.status_dir = '')
                                 )
                                 or
                                 (
                                     a.status='6'
                                     and a.status_vice='Y'
                                     and a.status_dir='Y'
-                                    and a.status_com='Y'
                                 )
                             )
                         and   a.department_id in (

@@ -112,7 +112,7 @@
             return $recordset;
         }
 
-        function masterbarang($orgid,$nopemesanan){
+        function masterbarang($orgid,$nopemesanan,$parameter){
             $query =
                     "
                         select x.*,
@@ -140,6 +140,7 @@
                             from dt01_lgu_barang_ms a
                             where a.active='1'
                             and   a.org_id='".$orgid."'
+                            ".$parameter."
                         )x
                         order by status desc, nama_barang asc
                     ";

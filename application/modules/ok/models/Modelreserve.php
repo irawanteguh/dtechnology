@@ -70,22 +70,32 @@
         }
 
 
-        function chat($orgid,$userid){
+        function chat($orgid,$userid,$operasiid){
             $query =
                     "
-                        select a.chat, date_format(created_date,'%d.%m.%Y %H.%m%.%s')jambuat,
-                            (select name from dt01_gen_user_data where active='1' and user_id=a.created_by)name,
-                            (select upper(LEFT(name, 1))  from dt01_gen_user_data where active='1' and user_id=a.created_by)initial,
-                            (select image_profile from dt01_gen_user_data where active='1' and user_id=a.created_by)image_profile,
+                        select x.*,
+                            (select name from dt01_gen_user_data where active='1' and user_id=x.created_by)name,
+                            (select upper(LEFT(name, 1))  from dt01_gen_user_data where active='1' and user_id=x.created_by)initial,
+                            (select image_profile from dt01_gen_user_data where active='1' and user_id=x.created_by)image_profile,
                             case 
-                                when '".$userid."' = a.created_by then
-                                'out'
-                                else
-                                'in'
+                                    when '".$userid."' = x.created_by then
+                                    'out'
+                                    else
+                                    'in'
                             end type
-                        from dt01_med_ok_chat_dt a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        from(
+                            select concat('Pasien Telah Dilakukan Penjadwalan Tindakan Operasi ',tindakan,', tanggal ', date_format(date,'%d.%m.%Y'),' menunggu konfirmasi / persetujuan pasien') chat, date_format(created_date,'%d.%m.%Y %H.%m%.%s')jambuat, created_date, created_by
+                            from dt01_med_ok_hd a
+                            where a.active='1'
+                            and   a.org_id='".$orgid."'
+                            and   a.transaksi_id='".$operasiid."'
+                            union
+                            select a.chat, date_format(created_date,'%d.%m.%Y %H.%m%.%s')jambuat, created_date, created_by
+                            from dt01_med_ok_chat_dt a
+                            where a.active='1'
+                            and   a.org_id='".$orgid."'
+                            and   a.operasi_id='".$operasiid."'
+                        )x
                         order by created_date asc
                     ";
 
@@ -96,6 +106,11 @@
 
         function insertplan($data){           
             $sql =   $this->db->insert("dt01_med_ok_hd",$data);
+            return $sql;
+        }
+
+        function insertchat($data){           
+            $sql =   $this->db->insert("dt01_med_ok_chat_dt",$data);
             return $sql;
         }
 

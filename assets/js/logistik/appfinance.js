@@ -1,25 +1,37 @@
 let startDate = null;
 let endDate = null;
 
+// Mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+const today = new Date();
+const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`; // Format YYYY-MM-DD
+};
+
+// Set default startDate dan endDate ke hari ini
+startDate = formatDate(today);
+endDate = formatDate(today);
+
 flatpickr('[name="dateperiode"]', {
-    mode: "range", // Mengaktifkan mode range
+    mode: "range",
     enableTime: false,
     dateFormat: "d.m.Y",
     maxDate: "today",
-    onChange: function (selectedDates, dateStr, instance) {
-        // Mendapatkan tanggal sesuai dengan zona waktu lokal
-        const formatDate = (date) => {
-            if (!date) return null;
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`; // Format YYYY-MM-DD
-        };
-
+    defaultDate: [today, today], // Set default range ke hari ini
+    onChange: function (selectedDates) {
         startDate = selectedDates[0] ? formatDate(selectedDates[0]) : null;
-        endDate   = selectedDates[1] ? formatDate(selectedDates[1]) : null;
+        endDate = selectedDates[1] ? formatDate(selectedDates[1]) : null;
     }
 });
+
+console.log("Default Start Date:", startDate);
+console.log("Default End Date:", endDate);
+
+datarequest(startDate, endDate);
+decline(startDate, endDate);
+approve(startDate, endDate);
 
 $(document).on("click", ".btn-apply", function (e) {
     e.preventDefault();

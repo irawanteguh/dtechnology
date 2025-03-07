@@ -99,7 +99,14 @@
 
         public function masterbarang(){
             $nopemesanan = $this->input->post("nopemesanan");
-            $result      = $this->md->masterbarang($_SESSION['orgid'],$nopemesanan);
+            $departmentid = $this->input->post("departmentid");
+
+            if($departmentid === "fbcefc36-f43e-4b7f-8731-fbe8453a08c2"){
+                $parameter ="and a.jenis_id='c98d4236-f1d0-4eec-8b74-737cdf2d8f32'";
+            }else{
+                $parameter ="and a.jenis_id<>'c98d4236-f1d0-4eec-8b74-737cdf2d8f32'";
+            }
+            $result       = $this->md->masterbarang($_SESSION['orgid'],$nopemesanan,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
