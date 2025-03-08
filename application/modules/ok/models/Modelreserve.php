@@ -84,13 +84,13 @@
                                     'in'
                             end type
                         from(
-                            select concat('Pasien Telah Dilakukan Penjadwalan Tindakan Operasi ',tindakan,', tanggal ', date_format(date,'%d.%m.%Y'),' menunggu konfirmasi / persetujuan pasien') chat, date_format(created_date,'%d.%m.%Y %H.%m%.%s')jambuat, created_date, created_by
+                            select concat('Pasien Telah Dilakukan Penjadwalan Tindakan Operasi ',tindakan,', tanggal ', date_format(date,'%d.%m.%Y'),' menunggu konfirmasi / persetujuan pasien') chat, date_format(a.created_date,'%d.%m.%Y %H.%i.%s')jambuat, created_date, created_by
                             from dt01_med_ok_hd a
                             where a.active='1'
                             and   a.org_id='".$orgid."'
                             and   a.transaksi_id='".$operasiid."'
                             union
-                            select a.chat, date_format(created_date,'%d.%m.%Y %H.%m%.%s')jambuat, created_date, created_by
+                            select a.chat, date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat, created_date, created_by
                             from dt01_med_ok_chat_dt a
                             where a.active='1'
                             and   a.org_id='".$orgid."'
