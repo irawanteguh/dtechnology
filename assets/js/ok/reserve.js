@@ -22,6 +22,7 @@ function getdata(btn){
 
     $("#kt_drawer_chat_reserve_namapasien").html(data_namapasien+" [ "+data_mrpasien+" ]");
     $('#operasiid').val(data_operasiid);
+    $('#modal_cancelled_operasiid').val(data_operasiid);
     chat(data_operasiid);
 };
 
@@ -50,18 +51,26 @@ function dataok(){
                     tableresult +="<td class='ps-4'><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div></td>";
                     tableresult +="<td><div>"+(result[i].mrpasien ? result[i].mrpasien : "")+"</div><div>"+(result[i].namepasien ? result[i].namepasien : "")+"</div></td>";
                     tableresult +="<td>"+(result[i].tgltindakan ? result[i].tgltindakan : "")+"</td>";
-                    tableresult +="<td>"+(result[i].tindakan ? result[i].tindakan : "")+"</td>";
+                    tableresult +="<td>"+(result[i].diagnosis ? result[i].diagnosis : "")+"</td>";
+                    tableresult += "<td><div>" + (result[i].cito === "Y" ? "<span class='badge badge-light-danger mb-1'>CITO</span>" : "<span class='badge badge-light-primary mb-1'>ELEKTIF</span>") + "<div>" + (result[i].tindakan ? result[i].tindakan : "") + "</div></div></td>";
                     tableresult +="<td>"+(result[i].operator ? result[i].operator : "")+"</td>";
                     tableresult +="<td>"+(result[i].anastesi ? result[i].anastesi : "")+"</td>";
                     tableresult +="<td>"+(result[i].anak ? result[i].anak : "")+"</td>";
                     tableresult +="<td>"+(result[i].provider ? result[i].provider : "")+"</td>";
+                    tableresult +="<td><span class='badge badge-light-info'>"+(result[i].reason ? result[i].reason : "")+"</span></td>";
+                    tableresult +="<td>"+(result[i].benefit ? result[i].benefit : "")+"</td>";
                     tableresult +="<td class='text-end pe-4'><div>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "")+"</div><div>"+(result[i].tglbuat ? result[i].tglbuat : "")+"</div></td>";
                     
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                tableresult += "<a class='dropdown-item btn btn-sm' data-kt-drawer-show='true' data-kt-drawer-target='#kt_drawer_chat_reserve' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-send'></i> Follow Up</a>";
+                                
+                                if(result[i].status!="99"){
+                                    tableresult += "<a class='dropdown-item btn btn-sm' data-kt-drawer-show='true' data-kt-drawer-target='#kt_drawer_chat_reserve' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-send'></i> Follow Up</a>";
+                                    tableresult += "<a class='dropdown-item btn btn-sm' data-bs-toggle='modal' data-bs-target='#modal_cancelled' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Cancelled</a>";
+                                }
+                                
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
@@ -233,6 +242,48 @@ $(document).on("submit", "#formnewreserve", function (e) {
 		},
         complete: function () {
             $("#modal_add_plan_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formcancelled", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_cancelled_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_cancelled").modal("hide");
+                dataok();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_cancelled_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(

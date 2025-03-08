@@ -77,13 +77,31 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-5">
+                        <div class="col-md-6 mb-5">
+                            <div class="fv-row">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Diagnosis</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Enter diagnosis"></i>
+                                </label>
+                                <textarea data-kt-autosize="true" class="form-control form-control-solid" name="modal_add_plan_diagnosis" id="modal_add_plan_diagnosis" placeholder="Please Enter diagnosis"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                     <span class="required">Medical Treatment</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Enter the Type of Medical Treatment"></i>
                                 </label>
                                 <textarea data-kt-autosize="true" class="form-control form-control-solid" name="modal_add_plan_tindakan" id="modal_add_plan_tindakan" placeholder="Please Enter the Type of Medical Treatment"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-5">
+                            <div class="fv-row">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Benefit</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Enter benefit"></i>
+                                </label>
+                                <textarea data-kt-autosize="true" class="form-control form-control-solid" name="modal_add_plan_benefit" id="modal_add_plan_benefit" placeholder="Please Enter benefit"></textarea>
                             </div>
                         </div>
                         <div class="col-xl-12 mb-5">
@@ -97,6 +115,45 @@
                 </div> 
                 <div class="modal-footer p-1">	
                     <input class="btn btn-light-primary" id="modal_add_plan_btn" type="submit" value="SUBMIT" name="simpan" >			
+                </div>  
+            </form>  
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_cancelled" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0">
+                <h1 class="mb-3">Cancelled Planning Schedule Operating Room</h1>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/ok/reserve/cancelled" id="formcancelled">
+                <input type="hidden" id="modal_cancelled_operasiid" name="modal_cancelled_operasiid">
+                <div class="modal-body">
+                    <div class="text-start mb-5">
+                        <div class="text-muted fw-bold fs-5">Please Select a Reason</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 row">
+                            <div class="col-md-12 mb-5">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Reason</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Reason Cancelled"></i>
+                                </label>
+                                <select data-control="select2" data-dropdown-parent="#modal_cancelled" data-placeholder="Please Select Reason Cancelled" class="form-select form-select-solid" name="modal_cancelled_reason" id="modal_cancelled_reason" required>
+                                    <?php echo $reason;?>
+                                </select>
+                            </div>
+                        </div>                                        
+                    </div>
+                </div> 
+                <div class="modal-footer p-1">	
+                    <input class="btn btn-light-danger" id="modal_cancelled_btn" type="submit" value="CANCELLED" name="simpan" >			
                 </div>  
             </form>  
         </div>

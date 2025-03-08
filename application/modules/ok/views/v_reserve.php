@@ -29,23 +29,26 @@
                 </div>
             </div>
             <div class="card-body py-3">
-                <div class="table-responsive">
+                <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
                     <table class="table align-middle table-row-dashed fs-6 gy-2">
                         <thead>
                             <tr class="fw-bolder text-muted bg-light align-middle">
                                 <th class="ps-4 rounded-start">Status</th>
                                 <th>Identity</th>
                                 <th>Date</th>
+                                <th>Diagnosis</th>
                                 <th>Medical Treatment</th>
                                 <th>Operator</th>
                                 <th>Anesthesiologist</th>
                                 <th>Pediatrician</th>
                                 <th>Provider</th>
+                                <th>Reason</th>
+                                <th>Benefit</th>
                                 <th>Created</th>
                                 <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="text-gray-600 fw-bold" id="resultdataok"></tbody>
+                        <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>
                     </table>
                 </div>
             </div>

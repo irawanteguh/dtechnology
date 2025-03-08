@@ -31,6 +31,22 @@
             return $recordset;
         }
 
+        function masterreason($orgid){
+            $query =
+                    "
+                        select a.master_id, master_name
+                        from dt01_gen_master_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        and   a.jenis_id='REASONOK'
+                        order by master_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterdokter($orgid){
             $query =
                     "
@@ -49,11 +65,12 @@
         function dataok($orgid){
             $query =
                     "
-                        select a.transaksi_id, pasien_id, episode_id, tindakan, date_format(date,'%d.%m.%Y')tgltindakan, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.status, cito, benefit, transaksi_id, diagnosis, pasien_id, episode_id, tindakan, date_format(date,'%d.%m.%Y')tgltindakan, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select name          from dt01_gen_pasien_ms where active='1' and pasien_id=a.pasien_id)namepasien,
                             (select int_pasien_id from dt01_gen_pasien_ms where active='1' and pasien_id=a.pasien_id)mrpasien,
                             (select color         from dt01_gen_master_ms where org_id=a.org_id and jenis_id='STATUSOK' and code=a.status)colorstatus,
                             (select master_name   from dt01_gen_master_ms where org_id=a.org_id and jenis_id='STATUSOK' and code=a.status)namestatus,
+                            (select master_name   from dt01_gen_master_ms where org_id=a.org_id and jenis_id='REASONOK' and master_id=a.reason_id)reason,
                             (select name 		 from dt01_gen_user_data where active='1' and user_id=a.dokter_opr)operator,
                             (select name 		 from dt01_gen_user_data where active='1' and user_id=a.dokter_ans)anastesi,
                             (select name 		 from dt01_gen_user_data where active='1' and user_id=a.dokter_ank)anak,
@@ -62,13 +79,13 @@
                         from dt01_med_ok_hd a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
+                        order by created_date desc
                     ";
 
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
         }
-
 
         function chat($orgid,$userid,$operasiid){
             $query =
@@ -106,6 +123,11 @@
 
         function insertplan($data){           
             $sql =   $this->db->insert("dt01_med_ok_hd",$data);
+            return $sql;
+        }
+
+        function updateplan($operasiid,$data){           
+            $sql =   $this->db->update("dt01_med_ok_hd",$data,array("transaksi_id"=>$operasiid));
             return $sql;
         }
 
