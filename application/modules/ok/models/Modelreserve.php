@@ -83,6 +83,24 @@
             return $recordset;
         }
 
+        function calender($orgid){
+            $query =
+                    "
+                        select a.transaksi_id, status,
+                            concat(DATE_FORMAT(a.date, '%Y-%m-%d')) start_date,
+                            concat(DATE_FORMAT(a.date, '%Y-%m-%d')) end_date,
+                            (select int_pasien_id from dt01_gen_pasien_ms where active='1' and org_id=a.org_id and pasien_id=a.pasien_id)mrpasien,
+                            (select name from dt01_gen_pasien_ms where active='1' and org_id=a.org_id and pasien_id=a.pasien_id)name
+                        from dt01_med_ok_hd a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function dataok($orgid){
             $query =
                     "

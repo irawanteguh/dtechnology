@@ -29,28 +29,46 @@
                 </div>
             </div>
             <div class="card-body py-3">
-                <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
-                    <table class="table align-middle table-row-dashed fs-6 gy-2">
-                        <thead>
-                            <tr class="fw-bolder text-muted bg-light align-middle">
-                                <th class="ps-4 rounded-start">Actions</th>
-                                <th>Status</th>
-                                <th>Identity</th>
-                                <th>Date</th>
-                                <th>Diagnosis</th>
-                                <th>Medical Treatment</th>
-                                <th>Class</th>
-                                <th>Estimated Price</th>
-                                <th>Operator</th>
-                                <th>Anesthesiologist</th>
-                                <th>Pediatrician</th>
-                                <th>Provider</th>
-                                <th>Benefit</th>
-                                <th class="pe-4 text-end rounded-end">Created</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>
-                    </table>
+                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tablist">List Grid</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabcalendar">Follow Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabcalendar">Agree</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="height:800px;">
+                    <div class="tab-pane fade show active" id="tablist" role="tabpanel">
+                        <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">Actions</th>
+                                        <th>Status</th>
+                                        <th>Identity</th>
+                                        <th>Date</th>
+                                        <th>Diagnosis</th>
+                                        <th>Medical Treatment</th>
+                                        <th>Class</th>
+                                        <th>Estimated Price</th>
+                                        <th>Operator</th>
+                                        <th>Anesthesiologist</th>
+                                        <th>Pediatrician</th>
+                                        <th>Provider</th>
+                                        <th>Benefit</th>
+                                        <th class="pe-4 text-end rounded-end">Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabcalendar" role="tabpanel" sty>
+                        <!-- <div id="kt_calendar_app"></div> -->
+                    </div>
                 </div>
             </div>
         </div>

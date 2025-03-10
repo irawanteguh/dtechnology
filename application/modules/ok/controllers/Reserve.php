@@ -196,5 +196,38 @@
             echo json_encode($json);
         }
 
+        public function calender(){
+            $result = $this->md->calender($_SESSION['orgid'],$_SESSION['userid']);
+            $events = array();
+    
+            foreach ($result as $a) {
+    
+                $data['transid']        = $a->transaksi_id;
+                $data['title']          = $a->mrpasien." | ".$a->name;
+                $data['start']          = $a->start_date;
+                $data['end']            = $a->end_date;
+    
+                if($a->status === "0"){
+                    $data['color']     = '#0d6efd';
+                }
+    
+                if($a->status === "1"){
+                    $data['color']     = '#00a65a';
+                }
+    
+                if($a->status === "2"){
+                    $data['color']     = '#ffc107';
+                }
+    
+                if($a->status === "99"){
+                    $data['color']     = '#dc3545';
+                }
+                
+                $events[] = $data;
+            };
+    
+            echo json_encode($events);
+        }
+
 	}
 ?>
