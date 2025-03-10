@@ -386,7 +386,7 @@
                     }else{
                         $json["responCode"]   = "01";
                         $json["responHead"]   = "error";
-                        $json["responDesc"]   = "Gagal Mendapatkan UUID Registration";
+                        $json["responDesc"]   = $responseuuid['message'];
                         $json['responResult'] = $responseuuid;
                     }
                 }else{
