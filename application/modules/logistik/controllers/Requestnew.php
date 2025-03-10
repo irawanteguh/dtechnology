@@ -109,6 +109,52 @@
             echo json_encode($json);
         }
 
+        // public function datarequest(){
+        //     $status="   and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+        //                 and   a.status in ('0','92')
+        //                 and (
+        //                         (
+        //                             a.status='92'
+        //                             and a.type='20'
+        //                             and (a.status_vice is null or a.status_vice = '') 
+        //                             and (a.status_dir is null or a.status_dir = '')
+        //                             and (a.status_com is null or a.status_com = '')
+        //                         )
+        //                         or
+        //                         (
+        //                             a.status <> '6'
+        //                             and a.type='0'
+        //                             and (a.status_vice is null or a.status_vice = '') 
+        //                             and (a.status_dir is null or a.status_dir = '')
+        //                             and (a.status_com is null or a.status_com = '')
+        //                         )
+        //                         or
+        //                         (
+        //                             a.status <> '6'
+        //                             and (a.type='1' or a.method='4')
+        //                             and a.status_vice='Y'
+        //                             and a.status_dir='Y'
+        //                             and a.status_com='Y'
+        //                         )
+        //                     )
+        //             ";
+                    
+        //     $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            
+        //     if(!empty($result)){
+        //         $json["responCode"]="00";
+        //         $json["responHead"]="success";
+        //         $json["responDesc"]="Data Successfully Found";
+        //         $json['responResult']=$result;
+        //     }else{
+        //         $json["responCode"]="01";
+        //         $json["responHead"]="info";
+        //         $json["responDesc"]="Data Failed to Find";
+        //     }
+
+        //     echo json_encode($json);
+        // }
+
         public function datarequest(){
             $status="   and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
                         and   a.status in ('0','92')
