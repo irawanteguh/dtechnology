@@ -118,7 +118,6 @@
                                     and a.type='20'
                                     and (a.status_vice is null or a.status_vice = '') 
                                     and (a.status_dir is null or a.status_dir = '')
-                                    and (a.status_com is null or a.status_com = '')
                                 )
                                 or
                                 (
@@ -126,7 +125,6 @@
                                     and a.type='0'
                                     and (a.status_vice is null or a.status_vice = '') 
                                     and (a.status_dir is null or a.status_dir = '')
-                                    and (a.status_com is null or a.status_com = '')
                                 )
                                 or
                                 (
@@ -134,7 +132,6 @@
                                     and (a.type='1' or a.method='4')
                                     and a.status_vice='Y'
                                     and a.status_dir='Y'
-                                    and a.status_com='Y'
                                 )
                             )
                     ";
