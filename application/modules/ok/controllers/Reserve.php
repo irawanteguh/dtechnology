@@ -17,7 +17,8 @@
             $resultmasterpatient  = $this->md->masterpatient($_SESSION['orgid']);
             $resultmasterdokter   = $this->md->masterdokter($_SESSION['orgid']);
             $resultmasterprovider = $this->md->masterprovider($_SESSION['orgid']);
-            $resultmasterreason = $this->md->masterreason($_SESSION['orgid']);
+            $resultmasterreason   = $this->md->masterreason($_SESSION['orgid']);
+            $resultmasterpackage  = $this->md->masterpackage($_SESSION['orgid']);
             
             
             $patientid="";
@@ -52,12 +53,18 @@
                 $reason.="<option value='".$a->master_id."'>".$a->master_name."</option>";
             }
 
+            $package="";
+            foreach($resultmasterpackage as $a ){
+                $package.="<option value='".$a->transaksi_id."'>".$a->packagetindakan."</option>";
+            }
+
             $data['provider']  = $provider;
             $data['patientid'] = $patientid;
             $data['dokteropr'] = $dokteropr;
             $data['dokterans'] = $dokterans;
             $data['dokterank'] = $dokterank;
             $data['reason']    = $reason;
+            $data['package']   = $package;
             
             return $data;
 		}
@@ -102,6 +109,7 @@
             $data['org_id']       = $_SESSION['orgid'];
             $data['transaksi_id'] = generateuuid();
             $data['date']         = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_add_plan_date"))->format("Y-m-d");
+            $data['package_id']   = $this->input->post("modal_add_plan_package");
             $data['pasien_id']    = $this->input->post("modal_add_plan_patientid");
             $data['provider_id']  = $this->input->post("modal_add_plan_provider");
             $data['diagnosis']    = $this->input->post("modal_add_plan_diagnosis");
@@ -164,6 +172,25 @@
                 $json['responCode']="01";
                 $json['responHead']="info";
                 $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function updatedata(){
+            
+            $data['status']     = $this->input->post("data_value");
+            $data['agree_id']   = $_SESSION['userid'];
+            $data['agree_date'] = date('Y-m-d H:i:s');
+
+            if($this->md->updateplan($this->input->post("data_operasiid"),$data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Update Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Update";
             }
 
             echo json_encode($json);

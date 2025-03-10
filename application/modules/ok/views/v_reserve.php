@@ -33,19 +33,20 @@
                     <table class="table align-middle table-row-dashed fs-6 gy-2">
                         <thead>
                             <tr class="fw-bolder text-muted bg-light align-middle">
-                                <th class="ps-4 rounded-start">Status</th>
+                                <th class="ps-4 rounded-start">Actions</th>
+                                <th>Status</th>
                                 <th>Identity</th>
                                 <th>Date</th>
                                 <th>Diagnosis</th>
                                 <th>Medical Treatment</th>
+                                <th>Class</th>
+                                <th>Estimated Price</th>
                                 <th>Operator</th>
                                 <th>Anesthesiologist</th>
                                 <th>Pediatrician</th>
                                 <th>Provider</th>
-                                <th>Reason</th>
                                 <th>Benefit</th>
-                                <th>Created</th>
-                                <th class="pe-4 text-end rounded-end">Actions</th>
+                                <th class="pe-4 text-end rounded-end">Created</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>

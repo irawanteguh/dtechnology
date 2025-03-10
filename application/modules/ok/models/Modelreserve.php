@@ -62,24 +62,53 @@
             return $recordset;
         }
 
+        function masterpackage($orgid){
+            $query =
+                    "
+                        select x.*, concat(package,' [ ',kelas,' ]',' Rp. ',FORMAT(harga, 0))packagetindakan
+                        from(
+                            select a.transaksi_id, harga,
+                                (select urut    from dt01_keu_kelas_ms where active='1' and org_id=a.org_id and kelas_id=a.kelas_id)urut,
+                                (select kelas   from dt01_keu_kelas_ms where active='1' and org_id=a.org_id and kelas_id=a.kelas_id)kelas,
+                                (select package from dt01_keu_package_ms where active='1' and org_id=a.org_id and package_id=a.package_id)package
+                            from dt01_keu_package_dt a
+                            where a.active='1'
+                            and   a.org_id='".$orgid."'
+                        )x
+                        order by package asc, urut asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function dataok($orgid){
             $query =
                     "
-                        select a.status, cito, benefit, transaksi_id, diagnosis, pasien_id, episode_id, tindakan, date_format(date,'%d.%m.%Y')tgltindakan, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
-                            (select name          from dt01_gen_pasien_ms where active='1' and pasien_id=a.pasien_id)namepasien,
-                            (select int_pasien_id from dt01_gen_pasien_ms where active='1' and pasien_id=a.pasien_id)mrpasien,
-                            (select color         from dt01_gen_master_ms where org_id=a.org_id and jenis_id='STATUSOK' and code=a.status)colorstatus,
-                            (select master_name   from dt01_gen_master_ms where org_id=a.org_id and jenis_id='STATUSOK' and code=a.status)namestatus,
-                            (select master_name   from dt01_gen_master_ms where org_id=a.org_id and jenis_id='REASONOK' and master_id=a.reason_id)reason,
-                            (select name 		 from dt01_gen_user_data where active='1' and user_id=a.dokter_opr)operator,
-                            (select name 		 from dt01_gen_user_data where active='1' and user_id=a.dokter_ans)anastesi,
-                            (select name 		 from dt01_gen_user_data where active='1' and user_id=a.dokter_ank)anak,
-                            (select name 		 from dt01_gen_user_data where active='1' and user_id=a.created_by)dibuatoleh,
-                            (select provider 		 from dt01_keu_provider_ms where active='1' and provider_id=a.provider_id)provider
-                        from dt01_med_ok_hd a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
-                        order by created_date desc
+                        select x.*,
+                            (select kelas   from dt01_keu_kelas_ms where active='1' and kelas_id=x.kelasid)kelas,
+                            (select package from dt01_keu_package_ms where active='1' and package_id=x.packageid)package
+                        from(
+                            select a.status, cito, benefit, transaksi_id, diagnosis, pasien_id, episode_id, tindakan, date_format(date,'%d.%m.%Y')tgltindakan, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                                (select name          from dt01_gen_pasien_ms where active='1' and pasien_id=a.pasien_id)namepasien,
+                                (select int_pasien_id from dt01_gen_pasien_ms where active='1' and pasien_id=a.pasien_id)mrpasien,
+                                (select color         from dt01_gen_master_ms where org_id=a.org_id and jenis_id='STATUSOK' and code=a.status)colorstatus,
+                                (select master_name   from dt01_gen_master_ms where org_id=a.org_id and jenis_id='STATUSOK' and code=a.status)namestatus,
+                                (select master_name   from dt01_gen_master_ms where org_id=a.org_id and jenis_id='REASONOK' and master_id=a.reason_id)reason,
+                                (select name 		  from dt01_gen_user_data where active='1' and user_id=a.dokter_opr)operator,
+                                (select name 		  from dt01_gen_user_data where active='1' and user_id=a.dokter_ans)anastesi,
+                                (select name 		  from dt01_gen_user_data where active='1' and user_id=a.dokter_ank)anak,
+                                (select name 		  from dt01_gen_user_data where active='1' and user_id=a.created_by)dibuatoleh,
+                                (select provider      from dt01_keu_provider_ms where active='1' and provider_id=a.provider_id)provider,
+                                (select package_id    from dt01_keu_package_dt where active='1' and transaksi_id=a.package_id)packageid,
+                                (select kelas_id      from dt01_keu_package_dt where active='1' and transaksi_id=a.package_id)kelasid,
+                                (select harga         from dt01_keu_package_dt where active='1' and transaksi_id=a.package_id)harga
+                            from dt01_med_ok_hd a
+                            where a.active='1'
+                            and   a.org_id='".$orgid."'
+                            order by created_date desc
+                        )x
                     ";
 
             $recordset = $this->db->query($query);
