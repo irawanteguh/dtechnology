@@ -40,7 +40,7 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#tabcalendar">Agree</a>
                     </li>
                 </ul>
-                <div class="tab-content" style="height:800px;">
+                <div class="tab-content">
                     <div class="tab-pane fade show active" id="tablist" role="tabpanel">
                         <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
