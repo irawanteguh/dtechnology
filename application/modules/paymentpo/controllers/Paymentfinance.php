@@ -13,11 +13,12 @@
         }
 
         public function datarequest(){
-            $startDate = $this->input->post("startDate");
-            $endDate   = $this->input->post("endDate");
+            $startDate = $this->input->post("startDate") . " 00:00:00"; // Tambahkan waktu awal hari
+            $endDate   = $this->input->post("endDate") . " 23:59:59"; 
+            
             $status="
                         and   a.status in ('13')
-                        and a.created_date between '".$startDate."' and '".$endDate."'
+                        and   a.created_date between '".$startDate."' and '".$endDate."'
                     ";
                     $parameter="order by inv_dir_date desc";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
