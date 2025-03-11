@@ -20,7 +20,7 @@
                         select a.no_rkm_medis, nm_pasien, no_ktp, jk, tmp_lahir, tgl_lahir, nm_ibu, email, no_tlp
                         from pasien a
                         where a.no_rkm_medis not in (select int_pasien_id_old from dt01_gen_pasien_ms)
-                        limit 100;
+                        limit 1000;
                     ";
 
             $recordset = $this->db->query($query);
