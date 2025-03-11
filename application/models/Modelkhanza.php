@@ -17,9 +17,10 @@
         function datapasien(){
             $query =
                     "
-                        select a.no_rkm_medis, nm_pasien, no_ktp, jk, tmp_lahir, tgl_lahir, nm_ibu, email
+                        select a.no_rkm_medis, nm_pasien, no_ktp, jk, tmp_lahir, tgl_lahir, nm_ibu, email, no_tlp
                         from pasien a
                         where a.no_rkm_medis not in (select int_pasien_id_old from dt01_gen_pasien_ms)
+                        limit 100;
                     ";
 
             $recordset = $this->db->query($query);
@@ -41,6 +42,20 @@
             return $recordset;
         }
 
+        function cekdatapasien($orgid,$mrpasien){
+            $query =
+                    "
+                        select a.int_pasien_id
+                        from dt01_gen_pasien_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.int_pasien_id='".$mrpasien."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function insertdatauser($data){           
             $sql =   $this->db->insert("dt01_gen_user_data",$data);
             return $sql;
@@ -53,6 +68,11 @@
 
         function insertdatapasien($data){           
             $sql =   $this->db->insert("dt01_gen_pasien_ms",$data);
+            return $sql;
+        }
+
+        function updatedatapasien($data,$mrpasien){           
+            $sql =   $this->db->update("dt01_gen_pasien_ms",$data,array("int_pasien_id"=>$mrpasien));
             return $sql;
         }
         

@@ -93,7 +93,6 @@
             $data['type']              = "1";
             $data['status_vice']       = "Y";
             $data['status_dir']        = "Y";
-            // $data['status_com']        = "Y";
             $data['created_by']        = $_SESSION['userid'];
 
             if($this->md->insertheader($data)){

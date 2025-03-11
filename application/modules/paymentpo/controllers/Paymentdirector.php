@@ -58,8 +58,9 @@
             $status="
                         and   a.status in ('13','15','16','17')
                     ";
+                    
                     $parameter="order by inv_dir_date desc";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
+                    $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

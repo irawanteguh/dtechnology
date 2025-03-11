@@ -5,7 +5,7 @@ flatpickr('[name="dateperiode"]', {
     mode: "range", // Mengaktifkan mode range
     enableTime: false,
     dateFormat: "d.m.Y",
-    maxDate: "today",
+    // maxDate: "today",
     onChange: function (selectedDates, dateStr, instance) {
         // Mendapatkan tanggal sesuai dengan zona waktu lokal
         const formatDate = (date) => {

@@ -31,17 +31,35 @@
             <div class="card-body py-3">
                 <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#tablist">List Grid</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tabpotensial">Potensial</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabcalendar">Follow Up</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabcalendar">On Going</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabcalendar">Agree</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabcalendar">Cancelled</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tablist" role="tabpanel">
+                        <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">Actions</th>
+                                        <th>Status</th>
+                                        <th>Identity</th>
+                                        <th>Doctor</th>
+                                        <th>Polyclinic</th>
+                                        <th>Diagnosis</th>
+                                        <th class="pe-4 text-end rounded-end">Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold align-middle" id="resultpotensial"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabcalendar" role="tabpanel" sty>
                         <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead>
@@ -65,9 +83,6 @@
                                 <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="tabcalendar" role="tabpanel" sty>
-                        <!-- <div id="kt_calendar_app"></div> -->
                     </div>
                 </div>
             </div>

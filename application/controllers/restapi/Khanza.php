@@ -53,9 +53,16 @@
                     $data['bod']               = $a->tgl_lahir;
                     $data['mother_name']       = $a->nm_ibu;
                     $data['email']             = $a->email;
+                    $data['phone']             = $a->no_tlp;
                     $data['created_by']        = "55b16625-efca-4093-8df0-20fc838f21b1";
-
-                    $this->md->insertdatapasien($data);
+                    
+                    // $resultcekdatapasien = $this->md->cekdatapasien(ORG_ID,$a->no_rkm_medis);
+                    // if(empty($resultcekdatapasien)){
+                        $this->md->insertdatapasien($data);
+                    // }else{
+                        // $this->md->updatedatapasien($data,$a->no_rkm_medis);
+                    // }
+                    
                 }
             }
         }
