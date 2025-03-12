@@ -19,7 +19,7 @@
                         <div class="col-md-3 mb-5">
                             <div class="fv-row">
                                 <label class="fs-6 fw-bold mb-2 required">Date</label>
-                                <input class="form-control form-control-solid flatpickr-input" name="modal_add_plan_date" placeholder="Pick a plan date" id="modal_add_plan_date" type="text">
+                                <input class="form-control form-control-solid flatpickr-input" name="modal_add_plan_date" placeholder="Pick a plan date" id="modal_add_plan_date" type="text" required>
                             </div>
                         </div>
                         <div class="col-md-5 mb-5">
@@ -44,7 +44,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-5">
+                        <div class="col-md-6 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                     <span class="required">Operator</span>
@@ -55,7 +55,18 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-5">
+                        <div class="col-md-6 mb-5">
+                            <div class="fv-row">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span>Package Medical Treatment</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Select Package Medical Treatment"></i>
+                                </label>
+                                <select data-control="select2" data-dropdown-parent="#modal_add_plan" data-placeholder="Please Select Package Medical Treatment..." class="form-select form-select-solid" name="modal_add_plan_package" id="modal_add_plan_package">
+                                    <?php echo $package;?>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                     <span class="required">Anesthesiologist</span>
@@ -76,7 +87,7 @@
                                     <?php echo $dokterank;?>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-6 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
@@ -95,7 +106,7 @@
                                 <textarea data-kt-autosize="true" class="form-control form-control-solid" name="modal_add_plan_tindakan" id="modal_add_plan_tindakan" placeholder="Please Enter the Type of Medical Treatment"></textarea>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-5">
+                        <!-- <div class="col-md-12 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                     <span>Package Medical Treatment</span>
@@ -105,7 +116,7 @@
                                     <?php echo $package;?>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-12 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">

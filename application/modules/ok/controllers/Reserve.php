@@ -69,8 +69,9 @@
             return $data;
 		}
 
-		public function dataok(){
-            $result = $this->md->dataok($_SESSION['orgid']);
+		public function ongoing(){
+            $parameter = "and a.status in ('0','1','2')";
+            $result = $this->md->dataok($_SESSION['orgid'],$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -106,30 +107,37 @@
 
         public function newreserve(){
             
-            $data['org_id']       = $_SESSION['orgid'];
-            $data['transaksi_id'] = generateuuid();
-            $data['date']         = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_add_plan_date"))->format("Y-m-d");
-            $data['package_id']   = $this->input->post("modal_add_plan_package");
-            $data['pasien_id']    = $this->input->post("modal_add_plan_patientid");
-            $data['provider_id']  = $this->input->post("modal_add_plan_provider");
-            $data['diagnosis']    = $this->input->post("modal_add_plan_diagnosis");
-            $data['tindakan']     = $this->input->post("modal_add_plan_tindakan");
-            $data['benefit']      = $this->input->post("modal_add_plan_benefit");
-            $data['dokter_opr']   = $this->input->post("modal_add_plan_dokter_opr");
-            $data['dokter_ans']   = $this->input->post("modal_add_plan_dokter_ans");
-            $data['dokter_ank']   = $this->input->post("modal_add_plan_dokter_ank");
-            $data['cito']         = $this->input->post("modal_add_plan_cito");
-            $data['created_by']   = $_SESSION['userid'];
-
-            if($this->md->insertplan($data)){
-                $json['responCode']="00";
-                $json['responHead']="success";
-                $json['responDesc']="Data Added Successfully";
-            } else {
+            if($this->input->post("modal_add_plan_date")!=""){
+                $data['org_id']       = $_SESSION['orgid'];
+                $data['transaksi_id'] = generateuuid();
+                $data['date']         = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_add_plan_date"))->format("Y-m-d");
+                $data['package_id']   = $this->input->post("modal_add_plan_package");
+                $data['pasien_id']    = $this->input->post("modal_add_plan_patientid");
+                $data['provider_id']  = $this->input->post("modal_add_plan_provider");
+                $data['diagnosis']    = $this->input->post("modal_add_plan_diagnosis");
+                $data['tindakan']     = $this->input->post("modal_add_plan_tindakan");
+                $data['benefit']      = $this->input->post("modal_add_plan_benefit");
+                $data['dokter_opr']   = $this->input->post("modal_add_plan_dokter_opr");
+                // $data['dokter_ans']   = $this->input->post("modal_add_plan_dokter_ans");
+                // $data['dokter_ank']   = $this->input->post("modal_add_plan_dokter_ank");
+                $data['cito']         = $this->input->post("modal_add_plan_cito");
+                $data['created_by']   = $_SESSION['userid'];
+    
+                if($this->md->insertplan($data)){
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Added Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }else{
                 $json['responCode']="01";
                 $json['responHead']="info";
-                $json['responDesc']="Data Failed to Add";
+                $json['responDesc']="Please Enter Date";
             }
+            
 
             echo json_encode($json);
         }

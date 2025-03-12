@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label fw-bolder fs-3 mb-1">Operation Plan</span>
+                    <span class="card-label fw-bolder fs-3 mb-1">Registration InPatient</span>
                 </h3>
                 <div class="card-toolbar">
                     <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -30,47 +30,23 @@
             </div>
             <div class="card-body py-3">
                 <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#tabpotensial">Potensial</a>
-                    </li> -->
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#ongoing">On Going</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#request">Request</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabcancelled">Cancelled</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <!-- <div class="tab-pane fade show active" id="tablist" role="tabpanel">
-                        <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2">
-                                <thead>
-                                    <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">Actions</th>
-                                        <th>Status</th>
-                                        <th>Identity</th>
-                                        <th>Doctor</th>
-                                        <th>Polyclinic</th>
-                                        <th>Diagnosis</th>
-                                        <th class="pe-4 text-end rounded-end">Created</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-gray-600 fw-bold align-middle" id="resultpotensial"></tbody>
-                            </table>
-                        </div>
-                    </div> -->
-                    <div class="tab-pane fade show active" id="ongoing" role="tabpanel" sty>
+                    <div class="tab-pane fade show active" id="request" role="tabpanel" sty>
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">Status</th>
+                                        <th class="ps-4 rounded-start">Source</th>
                                         <th>Identity</th>
                                         <th>Date</th>
                                         <th>Diagnosis / Medical Treatment</th>
-                                        <th>Class</th>
-                                        <th>Estimated Price</th>
-                                        <th>Operator</th>
                                         <th>Created</th>
                                         <th class="pe-4 text-end rounded-end">Actions</th>
                                     </tr>
