@@ -22,7 +22,7 @@
                         from dt01_gen_user_data a
                         where a.active='1'
                         and a.org_id='".$orgid."'
-                           
+                        order by name asc
                     ";
 
             $recordset = $this->db->query($query);
