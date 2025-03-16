@@ -1,7 +1,16 @@
 
-ongoing();
+refreshdata();
 
 flatpickr('[name="modal_add_plan_date"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    minDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
+flatpickr('[name="modal_reserve_request_date"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
     minDate   : "today",
@@ -27,16 +36,21 @@ function getdata(btn){
     chat(data_operasiid);
 };
 
-function ongoing(){
+function refreshdata(){
+    planning();
+    datacancelled();
+};
+
+function planning(){
     $.ajax({
-        url       : url+"index.php/ok/reserve/ongoing",
+        url       : url+"index.php/ok/reserve/planning",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-            $("#resultdataok").html("");
+            $("#resultplanning").html("");
         },
         success:function(data){
             var tableresult ="";
@@ -53,20 +67,10 @@ function ongoing(){
                     
                     
 
-                    tableresult +="<td class='ps-4'><div><span class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</span></div><div><span class='badge badge-secondary'>" + (result[i].reason ? result[i].reason : "") + "</span></div></td>";
+                    tableresult +="<td class='ps-4'><div><span>"+(result[i].cito === "Y" ? "<span class='badge badge-light-danger mb-1'>CITO</span> " : "<span class='badge badge-light-primary mb-1'>ELEKTIF</span> ")+"</span></div><div><span class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</span></div><div><span class='badge badge-secondary'>" + (result[i].reason ? result[i].reason : "") + "</span></div></td>";
                     tableresult +="<td><div>"+(result[i].mrpasien ? result[i].mrpasien : "")+"</div><div>"+(result[i].namepasien ? result[i].namepasien : "")+"</div><div>"+(result[i].phone ? result[i].phone : "")+"</div></td>";
                     tableresult +="<td>"+(result[i].tgltindakan ? result[i].tgltindakan : "")+"</td>";
-
-                    var arraydiagnosis = result[i].diagnosis ? result[i].diagnosis.split(';') : [];
-                    tableresult +="<td>";
-                    tableresult +="<div>"+(result[i].cito === "Y" ? "<span class='badge badge-light-danger mb-1'>CITO</span> " : "<span class='badge badge-light-primary mb-1'>ELEKTIF</span> ")+"</div><br><div>Medical Treatment :</div><div>"+(result[i].package ? result[i].package : "")+"</div><br><div>Diagnosis :</div><div>";
-                    for (var j = 0; j < arraydiagnosis.length; j++) {
-                        tableresult +="<div class='fst-italic small'>"+arraydiagnosis[j]+"</div>";
-                    }
-                    tableresult += "</td>";
-
-                    tableresult +="<td>"+(result[i].kelas ? result[i].kelas : "")+"</td>";
-                    tableresult +="<td><div>"+(result[i].provider ? result[i].provider : "")+"</div><div>"+(result[i].harga ? "Rp. "+todesimal(result[i].harga) : "")+"</div><div class='small fst-italic'>"+(result[i].benefit ? result[i].benefit : "")+"</div></td>";
+                    tableresult +="<td><div>"+(result[i].diagnosis ? result[i].diagnosis : "")+"</div><div class='separator my-2'></div><div>"+(result[i].tindakan ? result[i].tindakan : "")+"</div></td>";
                     tableresult +="<td>"+(result[i].operator ? result[i].operator : "")+"</td>";
                     tableresult +="<td><div>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "")+"</div><div>"+(result[i].tglbuat ? result[i].tglbuat : "")+"</div></td>";
 
@@ -90,7 +94,79 @@ function ongoing(){
             }
 
 
-            $("#resultdataok").html(tableresult);
+            $("#resultplanning").html(tableresult);
+
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}		
+    });
+    return false;
+};
+
+function datacancelled(){
+    $.ajax({
+        url       : url+"index.php/ok/reserve/datacancelled",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultcancelled").html("");
+        },
+        success:function(data){
+            var tableresult ="";
+
+            if(data.responCode==="00"){
+                let result        = data.responResult;
+                for(var i in result){
+                    var getvariabel = " data_namapasien='"+result[i].namepasien+"'"+
+                                      " data_mrpasien='"+result[i].mrpasien+"'"+
+                                      " data_operasiid='"+result[i].transaksi_id+"'";
+
+                    tableresult +="<tr>";
+
+                    
+                    
+
+                    tableresult +="<td class='ps-4'><div><span>"+(result[i].cito === "Y" ? "<span class='badge badge-light-danger mb-1'>CITO</span> " : "<span class='badge badge-light-primary mb-1'>ELEKTIF</span> ")+"</span></div><div><span class='badge badge-secondary'>" + (result[i].reason ? result[i].reason : "") + "</span></div></td>";
+                    tableresult +="<td><div>"+(result[i].mrpasien ? result[i].mrpasien : "")+"</div><div>"+(result[i].namepasien ? result[i].namepasien : "")+"</div><div>"+(result[i].phone ? result[i].phone : "")+"</div></td>";
+                    tableresult +="<td>"+(result[i].tgltindakan ? result[i].tgltindakan : "")+"</td>";
+                    tableresult +="<td><div>"+(result[i].diagnosis ? result[i].diagnosis : "")+"</div><div class='separator my-2'></div><div>"+(result[i].tindakan ? result[i].tindakan : "")+"</div></td>";
+                    tableresult +="<td>"+(result[i].operator ? result[i].operator : "")+"</td>";
+                    tableresult +="<td><div>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "")+"</div><div>"+(result[i].tglbuat ? result[i].tglbuat : "")+"</div></td>";
+
+                    tableresult += "<td class='text-end'>";
+                        tableresult += "<div class='btn-group' role='group'>";
+                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                    tableresult += "<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#kt_drawer_chat_reserve' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-send text-primary'></i> Follow Up</a>";
+                            tableresult +="</div>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
+
+                    tableresult +="</tr>";
+                }
+            }
+
+
+            $("#resultcancelled").html(tableresult);
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
@@ -227,7 +303,7 @@ function updatedata(btn) {
                     toastr[data.responHead](data.responDesc, "INFORMATION");
                 },
                 complete: function () {
-                    dataok();
+                    planning();
                 },
                 error: function (xhr, status, error) {
                     showAlert(
@@ -302,7 +378,7 @@ $(document).on("submit", "#formnewreserve", function (e) {
 
             if(data.responCode == "00"){
                 $("#modal_add_plan").modal("hide");
-                ongoing();
+                refreshdata();
 			}
 
             toastr.clear();
@@ -310,6 +386,46 @@ $(document).on("submit", "#formnewreserve", function (e) {
 		},
         complete: function () {
             $("#modal_add_plan_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formnewrequest", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_reserve_request_btn").addClass("disabled");
+        },
+		success: function (data) {
+            if(data.responCode == "00"){
+                $("#modal_reserve_request").modal("hide");
+                refreshdata();
+			}
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            toastr.clear();
+            $("#modal_reserve_request_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(
@@ -344,7 +460,7 @@ $(document).on("submit", "#formcancelled", function (e) {
 
             if(data.responCode == "00"){
                 $("#modal_cancelled").modal("hide");
-                dataok();
+                refreshdata();
 			}
 
             toastr.clear();

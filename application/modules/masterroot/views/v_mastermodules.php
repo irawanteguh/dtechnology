@@ -5,6 +5,6 @@
         </h3>
     </div>
     <div class="card-body py-3">
-        <div class="mh-450px scroll-y me-n5 pe-5" id="resultmastermodules"></div>
+        <div class="me-n5 pe-5" id="resultmastermodules"></div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 <?php
     defined('BASEPATH') OR exit('No direct script access allowed');
 
+    // $route['default_controller'] = 'landingpage/Rmb';
     $route['default_controller'] = 'landingpage/Mutiasari';
     // $route['default_controller'] = 'landingpage/landingpage';
 

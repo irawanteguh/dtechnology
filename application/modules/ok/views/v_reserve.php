@@ -23,7 +23,8 @@
                             <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Actions</div>
                         </div>
                         <div class="menu-item px-3">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_add_plan" class="menu-link px-3">Add Plan</a>
+                            <!-- <a href="" data-bs-toggle="modal" data-bs-target="#modal_add_plan" class="menu-link px-3">Add Planning</a> -->
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_reserve_request" class="menu-link px-3">Request</a>
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,10 @@
                         <a class="nav-link active" data-bs-toggle="tab" href="#tabpotensial">Potensial</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#ongoing">On Going</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#planning">Planning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#ongoing">On Progress</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabcancelled">Cancelled</a>
@@ -59,7 +63,7 @@
                             </table>
                         </div>
                     </div> -->
-                    <div class="tab-pane fade show active" id="ongoing" role="tabpanel" sty>
+                    <div class="tab-pane fade show active" id="planning" role="tabpanel" sty>
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead>
@@ -68,39 +72,30 @@
                                         <th>Identity</th>
                                         <th>Date</th>
                                         <th>Diagnosis / Medical Treatment</th>
-                                        <th>Class</th>
-                                        <th>Estimated Price</th>
                                         <th>Operator</th>
                                         <th>Created</th>
                                         <th class="pe-4 text-end rounded-end">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>
+                                <tbody class="text-gray-600 fw-bold align-middle" id="resultplanning"></tbody>
                             </table>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="tabcancelled" role="tabpanel" sty>
-                        <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
+                        <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">Actions</th>
-                                        <th>Status</th>
+                                        <th class="ps-4 rounded-start">Status</th>
                                         <th>Identity</th>
                                         <th>Date</th>
-                                        <th>Diagnosis</th>
-                                        <th>Medical Treatment</th>
-                                        <th>Class</th>
-                                        <th>Estimated Price</th>
+                                        <th>Diagnosis / Medical Treatment</th>
                                         <th>Operator</th>
-                                        <th>Anesthesiologist</th>
-                                        <th>Pediatrician</th>
-                                        <th>Provider</th>
-                                        <th>Benefit</th>
-                                        <th class="pe-4 text-end rounded-end">Created</th>
+                                        <th>Created</th>
+                                        <th class="pe-4 text-end rounded-end">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>
+                                <tbody class="text-gray-600 fw-bold align-middle" id="resultcancelled"></tbody>
                             </table>
                         </div>
                     </div>

@@ -42,7 +42,18 @@
                 echo "\t\t<link href='".base_url('assets/css/landingpage/mutiasari.css')."' rel='stylesheet'>".PHP_EOL;
                 echo "\t\t<link href='".base_url('assets/css/root/scrollbars.css')."' rel='stylesheet'>".PHP_EOL;
             }else{
-                
+                if($this->router->fetch_class()==="Rmb"){
+                    echo "<title>RMB Hospital Group</title>".PHP_EOL;
+                    echo "\t\t<link href='".base_url('assets/vendors/bootstrap-5.3.0/css/bootstrap.min.css')."' rel='stylesheet'>".PHP_EOL;
+                    echo "\t\t<link href='".base_url('assets/vendors/bootstrap-icons/bootstrap-icons.css')."' rel='stylesheet'>".PHP_EOL;
+                    echo "\t\t<link href='".base_url('assets/vendors/aos/aos.css')."' rel='stylesheet'>".PHP_EOL;
+                    echo "\t\t<link href='".base_url('assets/vendors/glightbox/css/glightbox.min.css')."' rel='stylesheet'>".PHP_EOL;
+                    echo "\t\t<link href='".base_url('assets/vendors/swiper/swiper-bundle.min.css')."' rel='stylesheet'>".PHP_EOL;
+                    echo "\t\t<link href='".base_url('assets/css/landingpage/rmb.css')."' rel='stylesheet'>".PHP_EOL;
+                    echo "\t\t<link href='".base_url('assets/css/root/scrollbars.css')."' rel='stylesheet'>".PHP_EOL;
+                }else{
+
+                }
             }
         }
     }else{

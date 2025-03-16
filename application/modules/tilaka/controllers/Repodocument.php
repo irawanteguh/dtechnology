@@ -42,8 +42,21 @@
 		}
 
 		public function dataupload(){
-            $startDate             = $this->input->post("startDate");
-            $endDate               = $this->input->post("endDate");
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
+
+            if (empty($startDate)) {
+                $startDate = date('Y-m-d');
+            }
+
+            if (empty($endDate)) {
+                $endDate = date('Y-m-d');
+            }
+
+            $startDate .= " 00:00:00";
+            $endDate   .= " 23:59:59";
+
+
             $resultcheckroleaccess = $this->md->checkroleaccess($_SESSION['orgid'],$_SESSION['userid']);
 
             if(!empty($resultcheckroleaccess)){
@@ -56,14 +69,6 @@
                                 or  a.created_by in (select user_id from dt01_gen_user_asst_dt where active='1' and asst_id='".$_SESSION['userid']."')
                                 or  a.assign in (select nik from dt01_gen_user_data where active='1' and user_id in (select user_id from dt01_gen_user_asst_dt where active='1' and asst_id='".$_SESSION['userid']."'))
                             ";
-            }
-
-            if($startDate===null){
-                $startDate = $startDate = date('Y-m-d');
-            }
-
-            if($endDate===null){
-                $endDate = $endDate = date('Y-m-d');
             }
 
             $result = $this->md->dataupload($parameter,$startDate,$endDate);

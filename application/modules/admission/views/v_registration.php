@@ -47,11 +47,13 @@
                                         <th>Identity</th>
                                         <th>Date</th>
                                         <th>Diagnosis / Medical Treatment</th>
+                                        <th>Class</th>
+                                        <th>Doctor</th>
                                         <th>Created</th>
                                         <th class="pe-4 text-end rounded-end">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold align-middle" id="resultdataok"></tbody>
+                                <tbody class="text-gray-600 fw-bold align-middle" id="resultrequest"></tbody>
                             </table>
                         </div>
                     </div>
