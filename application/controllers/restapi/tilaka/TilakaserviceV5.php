@@ -62,8 +62,10 @@
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
                                                 }else{
-                                                    $datasimpanhd['note']        = "Filename Duplicate";
+                                                    $datasimpanhd['note'] = "Filename Duplicate";
                                                 }
+                                            }else{
+                                                $datasimpanhd['note'] = $responseuploadfile['message'];
                                             }
                                         }
                                         $listfile['responsetilaka'] = $responseuploadfile;

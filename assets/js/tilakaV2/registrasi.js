@@ -489,7 +489,7 @@ $(document).on("submit", "#formregisteruser", function (e) {
                 }else{
                     Swal.fire({
                         title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<b>"+result['message']+"</b>",
+                        html             : "<b>"+result['message']+" "+result['message']['data'][0]+"</b>",
                         icon             : "error",
                         confirmButtonText: "Please Try Again",
                         buttonsStyling   : false,
