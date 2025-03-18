@@ -55,116 +55,122 @@
             $this->template->load("template/template-sidebar","v_backupdb",$data);
 		}
 
-        function backupdatabase(){
-			// Define the backup directory and file path
-			$backupDir = self::$pathdatabase;
+        function backupdatabase() {
+			$backupDir  = self::$pathdatabase;
 			$backupFile = $backupDir . '/backup_' . date('Y-m-d_H-i-s') . '.sql';
 		
-			// Create the directory if it doesn't exist
 			if (!is_dir($backupDir)) {
 				if (!mkdir($backupDir, 0777, true)) {
 					die("Failed to create directory: $backupDir");
 				}
 			}
 		
-			// Connect to the database
 			$conn = new mysqli(self::$host, self::$user, self::$password, self::$database);
 			if ($conn->connect_error) {
 				die("Database connection failed: " . $conn->connect_error);
 			}
 		
-			// Retrieve table names
 			$tables = [];
 			$result = $conn->query("SHOW TABLES LIKE 'dt01\_%'");
 			while ($row = $result->fetch_row()) {
 				$tables[] = $row[0];
 			}
 		
-			// Open the file for writing
 			$handle = fopen($backupFile, 'w+');
 			if (!$handle) {
 				die("Failed to open file for writing: $backupFile");
 			}
 		
-			// Loop through tables and export data
+			// Daftar tabel yang harus disimpan dengan data
+			$tablesWithData = [
+								'dt01_gen_enviroment_ms',
+								'dt01_gen_document_ms',
+								'dt01_gen_modules_ms',
+								'dt01_gen_organization_ms',
+								'dt01_gen_referensi_dt',
+								'dt01_gen_role_ms',
+								'dt01_gen_role_dt',
+								'dt01_gen_role_access'
+							];
+		
 			foreach ($tables as $table) {
-				// Add DROP TABLE statement
 				fwrite($handle, "DROP TABLE IF EXISTS `$table`;\n\n");
 		
-				// Add CREATE TABLE statement
 				$createTableQuery = $conn->query("SHOW CREATE TABLE `$table`");
 				$createTable = $createTableQuery->fetch_row();
 				fwrite($handle, $createTable[1] . ";\n\n");
 		
-				// Add INSERT INTO statements for each row
-				$result = $conn->query("SELECT * FROM `$table`");
-				$numColumns = $result->field_count;
+				// Jika tabel ada dalam daftar $tablesWithData, backup seluruh data
+				if (in_array($table, $tablesWithData)) {
+					$result = $conn->query("SELECT * FROM `$table`");
+					$numColumns = $result->field_count;
 		
-				while ($row = $result->fetch_row()) {
-					$row = array_map('addslashes', $row);
-					$insertQuery = "INSERT INTO `$table` VALUES (";
-					for ($i = 0; $i < $numColumns; $i++) {
-						$insertQuery .= '"' . $row[$i] . '", ';
+					while ($row = $result->fetch_row()) {
+						$row = array_map('addslashes', $row);
+						$insertQuery = "INSERT INTO `$table` VALUES (";
+						for ($i = 0; $i < $numColumns; $i++) {
+							$insertQuery .= '"' . $row[$i] . '", ';
+						}
+						$insertQuery = substr($insertQuery, 0, -2);
+						$insertQuery .= ");\n";
+						fwrite($handle, $insertQuery);
 					}
-					$insertQuery = substr($insertQuery, 0, -2);
-					$insertQuery .= ");\n";
-					fwrite($handle, $insertQuery);
+					fwrite($handle, "\n\n");
 				}
-				fwrite($handle, "\n\n\n");
 			}
 		
-			// Close the file and connection
 			fclose($handle);
 			$conn->close();
 		
-			// Return success response
 			$json["responCode"] = "00";
 			$json["responHead"] = "success";
 			$json["responDesc"] = "Data Berhasil Di Backup";
 			$json["url"] = base_url() . "index.php/operation/backupdb";
+		
 			echo json_encode($json);
 		}
 		
+		
 
-		function backuptable(){
-			if(!is_dir(self::$pathdatabase)){
-				mkdir(self::$pathdatabase, 0777, true);      
-			};
+		// function backuptable(){
+		// 	if(!is_dir(self::$pathdatabase)){
+		// 		mkdir(self::$pathdatabase, 0777, true);      
+		// 	};
 			
-			$conn = new mysqli(self::$host, self::$user, self::$password, self::$database);
-			if ($conn->connect_error) {
-				die("Koneksi ke database gagal: " . $conn->connect_error);
-			}
+		// 	$conn = new mysqli(self::$host, self::$user, self::$password, self::$database);
+		// 	if ($conn->connect_error) {
+		// 		die("Koneksi ke database gagal: " . $conn->connect_error);
+		// 	}
 			
-			$tables = array();
-			$result = $conn->query("SHOW TABLES LIKE 'dt01\_%'");
-			while($row = $result->fetch_row()){
-				$tables[] = $row[0];
-			}
+		// 	$tables = array();
+		// 	$result = $conn->query("SHOW TABLES LIKE 'dt01\_%'");
+		// 	while($row = $result->fetch_row()){
+		// 		$tables[] = $row[0];
+		// 	}
 			
-			$handle = fopen(self::$backupPath,'w+');
-			foreach($tables as $table){
-				$result     = $conn->query("SELECT * FROM $table");
-				$numColumns = $result->field_count;
+		// 	$handle = fopen(self::$backupPath,'w+');
+		// 	foreach($tables as $table){
+		// 		$result     = $conn->query("SELECT * FROM $table");
+		// 		$numColumns = $result->field_count;
 				
-				fwrite($handle, "DROP TABLE IF EXISTS $table;\n\n");
+		// 		fwrite($handle, "DROP TABLE IF EXISTS $table;\n\n");
 				
-				$createTableQuery = $conn->query("SHOW CREATE TABLE $table");
-				$createTable      = $createTableQuery->fetch_row();
-				fwrite($handle, $createTable[1].";\n\n");
+		// 		$createTableQuery = $conn->query("SHOW CREATE TABLE $table");
+		// 		$createTable      = $createTableQuery->fetch_row();
+		// 		fwrite($handle, $createTable[1].";\n\n");
 				
-				fwrite($handle, "\n\n\n");
-			}
-			fclose($handle);
-			$conn->close();
+		// 		fwrite($handle, "\n\n\n");
+		// 	}
+		// 	fclose($handle);
+		// 	$conn->close();
 
-			$json["responCode"] = "00";
-			$json["responHead"] = "success";
-			$json["responDesc"] = "Data Berhasil Di Backup";
-			$json["url"]        = base_url()."index.php/operation/backupdb";
+		// 	$json["responCode"] = "00";
+		// 	$json["responHead"] = "success";
+		// 	$json["responDesc"] = "Data Berhasil Di Backup";
+		// 	$json["url"]        = base_url()."index.php/operation/backupdb";
 
-			echo json_encode($json);
-		}
+		// 	echo json_encode($json);
+		// }
 
 	}
 
