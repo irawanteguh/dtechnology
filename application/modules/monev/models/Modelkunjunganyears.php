@@ -18,31 +18,38 @@
             $query =
                     "
                         WITH monthly_data AS (
-                            select  date_format(tgl_registrasi, '%m.%Y') periode,
-                                    count(IF(status_lanjut = 'Ralan', 1, NULL)) jmlrj,
-                                    count(IF(status_lanjut = 'Ranap', 1, NULL)) jmlri
-                            from reg_periksa a
-                            where date_format(a.tgl_registrasi, '%Y') = '".$periode."'
-                            and   a.stts<>'Batal'
-                            group by date_format(tgl_registrasi, '%m.%Y')
+                            SELECT  
+                                DATE_FORMAT(tgl_registrasi, '%m.%Y') AS periode,
+                                COUNT(IF(status_lanjut = 'Ralan', 1, NULL)) AS jmlrj,
+                                COUNT(IF(
+                                    status_lanjut = 'Ranap' 
+                                    AND no_rawat IN (
+                                        SELECT no_rawat FROM piutang_pasien
+                                    ) 
+                                    AND no_rawat IN (
+                                        SELECT no_rawat FROM kamar_inap
+                                    ), 1, NULL
+                                )) AS jmlri
+                            FROM reg_periksa
+                            WHERE DATE_FORMAT(tgl_registrasi, '%Y') = '".$periode."'
+                            AND stts <> 'Batal'
+                            GROUP BY DATE_FORMAT(tgl_registrasi, '%m.%Y')
                         ),
                         total_counts AS (
                             SELECT 
                                 SUM(jmlrj) AS total_jmlrj,
                                 SUM(jmlri) AS total_jmlri,
                                 COUNT(*) AS months_passed
-                            FROM 
-                                monthly_data
+                            FROM monthly_data
                         )
                         SELECT 
                             md.*,
-                            ROUND(tc.total_jmlrj / tc.months_passed, 0) AS avgrj,
-                            ROUND(tc.total_jmlri / tc.months_passed, 0) AS avgri
-                        FROM 
-                            monthly_data md
-                        JOIN 
-                            total_counts tc
-                        order by periode asc
+                            ROUND(tc.total_jmlrj / NULLIF(tc.months_passed, 0), 0) AS avgrj,
+                            ROUND(tc.total_jmlri / NULLIF(tc.months_passed, 0), 0) AS avgri
+                        FROM monthly_data md
+                        JOIN total_counts tc
+                        ORDER BY md.periode ASC;
+
 
                     ";
 

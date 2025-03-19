@@ -7,298 +7,55 @@ $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", functi
     kunjunganpoli();
 });
 
-// function kunjungan(){
-//     var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
-//     $.ajax({
-//         url       : url+"index.php/monev/kunjunganyears/kunjungan",
-//         data      : {periode:periode},
-//         method    : "POST",
-//         dataType  : "JSON",
-//         beforeSend: function () {
-//             $("#chartkunjunganrjri").html("");
-//             $("#chartkunjunganrj").html("");
-//             $("#chartkunjunganri").html("");
-//         },
-//         success : function(data){
-//             var label  = [];
-//             var rj     = [];
-//             var ri     = [];
-//             var avgrj  = 0;
-//             var avgri  = 0;
-//             var result = data.responResult;
-            
-//             for (var i in result) {
-//                 label.push(result[i].periode);
-//                 rj.push(result[i].jmlrj);
-//                 ri.push(result[i].jmlri);
-
-//                 avgrj=result[i].avgrj;
-//                 avgri=result[i].avgri;
-//             }
-
-            
-
-//             var rjri = {
-//                 chart: {
-//                     type: 'bar',
-//                     height: 350,
-//                     toolbar: {
-//                         show: false
-//                     },
-//                     animations: {
-//                         enabled: true,
-//                         easing : 'easeinout',
-//                         speed  : 800,
-//                         animateGradually: {
-//                             enabled: true,
-//                             delay: 150
-//                         },
-//                         dynamicAnimation: {
-//                             enabled: true,
-//                             speed: 350
-//                         }
-//                     }
-//                 },
-//                 plotOptions: {
-//                     bar: {
-//                       horizontal: false,
-//                       columnWidth: '40%',
-//                       endingShape: 'rounded'
-//                     },
-//                 },
-//                 series: [
-//                     {name:'Outpatients', data: rj},
-//                     {name:'Inpatients', data: ri}
-//                 ],
-//                 stroke: {
-//                     show: true,
-//                     width: 2,
-//                     colors: ['transparent']
-//                 },
-//                 fill: {
-//                     opacity: 1
-//                 },
-//                 dataLabels: {
-//                     enabled: false
-//                 },
-//                 xaxis: {
-//                     categories: label
-//                 },
-//                 yaxis: [
-//                     {
-//                         labels: {
-//                             show: true,
-//                             formatter: function (value) {
-//                                 return todesimal(value);
-//                             }
-//                         },
-//                         title: {
-//                             text: 'Outpatient visits this year'
-//                         }
-//                     },
-//                     {
-//                         labels: {
-//                             show: true,
-//                             formatter: function (value) {
-//                                 return todesimal(value);
-//                             }
-//                         },
-//                         title: {
-//                             text: 'Inpatient visits this year'
-//                         },
-//                         opposite: true
-//                     }
-//                 ]
-//             };
-
-//             var rj = {
-//                 chart: {
-//                     type: 'area',
-//                     height: 350,
-//                     toolbar: {
-//                         show: false
-//                     },
-//                     animations: {
-//                         enabled: true,
-//                         easing : 'easeinout',
-//                         speed  : 800,
-//                         animateGradually: {
-//                             enabled: true,
-//                             delay: 150
-//                         },
-//                         dynamicAnimation: {
-//                             enabled: true,
-//                             speed: 350
-//                         }
-//                     }
-//                 },
-//                 colors: ['#009EF7'],
-//                 series: [
-//                     {name:'Outpatients', data: rj}
-//                 ],
-//                 stroke: {
-//                     show : true,
-//                     width: 2,
-//                     curve: 'smooth'
-//                 },
-//                 dataLabels: {
-//                     enabled: false
-//                 },
-//                 xaxis: {
-//                     categories: label
-//                 },
-//                 yaxis: {
-//                     labels: {
-//                         show: true,
-//                         formatter: function (value) {
-//                             return todesimal(value);
-//                         }
-//                     },
-//                     title: {
-//                         text: 'Outpatient visits this year'
-//                     }
-//                 },
-//                 annotations: {
-//                     yaxis: [
-//                         {
-//                             y: avgrj,
-//                             borderColor: '#FF4560',
-//                             label: {
-//                                 borderColor: '#FF4560',
-//                                 style: {
-//                                     color: '#fff',
-//                                     background: '#FF4560'
-//                                 },
-//                                 text: 'Average outpatient visits '+todesimal(avgrj)
-//                             }
-//                         }
-//                     ]
-//                 }
-//             };
-
-//             var ri = {
-//                 chart: {
-//                     type: 'area',
-//                     height: 350,
-//                     toolbar: {
-//                         show: false
-//                     },
-//                     animations: {
-//                         enabled: true,
-//                         easing : 'easeinout',
-//                         speed  : 800,
-//                         animateGradually: {
-//                             enabled: true,
-//                             delay: 150
-//                         },
-//                         dynamicAnimation: {
-//                             enabled: true,
-//                             speed: 350
-//                         }
-//                     }
-//                 },
-//                 colors: ['#009EF7'],
-//                 series: [
-//                     {name:'Inpatients', data: ri}
-//                 ],
-//                 stroke: {
-//                     show : true,
-//                     width: 2,
-//                     curve: 'smooth'
-//                 },
-//                 dataLabels: {
-//                     enabled: false
-//                 },
-//                 xaxis: {
-//                     categories: label
-//                 },
-//                 yaxis: {
-//                     labels: {
-//                         show: true,
-//                         formatter: function (value) {
-//                             return todesimal(value);
-//                         }
-//                     },
-//                     title: {
-//                         text: 'Inpatient visits this year'
-//                     }
-//                 },
-//                 annotations: {
-//                     yaxis: [
-//                         {
-//                             y: avgri,
-//                             borderColor: '#FF4560',
-//                             label: {
-//                                 borderColor: '#FF4560',
-//                                 style: {
-//                                     color: '#fff',
-//                                     background: '#FF4560'
-//                                 },
-//                                 text: 'Average number of inpatient visits '+todesimal(avgri)
-//                             }
-//                         }
-//                     ]
-//                 }
-//             };
-
-//             new ApexCharts(document.querySelector("#chartkunjunganrjri"),rjri).render();
-//             new ApexCharts(document.querySelector("#chartkunjunganrj"),rj).render();
-//             new ApexCharts(document.querySelector("#chartkunjunganri"),ri).render();
-
-//         }
-//     });
-//     return false;
-// };
-
-function kunjungan() {
+function kunjungan(){
     var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
     $.ajax({
-        url: url + "index.php/monev/kunjunganyears/kunjungan",
-        data: { periode: periode },
-        method: "POST",
-        dataType: "JSON",
+        url       : url+"index.php/monev/kunjunganyears/kunjungan",
+        data      : {periode:periode},
+        method    : "POST",
+        dataType  : "JSON",
         beforeSend: function () {
             $("#chartkunjunganrjri").html("");
             $("#chartkunjunganrj").html("");
             $("#chartkunjunganri").html("");
         },
-        success: function (data) {
-            var label = [];
-            var rj = [];
-            var ri = [];
-            var avgrj = 0;
-            var avgri = 0;
+        success : function(data){
+            var label  = [];
+            var rj     = [];
+            var ri     = [];
+            var avgrj  = 0;
+            var avgri  = 0;
             var result = data.responResult;
-
+            
             for (var i in result) {
                 label.push(result[i].periode);
                 rj.push(result[i].jmlrj);
                 ri.push(result[i].jmlri);
 
-                avgrj = result[i].avgrj;
-                avgri = result[i].avgri;
+                avgrj=result[i].avgrj;
+                avgri=result[i].avgri;
             }
+
+            
 
             var rjri = {
                 chart: {
                     type: 'bar',
                     height: 350,
-                    toolbar: { show: false },
+                    toolbar: {
+                        show: false
+                    },
                     animations: {
                         enabled: true,
-                        easing: 'easeinout',
-                        speed: 800
-                    },
-                    events: {
-                        dataPointSelection: function (event, chartContext, config) {
-                            var selectedIndex = config.dataPointIndex;
-                            var selectedLabel = label[selectedIndex];
-                            var selectedRj = rj[selectedIndex];
-                            var selectedRi = ri[selectedIndex];
-                            var selectedSeries = config.seriesIndex === 0 ? 'Outpatients' : 'Inpatients';
-                            var selectedValue = config.seriesIndex === 0 ? selectedRj : selectedRi;
-
-                            alert(selectedSeries + " for " + selectedLabel + ": " + selectedValue);
+                        easing : 'easeinout',
+                        speed  : 800,
+                        animateGradually: {
+                            enabled: true,
+                            delay: 150
+                        },
+                        dynamicAnimation: {
+                            enabled: true,
+                            speed: 350
                         }
                     }
                 },
@@ -307,116 +64,366 @@ function kunjungan() {
                         horizontal: false,
                         columnWidth: '40%',
                         endingShape: 'rounded'
-                    }
+                    },
                 },
                 series: [
                     { name: 'Outpatients', data: rj },
                     { name: 'Inpatients', data: ri }
                 ],
-                stroke: { show: true, width: 2, colors: ['transparent'] },
-                fill: { opacity: 1 },
-                dataLabels: { enabled: false },
-                xaxis: { categories: label }
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                fill: {
+                    opacity: 1
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: label
+                },
+                yaxis: [
+                    {
+                        labels: {
+                            show: true,
+                            formatter: function (value) {
+                                return todesimal(value);
+                            }
+                        },
+                        title: {
+                            text: 'Outpatient visits this year'
+                        },
+                        min: 0,
+                        forceNiceScale: true,
+                        tickAmount: 5 // Sesuaikan jumlah grid horizontal
+                    },
+                    {
+                        labels: {
+                            show: true,
+                            formatter: function (value) {
+                                return todesimal(value);
+                            }
+                        },
+                        title: {
+                            text: 'Inpatient visits this year'
+                        },
+                        opposite: true,
+                        min: 0,
+                        forceNiceScale: true,
+                        tickAmount: 5
+                    }
+                ]
             };
+            
 
-            var rjChartConfig = {
+            var rj = {
                 chart: {
                     type: 'area',
                     height: 350,
-                    toolbar: { show: false },
+                    toolbar: {
+                        show: false
+                    },
                     animations: {
                         enabled: true,
-                        easing: 'easeinout',
-                        speed: 800
-                    },
-                    events: {
-                        dataPointSelection: function (event, chartContext, config) {
-                            var selectedIndex = config.dataPointIndex;
-                            var selectedLabel = label[selectedIndex];
-                            var selectedRj = rj[selectedIndex];
-
-                            alert("Outpatients for " + selectedLabel + ": " + selectedRj);
+                        easing : 'easeinout',
+                        speed  : 800,
+                        animateGradually: {
+                            enabled: true,
+                            delay: 150
+                        },
+                        dynamicAnimation: {
+                            enabled: true,
+                            speed: 350
                         }
                     }
                 },
                 colors: ['#009EF7'],
-                series: [{ name: 'Outpatients', data: rj }],
-                stroke: { show: true, width: 2, curve: 'smooth' },
-                dataLabels: { enabled: false },
-                xaxis: { categories: label },
+                series: [
+                    {name:'Outpatients', data: rj}
+                ],
+                stroke: {
+                    show : true,
+                    width: 2,
+                    curve: 'smooth'
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: label
+                },
                 yaxis: {
                     labels: {
                         show: true,
-                        formatter: function (value) { return todesimal(value); }
+                        formatter: function (value) {
+                            return todesimal(value);
+                        }
                     },
-                    title: { text: 'Outpatient visits this year' }
+                    title: {
+                        text: 'Outpatient visits this year'
+                    }
                 },
                 annotations: {
-                    yaxis: [{
-                        y: avgrj,
-                        borderColor: '#FF4560',
-                        label: {
+                    yaxis: [
+                        {
+                            y: avgrj,
                             borderColor: '#FF4560',
-                            style: { color: '#fff', background: '#FF4560' },
-                            text: 'Average outpatient visits ' + todesimal(avgrj)
+                            label: {
+                                borderColor: '#FF4560',
+                                style: {
+                                    color: '#fff',
+                                    background: '#FF4560'
+                                },
+                                text: 'Average outpatient visits '+todesimal(avgrj)
+                            }
                         }
-                    }]
+                    ]
                 }
             };
 
-            var riChartConfig = {
+            var ri = {
                 chart: {
                     type: 'area',
                     height: 350,
-                    toolbar: { show: false },
+                    toolbar: {
+                        show: false
+                    },
                     animations: {
                         enabled: true,
-                        easing: 'easeinout',
-                        speed: 800
-                    },
-                    events: {
-                        dataPointSelection: function (event, chartContext, config) {
-                            var selectedIndex = config.dataPointIndex;
-                            var selectedLabel = label[selectedIndex];
-                            var selectedRi = ri[selectedIndex];
-
-                            alert("Inpatients for " + selectedLabel + ": " + selectedRi);
+                        easing : 'easeinout',
+                        speed  : 800,
+                        animateGradually: {
+                            enabled: true,
+                            delay: 150
+                        },
+                        dynamicAnimation: {
+                            enabled: true,
+                            speed: 350
                         }
                     }
                 },
                 colors: ['#009EF7'],
-                series: [{ name: 'Inpatients', data: ri }],
-                stroke: { show: true, width: 2, curve: 'smooth' },
-                dataLabels: { enabled: false },
-                xaxis: { categories: label },
+                series: [
+                    {name:'Inpatients', data: ri}
+                ],
+                stroke: {
+                    show : true,
+                    width: 2,
+                    curve: 'smooth'
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: label
+                },
                 yaxis: {
                     labels: {
                         show: true,
-                        formatter: function (value) { return todesimal(value); }
+                        formatter: function (value) {
+                            return todesimal(value);
+                        }
                     },
-                    title: { text: 'Inpatient visits this year' }
+                    title: {
+                        text: 'Inpatient visits this year'
+                    }
                 },
                 annotations: {
-                    yaxis: [{
-                        y: avgri,
-                        borderColor: '#FF4560',
-                        label: {
+                    yaxis: [
+                        {
+                            y: avgri,
                             borderColor: '#FF4560',
-                            style: { color: '#fff', background: '#FF4560' },
-                            text: 'Average number of inpatient visits ' + todesimal(avgri)
+                            label: {
+                                borderColor: '#FF4560',
+                                style: {
+                                    color: '#fff',
+                                    background: '#FF4560'
+                                },
+                                text: 'Average number of inpatient visits '+todesimal(avgri)
+                            }
                         }
-                    }]
+                    ]
                 }
             };
 
-            new ApexCharts(document.querySelector("#chartkunjunganrjri"), rjri).render();
-            new ApexCharts(document.querySelector("#chartkunjunganrj"), rjChartConfig).render();
-            new ApexCharts(document.querySelector("#chartkunjunganri"), riChartConfig).render();
+            new ApexCharts(document.querySelector("#chartkunjunganrjri"),rjri).render();
+            new ApexCharts(document.querySelector("#chartkunjunganrj"),rj).render();
+            new ApexCharts(document.querySelector("#chartkunjunganri"),ri).render();
+
         }
     });
-
     return false;
-}
+};
+
+// function kunjungan() {
+//     var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
+//     $.ajax({
+//         url: url + "index.php/monev/kunjunganyears/kunjungan",
+//         data: { periode: periode },
+//         method: "POST",
+//         dataType: "JSON",
+//         beforeSend: function () {
+//             $("#chartkunjunganrjri").html("");
+//             $("#chartkunjunganrj").html("");
+//             $("#chartkunjunganri").html("");
+//         },
+//         success: function (data) {
+//             var label = [];
+//             var rj = [];
+//             var ri = [];
+//             var avgrj = 0;
+//             var avgri = 0;
+//             var result = data.responResult;
+
+//             for (var i in result) {
+//                 label.push(result[i].periode);
+//                 rj.push(result[i].jmlrj);
+//                 ri.push(result[i].jmlri);
+
+//                 avgrj = result[i].avgrj;
+//                 avgri = result[i].avgri;
+//             }
+
+//             var rjri = {
+//                 chart: {
+//                     type: 'bar',
+//                     height: 350,
+//                     toolbar: { show: false },
+//                     animations: {
+//                         enabled: true,
+//                         easing: 'easeinout',
+//                         speed: 800
+//                     },
+//                     events: {
+//                         dataPointSelection: function (event, chartContext, config) {
+//                             var selectedIndex = config.dataPointIndex;
+//                             var selectedLabel = label[selectedIndex];
+//                             var selectedRj = rj[selectedIndex];
+//                             var selectedRi = ri[selectedIndex];
+//                             var selectedSeries = config.seriesIndex === 0 ? 'Outpatients' : 'Inpatients';
+//                             var selectedValue = config.seriesIndex === 0 ? selectedRj : selectedRi;
+
+//                             alert(selectedSeries + " for " + selectedLabel + ": " + selectedValue);
+//                         }
+//                     }
+//                 },
+//                 plotOptions: {
+//                     bar: {
+//                         horizontal: false,
+//                         columnWidth: '40%',
+//                         endingShape: 'rounded'
+//                     }
+//                 },
+//                 series: [
+//                     { name: 'Outpatients', data: rj },
+//                     { name: 'Inpatients', data: ri }
+//                 ],
+//                 stroke: { show: true, width: 2, colors: ['transparent'] },
+//                 fill: { opacity: 1 },
+//                 dataLabels: { enabled: false },
+//                 xaxis: { categories: label }
+//             };
+
+//             var rjChartConfig = {
+//                 chart: {
+//                     type: 'area',
+//                     height: 350,
+//                     toolbar: { show: false },
+//                     animations: {
+//                         enabled: true,
+//                         easing: 'easeinout',
+//                         speed: 800
+//                     },
+//                     events: {
+//                         dataPointSelection: function (event, chartContext, config) {
+//                             var selectedIndex = config.dataPointIndex;
+//                             var selectedLabel = label[selectedIndex];
+//                             var selectedRj = rj[selectedIndex];
+
+//                             alert("Outpatients for " + selectedLabel + ": " + selectedRj);
+//                         }
+//                     }
+//                 },
+//                 colors: ['#009EF7'],
+//                 series: [{ name: 'Outpatients', data: rj }],
+//                 stroke: { show: true, width: 2, curve: 'smooth' },
+//                 dataLabels: { enabled: false },
+//                 xaxis: { categories: label },
+//                 yaxis: {
+//                     labels: {
+//                         show: true,
+//                         formatter: function (value) { return todesimal(value); }
+//                     },
+//                     title: { text: 'Outpatient visits this year' }
+//                 },
+//                 annotations: {
+//                     yaxis: [{
+//                         y: avgrj,
+//                         borderColor: '#FF4560',
+//                         label: {
+//                             borderColor: '#FF4560',
+//                             style: { color: '#fff', background: '#FF4560' },
+//                             text: 'Average outpatient visits ' + todesimal(avgrj)
+//                         }
+//                     }]
+//                 }
+//             };
+
+//             var riChartConfig = {
+//                 chart: {
+//                     type: 'area',
+//                     height: 350,
+//                     toolbar: { show: false },
+//                     animations: {
+//                         enabled: true,
+//                         easing: 'easeinout',
+//                         speed: 800
+//                     },
+//                     events: {
+//                         dataPointSelection: function (event, chartContext, config) {
+//                             var selectedIndex = config.dataPointIndex;
+//                             var selectedLabel = label[selectedIndex];
+//                             var selectedRi = ri[selectedIndex];
+
+//                             alert("Inpatients for " + selectedLabel + ": " + selectedRi);
+//                         }
+//                     }
+//                 },
+//                 colors: ['#009EF7'],
+//                 series: [{ name: 'Inpatients', data: ri }],
+//                 stroke: { show: true, width: 2, curve: 'smooth' },
+//                 dataLabels: { enabled: false },
+//                 xaxis: { categories: label },
+//                 yaxis: {
+//                     labels: {
+//                         show: true,
+//                         formatter: function (value) { return todesimal(value); }
+//                     },
+//                     title: { text: 'Inpatient visits this year' }
+//                 },
+//                 annotations: {
+//                     yaxis: [{
+//                         y: avgri,
+//                         borderColor: '#FF4560',
+//                         label: {
+//                             borderColor: '#FF4560',
+//                             style: { color: '#fff', background: '#FF4560' },
+//                             text: 'Average number of inpatient visits ' + todesimal(avgri)
+//                         }
+//                     }]
+//                 }
+//             };
+
+//             new ApexCharts(document.querySelector("#chartkunjunganrjri"), rjri).render();
+//             new ApexCharts(document.querySelector("#chartkunjunganrj"), rjChartConfig).render();
+//             new ApexCharts(document.querySelector("#chartkunjunganri"), riChartConfig).render();
+//         }
+//     });
+
+//     return false;
+// }
 
 
 
