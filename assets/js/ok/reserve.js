@@ -19,6 +19,15 @@ flatpickr('[name="modal_reserve_request_date"]', {
     }
 });
 
+flatpickr('[name="modal_reserve_request_date_edit"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    minDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
 $('#modal_add_plan').on('show.bs.modal', function (e) {
     $('#modal_add_plan_date').val("");
     $('#modal_add_plan_tindakan').val("");
@@ -26,31 +35,67 @@ $('#modal_add_plan').on('show.bs.modal', function (e) {
 });
 
 function getdata(btn){
-    var data_namapasien = btn.attr("data_namapasien");
-    var data_mrpasien   = btn.attr("data_mrpasien");
-    var data_operasiid   = btn.attr("data_operasiid");
+    var data_namapasien       = btn.attr("data_namapasien");
+    var data_mrpasien         = btn.attr("data_mrpasien");
+    var data_pasienid         = btn.attr("data_pasienid");
+    var data_cito             = btn.attr("data_cito");
+    var data_tgltindakan      = btn.attr("data_tgltindakan");
+    var data_dokteropr        = btn.attr("data_dokteropr");
+    var data_operasiid        = btn.attr("data_operasiid");
+    var data_diagnosis        = btn.attr("data_diagnosis");
+    var data_basicdiagnosis   = btn.attr("data_basicdiagnosis");
+    var data_tindakan         = btn.attr("data_tindakan");
+    var data_indikasitindakan = btn.attr("data_indikasitindakan");
+    var data_procedures       = btn.attr("data_procedures");
+    var data_purpose          = btn.attr("data_purpose");
+    var data_risk             = btn.attr("data_risk");
+    var data_prognosis        = btn.attr("data_prognosis");
+    var data_alternative      = btn.attr("data_alternative");
+    var data_save             = btn.attr("data_save");
 
     $("#kt_drawer_chat_reserve_namapasien").html(data_namapasien+" [ "+data_mrpasien+" ]");
     $('#operasiid').val(data_operasiid);
     $('#modal_cancelled_operasiid').val(data_operasiid);
+    $('#modal_reserve_edit_operasiid').val(data_operasiid);
+
+    $('#modal_reserve_request_date_edit').val(data_tgltindakan);
+    $("textarea[name='modal_reserve_request_diagnosis_edit']").val(data_diagnosis);
+    $("textarea[name='modal_reserve_request_basicdiagnosis_edit']").val(data_basicdiagnosis);
+    $("textarea[name='modal_reserve_request_medicaltreatment_edit']").val(data_tindakan);
+    $("textarea[name='modal_reserve_request_indicationmedicaltreatment_edit']").val(data_indikasitindakan);
+    $("textarea[name='modal_reserve_request_procedures_edit']").val(data_procedures);
+    $("textarea[name='modal_reserve_request_purpose_edit']").val(data_purpose);
+    $("textarea[name='modal_reserve_request_risk_edit']").val(data_risk);
+    $("textarea[name='modal_reserve_request_prognosis_edit']").val(data_prognosis);
+    $("textarea[name='modal_reserve_request_alternatives_edit']").val(data_alternative);
+    $("textarea[name='modal_reserve_request_save_edit']").val(data_save);
+
+    var $pasienid = $('#modal_reserve_request_patientid_edit').select2();
+    $pasienid.val(data_pasienid).trigger('change');
+
+    var $dokteropr = $('#modal_reserve_request_dokteropr_edit').select2();
+    $dokteropr.val(data_dokteropr).trigger('change');
+
+    $('#modal_reserve_request_cito_edit').prop('checked', data_cito === "Y");
+
     chat(data_operasiid);
 };
 
 function refreshdata(){
-    planning();
+    datarequest();
     datacancelled();
 };
 
-function planning(){
+function datarequest(){
     $.ajax({
-        url       : url+"index.php/ok/reserve/planning",
+        url       : url+"index.php/ok/reserve/datarequest",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-            $("#resultplanning").html("");
+            $("#resultrequest").html("");
         },
         success:function(data){
             var tableresult ="";
@@ -60,7 +105,21 @@ function planning(){
                 for(var i in result){
                     var getvariabel = " data_namapasien='"+result[i].namepasien+"'"+
                                       " data_mrpasien='"+result[i].mrpasien+"'"+
-                                      " data_operasiid='"+result[i].transaksi_id+"'";
+                                      " data_operasiid='"+result[i].transaksi_id+"'"+
+                                      " data_tgltindakan='"+result[i].tgltindakan+"'"+
+                                      " data_pasienid='"+result[i].pasien_id+"'"+
+                                      " data_cito='"+result[i].cito+"'"+
+                                      " data_dokteropr='"+result[i].dokter_opr+"'"+
+                                      " data_diagnosis='"+result[i].diagnosis+"'"+
+                                      " data_basicdiagnosis='"+result[i].basic_diagnosis+"'"+
+                                      " data_tindakan='"+result[i].tindakan+"'"+
+                                      " data_indikasitindakan='"+result[i].indikasi_tindakan+"'"+
+                                      " data_procedures='"+result[i].procedures+"'"+
+                                      " data_purpose='"+result[i].purpose+"'"+
+                                      " data_risk='"+result[i].risk+"'"+
+                                      " data_prognosis='"+result[i].prognosis+"'"+
+                                      " data_alternative='"+result[i].alternative+"'"+
+                                      " data_save='"+result[i].save+"'";
 
                     tableresult +="<tr>";
 
@@ -80,7 +139,8 @@ function planning(){
                                 tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                         tableresult += "<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#kt_drawer_chat_reserve' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-send text-primary'></i> Follow Up</a>";
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_value='2' onclick='updatedata($(this));'><i class='bi bi-check2-circle text-success'></i> Agree</a>";
+                                        tableresult += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_reserve_edit' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-info'></i> Edit</a>";
+                                        // tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_value='2' onclick='updatedata($(this));'><i class='bi bi-check2-circle text-success'></i> Agree</a>";
                                         tableresult += "<a class='dropdown-item btn btn-sm text-danger' data-bs-toggle='modal' data-bs-target='#modal_cancelled' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Cancelled</a>";
                                 tableresult +="</div>";
                             tableresult +="</div>";
@@ -94,7 +154,7 @@ function planning(){
             }
 
 
-            $("#resultplanning").html(tableresult);
+            $("#resultrequest").html(tableresult);
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
@@ -426,6 +486,46 @@ $(document).on("submit", "#formnewrequest", function (e) {
         complete: function () {
             toastr.clear();
             $("#modal_reserve_request_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formeditrequest", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_reserve_edit_btn").addClass("disabled");
+        },
+		success: function (data) {
+            if(data.responCode == "00"){
+                $("#modal_reserve_edit").modal("hide");
+                refreshdata();
+			}
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            toastr.clear();
+            $("#modal_reserve_edit_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(

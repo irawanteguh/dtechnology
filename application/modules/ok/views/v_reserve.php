@@ -35,10 +35,10 @@
                         <a class="nav-link active" data-bs-toggle="tab" href="#tabpotensial">Potensial</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#planning">Planning</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#request">Request</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#ongoing">On Progress</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#register">Register</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabcancelled">Cancelled</a>
@@ -63,21 +63,21 @@
                             </table>
                         </div>
                     </div> -->
-                    <div class="tab-pane fade show active" id="planning" role="tabpanel" sty>
+                    <div class="tab-pane fade show active" id="request" role="tabpanel" sty>
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">Status</th>
-                                        <th>Identity</th>
+                                        <th class="min-w-250px">Identity</th>
                                         <th>Date</th>
                                         <th>Diagnosis / Medical Treatment</th>
-                                        <th>Operator</th>
-                                        <th>Created</th>
+                                        <th class="min-w-250px">Operator</th>
+                                        <th class="min-w-200px">Created</th>
                                         <th class="pe-4 text-end rounded-end">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold align-middle" id="resultplanning"></tbody>
+                                <tbody class="text-gray-600 fw-bold align-middle" id="resultrequest"></tbody>
                             </table>
                         </div>
                     </div>

@@ -14,24 +14,31 @@
 		}
 
         public function loadcombobox(){
-            $parameter1 ="";
-            $parameter2 ="";
-            $resultmasterpatient  = $this->md->masterpatient($_SESSION['orgid'],$parameter1);
-            $resultmasterpatient2  = $this->md->masterpatient($_SESSION['orgid'],$parameter2);
-            $resultmasterdokter   = $this->md->masterdokter($_SESSION['orgid']);
-            $resultmasterprovider = $this->md->masterprovider($_SESSION['orgid']);
-            $resultmasterreason   = $this->md->masterreason($_SESSION['orgid']);
-            $resultmasterpackage  = $this->md->masterpackage($_SESSION['orgid']);
+            // $parameter1 ="";
+            $parameter2 ="and   a.pasien_id not in (select pasien_id from dt01_med_ok_hd where active='1' and org_id=a.org_id and status not in ('99') and pasien_id=a.pasien_id)";
+            $parameter3 ="";
+            // $resultmasterpatient  = $this->md->masterpatient($_SESSION['orgid'],$parameter1);
+            $resultmasterpatient2    = $this->md->masterpatient($_SESSION['orgid'],$parameter2);
+            $resultmasterpatientedit = $this->md->masterpatient($_SESSION['orgid'],$parameter3);
+            $resultmasterdokter      = $this->md->masterdokter($_SESSION['orgid']);
+            $resultmasterprovider    = $this->md->masterprovider($_SESSION['orgid']);
+            $resultmasterreason      = $this->md->masterreason($_SESSION['orgid']);
+            $resultmasterpackage     = $this->md->masterpackage($_SESSION['orgid']);
             
             
-            $patientid="";
-            foreach($resultmasterpatient as $a ){
-                $patientid.="<option value='".$a->pasien_id."'>".$a->identitaspasien."</option>";
-            }
+            // $patientid="";
+            // foreach($resultmasterpatient as $a ){
+            //     $patientid.="<option value='".$a->pasien_id."'>".$a->identitaspasien."</option>";
+            // }
 
             $patientid2="";
             foreach($resultmasterpatient2 as $a ){
                 $patientid2.="<option value='".$a->pasien_id."'>".$a->identitaspasien."</option>";
+            }
+
+            $patientidedit="";
+            foreach($resultmasterpatientedit as $a ){
+                $patientidedit.="<option value='".$a->pasien_id."'>".$a->identitaspasien."</option>";
             }
 
             $provider="";
@@ -66,19 +73,20 @@
                 $package.="<option value='".$a->transaksi_id."'>".$a->packagetindakan."</option>";
             }
 
-            $data['provider']  = $provider;
-            $data['patientid'] = $patientid;
-            $data['patientid2'] = $patientid2;
-            $data['dokteropr'] = $dokteropr;
-            $data['dokterans'] = $dokterans;
-            $data['dokterank'] = $dokterank;
-            $data['reason']    = $reason;
-            $data['package']   = $package;
+            $data['provider'] = $provider;
+              // $data['patientid'] = $patientid;
+            $data['patientid2']    = $patientid2;
+            $data['patientidedit'] = $patientidedit;
+            $data['dokteropr']     = $dokteropr;
+            $data['dokterans']     = $dokterans;
+            $data['dokterank']     = $dokterank;
+            $data['reason']        = $reason;
+            $data['package']       = $package;
             
             return $data;
 		}
 
-		public function planning(){
+		public function datarequest(){
             $parameter = "and a.status in ('5')";
             $result = $this->md->dataok($_SESSION['orgid'],$parameter);
             
@@ -210,6 +218,42 @@
             echo json_encode($json);
         }
 
+        public function editrequest(){
+            
+            if($this->input->post("modal_reserve_request_date_edit")!=""){
+                $data['date']              = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_reserve_request_date_edit"))->format("Y-m-d");
+                $data['dokter_opr']        = $this->input->post("modal_reserve_request_dokteropr_edit");
+                $data['diagnosis']         = $this->input->post("modal_reserve_request_diagnosis_edit");
+                $data['basic_diagnosis']   = $this->input->post("modal_reserve_request_basicdiagnosis_edit");
+                $data['tindakan']          = $this->input->post("modal_reserve_request_medicaltreatment_edit");
+                $data['indikasi_tindakan'] = $this->input->post("modal_reserve_request_indicationmedicaltreatment_edit");
+                $data['procedures']        = $this->input->post("modal_reserve_request_procedures_edit");
+                $data['purpose']           = $this->input->post("modal_reserve_request_purpose_edit");
+                $data['risk']              = $this->input->post("modal_reserve_request_risk_edit");
+                $data['prognosis']         = $this->input->post("modal_reserve_request_prognosis_edit");
+                $data['alternative']       = $this->input->post("modal_reserve_request_alternatives_edit");
+                $data['save']              = $this->input->post("modal_reserve_request_save_edit");
+                $data['cito']              = $this->input->post("modal_reserve_request_cito_edit");
+    
+                if($this->md->updateplan($this->input->post("modal_reserve_edit_operasiid"),$data)){
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Update Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Update";
+                }
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Please Enter Date";
+            }
+            
+
+            echo json_encode($json);
+        }
+
         public function cancelled(){
             
             $data['reason_id']   = $this->input->post("modal_cancelled_reason");
@@ -295,6 +339,10 @@
     
                 if($a->status === "2"){
                     $data['color']     = '#ffc107';
+                }
+
+                if($a->status === "5"){
+                    $data['color']     = '#6f42c1';
                 }
     
                 if($a->status === "99"){

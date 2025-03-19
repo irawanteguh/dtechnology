@@ -8,7 +8,6 @@
                         from dt01_gen_pasien_ms a
                         where a.org_id='".$orgid."'
                         and   a.active='1'
-                        and   a.pasien_id not in (select pasien_id from dt01_med_ok_hd where active='1' and org_id=a.org_id and status not in ('99') and pasien_id=a.pasien_id)
                         ".$parameter."
                         order by name asc
                     ";
@@ -122,7 +121,8 @@
                                 (select provider      from dt01_keu_provider_ms where active='1' and provider_id=x.provider_id)provider,
                                 (select harga         from dt01_keu_package_dt where active='1' and transaksi_id=x.package_id)harga
                         from(
-                            select a.transaksi_id, pasien_id, episode_id, provider_id, dokter_opr, dokter_ans, dokter_ank, package_id, tindakan, diagnosis, benefit, reason_id, status, cito, created_by, created_date,
+                            select a.transaksi_id, pasien_id, episode_id, provider_id, dokter_opr, dokter_ans, dokter_ank, package_id, benefit, reason_id, status, cito, created_by, created_date,
+                                   a.diagnosis, basic_diagnosis, tindakan, indikasi_tindakan, procedures, purpose, risk, prognosis, alternative, save,
                                 date_format(date,'%d.%m.%Y')tgltindakan, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat
                             from dt01_med_ok_hd a
                             where a.active='1'
