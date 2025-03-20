@@ -20,12 +20,68 @@
                     <div class="w-100">
                         <div class="pb-10 pb-lg-12">
                             <h2 class="fw-bolder text-dark">Patient Identity</h2>
-                            <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.
-                        </div>
+                            <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.</div>
                         </div>
                         <div class="fv-row mb-10">
                             <label class="form-label required">No Medical Record / KTP / BPJS</label>
                             <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" placeholder="Please Enter Your Number Medical Record / KTP / BPJS" />
+                        </div>
+                    </div>
+                </div>
+
+                <div data-kt-stepper-element="content">
+                    <div class="w-100 row">
+                        <div class="pb-10 pb-lg-12">
+                            <h2 class="fw-bolder text-dark">Confirmation Patient Identity</h2>
+                            <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.</div>
+                        </div>
+                        <div class="fv-row mb-10 col-md-4">
+                            <label class="form-label required">No Medical Record</label>
+                            <input id="nomr" name="nomr" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10 col-md-4">
+                            <label class="form-label required">No KTP</label>
+                            <input id="noktp" name="noktp" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10 col-md-4">
+                            <label class="form-label required">No BPJS</label>
+                            <input id="nobpjs" name="nobpjs" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10 col-md-12">
+                            <label class="form-label required">Name</label>
+                            <input id="name" name="name" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10 col-md-4">
+                            <label class="form-label required">Birth Of Day</label>
+                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10 col-md-4">
+                            <label class="form-label required">Age</label>
+                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10 col-md-4">
+                            <label class="form-label required">Sex</label>
+                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10">
+                            <label class="form-label required">Address</label>
+                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+
+                        <div class="fv-row mb-15 fv-plugins-icon-container">
+                            <div class="d-flex flex-stack">
+                                <div class="me-5">
+                                    <label class="required fs-6 fw-bold">Confirmation</label>
+                                    <div class="fs-7 fw-bold text-muted">Please make sure that the identity listed is correct.</div>
+                                </div>
+                                <div class="d-flex">
+                                    <label class="form-check form-check-custom form-check-solid me-10">
+                                        <input class="form-check-input h-20px w-20px" type="checkbox" value="email" name="settings_notifications[]">
+                                        <span class="form-check-label fw-bold">Correct</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="fv-plugins-message-container invalid-feedback"></div>
                         </div>
                     </div>
                 </div>
