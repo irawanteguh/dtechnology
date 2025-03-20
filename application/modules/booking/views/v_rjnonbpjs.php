@@ -53,19 +53,19 @@
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">Birth Of Day</label>
-                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="bod" name="bod" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">Age</label>
-                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="age" name="age" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">Sex</label>
-                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="sex" name="sex" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10">
                             <label class="form-label required">Address</label>
-                            <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="address" name="address" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
 
                         <div class="fv-row mb-15 fv-plugins-icon-container">
@@ -76,12 +76,43 @@
                                 </div>
                                 <div class="d-flex">
                                     <label class="form-check form-check-custom form-check-solid me-10">
-                                        <input class="form-check-input h-20px w-20px" type="checkbox" value="email" name="settings_notifications[]">
+                                        <input class="form-check-input h-20px w-20px" type="checkbox" name="confirm">
                                         <span class="form-check-label fw-bold">Correct</span>
                                     </label>
                                 </div>
                             </div>
                             <div class="fv-plugins-message-container invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-kt-stepper-element="content">
+                    <div class="w-100 row">
+                        <div class="pb-10 pb-lg-12">
+                            <h2 class="fw-bolder text-dark">Confirmation Patient Identity</h2>
+                            <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.</div>
+                        </div>
+                        <div class="fv-row col-md-6">
+                            <label class="fs-6 fw-bold mb-2 required">Date</label>
+                            <input class="form-control form-control-solid flatpickr-input" name="date" placeholder="Pick a date" id="date" type="text">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fs-6 fw-bold mb-2 required">Provider</label>
+                            <select data-control="select2" data-dropdown-parent="#modal_activity_add" data-placeholder="Select a Primary Activity..." class="form-select form-select-solid" name="data_activity_primaryactivity_add" id="data_activity_primaryactivity_add">
+                                <?php echo $activity;?>
+                            </select>
+                        </div>
+                        <div class="fv-row col-md-12">
+                            <label class="fs-6 fw-bold mb-2 required">Polyclinic</label>
+                            <select data-control="select2" data-dropdown-parent="#modal_activity_add" data-placeholder="Select a Primary Activity..." class="form-select form-select-solid" name="data_activity_primaryactivity_add" id="data_activity_primaryactivity_add">
+                                <?php echo $activity;?>
+                            </select>
+                        </div>
+                        <div class="fv-row col-md-12">
+                            <label class="fs-6 fw-bold mb-2 required">Doctor</label>
+                            <select data-control="select2" data-dropdown-parent="#modal_activity_add" data-placeholder="Select a Primary Activity..." class="form-select form-select-solid" name="data_activity_primaryactivity_add" id="data_activity_primaryactivity_add">
+                                <?php echo $activity;?>
+                            </select>
                         </div>
                     </div>
                 </div>
