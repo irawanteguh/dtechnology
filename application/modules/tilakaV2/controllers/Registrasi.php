@@ -414,11 +414,11 @@
             if($response['success']){
                 $data['CERTIFICATE']      = $response['status'];
 
-                if($response['status']===1 || $response['status']===3){
+                // if($response['status']===1 || $response['status']===3){
                     $data['CERTIFICATE_INFO'] = $response['message']['info'];
-                }else{
-                    $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
-                }
+                // }else{
+                //     $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
+                // }
                 
                 if($response['status']===0){ 
                     if($response['data'][0]['status']==="Expired"){
@@ -427,7 +427,7 @@
                     }
                 }
 
-                if($response['status']===3){ // status 3 → sertifikat aktif (user telah memvalidasi data pada sertifikat, atau telah melewati masa validasi 9 hari sehingga dianggap valid by system)
+                if($response['status']===3){
                     if($response['message']['info']==="Aktif"){
                         $data['REVOKE_ID']   = "";
                         $data['ISSUE_ID']    = "";
@@ -436,7 +436,7 @@
                     }
                 }
 
-                if($response['status']===4){ // status 4 → registrasi sertifikat ditolak (final) oleh verifikator/validator.
+                if($response['status']===4){
                     $data['USER_IDENTIFIER']  = "";
                     $data['REGISTER_ID']      = "";
                     $data['REVOKE_ID']        = "";
