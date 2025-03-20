@@ -142,7 +142,7 @@ function certificatestatus(btn){
                 if(result['status']===4){
                     showAlert(
                         "For Your Information",
-                        "Message : "+result['message']['info']+"<br>Please Please re-register",
+                        "Message : "+result['message']['info']+"<br>Please re-register",
                         "error",
                         "Please Try Again",
                         "btn btn-danger"
@@ -288,7 +288,7 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="4"){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div>><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><div class='badge badge-light-danger fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
                         btnaction  = btnedit+btnpengajuan;
                     }
 
