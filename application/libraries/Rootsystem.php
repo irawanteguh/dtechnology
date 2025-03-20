@@ -7,14 +7,21 @@
         public static $resultreferensi;
 
         public static function system(){
-            self::init();
+            self::$app      = &get_instance();
+            self::$segment1 = self::$app->uri->segment(1);
+
             self::checksession();
-            self::category();
-            self::referensi();
+
+            if(self::$segment1!="auth" && self::$segment1!="booking"){
+                self::init();
+                self::category();
+                self::referensi();
+            }
+            
         }
 
         public static function checksession(){
-            if(self::$app->uri->segment(1)!="auth"){
+            if(self::$app->uri->segment(1)!="auth" && self::$app->uri->segment(1)!="booking"){
                 if(!self::$app->session->userdata('loggedin')){
                     redirect("auth/sign");
                 }
@@ -27,7 +34,6 @@
             self::$segment1        = self::$app->uri->segment(1);
             self::$segment2        = self::$app->uri->segment(2);
             self::$resultmenu      = self::$app->Modelroot->menu($_SESSION['userid']);
-            // self::$resultmenu      = self::$app->Modelroot->menu();
             self::$resultreferensi = self::$app->Modelroot->referensi();
         }
 
