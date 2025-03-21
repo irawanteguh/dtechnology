@@ -58,6 +58,8 @@
                             $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
                             $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
                             $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
+                            $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
+                            $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                             $datasimpan['REVOKE_ID']        = "";
                             $datasimpan['ISSUE_ID']         = "";
                             $this->md->updatedataregister($datasimpan,$_GET['register_id']);
