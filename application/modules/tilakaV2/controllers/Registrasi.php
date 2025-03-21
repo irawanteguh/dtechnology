@@ -42,7 +42,6 @@
                 if(($_GET['reason_code'] === "1" || $_GET['reason_code'] === "undefined") && $_GET['status']==="S"){
                     $body['register_id']=$_GET['register_id'];
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
-                    return var_dump($responsecheckregistrasiuser['data']['tilaka_name']);
 
                     if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="1" && $responsecheckregistrasiuser['data']['manual_registration_status']==="F"){
                         $datasimpan['REGISTER_ID']    = "";
@@ -51,7 +50,7 @@
                         redirect("tilakaV2/registrasi",$data);
                     }
 
-                    if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="1" && $responsecheckregistrasiuser['data']['manual_registration_status']==="V"){
+                    if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="1" && ($responsecheckregistrasiuser['data']['manual_registration_status']==="S" || $responsecheckregistrasiuser['data']['manual_registration_status']==="V")){
                         $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
                         $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
                             
