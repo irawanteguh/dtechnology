@@ -15,7 +15,7 @@
                     <h3 class="stepper-title">Completed</h3>
                 </div>
             </div>
-            <form class="mx-auto mw-600px w-100 py-10" novalidate="novalidate" id="kt_create_account_form">
+            <form class="mx-auto mw-600px w-100 py-10" id="formbooking">
                 <div class="current" data-kt-stepper-element="content">
                     <div class="w-100">
                         <div class="pb-10 pb-lg-12">
@@ -37,35 +37,35 @@
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">No Medical Record</label>
-                            <input id="nomr" name="nomr" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_nomr" name="booking_nomr" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">No KTP</label>
-                            <input id="noktp" name="noktp" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_noktp" name="booking_noktp" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">No BPJS</label>
-                            <input id="nobpjs" name="nobpjs" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_nobpjs" name="booking_nobpjs" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-9">
                             <label class="form-label required">Name</label>
-                            <input id="name" name="name" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_name" name="booking_name" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-3">
                             <label class="form-label required">Sex</label>
-                            <input id="sex" name="sex" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_sex" name="booking_sex" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">Birth Of Day</label>
-                            <input id="bod" name="bod" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_bod" name="booking_bod" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-8">
                             <label class="form-label required">Age</label>
-                            <input id="age" name="age" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_age" name="booking_age" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10">
                             <label class="form-label required">Address</label>
-                            <input id="address" name="address" class="form-control form-control-lg form-control-solid" disabled/>
+                            <input id="booking_address" name="booking_address" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
 
                         <div class="fv-row mb-15 fv-plugins-icon-container">
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <label class="form-check form-check-custom form-check-solid me-10">
-                                        <input class="form-check-input h-20px w-20px" type="checkbox" name="confirm">
+                                        <input class="form-check-input h-20px w-20px" type="checkbox" ID="booking_confirm" name="booking_confirm">
                                         <span class="form-check-label fw-bold">Correct</span>
                                     </label>
                                 </div>
@@ -89,30 +89,62 @@
                 <div data-kt-stepper-element="content">
                     <div class="w-100 row">
                         <div class="pb-10 pb-lg-12">
-                            <h2 class="fw-bolder text-dark">Confirmation Patient Identity</h2>
-                            <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.</div>
+                            <h2 class="fw-bolder text-dark">Selecting Clinic Date</h2>
+                            <div class="text-muted fw-bold fs-6">Please make sure to choose the clinic date for the doctor.</div>
                         </div>
+                        <div class="alert alert-dismissible bg-light-info border border-info border-3 border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-10 fa-fade">
+                            <span class="svg-icon svg-icon-2hx svg-icon-info me-4 mb-5 mb-sm-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path opacity="0.3" d="M2 4V16C2 16.6 2.4 17 3 17H13L16.6 20.6C17.1 21.1 18 20.8 18 20V17H21C21.6 17 22 16.6 22 16V4C22 3.4 21.6 3 21 3H3C2.4 3 2 3.4 2 4Z" fill="black"></path>
+                                    <path d="M18 9H6C5.4 9 5 8.6 5 8C5 7.4 5.4 7 6 7H18C18.6 7 19 7.4 19 8C19 8.6 18.6 9 18 9ZM16 12C16 11.4 15.6 11 15 11H6C5.4 11 5 11.4 5 12C5 12.6 5.4 13 6 13H15C15.6 13 16 12.6 16 12Z" fill="black"></path>
+                                </svg>
+                            </span>
+                            <div class="d-flex flex-column pe-0 pe-sm-10">
+                                <h5 class="mb-1">For Your Information</h5>
+                                <span>Please enter the visit date first</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="booking_hariid" name="booking_hariid">
                         <div class="fv-row col-md-6 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Date</label>
-                            <input class="form-control form-control-solid flatpickr-input" name="date" placeholder="Pick a date" id="date" type="text">
+                            <input class="form-control form-control-solid flatpickr-input" name="booking_date" id="booking_date" placeholder="Pick a date"  type="text">
                         </div>
                         <div class="fv-row col-md-6 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Provider</label>
-                            <select data-control="select2" data-dropdown-parent="#kt_create_account_stepper" data-placeholder="Select a Provider..." class="form-select form-select-solid" name="provider" id="provider">
+                            <select data-control="select2" data-dropdown-parent="#formbooking" data-placeholder="Select a Provider..." class="form-select form-select-solid" name="booking_provider" id="booking_provider">
                                 <?php echo $provider;?>
                             </select>
                         </div>
                         <div class="fv-row col-md-12 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Polyclinic</label>
-                            <select data-control="select2" data-dropdown-parent="#kt_create_account_stepper" data-placeholder="Select a Polyclinic..." class="form-select form-select-solid" name="poliid" id="poliid">
+                            <select data-control="select2" data-dropdown-parent="#formbooking" data-placeholder="Select a Polyclinic..." class="form-select form-select-solid" name="booking_poliid" id="booking_poliid">
                                 <?php echo $poliklinik;?>
                             </select>
                         </div>
                         <div class="fv-row col-md-12 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Doctor</label>
-                            <select data-control="select2" data-dropdown-parent="#modal_activity_add" data-placeholder="Select a Primary Activity..." class="form-select form-select-solid" name="data_activity_primaryactivity_add" id="data_activity_primaryactivity_add">
-                                <?php echo $activity;?>
+                            <select data-control="select2" data-dropdown-parent="#formbooking" data-placeholder="Select a Doctor..." class="form-select form-select-solid" name="booking_doctorid" id="booking_doctorid">
+                                <?php echo $doctor;?>
                             </select>
+                        </div>
+                        <div class="fv-row col-md-12 pb-10"><div class="row g-9" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button='true']" id="jadwaldokter"></div></div>
+                    </div>
+                </div>
+
+                <div data-kt-stepper-element="content" class="text-center">
+                    <div class="w-100 row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card shadow-sm p-5">
+                                <div class="pb-5">
+                                    <i class="fas fa-check-circle text-success fa-5x"></i>
+                                </div>
+                                <h2 class="fw-bolder text-dark">Booking Completed Successfully!</h2>
+                                <p class="text-muted fw-bold fs-6">
+                                    Your outpatient clinic booking has been successfully processed.  
+                                    Please check your email or SMS for further details.
+                                </p>
+                                <a href="./RJNonBPJS" class="btn btn-primary mt-4" data-kt-element="complete-start">Back to Home</a>
+                            </div>
                         </div>
                     </div>
                 </div>
