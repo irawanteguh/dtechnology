@@ -16,16 +16,16 @@ var KTCreateAccount = (function () {
 
                     if (!identitaspasien) {
                         Swal.fire({
-                            title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                            html: "<b>Please enter your Medical Record / KTP / BPJS number!</b>",
-                            icon: "error",
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html             : "<b>Please enter your Medical Record / KTP / BPJS number!</b>",
+                            icon             : "error",
                             confirmButtonText: "Please Try Again",
-                            buttonsStyling: false,
-                            timerProgressBar: true,
-                            timer: 5000,
-                            customClass: { confirmButton: "btn btn-danger" },
-                            showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                            hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                            buttonsStyling   : false,
+                            timerProgressBar : true,
+                            timer            : 5000,
+                            customClass      : { confirmButton: "btn btn-danger" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                         });
 
                         return;
@@ -38,16 +38,16 @@ var KTCreateAccount = (function () {
                         })
                         .catch(() => {
                             Swal.fire({
-                                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                                html: "<b>Patient data not found! Please check your input.</b>",
-                                icon: "error",
+                                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                                html             : "<b>Patient data not found! Please check your input.</b>",
+                                icon             : "error",
                                 confirmButtonText: "Please Try Again",
-                                buttonsStyling: false,
-                                timerProgressBar: true,
-                                timer: 5000,
-                                customClass: { confirmButton: "btn btn-danger" },
-                                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                                buttonsStyling   : false,
+                                timerProgressBar : true,
+                                timer            : 5000,
+                                customClass      : { confirmButton: "btn btn-danger" },
+                                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                             });
                         });
 
@@ -55,14 +55,14 @@ var KTCreateAccount = (function () {
                     var isChecked = document.querySelector("input[name='confirm']").checked;
                     if (!isChecked) {
                         Swal.fire({
-                            title: "<h1 class='font-weight-bold' style='color:#234974;'>Confirmation Required</h1>",
-                            html: "<b>Please confirm that the patient's identity is correct.</b>",
-                            icon: "warning",
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>Confirmation Required</h1>",
+                            html             : "<b>Please confirm that the patient's identity is correct.</b>",
+                            icon             : "warning",
                             confirmButtonText: "OK",
-                            buttonsStyling: false,
-                            customClass: { confirmButton: "btn btn-warning" },
-                            showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                            hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                            buttonsStyling   : false,
+                            customClass      : { confirmButton: "btn btn-warning" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                         });
                         return;
                     }
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
 flatpickr('[name="date"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
-    minDate   : "today",
+    minDate   : new Date().fp_incr(1), // Tambah 1 hari dari hari ini
     onChange  : function(selectedDates, dateStr, instance) {
         instance.close();
     }
@@ -99,18 +99,19 @@ flatpickr('[name="date"]', {
 function datapasien(identitaspasien) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: url + "index.php/booking/RJNonBPJS/datapasien",
-            data: { identitaspasien: identitaspasien },
-            method: "POST",
+            url     : url + "index.php/booking/RJNonBPJS/datapasien",
+            data    : { identitaspasien: identitaspasien },
+            method  : "POST",
             dataType: "JSON",
-            cache: false,
-            success: function (data) {
-                if (data.responCode === "00") {
+            cache   : false,
+            success : function (data) {
+                if(data.responCode === "00"){
+
                     let result = data.responResult[0];
 
                     $("#nomr").val(result.no_rkm_medis);
                     $("#noktp").val(result.no_ktp);
-                    $("#nobpjs").val(result.no_bpjs);
+                    $("#nobpjs").val(result.no_peserta);
                     $("#name").val(result.nm_pasien);
                     $("#bod").val(result.tgl_lahir);
                     $("#age").val(result.umur);
@@ -124,16 +125,16 @@ function datapasien(identitaspasien) {
             },
             error: function (xhr, status, error) {
                 Swal.fire({
-                    title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                    html: "<b>" + error + "</b>",
-                    icon: "error",
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                    html             : "<b>" + error + "</b>",
+                    icon             : "error",
                     confirmButtonText: "Please Try Again",
-                    buttonsStyling: false,
-                    timerProgressBar: true,
-                    timer: 5000,
-                    customClass: { confirmButton: "btn btn-danger" },
-                    showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                    hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                    buttonsStyling   : false,
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    customClass      : { confirmButton: "btn btn-danger" },
+                    showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                    hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                 });
                 reject();
             }

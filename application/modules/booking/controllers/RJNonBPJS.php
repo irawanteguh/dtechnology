@@ -9,8 +9,28 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-blank","v_rjnonbpjs");
+            $data = $this->loadcombobox();
+			$this->template->load("template/template-blank","v_rjnonbpjs",$data);
 		}
+
+        public function loadcombobox(){
+            $resultmasterprovider   = $this->md->masterprovider(ORG_ID);
+            $resultmasterpoliklinik = $this->md->masterpoliklinik();
+    
+            $provider       = "";
+            foreach ($resultmasterprovider as $a) {
+                $provider .= "<option value='" . $a->providerid . "'>" . $a->provider . "</option>";
+            }
+
+            $poliklinik       = "";
+            foreach ($resultmasterpoliklinik as $a) {
+                $poliklinik .= "<option value='" . $a->kd_poli . "'>" . $a->nm_poli . "</option>";
+            }
+    
+            $data['provider']   = $provider;
+            $data['poliklinik'] = $poliklinik;
+            return $data;
+        }
 
         public function datapasien(){
             $parameter = $this->input->post("identitaspasien");

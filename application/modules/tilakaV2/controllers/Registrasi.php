@@ -39,7 +39,7 @@
                     }
                 }
 
-                if($_GET['reason_code'] === "1" && $_GET['status']==="S"){
+                if(($_GET['reason_code'] === "1" || $_GET['reason_code'] === "undefined") && $_GET['status']==="S"){
                     $body['register_id']=$_GET['register_id'];
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
 
@@ -414,11 +414,11 @@
             if($response['success']){
                 $data['CERTIFICATE']      = $response['status'];
 
-                // if($response['status']===1 || $response['status']===3){
+                if ($response['status'] === 1 || $response['status'] === 3) {
                     $data['CERTIFICATE_INFO'] = $response['message']['info'];
-                // }else{
-                //     $data['CERTIFICATE_INFO'] = $response['data'][0]['status'];
-                // }
+                } else {
+                    $data['CERTIFICATE_INFO'] = isset($response['data'][0]['status']) ? $response['data'][0]['status'] : $response['message']['info'];
+                }                
                 
                 if($response['status']===0){ 
                     if($response['data'][0]['status']==="Expired"){

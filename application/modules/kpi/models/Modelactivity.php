@@ -1,25 +1,6 @@
 <?php
     class Modelactivity extends CI_Model{
 
-        // function calender($orgid,$userid){
-        //     $query =
-        //             "
-        //                 select a.trans_id, status, activity,
-        //                     concat(DATE_FORMAT(a.start_date, '%Y-%m-%d'),'T',start_time_in,':00') start_date,
-        //                     concat(DATE_FORMAT(a.end_date, '%Y-%m-%d'),'T',end_time_out,':00') end_date,
-        //                     (select activity from dt01_hrd_activity_ms where active='1' and org_id=a.org_id and activity_id=a.activity_id)kegiatanutama,
-        //                     (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.atasan_id)validatorkegiatan
-        //                 from dt01_hrd_activity_dt a
-        //                 where a.active='1'
-        //                 and   a.org_id='".$orgid."'
-        //                 and   a.user_id='".$userid."'
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
-
         function calender($orgid,$userid){
             $query =
                     "

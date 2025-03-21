@@ -47,21 +47,21 @@
                             <label class="form-label required">No BPJS</label>
                             <input id="nobpjs" name="nobpjs" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
-                        <div class="fv-row mb-10 col-md-12">
+                        <div class="fv-row mb-10 col-md-9">
                             <label class="form-label required">Name</label>
                             <input id="name" name="name" class="form-control form-control-lg form-control-solid" disabled/>
+                        </div>
+                        <div class="fv-row mb-10 col-md-3">
+                            <label class="form-label required">Sex</label>
+                            <input id="sex" name="sex" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10 col-md-4">
                             <label class="form-label required">Birth Of Day</label>
                             <input id="bod" name="bod" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
-                        <div class="fv-row mb-10 col-md-4">
+                        <div class="fv-row mb-10 col-md-8">
                             <label class="form-label required">Age</label>
                             <input id="age" name="age" class="form-control form-control-lg form-control-solid" disabled/>
-                        </div>
-                        <div class="fv-row mb-10 col-md-4">
-                            <label class="form-label required">Sex</label>
-                            <input id="sex" name="sex" class="form-control form-control-lg form-control-solid" disabled/>
                         </div>
                         <div class="fv-row mb-10">
                             <label class="form-label required">Address</label>
@@ -92,23 +92,23 @@
                             <h2 class="fw-bolder text-dark">Confirmation Patient Identity</h2>
                             <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.</div>
                         </div>
-                        <div class="fv-row col-md-6">
+                        <div class="fv-row col-md-6 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Date</label>
                             <input class="form-control form-control-solid flatpickr-input" name="date" placeholder="Pick a date" id="date" type="text">
                         </div>
-                        <div class="col-md-6">
+                        <div class="fv-row col-md-6 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Provider</label>
-                            <select data-control="select2" data-dropdown-parent="#modal_activity_add" data-placeholder="Select a Primary Activity..." class="form-select form-select-solid" name="data_activity_primaryactivity_add" id="data_activity_primaryactivity_add">
-                                <?php echo $activity;?>
+                            <select data-control="select2" data-dropdown-parent="#kt_create_account_stepper" data-placeholder="Select a Provider..." class="form-select form-select-solid" name="provider" id="provider">
+                                <?php echo $provider;?>
                             </select>
                         </div>
-                        <div class="fv-row col-md-12">
+                        <div class="fv-row col-md-12 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Polyclinic</label>
-                            <select data-control="select2" data-dropdown-parent="#modal_activity_add" data-placeholder="Select a Primary Activity..." class="form-select form-select-solid" name="data_activity_primaryactivity_add" id="data_activity_primaryactivity_add">
-                                <?php echo $activity;?>
+                            <select data-control="select2" data-dropdown-parent="#kt_create_account_stepper" data-placeholder="Select a Polyclinic..." class="form-select form-select-solid" name="poliid" id="poliid">
+                                <?php echo $poliklinik;?>
                             </select>
                         </div>
-                        <div class="fv-row col-md-12">
+                        <div class="fv-row col-md-12 pb-10">
                             <label class="fs-6 fw-bold mb-2 required">Doctor</label>
                             <select data-control="select2" data-dropdown-parent="#modal_activity_add" data-placeholder="Select a Primary Activity..." class="form-select form-select-solid" name="data_activity_primaryactivity_add" id="data_activity_primaryactivity_add">
                                 <?php echo $activity;?>
