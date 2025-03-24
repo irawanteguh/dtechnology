@@ -431,16 +431,17 @@ $(document).on("submit", "#formregisteruser", function (e) {
                 }else{
                     Swal.fire({
                         title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<b>" + result['message'] + (result['data'][0] ? " " + result['data'][0] : "") + "</b>",
+                        html             : "<b>" + result['message'] + (Array.isArray(result['data']) && result['data'][0] ? " " + result['data'][0] : "") + "</b>",
                         icon             : "error",
                         confirmButtonText: "Please Try Again",
                         buttonsStyling   : false,
                         timerProgressBar : true,
                         timer            : 5000,
-                        customClass      : {confirmButton: "btn btn-danger"},
-                        showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                        hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                        customClass      : { confirmButton: "btn btn-danger" },
+                        showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                        hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                     });
+                    
                 }
             }else{
                 Swal.fire({
