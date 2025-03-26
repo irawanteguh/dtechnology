@@ -62,35 +62,35 @@
                                     </div>
                                     <div class="fv-row mb-10 col-md-4">
                                         <label class="form-label required">No Medical Record</label>
-                                        <input id="booking_nomr" name="booking_nomr" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_nomr" name="booking_nomr" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
                                     <div class="fv-row mb-10 col-md-4">
                                         <label class="form-label required">No KTP</label>
-                                        <input id="booking_noktp" name="booking_noktp" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_noktp" name="booking_noktp" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
                                     <div class="fv-row mb-10 col-md-4">
                                         <label class="form-label required">No BPJS</label>
-                                        <input id="booking_nobpjs" name="booking_nobpjs" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_nobpjs" name="booking_nobpjs" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
                                     <div class="fv-row mb-10 col-md-9">
                                         <label class="form-label required">Name</label>
-                                        <input id="booking_name" name="booking_name" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_name" name="booking_name" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
                                     <div class="fv-row mb-10 col-md-3">
                                         <label class="form-label required">Sex</label>
-                                        <input id="booking_sex" name="booking_sex" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_sex" name="booking_sex" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
                                     <div class="fv-row mb-10 col-md-4">
                                         <label class="form-label required">Birth Of Day</label>
-                                        <input id="booking_bod" name="booking_bod" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_bod" name="booking_bod" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
                                     <div class="fv-row mb-10 col-md-8">
                                         <label class="form-label required">Age</label>
-                                        <input id="booking_age" name="booking_age" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_age" name="booking_age" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
                                     <div class="fv-row mb-10">
                                         <label class="form-label required">Address</label>
-                                        <input id="booking_address" name="booking_address" class="form-control form-control-lg form-control-solid" disabled/>
+                                        <input id="booking_address" name="booking_address" class="form-control form-control-lg form-control-solid" readonly/>
                                     </div>
 
                                     <div class="fv-row mb-15 fv-plugins-icon-container">
@@ -158,17 +158,31 @@
 
                             <div data-kt-stepper-element="content" class="text-center">
                                 <div class="w-100 row justify-content-center">
-                                    <div class="col-md-8">
-                                        <div class="card shadow-sm p-5">
-                                            <div class="pb-5">
-                                                <i class="fas fa-check-circle text-success fa-5x"></i>
+                                    <div class="col-lg-12 col-md-8">
+                                        <div class="card shadow-lg p-5 animate__animated animate__fadeInUp">
+                                            <div class="pb-4">
+                                                <i class="fas fa-check-circle text-success fa-5x animate__animated animate__bounceIn"></i>
                                             </div>
                                             <h2 class="fw-bolder text-dark">Booking Completed Successfully!</h2>
                                             <p class="text-muted fw-bold fs-6">
-                                                Your outpatient clinic booking has been successfully processed.  
-                                                Please check your email or SMS for further details.
+                                                Your outpatient clinic booking has been successfully processed.<br>
+                                                Please Save / Screenshot the Booking Information Below
                                             </p>
-                                            <a href="./RJNonBPJS" class="btn btn-primary mt-4" data-kt-element="complete-start">Back to Home</a>
+                                            <h1 class="fw-bolder text-muted fw-bold" id="struk_namapasien"></h6><br>
+                                            <h3 class="fw-bolder text-muted fw-bold" id="struk_politujuan"></h6>
+                                            <h3 class="fw-bolder text-muted fw-bold" id="struk_namadokter"></h6><br>
+                                            <div id="qrcode_booking"></div>
+                                            <h1 class="fw-bolder text-muted fw-bold" id="struk_bookinid"></h6><br>
+                                            <h1 class="fw-bolder text-muted fw-bold" id="struk_noantrian"></h6>
+                                            <h3 class="fw-bolder text-muted fw-bold" id="struk_jampelayanan"></h6>
+                                            <div class="d-flex flex-column gap-3 mt-4">
+                                                <a href="javascript:void(0);" class="btn btn-outline-success" id="downloadReceipt">
+                                                    <i class="fas fa-file-download me-2"></i> Download Receipt
+                                                </a>
+                                                <a href="./RJNonBPJS" class="btn btn-primary" data-kt-element="complete-start">
+                                                    <i class="fas fa-home me-2"></i> Back to Home
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

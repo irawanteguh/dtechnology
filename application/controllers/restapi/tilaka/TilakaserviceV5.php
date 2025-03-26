@@ -149,9 +149,9 @@
                                     $specimentposition = $pdfParse->findText($position);
     
                                     if(!empty($specimentposition['content'][$position])){ 
+                                        $listpdf = [];
                                         foreach ($specimentposition['content'][$position] as $specimen) { 
                                             if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
-                                                $listpdf     = [];
                                                 $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
                                                 $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
                                                 $page        = floatval($specimen['page']);

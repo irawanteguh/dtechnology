@@ -134,6 +134,27 @@ function simpanData() {
             cache      : false,
             success    : function (data) {
                 if (data.responCode === "00") {
+                    $("#struk_namapasien").html(data.responResult[0].namapasien);
+                    $("#struk_politujuan").html(data.responResult[0].politujuan);
+                    $("#struk_namadokter").html(data.responResult[0].namadokter);
+                    $("#struk_noantrian").html(data.responResult[0].nomorantrian);
+                    $("#struk_jampelayanan").html(data.responResult[0].jam_mulai + " - " + data.responResult[0].jam_selesai);
+
+                    // Menampilkan booking_id sebagai teks
+                    $("#struk_bookinid").html(data.responResult[0].booking_id);
+
+                    // Hapus QR Code lama (jika ada) dan buat baru
+                    $("#qrcode_booking").empty();
+
+                    var qrcode = new QRCode(document.getElementById("qrcode_booking"), {
+                        text    : data.responResult[0].booking_id,
+                        width   : 128,
+                        height  : 128,
+                        colorDark : "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H // High error correction
+                    });
+
                     resolve(data);
                 } else {
                     reject("Failed to save data. Please try again!");
@@ -146,6 +167,7 @@ function simpanData() {
     });
 }
 
+
 document.addEventListener("DOMContentLoaded", function () {
     KTCreateAccount.init();
 });
@@ -154,6 +176,7 @@ flatpickr('[name="booking_date"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
     minDate   : new Date().fp_incr(1),
+    maxDate   : new Date().fp_incr(7),
     onChange  : function(selectedDates, dateStr, instance) {
         if (selectedDates.length > 0) {
             const days        = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
@@ -235,11 +258,12 @@ function jadwaldokter() {
                     tableresult += "<div class='col-md-6 col-lg-12 col-xxl-6'>";
                         tableresult += "<label class='btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6' data-kt-button='true'>";
                             tableresult += " <span class='form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1 is-valid'>";
-                                tableresult += " <input class='form-check-input' type='radio' name='booking_jadwal_poli_id' value='"+result[i].transaksi_id+"'>";
+                                tableresult += " <input class='form-check-input' type='radio' name='booking_jadwal_poli_id' value='"+result[i].transaksi_id+"_"+result[i].slot+"_"+result[i].kuota_online+"_"+result[i].antrian+"_"+result[i].sisakuota+"_"+result[i].jam_mulai+"_"+result[i].jam_selesai+"'>";
                             tableresult += "</span>";
                             tableresult += "<span class='ms-5'>";
-                                tableresult += "<span class='fs-4 fw-bolder text-gray-800 mb-2 d-block'>" + result[i].jam_mulai + " - " + result[i].jam_selesai + "</span>";
-                                tableresult += "<span class='fw-bold fs-7 text-gray-600'>Kuota : " + result[i].kuota_online + "</span>";
+                                tableresult += "<span class='fs-4 fw-bolder text-gray-800 mb-2 d-block'>[" +result[i].slot+"] "+result[i].jam_mulai + " - " + result[i].jam_selesai + "</span>";
+                                tableresult += "<span class='fw-bold fs-7 text-gray-600'>Kuota : " + result[i].kuota_online + "</span></br>";
+                                tableresult += "<span class='fw-bold fs-7 text-gray-600'>Sisa Kuota : " + result[i].sisakuota + "</span>";
                             tableresult += "</span>";
                         tableresult += "</label>";
                     tableresult += "</div>";

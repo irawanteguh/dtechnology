@@ -52,11 +52,12 @@
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/bootstrap-session-timeout/bootstrap-session-timeout.js') . "'></script>" . PHP_EOL;
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/fullcalendar/fullcalendar.bundle.js') . "'></script>" . PHP_EOL;
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/table2excel/jquery.table2excel.min.js') . "'></script>" . PHP_EOL;
-
+        
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts_4.10.38/core.js') . "'></script>" . PHP_EOL;
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts_4.10.38/charts.js') . "'></script>" . PHP_EOL;
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts_4.10.38/themes/animated.js') . "'></script>" . PHP_EOL;
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts_4.10.38/plugins/forceDirected.js') . "'></script>" . PHP_EOL;
+        echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/qrcode/easy.qrcode.min.js') . "'></script>" . PHP_EOL;
 
         $jspathroot = FCPATH.'assets/js/root/';
         if (is_dir($jspathroot)) {
