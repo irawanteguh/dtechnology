@@ -1,37 +1,12 @@
-
 refreshdata();
 
-flatpickr('[name="modal_add_plan_date"]', {
+flatpickr('[name="modal_reserve_register_date"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
     minDate   : "today",
     onChange  : function(selectedDates, dateStr, instance) {
         instance.close();
     }
-});
-
-flatpickr('[name="modal_reserve_request_date"]', {
-    enableTime: false,
-    dateFormat: "d.m.Y",
-    minDate   : "today",
-    onChange  : function(selectedDates, dateStr, instance) {
-        instance.close();
-    }
-});
-
-flatpickr('[name="modal_reserve_request_date_edit"]', {
-    enableTime: false,
-    dateFormat: "d.m.Y",
-    minDate   : "today",
-    onChange  : function(selectedDates, dateStr, instance) {
-        instance.close();
-    }
-});
-
-$('#modal_add_plan').on('show.bs.modal', function (e) {
-    $('#modal_add_plan_date').val("");
-    $('#modal_add_plan_tindakan').val("");
-    $('#modal_add_plan_cito').prop('checked', false); 
 });
 
 function getdata(btn){
@@ -56,27 +31,12 @@ function getdata(btn){
     $("#kt_drawer_chat_reserve_namapasien").html(data_namapasien+" [ "+data_mrpasien+" ]");
     $('#operasiid').val(data_operasiid);
     $('#modal_cancelled_operasiid').val(data_operasiid);
-    $('#modal_reserve_edit_operasiid').val(data_operasiid);
+    $('#modal_reserve_register_operasiid').val(data_operasiid);
 
-    $('#modal_reserve_request_date_edit').val(data_tgltindakan);
-    $("textarea[name='modal_reserve_request_diagnosis_edit']").val(data_diagnosis);
-    $("textarea[name='modal_reserve_request_basicdiagnosis_edit']").val(data_basicdiagnosis);
-    $("textarea[name='modal_reserve_request_medicaltreatment_edit']").val(data_tindakan);
-    $("textarea[name='modal_reserve_request_indicationmedicaltreatment_edit']").val(data_indikasitindakan);
-    $("textarea[name='modal_reserve_request_procedures_edit']").val(data_procedures);
-    $("textarea[name='modal_reserve_request_purpose_edit']").val(data_purpose);
-    $("textarea[name='modal_reserve_request_risk_edit']").val(data_risk);
-    $("textarea[name='modal_reserve_request_prognosis_edit']").val(data_prognosis);
-    $("textarea[name='modal_reserve_request_alternatives_edit']").val(data_alternative);
-    $("textarea[name='modal_reserve_request_save_edit']").val(data_save);
+    $('#modal_reserve_register_date').val(data_tgltindakan);
 
-    var $pasienid = $('#modal_reserve_request_patientid_edit').select2();
+    var $pasienid = $('#modal_reserve_register_pasienid').select2();
     $pasienid.val(data_pasienid).trigger('change');
-
-    var $dokteropr = $('#modal_reserve_request_dokteropr_edit').select2();
-    $dokteropr.val(data_dokteropr).trigger('change');
-
-    $('#modal_reserve_request_cito_edit').prop('checked', data_cito === "Y");
 
     chat(data_operasiid);
 };
@@ -139,8 +99,7 @@ function datarequest(){
                                 tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                         tableresult += "<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#kt_drawer_chat_reserve' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-send text-primary'></i> Follow Up</a>";
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_reserve_edit' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-info'></i> Edit</a>";
-                                        // tableresult += "<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_value='2' onclick='updatedata($(this));'><i class='bi bi-check2-circle text-success'></i> Agree</a>";
+                                        tableresult += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_reserve_register' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-info'></i> Register</a>";
                                         tableresult += "<a class='dropdown-item btn btn-sm text-danger' data-bs-toggle='modal' data-bs-target='#modal_cancelled' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Cancelled</a>";
                                 tableresult +="</div>";
                             tableresult +="</div>";
@@ -155,7 +114,6 @@ function datarequest(){
 
 
             $("#resultrequest").html(tableresult);
-
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
@@ -227,7 +185,6 @@ function datacancelled(){
 
 
             $("#resultcancelled").html(tableresult);
-
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
@@ -253,11 +210,11 @@ function datacancelled(){
 
 function chat(operasiid) {
     $.ajax({
-        url: url + "index.php/ok/reserve/chat",
-        data: { operasiid: operasiid },
-        method: "POST",
-        dataType: "JSON",
-        cache: false,
+        url       : url + "index.php/ok/reserve/chat",
+        data      : { operasiid: operasiid },
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
         beforeSend: function () {
             toastr.clear();
             $("#chatfollowup").html("");
@@ -332,224 +289,6 @@ function chat(operasiid) {
     });
     return false;
 };
-
-function updatedata(btn) {
-    Swal.fire({
-        title             : 'Are you sure?',
-        text              : "You won't be able to revert this!",
-        icon              : 'warning',
-        showCancelButton  : true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor : '#d33',
-        confirmButtonText : 'Yes, proceed!',
-        cancelButtonText  : 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            var data_operasiid = btn.attr("data_operasiid");
-            var data_value     = btn.attr("data_value");
-
-            $.ajax({
-                url       : url+"index.php/ok/reserve/updatedata",
-                data      : {data_operasiid:data_operasiid,data_value:data_value},
-                method    : "POST",
-                dataType  : "JSON",
-                cache     : false,
-                beforeSend: function () {
-                    toastr.clear();
-                    toastr["info"]("Sending request...", "Please wait");
-                },
-                success: function (data) {
-                    toastr.clear();
-                    toastr[data.responHead](data.responDesc, "INFORMATION");
-                },
-                complete: function () {
-                    planning();
-                },
-                error: function (xhr, status, error) {
-                    showAlert(
-                        "I'm Sorry",
-                        error,
-                        "error",
-                        "Please Try Again",
-                        "btn btn-danger"
-                    );
-                }
-            });
-        }
-    });
-    return false;
-};
-
-$(document).on("click", "[data-kt-element='send']", function () {
-    var operasiid = $("#operasiid").val();
-    var message   = $("textarea[data-kt-element='input']").val();
-    var status    = "5";
-
-    if (message.trim() === "") {
-        Swal.fire({
-            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-            html             : "<b>Pesan tidak boleh kosong</b>",
-            icon             : "error",
-            confirmButtonText: "Please Try Again",
-            buttonsStyling   : false,
-            timerProgressBar : true,
-            timer            : 5000,
-            customClass      : {confirmButton: "btn btn-danger"},
-            showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-            hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-        });
-
-        return;
-    }
-
-    $.ajax({
-        url     : url + "index.php/ok/reserve/sendchat",
-        method  : "POST",
-        data    : {chat:message,operasiid:operasiid,status:status},
-        dataType: "JSON",
-        success : function (data) {
-            if(data.responCode === "00"){
-                $("textarea[data-kt-element='input']").val("");
-                chat(operasiid);
-            }else{
-                Swal.fire({
-                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                    html             : "<b>Gagal mengirim pesan!</b>",
-                    icon             : "error",
-                    confirmButtonText: "Please Try Again",
-                    buttonsStyling   : false,
-                    timerProgressBar : true,
-                    timer            : 5000,
-                    customClass      : {confirmButton: "btn btn-danger"},
-                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                });
-            }
-        }
-    });
-});
-
-$(document).on("submit", "#formnewreserve", function (e) {
-	e.preventDefault();
-    e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
-	$.ajax({
-        url       : url,
-        data      : form.serialize(),
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-			$("#modal_add_plan_btn").addClass("disabled");
-        },
-		success: function (data) {
-
-            if(data.responCode == "00"){
-                $("#modal_add_plan").modal("hide");
-                refreshdata();
-			}
-
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
-        complete: function () {
-            $("#modal_add_plan_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                error,
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
-		}
-	});
-    return false;
-});
-
-$(document).on("submit", "#formnewrequest", function (e) {
-	e.preventDefault();
-    e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
-	$.ajax({
-        url       : url,
-        data      : form.serialize(),
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-			$("#modal_reserve_request_btn").addClass("disabled");
-        },
-		success: function (data) {
-            if(data.responCode == "00"){
-                $("#modal_reserve_request").modal("hide");
-                refreshdata();
-			}
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
-        complete: function () {
-            toastr.clear();
-            $("#modal_reserve_request_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                error,
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
-		}
-	});
-    return false;
-});
-
-$(document).on("submit", "#formeditrequest", function (e) {
-	e.preventDefault();
-    e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
-	$.ajax({
-        url       : url,
-        data      : form.serialize(),
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-			$("#modal_reserve_edit_btn").addClass("disabled");
-        },
-		success: function (data) {
-            if(data.responCode == "00"){
-                $("#modal_reserve_edit").modal("hide");
-                refreshdata();
-			}
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
-        complete: function () {
-            toastr.clear();
-            $("#modal_reserve_edit_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                error,
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
-		}
-	});
-    return false;
-});
 
 $(document).on("submit", "#formcancelled", function (e) {
 	e.preventDefault();

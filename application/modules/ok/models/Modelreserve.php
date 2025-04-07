@@ -158,7 +158,7 @@
                             and   a.org_id='".$orgid."'
                             and   a.transaksi_id='".$operasiid."'
                             union
-                            select concat('Tindakan operasi dibatalkan oleh ',(select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.reason_by),' dengan alasan ',(select master_name from dt01_gen_master_ms where master_id=a.reason_id)) chat, date_format(a.reason_date,'%d.%m.%Y %H.%i.%s')jambuat, reason_date created_date, created_by
+                            select concat('Tindakan operasi dibatalkan oleh ',(select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.reason_by),' pada tanggal ',date_format(reason_date,'%d.%m.%Y %H.%i.%s'),' dengan alasan ',(select master_name from dt01_gen_master_ms where master_id=a.reason_id)) chat, date_format(a.reason_date,'%d.%m.%Y %H.%i.%s')jambuat, reason_date created_date, created_by
                             from dt01_med_ok_hd a
                             where a.active='1'
                             and   a.status ='99'

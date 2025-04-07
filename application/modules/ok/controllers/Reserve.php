@@ -87,7 +87,7 @@
 		}
 
 		public function datarequest(){
-            $parameter = "and a.status in ('5')";
+            $parameter = "and a.status='5'";
             $result = $this->md->dataok($_SESSION['orgid'],$parameter);
             
 			if(!empty($result)){
@@ -99,6 +99,24 @@
                 $json["responCode"]="01";
                 $json["responHead"]="info";
                 $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function dataregister(){
+            $parameter = "and a.status='5'";
+            $result = $this->md->dataok($_SESSION['orgid'],$parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]   = "00";
+                $json["responHead"]   = "success";
+                $json["responDesc"]   = "Data Successfully Found";
+                $json['responResult'] = $result;
+            }else{
+                $json["responCode"] = "01";
+                $json["responHead"] = "info";
+                $json["responDesc"] = "Data Failed to Find";
             }
 
             echo json_encode($json);
@@ -274,9 +292,10 @@
             echo json_encode($json);
         }
 
-        public function sendChat() {
-            $chatText = $this->input->post('chat');
+        public function sendchat() {
+            $chatText  = $this->input->post('chat');
             $operasiid = $this->input->post('operasiid');
+            $status    = $this->input->post('status');
 
             $data['org_id']     = $_SESSION['orgid'];
             $data['chat_id']    = generateuuid();
@@ -285,8 +304,10 @@
             $data['created_by'] = $_SESSION['userid'];
 
             if($this->md->insertchat($data)){
-                $dataupdate['status']="1";
-                $this->md->updateplan($operasiid,$dataupdate);
+                if($status==="0"){
+                    $dataupdate['status']="1";
+                    $this->md->updateplan($operasiid,$dataupdate);
+                }
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Added Successfully";

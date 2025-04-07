@@ -1,5 +1,5 @@
-var calendar; // Declare calendar as a global variable
-var currentViewDate; // Variable to store the current view date
+var calendar;
+var currentViewDate;
 
 calendar();
 

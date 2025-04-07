@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label fw-bolder fs-3 mb-1">Operation Plan</span>
+                    <span class="card-label fw-bolder fs-3 mb-1">Register Operation</span>
                 </h3>
                 <div class="card-toolbar">
                     <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -23,8 +23,7 @@
                             <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Actions</div>
                         </div>
                         <div class="menu-item px-3">
-                            <!-- <a href="" data-bs-toggle="modal" data-bs-target="#modal_add_plan" class="menu-link px-3">Add Planning</a> -->
-                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_reserve_request" class="menu-link px-3">Request</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_reserve_request" class="menu-link px-3">Register</a>
                         </div>
                     </div>
                 </div>
@@ -38,11 +37,14 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#tabregister">Register</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabfinish">Finish</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabcancelled">Cancelled</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="tabrequest" role="tabpanel" sty>
+                <div class="tab-pane fade show active" id="tabrequest" role="tabpanel" sty>
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                 <thead>
@@ -75,6 +77,24 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold align-middle" id="resultregister"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabfinish" role="tabpanel" sty>
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">Status</th>
+                                        <th>Identity</th>
+                                        <th>Date</th>
+                                        <th>Diagnosis / Medical Treatment</th>
+                                        <th>Operator</th>
+                                        <th>Created</th>
+                                        <th class="pe-4 text-end rounded-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold align-middle" id="resultfinish"></tbody>
                             </table>
                         </div>
                     </div>
