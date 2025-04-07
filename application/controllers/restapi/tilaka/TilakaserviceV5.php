@@ -212,10 +212,21 @@
                                         if($responserequestsign['success']){
                                             foreach($resultfilerequestsign as $files){
                                                 $datasimpanhd = [];
-    
-                                                $datasimpanhd['request_id']  = $requestid;
-                                                $datasimpanhd['status_sign'] = "2";
-                                                $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
+
+                                                if($files->source_file==="DTECHNOLOGY"){
+                                                    $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                                                }else{
+                                                    $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                                }
+
+                                                if(file_exists($filename)){
+                                                    $datasimpanhd['request_id']  = $requestid;
+                                                    $datasimpanhd['status_sign'] = "2";
+                                                    $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
+                                                }else{
+                                                    $datasimpanhd['status_sign'] = "0";
+                                                }
+
                                                 $this->md->updatefile($datasimpanhd,$files->no_file);
                                             }
                                         }
@@ -238,7 +249,6 @@
                     }else{
                         $responseservice['ResponseDTechnology'] = "Speciment Not Found";
                     }
-                    
                 }
             }else{
                 $responseservice['ResponseDTechnology'] = "Tidak Ada List Request Sign";

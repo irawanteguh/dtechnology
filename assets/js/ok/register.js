@@ -1,11 +1,75 @@
 refreshdata();
 
-flatpickr('[name="modal_reserve_register_date"]', {
+flatpickr('[name="modal_register_add_date"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
     minDate   : "today",
     onChange  : function(selectedDates, dateStr, instance) {
         instance.close();
+    }
+});
+
+flatpickr('[name="modal_register_add_timein"]', {
+    enableTime     : true,
+    time_24hr      : true,
+    noCalendar     : true,
+    dateFormat     : "H:i",
+    defaultHour    : new Date().getHours(),
+    defaultMinute  : new Date().getMinutes(),
+    allowInput     : true,
+    minuteIncrement: 1,
+    onChange       : function(selectedDates, dateStr, instance) {
+        instance.close();
+    },
+    onClose: function(selectedDates, dateStr, instance) {
+        var timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if(!timeFormat.test(dateStr)){
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>Format waktu tidak valid. Harap gunakan format HH:mm.</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+            instance.clear();
+        }
+    }
+});
+
+flatpickr('[name="modal_register_add_timeout"]', {
+    enableTime     : true,
+    time_24hr      : true,
+    noCalendar     : true,
+    dateFormat     : "H:i",
+    defaultHour    : new Date().getHours(),
+    defaultMinute  : new Date().getMinutes(),
+    allowInput     : true,
+    minuteIncrement: 1,
+    onChange       : function(selectedDates, dateStr, instance) {
+        instance.close();
+    },
+    onClose: function(selectedDates, dateStr, instance) {
+        var timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if(!timeFormat.test(dateStr)){
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>Format waktu tidak valid. Harap gunakan format HH:mm.</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+            instance.clear();
+        }
     }
 });
 
@@ -31,9 +95,9 @@ function getdata(btn){
     $("#kt_drawer_chat_reserve_namapasien").html(data_namapasien+" [ "+data_mrpasien+" ]");
     $('#operasiid').val(data_operasiid);
     $('#modal_cancelled_operasiid').val(data_operasiid);
-    $('#modal_reserve_register_operasiid').val(data_operasiid);
+    $('#modal_register_add_operasiid').val(data_operasiid);
 
-    $('#modal_reserve_register_date').val(data_tgltindakan);
+    $('#modal_register_add_date').val(data_tgltindakan);
 
     var $pasienid = $('#modal_reserve_register_pasienid').select2();
     $pasienid.val(data_pasienid).trigger('change');
@@ -99,7 +163,7 @@ function datarequest(){
                                 tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                         tableresult += "<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#kt_drawer_chat_reserve' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-send text-primary'></i> Follow Up</a>";
-                                        tableresult += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_reserve_register' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-info'></i> Register</a>";
+                                        tableresult += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_register_add' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-info'></i> Register</a>";
                                         tableresult += "<a class='dropdown-item btn btn-sm text-danger' data-bs-toggle='modal' data-bs-target='#modal_cancelled' "+getvariabel+" onclick='getdata($(this));'><i class='fa-solid fa-user-slash text-danger'></i> Cancelled</a>";
                                 tableresult +="</div>";
                             tableresult +="</div>";

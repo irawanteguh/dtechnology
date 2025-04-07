@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_reserve_register" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_register_add" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <form action="<?php echo base_url();?>index.php/ok/reserve/editrequest" id="formeditrequest">
-                <input type="hidden" id="modal_reserve_register_operasiid" name="modal_reserve_register_operasiid">
+                <input type="hidden" id="modal_register_add_operasiid" name="modal_register_add_operasiid">
                 <div class="modal-body">
                     <div class="mb-10 text-center">
                         <h1 class="mb-3">Register Operating Room</h1>
@@ -59,22 +59,33 @@
                         <div class="col-md-2 mb-5">
                             <div class="fv-row">
                                 <label class="fs-6 fw-bold mb-2 required">Date</label>
-                                <input class="form-control form-control-solid flatpickr-input" name="modal_reserve_register_date" id="modal_reserve_register_date" placeholder="Pick a plan date"  type="text" required>
+                                <input class="form-control form-control-solid flatpickr-input" name="modal_register_add_date" id="modal_register_add_date" placeholder="Pick a plan date"  type="text" required>
                             </div>
                         </div>
                         <div class="col-md-2 mb-5">
                             <div class="fv-row">
                                 <label class="fs-6 fw-bold mb-2 required">Time In</label>
-                                <input class="form-control form-control-solid flatpickr-input" name="modal_reserve_register_date" id="modal_reserve_register_date" placeholder="Pick a plan date"  type="text" required>
+                                <input class="form-control form-control-solid flatpickr-input" name="modal_register_add_timein" id="modal_register_add_timein" placeholder="Pick a time in"  type="text" required>
                             </div>
                         </div>
                         <div class="col-md-2 mb-5">
                             <div class="fv-row">
                                 <label class="fs-6 fw-bold mb-2 required">Time Out</label>
-                                <input class="form-control form-control-solid flatpickr-input" name="modal_reserve_register_date" id="modal_reserve_register_date" placeholder="Pick a plan date"  type="text" required>
+                                <input class="form-control form-control-solid flatpickr-input" name="modal_register_add_timeout" id="modal_register_add_timeout" placeholder="Pick a time out"  type="text" required>
                             </div>
                         </div>
-                        <div class="col-md-8 mb-5">
+                        <div class="col-md-2 mb-5">
+                            <div class="fv-row">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Room</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Select Patient Name"></i>
+                                </label>
+                                <select data-control="select2" data-dropdown-parent="#modal_reserve_register" data-placeholder="Please Select Patient Name..." class="form-select form-select-solid" name="modal_reserve_register_pasienid" id="modal_reserve_register_pasienid" disabled>
+                                    <?php echo $pasienid;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                     <span class="required">Patient Name</span>
@@ -85,10 +96,32 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-5">
+                        <div class="col-md-4 mb-5">
                             <div class="fv-row">
                                 <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                     <span class="required">Operator</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Select Doctor Operator"></i>
+                                </label>
+                                <select data-control="select2" data-dropdown-parent="#modal_reserve_edit" data-placeholder="Please Select Doctor Operator..." class="form-select form-select-solid" name="modal_reserve_request_dokteropr_edit" id="modal_reserve_request_dokteropr_edit">
+                                    <?php echo $dokteropr;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="fv-row">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Anesthesiologist</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Select Doctor Operator"></i>
+                                </label>
+                                <select data-control="select2" data-dropdown-parent="#modal_reserve_edit" data-placeholder="Please Select Doctor Operator..." class="form-select form-select-solid" name="modal_reserve_request_dokteropr_edit" id="modal_reserve_request_dokteropr_edit">
+                                    <?php echo $dokteropr;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="fv-row">
+                                <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                    <span class="required">Pediatrician</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Please Select Doctor Operator"></i>
                                 </label>
                                 <select data-control="select2" data-dropdown-parent="#modal_reserve_edit" data-placeholder="Please Select Doctor Operator..." class="form-select form-select-solid" name="modal_reserve_request_dokteropr_edit" id="modal_reserve_request_dokteropr_edit">
