@@ -343,7 +343,6 @@
                 $expireddate       = date("Y-m-d", strtotime("+7 days"))." 23:59";
                 // $expireddate       = date("Y-m-d H:i", strtotime("+3 minutes"));
 
-                
                 $datahash    = CLIENT_ID_TILAKA.$consent_text.$version.$consent_timestamp;
                 $hash        = hash_hmac('sha256', $datahash, CLIENT_SECRET_TILAKA);
                 $ktp_data    = file_get_contents($ktp_path);
