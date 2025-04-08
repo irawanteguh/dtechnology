@@ -65,7 +65,7 @@
             echo PHP_EOL.'<!-- Load Js Root System -->'.PHP_EOL;
             foreach ($jsFiles as $jsFile) {
                 $jsFilename = basename($jsFile);
-                if($this->uri->segment(1) != "auth" && $this->uri->segment(1) != "booking"){
+                if($this->uri->segment(1) != "auth" && $this->uri->segment(1) != "booking" && $this->uri->segment(1) != "public"){
                     if ($this->uri->segment(1) != 'logistik' && $this->uri->segment(1) != 'paymentpo' && $jsFilename === 'po.js') {
                         continue;
                     }

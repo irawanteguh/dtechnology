@@ -12,7 +12,7 @@
 
             self::checksession();
 
-            if(self::$segment1!="auth" && self::$segment1!="booking"){
+            if(self::$segment1!="auth" && self::$segment1!="booking" && self::$segment1!="public"){
                 self::init();
                 self::category();
                 self::referensi();
@@ -21,7 +21,7 @@
         }
 
         public static function checksession(){
-            if(self::$app->uri->segment(1)!="auth" && self::$app->uri->segment(1)!="booking"){
+            if(self::$app->uri->segment(1)!="auth" && self::$app->uri->segment(1)!="booking" && self::$app->uri->segment(1)!="public"){
                 if(!self::$app->session->userdata('loggedin')){
                     redirect("auth/sign");
                 }
