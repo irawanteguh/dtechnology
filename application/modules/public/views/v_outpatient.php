@@ -22,22 +22,22 @@
                             <div class="d-lg-block p-5 p-lg-0" data-kt-drawer="true" data-kt-drawer-name="landing-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="200px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_landing_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav_wrapper'}">
                                 <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-500 menu-state-title-primary nav nav-flush fs-5 fw-bold" id="kt_landing_menu">
                                     <div class="menu-item">
-                                        <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Home</a>
+                                        <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Beranda</a>
                                     </div>
                                     <div class="menu-item">
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#booking" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Booking</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#booking" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Cara Reservasi</a>
                                     </div>
                                     <div class="menu-item">
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#doctor" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Doctor</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Infografis</a>
                                     </div>
                                     <div class="menu-item">
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Achievements</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#doctor" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Dokter</a>
                                     </div>
                                     <div class="menu-item">
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#portfolio" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Portfolio</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#reservasi" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Reservasi</a>
                                     </div>
                                     <div class="menu-item">
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Pricing</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Harga</a>
                                     </div>
                                 </div>
                             </div>
@@ -181,148 +181,74 @@
         </div>
         <!--end::Container-->
     </div>
-    <!--end::How It Works Section-->
-    <!--begin::Statistics Section-->
+
     <div class="mt-sm-n10">
-        <!--begin::Curve top-->
         <div class="landing-curve landing-dark-color">
             <svg viewBox="15 -1 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 48C4.93573 47.6644 8.85984 47.3311 12.7725 47H1489.16C1493.1 47.3311 1497.04 47.6644 1501 48V47H1489.16C914.668 -1.34764 587.282 -1.61174 12.7725 47H1V48Z" fill="currentColor"></path>
             </svg>
         </div>
-        <!--end::Curve top-->
-        <!--begin::Wrapper-->
+
         <div class="pb-15 pt-18 landing-dark-bg">
-            <!--begin::Container-->
             <div class="container">
-                <!--begin::Heading-->
                 <div class="text-center mt-15 mb-18" id="achievements" data-kt-scroll-offset="{default: 100, lg: 150}">
-                    <!--begin::Title-->
                     <h3 class="fs-2hx text-white fw-bolder mb-5">We Make Things Better</h3>
-                    <!--end::Title-->
-                    <!--begin::Description-->
-                    <div class="fs-5 text-gray-700 fw-bold">Save thousands to millions of bucks by using single tool
-                    <br />for different amazing and great useful admin</div>
-                    <!--end::Description-->
+                    <div class="fs-5 text-gray-700 fw-bold">
+                        Kami berkomitmen untuk memberikan pelayanan kesehatan yang berkualitas, berbasis keselamatan pasien, serta didukung oleh tenaga medis yang profesional dan beretika. Dengan fasilitas modern dan teknologi terkini, kami berupaya menghadirkan layanan kesehatan terbaik bagi masyarakat. Kepercayaan dan kepuasan pasien adalah prioritas utama kami dalam setiap tindakan medis yang diberikan.
+                    </div>
                 </div>
-                <!--end::Heading-->
-                <!--begin::Statistics-->
                 <div class="d-flex flex-center">
-                    <!--begin::Items-->
                     <div class="d-flex flex-wrap flex-center justify-content-lg-between mb-15 mx-auto w-xl-900px">
-                        <!--begin::Item-->
                         <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('assets/media/svg/misc/octagon.svg')">
-                            <!--begin::Symbol-->
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2tx svg-icon-white mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                            <!--end::Symbol-->
-                            <!--begin::Info-->
+                            <i class="bi bi-people fa-7x"></i>
                             <div class="mb-0">
-                                <!--begin::Value-->
                                 <div class="fs-lg-2hx fs-2x fw-bolder text-white d-flex flex-center">
                                     <div class="min-w-70px" data-kt-countup="true" data-kt-countup-value="700" data-kt-countup-suffix="+">0</div>
                                 </div>
-                                <!--end::Value-->
-                                <!--begin::Label-->
-                                <span class="text-gray-600 fw-bold fs-5 lh-0">Known Companies</span>
-                                <!--end::Label-->
+                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Patients Served</b> Jumlah pasien yang telah mendapatkan layanan medis berkualitas.</span>
                             </div>
-                            <!--end::Info-->
                         </div>
-                        <!--end::Item-->
-                        <!--begin::Item-->
                         <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('assets/media/svg/misc/octagon.svg')">
-                            <!--begin::Symbol-->
-                            <!--begin::Svg Icon | path: icons/duotune/graphs/gra008.svg-->
-                            <span class="svg-icon svg-icon-2tx svg-icon-white mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M13 10.9128V3.01281C13 2.41281 13.5 1.91281 14.1 2.01281C16.1 2.21281 17.9 3.11284 19.3 4.61284C20.7 6.01284 21.6 7.91285 21.9 9.81285C22 10.4129 21.5 10.9128 20.9 10.9128H13Z" fill="black" />
-                                    <path opacity="0.3" d="M13 12.9128V20.8129C13 21.4129 13.5 21.9129 14.1 21.8129C16.1 21.6129 17.9 20.7128 19.3 19.2128C20.7 17.8128 21.6 15.9128 21.9 14.0128C22 13.4128 21.5 12.9128 20.9 12.9128H13Z" fill="black" />
-                                    <path opacity="0.3" d="M11 19.8129C11 20.4129 10.5 20.9129 9.89999 20.8129C5.49999 20.2129 2 16.5128 2 11.9128C2 7.31283 5.39999 3.51281 9.89999 3.01281C10.5 2.91281 11 3.41281 11 4.01281V19.8129Z" fill="black" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                            <!--end::Symbol-->
-                            <!--begin::Info-->
+                        <i class="bi bi-hospital fa-7x"></i>
                             <div class="mb-0">
-                                <!--begin::Value-->
                                 <div class="fs-lg-2hx fs-2x fw-bolder text-white d-flex flex-center">
                                     <div class="min-w-70px" data-kt-countup="true" data-kt-countup-value="80" data-kt-countup-suffix="K+">0</div>
                                 </div>
-                                <!--end::Value-->
-                                <!--begin::Label-->
-                                <span class="text-gray-600 fw-bold fs-5 lh-0">Statistic Reports</span>
-                                <!--end::Label-->
+                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Medical Staff</b> Dokter dan perawat profesional yang siap melayani pasien dengan sepenuh hati.</span>
                             </div>
-                            <!--end::Info-->
                         </div>
-                        <!--end::Item-->
-                        <!--begin::Item-->
                         <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('assets/media/svg/misc/octagon.svg')">
-                            <!--begin::Symbol-->
-                            <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm002.svg-->
-                            <span class="svg-icon svg-icon-2tx svg-icon-white mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M21 10H13V11C13 11.6 12.6 12 12 12C11.4 12 11 11.6 11 11V10H3C2.4 10 2 10.4 2 11V13H22V11C22 10.4 21.6 10 21 10Z" fill="black" />
-                                    <path opacity="0.3" d="M12 12C11.4 12 11 11.6 11 11V3C11 2.4 11.4 2 12 2C12.6 2 13 2.4 13 3V11C13 11.6 12.6 12 12 12Z" fill="black" />
-                                    <path opacity="0.3" d="M18.1 21H5.9C5.4 21 4.9 20.6 4.8 20.1L3 13H21L19.2 20.1C19.1 20.6 18.6 21 18.1 21ZM13 18V15C13 14.4 12.6 14 12 14C11.4 14 11 14.4 11 15V18C11 18.6 11.4 19 12 19C12.6 19 13 18.6 13 18ZM17 18V15C17 14.4 16.6 14 16 14C15.4 14 15 14.4 15 15V18C15 18.6 15.4 19 16 19C16.6 19 17 18.6 17 18ZM9 18V15C9 14.4 8.6 14 8 14C7.4 14 7 14.4 7 15V18C7 18.6 7.4 19 8 19C8.6 19 9 18.6 9 18Z" fill="black" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                            <!--end::Symbol-->
-                            <!--begin::Info-->
+                            <i class="bi bi-award fa-7x"></i>
                             <div class="mb-0">
-                                <!--begin::Value-->
                                 <div class="fs-lg-2hx fs-2x fw-bolder text-white d-flex flex-center">
                                     <div class="min-w-70px" data-kt-countup="true" data-kt-countup-value="35" data-kt-countup-suffix="M+">0</div>
                                 </div>
-                                <!--end::Value-->
-                                <!--begin::Label-->
-                                <span class="text-gray-600 fw-bold fs-5 lh-0">Secure Payments</span>
-                                <!--end::Label-->
+                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Healthcare Awards</b> Penghargaan yang diperoleh atas dedikasi dalam dunia kesehatan.</span>
                             </div>
-                            <!--end::Info-->
                         </div>
-                        <!--end::Item-->
                     </div>
-                    <!--end::Items-->
                 </div>
-                <!--end::Statistics-->
-                <!--begin::Testimonial-->
+
                 <div class="fs-2 fw-bold text-muted text-center mb-3">
-                <span class="fs-1 lh-1 text-gray-700">“</span>When you care about your topic, you’ll write about it in a
-                <br />
-                <span class="text-gray-700 me-1">more powerful</span>, emotionally expressive way
-                <span class="fs-1 lh-1 text-gray-700">“</span></div>
-                <!--end::Testimonial-->
-                <!--begin::Author-->
-                <div class="fs-2 fw-bold text-muted text-center">
-                    <a href="../../demo1/dist/account/security.html" class="link-primary fs-4 fw-bolder">Marcus Levy,</a>
-                    <span class="fs-4 fw-bolder text-gray-600">KeenThemes CEO</span>
+                    <span class="fs-1 lh-1 text-gray-700">“</span>Pelayanan terbaik hadir dari kepedulian dan ketulusan
+                    <br />
+                    <span class="text-gray-700 me-1">setiap tenaga medis</span> dalam memberikan harapan dan kesembuhan.
+                    <span class="fs-1 lh-1 text-gray-700">”</span>
                 </div>
-                <!--end::Author-->
+                <div class="fs-2 fw-bold text-muted text-center">
+                    <a href="#" class="link-primary fs-4 fw-bolder">dr. Abdul Robby Azhadi, MARS, FISQua,</a>
+                    <span class="fs-4 fw-bolder text-gray-600">Direktur Rumah Sakit</span>
+                </div>
+
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::Wrapper-->
-        <!--begin::Curve bottom-->
         <div class="landing-curve landing-dark-color">
             <svg viewBox="15 12 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 11C3.93573 11.3356 7.85984 11.6689 11.7725 12H1488.16C1492.1 11.6689 1496.04 11.3356 1500 11V12H1488.16C913.668 60.3476 586.282 60.6117 11.7725 12H0V11Z" fill="currentColor"></path>
             </svg>
         </div>
-        <!--end::Curve bottom-->
     </div>
-    <!--end::Statistics Section-->
-    <!--begin::Team Section-->
+
     <div class="py-10 py-lg-20">
         <div class="container">
             <div class="text-center mb-12">
@@ -403,349 +329,219 @@
         </div>
     </div>
 
-    <!--begin::Projects Section-->
     <div class="mb-lg-n15 position-relative z-index-2">
-        <!--begin::Container-->
         <div class="container">
-            <!--begin::Card-->
             <div class="card" style="filter: drop-shadow(0px 0px 40px rgba(68, 81, 96, 0.08))">
-                <!--begin::Card body-->
                 <div class="card-body p-lg-20">
-                    <!--begin::Heading-->
                     <div class="text-center mb-5 mb-lg-10">
-                        <!--begin::Title-->
-                        <h3 class="fs-2hx text-dark mb-5" id="portfolio" data-kt-scroll-offset="{default: 100, lg: 150}">Our Projects</h3>
-                        <!--end::Title-->
+                        <h3 class="fs-2hx text-dark mb-5" id="reservasi" data-kt-scroll-offset="{default: 100, lg: 150}">Reservasi Rawat Jalan</h3>
+                        <div class="fs-5 text-muted fw-bold">
+                            Selamat datang di layanan Pendaftaran Online Pasien Rawat Jalan.<br>
+                            Layanan ini memungkinkan Anda untuk melakukan pendaftaran secara mudah dan cepat tanpa harus datang langsung ke rumah sakit.<br>
+                            Silakan lengkapi data yang diperlukan untuk melanjutkan proses pendaftaran.
+                        </div>
                     </div>
-                    <!--end::Heading-->
-                    <!--begin::Tabs wrapper-->
-                    <div class="d-flex flex-center mb-5 mb-lg-15">
-                        <!--begin::Tabs-->
-                        <ul class="nav border-transparent flex-center fs-5 fw-bold">
-                            <li class="nav-item">
-                                <a class="nav-link text-gray-500 text-active-primary px-3 px-lg-6 active" href="#" data-bs-toggle="tab" data-bs-target="#kt_landing_projects_latest">Latest</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-gray-500 text-active-primary px-3 px-lg-6" href="#" data-bs-toggle="tab" data-bs-target="#kt_landing_projects_web_design">Web Design</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-gray-500 text-active-primary px-3 px-lg-6" href="#" data-bs-toggle="tab" data-bs-target="#kt_landing_projects_mobile_apps">Mobile Apps</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-gray-500 text-active-primary px-3 px-lg-6" href="#" data-bs-toggle="tab" data-bs-target="#kt_landing_projects_development">Development</a>
-                            </li>
-                        </ul>
-                        <!--end::Tabs-->
+                    <div class="stepper stepper-links d-flex flex-column" id="kt_create_account_stepper">
+                        <div class="stepper-nav py-5">
+                            <div class="stepper-item current" data-kt-stepper-element="nav">
+                                <h3 class="stepper-title">Identity</h3>
+                            </div>
+                            <div class="stepper-item" data-kt-stepper-element="nav">
+                                <h3 class="stepper-title">Confirmation</h3>
+                            </div>
+                            <div class="stepper-item" data-kt-stepper-element="nav">
+                                <h3 class="stepper-title">Booking</h3>
+                            </div>
+                            <div class="stepper-item" data-kt-stepper-element="nav">
+                                <h3 class="stepper-title">Completed</h3>
+                            </div>
+                        </div>
+                        <form class="mx-auto mw-600px w-100 py-10" id="formbooking">
+                            <div class="current" data-kt-stepper-element="content">
+                                <div class="w-100">
+                                    <div class="pb-10 pb-lg-12">
+                                        <h2 class="fw-bolder text-dark">Patient Identity</h2>
+                                        <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.</div>
+                                    </div>
+                                    <div class="fv-row mb-10">
+                                        <label class="form-label required">No Medical Record / KTP / BPJS</label>
+                                        <input id="identitaspasien" name="identitaspasien" class="form-control form-control-lg form-control-solid" placeholder="Please Enter Your Number Medical Record / KTP / BPJS" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-kt-stepper-element="content">
+                                <div class="w-100 row">
+                                    <div class="pb-10 pb-lg-12">
+                                        <h2 class="fw-bolder text-dark">Confirmation Patient Identity</h2>
+                                        <div class="text-muted fw-bold fs-6">Please make sure to enter the patient's identity.</div>
+                                    </div>
+                                    <div class="fv-row mb-10 col-md-4">
+                                        <label class="form-label required">No Medical Record</label>
+                                        <input id="booking_nomr" name="booking_nomr" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+                                    <div class="fv-row mb-10 col-md-4">
+                                        <label class="form-label required">No KTP</label>
+                                        <input id="booking_noktp" name="booking_noktp" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+                                    <div class="fv-row mb-10 col-md-4">
+                                        <label class="form-label required">No BPJS</label>
+                                        <input id="booking_nobpjs" name="booking_nobpjs" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+                                    <div class="fv-row mb-10 col-md-9">
+                                        <label class="form-label required">Name</label>
+                                        <input id="booking_name" name="booking_name" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+                                    <div class="fv-row mb-10 col-md-3">
+                                        <label class="form-label required">Sex</label>
+                                        <input id="booking_sex" name="booking_sex" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+                                    <div class="fv-row mb-10 col-md-4">
+                                        <label class="form-label required">Birth Of Day</label>
+                                        <input id="booking_bod" name="booking_bod" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+                                    <div class="fv-row mb-10 col-md-8">
+                                        <label class="form-label required">Age</label>
+                                        <input id="booking_age" name="booking_age" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+                                    <div class="fv-row mb-10">
+                                        <label class="form-label required">Address</label>
+                                        <input id="booking_address" name="booking_address" class="form-control form-control-lg form-control-solid" readonly/>
+                                    </div>
+
+                                    <div class="fv-row mb-15 fv-plugins-icon-container">
+                                        <div class="d-flex flex-stack">
+                                            <div class="me-5">
+                                                <label class="required fs-6 fw-bold">Confirmation</label>
+                                                <div class="fs-7 fw-bold text-muted">Please make sure that the identity listed is correct.</div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <label class="form-check form-check-custom form-check-solid me-10">
+                                                    <input class="form-check-input h-20px w-20px" type="checkbox" ID="booking_confirm" name="booking_confirm">
+                                                    <span class="form-check-label fw-bold">Correct</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-kt-stepper-element="content">
+                                <div class="w-100 row">
+                                    <div class="pb-10 pb-lg-12">
+                                        <h2 class="fw-bolder text-dark">Selecting Clinic Date</h2>
+                                        <div class="text-muted fw-bold fs-6">Please make sure to choose the clinic date for the doctor.</div>
+                                    </div>
+                                    <div class="alert alert-dismissible bg-light-info border border-info border-3 border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-10 fa-fade">
+                                        <span class="svg-icon svg-icon-2hx svg-icon-info me-4 mb-5 mb-sm-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path opacity="0.3" d="M2 4V16C2 16.6 2.4 17 3 17H13L16.6 20.6C17.1 21.1 18 20.8 18 20V17H21C21.6 17 22 16.6 22 16V4C22 3.4 21.6 3 21 3H3C2.4 3 2 3.4 2 4Z" fill="black"></path>
+                                                <path d="M18 9H6C5.4 9 5 8.6 5 8C5 7.4 5.4 7 6 7H18C18.6 7 19 7.4 19 8C19 8.6 18.6 9 18 9ZM16 12C16 11.4 15.6 11 15 11H6C5.4 11 5 11.4 5 12C5 12.6 5.4 13 6 13H15C15.6 13 16 12.6 16 12Z" fill="black"></path>
+                                            </svg>
+                                        </span>
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <h5 class="mb-1">For Your Information</h5>
+                                            <span>Please enter the visit date first</span>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="booking_hariid" name="booking_hariid">
+                                    <div class="fv-row col-md-6 pb-10">
+                                        <label class="fs-6 fw-bold mb-2 required">Date</label>
+                                        <input class="form-control form-control-solid flatpickr-input" name="booking_date" id="booking_date" placeholder="Pick a date"  type="text">
+                                    </div>
+                                    <div class="fv-row col-md-6 pb-10">
+                                        <label class="fs-6 fw-bold mb-2 required">Provider</label>
+                                        <select data-control="select2" data-dropdown-parent="#formbooking" data-placeholder="Select a Provider..." class="form-select form-select-solid" name="booking_provider" id="booking_provider">
+                                            <?php echo $provider;?>
+                                        </select>
+                                    </div>
+                                    <div class="fv-row col-md-12 pb-10">
+                                        <label class="fs-6 fw-bold mb-2 required">Polyclinic</label>
+                                        <select data-control="select2" data-dropdown-parent="#formbooking" data-placeholder="Select a Polyclinic..." class="form-select form-select-solid" name="booking_poliid" id="booking_poliid">
+                                            <?php echo $poliklinik;?>
+                                        </select>
+                                    </div>
+                                    <div class="fv-row col-md-12 pb-10">
+                                        <label class="fs-6 fw-bold mb-2 required">Doctor</label>
+                                        <select data-control="select2" data-dropdown-parent="#formbooking" data-placeholder="Select a Doctor..." class="form-select form-select-solid" name="booking_doctorid" id="booking_doctorid">
+                                            <?php echo $doctor;?>
+                                        </select>
+                                    </div>
+                                    <div class="fv-row col-md-12 pb-10"><div class="row g-9" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button='true']" id="jadwaldokter"></div></div>
+                                </div>
+                            </div>
+
+                            <div data-kt-stepper-element="content" class="text-center">
+                                <div class="w-100 row justify-content-center">
+                                    <div class="col-lg-12 col-md-8">
+                                        <div class="card shadow-lg p-5 animate__animated animate__fadeInUp">
+                                            <div class="pb-4">
+                                                <i class="fas fa-check-circle text-success fa-5x animate__animated animate__bounceIn"></i>
+                                            </div>
+                                            <h2 class="fw-bolder text-dark">Booking Completed Successfully!</h2>
+                                            <p class="text-muted fw-bold fs-6">
+                                                Your outpatient clinic booking has been successfully processed.<br>
+                                                Please Save / Screenshot the Booking Information Below
+                                            </p>
+                                            <h1 class="fw-bolder text-muted fw-bold" id="struk_namapasien"></h6><br>
+                                            <h3 class="fw-bolder text-muted fw-bold" id="struk_politujuan"></h6>
+                                            <h3 class="fw-bolder text-muted fw-bold" id="struk_namadokter"></h6><br>
+                                            <div id="qrcode_booking"></div>
+                                            <h1 class="fw-bolder text-muted fw-bold" id="struk_bookinid"></h6><br>
+                                            <h1 class="fw-bolder text-muted fw-bold" id="struk_noantrian"></h6>
+                                            <h3 class="fw-bolder text-muted fw-bold" id="struk_jampelayanan"></h6>
+                                            <div class="d-flex flex-column gap-3 mt-4">
+                                                <a href="javascript:void(0);" class="btn btn-outline-success" id="downloadReceipt">
+                                                    <i class="fas fa-file-download me-2"></i> Download Receipt
+                                                </a>
+                                                <a href="./RJNonBPJS" class="btn btn-primary" data-kt-element="complete-start">
+                                                    <i class="fas fa-home me-2"></i> Back to Home
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-stack pt-15">
+                                <div class="mr-2">
+                                    <button type="button" class="btn btn-lg btn-light-primary me-3" data-kt-stepper-action="previous">
+                                        <span class="svg-icon svg-icon-4 me-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <rect opacity="0.5" x="6" y="11" width="13" height="2" rx="1" fill="black" />
+                                                <path d="M8.56569 11.4343L12.75 7.25C13.1642 6.83579 13.1642 6.16421 12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75L5.70711 11.2929C5.31658 11.6834 5.31658 12.3166 5.70711 12.7071L11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25C13.1642 17.8358 13.1642 17.1642 12.75 16.75L8.56569 12.5657C8.25327 12.2533 8.25327 11.7467 8.56569 11.4343Z" fill="black" />
+                                            </svg>
+                                        </span>
+                                        Back
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-lg btn-primary me-3" data-kt-stepper-action="submit">
+                                        <span class="indicator-label">
+                                            Submit
+                                            <span class="svg-icon svg-icon-3 ms-2 me-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="black" />
+                                                    <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="black" />
+                                                </svg>
+                                            </span>
+                                        </span>
+                                        <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    </button>
+                                    <button type="button" class="btn btn-lg btn-primary" data-kt-stepper-action="next">Continue
+                                        <span class="svg-icon svg-icon-4 ms-1 me-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="black" />
+                                                <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="black" />
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <!--end::Tabs wrapper-->
-                    <!--begin::Tabs content-->
-                    <div class="tab-content">
-                        <!--begin::Tab pane-->
-                        <div class="tab-pane fade show active" id="kt_landing_projects_latest">
-                            <!--begin::Row-->
-                            <div class="row g-10">
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay h-lg-100" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-23.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-lg-100 min-h-250px" style="background-image:url('assets/media/stock/600x600/img-23.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Row-->
-                                    <div class="row g-10 mb-10">
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-22.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-22.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-21.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-21.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x400/img-20.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-20.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                            </div>
-                            <!--end::Row-->
-                        </div>
-                        <!--end::Tab pane-->
-                        <!--begin::Tab pane-->
-                        <div class="tab-pane fade" id="kt_landing_projects_web_design">
-                            <!--begin::Row-->
-                            <div class="row g-10">
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay h-lg-100" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-11.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-lg-100 min-h-250px" style="background-image:url('assets/media/stock/600x600/img-11.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Row-->
-                                    <div class="row g-10 mb-10">
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-12.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-12.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-21.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-21.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x400/img-20.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-20.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                            </div>
-                            <!--end::Row-->
-                        </div>
-                        <!--end::Tab pane-->
-                        <!--begin::Tab pane-->
-                        <div class="tab-pane fade" id="kt_landing_projects_mobile_apps">
-                            <!--begin::Row-->
-                            <div class="row g-10">
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Row-->
-                                    <div class="row g-10 mb-10">
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-16.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-16.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-12.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-12.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x400/img-15.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-15.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay h-lg-100" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-23.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-lg-100 min-h-250px" style="background-image:url('assets/media/stock/600x600/img-23.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                            </div>
-                            <!--end::Row-->
-                        </div>
-                        <!--end::Tab pane-->
-                        <!--begin::Tab pane-->
-                        <div class="tab-pane fade" id="kt_landing_projects_development">
-                            <!--begin::Row-->
-                            <div class="row g-10">
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay h-lg-100" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-15.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-lg-100 min-h-250px" style="background-image:url('assets/media/stock/600x600/img-15.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <!--begin::Row-->
-                                    <div class="row g-10 mb-10">
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-22.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-22.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-6">
-                                            <!--begin::Item-->
-                                            <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x600/img-21.jpg">
-                                                <!--begin::Image-->
-                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-21.jpg')"></div>
-                                                <!--end::Image-->
-                                                <!--begin::Action-->
-                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                    <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                                </div>
-                                                <!--end::Action-->
-                                            </a>
-                                            <!--end::Item-->
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Item-->
-                                    <a class="d-block card-rounded overlay" data-fslightbox="lightbox-projects" href="assets/media/stock/600x400/img-14.jpg">
-                                        <!--begin::Image-->
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-250px" style="background-image:url('assets/media/stock/600x600/img-14.jpg')"></div>
-                                        <!--end::Image-->
-                                        <!--begin::Action-->
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                            <i class="bi bi-eye-fill fs-3x text-white"></i>
-                                        </div>
-                                        <!--end::Action-->
-                                    </a>
-                                    <!--end::Item-->
-                                </div>
-                                <!--end::Col-->
-                            </div>
-                            <!--end::Row-->
-                        </div>
-                        <!--end::Tab pane-->
-                    </div>
-                    <!--end::Tabs content-->
                 </div>
                 <!--end::Card body-->
             </div>

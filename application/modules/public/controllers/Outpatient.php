@@ -12,5 +12,23 @@
 			$this->template->load("template/template-public","v_outpatient");
 		}
 
+		public function datapasien(){
+            $parameter = $this->input->post("identitaspasien");
+            $result = $this->md->datapasien($parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
 	}
 ?>
