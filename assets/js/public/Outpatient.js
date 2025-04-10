@@ -212,3 +212,123 @@ function datapasien(identitaspasien) {
         });
     });
 };
+
+function jadwaldokter() {
+    var poliid   = $("select[name='booking_poliid']").val();
+    var dokterid = $("select[name='booking_doctorid']").val();
+    var hariid   = $("input[name='booking_hariid']").val();
+    var date     = $("input[name='booking_date']").val();
+
+    $.ajax({
+        url     : url + "index.php/public/outpatient/jadwaldokter",
+        data    : {poliid:poliid,dokterid:dokterid,hariid:hariid,date:date},
+        method  : "POST",
+        dataType: "JSON",
+        cache   : false,
+        success : function (data) {
+            var result      = "";
+            var tableresult = "";
+
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (var i in result) {
+                    tableresult += "<div class='col-md-6 col-lg-12 col-xxl-6'>";
+                        tableresult += "<label class='btn btn-outline btn-outline-dashed border-primary border-3 btn-outline-default d-flex text-start p-6' data-kt-button='true'>";
+                            tableresult += " <span class='form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1 is-valid'>";
+                                tableresult += " <input class='form-check-input' type='radio' name='booking_jadwal_poli_id' value='"+result[i].slot+"_"+result[i].kuota_online+"_"+result[i].antrian+"_"+result[i].sisakuota+"_"+result[i].jam_mulai+"_"+result[i].jam_selesai+"'>";
+                            tableresult += "</span>";
+                            tableresult += "<span class='ms-5'>";
+                                tableresult += "<span class='fs-4 fw-bolder text-gray-800 mb-2 d-block'>[" +result[i].slot+"] "+result[i].jam_mulai + " - " + result[i].jam_selesai + "</span>";
+                                tableresult += "<span class='fw-bold fs-7 text-gray-600'>Kuota : " + result[i].kuota_online + "</span></br>";
+                                tableresult += "<span class='fw-bold fs-7 text-gray-600'>Sisa Kuota : " + result[i].sisakuota + "</span>";
+                            tableresult += "</span>";
+                        tableresult += "</label>";
+                    tableresult += "</div>";
+                }
+            }
+
+            $("#jadwaldokter").html(tableresult);
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+};
+
+function simpanData() {
+    return new Promise((resolve, reject) => {
+        var form = new FormData(document.querySelector("#formbooking"));
+        $.ajax({
+            url        : url+"index.php/public/outpatient/insertepisode",
+            data       : form,
+            method     : "POST",
+            processData: false,
+            contentType: false,
+            dataType   : "JSON",
+            cache      : false,
+            success    : function (data) {
+                if (data.responCode === "00") {
+                    $("#struk_namapasien").html(data.responResult[0].namapasien);
+                    $("#struk_politujuan").html(data.responResult[0].politujuan);
+                    $("#struk_namadokter").html(data.responResult[0].namadokter);
+                    $("#struk_noantrian").html(data.responResult[0].nomorantrian);
+                    $("#struk_jampelayanan").html(data.responResult[0].tglpelayanan);
+
+                    // Menampilkan booking_id sebagai teks
+                    $("#struk_bookinid").html(data.responResult[0].no_rkm_medis);
+
+                    // Hapus QR Code lama (jika ada) dan buat baru
+                    $("#qrcode_booking").empty();
+
+                    var qrcode = new QRCode(document.getElementById("qrcode_booking"), {
+                        text    : data.responResult[0].no_rkm_medis,
+                        width   : 128,
+                        height  : 128,
+                        colorDark : "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H // High error correction
+                    });
+
+                    resolve(data);
+                } else {
+                    reject("Failed to save data. Please try again!");
+                }
+            },
+            error: function (xhr, status, error) {
+                reject("Error: " + error);
+            }
+        });
+    });
+};
+
+$(document).on("change","select[name='booking_poliid']",function(e){
+	e.preventDefault();
+    var poliid = $(this).val();
+    var hariid = $("input[name='booking_hariid']").val();
+	$.ajax({
+		url    : url + "index.php/public/outpatient/masterdokter",
+		method : "POST",
+		data   : {poliid:poliid,hariid:hariid},
+		cache  : false,
+		success: function (data) {
+			$("select[name='booking_doctorid']").html(data);
+            $("select[name='booking_doctorid']").trigger("change");
+		}
+	});
+});
+
+$(document).on("change", "select[name='booking_doctorid']",function(e){
+    e.preventDefault();
+    jadwaldokter();
+});

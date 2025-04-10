@@ -495,7 +495,7 @@
                                                 <a href="javascript:void(0);" class="btn btn-outline-success" id="downloadReceipt">
                                                     <i class="fas fa-file-download me-2"></i> Download Receipt
                                                 </a>
-                                                <a href="./RJNonBPJS" class="btn btn-primary" data-kt-element="complete-start">
+                                                <a href="./outpatient" class="btn btn-primary" data-kt-element="complete-start">
                                                     <i class="fas fa-home me-2"></i> Back to Home
                                                 </a>
                                             </div>
