@@ -80,7 +80,8 @@
             ];
             
             $hariId = explode(',', $this->input->post('hariid'));
-            $hari   = implode(', ', array_map(fn($i) => $hariMap[trim($i)] ?? 'TIDAK DIKETAHUI', $hariId));
+            $hari = implode(', ', array_map(function($i) use ($hariMap) {return $hariMap[trim($i)] ?? 'TIDAK DIKETAHUI';}, $hariId));
+            
             
             $resultmasterdokter = $this->md->masterdokter($this->input->post('poliid'),$hari);
 
