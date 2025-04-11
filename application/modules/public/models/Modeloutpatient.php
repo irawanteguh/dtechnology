@@ -49,6 +49,22 @@
             return $recordset;
         }
 
+        function masterdoctor($orgid){
+            $query =
+                    "
+                        select a.user_id, name,
+                            (select kolegium from dt01_med_kolegium_ms where active='1' and org_id=a.org_id and kolegium_id=a.kolegium_id)kolegium
+                        from dt01_gen_user_data a
+                        where a.active='1'
+                        and   a.kolegium_id is not null and a.kolegium_id <> ''
+                        order by kolegium
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterdokter($poliid,$hariid){
             $query =
                     "

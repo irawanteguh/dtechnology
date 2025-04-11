@@ -16,9 +16,11 @@
         public function loadcombobox(){
             $resultmasterprovider   = $this->md->masterprovider();
             $resultmasterpoliklinik = $this->md->masterpoliklinik();
+            $resultmasterdoctor     = $this->md->masterdoctor(ORG_ID);
     
-            $provider   = "";
-            $poliklinik = "";
+            $provider     = "";
+            $poliklinik   = "";
+            $masterdoctor = "";
 
             foreach ($resultmasterprovider as $a) {
                 $provider .= "<option value='" . $a->providerid . "'>" . $a->provider . "</option>";
@@ -27,9 +29,23 @@
             foreach ($resultmasterpoliklinik as $a) {
                 $poliklinik .= "<option value='" . $a->poli_id . "'>" . $a->poli . "</option>";
             }
+
+            foreach($resultmasterdoctor as $a ){
+                $image_url = base_url('assets/images/avatars/'.$a->user_id.'.png');
+
+                $masterdoctor .= "<div class='text-center'>";
+                    $masterdoctor .= "<div class='octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center' style='background-image: url(\"$image_url\")'></div>";
+                    $masterdoctor .= "<div class='mb-0'>";
+                        $masterdoctor .= "<a href='#' class='text-dark fw-bolder text-hover-primary fs-3'>".$a->name."</a>";
+                        $masterdoctor .= "<div class='text-muted fs-6 fw-bold mt-1'>".$a->kolegium."</div>";
+                    $masterdoctor .= "</div>";
+                $masterdoctor .= "</div>";
+            }
+            
     
-            $data['provider']   = $provider;
-            $data['poliklinik'] = $poliklinik;
+            $data['provider']     = $provider;
+            $data['poliklinik']   = $poliklinik;
+            $data['masterdoctor'] = $masterdoctor;
 
             return $data;
         }

@@ -51,12 +51,12 @@
 
             <div class="d-flex flex-column flex-center w-100 min-h-350px min-h-lg-500px px-9">
                 <div class="text-center mb-5 mb-lg-10 py-10 py-lg-20">
-                    <h1 class="text-white lh-base fw-bolder fs-2x fs-lg-3x mb-15">Welcome, we are a team of healthcare professionals committed to providing the best medical services for you and your family.
+                    <h1 class="text-white lh-base fw-bolder fs-2x fs-lg-3x mb-15">Welcome, we are a team of healthcare professionals committed</br>to providing the best medical services for you and your family.
                     <br />with
                     <span style="background: linear-gradient(to right, #12CE5D 0%, #FFD80C 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;">
                         <span id="kt_landing_hero_text">RMB Hospital Group</span>
                     </span></h1>
-                    <a href="../../demo1/dist/index.html" class="btn btn-primary">Reservasi Rawat Jalan</a>
+                    <a href="#reservasi" class="btn btn-primary">Reservasi Rawat Jalan</a>
                 </div>
 
                 <div class="d-flex flex-center flex-wrap position-relative px-5">
@@ -127,59 +127,37 @@
                     </div>
                 </div>
             </div>
-            <!--end::Row-->
-            <!--begin::Product slider-->
             <div class="tns tns-default">
-                <!--begin::Slider-->
                 <div data-tns="true" data-tns-loop="true" data-tns-swipe-angle="false" data-tns-speed="2000" data-tns-autoplay="true" data-tns-autoplay-timeout="18000" data-tns-controls="true" data-tns-nav="false" data-tns-items="1" data-tns-center="false" data-tns-dots="false" data-tns-prev-button="#kt_team_slider_prev1" data-tns-next-button="#kt_team_slider_next1">
-                    <!--begin::Item-->
                     <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/product-demos/demo1.png" class="card-rounded shadow mw-100" alt="" />
+                        <img src="<?php echo base_url();?>assets/images/screenshoot/Screenshot_3.png" class="card-rounded shadow mw-100" alt="" />
                     </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
                     <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/product-demos/demo2.png" class="card-rounded shadow mw-100" alt="" />
+                        <img src="<?php echo base_url();?>assets/images/screenshoot/Screenshot_4.png" class="card-rounded shadow mw-100" alt="" />
                     </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
                     <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/product-demos/demo4.png" class="card-rounded shadow mw-100" alt="" />
+                        <img src="<?php echo base_url();?>assets/images/screenshoot/Screenshot_1.png" class="card-rounded shadow mw-100" alt="" />
                     </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
                     <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/product-demos/demo5.png" class="card-rounded shadow mw-100" alt="" />
+                        <img src="<?php echo base_url();?>assets/images/screenshoot/Screenshot_2.png" class="card-rounded shadow mw-100" alt="" />
                     </div>
-                    <!--end::Item-->
                 </div>
-                <!--end::Slider-->
-                <!--begin::Slider button-->
                 <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_prev1">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr074.svg-->
                     <span class="svg-icon svg-icon-3x">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M11.2657 11.4343L15.45 7.25C15.8642 6.83579 15.8642 6.16421 15.45 5.75C15.0358 5.33579 14.3642 5.33579 13.95 5.75L8.40712 11.2929C8.01659 11.6834 8.01659 12.3166 8.40712 12.7071L13.95 18.25C14.3642 18.6642 15.0358 18.6642 15.45 18.25C15.8642 17.8358 15.8642 17.1642 15.45 16.75L11.2657 12.5657C10.9533 12.2533 10.9533 11.7467 11.2657 11.4343Z" fill="black" />
                         </svg>
                     </span>
-                    <!--end::Svg Icon-->
                 </button>
-                <!--end::Slider button-->
-                <!--begin::Slider button-->
                 <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next1">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr071.svg-->
                     <span class="svg-icon svg-icon-3x">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M12.6343 12.5657L8.45001 16.75C8.0358 17.1642 8.0358 17.8358 8.45001 18.25C8.86423 18.6642 9.5358 18.6642 9.95001 18.25L15.4929 12.7071C15.8834 12.3166 15.8834 11.6834 15.4929 11.2929L9.95001 5.75C9.5358 5.33579 8.86423 5.33579 8.45001 5.75C8.0358 6.16421 8.0358 6.83579 8.45001 7.25L12.6343 11.4343C12.9467 11.7467 12.9467 12.2533 12.6343 12.5657Z" fill="black" />
                         </svg>
                     </span>
-                    <!--end::Svg Icon-->
                 </button>
-                <!--end::Slider button-->
             </div>
-            <!--end::Product slider-->
         </div>
-        <!--end::Container-->
     </div>
 
     <div class="mt-sm-n10">
@@ -199,31 +177,31 @@
                 </div>
                 <div class="d-flex flex-center">
                     <div class="d-flex flex-wrap flex-center justify-content-lg-between mb-15 mx-auto w-xl-900px">
-                        <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('assets/media/svg/misc/octagon.svg')">
+                        <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('<?php echo base_url();?>assets/images/svg/misc/octagon.svg')">
                             <i class="bi bi-people fa-7x"></i>
                             <div class="mb-0">
                                 <div class="fs-lg-2hx fs-2x fw-bolder text-white d-flex flex-center">
                                     <div class="min-w-70px" data-kt-countup="true" data-kt-countup-value="700" data-kt-countup-suffix="+">0</div>
                                 </div>
-                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Patients Served</b> Jumlah pasien yang telah mendapatkan layanan medis berkualitas.</span>
+                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Patients Served</b></span>
                             </div>
                         </div>
-                        <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('assets/media/svg/misc/octagon.svg')">
+                        <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('<?php echo base_url();?>assets/images/svg/misc/octagon.svg')">
                         <i class="bi bi-hospital fa-7x"></i>
                             <div class="mb-0">
                                 <div class="fs-lg-2hx fs-2x fw-bolder text-white d-flex flex-center">
                                     <div class="min-w-70px" data-kt-countup="true" data-kt-countup-value="80" data-kt-countup-suffix="K+">0</div>
                                 </div>
-                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Medical Staff</b> Dokter dan perawat profesional yang siap melayani pasien dengan sepenuh hati.</span>
+                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Medical Staff</b></span>
                             </div>
                         </div>
-                        <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('assets/media/svg/misc/octagon.svg')">
+                        <div class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain" style="background-image: url('<?php echo base_url();?>assets/images/svg/misc/octagon.svg')">
                             <i class="bi bi-award fa-7x"></i>
                             <div class="mb-0">
                                 <div class="fs-lg-2hx fs-2x fw-bolder text-white d-flex flex-center">
                                     <div class="min-w-70px" data-kt-countup="true" data-kt-countup-value="35" data-kt-countup-suffix="M+">0</div>
                                 </div>
-                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Healthcare Awards</b> Penghargaan yang diperoleh atas dedikasi dalam dunia kesehatan.</span>
+                                <span class="text-gray-600 fw-bold fs-5 lh-0"><b>Healthcare Awards</b></span>
                             </div>
                         </div>
                     </div>
@@ -260,56 +238,7 @@
             </div>
             <div class="tns tns-default">
                 <div data-tns="true" data-tns-loop="true" data-tns-swipe-angle="false" data-tns-speed="2000" data-tns-autoplay="true" data-tns-autoplay-timeout="18000" data-tns-controls="true" data-tns-nav="false" data-tns-items="1" data-tns-center="false" data-tns-dots="false" data-tns-prev-button="#kt_team_slider_prev" data-tns-next-button="#kt_team_slider_next" data-tns-responsive="{1200: {items: 3}, 992: {items: 2}}">
-                    <div class="text-center">
-                        <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets/images/avatars/150-2.jpg'); ?>')"></div>
-                        <div class="mb-0">
-                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">dr. Andi Wijaya, Sp.PD</a>
-                            <div class="text-muted fs-6 fw-bold mt-1">Spesialis Penyakit Dalam</div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets/images/avatars/150-3.jpg'); ?>')"></div>
-                        <div class="mb-0">
-                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">dr. Siti Lestari, Sp.KJ</a>
-                            <div class="text-muted fs-6 fw-bold mt-1">Spesialis Kedokteran Jiwa</div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets/images/avatars/150-4.jpg'); ?>')"></div>
-                        <div class="mb-0">
-                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">dr. Budi Santoso, Sp.OG</a>
-                            <div class="text-muted fs-6 fw-bold mt-1">Spesialis Kandungan</div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets/images/avatars/150-5.jpg'); ?>')"></div>
-                        <div class="mb-0">
-                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">dr. Maya Rahmawati, Sp.A</a>
-                            <div class="text-muted fs-6 fw-bold mt-1">Spesialis Anak</div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets/images/avatars/150-6.jpg'); ?>')"></div>
-                        <div class="mb-0">
-                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">dr. Ridwan Hakim, Sp.B</a>
-                            <div class="text-muted fs-6 fw-bold mt-1">Spesialis Bedah</div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets/images/avatars/150-7.jpg'); ?>')"></div>
-                        <div class="mb-0">
-                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">dr. Intan Melati, Sp.THT</a>
-                            <div class="text-muted fs-6 fw-bold mt-1">Spesialis THT</div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('<?php echo base_url('assets/images/avatars/150-8.jpg'); ?>')"></div>
-                        <div class="mb-0">
-                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-3">dr. Yusuf Kurniawan, Sp.M</a>
-                            <div class="text-muted fs-6 fw-bold mt-1">Spesialis Mata</div>
-                        </div>
-                    </div>
-
+                    <?php echo $masterdoctor;?>
                 </div>
                 <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_prev">
                     <span class="svg-icon svg-icon-3x">
@@ -545,12 +474,9 @@
                 </div>
                 <!--end::Card body-->
             </div>
-            <!--end::Card-->
         </div>
-        <!--end::Container-->
     </div>
-    <!--end::Projects Section-->
-    <!--begin::Pricing Section-->
+
     <div class="mt-sm-n20">
         <div class="landing-curve landing-dark-color">
             <svg viewBox="15 -1 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
