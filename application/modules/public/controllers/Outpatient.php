@@ -69,8 +69,19 @@
         }
 
         public function masterdokter(){
-            $hari = implode(', ', array_map(fn($i) => ['0'=>'MINGGU','1'=>'SENIN','2'=>'SELASA','3'=>'RABU','4'=>'KAMIS','5'=>'JUMAT','6'=>'SABTU'][$i] ?? 'TIDAK DIKETAHUI', explode(',', $this->input->post('hariid'))));
-
+            $hariMap = [
+                '0' => 'MINGGU',
+                '1' => 'SENIN',
+                '2' => 'SELASA',
+                '3' => 'RABU',
+                '4' => 'KAMIS',
+                '5' => 'JUMAT',
+                '6' => 'SABTU'
+            ];
+            
+            $hariId = explode(',', $this->input->post('hariid'));
+            $hari   = implode(', ', array_map(fn($i) => $hariMap[trim($i)] ?? 'TIDAK DIKETAHUI', $hariId));
+            
             $resultmasterdokter = $this->md->masterdokter($this->input->post('poliid'),$hari);
 
             $doctor="";
