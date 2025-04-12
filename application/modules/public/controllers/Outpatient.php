@@ -113,21 +113,26 @@
         public function insertepisode(){
             $jadwal_parts = explode('_', $this->input->post('booking_jadwal_poli_id'));
             $noreg        = (isset($jadwal_parts[0]) && isset($jadwal_parts[2]))? $jadwal_parts[0] . $jadwal_parts[2]: null;
+            $norawat      = "B".DateTime::createFromFormat("d.m.Y", $this->input->post("booking_date"))->format("Y/m/d")."/".$jadwal_parts[6];
 
-            $data['tanggal_booking'] = date('Y-m-d');
-            $data['jam_booking']     = date('H:i:s');
-            $data['no_rkm_medis']    = $this->input->post("booking_nomr");
-            $data['tanggal_periksa'] = DateTime::createFromFormat("d.m.Y", $this->input->post("booking_date"))->format("Y-m-d");
-            $data['kd_dokter']       = $this->input->post("booking_doctorid");
-            $data['kd_poli']         = $this->input->post("booking_poliid");
-            $data['no_reg']          = $noreg;
-            $data['kd_pj']           = $this->input->post("booking_provider");
-            $data['limit_reg']       = 0;
-            $data['waktu_kunjungan'] = (isset($jadwal_parts[2]))? $data['tanggal_periksa'].' '.$jadwal_parts[4] . ':00': null;
-            $data['status']          = "Belum";
+            $data['no_rkm_medis']   = $this->input->post("booking_nomr");
+            $data['tgl_registrasi'] = DateTime::createFromFormat("d.m.Y", $this->input->post("booking_date"))->format("Y-m-d");
+            $data['no_rawat']       = $norawat;
+            $data['jam_reg']        = $jadwal_parts[4].':00';
+            $data['kd_dokter']      = $this->input->post("booking_doctorid");
+            $data['kd_poli']        = $this->input->post("booking_poliid");
+            $data['no_reg']         = $noreg;
+            $data['kd_pj']          = $this->input->post("booking_provider");
+            $data['p_jawab']        = "-";
+            $data['almt_pj']        = "-";
+            $data['hubunganpj']     = "DIRI SENDIRI";
+            $data['biaya_reg']      = 15000;
+            $data['stts']           = "Belum";
+            $data['stts_daftar']    = "Lama";
+            $data['status_bayar']   = "Belum Bayar";
 
             if($this->md->insertepisode($data)){
-                $databooking=$this->md->databooking($this->input->post("booking_nomr"));
+                $databooking=$this->md->databooking($norawat);
 
                 $json['responCode']   = "00";
                 $json['responHead']   = "success";

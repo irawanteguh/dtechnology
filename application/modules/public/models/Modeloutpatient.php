@@ -88,7 +88,8 @@
                         from(
                             select x.*,
                                 kuota_online - jmlterdaftar sisakuota,
-                                LPAD(jmlterdaftar+1, 3, '0') antrian
+                                LPAD(jmlterdaftar+1, 3, '0') antrian,
+                                LPAD(norawatreg+1, 5, '0') seqnorawat
                             from(
                                 SELECT 
                                     LEFT(a.jam_mulai, 5) AS jam_mulai,
@@ -96,15 +97,17 @@
                                     a.kuota AS kuota_online,
                                     CHAR(64 + ROW_NUMBER() OVER (ORDER BY a.jam_mulai)) AS slot,
                                     (
-                                        SELECT COUNT(1)
-                                        FROM booking_registrasi b
-                                        WHERE 
-                                            b.kd_poli = a.kd_poli
-                                            AND b.kd_dokter = a.kd_dokter
-                                            AND DATE(b.waktu_kunjungan) = '".$date."'
-                                            AND TIME(b.waktu_kunjungan) >= a.jam_mulai
-                                            AND TIME(b.waktu_kunjungan) < a.jam_selesai
-                                    ) AS jmlterdaftar
+                                    select count(b.no_rawat)
+                                    from reg_periksa b
+                                    where DATE(b.tgl_registrasi) = '".$date."'
+                                    and   b.kd_poli=a.kd_poli
+                                    and   b.kd_dokter=a.kd_dokter
+                                    )jmlterdaftar,
+                                    (
+                                    select count(b.no_rawat)
+                                    from reg_periksa b
+                                    where DATE(b.tgl_registrasi) = '".$date."'
+                                    )norawatreg
                                 FROM jadwal a
                                 WHERE a.kd_poli = '".$poliid."'
                                 AND a.hari_kerja = '".$hariid."'
@@ -120,16 +123,15 @@
             return $recordset;
         }
 
-        function databooking($norm){
+        function databooking($norawat){
             $query =
                     "
-                        select date_format(a.waktu_kunjungan ,'%d.%m.%Y %H.%i.%s')tglpelayanan, no_reg nomorantrian, no_rkm_medis,
+                        select concat(date_format(a.tgl_registrasi ,'%d.%m.%Y'),' ',jam_reg)tglpelayanan, no_reg nomorantrian, no_rkm_medis,
                             (select nm_pasien from pasien where no_rkm_medis=a.no_rkm_medis)namapasien,
                             (select nm_dokter from dokter where kd_dokter=a.kd_dokter)namadokter,
                             (select nm_poli from poliklinik where kd_poli=a.kd_poli)politujuan
-                        from booking_registrasi a
-                        where a.no_rkm_medis='".$norm."'
-                        order by waktu_kunjungan desc
+                        from reg_periksa a
+                        where a.no_rawat='".$norawat."'
                         limit 1;
                     ";
 
@@ -139,7 +141,7 @@
         }
 
         function insertepisode($data){           
-            $sql =   $this->db->insert("booking_registrasi",$data);
+            $sql =   $this->db->insert("reg_periksa",$data);
             return $sql;
         }
     }
