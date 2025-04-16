@@ -355,7 +355,7 @@
                         if(isset($responsecheckcertificate['success'])){
                             if($responsecheckcertificate['success']){
                                 if($responsecheckcertificate['status']===3){
-                                    $responserequestsign = Tilaka::requestsign(json_encode($body));
+                                    $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
                                     if(isset($responserequestsign['success'])){
                                         if($responserequestsign['success']){
                                             foreach($resultfilerequestsign as $files){
