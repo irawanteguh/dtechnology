@@ -272,6 +272,7 @@
                     $requestid = generateuuid();
                     
                     if(file_exists(FCPATH."assets/speciment/".ORG_ID.".png")){
+                        $signatures['email'] = $a->email;
                         $signatures['user_identifier'] = $a->user_identifier;
                         $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
     

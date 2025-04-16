@@ -40,7 +40,8 @@
             $query =
                     "
                         select distinct a.assign, user_identifier,
-                                (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
+                                (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname,
+                                (select email from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)email
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
