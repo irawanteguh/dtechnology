@@ -311,7 +311,7 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Request Revoke"){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
-                        btnaction = btncheckstatus;
+                        btnaction = btnreenroll;
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Revoke"){

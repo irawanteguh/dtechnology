@@ -380,6 +380,10 @@
 
                                                 $this->md->updatefile($datasimpanhd,$files->no_file);
                                             }
+                                        }else{
+                                            $datasimpanhd['status_sign'] = "99";
+                                            $datasimpanhd['note'] = $responserequestsign['message'];
+                                            $this->md->updatefile($datasimpanhd,$files->no_file);
                                         }
                                     }
                                     $listfile['responsetilaka'] = $responserequestsign;
