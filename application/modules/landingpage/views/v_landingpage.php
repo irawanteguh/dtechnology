@@ -12,7 +12,7 @@
 					<a href="#"><span>Tanda Tangan Elektronik</span> <i class="bi bi-chevron-down"></i></a>
 					<ul>
             <li><a target="_blank" href="index.php/uploaddocument/uploaddocument">Upload Document</a></li>
-						<li><a target="_blank" href="https://tte.kominfo.go.id/verifypdf">Verifikasi Kominfo</a></li>
+						<li><a target="_blank" href="https://tte.komdigi.go.id/verifyPDF">Verifikasi Kominfo</a></li>
 						<li><a target="_blank" href="https://corporate.tilaka.id/ca-corporate-portal/public/validate-pdf.xhtml?_ga=2.75630806.296341660.1735790853-1404220285.1733984167">Verifikasi Tilaka</a></li>
 						<!-- <li><a href="#">Carrers List</a></li> -->
 					</ul>

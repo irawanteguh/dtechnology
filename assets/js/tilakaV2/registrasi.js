@@ -174,6 +174,62 @@ function certificatestatus(btn){
     return false;
 };
 
+function activequicksign(btn){
+    var email         = $(btn).attr("data-email");
+    var useridentifier = $(btn).attr("data-useridentifier");
+    $.ajax({
+        url       : url+"index.php/tilakaV2/registrasi/activequicksign",
+        data      : {email:email,useridentifier:useridentifier},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success:function(data){
+            toastr.clear();
+            var result = data.responResult;
+
+            if(result['success']){
+                
+                // if(result['status']===0){
+                    // showAlert(
+                    //     "For Your Information",
+                    //     result['error'],
+                    //     "error",
+                    //     "Please Try Again",
+                    //     "btn btn-danger"
+                    // );
+                // };
+
+                
+            }else{
+                showAlert(
+                    "For Your Information",
+                    result['message'],
+                    "error",
+                    "Please Try Again",
+                    "btn btn-danger"
+                );
+            }
+        },
+        complete: function () {
+			datakaryawan();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                "<b>"+error+"</b>",
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
 function datakaryawan(){
     const search = $("input[name='searchdatakaryawan']").val().toUpperCase();
     $.ajax({
@@ -222,6 +278,7 @@ function datakaryawan(){
                     btnapprevoke        = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/revoke?revoke_id="+result[i].REVOKE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi' title='Revoke Approval'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btngantimfa         = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/login?setting=2&tilaka_name="+result[i].USER_IDENTIFIER+"&redirect_url="+url+"index.php/tilakaV2/registrasi&channel_id="+clientidtilaka+"'><i class='fa-solid fa-arrows-spin text-primary'></i> Change MFA</a>";
                     btnverifikasienroll = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
+                    btnactivequicksign      = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='activequicksign(this)'><i class='fa-solid fa-circle-check text-success'></i> Activation Quick Sign</a>";
 
                     if(result[i].REGISTER_ID==="" || result[i].REGISTER_ID===null){
                         if(result[i].REASON_CODE==="3"){
@@ -250,6 +307,11 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER==="" && result[i].REVOKE_ID===""){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
+                    }
+
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Request Revoke"){
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
+                        btnaction = btncheckstatus;
                     }
 
                     if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Revoke"){
@@ -284,12 +346,12 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID===''){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
-                        btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
+                        btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign; 
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID!=''){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
-                        btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
+                        btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign; 
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){

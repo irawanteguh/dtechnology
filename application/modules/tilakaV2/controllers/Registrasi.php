@@ -468,8 +468,6 @@
             $body['reason']          = $this->input->post("reasonid");
 
             $response = Tilaka::revoke(json_encode($body));
-            
-            return var_dump($response);
 
             if($response['success']){
 
@@ -582,6 +580,29 @@
             }
 
             echo json_encode($json);
+        }
+
+        public function activequicksign(){
+            $response =[];
+            $body = [];
+            if(file_exists(FCPATH."assets/speciment/".ORG_ID.".png")){
+                $signatures['user_identifier']=$this->input->post("useridentifier");
+                $signatures['email']=$this->input->post("email");
+                $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
+    
+                $body['request_id']=generateuuid();
+                $body['signatures'][]=$signatures;
+
+                $response = Tilaka::requestsignquicksign(json_encode($body));
+
+                $json["responCode"]   = "00";
+                $json["responHead"]   = "success";
+                $json["responDesc"]   = "success";
+                $json['responResult'] = $response;
+            }
+
+            echo json_encode($json);
+            
         }
 	}
 

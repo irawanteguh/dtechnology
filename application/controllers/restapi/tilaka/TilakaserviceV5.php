@@ -69,6 +69,9 @@
                                             }
                                         }
                                         $listfile['responsetilaka'] = $responseuploadfile;
+                                    }else{
+                                        $listfile['responsetilakaCertificate'] = $responsecheckcertificate;
+                                        $datasimpanhd['note']            = $responsecheckcertificate['message']['info'];
                                     }
                                 }else{
                                     $listfile['responsetilakaCertificate'] = $responsecheckcertificate;
@@ -370,8 +373,7 @@
 
                                                 if(file_exists($filename)){
                                                     $datasimpanhd['request_id']  = $requestid;
-                                                    $datasimpanhd['status_sign'] = "2";
-                                                    $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
+                                                    $datasimpanhd['status_sign'] = "4";
                                                 }else{
                                                     $datasimpanhd['status_sign'] = "0";
                                                 }
@@ -526,6 +528,67 @@
             $summaryresponse[]=$responseservice;
             $this->response($summaryresponse,REST_Controller::HTTP_OK);
         }
+
+        public function statussignquicksign_POST(){
+            $summaryresponse = [];
+            $responseservice = [];
+
+            $result = $this->md->listdownload(ORG_ID);
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $responseall = [];
+                    $response    = [];
+                    $body        = [];
+
+                    $body['request_id'] = $a->request_id;
+                    $response = Tilaka::excutesignstatus(json_encode($body));
+
+                    if(isset($response['success'])){
+                        if($response['success']){
+                            if($response['message']==="DONE"){
+                                foreach($response['list_pdf'] as $listpdfs){
+                                    // if($listpdfs['error']===false){
+                                        $data        = [];
+                                        $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                        $fileContent = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
+        
+                                        if($fileContent !== false){
+        
+                                            if($a->source_file==="DTECHNOLOGY"){
+                                                $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
+                                            }else{
+                                                $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
+                                            }
+        
+                                            if(file_put_contents($destinationPath,$fileContent)){
+                                                $data['STATUS_SIGN'] = "5";
+                                                $data['NOTE']        = "";
+                                                $data['LINK']        = $listpdfs['presigned_url'];
+                                                
+                                                $this->md->updatefile($data,$nofile);
+                                            }
+                                        }
+                                    // }
+                                }
+                            }
+                        }
+                    }
+                    
+
+                    $responseall['Assign']['UserIdentifier'] = $a->user_identifier;
+                    $responseall['Assign']['Name']           = $a->assignname;
+                    $responseall['ResponseTilaka']           = $response;
+                    $responseservice[]                       = $responseall;
+                }
+            }else{
+                $responseservice['ResponseDTechnology'] = "Tidak File Yang Sudah Selesai";
+            }
+
+            $summaryresponse[]=$responseservice;
+            $this->response($summaryresponse,REST_Controller::HTTP_OK);
+        }
+
 
         public function getfile_GET(){
             $orgId    = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : ORG_ID;
