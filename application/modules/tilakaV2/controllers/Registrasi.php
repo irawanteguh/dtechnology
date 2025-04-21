@@ -210,7 +210,11 @@
                                 if(isset($_GET['tilaka_name'])){
                                     redirect("tilakaV2/registrasi",$data);
                                 }else{
-                                    $this->template->load("template/template-sidebar","v_registrasi",$data);
+                                    if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
+                                        redirect("tilakaV2/registrasi",$data);
+                                    }else{
+                                        $this->template->load("template/template-sidebar","v_registrasi",$data);
+                                    }
                                 }
                             }
                         }

@@ -192,18 +192,7 @@ function activequicksign(btn){
             var result = data.responResult;
 
             if(result['success']){
-                
-                // if(result['status']===0){
-                    // showAlert(
-                    //     "For Your Information",
-                    //     result['error'],
-                    //     "error",
-                    //     "Please Try Again",
-                    //     "btn btn-danger"
-                    // );
-                // };
-
-                
+                window.location.href = result['auth_response'][0]['url']+"&redirect_url=" + url + "index.php/tilakaV2/registrasi";
             }else{
                 showAlert(
                     "For Your Information",

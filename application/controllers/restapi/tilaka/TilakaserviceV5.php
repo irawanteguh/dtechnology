@@ -373,7 +373,12 @@
 
                                                 if(file_exists($filename)){
                                                     $datasimpanhd['request_id']  = $requestid;
-                                                    $datasimpanhd['status_sign'] = "4";
+                                                    if($responserequestsign['auth_response'][0]['url']!=null){
+                                                        $datasimpanhd['status_sign'] = "2";
+                                                        $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
+                                                    }else{
+                                                        $datasimpanhd['status_sign'] = "4";
+                                                    }
                                                 }else{
                                                     $datasimpanhd['status_sign'] = "0";
                                                 }
