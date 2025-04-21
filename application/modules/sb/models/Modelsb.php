@@ -39,7 +39,7 @@
                     END AS nama_hari,
                     DATE_FORMAT(tanggal, '%m') AS bulan,
                     DATE_FORMAT(tanggal, '%Y') AS tahun,
-                    DATE_FORMAT(tanggal, '%Y.%m.%d') AS parameter,
+                    DATE_FORMAT(tanggal, '%d.%m.%Y') AS parameter,
                     (select coalesce(u_rj,0) from dt01_report_income_dt where date=tanggal) urj,
                     (select coalesce(u_ri,0) from dt01_report_income_dt where date=tanggal) uri,
                     (select coalesce(a_rj,0) from dt01_report_income_dt where date=tanggal) arj,
@@ -54,6 +54,32 @@
             $recordset = $this->db->query($query);
             return $recordset->result();
         }
+
+        function cekdata($orgid,$date){
+            $query =
+                    "
+                        select a.transaksi_id
+                        from dt01_report_income_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.date='".$date."'
+                        limit 1;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function insertquickreport($data){           
+            $sql =   $this->db->insert("dt01_report_income_dt",$data);
+            return $sql;
+        }
+
+        function updatequickreport($orgid,$date,$data){           
+            $sql =   $this->db->update("dt01_report_income_dt",$data,array("org_id"=>$orgid,"date"=>$date));
+            return $sql;
+        }
+
 
         
 

@@ -43,5 +43,44 @@
             echo json_encode($json);
         }
 
+        public function addquickreport(){
+            $orgid = $_SESSION['orgid'];
+            $date  = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_quickreport_add_date"))->format("Y-m-d");
+
+            $data['org_id']       = $orgid;
+            $data['transaksi_id'] = generateuuid();
+            $data['date']         = $date;
+            $data['u_rj']         = preg_replace('/\D/', '', $this->input->post("URJ"));
+            $data['u_ri']         = preg_replace('/\D/', '', $this->input->post("URI"));
+            $data['a_rj']         = preg_replace('/\D/', '', $this->input->post("ARJ"));
+            $data['a_ri']         = preg_replace('/\D/', '', $this->input->post("ARI"));
+            $data['b_rj']         = preg_replace('/\D/', '', $this->input->post("BRJ"));
+            $data['b_ri']         = preg_replace('/\D/', '', $this->input->post("BRI"));
+            $data['lain']         = preg_replace('/\D/', '', $this->input->post("LAIN"));
+
+            $existing = $this->md->cekdata($orgid, $date);
+
+            if ($existing) {
+                unset($data['transaksi_id']);
+                $exec = $this->md->updatequickreport($orgid, $date, $data);
+                $json['responDesc'] = "Data Updated Successfully";
+            } else {
+                $exec = $this->md->insertquickreport($data);
+                $json['responDesc'] = "Data Added Successfully";
+            }
+        
+            if ($exec) {
+                $json['responCode'] = "00";
+                $json['responHead'] = "success";
+            } else {
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = "Data Failed to Save";
+            }
+            
+
+            echo json_encode($json);
+        }
+
 	}
 ?>

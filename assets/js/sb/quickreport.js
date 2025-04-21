@@ -5,6 +5,60 @@ $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", functi
     databulan();
 });
 
+flatpickr('[name="modal_quickreport_add_date"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate: "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
+function formatRupiah(angka, prefix = 'Rp ') {
+    let numberString = angka.replace(/[^,\d]/g, '').toString();
+    let split = numberString.split(',');
+    let sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        let separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+    return rupiah ? prefix + rupiah : '';
+}
+
+document.querySelectorAll('.currency-rp').forEach(function(input) {
+    input.addEventListener('input', function(e) {
+        let formatted = formatRupiah(e.target.value);
+        e.target.value = formatted;
+    });
+});
+
+function getdata(btn){
+    var data_parameter = btn.attr("data_parameter");
+    var data_urj       = btn.attr("data_urj");
+    var data_uri       = btn.attr("data_uri");
+    var data_arj       = btn.attr("data_arj");
+    var data_ari       = btn.attr("data_ari");
+    var data_brj       = btn.attr("data_brj");
+    var data_bri       = btn.attr("data_bri");
+    var data_lain      = btn.attr("data_lain");
+
+    $('#modal_quickreport_add_date').val(data_parameter);
+
+    $('#URJ').val(data_urj === "null" || data_urj === "" ? "" : formatRupiah(data_urj));
+    $('#URI').val(data_uri === "null" || data_uri === "" ? "" : formatRupiah(data_uri));
+    $('#ARJ').val(data_arj === "null" || data_arj === "" ? "" : formatRupiah(data_arj));
+    $('#ARI').val(data_ari === "null" || data_ari === "" ? "" : formatRupiah(data_ari));
+    $('#BRJ').val(data_brj === "null" || data_brj === "" ? "" : formatRupiah(data_brj));
+    $('#BRI').val(data_bri === "null" || data_bri === "" ? "" : formatRupiah(data_bri));
+    $('#LAIN').val(data_lain === "null" || data_lain === "" ? "" : formatRupiah(data_lain));
+
+};
+
 function databulan() {
     var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
     $.ajax({
@@ -33,6 +87,15 @@ function databulan() {
                 var result = data.responResult;
         
                 for (var i in result) {
+                    var getvariabel =   " data_parameter='"+result[i].parameter+"'"+
+                                        " data_urj='"+result[i].urj+"'"+
+                                        " data_uri='"+result[i].uri+"'"+
+                                        " data_arj='"+result[i].arj+"'"+
+                                        " data_ari='"+result[i].ari+"'"+
+                                        " data_brj='"+result[i].brj+"'"+
+                                        " data_bri='"+result[i].bri+"'"+
+                                        " data_lain='"+result[i].lain+"'";
+
                     var month = result[i].bulan;
         
                     totalPerMonth[month].urj += parseFloat(result[i].urj || 0);
@@ -50,33 +113,14 @@ function databulan() {
                     tableresult += "<td class='ps-4'>" + result[i].nama_hari + "</td>";
                     tableresult += "<td class='text-center'>" + result[i].tanggal + "</td>";
         
-                    tableresult += result[i].urj === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='UMUM' data_jenis='RAJAL' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
-                        : "<td class='text-end'>" + todesimal(result[i].urj) + "</td>";
-        
-                    tableresult += result[i].uri === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_client_edit' data_provider='UMUM' data_jenis='INAP' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
-                        : "<td class='text-end'>" + todesimal(result[i].uri) + "</td>";
-        
-                    tableresult += result[i].arj === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_client_edit' data_provider='ASURANSI' data_jenis='RAJAL' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
-                        : "<td class='text-end'>" + todesimal(result[i].arj) + "</td>";
-        
-                    tableresult += result[i].ari === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_client_edit' data_provider='ASURANSI' data_jenis='INAP' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
-                        : "<td class='text-end'>" + todesimal(result[i].ari) + "</td>";
-        
-                    tableresult += result[i].brj === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_client_edit' data_provider='BPJS' data_jenis='RAJAL' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
-                        : "<td class='text-end'>" + todesimal(result[i].brj) + "</td>";
-        
-                    tableresult += result[i].bri === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_client_edit' data_provider='BPJS' data_jenis='INAP' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
-                        : "<td class='text-end'>" + todesimal(result[i].bri) + "</td>";
-        
-                    tableresult += result[i].lain === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_client_edit' data_provider='LAIN' data_jenis='LAIN' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
-                        : "<td class='text-end'>" + todesimal(result[i].lain) + "</td>";
+                    tableresult += "<td class='text-center'>" + (result[i].urj === null ? "<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='UMUM' data_jenis='RAJAL' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-pencil-fill'></i></a>" : "<a class='text-muted' style='text-decoration:none; cursor:pointer;' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='UMUM' data_jenis='RAJAL' " + getvariabel + " onclick='getdata($(this));'>" + todesimal(result[i].urj) + "</a>") + "</td>";
+                    tableresult += "<td class='text-center'>" + (result[i].uri === null ? "<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='UMUM' data_jenis='INAP' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-pencil-fill'></i></a>" : "<a class='text-muted' style='text-decoration:none; cursor:pointer;' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='UMUM' data_jenis='INAP' " + getvariabel + " onclick='getdata($(this));'>" + todesimal(result[i].uri) + "</a>") + "</td>";
+                    tableresult += "<td class='text-center'>" + (result[i].arj === null ? "<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='ASURANSI' data_jenis='RAJAL' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-pencil-fill'></i></a>" : "<a class='text-muted' style='text-decoration:none; cursor:pointer;' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='ASURANSI' data_jenis='RAJAL' " + getvariabel + " onclick='getdata($(this));'>" + todesimal(result[i].arj) + "</a>") + "</td>";
+                    tableresult += "<td class='text-center'>" + (result[i].ari === null ? "<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='ASURANSI' data_jenis='INAP' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-pencil-fill'></i></a>" : "<a class='text-muted' style='text-decoration:none; cursor:pointer;' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='ASURANSI' data_jenis='INAP' " + getvariabel + " onclick='getdata($(this));'>" + todesimal(result[i].ari) + "</a>") + "</td>";
+                    tableresult += "<td class='text-center'>" + (result[i].brj === null ? "<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='BPJS' data_jenis='RAJAL' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-pencil-fill'></i></a>" : "<a class='text-muted' style='text-decoration:none; cursor:pointer;' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='BPJS' data_jenis='RAJAL' " + getvariabel + " onclick='getdata($(this));'>" + todesimal(result[i].brj) + "</a>") + "</td>";
+                    tableresult += "<td class='text-center'>" + (result[i].bri === null ? "<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='BPJS' data_jenis='INAP' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-pencil-fill'></i></a>" : "<a class='text-muted' style='text-decoration:none; cursor:pointer;' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='BPJS' data_jenis='INAP' " + getvariabel + " onclick='getdata($(this));'>" + todesimal(result[i].bri) + "</a>") + "</td>";
+                    tableresult += "<td class='text-center'>" + (result[i].lain === null ? "<a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='LAIN' data_jenis='LAIN' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-pencil-fill'></i></a>" : "<a class='text-muted' style='text-decoration:none; cursor:pointer;' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='LAIN' data_jenis='LAIN' " + getvariabel + " onclick='getdata($(this));'>" + todesimal(result[i].lain) + "</a>") + "</td>";
+
         
                     var totalRajal = parseFloat(result[i].urj || 0) + parseFloat(result[i].arj || 0) + parseFloat(result[i].brj || 0);
                     var totalInap  = parseFloat(result[i].uri || 0) + parseFloat(result[i].ari || 0) + parseFloat(result[i].bri || 0);
@@ -176,4 +220,46 @@ function databulan() {
         }
     });
     return false;
-}
+};
+
+$(document).on("submit", "#formquickreport", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_quickreport_add_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_quickreport_add").modal("hide");
+                databulan();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_quickreport_add_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
