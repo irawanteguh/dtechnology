@@ -71,13 +71,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln01"></tbody>
@@ -189,13 +189,13 @@
                                     </tr>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th>Rajal</th>
-                                        <th>Inap</th>
+                                        <th>Ranap</th>
                                         <th>Rajal</th>
-                                        <th>Inap</th>
+                                        <th>Ranap</th>
                                         <th>Rajal</th>
-                                        <th>Inap</th>
+                                        <th>Ranap</th>
                                         <th>Rajal</th>
-                                        <th>Inap</th>
+                                        <th>Ranap</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultbln02"></tbody>
@@ -229,13 +229,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln03"></tbody>
@@ -267,13 +267,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln04"></tbody>
@@ -305,13 +305,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln05"></tbody>
@@ -343,13 +343,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln06"></tbody>
@@ -381,13 +381,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln07"></tbody>
@@ -419,13 +419,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln08"></tbody>
@@ -457,13 +457,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln09"></tbody>
@@ -495,13 +495,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln10"></tbody>
@@ -533,13 +533,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln11"></tbody>
@@ -571,13 +571,13 @@
                                 </tr>
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                     <th>Rajal</th>
-                                    <th>Inap</th>
+                                    <th>Ranap</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultbln12"></tbody>

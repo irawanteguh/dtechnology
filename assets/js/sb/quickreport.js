@@ -51,7 +51,7 @@ function databulan() {
                     tableresult += "<td class='text-center'>" + result[i].tanggal + "</td>";
         
                     tableresult += result[i].urj === null
-                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_client_edit' data_provider='UMUM' data_jenis='RAJAL' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
+                        ? "<td class='text-center'><a class='btn btn-icon btn-bg-light btn-active-color-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_add' data_provider='UMUM' data_jenis='RAJAL' data_parameter='" + result[i].parameter + "'><i class='bi bi-pencil-fill'></i></a></td>"
                         : "<td class='text-end'>" + todesimal(result[i].urj) + "</td>";
         
                     tableresult += result[i].uri === null
