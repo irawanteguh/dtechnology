@@ -82,5 +82,43 @@
             echo json_encode($json);
         }
 
+        public function addquickreportkunjungan(){
+            $orgid = $_SESSION['orgid'];
+            $date  = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_quickreport_add_date_kunjungan"))->format("Y-m-d");
+
+            $data['org_id']       = $orgid;
+            $data['transaksi_id'] = generateuuid();
+            $data['date']         = $date;
+            $data['kurj']         = $this->input->post("KURJ");
+            $data['kuri']         = $this->input->post("KURI");
+            $data['karj']         = $this->input->post("KARJ");
+            $data['kari']         = $this->input->post("KARI");
+            $data['kbrj']         = $this->input->post("KBRJ");
+            $data['kbri']         = $this->input->post("KBRI");
+
+            $existing = $this->md->cekdata($orgid, $date);
+
+            if ($existing) {
+                unset($data['transaksi_id']);
+                $exec = $this->md->updatequickreport($orgid, $date, $data);
+                $json['responDesc'] = "Data Updated Successfully";
+            } else {
+                $exec = $this->md->insertquickreport($data);
+                $json['responDesc'] = "Data Added Successfully";
+            }
+        
+            if ($exec) {
+                $json['responCode'] = "00";
+                $json['responHead'] = "success";
+            } else {
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = "Data Failed to Save";
+            }
+            
+
+            echo json_encode($json);
+        }
+
 	}
 ?>

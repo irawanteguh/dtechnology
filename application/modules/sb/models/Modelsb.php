@@ -46,7 +46,13 @@
                     (select coalesce(a_ri,0) from dt01_report_income_dt where date=tanggal) ari,
                     (select coalesce(b_rj,0) from dt01_report_income_dt where date=tanggal) brj,
                     (select coalesce(b_ri,0) from dt01_report_income_dt where date=tanggal) bri,
-                    (select coalesce(lain) from dt01_report_income_dt where date=tanggal) lain
+                    (select coalesce(lain) from dt01_report_income_dt where date=tanggal) lain,
+                    (select coalesce(k_urj) from dt01_report_income_dt where date=tanggal) kurj,
+                    (select coalesce(k_uri) from dt01_report_income_dt where date=tanggal) kuri,
+                    (select coalesce(k_arj) from dt01_report_income_dt where date=tanggal) karj,
+                    (select coalesce(k_ari) from dt01_report_income_dt where date=tanggal) kari,
+                    (select coalesce(k_brj) from dt01_report_income_dt where date=tanggal) kbrj,
+                    (select coalesce(k_bri) from dt01_report_income_dt where date=tanggal) kbri
                     
                 FROM calendar;
             ";
