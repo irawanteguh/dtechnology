@@ -1,5 +1,4 @@
 var iconPath = "M53.5,476c0,14,6.833,21,20.5,21s20.5-7,20.5-21V287h21v189c0,14,6.834,21,20.5,21 c13.667,0,20.5-7,20.5-21V154h10v116c0,7.334,2.5,12.667,7.5,16s10.167,3.333,15.5,0s8-8.667,8-16V145c0-13.334-4.5-23.667-13.5-31 s-21.5-11-37.5-11h-82c-15.333,0-27.833,3.333-37.5,10s-14.5,17-14.5,31v133c0,6,2.667,10.333,8,13s10.5,2.667,15.5,0s7.5-7,7.5-13 V154h10V476 M61.5,42.5c0,11.667,4.167,21.667,12.5,30S92.333,85,104,85s21.667-4.167,30-12.5S146.5,54,146.5,42 c0-11.335-4.167-21.168-12.5-29.5C125.667,4.167,115.667,0,104,0S82.333,4.167,74,12.5S61.5,30.833,61.5,42.5z"
-var todolistChart;
 
 databulan();
 
@@ -99,8 +98,18 @@ function databulan() {
 
             for(var month = 1; month <= 12; month++){
                 $("#resultbln" + (month < 10 ? '0' + month : month)).html("");
+                $("#resultkunjungan" + (month < 10 ? '0' + month : month)).html("");
+
+                $("#totalkunjunganumum" + (month < 10 ? '0' + month : month)).html("");
+                $("#totalkunjunganasuransi" + (month < 10 ? '0' + month : month)).html("");
+                $("#totalkunjunganbpjs" + (month < 10 ? '0' + month : month)).html("");
+                
+                $("#kunjunganumum" + (month < 10 ? '0' + month : month)).html("");
+                $("#kunjunganasuransi" + (month < 10 ? '0' + month : month)).html("");
+                $("#kunjunganbpjs" + (month < 10 ? '0' + month : month)).html("");
             }
 
+            
             am4core.useTheme(am4themes_animated);
         },       
         success: function (data) {
@@ -109,13 +118,11 @@ function databulan() {
         
             for (var m = 1; m <= 12; m++) {
                 var key = m < 10 ? '0' + m : '' + m;
-                totalPerMonth[key] = {
-                    urj: 0, uri: 0, arj: 0, ari: 0, brj: 0, bri: 0, lain: 0
-                };
+                totalPerMonth[key] = {urj: 0, uri: 0, arj: 0, ari: 0, brj: 0, bri: 0, lain: 0, k_urj: 0, k_uri: 0, k_arj: 0, k_ari: 0, k_brj: 0, k_bri: 0, umum: 0, asuransi: 0, bpjs: 0};
                 countPerMonth[key] = 0;
             }
         
-            if (data.responCode === "00") {
+            if(data.responCode === "00"){
                 var result = data.responResult;
         
                 for (var i in result) {
@@ -130,8 +137,19 @@ function databulan() {
                     totalPerMonth[month].brj += parseFloat(item.brj || 0);
                     totalPerMonth[month].bri += parseFloat(item.bri || 0);
                     totalPerMonth[month].lain += parseFloat(item.lain || 0);
+                    totalPerMonth[month].k_urj += parseFloat(item.kurj || 0);
+                    totalPerMonth[month].k_uri += parseFloat(item.kuri || 0);
+                    totalPerMonth[month].k_arj += parseFloat(item.karj || 0);
+                    totalPerMonth[month].k_ari += parseFloat(item.kari || 0);
+                    totalPerMonth[month].k_brj += parseFloat(item.kbrj || 0);
+                    totalPerMonth[month].k_bri += parseFloat(item.kbri || 0);
+
+                    totalPerMonth[month].umum = totalPerMonth[month].k_urj + totalPerMonth[month].k_uri;
+                    totalPerMonth[month].asuransi = totalPerMonth[month].k_arj + totalPerMonth[month].k_ari;
+                    totalPerMonth[month].bpjs = totalPerMonth[month].k_brj + totalPerMonth[month].k_bri;
+
                     countPerMonth[month]++;
-        
+
                     // Get variabel untuk edit
                     var getvariabel = " data_parameter='" + item.parameter + "'" +
                         " data_urj='" + item.urj + "'" +
@@ -192,9 +210,125 @@ function databulan() {
         
                     $("#resultbln" + month).append(tableresult);
                     $("#resultkunjungan" + month).append(tablekunjungan);
+                    $("#totalkunjunganumum" + month).html(todesimal(totalPerMonth[month].umum));
+                    $("#totalkunjunganasuransi" + month).html(todesimal(totalPerMonth[month].asuransi));
+                    $("#totalkunjunganbpjs" + month).html(todesimal(totalPerMonth[month].bpjs));
                 }
-        
-                // Looping per bulan untuk buat average dan chart
+
+                let bulanan = {};
+                result.forEach(item => {
+                    const bulan = item.bulan;
+                    const tanggal = parseInt(item.tanggal);
+
+                    if(!bulanan[bulan]){
+                        bulanan[bulan]={
+                            kurj: [],
+                            kuri: [],
+                            karj: [],
+                            kari: [],
+                            kbrj: [],
+                            kbri: []
+                        };
+                    }
+
+                    bulanan[bulan].kurj[tanggal - 1] = parseInt(item.kurj || 0);
+                    bulanan[bulan].kuri[tanggal - 1] = parseInt(item.kuri || 0);
+                    bulanan[bulan].karj[tanggal - 1] = parseInt(item.karj || 0);
+                    bulanan[bulan].kari[tanggal - 1] = parseInt(item.kari || 0);
+                    bulanan[bulan].kbrj[tanggal - 1] = parseInt(item.kbrj || 0);
+                    bulanan[bulan].kbri[tanggal - 1] = parseInt(item.kbri || 0);
+                });
+                
+                const chartInstances = {};
+
+                for (let m = 1; m <= 12; m++) {
+                    let month = m < 10 ? "0" + m : "" + m;
+                    
+                    const createChart = (id, data1, data2) => {
+                        const el = document.getElementById(id + month);
+                        if (!el) return;
+
+                        const height = parseInt(KTUtil.css(el, "height"));
+                        const gray800 = KTUtil.getCssVariableValue("--bs-gray-800");
+                        const gray300 = KTUtil.getCssVariableValue("--bs-gray-300");
+                        const primary = KTUtil.getCssVariableValue("--bs-primary");
+                        const info = KTUtil.getCssVariableValue("--bs-info");
+
+                        const maxValue = Math.max(...data1.concat(data2));
+                        const yAxisMax = maxValue + (maxValue * 0.2);
+
+                        // Destroy old chart if exists
+                        if (chartInstances[id + month]) {
+                            chartInstances[id + month].destroy();
+                        }
+
+                        const chart = new ApexCharts(el, {
+                            series: [
+                                { name: "Rawat Jalan", data: data1 },
+                                { name: "Rawat Inap", data: data2 }
+                            ],
+                            chart: {
+                                fontFamily: "inherit",
+                                type: "area",
+                                height: height,
+                                toolbar: { show: false },
+                                zoom: { enabled: false },
+                                sparkline: { enabled: true }
+                            },
+                            stroke: {
+                                curve: "smooth",
+                                width: 3,
+                                colors: [primary, info]
+                            },
+                            xaxis: {
+                                categories: data1.map((_, i) => `${i + 1}`),
+                                labels: {
+                                    show: true,
+                                    style: { colors: gray800, fontSize: "12px" }
+                                },
+                                crosshairs: {
+                                    show: false,
+                                    stroke: { color: gray300, width: 1, dashArray: 3 }
+                                }
+                            },
+                            yaxis: {
+                                min: 0,
+                                max: yAxisMax,
+                                labels: {
+                                    show: true,
+                                    style: { colors: gray800, fontSize: "12px" }
+                                }
+                            },
+                            tooltip: {
+                                style: { fontSize: "12px" },
+                                y: {
+                                    formatter: val => val + " kunjungan"
+                                }
+                            },
+                            colors: [primary, info]
+                        });
+
+                        chart.render();
+                        chartInstances[id + month] = chart;
+                    };
+
+                    // Pasien Umum
+                    const kurj = bulanan[month]?.kurj || [];
+                    const kuri = bulanan[month]?.kuri || [];
+                    createChart("kunjunganumum", kurj, kuri);
+
+                    // Pasien Asuransi
+                    const karj = bulanan[month]?.karj || [];
+                    const kari = bulanan[month]?.kari || [];
+                    createChart("kunjunganasuransi", karj, kari);
+
+                    // Pasien BPJS
+                    const kbrj = bulanan[month]?.kbrj || [];
+                    const kbri = bulanan[month]?.kbri || [];
+                    createChart("kunjunganbpjs", kbrj, kbri);
+                };
+
+
                 for (var m = 1; m <= 12; m++) {
                     var month = m < 10 ? '0' + m : '' + m;
                     var total = totalPerMonth[month];
@@ -215,6 +349,11 @@ function databulan() {
                     var totalRajal    = total.urj + total.arj + total.brj;
                     var totalInap     = total.uri + total.ari + total.bri;
                     var totalAkhir    = totalRajal + totalInap + total.lain;
+
+                    var asuransi = total.arj + total.ari;
+                    var umum = total.urj + total.uri;
+                    var bpjs = total.brj + total.bri;
+                    
         
                     avgRow += "<td class='text-end'>" + todesimal(avetotalRajal) + "</td>";
                     avgRow += "<td class='text-end'>" + todesimal(avetotalInap) + "</td>";
@@ -233,16 +372,12 @@ function databulan() {
                     $("#resultbln" + month).append(avgRow);
         
                     // Update info summary
-                    var asuransi = total.arj + total.ari;
-                    var umum = total.urj + total.uri;
-                    var bpjs = total.brj + total.bri;
-        
+                    
                     $("#total" + month).html("Rp. " + todesimal(totalAkhir));
                     $("#umum" + month).html("Rp. " + todesimal(umum));
                     $("#asuransi" + month).html("Rp. " + todesimal(asuransi));
                     $("#bpjs" + month).html("Rp. " + todesimal(bpjs));
                     $("#lain" + month).html("Rp. " + todesimal(total.lain));
-        
                     
                     var nilaiGroup = [
                         { "category": "UMUM", "value": total.urj + total.uri, "color": "#0D6EFD" },
@@ -333,16 +468,16 @@ function databulan() {
         },
         error: function (xhr, status, error) {
             Swal.fire({
-                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html: "<b>" + error + "</b>",
-                icon: "error",
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
                 confirmButtonText: "Please Try Again",
-                buttonsStyling: false,
-                timerProgressBar: true,
-                timer: 5000,
-                customClass: { confirmButton: "btn btn-danger" },
-                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
             });
         }
     });

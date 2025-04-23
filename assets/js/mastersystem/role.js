@@ -19,19 +19,19 @@ function masterrole(){
         success:function(data){
             let tableresult ="";
 
-            if(data.responCode==="00"){
-                let result        = data.responResult;
-
-                tableresult +="<div class='col-md-4'>";
-                    tableresult +="<div class='card h-md-100'>";
-                        tableresult +="<div class='card-body d-flex flex-center'>";
-                            tableresult +="<button type='button' class='btn btn-clear d-flex flex-column flex-center' data-bs-toggle='modal' data-bs-target='#modal_role_add'>";
-                                tableresult +="<img src='"+url+"assets/images/illustrations/unitedpalms-1/4.png' alt='' class='mw-100 mh-150px mb-7'>";
-                                tableresult +="<div class='fw-bolder fs-3 text-gray-600 text-hover-primary'>Add New Role</div>";
-                            tableresult +="</button>";
-                        tableresult +="</div>";
+            tableresult +="<div class='col-md-4'>";
+                tableresult +="<div class='card h-md-100'>";
+                    tableresult +="<div class='card-body d-flex flex-center'>";
+                        tableresult +="<button type='button' class='btn btn-clear d-flex flex-column flex-center' data-bs-toggle='modal' data-bs-target='#modal_role_add'>";
+                            tableresult +="<img src='"+url+"assets/images/illustrations/unitedpalms-1/4.png' alt='' class='mw-100 mh-150px mb-7'>";
+                            tableresult +="<div class='fw-bolder fs-3 text-gray-600 text-hover-primary'>Add New Role</div>";
+                        tableresult +="</button>";
                     tableresult +="</div>";
                 tableresult +="</div>";
+            tableresult +="</div>";
+
+            if(data.responCode==="00"){
+                let result        = data.responResult;
 
                 for(var i in result){
                     getvariabel =   "data_roleid='" + result[i].role_id + "'";

@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-xl-6 mb-5">
                             <label for="modal_quickreport_add_date" class="d-flex align-items-center fs-6 fw-bold mb-2 required">Date:</label>
-                            <input type="text" id="modal_quickreport_add_date" name="modal_quickreport_add_date" class="form-control form-control-solid flatpickr-input" placeholder="Pick a plan date" disabled>
+                            <input type="text" id="modal_quickreport_add_date" name="modal_quickreport_add_date" class="form-control form-control-solid flatpickr-input" placeholder="Pick a plan date" readonly>
                         </div>
                         <div class="col-xl-6 mb-5"></div>
                         <div class="col-xl-12 mb-5">
@@ -100,7 +100,7 @@
                     <div class="row">
                         <div class="col-xl-6 mb-5">
                             <label for="modal_quickreport_add_date" class="d-flex align-items-center fs-6 fw-bold mb-2 required">Date:</label>
-                            <input type="text" id="modal_quickreport_add_date_kunjungan" name="modal_quickreport_add_date_kunjungan" class="form-control form-control-solid flatpickr-input" placeholder="Pick a plan date" disabled>
+                            <input type="text" id="modal_quickreport_add_date_kunjungan" name="modal_quickreport_add_date_kunjungan" class="form-control form-control-solid flatpickr-input" placeholder="Pick a plan date" readonly>
                         </div>
                         <div class="col-xl-6 mb-5"></div>
                         <div class="col-xl-4 mb-5">

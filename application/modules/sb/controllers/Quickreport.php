@@ -27,7 +27,7 @@
 
 		public function databulan(){
 			$tahun = $this->input->post("periode");
-            $result = $this->md->databulan($tahun);
+            $result = $this->md->databulan($tahun,$_SESSION['orgid']);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -89,12 +89,12 @@
             $data['org_id']       = $orgid;
             $data['transaksi_id'] = generateuuid();
             $data['date']         = $date;
-            $data['kurj']         = $this->input->post("KURJ");
-            $data['kuri']         = $this->input->post("KURI");
-            $data['karj']         = $this->input->post("KARJ");
-            $data['kari']         = $this->input->post("KARI");
-            $data['kbrj']         = $this->input->post("KBRJ");
-            $data['kbri']         = $this->input->post("KBRI");
+            $data['k_urj']         = $this->input->post("KURJ");
+            $data['k_uri']         = $this->input->post("KURI");
+            $data['k_arj']         = $this->input->post("KARJ");
+            $data['k_ari']         = $this->input->post("KARI");
+            $data['k_brj']         = $this->input->post("KBRJ");
+            $data['k_bri']         = $this->input->post("KBRI");
 
             $existing = $this->md->cekdata($orgid, $date);
 
