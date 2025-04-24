@@ -157,6 +157,18 @@
                                 $response = Tilaka::checkcertificateuser(json_encode($body));
 
                                 if($response['success']){
+
+                                    if($response['status']===1){
+                                        $datasimpan['REVOKE_ID']        = "";
+                                        $datasimpan['ISSUE_ID']         = "";
+                                        $datasimpan['CERTIFICATE']      = $response['status'];
+                                        $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                                        $datasimpan['REASON_CODE']      = "";
+
+                                        $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
+                                        redirect("tilakaV2/registrasi",$data);
+                                    }
+
                                     if($response['status']===3){
                                         if($response['message']['info']==="Aktif"){
                                             $datasimpan['REVOKE_ID']        = "";
