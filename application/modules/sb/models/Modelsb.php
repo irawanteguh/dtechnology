@@ -40,19 +40,19 @@
                     DATE_FORMAT(tanggal, '%m') AS bulan,
                     DATE_FORMAT(tanggal, '%Y') AS tahun,
                     DATE_FORMAT(tanggal, '%d.%m.%Y') AS parameter,
-                    (select coalesce(u_rj,0) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) urj,
-                    (select coalesce(u_ri,0) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) uri,
-                    (select coalesce(a_rj,0) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) arj,
-                    (select coalesce(a_ri,0) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) ari,
-                    (select coalesce(b_rj,0) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) brj,
-                    (select coalesce(b_ri,0) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) bri,
-                    (select coalesce(lain) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) lain,
-                    (select coalesce(k_urj) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) kurj,
-                    (select coalesce(k_uri) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) kuri,
-                    (select coalesce(k_arj) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) karj,
-                    (select coalesce(k_ari) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) kari,
-                    (select coalesce(k_brj) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) kbrj,
-                    (select coalesce(k_bri) from dt01_report_income_dt where org_id='".$orgid."' and date=tanggal) kbri
+                    (select coalesce(u_rj,0) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) urj,
+                    (select coalesce(u_ri,0) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) uri,
+                    (select coalesce(a_rj,0) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) arj,
+                    (select coalesce(a_ri,0) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) ari,
+                    (select coalesce(b_rj,0) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) brj,
+                    (select coalesce(b_ri,0) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) bri,
+                    (select coalesce(lain) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) lain,
+                    (select coalesce(k_urj) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kurj,
+                    (select coalesce(k_uri) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kuri,
+                    (select coalesce(k_arj) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) karj,
+                    (select coalesce(k_ari) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kari,
+                    (select coalesce(k_brj) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kbrj,
+                    (select coalesce(k_bri) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kbri
                     
                 FROM calendar;
             ";
@@ -66,7 +66,8 @@
                     "
                         select a.transaksi_id
                         from dt01_report_income_dt a
-                        where a.org_id='".$orgid."'
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
                         and   a.date='".$date."'
                         limit 1;
                     ";
@@ -85,11 +86,6 @@
             $sql =   $this->db->update("dt01_report_income_dt",$data,array("org_id"=>$orgid,"date"=>$date));
             return $sql;
         }
-
-
-        
-
-
 
     }
 ?>

@@ -78,76 +78,37 @@ function datainsight() {
                     dataMap.lainRST.push(parseFloat(item.laintotalrst));
                 }
 
-                const average = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
-
-                const createChart = (elementId, seriesData, chartName) => {
-                    const el = document.getElementById(elementId);
-                    const height = parseInt(KTUtil.css(el, "height"));
-                    const allData = seriesData.flatMap(s => s.data);
-                    const avgAll = average(allData);
-
-                    const newChart = new ApexCharts(el, {
-                        series: seriesData,
-                        chart: {
-                            fontFamily: "inherit",
-                            type: 'area',
-                            height: height,
-                            toolbar: { show: false },
-                            animations: {
-                                enabled: true,
-                                easing: 'easeinout',
-                                speed: 800,
-                                animateGradually: { enabled: true, delay: 150 },
-                                dynamicAnimation: { enabled: true, speed: 350 }
-                            }
-                        },
-                        stroke: { curve: "smooth", width: 2, show: true },
-                        dataLabels: { enabled: false },
-                        yaxis: {
-                            labels: {
-                                show: true,
-                                formatter: value => todesimal(value)
-                            },
-                            title: { text: 'Income this year' }
-                        },
-                        xaxis: {
-                            categories: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
-                            labels: { style: { colors: "#888", fontSize: "12px" } },
-                            axisBorder: { show: true },
-                            axisTicks: { show: true }
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: val => val.toLocaleString('id-ID', {
-                                    style: 'currency',
-                                    currency: 'IDR',
-                                    minimumFractionDigits: 0
-                                })
-                            },
-                            x: { show: true, format: "MMM" }
-                        },
-                        annotations: {
-                            yaxis: [{
-                                y: avgAll,
-                                borderColor: '#FF4560',
-                                label: {
-                                    borderColor: '#FF4560',
-                                    style: { color: '#fff', background: '#FF4560' },
-                                    text: 'Rata-rata: ' + avgAll.toLocaleString('id-ID', {
-                                        style: 'currency',
-                                        currency: 'IDR',
-                                        minimumFractionDigits: 0
-                                    })
-                                }
-                            }]
-                        }
-                    });
-
-                    newChart.render();
-                    window[chartName] = newChart; // simpan ke variabel global
+                // Fungsi untuk menghitung rata-rata dari elemen yang != 0
+                const averageNotZero = arr => {
+                    const filtered = arr.filter(val => val !== 0);
+                    return filtered.length > 0 ? filtered.reduce((a, b) => a + b, 0) / filtered.length : 0;
                 };
 
-                const sum = arr => arr.reduce((a, b) => a + b, 0);
+                // Rata-rata pendapatan untuk tiap kategori, dihitung dari semua bulan yang nilainya > 0
+                const avgUmum = averageNotZero([
+                    ...dataMap.umumRSMS,
+                    ...dataMap.umumRSIABM,
+                    ...dataMap.umumRST
+                ]);
+
+                const avgAsuransi = averageNotZero([
+                    ...dataMap.asuransiRSMS,
+                    ...dataMap.asuransiRSIABM,
+                    ...dataMap.asuransiRST
+                ]);
+
+                const avgBPJS = averageNotZero([
+                    ...dataMap.bpjsRSMS,
+                    ...dataMap.bpjsRSIABM,
+                    ...dataMap.bpjsRST
+                ]);
+
+                const avgLain = averageNotZero([
+                    ...dataMap.lainRSMS,
+                    ...dataMap.lainRSIABM,
+                    ...dataMap.lainRST
+                ]);
+
 
                 chartProvider = new ApexCharts(document.getElementById("grafikDistribusiProvider"), {
                     series: [
@@ -219,38 +180,84 @@ function datainsight() {
                         }
                     }
                 });
+
                 chartProvider.render();
 
-                // ✅ Panggil chart sesuai dataMap
+                const totalRSMS = sum(dataMap.RSMS);
+                const totalRSIABM = sum(dataMap.RSIABM);
+                const totalRST = sum(dataMap.RST);
+                const totalAll = totalRSMS + totalRSIABM + totalRST;
+
+                const percentRSMS = ((totalRSMS / totalAll) * 100).toFixed(1);
+                const percentRSIABM = ((totalRSIABM / totalAll) * 100).toFixed(1);
+                const percentRST = ((totalRST / totalAll) * 100).toFixed(1);
+
+                // Total Carousel Info
+                $("#carousel-total-all").html(`
+                <div>
+                    <p><b>${formatCurrency(totalAll)}</b></p>
+                    <small>Gabungan dari 3 rumah sakit (RSU Mutiasari, RSIA Budhi Mulia, RS Thursina)</small>
+                </div>
+                `);
+
+                // RSU Mutiasari
+                $("#carousel-total-rsms").html(`
+                <div>
+                    <p>Pendapatan RSU Mutiasari tahun ini: <b>${formatCurrency(totalRSMS)}</b></p>
+                    <small class="badge badge-info mb-1">Kontribusi: ${percentRSMS}% dari total keseluruhan</small>
+                </div>
+                `);
+
+                // RSIA Budhi Mulia
+                $("#carousel-total-rsiabm").html(`
+                <div>
+                    <p>Pendapatan RSIA Budhi Mulia tahun ini: <b>${formatCurrency(totalRSIABM)}</b></p>
+                    <small class="badge badge-info mb-1">Kontribusi: ${percentRSIABM}% dari total keseluruhan</small>
+                </div>
+                `);
+
+                // RS Thursina
+                $("#carousel-total-rst").html(`
+                <div>
+                    <p>Pendapatan RS Thursina tahun ini: <b>${formatCurrency(totalRST)}</b></p>
+                    <small class="badge badge-info mb-1">Kontribusi: ${percentRST}% dari total keseluruhan</small>
+                </div>
+                `);
+
+
+                const jumlahPeriodeValid = dataMap.RSMS.filter(val => val !== 0).length;
+
+                // Menampilkan chart untuk Total Pendapatan
                 createChart("grafikPendapatanRS", [
                     { name: "RSU Mutiasari", data: dataMap.RSMS },
                     { name: "RSIA Budhi Mulia", data: dataMap.RSIABM },
                     { name: "RS Thursina", data: dataMap.RST }
-                ], "chartRS");
+                ], "chartRS", totalAll / 3 / jumlahPeriodeValid);
 
                 createChart("grafikPendapatanUmum", [
                     { name: "RSU Mutiasari", data: dataMap.umumRSMS },
                     { name: "RSIA Budhi Mulia", data: dataMap.umumRSIABM },
                     { name: "RS Thursina", data: dataMap.umumRST }
-                ], "chartUmum");
-
+                ], "chartUmum", avgUmum);
+                
                 createChart("grafikPendapatanAsuransi", [
                     { name: "RSU Mutiasari", data: dataMap.asuransiRSMS },
                     { name: "RSIA Budhi Mulia", data: dataMap.asuransiRSIABM },
                     { name: "RS Thursina", data: dataMap.asuransiRST }
-                ], "chartAsuransi");
-
+                ], "chartAsuransi", avgAsuransi);
+                
                 createChart("grafikPendapatanBPJS", [
                     { name: "RSU Mutiasari", data: dataMap.bpjsRSMS },
                     { name: "RSIA Budhi Mulia", data: dataMap.bpjsRSIABM },
                     { name: "RS Thursina", data: dataMap.bpjsRST }
-                ], "chartBPJS");
-
+                ], "chartBPJS", avgBPJS);
+                
                 createChart("grafikPendapatanLain", [
                     { name: "RSU Mutiasari", data: dataMap.lainRSMS },
                     { name: "RSIA Budhi Mulia", data: dataMap.lainRSIABM },
                     { name: "RS Thursina", data: dataMap.lainRST }
-                ], "chartLain");
+                ], "chartLain", avgLain);
+                
             }
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -275,4 +282,76 @@ function datainsight() {
     });
 
     return false;
+}
+
+const createChart = (elementId, seriesData, chartName, avgLine) => {
+    const el = document.getElementById(elementId);
+    const height = parseInt(KTUtil.css(el, "height"));
+
+    const newChart = new ApexCharts(el, {
+        series: seriesData,
+        chart: {
+            fontFamily: "inherit",
+            type: 'area',
+            height: height,
+            toolbar: { show: false },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: { enabled: true, delay: 150 },
+                dynamicAnimation: { enabled: true, speed: 350 }
+            }
+        },
+        stroke: { curve: "smooth", width: 2, show: true },
+        dataLabels: { enabled: false },
+        yaxis: {
+            labels: {
+                show: true,
+                formatter: value => todesimal(value)
+            },
+            title: { text: 'Income this year' }
+        },
+        xaxis: {
+            categories: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+            labels: { style: { colors: "#888", fontSize: "12px" } },
+            axisBorder: { show: true },
+            axisTicks: { show: true }
+        },
+        tooltip: {
+            y: {
+                formatter: val => val.toLocaleString('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                })
+            }
+        },
+        annotations: {
+            yaxis: [{
+                y: avgLine,
+                borderColor: '#FF4560',
+                label: {
+                    borderColor: '#FF4560',
+                    style: { color: '#fff', background: '#FF4560' },
+                    text: 'Rata-rata: ' + formatCurrency(avgLine)
+                }
+            }]
+        }
+    });
+
+    newChart.render();
+    window[chartName] = newChart;
+};
+
+function formatCurrency(value) {
+    return value.toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+    });
+}
+
+function sum(arr) {
+    return arr.reduce((a, b) => a + b, 0);
 }
