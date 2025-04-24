@@ -7,7 +7,7 @@
                     <div class="d-flex flex-stack flex-wrap">
                         <div class="me-2">
                             <a href="#" class="text-dark text-hover-primary fw-bolder fs-3">
-                                Grafik Total Pendapatan Rumah Sakit (Bulanan)
+                                Total Pendapatan Rumah Sakit
                             </a>
                             <div class="text-muted fs-7 fw-bold">
                                 Ikhtisar pendapatan bulanan dari seluruh layanan rumah sakit, termasuk rawat jalan dan rawat inap.
@@ -15,7 +15,7 @@
                         </div>
                         <div class="fw-bolder fs-3 text-primary" id="totalPendapatanRS">NaN</div>
                     </div>
-                    <div class="card-rounded-bottom" id="grafikPendapatanRS" style="height: 250px"></div>
+                    <div class="card-rounded-bottom" id="grafikPendapatanRS" style="height: 330px"></div>
                 </div>
             </div>
         </div>
@@ -29,15 +29,15 @@
                     <div class="d-flex flex-stack flex-wrap">
                         <div class="me-2">
                             <a href="#" class="text-dark text-hover-primary fw-bolder fs-3">
-                                Grafik Distribusi Pendapatan Berdasarkan Provider
+                                Distribusi Pendapatan By Provider
                             </a>
                             <div class="text-muted fs-7 fw-bold">
-                                Visualisasi proporsi pendapatan dari BPJS, asuransi, dan pasien umum setiap bulannya.
+                                Visualisasi proporsi pendapatan by provider
                             </div>
                         </div>
                         <div class="fw-bolder fs-3 text-primary" id="totalDistribusiProvider">NaN</div>
                     </div>
-                    <div class="card-rounded-bottom" id="grafikDistribusiProvider" style="height: 150px"></div>
+                    <div class="card-rounded-bottom" id="grafikDistribusiProvider" style="height: 250px"></div>
                 </div>
             </div>
         </div>

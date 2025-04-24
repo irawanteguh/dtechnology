@@ -9,11 +9,26 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_insight");
+			$data = $this->loadcombobox();
+			$this->template->load("template/template-sidebar","v_insight",$data);
+		}
+
+
+        public function loadcombobox(){
+            $resultperiode = $this->md->periode();
+
+            $periode="";
+            foreach($resultperiode as $a ){
+                $periode.="<option value='".$a->periode."'>".$a->periode."</option>";
+            }
+
+            $data['periode'] = $periode;
+            return $data;
 		}
 
         public function datainsight(){
-            $result = $this->md->datainsight();
+            $tahun = $this->input->post("periode");
+            $result = $this->md->datainsight($tahun);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
