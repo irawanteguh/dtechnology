@@ -395,7 +395,7 @@ function billingbpjsrjdetail(startDate,endDate,kd_dokter){
 
                         tableresult += "<tr>";
                         tableresult += "<td class='ps-4'>" + result[i].tglbilling + "</td>";
-                        tableresult += "<td>" + result[i].nobilling + "</td>";
+                        tableresult += "<td>" + result[i].no_rawat + "</td>";
                         tableresult += "<td>" + result[i].norm + "</td>";
                         tableresult += "<td>" + result[i].namapasien + "</td>";
                         tableresult += "<td>" + result[i].provider + "</td>";

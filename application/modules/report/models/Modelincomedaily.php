@@ -51,7 +51,8 @@
                                     (select replace(nm_perawatan,': ','')from billing where no_rawat=a.no_rawat and no='Bangsal/Kamar')ruangperawatan,
                                     (select replace(nm_perawatan,': ','')from billing where no_rawat=a.no_rawat and no='Tgl.Perawatan')tglperawatan,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Registrasi' and no='Registrasi')biayareg,
-                                    (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Obat')biayaobat,
+                                    -- (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Obat')biayaobat,
+                                    (select COALESCE(SUM(jml*h_beli), 0) from detail_pemberian_obat where no_rawat=a.no_rawat)biayaobat,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Radiologi')biayarad,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Laborat')biayalab,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Ralan Paramedis')RJtindakanparamedic,
@@ -65,6 +66,7 @@
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Dokter')dokter
                                 from reg_periksa a
                                 where a.stts<>'Batal'
+                                and   a.no_rawat in ('2025/04/23/000003')
                                 ".$parameter."
                                 and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr between '".$startDate."' and '".$endDate."') 
                             )x
@@ -106,7 +108,8 @@
                             from(
                                 select a.no_rawat, kd_poli, kd_dokter, 1 jmlpasien,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Registrasi' and no='Registrasi')biayareg,
-                                    (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Obat')biayaobat,
+                                    -- (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Obat')biayaobat,
+                                    (select COALESCE(SUM(jml*h_beli), 0) from detail_pemberian_obat where no_rawat=a.no_rawat)biayaobat,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Radiologi')biayarad,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Laborat')biayalab,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Ralan Paramedis')RJtindakanparamedic,
@@ -123,7 +126,7 @@
                                 and a.kd_pj='BPJ'
                                 and a.status_lanjut='Ralan'
                                 and   a.kd_poli<>'IGDK'
-                                -- and   a.no_rawat in ('2025/01/06/000804','2025/01/06/000796')
+                                and   a.no_rawat in ('2025/04/23/000003')
                                 and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr between '".$startDate."' and '".$endDate."') 
                             )x
                         )y
