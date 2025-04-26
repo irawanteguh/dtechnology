@@ -1,10 +1,11 @@
 // Gunakan window agar bisa diakses dinamis
-window.chartRS = null;
-window.chartUmum = null;
-window.chartAsuransi = null;
-window.chartBPJS = null;
-window.chartLain = null;
-window.chartProvider = null;
+window.chartRS          = null;
+window.chartUmum        = null;
+window.chartAsuransi    = null;
+window.chartBPJS        = null;
+window.chartLain        = null;
+window.chartProvider    = null;
+window.chartRSKunjungan = null;
 
 datainsight();
 
@@ -34,6 +35,8 @@ function datainsight() {
             $("#grafikPendapatanLain").html("");
             $("#grafikDistribusiProvider").html("");
 
+            $("#grafikKunjunganRS").html("");
+
             // Destroy existing charts jika ada
             if (chartRS) chartRS.destroy();
             if (chartUmum) chartUmum.destroy();
@@ -41,6 +44,8 @@ function datainsight() {
             if (chartBPJS) chartBPJS.destroy();
             if (chartLain) chartLain.destroy();
             if (chartProvider) chartProvider.destroy();
+
+            if (chartRSKunjungan) chartRSKunjungan.destroy();
         },
         success: function (data) {
             const labels = [];
@@ -49,7 +54,12 @@ function datainsight() {
                 umumRSMS: [], umumRSIABM: [], umumRST: [],
                 asuransiRSMS: [], asuransiRSIABM: [], asuransiRST: [],
                 bpjsRSMS: [], bpjsRSIABM: [], bpjsRST: [],
-                lainRSMS: [], lainRSIABM: [], lainRST: []
+                lainRSMS: [], lainRSIABM: [], lainRST: [],
+
+                kunjungantotalRSMS: [], kunjungantotalRSIABM: [], kunjungantotalRST: [],
+                kunjunganumumRSMS: [], kunjunganumumRSIABM: [], kunjunganumumRST: [],
+                kunjunganasuransiRSMS: [], kunjunganasuransiRSIABM: [], kunjunganasuransiRST: [],
+                kunjunganbpjsRSMS: [], kunjunganbpjsRSIABM: [], kunjunganbpjsRST: []
             };
 
             if (data.responCode === "00") {
@@ -76,6 +86,23 @@ function datainsight() {
                     dataMap.lainRSMS.push(parseFloat(item.laintotalrsms));
                     dataMap.lainRSIABM.push(parseFloat(item.laintotalrsiabm));
                     dataMap.lainRST.push(parseFloat(item.laintotalrst));
+
+
+                    dataMap.kunjungantotalRSMS.push(parseFloat(item.kunjungantotalrsms));
+                    dataMap.kunjungantotalRSIABM.push(parseFloat(item.kunjungantotalrsiabm));
+                    dataMap.kunjungantotalRST.push(parseFloat(item.kunjungantotalrst));
+
+                    dataMap.kunjunganumumRSMS.push(parseFloat(item.kunjunganumumtotalrsms));
+                    dataMap.kunjunganumumRSIABM.push(parseFloat(item.kunjunganumumtotalrsiabm));
+                    dataMap.kunjunganumumRST.push(parseFloat(item.kunjunganumumtotalrst));
+
+                    dataMap.kunjunganasuransiRSMS.push(parseFloat(item.kunjunganasuransitotalrsms));
+                    dataMap.kunjunganasuransiRSIABM.push(parseFloat(item.kunjunganasuransitotalrsiabm));
+                    dataMap.kunjunganasuransiRST.push(parseFloat(item.kunjunganasuransitotalrst));
+
+                    dataMap.kunjunganbpjsRSMS.push(parseFloat(item.kunjunganbpjstotalrsms));
+                    dataMap.kunjunganbpjsRSIABM.push(parseFloat(item.kunjunganbpjstotalrsiabm));
+                    dataMap.kunjunganbpjsRST.push(parseFloat(item.kunjunganbpjstotalrst));
                 }
 
                 // Fungsi untuk menghitung rata-rata dari elemen yang != 0
@@ -183,20 +210,98 @@ function datainsight() {
 
                 chartProvider.render();
 
-                const totalRSMS = sum(dataMap.RSMS);
-                const totalRSIABM = sum(dataMap.RSIABM);
-                const totalRST = sum(dataMap.RST);
-                const totalAll = totalRSMS + totalRSIABM + totalRST;
+                chartProviderkunjungan = new ApexCharts(document.getElementById("grafikDistribusiProviderkunjungan"), {
+                    series: [
+                        {
+                            name: 'RSU Mutiasari',
+                            data: [sum(dataMap.kunjunganumumRSMS), sum(dataMap.kunjunganasuransiRSMS), sum(dataMap.kunjunganbpjsRSMS)]
+                        },
+                        {
+                            name: 'RSIA Budhi Mulia',
+                            data: [sum(dataMap.kunjunganumumRSIABM), sum(dataMap.kunjunganasuransiRSIABM), sum(dataMap.kunjunganbpjsRSIABM)]
+                        },
+                        {
+                            name: 'RS Thursina',
+                            data: [sum(dataMap.kunjunganumumRST), sum(dataMap.kunjunganasuransiRST), sum(dataMap.kunjunganbpjsRST)]
+                        }
+                    ],
+                    chart: {
+                        height: 330,
+                        type: 'radar',
+                        toolbar: { show: false },
+                        animations: {
+                            enabled: true,
+                            easing: 'easeinout',
+                            speed: 800,
+                            animateGradually: { enabled: true, delay: 150 },
+                            dynamicAnimation: { enabled: true, speed: 350 }
+                        }
+                    },
+                    colors: ['#1E90FF', '#28C76F', '#FF9F43'],
+                    dataLabels: { enabled: false },
+                    markers: {
+                        size: 4,
+                        colors: "#fff",
+                        strokeColor: ['#1E90FF', '#28C76F', '#FF9F43'],
+                        strokeWidth: 2
+                    },
+                    plotOptions: {
+                        radar: {
+                            size: 120,
+                            polygons: {
+                                strokeColors: '#e9e9e9',
+                                fill: { colors: ['#f3f3f3', '#fff'] }
+                            }
+                        }
+                    },
+                    xaxis: {
+                        categories: ['UMUM', 'ASURANSI', 'BPJS', 'LAIN-LAIN'],
+                        labels: {
+                            style: {
+                                fontSize: '13px',
+                                colors: ['#333']
+                            }
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function (val, i) {
+                                return i % 2 === 0 ? val.toLocaleString('id-ID') : '';
+                            }
+                        }
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: val => val.toLocaleString('id-ID')
+                        }
+                    }                    
+                });
 
-                const percentRSMS = ((totalRSMS / totalAll) * 100).toFixed(1);
+                chartProviderkunjungan.render();
+
+                const totalRSMS   = sum(dataMap.RSMS);
+                const totalRSIABM = sum(dataMap.RSIABM);
+                const totalRST    = sum(dataMap.RST);
+                const totalAll    = totalRSMS + totalRSIABM + totalRST;
+
+                const kunjungantotalRSMS   = sum(dataMap.kunjungantotalRSMS);
+                const kunjungantotalRSIABM = sum(dataMap.kunjungantotalRSIABM);
+                const kunjungantotalRST    = sum(dataMap.kunjungantotalRST);
+                const kunjungantotalAll    = kunjungantotalRSMS + kunjungantotalRSIABM + kunjungantotalRST;
+
+                const percentRSMS   = ((totalRSMS / totalAll) * 100).toFixed(1);
                 const percentRSIABM = ((totalRSIABM / totalAll) * 100).toFixed(1);
-                const percentRST = ((totalRST / totalAll) * 100).toFixed(1);
+                const percentRST    = ((totalRST / totalAll) * 100).toFixed(1);
+
+                const kunjunganpercentRSMS   = ((kunjungantotalRSMS / kunjungantotalAll) * 100).toFixed(1);
+                const kunjunganpercentRSIABM = ((kunjungantotalRSIABM / kunjungantotalAll) * 100).toFixed(1);
+                const kunjunganpercentRST    = ((kunjungantotalRST / kunjungantotalAll) * 100).toFixed(1);
 
                 // Total Carousel Info
                 $("#carousel-total-all").html(`
                 <div>
                     <p><b>${formatCurrency(totalAll)}</b></p>
-                    <small>Gabungan dari 3 rumah sakit (RSU Mutiasari, RSIA Budhi Mulia, RS Thursina)</small>
+                    <small>Summary All RMB Hospital Group</small>
                 </div>
                 `);
 
@@ -224,8 +329,41 @@ function datainsight() {
                 </div>
                 `);
 
+                // Total Carousel Info
+                $("#carousel-total-all-kunjungan").html(`
+                <div>
+                    <p><b>${todesimal(kunjungantotalAll)}</b> Kunjungan</p>
+                    <small>Summary All RMB Hospital Group</small>
+                </div>
+                `);
+
+                // RSU Mutiasari
+                $("#carousel-total-rsms-kunjungan").html(`
+                <div>
+                    <p>Kunjungan Pasien RSU Mutiasari tahun ini: <b>${todesimal(kunjungantotalRSMS)}</b> Kunjungan</p>
+                    <small class="badge badge-info mb-1">Kontribusi: ${kunjunganpercentRSMS}% dari total keseluruhan</small>
+                </div>
+                `);
+
+                // RSIA Budhi Mulia
+                $("#carousel-total-rsiabm-kunjungan").html(`
+                <div>
+                    <p>Kunjungan Pasien RSIA Budhi Mulia tahun ini: <b>${todesimal(kunjungantotalRSIABM)}</b> Kunjungan</p>
+                    <small class="badge badge-info mb-1">Kontribusi: ${kunjunganpercentRSIABM}% dari total keseluruhan</small>
+                </div>
+                `);
+
+                // RS Thursina
+                $("#carousel-total-rst-kunjungan").html(`
+                <div>
+                    <p>Kunjungan Pasien RS Thursina tahun ini: <b>${todesimal(kunjungantotalRST)}</b> Kunjungan</p>
+                    <small class="badge badge-info mb-1">Kontribusi: ${kunjunganpercentRST}% dari total keseluruhan</small>
+                </div>
+                `);
+
 
                 const jumlahPeriodeValid = dataMap.RSMS.filter(val => val !== 0).length;
+                const jumlahPeriodeValidkunjungan = dataMap.kunjungantotalRSMS.filter(val => val !== 0).length;
 
                 // Menampilkan chart untuk Total Pendapatan
                 createChart("grafikPendapatanRS", [
@@ -257,6 +395,13 @@ function datainsight() {
                     { name: "RSIA Budhi Mulia", data: dataMap.lainRSIABM },
                     { name: "RS Thursina", data: dataMap.lainRST }
                 ], "chartLain", avgLain);
+
+
+                createChartkunjungan("grafikKunjunganRS", [
+                    { name: "RSU Mutiasari", data: dataMap.kunjungantotalRSMS },
+                    { name: "RSIA Budhi Mulia", data: dataMap.kunjungantotalRSIABM },
+                    { name: "RS Thursina", data: dataMap.kunjungantotalRST }
+                ], "chartRSKunjungan", kunjungantotalAll / 3 / jumlahPeriodeValidkunjungan);
                 
             }
 
@@ -285,7 +430,7 @@ function datainsight() {
 }
 
 const createChart = (elementId, seriesData, chartName, avgLine) => {
-    const el = document.getElementById(elementId);
+    const el     = document.getElementById(elementId);
     const height = parseInt(KTUtil.css(el, "height"));
 
     const newChart = new ApexCharts(el, {
@@ -334,7 +479,63 @@ const createChart = (elementId, seriesData, chartName, avgLine) => {
                 label: {
                     borderColor: '#FF4560',
                     style: { color: '#fff', background: '#FF4560' },
-                    text: 'Rata-rata: ' + formatCurrency(avgLine)
+                    text: 'Average: ' + formatCurrency(avgLine)
+                }
+            }]
+        }
+    });
+
+    newChart.render();
+    window[chartName] = newChart;
+};
+
+const createChartkunjungan = (elementId, seriesData, chartName, avgLine) => {
+    const el     = document.getElementById(elementId);
+    const height = parseInt(KTUtil.css(el, "height"));
+
+    const newChart = new ApexCharts(el, {
+        series: seriesData,
+        chart: {
+            fontFamily: "inherit",
+            type: 'bar',
+            height: height,
+            toolbar: { show: false },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: { enabled: true, delay: 150 },
+                dynamicAnimation: { enabled: true, speed: 350 }
+            }
+        },
+        stroke: { curve: "smooth", width: 2, show: true },
+        dataLabels: { enabled: false },
+        yaxis: {
+            labels: {
+                show: true,
+                formatter: value => todesimal(value)
+            },
+            title: { text: 'Patient Visits this year' }
+        },
+        xaxis: {
+            categories: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+            labels: { style: { colors: "#888", fontSize: "12px" } },
+            axisBorder: { show: true },
+            axisTicks: { show: true }
+        },
+        tooltip: {
+            y: {
+                formatter: val => val.toLocaleString('id-ID')
+            }
+        },
+        annotations: {
+            yaxis: [{
+                y: avgLine,
+                borderColor: '#FF4560',
+                label: {
+                    borderColor: '#FF4560',
+                    style: { color: '#fff', background: '#FF4560' },
+                    text: 'Average: ' + avgLine
                 }
             }]
         }
