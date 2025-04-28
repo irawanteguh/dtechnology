@@ -27,9 +27,9 @@
                             WHERE tanggal < DATE('$tanggal_akhir')
                         )
                         SELECT DATE_FORMAT(tanggal, '%M') AS periode,
-                            (select coalesce(sum(u_rj+u_ri+a_rj+a_ri+b_rj+b_ri+lain),0) from dt01_report_income_dt where active='1' and org_id='10c84edd-500b-49e3-93a5-a2c8cd2c8524' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))totalrsms,
-                            (select coalesce(sum(u_rj+u_ri+a_rj+a_ri+b_rj+b_ri+lain),0) from dt01_report_income_dt where active='1' and org_id='d5e63fbc-01ec-4ba8-90b8-fb623438b99d' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))totalrsiabm,
-                            (select coalesce(sum(u_rj+u_ri+a_rj+a_ri+b_rj+b_ri+lain),0) from dt01_report_income_dt where active='1' and org_id='a4633f72-4d67-4f65-a050-9f6240704151' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))totalrst,
+                            (select coalesce(sum(u_rj+u_ri+a_rj+a_ri+b_rj+b_ri+lain),0) from dt01_report_income_dt where active='1' and org_id='10c84edd-500b-49e3-93a5-a2c8cd2c8524' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))pendapatantotalrsms,
+                            (select coalesce(sum(u_rj+u_ri+a_rj+a_ri+b_rj+b_ri+lain),0) from dt01_report_income_dt where active='1' and org_id='d5e63fbc-01ec-4ba8-90b8-fb623438b99d' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))pendapatantotalrsiabm,
+                            (select coalesce(sum(u_rj+u_ri+a_rj+a_ri+b_rj+b_ri+lain),0) from dt01_report_income_dt where active='1' and org_id='a4633f72-4d67-4f65-a050-9f6240704151' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))pendapatantotalrst,
                             (select coalesce(sum(u_rj+u_ri),0) from dt01_report_income_dt where active='1' and org_id='10c84edd-500b-49e3-93a5-a2c8cd2c8524' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))umumtotalrsms,
                             (select coalesce(sum(u_rj+u_ri),0) from dt01_report_income_dt where active='1' and org_id='d5e63fbc-01ec-4ba8-90b8-fb623438b99d' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))umumtotalrsiabm,
                             (select coalesce(sum(u_rj+u_ri),0) from dt01_report_income_dt where active='1' and org_id='a4633f72-4d67-4f65-a050-9f6240704151' and date_format(date,'%m.%Y')=date_format(tanggal,'%m.%Y'))umumtotalrst,
