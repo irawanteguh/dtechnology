@@ -388,11 +388,7 @@ const createChartlinebar = (elementId, seriesData, chartName, avgLine = null, ch
         },
         tooltip: {
             y: {
-                formatter: val => val.toLocaleString('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0
-                })
+                formatter: val => todesimal(val, 2)
             }
         },
         annotations: avgLine ? {
