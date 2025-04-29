@@ -16,7 +16,7 @@
         
         function datainsight($tahun) {
             $tanggal_awal = $tahun . '-01-01';
-            $tanggal_akhir = $tahun . '-12-31';
+            $tanggal_akhir = $tahun . '-11-31';
 
             $query = "
                         WITH RECURSIVE calendar AS (
