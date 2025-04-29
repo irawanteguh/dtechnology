@@ -56,7 +56,10 @@
             $data['a_ri']         = preg_replace('/\D/', '', $this->input->post("ARI"));
             $data['b_rj']         = preg_replace('/\D/', '', $this->input->post("BRJ"));
             $data['b_ri']         = preg_replace('/\D/', '', $this->input->post("BRI"));
+            $data['mcu_cash']     = preg_replace('/\D/', '', $this->input->post("MCUCASH"));
+            $data['mcu_inv']      = preg_replace('/\D/', '', $this->input->post("MCUINV"));
             $data['lain']         = preg_replace('/\D/', '', $this->input->post("LAIN"));
+            $data['pob']          = preg_replace('/\D/', '', $this->input->post("POB"));
 
             $existing = $this->md->cekdata($orgid, $date);
 
@@ -89,12 +92,14 @@
             $data['org_id']       = $orgid;
             $data['transaksi_id'] = generateuuid();
             $data['date']         = $date;
-            $data['k_urj']         = $this->input->post("KURJ");
-            $data['k_uri']         = $this->input->post("KURI");
-            $data['k_arj']         = $this->input->post("KARJ");
-            $data['k_ari']         = $this->input->post("KARI");
-            $data['k_brj']         = $this->input->post("KBRJ");
-            $data['k_bri']         = $this->input->post("KBRI");
+            $data['k_urj']        = $this->input->post("KURJ");
+            $data['k_uri']        = $this->input->post("KURI");
+            $data['k_arj']        = $this->input->post("KARJ");
+            $data['k_ari']        = $this->input->post("KARI");
+            $data['k_brj']        = $this->input->post("KBRJ");
+            $data['k_bri']        = $this->input->post("KBRI");
+            $data['k_mcu_cash']   = $this->input->post("KMCUCASH");
+            $data['k_mcu_inv']    = $this->input->post("KMCUINV");
 
             $existing = $this->md->cekdata($orgid, $date);
 

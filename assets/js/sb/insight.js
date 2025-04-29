@@ -53,23 +53,29 @@ function datainsight() {
                         let pendapatanperbulanumum     = '';
                         let pendapatanperbulanasuransi = '';
                         let pendapatanperbulanbpjs     = '';
+                        let pendapatanperbulanmcu      = '';
                         let pendapatanperbulanlain     = '';
+                        let pendapatanperbulanpob      = '';
                         let kunjunganperbulan          = '';
                         let kunjunganperbulanumum      = '';
                         let kunjunganperbulanasuransi  = '';
                         let kunjunganperbulanbpjs      = '';
+                        let kunjunganperbulanmcu       = '';
 
                         if(key === 'rsms'){
                             pendapatanperbulan         = 'pendapatantotalrsms';
                             pendapatanperbulanumum     = 'umumtotalrsms';
                             pendapatanperbulanasuransi = 'asuransitotalrsms';
                             pendapatanperbulanbpjs     = 'bpjstotalrsms';
+                            pendapatanperbulanmcu      = 'mcutotalrsms';
                             pendapatanperbulanlain     = 'laintotalrsms';
+                            pendapatanperbulanpob      = 'pobtotalrsms';
 
                             kunjunganperbulan         = 'kunjungantotalrsms';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrsms';
                             kunjunganperbulanasuransi = 'kunjunganasuransitotalrsms';
                             kunjunganperbulanbpjs     = 'kunjunganbpjstotalrsms';
+                            kunjunganperbulanmcu      = 'kunjunganmcutotalrsms';
                         }
 
                         if(key === 'rsiabm'){
@@ -77,12 +83,15 @@ function datainsight() {
                             pendapatanperbulanumum     = 'umumtotalrsiabm';
                             pendapatanperbulanasuransi = 'asuransitotalrsiabm';
                             pendapatanperbulanbpjs     = 'bpjstotalrsiabm';
+                            pendapatanperbulanmcu      = 'mcutotalrsiabm';
                             pendapatanperbulanlain     = 'laintotalrsiabm';
+                            pendapatanperbulanpob      = 'pobtotalrsiabm';
 
                             kunjunganperbulan         = 'kunjungantotalrsiabm';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrsiabm';
                             kunjunganperbulanasuransi = 'kunjunganasuransitotalrsiabm';
                             kunjunganperbulanbpjs     = 'kunjunganbpjstotalrsiabm';
+                            kunjunganperbulanmcu      = 'kunjunganmcutotalrsiabm';
                         }
 
                         if(key === 'rst'){
@@ -90,12 +99,15 @@ function datainsight() {
                             pendapatanperbulanumum     = 'umumtotalrst';
                             pendapatanperbulanasuransi = 'asuransitotalrst';
                             pendapatanperbulanbpjs     = 'bpjstotalrst';
+                            pendapatanperbulanmcu      = 'mcutotalrst';
                             pendapatanperbulanlain     = 'laintotalrst';
+                            pendapatanperbulanpob      = 'pobtotalrst';
 
                             kunjunganperbulan         = 'kunjungantotalrst';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrst';
                             kunjunganperbulanasuransi = 'kunjunganasuransitotalrst';
                             kunjunganperbulanbpjs     = 'kunjunganbpjstotalrst';
+                            kunjunganperbulanmcu      = 'kunjunganmcutotalrst';
                         }
 
                         hospital.dataValue.push({
@@ -104,11 +116,14 @@ function datainsight() {
                             pendapatanperbulanumum    : parseFloat(item[pendapatanperbulanumum]),
                             pendapatanperbulanasuransi: parseFloat(item[pendapatanperbulanasuransi]),
                             pendapatanperbulanbpjs    : parseFloat(item[pendapatanperbulanbpjs]),
+                            pendapatanperbulanmcu     : parseFloat(item[pendapatanperbulanmcu]),
                             pendapatanperbulanlain    : parseFloat(item[pendapatanperbulanlain]),
                             kunjunganperbulan         : parseFloat(item[kunjunganperbulan]),
                             kunjunganperbulanumum     : parseFloat(item[kunjunganperbulanumum]),
                             kunjunganperbulanasuransi : parseFloat(item[kunjunganperbulanasuransi]),
-                            kunjunganperbulanbpjs     : parseFloat(item[kunjunganperbulanbpjs])
+                            kunjunganperbulanbpjs     : parseFloat(item[kunjunganperbulanbpjs]),
+                            kunjunganperbulanmcu      : parseFloat(item[kunjunganperbulanmcu]),
+                            pendapatanperbulanpob     : parseFloat(item[pendapatanperbulanpob])
                         });
                     }
                 };
@@ -122,54 +137,62 @@ function datainsight() {
 
 
                 // Menghitung rata-rata dan total pendapatan
-                const totalPendapatanRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
-                const totalPendapatanRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
-                const totalPendapatanRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
-                const totalPendapatanAll = totalPendapatanRSMS + totalPendapatanRSIA + totalPendapatanRST;
-
-                const totalPendapatanUmumRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
-                const totalPendapatanUmumRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
-                const totalPendapatanUmumRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
-                const totalPendapatanUmumAll = totalPendapatanUmumRSMS + totalPendapatanUmumRSIA + totalPendapatanUmumRST;
-
-
+                const totalPendapatanRSMS         = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
+                const totalPendapatanRSIA         = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
+                const totalPendapatanRST          = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
+                const totalPendapatanAll          = totalPendapatanRSMS + totalPendapatanRSIA + totalPendapatanRST;
+                const totalPendapatanUmumRSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
+                const totalPendapatanUmumRSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
+                const totalPendapatanUmumRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
+                const totalPendapatanUmumAll      = totalPendapatanUmumRSMS + totalPendapatanUmumRSIA + totalPendapatanUmumRST;
                 const totalPendapatanAsuransiRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanasuransi, 0);
                 const totalPendapatanAsuransiRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanasuransi, 0);
                 const totalPendapatanAsuransiRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanasuransi, 0);
-                const totalPendapataAsuransimAll = totalPendapatanAsuransiRSMS + totalPendapatanAsuransiRSIA + totalPendapatanAsuransiRST;
+                const totalPendapataAsuransimAll  = totalPendapatanAsuransiRSMS + totalPendapatanAsuransiRSIA + totalPendapatanAsuransiRST;
+                
+                const totalPendapatanBPJSRSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanbpjs, 0);
+                const totalPendapatanBPJSRSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanbpjs, 0);
+                const totalPendapatanBPJSRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanbpjs, 0);
+                const totalPendapatanBPJSAll      = totalPendapatanBPJSRSMS + totalPendapatanBPJSRSIA + totalPendapatanBPJSRST;
 
+                const totalPendapatanMCURSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanmcu, 0);
+                const totalPendapatanMCURSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanmcu, 0);
+                const totalPendapatanMCURST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanmcu, 0);
+                const totalPendapatanMCUAll      = totalPendapatanMCURSMS + totalPendapatanMCURSIA + totalPendapatanMCURST;
+                
+                const totalPendapatanLainRSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanlain, 0);
+                const totalPendapatanLainRSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanlain, 0);
+                const totalPendapatanLainRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanlain, 0);
+                const totalPendapatanLainAll      = totalPendapatanLainRSMS + totalPendapatanLainRSIA + totalPendapatanLainRST;
 
-                const totalPendapatanBPJSRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanbpjs, 0);
-                const totalPendapatanBPJSRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanbpjs, 0);
-                const totalPendapatanBPJSRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanbpjs, 0);
-                const totalPendapatanBPJSAll = totalPendapatanBPJSRSMS + totalPendapatanBPJSRSIA + totalPendapatanBPJSRST;
-
-
-                const totalPendapatanLainRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanlain, 0);
-                const totalPendapatanLainRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanlain, 0);
-                const totalPendapatanLainRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanlain, 0);
-                const totalPendapatanLainAll = totalPendapatanLainRSMS + totalPendapatanLainRSIA + totalPendapatanLainRST;
+                const totalPendapatanPOBRSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanpob, 0);
+                const totalPendapatanPOBRSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanpob, 0);
+                const totalPendapatanPOBRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanpob, 0);
+                const totalPendapataPOBnAll      = totalPendapatanPOBRSMS + totalPendapatanPOBRSIA + totalPendapatanPOBRST;
 
                 // Menghitung rata-rata dan total kunjungan
-                const totalKunjunganRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
-                const totalKunjunganRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
-                const totalKunjunganRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
-                const totalKunjunganAll = totalKunjunganRSMS + totalKunjunganRSIA + totalKunjunganRST;
-
-                const totalKunjunganUmumRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanumum, 0);
-                const totalKunjunganUmumRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanumum, 0);
-                const totalKunjunganUmumRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanumum, 0);
-                const totalKunjunganUmumAll = totalKunjunganUmumRSMS + totalKunjunganUmumRSIA + totalKunjunganUmumRST;
-
+                const totalKunjunganRSMS         = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
+                const totalKunjunganRSIA         = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
+                const totalKunjunganRST          = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
+                const totalKunjunganAll          = totalKunjunganRSMS + totalKunjunganRSIA + totalKunjunganRST;
+                const totalKunjunganUmumRSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanumum, 0);
+                const totalKunjunganUmumRSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanumum, 0);
+                const totalKunjunganUmumRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanumum, 0);
+                const totalKunjunganUmumAll      = totalKunjunganUmumRSMS + totalKunjunganUmumRSIA + totalKunjunganUmumRST;
                 const totalKunjunganAsuransiRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanasuransi, 0);
                 const totalKunjunganAsuransiRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanasuransi, 0);
                 const totalKunjunganAsuransiRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanasuransi, 0);
-                const totalKunjunganAsuransiAll = totalKunjunganAsuransiRSMS + totalKunjunganAsuransiRSIA + totalKunjunganAsuransiRST;
+                const totalKunjunganAsuransiAll  = totalKunjunganAsuransiRSMS + totalKunjunganAsuransiRSIA + totalKunjunganAsuransiRST;
 
-                const totalKunjunganBPJSRSMS = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanbpjs, 0);
-                const totalKunjunganBPJSRSIA = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanbpjs, 0);
-                const totalKunjunganBPJSRST  = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanbpjs, 0);
-                const totalKunjunganBPJSAll = totalKunjunganBPJSRSMS + totalKunjunganBPJSRSIA + totalKunjunganBPJSRST;
+                const totalKunjunganBPJSRSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanbpjs, 0);
+                const totalKunjunganBPJSRSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanbpjs, 0);
+                const totalKunjunganBPJSRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanbpjs, 0);
+                const totalKunjunganBPJSAll      = totalKunjunganBPJSRSMS + totalKunjunganBPJSRSIA + totalKunjunganBPJSRST;
+
+                const totalKunjunganMCURSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanmcu, 0);
+                const totalKunjunganMCURSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanmcu, 0);
+                const totalKunjunganMCURST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulanmcu, 0);
+                const totalKunjunganMCUAll      = totalKunjunganMCURSMS + totalKunjunganMCURSIA + totalKunjunganMCURST;
 
                 const jumlahPeriodeValid = dataMap.periode.filter((_, index) => {
                     return (
@@ -188,7 +211,10 @@ function datainsight() {
                 const avgKunjunganasuransi  = Math.round(totalKunjunganAsuransiAll / (jumlahPeriodeValid * 3));
                 const avgPendapatanbpjs     = Math.round(totalPendapatanBPJSAll / (jumlahPeriodeValid * 3));
                 const avgKunjunganbpjs      = Math.round(totalKunjunganBPJSAll / (jumlahPeriodeValid * 3));
+                const avgPendapatanmcu      = Math.round(totalPendapatanMCUAll / (jumlahPeriodeValid * 3));
+                const avgKunjunganmcu       = Math.round(totalKunjunganMCUAll / (jumlahPeriodeValid * 3));
                 const avgPendapatanlain     = Math.round(totalPendapatanLainAll / (jumlahPeriodeValid * 3));
+                const avgPendapatanpob      = Math.round(totalPendapataPOBnAll / (jumlahPeriodeValid * 3));
 
                 // Membuat chart dengan data
                 createChartlinebar("grafikPendapatanRS", [
@@ -205,9 +231,9 @@ function datainsight() {
 
 
                 const seriesProvider = [
-                    {name: 'RSU Mutiasari',data: [totalPendapatanUmumRSMS, totalPendapatanAsuransiRSMS, totalPendapatanBPJSRSMS, totalPendapatanLainRSMS]},
-                    {name: 'RSIA Budhi Mulia',data: [totalPendapatanUmumRSIA, totalPendapatanAsuransiRSIA, totalPendapatanBPJSRSIA, totalPendapatanLainRSIA]},
-                    {name: 'RS Thursina',data: [totalPendapatanUmumRST, totalPendapatanAsuransiRST, totalPendapatanBPJSRST, totalPendapatanLainRST]}
+                    {name: 'RSU Mutiasari',data: [totalPendapatanUmumRSMS, totalPendapatanAsuransiRSMS, totalPendapatanBPJSRSMS, totalPendapatanLainRSMS, totalPendapatanPOBRSMS]},
+                    {name: 'RSIA Budhi Mulia',data: [totalPendapatanUmumRSIA, totalPendapatanAsuransiRSIA, totalPendapatanBPJSRSIA, totalPendapatanLainRSIA, totalPendapatanPOBRSIA]},
+                    {name: 'RS Thursina',data: [totalPendapatanUmumRST, totalPendapatanAsuransiRST, totalPendapatanBPJSRST, totalPendapatanLainRST, totalPendapatanPOBRST]}
                 ];
                 
                 const seriesKunjungan = [
@@ -229,7 +255,8 @@ function datainsight() {
                             { category: "UMUM", value: totalPendapatanUmumRSMS, color: "#0D6EFD" },
                             { category: "ASURANSI", value: totalPendapatanAsuransiRSMS, color: "#DC3545" },
                             { category: "BPJS", value: totalPendapatanBPJSRSMS, color: "#20C997" },
-                            { category: "LAIN", value: totalPendapatanLainRSMS, color: "#6F42C1" }
+                            { category: "LAIN", value: totalPendapatanLainRSMS, color: "#6F42C1" },
+                            { category: "POB", value: totalPendapatanLainRSMS, color: "#d63384" }
                         ]
                     },
                     { 
@@ -244,7 +271,8 @@ function datainsight() {
                             { category: "UMUM", value: totalPendapatanUmumRSIA, color: "#0D6EFD" },
                             { category: "ASURANSI", value: totalPendapatanAsuransiRSIA, color: "#DC3545" },
                             { category: "BPJS", value: totalPendapatanBPJSRSIA, color: "#20C997" },
-                            { category: "LAIN", value: totalPendapatanLainRSIA, color: "#6F42C1" }
+                            { category: "LAIN", value: totalPendapatanLainRSIA, color: "#6F42C1" },
+                            { category: "POB", value: totalPendapatanLainRSIA, color: "#d63384" }
                         ]
                     },
                     { 
@@ -259,14 +287,15 @@ function datainsight() {
                             { category: "UMUM", value: totalPendapatanUmumRST, color: "#0D6EFD" },
                             { category: "ASURANSI", value: totalPendapatanAsuransiRST, color: "#DC3545" },
                             { category: "BPJS", value: totalPendapatanBPJSRST, color: "#20C997" },
-                            { category: "LAIN", value: totalPendapatanLainRST, color: "#6F42C1" }
+                            { category: "LAIN", value: totalPendapatanLainRST, color: "#6F42C1" },
+                            { category: "POB", value: totalPendapatanLainRST, color: "#d63384" }
                         ]
                     }
                 ];
 
 
-                const chartProvider          = createRadarChart("grafikDistribusiProvider", seriesProvider, ['UMUM', 'ASURANSI', 'BPJS', 'LAIN-LAIN']);
-                const chartProviderkunjungan = createRadarChart("grafikDistribusiProviderkunjungan", seriesKunjungan, ['UMUM', 'ASURANSI', 'BPJS']);
+                createRadarChart("grafikDistribusiProvider", seriesProvider, ['UMUM', 'ASURANSI', 'BPJS', 'LAIN-LAIN', 'POB']);
+                createRadarChart("grafikDistribusiProviderkunjungan", seriesKunjungan, ['UMUM', 'ASURANSI', 'BPJS']);
 
                 hospitalsData.forEach(hospital => {
                     createdchartpie(`grafikpresentasikunjungan${hospital.id.toLowerCase().replace(/\s+/g, '')}`,hospital.kunjungan,hospital.name);
@@ -320,11 +349,29 @@ function datainsight() {
                     {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.kunjunganperbulanbpjs)}
                 ], "grafikKunjunganBPJS", avgKunjunganbpjs, 'bar',"Hospital Visit Trends");
 
+                createChartlinebar("grafikPendapatanMCU", [
+                    {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.pendapatanperbulanmcu)},
+                    {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.pendapatanperbulanmcu)},
+                    {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.pendapatanperbulanmcu)}
+                ], "grafikPendapatanMCU", avgPendapatanmcu, 'area',"Hospital Earnings Trends");
+
+                createChartlinebar("grafikKunjunganMCU", [
+                    {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.kunjunganperbulanmcu)},
+                    {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.kunjunganperbulanmcu)},
+                    {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.kunjunganperbulanmcu)}
+                ], "grafikKunjunganMCU", avgKunjunganmcu, 'bar',"Hospital Visit Trends");
+
                 createChartlinebar("grafikPendapatanLain", [
                     {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.pendapatanperbulanlain)},
                     {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.pendapatanperbulanlain)},
                     {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.pendapatanperbulanlain)}
-                ], "grafikPendapatanUmum", avgPendapatanlain, 'area',"Hospital Earnings Trends");
+                ], "grafikPendapatanLain", avgPendapatanlain, 'area',"Hospital Earnings Trends");
+
+                createChartlinebar("grafikPendapatanPOB", [
+                    {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.pendapatanperbulanpob)},
+                    {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.pendapatanperbulanpob)},
+                    {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.pendapatanperbulanpob)}
+                ], "grafikPendapatanPOB", avgPendapatanpob, 'area',"Hospital Earnings Trends");
             }
 
             toastr[data.responHead](data.responDesc, "INFORMATION");

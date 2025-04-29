@@ -273,15 +273,45 @@
         <div class="card card card-flush h-100">
             <div class="card-header">
                 <div class="card-title d-flex align-items-center">
+                    <h6 class="fw-bolder m-0 text-gray-800">Medical Check Up Patient Service Statistics</h3>
+                </div>
+                <div class="card-toolbar m-0">
+                    <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a id="tab_income_mcu" class="nav-link justify-content-center text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#tabincome_mcu">Income</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a id="tab_visit_mcu" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabvisit_mcu">Patient Visits</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div id="tabincome_mcu" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="tab_income_mcu">
+                        <div class="card-rounded-bottom" id="grafikPendapatanMCU" style="height: 250px"></div>
+                    </div>
+                    <div id="tabvisit_mcu" class="card-body p-0 tab-pane fade show" role="tabpanel" aria-labelledby="tab_income_mcu">
+                        <div class="card-rounded-bottom" id="grafikKunjunganMCU" style="height: 250px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6">
+        <div class="card card card-flush h-100">
+            <div class="card-header">
+                <div class="card-title d-flex align-items-center">
                     <h6 class="fw-bolder m-0 text-gray-800">Others Patient Service Statistics</h3>
                 </div>
                 <div class="card-toolbar m-0">
                     <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a id="tab_income_lain" class="nav-link justify-content-center text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#tabincome_lain">Income</a>
+                            <a id="tab_income_lain" class="nav-link justify-content-center text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#tabincome_lain">Cooperation</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a id="tab_visit_lain" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabvisit_lain">Patient Visits</a>
+                            <a id="tab_visit_lain" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabvisit_lain">Drug Sales</a>
                         </li>
                     </ul>
                 </div>
@@ -292,7 +322,7 @@
                         <div class="card-rounded-bottom" id="grafikPendapatanLain" style="height: 250px"></div>
                     </div>
                     <div id="tabvisit_lain" class="card-body p-0 tab-pane fade show" role="tabpanel" aria-labelledby="tab_income_lain">
-                        
+                        <div class="card-rounded-bottom" id="grafikPendapatanPOB" style="height: 250px"></div>
                     </div>
                 </div>
             </div>

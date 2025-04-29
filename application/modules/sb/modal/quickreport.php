@@ -61,8 +61,25 @@
                             </div>
                         </div>
                         <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-6 fw-bold required">Medical Check Up:</label>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="fw-bold text-muted mb-2">Cash</div>
+                                    <input type="text" id="MCUCASH" name="MCUCASH" class="form-control form-control-solid currency-rp" placeholder="Rp 0">
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="fw-bold text-muted mb-2">Invoice</div>
+                                    <input type="text" id="MCUINV" name="MCUINV" class="form-control form-control-solid currency-rp" placeholder="Rp 0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-6 fw-bold required">Lain-lain:</label>
                             <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="fw-bold text-muted mb-2">Penjualan Obat Bebas</div>
+                                    <input type="text" id="POB" name="POB" class="form-control form-control-solid currency-rp" placeholder="Rp 0">
+                                </div>
                                 <div class="col-xl-6">
                                     <div class="fw-bold text-muted mb-2">Kerjasama</div>
                                     <input type="text" id="LAIN" name="LAIN" class="form-control form-control-solid currency-rp" placeholder="Rp 0">
@@ -103,7 +120,7 @@
                             <input type="text" id="modal_quickreport_add_date_kunjungan" name="modal_quickreport_add_date_kunjungan" class="form-control form-control-solid flatpickr-input" placeholder="Pick a plan date" readonly>
                         </div>
                         <div class="col-xl-6 mb-5"></div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-6 fw-bold required">Umum:</label>
                             <div class="row">
                                 <div class="col-xl-6">
@@ -116,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-6 fw-bold required">Asuransi:</label>
                             <div class="row">
                                 <div class="col-xl-6">
@@ -129,7 +146,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-6 fw-bold required">BPJS:</label>
                             <div class="row">
                                 <div class="col-xl-6">
@@ -139,6 +156,19 @@
                                 <div class="col-xl-6">
                                     <div class="fw-bold text-muted mb-2">Rawat Inap</div>
                                     <input type="text" id="KBRI" name="KBRI" class="form-control form-control-solid" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-6 fw-bold required">Medical Check Up:</label>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="fw-bold text-muted mb-2">Cash</div>
+                                    <input type="text" id="KMCUCASH" name="KMCUCASH" class="form-control form-control-solid" placeholder="0">
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="fw-bold text-muted mb-2">Invoice</div>
+                                    <input type="text" id="KMCUINV" name="KMCUINV" class="form-control form-control-solid" placeholder="0">
                                 </div>
                             </div>
                         </div>
