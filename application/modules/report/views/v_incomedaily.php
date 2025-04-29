@@ -40,6 +40,7 @@
                                         <th class="text-center">Jml Pasien</th>
                                         <th class="text-end">Beban Rumah Sakit</th>
                                         <th class="text-end">Estimasi Klaim</th>
+                                        <th class="text-end">Obat Kronis</th>
                                         <th class="rounded-end pe-4 text-end">Keterangan</th>
                                     </tr>
                                 </thead>

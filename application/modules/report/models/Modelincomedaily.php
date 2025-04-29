@@ -66,6 +66,7 @@
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Dokter')dokter
                                 from reg_periksa a
                                 where a.stts<>'Batal'
+                                -- and   a.no_rawat in ('2025/04/23/000003')
                                 ".$parameter."
                                 and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr between '".$startDate."' and '".$endDate."') 
                             )x
@@ -82,7 +83,7 @@
         function analisa($startDate,$endDate){
             $query =
                     "
-                        select y.kd_poli, kd_dokter, count(jmlpasien)jmlpasien, sum(grandtotal)totalbeban, sum(estimasiklaim)totalestimasi,
+                        select y.kd_poli, kd_dokter, count(jmlpasien)jmlpasien, sum(grandtotal)totalbeban, sum(estimasiklaim)totalestimasi, sum(hargakronis)hargakronis,
                             (select nm_poli   from poliklinik where kd_poli=y.kd_poli)politujuan,
                             (select nm_dokter from dokter     where kd_dokter=y.kd_dokter)namadokter
                         from(
@@ -119,13 +120,20 @@
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Ranap Dokter Paramedis')ranapdokterparamedic,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Ranap Paramedis')ranapparamedis,
                                     (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Kamar')Kamar,
-                                    (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Dokter')dokter
+                                    (select COALESCE(SUM(totalbiaya), 0) from billing where no_rawat=a.no_rawat and status='Dokter')dokter,
+                                    (
+                                        select coalesce(sum(b.harga_kronis*(select min(d.jml) from detail_pemberian_obat d where d.no_rawat=a.no_rawat and d.kode_brng=b.kode_brng)),0)hargakronis
+                                        from databarang b
+                                        where b.kode_brng in (select c.kode_brng from detail_pemberian_obat c where c.no_rawat=a.no_rawat)
+                                    )hargakronis
+                                    
                                 from reg_periksa a
                                 where a.stts<>'Batal'
                                 and a.kd_pj='BPJ'
                                 and a.status_lanjut='Ralan'
                                 and   a.kd_poli<>'IGDK'
-                                and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr between '".$startDate."' and '".$endDate."') 
+                                -- and   a.no_rawat in ('2025/04/23/000003')
+                                and   a.no_rawat in (select no_rawat from billing where no_rawat=a.no_rawat and no='No.Nota' and tgl_byr between '2025-04-01' and '2025-04-29') 
                             )x
                         )y
                         group by kd_poli, kd_dokter
@@ -139,6 +147,21 @@
         }
 
         function rincianbilling($norawat,$type){
+            $query =
+                    "
+                        select a.nm_perawatan, jumlah, biaya, totalbiaya
+                        from billing a
+                        where a.no_rawat='".$norawat."'
+                        and   a.status='".$type."'
+                        and   a.nm_perawatan<>':'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function rincianbillingobat($norawat,$type){
             $query =
                     "
                         select a.nm_perawatan, jumlah, biaya, totalbiaya

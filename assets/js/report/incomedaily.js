@@ -635,6 +635,7 @@ function analisa(startDate, endDate){
             var tableresultfoot = "";
             var totalbeban      = 0;
             var totalestimasi   = 0;
+            var totalkronis     = 0;
         
             if (data.responCode === "00") {
                 var result = data.responResult;
@@ -649,7 +650,8 @@ function analisa(startDate, endDate){
                     tableresult += "<td class='text-center'>" + todesimal(result[i].jmlpasien) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(result[i].totalbeban) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(result[i].totalestimasi) + "</td>";
-                    if(parseFloat(result[i].totalestimasi) > parseFloat(result[i].totalbeban)){
+                    tableresult += "<td class='text-end'>" + todesimal(result[i].hargakronis) + "</td>";
+                    if((parseFloat(result[i].totalestimasi)+parseFloat(result[i].hargakronis))  > parseFloat(result[i].totalbeban)){
                         tableresult += "<td class='pe-4 text-end table-success fs-8'>Total estimasi klaim lebih besar dibandingkan beban rumah sakit</td>";
                     }else{
                         tableresult += "<td class='pe-4 text-end table-danger fs-8'>Total estimasi klaim lebih rendah dibandingkan beban rumah sakit</td>";
@@ -659,17 +661,18 @@ function analisa(startDate, endDate){
 
                     totalbeban    += parseFloat(result[i].totalbeban);
                     totalestimasi += parseFloat(result[i].totalestimasi);
-
+                    totalkronis   += parseFloat(result[i].hargakronis);
                 }
 
                 tableresultfoot = "<tr>";
                 tableresultfoot += "<td colspan='3' class='text-end fw-bold'>Grand Total</td>";
                 tableresultfoot += "<td class='text-end fw-bold'>" + todesimal(totalbeban) + "</td>";
                 tableresultfoot += "<td class='text-end fw-bold'>" + todesimal(totalestimasi) + "</td>";
-                if(parseFloat(totalestimasi) > parseFloat(totalbeban)){
-                    tableresultfoot += "<td class='pe-4 text-end fw-bold text-success'>Profit Rumah Sakit : "+todesimal(parseFloat(totalestimasi)-parseFloat(totalbeban))+"</td>";
+                tableresultfoot += "<td class='text-end fw-bold'>" + todesimal(totalkronis) + "</td>";
+                if(parseFloat(totalestimasi)+parseFloat(totalkronis) > parseFloat(totalbeban)){
+                    tableresultfoot += "<td class='pe-4 text-end fw-bold text-success'>Profit Rumah Sakit : "+todesimal(parseFloat(totalestimasi)+parseFloat(totalkronis)-parseFloat(totalbeban))+"</td>";
                 }else{
-                    tableresultfoot += "<td class='pe-4 text-end fw-bold text-danger'>Kerugian Rumah Sakit : "+todesimal(parseFloat(totalestimasi)-parseFloat(totalbeban))+"</td>";
+                    tableresultfoot += "<td class='pe-4 text-end fw-bold text-danger'>Kerugian Rumah Sakit : "+todesimal(parseFloat(totalestimasi)+parseFloat(totalkronis)-parseFloat(totalbeban))+"</td>";
                 }
                 tableresultfoot += "</tr>";
 
