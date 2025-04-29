@@ -106,7 +106,7 @@
                         </div>
                         <div class="carousel-item">
                             <div class="d-flex flex-column">
-                                <h5 class="text-dark fw-bolder">Patient VisitsRS Thursina</h5>
+                                <h5 class="text-dark fw-bolder">Patient Visits RS Thursina</h5>
                                 <p id="carousel-total-rst-kunjungan" class="text-gray-600 fs-6 fw-bold pt-3 mb-0"></p>
                             </div>
                         </div>

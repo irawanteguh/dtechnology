@@ -237,9 +237,9 @@ function datainsight() {
                 ];
                 
                 const seriesKunjungan = [
-                    {name: 'RSU Mutiasari',data: [totalKunjunganUmumRSMS, totalKunjunganAsuransiRSMS, totalKunjunganBPJSRSMS]},
-                    {name: 'RSIA Budhi Mulia',data: [totalKunjunganUmumRSIA, totalKunjunganAsuransiRSIA, totalKunjunganBPJSRSIA]},
-                    {name: 'RS Thursina',data: [totalKunjunganUmumRST, totalKunjunganAsuransiRST, totalKunjunganBPJSRST]}
+                    {name: 'RSU Mutiasari',data: [totalKunjunganUmumRSMS, totalKunjunganAsuransiRSMS, totalKunjunganBPJSRSMS, totalKunjunganMCURSMS]},
+                    {name: 'RSIA Budhi Mulia',data: [totalKunjunganUmumRSIA, totalKunjunganAsuransiRSIA, totalKunjunganBPJSRSIA, totalKunjunganMCURSIA]},
+                    {name: 'RS Thursina',data: [totalKunjunganUmumRST, totalKunjunganAsuransiRST, totalKunjunganBPJSRST, totalKunjunganMCURST]}
                 ];
 
                 const hospitalsData = [
@@ -295,7 +295,7 @@ function datainsight() {
 
 
                 createRadarChart("grafikDistribusiProvider", seriesProvider, ['UMUM', 'ASURANSI', 'BPJS', 'LAIN-LAIN', 'POB']);
-                createRadarChart("grafikDistribusiProviderkunjungan", seriesKunjungan, ['UMUM', 'ASURANSI', 'BPJS']);
+                createRadarChart("grafikDistribusiProviderkunjungan", seriesKunjungan, ['UMUM', 'ASURANSI', 'BPJS','MCU']);
 
                 hospitalsData.forEach(hospital => {
                     createdchartpie(`grafikpresentasikunjungan${hospital.id.toLowerCase().replace(/\s+/g, '')}`,hospital.kunjungan,hospital.name);
