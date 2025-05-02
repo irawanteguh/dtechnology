@@ -62,6 +62,8 @@ function datainsight() {
                         let kunjunganperbulanbpjs      = '';
                         let kunjunganperbulanmcu       = '';
                         let pengeluranperbulan         = '';
+                        let balanceperbulan            = '';
+                        let targetperbulan             = '';
 
                         if(key === 'rsms'){
                             pendapatanperbulan         = 'pendapatantotalrsms';
@@ -72,6 +74,8 @@ function datainsight() {
                             pendapatanperbulanlain     = 'laintotalrsms';
                             pendapatanperbulanpob      = 'pobtotalrsms';
                             pengeluranperbulan         = 'pengelurantotalrsms';
+                            balanceperbulan            = 'balancersms';
+                            targetperbulan             = 'targetrsms';
 
                             kunjunganperbulan         = 'kunjungantotalrsms';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrsms';
@@ -89,6 +93,8 @@ function datainsight() {
                             pendapatanperbulanlain     = 'laintotalrsiabm';
                             pendapatanperbulanpob      = 'pobtotalrsiabm';
                             pengeluranperbulan         = 'pengelurantotalrsiabm';
+                            balanceperbulan            = 'balancersiabm';
+                            targetperbulan             = 'targetrsiabm';
 
                             kunjunganperbulan         = 'kunjungantotalrsiabm';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrsiabm';
@@ -106,6 +112,8 @@ function datainsight() {
                             pendapatanperbulanlain     = 'laintotalrst';
                             pendapatanperbulanpob      = 'pobtotalrst';
                             pengeluranperbulan         = 'pengelurantotalrst';
+                            balanceperbulan            = 'balancerst';
+                            targetperbulan             = 'targetrst';
 
                             kunjunganperbulan         = 'kunjungantotalrst';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrst';
@@ -128,7 +136,9 @@ function datainsight() {
                             kunjunganperbulanbpjs     : parseFloat(item[kunjunganperbulanbpjs]),
                             kunjunganperbulanmcu      : parseFloat(item[kunjunganperbulanmcu]),
                             pendapatanperbulanpob     : parseFloat(item[pendapatanperbulanpob]),
-                            pengeluranperbulan        : parseFloat(item[pengeluranperbulan])
+                            pengeluranperbulan        : parseFloat(item[pengeluranperbulan]),
+                            balanceperbulan           : parseFloat(item[balanceperbulan]),
+                            targetperbulan            : parseFloat(item[targetperbulan])
                         });
                     }
                 };
@@ -226,6 +236,22 @@ function datainsight() {
 
                 
                 // Membuat chart dengan data
+
+                createChartlinebartarget("grafiktargetrsms", [
+                    {name: "Pendapatan",type: "area",data: dataMap.rsms.dataValue.map(item => item.pendapatanperbulan)},
+                    {name: "Target",type: "line",data: dataMap.rsms.dataValue.map(item => item.targetperbulan)}
+                ], "grafiktargetrsms", avgPendapatantotal, "Annual Revenue Trends Across Hospitals");
+
+                createChartlinebartarget("grafiktargetrsiabm", [
+                    {name: "Pendapatan",type: "area",data: dataMap.rsiabm.dataValue.map(item => item.pendapatanperbulan)},
+                    {name: "Target",type: "line",data: dataMap.rsiabm.dataValue.map(item => item.targetperbulan)}
+                ], "grafiktargetrsiabm", avgPendapatantotal, "Annual Revenue Trends Across Hospitals");
+
+                createChartlinebartarget("grafiktargetrst", [
+                    {name: "Pendapatan",type: "area",data: dataMap.rst.dataValue.map(item => item.pendapatanperbulan)},
+                    {name: "Target",type: "line",data: dataMap.rst.dataValue.map(item => item.targetperbulan)}
+                ], "grafiktargetrst", avgPendapatantotal, "Annual Revenue Trends Across Hospitals");
+
                 createChartlinebar("grafikPendapatanRS", [
                     {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.pendapatanperbulan)},
                     {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.pendapatanperbulan)},
@@ -237,6 +263,12 @@ function datainsight() {
                     {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.pengeluranperbulan)},
                     {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.pengeluranperbulan)}
                 ], "grafikPengeluranRS", avgPendapatantotal, 'area',"Expend Trends Across Hospitals");
+
+                createChartlinebar("grafikBalanceRS", [
+                    {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.balanceperbulan)},
+                    {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.balanceperbulan)},
+                    {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.balanceperbulan)}
+                ], "grafikBalanceRS", avgPendapatantotal, 'area',"Balance Trends Across Hospitals");
 
                 createChartlinebar("grafikKunjunganRS", [
                     {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.kunjunganperbulan)},
@@ -457,6 +489,87 @@ const createChartlinebar = (elementId, seriesData, chartName, avgLine = null, ch
             y: {
                 formatter: val => todesimal(val, 2)
             }
+        },
+        annotations: avgLine ? {
+            yaxis: [{
+                y: avgLine,
+                borderColor: '#FF4560',
+                label: {
+                    borderColor: '#FF4560',
+                    style: { color: '#fff', background: '#FF4560' },
+                    text: 'Average: ' + todesimal(avgLine)
+                }
+            }]
+        } : {}
+    });
+
+    newChart.render();
+    window[chartName] = newChart;
+};
+
+const createChartlinebartarget = (elementId, seriesData, chartName, avgLine = null, titlechart = '') => {
+    const el = document.getElementById(elementId);
+    const height = parseInt(KTUtil.css(el, "height"));
+
+    if (window[chartName] instanceof ApexCharts) {
+        window[chartName].destroy();
+    }
+
+    const newChart = new ApexCharts(el, {
+        series: seriesData,
+        chart: {
+            fontFamily: "inherit",
+            type: 'line', // base chart type tetap line (karena mix)
+            height: height,
+            toolbar: { show: false },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: { enabled: true, delay: 150 },
+                dynamicAnimation: { enabled: true, speed: 350 }
+            }
+        },
+        stroke: { curve: "smooth", width: 2, show: true },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+                return todesimal(val, 2); // format angka desimal 2 digit, sesuaikan fungsi todesimal kamu
+            },
+            style: {
+                fontSize: '9px'
+            }
+        },        
+        colors: ['#00BFFF', '#FF4560'], // warna: pendapatan biru, target merah
+        yaxis: {
+            labels: {
+                formatter: value => todesimal(value)
+            },
+            title: { text: titlechart }
+        },
+        xaxis: {
+            categories: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+            labels: { style: { colors: "#888", fontSize: "12px" } },
+            axisBorder: { show: true },
+            axisTicks: { show: true }
+        },
+        tooltip: {
+            y: {
+                formatter: val => todesimal(val, 2)
+            }
+        },
+        fill: {
+            type: ['gradient', 'solid'], // Pendapatan pakai gradient (area), Target solid (line)
+            gradient: {
+                shadeIntensity: 1,
+                inverseColors: false,
+                opacityFrom: 0.4,
+                opacityTo: 0,
+                stops: [0, 90, 100]
+            }
+        },
+        markers: {
+            size: [0, 5] // pendapatan tanpa marker, target ada marker
         },
         annotations: avgLine ? {
             yaxis: [{
