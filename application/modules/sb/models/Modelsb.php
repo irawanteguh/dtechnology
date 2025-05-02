@@ -14,6 +14,45 @@
             return $recordset;
         }
 
+        function akuncoa($tahun,$orgid) {
+
+            $query = "
+                    select a.coa_id, kode_akun, nama_akun, kategori, coa_header_id,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='01.".$tahun."' and b.coa_id=a.coa_id)debit_01,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='02.".$tahun."' and b.coa_id=a.coa_id)debit_02,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='03.".$tahun."' and b.coa_id=a.coa_id)debit_03,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='04.".$tahun."' and b.coa_id=a.coa_id)debit_04,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='05.".$tahun."' and b.coa_id=a.coa_id)debit_05,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='06.".$tahun."' and b.coa_id=a.coa_id)debit_06,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='07.".$tahun."' and b.coa_id=a.coa_id)debit_07,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='08.".$tahun."' and b.coa_id=a.coa_id)debit_08,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='09.".$tahun."' and b.coa_id=a.coa_id)debit_09,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='10.".$tahun."' and b.coa_id=a.coa_id)debit_10,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='11.".$tahun."' and b.coa_id=a.coa_id)debit_11,
+                        (select sum(b.debit) from dt01_keu_jurnal_dt b where b.org_id='".$orgid."' and date_format(date,'%m.%Y')='12.".$tahun."' and b.coa_id=a.coa_id)debit_12
+                    from dt01_keu_coa_ms a
+                    order by kode_akun asc
+            ";
+
+            $recordset = $this->db->query($query);
+            return $recordset->result();
+        }
+
+        function jurnal($orgid) {
+
+            $query = "
+                    select a.transaksi_id, coa_id, date_format(a.date,'%m')bulan, date_format(a.date,'%d.%m.%Y')tanggal, debit,
+                        (select nama_akun from dt01_keu_coa_ms where coa_id=a.coa_id)namakun,
+                        (select kode_akun from dt01_keu_coa_ms where coa_id=a.coa_id)kodeakun
+                    from dt01_keu_jurnal_dt a
+                    where a.org_id='".$orgid."'
+                    order by date desc, coa_id asc
+            ";
+
+            $recordset = $this->db->query($query);
+            return $recordset->result();
+        }
+
         function databulan($tahun,$orgid) {
             $tanggal_awal = $tahun . '-01-01';
             $tanggal_akhir = $tahun . '-12-31';
@@ -84,6 +123,11 @@
 
         function insertquickreport($data){           
             $sql =   $this->db->insert("dt01_report_income_dt",$data);
+            return $sql;
+        }
+
+        function insertjurnal($data){           
+            $sql =   $this->db->insert("dt01_keu_jurnal_dt",$data);
             return $sql;
         }
 

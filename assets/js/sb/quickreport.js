@@ -1,10 +1,31 @@
 var iconPath = "M53.5,476c0,14,6.833,21,20.5,21s20.5-7,20.5-21V287h21v189c0,14,6.834,21,20.5,21 c13.667,0,20.5-7,20.5-21V154h10v116c0,7.334,2.5,12.667,7.5,16s10.167,3.333,15.5,0s8-8.667,8-16V145c0-13.334-4.5-23.667-13.5-31 s-21.5-11-37.5-11h-82c-15.333,0-27.833,3.333-37.5,10s-14.5,17-14.5,31v133c0,6,2.667,10.333,8,13s10.5,2.667,15.5,0s7.5-7,7.5-13 V154h10V476 M61.5,42.5c0,11.667,4.167,21.667,12.5,30S92.333,85,104,85s21.667-4.167,30-12.5S146.5,54,146.5,42 c0-11.335-4.167-21.168-12.5-29.5C125.667,4.167,115.667,0,104,0S82.333,4.167,74,12.5S61.5,30.833,61.5,42.5z"
 
-databulan();
+
+refreshdata();
 
 $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", function (e) {
     e.preventDefault();
+    refreshdata();
+});
+
+flatpickr('[name="modal_quickreport_jurnal_date"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate: "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
+function refreshdata(){
     databulan();
+    akuncoa();
+    jurnal();
+}
+
+$('#modal_quickreport_jurnal').on('hidden.bs.modal', function (e) {
+    $('#modal_quickreport_jurnal_date').val("");
+    $('#modal_quickreport_jurnal_debit').val("");
 });
 
 // flatpickr('[name="modal_quickreport_add_date"]', {
@@ -69,6 +90,14 @@ function getdata(btn){
     var data_kbrj      = btn.attr("data_kbrj");
     var data_kbri      = btn.attr("data_kbri");
 
+    var data_coaid   = btn.attr("data_coaid");
+    var data_coaname = btn.attr("data_coaname");
+    var data_coacode = btn.attr("data_coacode");
+
+    $('#coaid').val(data_coaid);
+    $('#data_coaname').val(data_coaname);
+    $('#data_coacode').val(data_coacode);
+
     $('#modal_quickreport_add_date').val(data_parameter);
     $('#modal_quickreport_add_date_kunjungan').val(data_parameter);
 
@@ -94,7 +123,7 @@ function getdata(btn){
 
 };
 
-function databulan() {
+function databulan(){
     var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
     $.ajax({
         url: url + "index.php/sb/quickreport/databulan",
@@ -538,6 +567,137 @@ function databulan() {
     return false;
 };
 
+function akuncoa() {
+    var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
+    $.ajax({
+        url: url + "index.php/sb/quickreport/akuncoa",
+        data: { periode: periode },
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+
+            for (var month = 1; month <= 12; month++) {
+                var monthStr = month < 10 ? '0' + month : month;
+                $("#resultcoadata" + monthStr).html("");
+            }
+        },
+        success: function (data) {
+            if (data.responCode === "00") {
+                var result = data.responResult;
+
+                for (var month = 1; month <= 12; month++) {
+                    var monthStr = month < 10 ? '0' + month : month;
+
+                    var tableresult = "";
+                    for (var i in result) {
+                        var fieldName = "debit_" + monthStr;
+                        var debitValue = result[i][fieldName] !== undefined && result[i][fieldName] !== null ? result[i][fieldName] : 0;
+
+                        var getvariabel =   " data_coaid='" + result[i].coa_id + "'" +
+                                            " data_coaname='" + result[i].nama_akun + "'" +
+                                            " data_coacode='" + result[i].kode_akun + "'";
+
+                        tableresult += "<tr>";
+                        tableresult += "<td class='ps-4 rounded-start'>" + result[i].kode_akun + "</td>";
+                        tableresult += "<td>" + result[i].nama_akun + "</td>";
+                        tableresult += "<td>" + result[i].kategori + "</td>";
+
+                        if(result[i].coa_header_id === null){
+                            tableresult += "<td></td>";
+                            tableresult += "<td></td>";
+                        }else{
+                            tableresult += "<td class='text-end'>Rp. "+todesimal(debitValue)+"</td>";
+                            tableresult += "<td class='pe-4 text-end rounded-end'><a class='btn btn-light-success btn-sm' data-bs-toggle='modal' data-bs-target='#modal_quickreport_jurnal' "+getvariabel+" onclick='getdata($(this));'>Submit</a></td>";
+                        }
+
+                        tableresult += "</tr>";
+                    }
+
+                    $("#resultcoadata" + monthStr).html(tableresult);
+                }
+            }
+
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html: "<b>" + error + "</b>",
+                icon: "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling: false,
+                timerProgressBar: true,
+                timer: 5000,
+                customClass: { confirmButton: "btn btn-danger" },
+                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+    return false;
+};
+
+function jurnal() {
+    $.ajax({
+        url: url + "index.php/sb/quickreport/jurnal",
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+
+            for(var month = 1; month <= 12; month++){
+                $("#resultjurnal" + (month < 10 ? '0' + month : month)).html("");
+            }
+        },
+        success: function (data) {
+            if (data.responCode === "00") {
+                var result = data.responResult;
+
+                for (var i in result) {
+                    var item = result[i];
+                    var month = item.bulan;
+
+                    var tableresult = "<tr>";
+                        tableresult += "<td class='ps-4'>" + item.tanggal + "</td>";
+                        tableresult += "<td>["+item.kodeakun+"] "+ item.namakun + "</td>";
+                        tableresult += "<td class='pe-4 text-end rounded-end'>Rp. " + todesimal(item.debit) + "</td>";
+                        tableresult +="</tr>";
+
+                    $("#resultjurnal" + month).append(tableresult);
+                }
+            }
+
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html: "<b>" + error + "</b>",
+                icon: "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling: false,
+                timerProgressBar: true,
+                timer: 5000,
+                customClass: { confirmButton: "btn btn-danger" },
+                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+    return false;
+};
+
 $(document).on("submit", "#formquickreport", function (e) {
 	e.preventDefault();
     e.stopPropagation();
@@ -558,7 +718,7 @@ $(document).on("submit", "#formquickreport", function (e) {
 
             if(data.responCode == "00"){
                 $("#modal_quickreport_add").modal("hide");
-                databulan();
+                refreshdata();
 			}
 
             toastr.clear();
@@ -600,7 +760,7 @@ $(document).on("submit", "#formquickreportkunjungan", function (e) {
 
             if(data.responCode == "00"){
                 $("#modal_quickreport_addkunjungan").modal("hide");
-                databulan();
+                refreshdata();
 			}
 
             toastr.clear();
@@ -608,6 +768,48 @@ $(document).on("submit", "#formquickreportkunjungan", function (e) {
 		},
         complete: function () {
             $("#modal_quickreport_addkunjungan_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formaddjurnal", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_quickreport_jurnal_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_quickreport_jurnal").modal("hide");
+                refreshdata();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_quickreport_jurnal_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(

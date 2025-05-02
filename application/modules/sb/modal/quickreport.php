@@ -182,3 +182,54 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_quickreport_jurnal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/sb/quickreport/addjurnal" id="formaddjurnal">
+                <div class="modal-body">
+                    <div class="mb-10 text-center">
+                        <h1 class="mb-3">Quick Report Pengeluaran</h1>
+                        <div class="text-muted fw-bold fs-5">If you need more info, please check
+                        <a href="" class="fw-bolder link-primary" data-bs-toggle="modal" data-bs-target="#modal_activity_userguides">User Guidelines</a>.</div>
+                    </div>
+                    <div class="row">
+                        <input type="hidden" id="coaid" name="coaid">
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-6 fw-bold required">Chart Of Accounting:</label>
+                            <div class="row">
+                                <div class="col-xl-3">
+                                    <div class="fw-bold text-muted mb-2">Code</div>
+                                    <input type="text" id="data_coacode" name="data_coacode" class="form-control form-control-solid">
+                                </div>
+                                <div class="col-xl-9">
+                                    <div class="fw-bold text-muted mb-2">Name</div>
+                                    <input type="text" id="data_coaname" name="data_coaname" class="form-control form-control-solid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label for="modal_quickreport_jurnal_date" class="d-flex align-items-center fs-6 fw-bold mb-2 required">Date:</label>
+                            <input type="text" id="modal_quickreport_jurnal_date" name="modal_quickreport_jurnal_date" class="form-control form-control-solid flatpickr-input">
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label for="modal_quickreport_jurnal_debit" class="d-flex align-items-center fs-6 fw-bold mb-2 required">Debit:</label>
+                            <input type="text" id="modal_quickreport_jurnal_debit" name="modal_quickreport_jurnal_debit" class="form-control form-control-solid currency-rp" placeholder="Rp 0">
+                        </div>
+                    </div>
+
+                </div> 
+                <div class="modal-footer p-1">	
+                    <input class="btn btn-light-primary" id="modal_quickreport_jurnal_btn" type="submit" value="SUBMIT" name="simpan" >			
+                </div>  
+            </form>  
+        </div>
+    </div>
+</div>

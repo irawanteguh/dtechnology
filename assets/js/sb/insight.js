@@ -61,6 +61,7 @@ function datainsight() {
                         let kunjunganperbulanasuransi  = '';
                         let kunjunganperbulanbpjs      = '';
                         let kunjunganperbulanmcu       = '';
+                        let pengeluranperbulan         = '';
 
                         if(key === 'rsms'){
                             pendapatanperbulan         = 'pendapatantotalrsms';
@@ -70,6 +71,7 @@ function datainsight() {
                             pendapatanperbulanmcu      = 'mcutotalrsms';
                             pendapatanperbulanlain     = 'laintotalrsms';
                             pendapatanperbulanpob      = 'pobtotalrsms';
+                            pengeluranperbulan         = 'pengelurantotalrsms';
 
                             kunjunganperbulan         = 'kunjungantotalrsms';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrsms';
@@ -86,6 +88,7 @@ function datainsight() {
                             pendapatanperbulanmcu      = 'mcutotalrsiabm';
                             pendapatanperbulanlain     = 'laintotalrsiabm';
                             pendapatanperbulanpob      = 'pobtotalrsiabm';
+                            pengeluranperbulan         = 'pengelurantotalrsiabm';
 
                             kunjunganperbulan         = 'kunjungantotalrsiabm';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrsiabm';
@@ -102,6 +105,7 @@ function datainsight() {
                             pendapatanperbulanmcu      = 'mcutotalrst';
                             pendapatanperbulanlain     = 'laintotalrst';
                             pendapatanperbulanpob      = 'pobtotalrst';
+                            pengeluranperbulan         = 'pengelurantotalrst';
 
                             kunjunganperbulan         = 'kunjungantotalrst';
                             kunjunganperbulanumum     = 'kunjunganumumtotalrst';
@@ -123,7 +127,8 @@ function datainsight() {
                             kunjunganperbulanasuransi : parseFloat(item[kunjunganperbulanasuransi]),
                             kunjunganperbulanbpjs     : parseFloat(item[kunjunganperbulanbpjs]),
                             kunjunganperbulanmcu      : parseFloat(item[kunjunganperbulanmcu]),
-                            pendapatanperbulanpob     : parseFloat(item[pendapatanperbulanpob])
+                            pendapatanperbulanpob     : parseFloat(item[pendapatanperbulanpob]),
+                            pengeluranperbulan        : parseFloat(item[pengeluranperbulan])
                         });
                     }
                 };
@@ -226,6 +231,12 @@ function datainsight() {
                     {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.pendapatanperbulan)},
                     {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.pendapatanperbulan)}
                 ], "grafikPendapatanRS", avgPendapatantotal, 'area',"Annual Revenue Trends Across Hospitals");
+
+                createChartlinebar("grafikPengeluranRS", [
+                    {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.pengeluranperbulan)},
+                    {name: "RSIA Budhi Mulia",data: dataMap.rsiabm.dataValue.map(item => item.pengeluranperbulan)},
+                    {name: "RS Thursina",data: dataMap.rst.dataValue.map(item => item.pengeluranperbulan)}
+                ], "grafikPengeluranRS", avgPendapatantotal, 'area',"Expend Trends Across Hospitals");
 
                 createChartlinebar("grafikKunjunganRS", [
                     {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.kunjunganperbulan)},
@@ -569,7 +580,6 @@ const createRadarChart = (chartId, seriesData, categories) => {
     window[chartId] = chart; // Simpan di window dengan nama chartId
 };
 
-
 const createCarouselItemPendapatan = (hospitalName, totalPendapatan, totalAll) => {
     return `
         <div>
@@ -587,89 +597,3 @@ const createCarouselItemKunjungan = (hospitalName, totalPendapatan, totalAll) =>
         </div>
     `;
 };
-
-
-// function generateForecastChart(dataActual) {
-//     // Ambil bulan dan data yang lebih besar dari 0
-//     const x = [];
-//     const y = [];
-
-//     // Loop untuk memfilter data aktual > 0 dan menentukan sumbu X otomatis
-//     dataActual.forEach((value, i) => {
-//         if (value > 0) {
-//             x.push(i + 1); // Menambahkan bulan (index + 1)
-//             y.push(value);  // Menambahkan data aktual
-//         }
-//     });
-
-//     // Hitung regresi linier y = a + b*x
-//     const n = x.length;
-//     const sumX = x.reduce((a, b) => a + b, 0);
-//     const sumY = y.reduce((a, b) => a + b, 0);
-//     const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
-//     const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
-
-//     const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-//     const a = (sumY - b * sumX) / n;
-
-//     // Forecast bulan ke-5 sampai ke-8
-//     const forecastPoints = 4;
-//     const dataForecast = [];
-//     for (let i = x[x.length - 1] + 1; i <= x[x.length - 1] + forecastPoints; i++) {
-//         dataForecast.push(Math.round(a + b * i));
-//     }
-
-//     // Gabungkan label bulan
-//     const categories = [
-//         "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep"
-//     ];
-
-//     // Gabungan data untuk chart
-//     const dataActualExtended = [
-//         ...dataActual.slice(0, x.length), // Data aktual yang sesuai dengan x
-//         ...Array(4).fill(null) // Forecast bulan ke-5 sampai ke-8
-//     ];
-//     const dataForecastExtended = [...Array(x.length).fill(null), ...dataForecast]; // Data forecast (Mei - Agu)
-
-//     // Render chart
-//     const el = document.getElementById("grafikpendapatanforecastrms");
-//     const height = parseInt(KTUtil.css(el, "height"));
-
-//     const chart = new ApexCharts(el, {
-//         series: [
-//             { name: "Aktual", data: dataActualExtended },
-//             { name: "Forecast", data: dataForecastExtended }
-//         ],
-//         chart: {
-//             type: "line",
-//             height: height,
-//             fontFamily: "inherit",
-//             toolbar: { show: false },
-//             animations: {
-//                 enabled: true,
-//                 easing: 'easeinout',
-//                 speed: 800,
-//                 animateGradually: { enabled: true, delay: 150 },
-//                 dynamicAnimation: { enabled: true, speed: 350 }
-//             }
-//         },
-//         stroke: { curve: "smooth", width: 2 },
-//         dataLabels: { enabled: false },
-//         xaxis: {
-//             categories: categories,
-//             labels: { style: { colors: "#888", fontSize: "12px" } },
-//             axisBorder: { show: true },
-//             axisTicks: { show: true }
-//         },
-//         yaxis: {
-//             labels: { formatter: val => todesimal(val) },
-//             title: { text: "Forecast Pendapatan" }
-//         },
-//         tooltip: {
-//             y: { formatter: val => todesimal(val, 2) }
-//         }
-//     });
-
-//     chart.render();
-//     window.grafikpendapatanforecastrms = chart;
-// }

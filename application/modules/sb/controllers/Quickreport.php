@@ -43,6 +43,41 @@
             echo json_encode($json);
         }
 
+        public function akuncoa(){
+            $tahun = $this->input->post("periode");
+            $result = $this->md->akuncoa($tahun,$_SESSION['orgid']);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function jurnal(){
+            $result = $this->md->jurnal($_SESSION['orgid']);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function addquickreport(){
             $orgid = $_SESSION['orgid'];
             $date  = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_quickreport_add_date"))->format("Y-m-d");
@@ -81,6 +116,32 @@
                 $json['responDesc'] = "Data Failed to Save";
             }
             
+
+            echo json_encode($json);
+        }
+
+        public function addjurnal(){
+            $orgid = $_SESSION['orgid'];
+            $date  = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_quickreport_jurnal_date"))->format("Y-m-d");
+
+            $data['org_id']       = $orgid;
+            $data['transaksi_id'] = generateuuid();
+            $data['date']         = $date;
+            $data['coa_id']       = $this->input->post("coaid");
+            $data['debit']        = preg_replace('/\D/', '', $this->input->post("modal_quickreport_jurnal_debit"));
+
+            $existing = $this->md->cekdata($orgid, $date);
+
+            if($this->md->insertjurnal($data)) {
+                $json['responCode'] = "00";
+                $json['responHead'] = "success";
+                $json['responDesc'] = "Data Added Successfully";
+            }else{
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = "Data Failed to Save";
+                
+            }
 
             echo json_encode($json);
         }
