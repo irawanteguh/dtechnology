@@ -143,19 +143,17 @@ function datainsight() {
                     }
                 };
 
-                // Memasukkan data untuk setiap rumah sakit
                 result.forEach(item => {
                     pushToDataMap(item, 'rsms');
                     pushToDataMap(item, 'rsiabm');
                     pushToDataMap(item, 'rst');
                 });
 
-
-                // Menghitung rata-rata dan total pendapatan
                 const totalPendapatanRSMS         = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
                 const totalPendapatanRSIA         = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
                 const totalPendapatanRST          = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulan, 0);
                 const totalPendapatanAll          = totalPendapatanRSMS + totalPendapatanRSIA + totalPendapatanRST;
+
                 const totalPendapatanUmumRSMS     = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
                 const totalPendapatanUmumRSIA     = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
                 const totalPendapatanUmumRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanumum, 0);
@@ -185,7 +183,6 @@ function datainsight() {
                 const totalPendapatanPOBRST      = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.pendapatanperbulanpob, 0);
                 const totalPendapataPOBnAll      = totalPendapatanPOBRSMS + totalPendapatanPOBRSIA + totalPendapatanPOBRST;
 
-                // Menghitung rata-rata dan total kunjungan
                 const totalKunjunganRSMS         = dataMap.rsms.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
                 const totalKunjunganRSIA         = dataMap.rsiabm.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
                 const totalKunjunganRST          = dataMap.rst.dataValue.reduce((acc, cur) => acc + cur.kunjunganperbulan, 0);
@@ -217,7 +214,6 @@ function datainsight() {
                     );
                 }).length;
 
-                // Menghitung rata-rata pendapatan total dan kunjungan total 
                 const avgPendapatantotal    = Math.round(totalPendapatanAll / (jumlahPeriodeValid * 3));
                 const avgKunjungantotal     = Math.round(totalKunjunganAll / (jumlahPeriodeValid * 3));
                 const avgPendapatanumum     = Math.round(totalPendapatanUmumAll / (jumlahPeriodeValid * 3));
@@ -231,26 +227,22 @@ function datainsight() {
                 const avgPendapatanlain     = Math.round(totalPendapatanLainAll / (jumlahPeriodeValid * 3));
                 const avgPendapatanpob      = Math.round(totalPendapataPOBnAll / (jumlahPeriodeValid * 3));
 
-                // const dataActual = dataMap.rsms.dataValue.map(item => item.pendapatanperbulan);
-                // generateForecastChart(dataActual);
-
-                
-                // Membuat chart dengan data
+                const avgtagetrms      = Math.round(dataMap.rsms.dataValue.map(item => item.pendapatanperbulan) / dataMap.rsms.dataValue.map(item => item.targetperbulan));
 
                 createChartlinebartarget("grafiktargetrsms", [
                     {name: "Pendapatan",type: "area",data: dataMap.rsms.dataValue.map(item => item.pendapatanperbulan)},
                     {name: "Target",type: "line",data: dataMap.rsms.dataValue.map(item => item.targetperbulan)}
-                ], "grafiktargetrsms", avgPendapatantotal, "Annual Revenue Trends Across Hospitals");
+                ], "grafiktargetrsms", "Trends of Hospital Targets and Achievements");
 
                 createChartlinebartarget("grafiktargetrsiabm", [
                     {name: "Pendapatan",type: "area",data: dataMap.rsiabm.dataValue.map(item => item.pendapatanperbulan)},
                     {name: "Target",type: "line",data: dataMap.rsiabm.dataValue.map(item => item.targetperbulan)}
-                ], "grafiktargetrsiabm", avgPendapatantotal, "Annual Revenue Trends Across Hospitals");
+                ], "grafiktargetrsiabm", "Trends of Hospital Targets and Achievements");
 
                 createChartlinebartarget("grafiktargetrst", [
                     {name: "Pendapatan",type: "area",data: dataMap.rst.dataValue.map(item => item.pendapatanperbulan)},
                     {name: "Target",type: "line",data: dataMap.rst.dataValue.map(item => item.targetperbulan)}
-                ], "grafiktargetrst", avgPendapatantotal, "Annual Revenue Trends Across Hospitals");
+                ], "grafiktargetrst", "Trends of Hospital Targets and Achievements");
 
                 createChartlinebar("grafikPendapatanRS", [
                     {name: "RSU Mutiasari",data: dataMap.rsms.dataValue.map(item => item.pendapatanperbulan)},
@@ -507,7 +499,7 @@ const createChartlinebar = (elementId, seriesData, chartName, avgLine = null, ch
     window[chartName] = newChart;
 };
 
-const createChartlinebartarget = (elementId, seriesData, chartName, avgLine = null, titlechart = '') => {
+const createChartlinebartarget = (elementId, seriesData, chartName, titlechart = '') => {
     const el = document.getElementById(elementId);
     const height = parseInt(KTUtil.css(el, "height"));
 
@@ -570,18 +562,7 @@ const createChartlinebartarget = (elementId, seriesData, chartName, avgLine = nu
         },
         markers: {
             size: [0, 5] // pendapatan tanpa marker, target ada marker
-        },
-        annotations: avgLine ? {
-            yaxis: [{
-                y: avgLine,
-                borderColor: '#FF4560',
-                label: {
-                    borderColor: '#FF4560',
-                    style: { color: '#fff', background: '#FF4560' },
-                    text: 'Average: ' + todesimal(avgLine)
-                }
-            }]
-        } : {}
+        }
     });
 
     newChart.render();
