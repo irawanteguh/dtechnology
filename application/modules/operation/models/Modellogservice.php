@@ -7,7 +7,7 @@
                         select a.*, date_format(created_date,'%d.%m.%Y %H:%i:%s')createddate
                         from dt01_service_api_logs_out a
                         where a.org_id='".$orgid."'
-                        and   a.created_date between '".$startDate."' and '".$endDate."'
+                        and   date(a.created_date) between '".$startDate."' and '".$endDate."'
                         order by request_id desc
                     ";
 

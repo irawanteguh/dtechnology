@@ -17,14 +17,6 @@
             $startDate             = $this->input->post("startDate");
             $endDate               = $this->input->post("endDate");
 
-            if($startDate===null){
-                $startDate = $startDate = date('Y-m-d');
-            }
-
-            if($endDate===null){
-                $endDate = $endDate = date('Y-m-d');
-            }
-
             $result = $this->md->datalog($_SESSION['orgid'],$startDate,$endDate);
             
 			if(!empty($result)){

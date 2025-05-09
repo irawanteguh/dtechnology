@@ -1,7 +1,8 @@
-let startDate = null;
-let endDate = null;
+let today     = new Date();
+let startDate = today.toISOString().split('T')[0];
+let endDate   = today.toISOString().split('T')[0];
 
-datalog();
+datalog(startDate,endDate);
 
 flatpickr('[name="dateperiode"]', {
     mode: "range", // Mengaktifkan mode range
@@ -90,7 +91,7 @@ function datalog(startDate,endDate){
                     }
 
                     tableresult += "<td class='text-center'>" + result[i].TOTAL_TIME_US + "</td>";
-                    tableresult += "<td class='text-center'>" + result[i].CREATEDDATE + "</td>";
+                    tableresult += "<td class='text-center'>" + result[i].createddate + "</td>";
                     tableresult += "<td class='text-end'>";
                     tableresult += "<button type='button' class='btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px' data-kt-table-widget-4='expand_row'>";
                     tableresult += "<i class='bi bi-plus fs-4 m-0 toggle-off'></i>";

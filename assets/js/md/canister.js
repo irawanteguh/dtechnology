@@ -38,8 +38,16 @@ function canister(){
                                                 tableresult +="<rect x='14' y='14' width='5' height='5' rx='1' fill='#000000' opacity='0.3'></rect>";
                                                 tableresult +="</g>";
                                             tableresult +="</svg>";
-                                        ;tableresult +="</span>"
+                                        tableresult +="</span>";
                                     tableresult +="</button>";
+                                    tableresult +="<div class='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3' data-kt-menu='true'>";
+                                        tableresult +="<div class='menu-item px-3'>";
+                                            tableresult +="<div class='menu-content text-muted pb-2 px-3 fs-7 text-uppercase'>Actions</div>";
+                                        tableresult +="</div>";
+                                        tableresult +="<div class='menu-item px-3'>";
+                                            tableresult +="<a class='menu-link px-3' href='#'>Setting Canister</a>";
+                                        tableresult +="</div>";
+                                    tableresult +="</div>";
                                 tableresult +="</div>";
                             tableresult +="</div>";
                             tableresult +="<div class='card-body d-flex flex-column px-5 py-2'>";
@@ -55,10 +63,20 @@ function canister(){
                 }
             }
         
+            
+
+            // document.getElementById("resultcanisterdata").innerHTML = tableresult;
             $("#resultcanisterdata").html(tableresult);
+
+            
+
+            
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
+            if(typeof KTMenu !== 'undefined'){
+                KTMenu.createInstances();
+            }
 			toastr.clear();
 		},
         error: function(xhr, status, error) {
