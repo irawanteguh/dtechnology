@@ -11,7 +11,7 @@
     $route['requestsignquicksign'] = 'restapi/tilaka/TilakaserviceV5/requestsignquicksign';
     $route['excutesign']           = 'restapi/tilaka/TilakaserviceV5/excutesign';
     $route['statussign']           = 'restapi/tilaka/TilakaserviceV5/statussign';
-    $route['statussignquicksign']           = 'restapi/tilaka/TilakaserviceV5/statussignquicksign';
+    $route['statussignquicksign']  = 'restapi/tilaka/TilakaserviceV5/statussignquicksign';
     $route['appkyc']               = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
     $route['getfile']              = 'restapi/tilaka/TilakaserviceV5/getfile';
     $route['mergepdfs']            = 'restapi/tilaka/TilakaserviceV5/mergepdfs';
@@ -22,8 +22,8 @@
     $route['executesignsingle/bulk']  = 'restapi/tilaka/Tilakaservicebulk/executesignsingle';
     $route['downloadfilesingle/bulk'] = 'restapi/tilaka/Tilakaservicebulk/downloadfilesingle';
 
-    $route['pegawai'] = 'restapi/Khanza/pegawai';
-    $route['pasien']  = 'restapi/Khanza/pasien';
+    $route['pegawai'] = 'restapi/khanza/Khanza/pegawai';
+    $route['pasien']  = 'restapi/khanza/Khanza/pasien';
     
     $route['masterDomisili'] = 'restapi/satusehat/MasterDomisili/domisili';
 
@@ -35,7 +35,8 @@
     $route['loadserver']        = 'root/Loadserver/load';
 
 
-    
+    $route['auth']       = 'restapi/dtech/Auth/createdtoken';
+    $route['smartboard'] = 'restapi/dtech/Auth/smartboard';
 
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';
