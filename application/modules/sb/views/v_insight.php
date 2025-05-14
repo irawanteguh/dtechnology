@@ -230,7 +230,7 @@
         <div class="card card card-flush h-100">
             <div class="card-header">
                 <div class="card-title d-flex align-items-center">
-                    <h6 class="fw-bolder m-0 text-gray-800">General Patient Service Statistics</h3>
+                    <h6 class="fw-bolder m-0 text-gray-800">Pasien Umum</h3>
                 </div>
                 <div class="card-toolbar m-0">
                     <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
@@ -260,7 +260,7 @@
         <div class="card card card-flush h-100">
             <div class="card-header">
                 <div class="card-title d-flex align-items-center">
-                    <h6 class="fw-bolder m-0 text-gray-800">Insurance Patient Service Statistics</h3>
+                    <h6 class="fw-bolder m-0 text-gray-800">Pasien Asuransi</h3>
                 </div>
                 <div class="card-toolbar m-0">
                     <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
@@ -290,7 +290,7 @@
         <div class="card card card-flush h-100">
             <div class="card-header">
                 <div class="card-title d-flex align-items-center">
-                    <h6 class="fw-bolder m-0 text-gray-800">BPJS Patient Service Statistics</h3>
+                    <h6 class="fw-bolder m-0 text-gray-800">Pasien BPJS</h3>
                 </div>
                 <div class="card-toolbar m-0">
                     <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
@@ -320,7 +320,7 @@
         <div class="card card card-flush h-100">
             <div class="card-header">
                 <div class="card-title d-flex align-items-center">
-                    <h6 class="fw-bolder m-0 text-gray-800">Medical Check Up Patient Service Statistics</h3>
+                    <h6 class="fw-bolder m-0 text-gray-800">Pasien Medical Check Up</h3>
                 </div>
                 <div class="card-toolbar m-0">
                     <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
@@ -350,15 +350,15 @@
         <div class="card card card-flush h-100">
             <div class="card-header">
                 <div class="card-title d-flex align-items-center">
-                    <h6 class="fw-bolder m-0 text-gray-800">Others Patient Service Statistics</h3>
+                    <h6 class="fw-bolder m-0 text-gray-800">Lain-lain</h3>
                 </div>
                 <div class="card-toolbar m-0">
                     <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a id="tab_income_lain" class="nav-link justify-content-center text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#tabincome_lain">Cooperation</a>
+                            <a id="tab_income_lain" class="nav-link justify-content-center text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#tabincome_lain">Kerjasama</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a id="tab_visit_lain" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabvisit_lain">Drug Sales</a>
+                            <a id="tab_visit_lain" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabvisit_lain">POB</a>
                         </li>
                     </ul>
                 </div>

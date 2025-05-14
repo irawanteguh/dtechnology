@@ -300,8 +300,9 @@
                                             <table class="table align-middle table-row-dashed fs-6 gy-2">
                                                 <thead class="text-center">
                                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                                        <th colspan="2" class="ps-4 rounded-start">Kode COA</th>
-                                                        <th>Nama Akun</th>
+                                                        <th class="ps-4 rounded-start">COA</th>
+                                                        <th>Account</th>
+                                                        <th>Category</th>
                                                         <th>Total</th>
                                                         <th class="pe-4 text-end rounded-end">Action</th>
                                                     </tr>
@@ -316,7 +317,7 @@
                                                 <thead class="text-center">
                                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                                         <th class="ps-4 rounded-start">Date</th>
-                                                        <th>Nama Akun</th>
+                                                        <th>Account</th>
                                                         <th class="pe-4 text-end rounded-end">Debit</th>
                                                     </tr>
                                                 </thead>
