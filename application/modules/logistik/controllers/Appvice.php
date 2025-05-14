@@ -28,7 +28,8 @@
                                 )
                             )
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            $orderby ="order by manager_date asc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
