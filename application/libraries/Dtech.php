@@ -9,7 +9,7 @@
             $header = array("Content-Type: application/x-www-form-urlencoded");
 
             $responsecurl = curl([
-                'url'     => "localhost/dtech/dtechnology/index.php/auth",
+                'url'     => "https://rsumutiasari.com/dtechnology/index.php/auth",
                 'method'  => "GET",
                 'header'  => $header,
                 'body'    => json_encode($body),
@@ -33,7 +33,7 @@
                 ];
 
                 $responsecurl = curl([
-                    'url'     => "localhost/dtech/dtechnology/index.php/quickreport",
+                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/quickreport",
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
