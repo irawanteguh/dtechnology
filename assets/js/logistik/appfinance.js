@@ -1,18 +1,6 @@
-let startDate = null;
-let endDate = null;
-
-// Mendapatkan tanggal hari ini dalam format YYYY-MM-DD
-const today = new Date();
-const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`; // Format YYYY-MM-DD
-};
-
-// Set default startDate dan endDate ke hari ini
-startDate = formatDate(today);
-endDate = formatDate(today);
+let today     = new Date();
+let startDate = today.toISOString().split('T')[0];
+let endDate   = today.toISOString().split('T')[0];
 
 flatpickr('[name="dateperiode"]', {
     mode: "range",
@@ -25,9 +13,6 @@ flatpickr('[name="dateperiode"]', {
         endDate = selectedDates[1] ? formatDate(selectedDates[1]) : null;
     }
 });
-
-console.log("Default Start Date:", startDate);
-console.log("Default End Date:", endDate);
 
 datarequest(startDate, endDate);
 decline(startDate, endDate);
@@ -132,7 +117,7 @@ function datarequest(startDate, endDate){
                             tableresult +="<td>"+vice+dir+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namamanager+"<div>"+result[i].managerdate+"</div></td>";
                     
 
                     tableresult += "<td class='text-end'>";
@@ -256,7 +241,7 @@ function decline(startDate, endDate){
                             tableresult +="<td>"+vice+dir+com+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namakeu+"<div>"+result[i].keudate+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
@@ -374,7 +359,7 @@ function approve(startDate, endDate){
                             tableresult +="<td>"+vice+dir+com+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namakeu+"<div>"+result[i].keudate+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";

@@ -32,7 +32,7 @@
                                         <th class="text-end">%Vat</th>
                                         <th class="text-end">Vat</th>
                                         <th>Status</th>
-                                        <th>Created By</th>
+                                        <th>Manager Approve</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -52,7 +52,7 @@
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Grand Total</th>
                                         <th>Status</th>
-                                        <th>Created By</th>
+                                        <th>Finance Approve</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -72,7 +72,7 @@
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Grand Total</th>
                                         <th>Status</th>
-                                        <th>Created By</th>
+                                        <th>Finance Decline</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>

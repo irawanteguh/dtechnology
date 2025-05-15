@@ -65,7 +65,7 @@ function datarequest(){
                             tableresult +="<td>"+vice+dir+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namamanager+"<div>"+result[i].managerdate+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
@@ -174,7 +174,7 @@ function approve(){
                             tableresult +="<td>"+vice+dir+com+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namadir+"<div>"+result[i].dirdate+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
@@ -280,7 +280,7 @@ function decline(){
                             tableresult +="<td>"+vice+dir+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namadir+"<div>"+result[i].dirdate+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";

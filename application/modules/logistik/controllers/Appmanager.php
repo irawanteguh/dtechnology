@@ -32,7 +32,8 @@
                                                                     )
                                                 )
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            $orderby ="order by kains_date asc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -152,7 +153,8 @@
                                                                     )
                                                 )
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            $orderby ="order by manager_date desc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -194,7 +196,8 @@
                                                                     )
                                                 )
                     ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            $orderby ="order by manager_date desc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

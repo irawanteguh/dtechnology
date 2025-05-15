@@ -172,7 +172,7 @@ function approve(){
                             tableresult +="<td>"+vice+dir+com+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namavice+"<div>"+result[i].wadirdate+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
@@ -258,7 +258,7 @@ function decline(){
                             tableresult +="<td>"+vice+dir+"</td>";
                         }
                     }
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="<td><div>"+result[i].namavice+"<div>"+result[i].wadirdate+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";

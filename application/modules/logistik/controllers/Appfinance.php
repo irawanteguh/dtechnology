@@ -14,15 +14,16 @@
 
 
         public function datarequest(){
-            $startDate = $this->input->post("startDate") . " 00:00:00";
-            $endDate   = $this->input->post("endDate") . " 23:59:59";
+            $startDate             = $this->input->post("startDate");
+            $endDate               = $this->input->post("endDate");
 
             $status = "
                             AND a.status IN ('4')
-                            AND a.created_date BETWEEN '".$startDate."' AND '".$endDate."'
+                            AND date(a.created_date) between '".$startDate."' and '".$endDate."'
                         ";
 
-            $result = $this->md->datarequest($_SESSION['orgid'], $status);
+            $orderby ="order by manager_date asc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
 
             
 			if(!empty($result)){
@@ -121,9 +122,10 @@
                                         and (a.status_vice = 'N' or a.status_dir = 'N' or a.status_com = 'N')
                                     )
                                 )
-                            and a.created_date between '".$startDate."' and '".$endDate."'
+                            AND date(a.created_date) between '".$startDate."' and '".$endDate."'
                       ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            $orderby ="order by keu_date desc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -191,8 +193,8 @@
         // }
 
         public function approve(){
-            $startDate = $this->input->post("startDate") . " 00:00:00";
-            $endDate   = $this->input->post("endDate") . " 23:59:59";
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
             $status =   "
                             and a.status in ('6')
                             and (
@@ -227,9 +229,10 @@
                                         and a.status_dir='Y'
                                     )
                                 )
-                            and a.created_date between '".$startDate."' and '".$endDate."'
+                            AND date(a.created_date) between '".$startDate."' and '".$endDate."'
                         ";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            $orderby ="order by keu_date desc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
