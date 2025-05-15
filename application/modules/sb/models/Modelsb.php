@@ -96,7 +96,16 @@
                     (select coalesce(k_brj,0)      from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kbrj,
                     (select coalesce(k_bri,0)      from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kbri,
                     (select coalesce(k_mcu_cash,0) from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kmcucash,
-                    (select coalesce(k_mcu_inv,0)  from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kmcuinv
+                    (select coalesce(k_mcu_inv,0)  from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kmcuinv,
+
+                    (select coalesce(k_urj,0)      from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kurjcompare,
+                    (select coalesce(k_uri,0)      from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kuricompare,
+                    (select coalesce(k_arj,0)      from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) karjcompare,
+                    (select coalesce(k_ari,0)      from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) karicompare,
+                    (select coalesce(k_brj,0)      from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kbrjcompare,
+                    (select coalesce(k_bri,0)      from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kbricompare,
+                    (select coalesce(k_mcu_cash,0) from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kmcucashcompare,
+                    (select coalesce(k_mcu_inv,0)  from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kmcuinvcompare
                     
                 FROM calendar;
             ";
