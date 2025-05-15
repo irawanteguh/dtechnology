@@ -14,7 +14,7 @@
 
                         from reg_periksa a
                         where a.stts<>'Batal'
-                        and   a.tgl_registrasi BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
+                        and   a.tgl_registrasi BETWEEN CURDATE() - INTERVAL 1 DAY AND CURDATE()
                         group by tgl_registrasi
                     ";
 

@@ -19,7 +19,6 @@
                 foreach($resultdataquickreport as $a){
                     $body['orgid']                  = ORG_ID;
                     $body['quickreport']['tanggal'] = $a->tgl_registrasi;
-                    $body['last_update_date']       = date("Y-m-d H:i:s");
 
                     $body['quickreport']['kunjungan']['rawatjalan'] = [
                         'umum'      => (int)$a->kunjunganumumrj,

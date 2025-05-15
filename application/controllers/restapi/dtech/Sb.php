@@ -103,25 +103,26 @@
             };
 
             $data = [
-                'org_id'       => $orgid,
-                'transaksi_id' => generateuuid(),
-                'date'         => $date,
-                'u_rj'         => $getval($pendapatan, 'rawatjalan', 'umum'),
-                'u_ri'         => $getval($pendapatan, 'rawatinap', 'umum'),
-                'a_rj'         => $getval($pendapatan, 'rawatjalan', 'asuransi'),
-                'a_ri'         => $getval($pendapatan, 'rawatinap', 'asuransi'),
-                'b_rj'         => $getval($pendapatan, 'rawatjalan', 'bpjs'),
-                'b_ri'         => $getval($pendapatan, 'rawatinap', 'bpjs'),
-                'mcu_cash'     => $getval($pendapatan, 'rawatjalan', 'mcu_cash'),
-                'mcu_inv'      => $getval($pendapatan, 'rawatjalan', 'mcu_inv'),
-                'lain'         => $getval($pendapatan, 'rawatjalan', 'lain'),
-                'pob'          => $getval($pendapatan, 'rawatjalan', 'pob'),
-                'k_urj'        => $getval($kunjungan, 'rawatjalan', 'umum'),
-                'k_uri'        => $getval($kunjungan, 'rawatinap', 'umum'),
-                'k_arj'        => $getval($kunjungan, 'rawatjalan', 'asuransi'),
-                'k_ari'        => $getval($kunjungan, 'rawatinap', 'asuransi'),
-                'k_brj'        => $getval($kunjungan, 'rawatjalan', 'bpjs'),
-                'k_bri'        => $getval($kunjungan, 'rawatinap', 'bpjs')
+                'org_id'           => $orgid,
+                'transaksi_id'     => generateuuid(),
+                'date'             => $date,
+                'last_update_date' => date("Y-m-d H:i:s"),
+                'u_rj'             => $getval($pendapatan, 'rawatjalan', 'umum'),
+                'u_ri'             => $getval($pendapatan, 'rawatinap', 'umum'),
+                'a_rj'             => $getval($pendapatan, 'rawatjalan', 'asuransi'),
+                'a_ri'             => $getval($pendapatan, 'rawatinap', 'asuransi'),
+                'b_rj'             => $getval($pendapatan, 'rawatjalan', 'bpjs'),
+                'b_ri'             => $getval($pendapatan, 'rawatinap', 'bpjs'),
+                'mcu_cash'         => $getval($pendapatan, 'rawatjalan', 'mcu_cash'),
+                'mcu_inv'          => $getval($pendapatan, 'rawatjalan', 'mcu_inv'),
+                'lain'             => $getval($pendapatan, 'rawatjalan', 'lain'),
+                'pob'              => $getval($pendapatan, 'rawatjalan', 'pob'),
+                'k_urj'            => $getval($kunjungan, 'rawatjalan', 'umum'),
+                'k_uri'            => $getval($kunjungan, 'rawatinap', 'umum'),
+                'k_arj'            => $getval($kunjungan, 'rawatjalan', 'asuransi'),
+                'k_ari'            => $getval($kunjungan, 'rawatinap', 'asuransi'),
+                'k_brj'            => $getval($kunjungan, 'rawatjalan', 'bpjs'),
+                'k_bri'            => $getval($kunjungan, 'rawatinap', 'bpjs')
             ];
 
             // Cek data sudah ada atau belum
