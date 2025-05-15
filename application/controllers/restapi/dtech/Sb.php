@@ -53,7 +53,6 @@
             return $this->response($response, $response['code']);
         }
 
-
         public function quickreport_post() {
             $input = json_decode($this->input->raw_input_stream, true);
 
@@ -144,7 +143,5 @@
             ], 200);
         }
 
-        
     }
-
 ?>

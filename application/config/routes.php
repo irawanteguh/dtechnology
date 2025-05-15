@@ -22,8 +22,9 @@
     $route['executesignsingle/bulk']  = 'restapi/tilaka/Tilakaservicebulk/executesignsingle';
     $route['downloadfilesingle/bulk'] = 'restapi/tilaka/Tilakaservicebulk/downloadfilesingle';
 
-    $route['pegawai'] = 'restapi/khanza/Khanza/pegawai';
-    $route['pasien']  = 'restapi/khanza/Khanza/pasien';
+    $route['pegawai']        = 'restapi/khanza/Khanza/pegawai';
+    $route['pasien']         = 'restapi/khanza/Khanza/pasien';
+    $route['addquickreport'] = 'restapi/khanza/Sb/quickreport';
     
     $route['masterDomisili'] = 'restapi/satusehat/MasterDomisili/domisili';
 
@@ -37,6 +38,7 @@
 
     $route['auth']        = 'restapi/dtech/Auth/createdtoken';
     $route['quickreport'] = 'restapi/dtech/Sb/quickreport';
+    
 
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';
