@@ -35,8 +35,8 @@
     $route['loadserver']        = 'root/Loadserver/load';
 
 
-    $route['auth']       = 'restapi/dtech/Auth/createdtoken';
-    $route['smartboard'] = 'restapi/dtech/Auth/smartboard';
+    $route['auth']        = 'restapi/dtech/Auth/createdtoken';
+    $route['quickreport'] = 'restapi/dtech/Sb/quickreport';
 
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';

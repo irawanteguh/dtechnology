@@ -19,45 +19,6 @@
             $message = "";
         }
 
-        public function _remap($method, $arguments = []) {
-            $headers = getallheaders();
-            $response = [];
-
-            if ($method == 'createdtoken') {
-                return parent::_remap($method, $arguments);
-            } else {
-                if(isset($headers["x-token"])){
-                    try{
-                        $decodedtoken = Authorization::validateToken($headers["x-token"]);
-                        if($decodedtoken != false){
-                            if(isset($decodedtoken->expired) && $decodedtoken->expired >= time()){
-                                return parent::_remap($method, $arguments);
-                            }else{
-                                $response['code']    = 401;
-                                $response['status']  = false;
-                                $response['message'] = "Token expired";
-                            }
-                        } else {
-                            $response['code']    = 406;
-                            $response['status']  = false;
-                            $response['message'] = "Not Acceptable: Token not valid";
-                        }
-                    }catch(Exception $e){
-                        $response['code']    = 406;
-                        $response['status']  = false;
-                        $response['message'] = "Not Acceptable: Token exception";
-                    }
-                } else {
-                    $response['code']    = 406;
-                    $response['status']  = false;
-                    $response['message'] = "Not Acceptable: Header x-token not found";
-                }
-
-                return $this->response($response, $response['code']);
-            }
-        }
-
-
         public function createdtoken_get(){
             $body        = json_decode($this->input->raw_input_stream, true);
             
@@ -70,7 +31,7 @@
                     $datatoken['orgid']     = $datasession->org_id;
                     $datatoken['userid']    = $datasession->user_id;
                     $datatoken['timestamp'] = date("YmdHis");
-                    $datatoken['expired']   = time() + 60;
+                    $datatoken['expired']   = time() + 6000;
 
                     $token = AUTHORIZATION::generateToken($datatoken);
 
@@ -97,10 +58,6 @@
 
 
             $this->response($response,$this->code);
-        }
-
-        public function smartboard_post(){
-
         }
         
     }
