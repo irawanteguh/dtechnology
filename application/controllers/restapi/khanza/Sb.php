@@ -63,7 +63,7 @@
             if(!empty($resultdataquickreport)){
                 foreach($resultdataquickreport as $a){
                     $body['orgid']                  = ORG_ID;
-                    $body['quickreport']['tanggal'] = $a->tgl_registrasi;
+                    $body['quickreport']['tanggal'] = $a->tgl_byr;
 
                     $body['quickreport']['kunjungan']['rawatjalan'] = [
                         'umum'      => 0,
