@@ -491,6 +491,7 @@ function databulanrsms(){
 
             for(var month = 1; month <= 12; month++){
                 $("#resultkunjunganrsms" + (month < 10 ? '0' + month : month)).html("");
+                $("#resultpendapatanrsms" + (month < 10 ? '0' + month : month)).html("");
             }
         },       
         success: function (data) {
@@ -510,6 +511,7 @@ function databulanrsms(){
                     mcuinv : 0,
                     lain: 0,
                     pob: 0,
+
                     k_urj: 0,
                     k_uri: 0,
                     k_arj: 0,
@@ -518,6 +520,17 @@ function databulanrsms(){
                     k_bri: 0,
                     k_mcucash: 0,
                     k_mcuinv: 0,
+
+                    urjcompare: 0,
+                    uricompare: 0,
+                    arjcompare: 0,
+                    aricompare: 0,
+                    brjcompare: 0,
+                    bricompare: 0,
+                    mcucashcompare: 0,
+                    mcuinvcompare : 0,
+                    laincompare: 0,
+                    pobcompare: 0,
 
                     k_urjcompare: 0,
                     k_uricompare: 0,
@@ -554,6 +567,18 @@ function databulanrsms(){
                     totalPerMonth[month].mcuinv    += parseFloat(item.mcuinv || 0);
                     totalPerMonth[month].lain      += parseFloat(item.lain || 0);
                     totalPerMonth[month].pob       += parseFloat(item.pob || 0);
+
+                    totalPerMonth[month].urjcompare        += parseFloat(item.urjcompare  || 0);
+                    totalPerMonth[month].uricompare        += parseFloat(item.uricompare  || 0);
+                    totalPerMonth[month].arjcompare        += parseFloat(item.arjcompare  || 0);
+                    totalPerMonth[month].aricompare        += parseFloat(item.aricompare  || 0);
+                    totalPerMonth[month].brjcompare        += parseFloat(item.brjcompare  || 0);
+                    totalPerMonth[month].bricompare        += parseFloat(item.bricompare  || 0);
+                    totalPerMonth[month].mcucashcompare    += parseFloat(item.mcucashcompare  || 0);
+                    totalPerMonth[month].mcuinvcompare     += parseFloat(item.mcuinvcompare  || 0);
+                    totalPerMonth[month].laincompare       += parseFloat(item.laincompare  || 0);
+                    totalPerMonth[month].pobcompare        += parseFloat(item.pobcompare  || 0);
+
                     totalPerMonth[month].k_urj     += parseFloat(item.kurj || 0);
                     totalPerMonth[month].k_uri     += parseFloat(item.kuri || 0);
                     totalPerMonth[month].k_arj     += parseFloat(item.karj || 0);
@@ -605,8 +630,45 @@ function databulanrsms(){
 
 
                         tablekunjungan += "</tr>";
+
+                    var tablependapatan = "<tr>";
+
+                        tablependapatan += "<td class='ps-4'>" + item.nama_hari + "</td>";
+                        tablependapatan += "<td class='text-center'>" + item.tanggal + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.urj != item.urjcompare ? "table-danger" : "") + "'>" + todesimal(item.urj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.urj != item.urjcompare ? "table-danger" : "") + "'>" + todesimal(item.urjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.uri != item.uricompare ? "table-danger" : "") + "'>" + todesimal(item.uri || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.uri != item.uricompare ? "table-danger" : "") + "'>" + todesimal(item.uricompare || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.arj != item.arjcompare ? "table-danger" : "") + "'>" + todesimal(item.arj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.arj != item.arjcompare ? "table-danger" : "") + "'>" + todesimal(item.arjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.ari != item.aricompare ? "table-danger" : "") + "'>" + todesimal(item.ari || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.ari != item.aricompare ? "table-danger" : "") + "'>" + todesimal(item.aricompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.brj != item.brjcompare ? "table-danger" : "") + "'>" + todesimal(item.brj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.brj != item.brjcompare ? "table-danger" : "") + "'>" + todesimal(item.brjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bri || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bricompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucash || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucashcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinv || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinvcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pob || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pobcompare || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.lain != item.laincompare ? "table-danger" : "") + "'>" + todesimal(item.lain || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.lain != item.laincompare ? "table-danger" : "") + "'>" + todesimal(item.laincompare || 0) + "</td>";
+
+
+                        tablependapatan += "</tr>";
         
                     $("#resultkunjunganrsms" + month).append(tablekunjungan);
+                    $("#resultpendapatanrsms" + month).append(tablependapatan);
                 }
             }
         
@@ -647,6 +709,7 @@ function databulanrsia(){
 
             for(var month = 1; month <= 12; month++){
                 $("#resultkunjunganrsia" + (month < 10 ? '0' + month : month)).html("");
+                $("#resultpendapatanrsia" + (month < 10 ? '0' + month : month)).html("");
             }
         },       
         success: function (data) {
@@ -666,6 +729,7 @@ function databulanrsia(){
                     mcuinv : 0,
                     lain: 0,
                     pob: 0,
+
                     k_urj: 0,
                     k_uri: 0,
                     k_arj: 0,
@@ -674,6 +738,17 @@ function databulanrsia(){
                     k_bri: 0,
                     k_mcucash: 0,
                     k_mcuinv: 0,
+
+                    urjcompare: 0,
+                    uricompare: 0,
+                    arjcompare: 0,
+                    aricompare: 0,
+                    brjcompare: 0,
+                    bricompare: 0,
+                    mcucashcompare: 0,
+                    mcuinvcompare : 0,
+                    laincompare: 0,
+                    pobcompare: 0,
 
                     k_urjcompare: 0,
                     k_uricompare: 0,
@@ -710,6 +785,18 @@ function databulanrsia(){
                     totalPerMonth[month].mcuinv    += parseFloat(item.mcuinv || 0);
                     totalPerMonth[month].lain      += parseFloat(item.lain || 0);
                     totalPerMonth[month].pob       += parseFloat(item.pob || 0);
+
+                    totalPerMonth[month].urjcompare        += parseFloat(item.urjcompare  || 0);
+                    totalPerMonth[month].uricompare        += parseFloat(item.uricompare  || 0);
+                    totalPerMonth[month].arjcompare        += parseFloat(item.arjcompare  || 0);
+                    totalPerMonth[month].aricompare        += parseFloat(item.aricompare  || 0);
+                    totalPerMonth[month].brjcompare        += parseFloat(item.brjcompare  || 0);
+                    totalPerMonth[month].bricompare        += parseFloat(item.bricompare  || 0);
+                    totalPerMonth[month].mcucashcompare    += parseFloat(item.mcucashcompare  || 0);
+                    totalPerMonth[month].mcuinvcompare     += parseFloat(item.mcuinvcompare  || 0);
+                    totalPerMonth[month].laincompare       += parseFloat(item.laincompare  || 0);
+                    totalPerMonth[month].pobcompare        += parseFloat(item.pobcompare  || 0);
+
                     totalPerMonth[month].k_urj     += parseFloat(item.kurj || 0);
                     totalPerMonth[month].k_uri     += parseFloat(item.kuri || 0);
                     totalPerMonth[month].k_arj     += parseFloat(item.karj || 0);
@@ -761,8 +848,45 @@ function databulanrsia(){
 
 
                         tablekunjungan += "</tr>";
+
+                    var tablependapatan = "<tr>";
+
+                        tablependapatan += "<td class='ps-4'>" + item.nama_hari + "</td>";
+                        tablependapatan += "<td class='text-center'>" + item.tanggal + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.urj != item.urjcompare ? "table-danger" : "") + "'>" + todesimal(item.urj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.urj != item.urjcompare ? "table-danger" : "") + "'>" + todesimal(item.urjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.uri != item.uricompare ? "table-danger" : "") + "'>" + todesimal(item.uri || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.uri != item.uricompare ? "table-danger" : "") + "'>" + todesimal(item.uricompare || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.arj != item.arjcompare ? "table-danger" : "") + "'>" + todesimal(item.arj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.arj != item.arjcompare ? "table-danger" : "") + "'>" + todesimal(item.arjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.ari != item.aricompare ? "table-danger" : "") + "'>" + todesimal(item.ari || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.ari != item.aricompare ? "table-danger" : "") + "'>" + todesimal(item.aricompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.brj != item.brjcompare ? "table-danger" : "") + "'>" + todesimal(item.brj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.brj != item.brjcompare ? "table-danger" : "") + "'>" + todesimal(item.brjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bri || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bricompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucash || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucashcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinv || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinvcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pob || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pobcompare || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.lain != item.laincompare ? "table-danger" : "") + "'>" + todesimal(item.lain || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.lain != item.laincompare ? "table-danger" : "") + "'>" + todesimal(item.laincompare || 0) + "</td>";
+
+
+                        tablependapatan += "</tr>";
         
                     $("#resultkunjunganrsia" + month).append(tablekunjungan);
+                    $("#resultpendapatanrsia" + month).append(tablependapatan);
                 }
             }
         
@@ -803,6 +927,7 @@ function databulanrst(){
 
             for(var month = 1; month <= 12; month++){
                 $("#resultkunjunganrst" + (month < 10 ? '0' + month : month)).html("");
+                $("#resultpendapatanrst" + (month < 10 ? '0' + month : month)).html("");
             }
         },       
         success: function (data) {
@@ -822,6 +947,7 @@ function databulanrst(){
                     mcuinv : 0,
                     lain: 0,
                     pob: 0,
+
                     k_urj: 0,
                     k_uri: 0,
                     k_arj: 0,
@@ -830,6 +956,17 @@ function databulanrst(){
                     k_bri: 0,
                     k_mcucash: 0,
                     k_mcuinv: 0,
+
+                    urjcompare: 0,
+                    uricompare: 0,
+                    arjcompare: 0,
+                    aricompare: 0,
+                    brjcompare: 0,
+                    bricompare: 0,
+                    mcucashcompare: 0,
+                    mcuinvcompare : 0,
+                    laincompare: 0,
+                    pobcompare: 0,
 
                     k_urjcompare: 0,
                     k_uricompare: 0,
@@ -866,6 +1003,18 @@ function databulanrst(){
                     totalPerMonth[month].mcuinv    += parseFloat(item.mcuinv || 0);
                     totalPerMonth[month].lain      += parseFloat(item.lain || 0);
                     totalPerMonth[month].pob       += parseFloat(item.pob || 0);
+
+                    totalPerMonth[month].urjcompare        += parseFloat(item.urjcompare  || 0);
+                    totalPerMonth[month].uricompare        += parseFloat(item.uricompare  || 0);
+                    totalPerMonth[month].arjcompare        += parseFloat(item.arjcompare  || 0);
+                    totalPerMonth[month].aricompare        += parseFloat(item.aricompare  || 0);
+                    totalPerMonth[month].brjcompare        += parseFloat(item.brjcompare  || 0);
+                    totalPerMonth[month].bricompare        += parseFloat(item.bricompare  || 0);
+                    totalPerMonth[month].mcucashcompare    += parseFloat(item.mcucashcompare  || 0);
+                    totalPerMonth[month].mcuinvcompare     += parseFloat(item.mcuinvcompare  || 0);
+                    totalPerMonth[month].laincompare       += parseFloat(item.laincompare  || 0);
+                    totalPerMonth[month].pobcompare        += parseFloat(item.pobcompare  || 0);
+
                     totalPerMonth[month].k_urj     += parseFloat(item.kurj || 0);
                     totalPerMonth[month].k_uri     += parseFloat(item.kuri || 0);
                     totalPerMonth[month].k_arj     += parseFloat(item.karj || 0);
@@ -917,8 +1066,45 @@ function databulanrst(){
 
 
                         tablekunjungan += "</tr>";
+
+                    var tablependapatan = "<tr>";
+
+                        tablependapatan += "<td class='ps-4'>" + item.nama_hari + "</td>";
+                        tablependapatan += "<td class='text-center'>" + item.tanggal + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.urj != item.urjcompare ? "table-danger" : "") + "'>" + todesimal(item.urj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.urj != item.urjcompare ? "table-danger" : "") + "'>" + todesimal(item.urjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.uri != item.uricompare ? "table-danger" : "") + "'>" + todesimal(item.uri || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.uri != item.uricompare ? "table-danger" : "") + "'>" + todesimal(item.uricompare || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.arj != item.arjcompare ? "table-danger" : "") + "'>" + todesimal(item.arj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.arj != item.arjcompare ? "table-danger" : "") + "'>" + todesimal(item.arjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.ari != item.aricompare ? "table-danger" : "") + "'>" + todesimal(item.ari || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.ari != item.aricompare ? "table-danger" : "") + "'>" + todesimal(item.aricompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.brj != item.brjcompare ? "table-danger" : "") + "'>" + todesimal(item.brj || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.brj != item.brjcompare ? "table-danger" : "") + "'>" + todesimal(item.brjcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bri || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bricompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucash || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucashcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinv || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinvcompare || 0) + "</td>";
+
+                        tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pob || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pobcompare || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.lain != item.laincompare ? "table-danger" : "") + "'>" + todesimal(item.lain || 0) + "</td>";
+                        tablependapatan += "<td class='text-center " + (item.lain != item.laincompare ? "table-danger" : "") + "'>" + todesimal(item.laincompare || 0) + "</td>";
+
+
+                        tablependapatan += "</tr>";
         
                     $("#resultkunjunganrst" + month).append(tablekunjungan);
+                    $("#resultpendapatanrst" + month).append(tablependapatan);
                 }
             }
         

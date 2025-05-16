@@ -258,7 +258,7 @@
 
                                         <div class="tab-pane fade <?php echo $active; ?>" id="tabblnrsms<?php echo $kode; ?>" role="tabpanel">
                                             <div class="table-responsive">
-                                                <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                                <table class="table align-middle table-row-dashed fs-8 gy-2">
                                                     <thead class="text-center">
                                                         <tr class="fw-bolder text-muted bg-light align-middle">
                                                             <th rowspan="3" class="ps-4 rounded-start">Days</th>
@@ -300,6 +300,56 @@
                                                     <tbody class="text-gray-600 fw-bold" id="resultkunjunganrsms<?php echo $kode; ?>"></tbody>
                                                 </table>
                                             </div>
+
+                                            <div class="table-responsive">
+                                                <table class="table align-middle table-row-dashed fs-8 gy-2">
+                                                    <thead class="text-center">
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th rowspan="3" class="ps-4 rounded-start">Days</th>
+                                                            <th rowspan="3">Date</th>
+                                                            <th colspan="4">Umum</th>
+                                                            <th colspan="4">Asuransi</th>
+                                                            <th colspan="4">BPJS</th>
+                                                            <th colspan="4">MCU</th>
+                                                            <th rowspan="2" colspan="2">POB</th>
+                                                            <th rowspan="2" colspan="2"  class="rounded-end">Lain-lain</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Cash</th>
+                                                            <th colspan="2">Invoice</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th class="rounded-end">Sistem</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-gray-600 fw-bold" id="resultpendapatanrsms<?php echo $kode; ?>"></tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -338,7 +388,7 @@
 
                                         <div class="tab-pane fade <?php echo $active; ?>" id="tabblnrsia<?php echo $kode; ?>" role="tabpanel">
                                             <div class="table-responsive">
-                                                <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                                <table class="table align-middle table-row-dashed fs-8 gy-2">
                                                     <thead class="text-center">
                                                         <tr class="fw-bolder text-muted bg-light align-middle">
                                                             <th rowspan="3" class="ps-4 rounded-start">Days</th>
@@ -380,6 +430,56 @@
                                                     <tbody class="text-gray-600 fw-bold" id="resultkunjunganrsia<?php echo $kode; ?>"></tbody>
                                                 </table>
                                             </div>
+
+                                            <div class="table-responsive">
+                                                <table class="table align-middle table-row-dashed fs-8 gy-2">
+                                                    <thead class="text-center">
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th rowspan="3" class="ps-4 rounded-start">Days</th>
+                                                            <th rowspan="3">Date</th>
+                                                            <th colspan="4">Umum</th>
+                                                            <th colspan="4">Asuransi</th>
+                                                            <th colspan="4">BPJS</th>
+                                                            <th colspan="4">MCU</th>
+                                                            <th rowspan="2" colspan="2">POB</th>
+                                                            <th rowspan="2" colspan="2"  class="rounded-end">Lain-lain</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Cash</th>
+                                                            <th colspan="2">Invoice</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th class="rounded-end">Sistem</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-gray-600 fw-bold" id="resultpendapatanrsia<?php echo $kode; ?>"></tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -418,7 +518,7 @@
 
                                         <div class="tab-pane fade <?php echo $active; ?>" id="tabblnrst<?php echo $kode; ?>" role="tabpanel">
                                             <div class="table-responsive">
-                                                <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                                <table class="table align-middle table-row-dashed fs-8 gy-2">
                                                     <thead class="text-center">
                                                         <tr class="fw-bolder text-muted bg-light align-middle">
                                                             <th rowspan="3" class="ps-4 rounded-start">Days</th>
@@ -458,6 +558,56 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="text-gray-600 fw-bold" id="resultkunjunganrst<?php echo $kode; ?>"></tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="table-responsive">
+                                                <table class="table align-middle table-row-dashed fs-8 gy-2">
+                                                    <thead class="text-center">
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th rowspan="3" class="ps-4 rounded-start">Days</th>
+                                                            <th rowspan="3">Date</th>
+                                                            <th colspan="4">Umum</th>
+                                                            <th colspan="4">Asuransi</th>
+                                                            <th colspan="4">BPJS</th>
+                                                            <th colspan="4">MCU</th>
+                                                            <th rowspan="2" colspan="2">POB</th>
+                                                            <th rowspan="2" colspan="2"  class="rounded-end">Lain-lain</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Cash</th>
+                                                            <th colspan="2">Invoice</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th class="rounded-end">Sistem</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-gray-600 fw-bold" id="resultpendapatanrst<?php echo $kode; ?>"></tbody>
                                                 </table>
                                             </div>
                                         </div>

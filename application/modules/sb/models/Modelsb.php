@@ -89,6 +89,18 @@
                     (select coalesce(mcu_inv,0)    from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) mcuinv,
                     (select coalesce(lain,0)       from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) lain,
                     (select coalesce(pob,0)        from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) pob,
+
+                    (select coalesce(u_rj,0)       from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) urjcompare,
+                    (select coalesce(u_ri,0)       from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) uricompare,
+                    (select coalesce(a_rj,0)       from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) arjcompare,
+                    (select coalesce(a_ri,0)       from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) aricompare,
+                    (select coalesce(b_rj,0)       from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) brjcompare,
+                    (select coalesce(b_ri,0)       from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) bricompare,
+                    (select coalesce(mcu_cash,0)   from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) mcucashcompare,
+                    (select coalesce(mcu_inv,0)    from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) mcuinvcompare,
+                    (select coalesce(lain,0)       from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) laincompare,
+                    (select coalesce(pob,0)        from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) pobcompare,
+
                     (select coalesce(k_urj,0)      from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kurj,
                     (select coalesce(k_uri,0)      from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) kuri,
                     (select coalesce(k_arj,0)      from dt01_report_income_dt where active='1' and org_id='".$orgid."' and date=tanggal) karj,

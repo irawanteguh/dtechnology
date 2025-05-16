@@ -52,8 +52,8 @@
                         'umum'      => (int)$a->umum_rajal,
                         'asuransi'  => (int)$a->asuransi_rajal,
                         'bpjs'      => (int)$a->bpjs_rajal,
-                        'mcu_cash'  => (int)$a->total_mcu,
-                        'mcu_inv'   => 0,
+                        'mcu_cash'  => 0,
+                        'mcu_inv'   => (int)$a->total_mcu,
                         'lain'      => 0,
                         'pob'       => 0
                     ];
