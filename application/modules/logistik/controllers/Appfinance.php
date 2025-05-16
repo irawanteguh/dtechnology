@@ -19,7 +19,7 @@
 
             $status = "
                             AND a.status IN ('4')
-                            AND date(a.created_date) between '".$startDate."' and '".$endDate."'
+                            -- AND date(a.created_date) between '".$startDate."' and '".$endDate."'
                         ";
 
             $orderby ="order by manager_date asc;";
