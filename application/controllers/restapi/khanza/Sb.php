@@ -34,24 +34,7 @@
                         'bpjs'      => (int)$a->kunjunganbpjsri
                     ];
 
-                    $body['quickreport']['pendapatan']['rawatjalan'] = [
-                        'umum'      => 0,
-                        'asuransi'  => 0,
-                        'bpjs'      => 0,
-                        'mcu_cash'  => 0,
-                        'mcu_inv'   => 0,
-                        'lain'      => 0,
-                        'pob'       => 0
-                    ];
-
-                    $body['quickreport']['pendapatan']['rawatinap'] = [
-                        'umum'      => 0,
-                        'asuransi'  => 0,
-                        'bpjs'      => 0
-                    ];
-
-
-                    $responsequickreport = Dtech::quickreport(json_encode($body));
+                    $responsequickreport = Dtech::quickreportkunjungan(json_encode($body));
                     $this->response($responsequickreport,200);
                 }
             }
@@ -64,20 +47,6 @@
                 foreach($resultdataquickreport as $a){
                     $body['orgid']                  = ORG_ID;
                     $body['quickreport']['tanggal'] = $a->tgl_byr;
-
-                    $body['quickreport']['kunjungan']['rawatjalan'] = [
-                        'umum'      => 0,
-                        'asuransi'  => 0,
-                        'bpjs'      => 0,
-                        'mcu_cash'  => 0,
-                        'mcu_inv'   => 0
-                    ];
-
-                    $body['quickreport']['kunjungan']['rawatinap'] = [
-                        'umum'      => 0,
-                        'asuransi'  => 0,
-                        'bpjs'      => 0
-                    ];
 
                     $body['quickreport']['pendapatan']['rawatjalan'] = [
                         'umum'      => (int)$a->umum_rajal,
@@ -95,8 +64,7 @@
                         'bpjs'      => (int)$a->bpjs_ranap
                     ];
 
-
-                    $responsequickreport = Dtech::quickreport(json_encode($body));
+                    $responsequickreport = Dtech::quickreportpendapatan(json_encode($body));
                     $this->response($responsequickreport,200);
                 }
             }

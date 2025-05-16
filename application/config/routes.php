@@ -37,8 +37,9 @@
     $route['loadserver']        = 'root/Loadserver/load';
 
 
-    $route['auth']        = 'restapi/dtech/Auth/createdtoken';
-    $route['quickreport'] = 'restapi/dtech/Sb/quickreport';
+    $route['auth']                     = 'restapi/dtech/Auth/createdtoken';
+    $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
+    $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
     
 
     $route['403_override']         = 'errors/error_403';

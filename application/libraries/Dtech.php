@@ -21,7 +21,7 @@
         }
 
 
-        public static function quickreport($body){
+        public static function quickreportkunjungan($body){
             $oauthResponse = Dtech::oauth();
 
             if(isset($oauthResponse['data']['token'])){
@@ -33,7 +33,35 @@
                 ];
 
                 $responsecurl = curl([
-                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/quickreport",
+                    // 'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportkunjungan",
+                    'url'     => "localhost/dtech/dtechnology/index.php/addquickreportkunjungan",
+                    'method'  => "POST",
+                    'header'  => $header,
+                    'body'    => $body,
+                    'savelog' => true,
+                    'source'  => "DTECH-QUICKREPORT"
+                ]);
+    
+                return json_decode($responsecurl,TRUE); 
+            }else{
+                return json_decode($oauthResponse, TRUE); 
+            }
+        }
+
+        public static function quickreportpendapatan($body){
+            $oauthResponse = Dtech::oauth();
+
+            if(isset($oauthResponse['data']['token'])){
+                $token = $oauthResponse['data']['token'];
+
+                $header = [
+                    "x-token: $token",
+                    "Content-Type: application/json"
+                ];
+
+                $responsecurl = curl([
+                    // 'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportpendapatan",
+                    'url'     => "localhost/dtech/dtechnology/index.php/addquickreportpendapatan",
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,

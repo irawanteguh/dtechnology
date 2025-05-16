@@ -53,7 +53,7 @@
             return $this->response($response, $response['code']);
         }
 
-        public function quickreport_post() {
+        public function addquickreportkunjungan_post() {
             $input = json_decode($this->input->raw_input_stream, true);
 
             if (!isset($input['orgid']) || empty($input['orgid'])) {
@@ -83,6 +83,73 @@
                 return $this->response([
                     'status' => false,
                     'message' => 'Bad Request: quickreport.kunjungan is required'
+                ], 400);
+            }
+
+            $orgid      = $input['orgid'];
+            $date       = $qr['tanggal'];
+            $kunjungan  = $qr['kunjungan'];
+            $pendapatan = $qr['pendapatan'];
+
+            $getval = function($arr, $kategori, $key) {
+                return isset($arr[$kategori][$key]) ? preg_replace('/\D/', '', $arr[$kategori][$key]) : '0';
+            };
+
+            $data = [
+                'org_id'           => $orgid,
+                'transaksi_id'     => generateuuid(),
+                'date'             => $date,
+                'last_update_date' => date("Y-m-d H:i:s"),
+                'k_urj'            => $getval($kunjungan, 'rawatjalan', 'umum'),
+                'k_uri'            => $getval($kunjungan, 'rawatinap', 'umum'),
+                'k_arj'            => $getval($kunjungan, 'rawatjalan', 'asuransi'),
+                'k_ari'            => $getval($kunjungan, 'rawatinap', 'asuransi'),
+                'k_brj'            => $getval($kunjungan, 'rawatjalan', 'bpjs'),
+                'k_bri'            => $getval($kunjungan, 'rawatinap', 'bpjs')
+            ];
+
+            // Cek data sudah ada atau belum
+            $existing = $this->md->cekdata($orgid, $date);
+
+            if ($existing) {
+                unset($data['transaksi_id']);
+                $exec = $this->md->updatequickreport($orgid, $date, $data);
+                $message = "Data Updated Successfully";
+            } else {
+                $exec = $this->md->insertquickreport($data);
+                $message = "Data Added Successfully";
+            }
+
+            return $this->response([
+                'status' => true,
+                'message' => $message,
+                'data' => $data
+            ], 200);
+        }
+
+        public function addquickreportpendapatan_post() {
+            $input = json_decode($this->input->raw_input_stream, true);
+
+            if (!isset($input['orgid']) || empty($input['orgid'])) {
+                return $this->response([
+                    'status' => false,
+                    'message' => 'Bad Request: orgid is required'
+                ], 400);
+            }
+
+            if (!isset($input['quickreport']) || !is_array($input['quickreport'])) {
+                return $this->response([
+                    'status' => false,
+                    'message' => 'Bad Request: quickreport object is required'
+                ], 400);
+            }
+
+            $qr = $input['quickreport'];
+
+            if (!isset($qr['tanggal']) || empty($qr['tanggal'])) {
+                return $this->response([
+                    'status' => false,
+                    'message' => 'Bad Request: quickreport.tanggal is required'
                 ], 400);
             }
 
@@ -116,13 +183,7 @@
                 'mcu_cash'         => $getval($pendapatan, 'rawatjalan', 'mcu_cash'),
                 'mcu_inv'          => $getval($pendapatan, 'rawatjalan', 'mcu_inv'),
                 'lain'             => $getval($pendapatan, 'rawatjalan', 'lain'),
-                'pob'              => $getval($pendapatan, 'rawatjalan', 'pob'),
-                'k_urj'            => $getval($kunjungan, 'rawatjalan', 'umum'),
-                'k_uri'            => $getval($kunjungan, 'rawatinap', 'umum'),
-                'k_arj'            => $getval($kunjungan, 'rawatjalan', 'asuransi'),
-                'k_ari'            => $getval($kunjungan, 'rawatinap', 'asuransi'),
-                'k_brj'            => $getval($kunjungan, 'rawatjalan', 'bpjs'),
-                'k_bri'            => $getval($kunjungan, 'rawatinap', 'bpjs')
+                'pob'              => $getval($pendapatan, 'rawatjalan', 'pob')
             ];
 
             // Cek data sudah ada atau belum
