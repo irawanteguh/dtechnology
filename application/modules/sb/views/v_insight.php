@@ -205,67 +205,58 @@
     <div class="tab-content p-0">
         <div id="tabcompare" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="tab_compare">
             <div class="card mb-5 mb-xxl-8">
-                <div class="card-body pt-9 pb-0">
-                    <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
-                        
+                <div class="card-header">
+                    <div class="card-title d-flex align-items-center">
+                        <h6 class="fw-bolder m-0 text-gray-800">Summary Quick Report</h3>
                     </div>
-                    <div class="d-flex overflow-auto h-55px">
-                        <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
-                            <?php
-                                $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni","Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-                                $bulanSekarang = date('n');
-
-                                foreach ($bulan as $index => $namaBulan) {
-                                    $active = ($index + 1 == $bulanSekarang) ? 'active' : '';
-                                    $tabId = sprintf("#tabbln%02d", $index + 1); // Format tabbln01, tabbln02, dst
-                                    echo '<li class="nav-item">';
-                                    echo '<a class="nav-link ' . $active . '" data-bs-toggle="tab" href="' . $tabId . '">' . $namaBulan . '</a>';
-                                    echo '</li>';
-                                }
-                            ?>
+                    <div class="card-toolbar m-0">
+                        <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a id="tab_rsms" class="nav-link justify-content-center text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#tabrsms">RSU Mutiasari</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a id="tab_rsiabm" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabrsiabm">RSIA Budhi Mulia</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a id="tab_thursina" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabthursina">RS Thursina</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class="tab-content">
-                <?php
-                    $bulan = [
-                        '01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
-                        '04' => 'April', '05' => 'Mei', '06' => 'Juni',
-                        '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
-                        '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
-                    ];
-
-                    $currentMonth = date('m');
-                    
-                    foreach ($bulan as $kode => $nama) {
-                        $active = $kode == $currentMonth ? 'show active' : '';
-                    ?>
-
-                    <div class="tab-pane fade <?php echo $active; ?>" id="tabbln<?php echo $kode; ?>" role="tabpanel">
-                        <div class="card card card-flush h-100">
-                            <div class="card-header">
-                                <div class="card-title d-flex align-items-center">
-                                    <h6 class="fw-bolder m-0 text-gray-800">Compare Report Bulan <?php echo $nama; ?></h3>
-                                </div>
-                                <div class="card-toolbar m-0">
-                                    <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <a id="tab_kunjungan<?php echo $kode; ?>" class="nav-link justify-content-center text-active-gray-800 active" data-bs-toggle="tab" role="tab" href="#tabkunjungan<?php echo $kode; ?>">Kunjungan</a>
-                                        </li>
-                                        <!-- <li class="nav-item" role="presentation">
-                                            <a id="tab_pendapatan<?php echo $kode; ?>" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabpendapatan<?php echo $kode; ?>">Pendapatan</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a id="tab_pengeluaran<?php echo $kode; ?>" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#tabpengeluaran<?php echo $kode; ?>">Pengeluaran</a>
-                                        </li> -->
-                                    </ul>
-                                </div>
+                <div class="card-body pt-9 pb-0">
+                    <div class="tab-content">
+                        <div id="tabrsms" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="tab_rsms">
+                            <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+                        
                             </div>
-                            <div class="card-body">
+                            <div class="d-flex overflow-auto h-55px">
+                                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
+                                    <?php
+                                        $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni","Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                                        $bulanSekarang = date('n');
+
+                                        foreach ($bulan as $index => $namaBulan) {
+                                            $active = ($index + 1 == $bulanSekarang) ? 'active' : '';
+                                            $tabId = sprintf("#tabblnrsms%02d", $index + 1);
+
+                                            echo '<li class="nav-item">';
+                                            echo '<a class="nav-link ' . $active . '" data-bs-toggle="tab" href="' . $tabId . '">' . $namaBulan . '</a>';
+                                            echo '</li>';
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="mb-3 mt-5">
                                 <div class="tab-content">
-                                    <div id="tabkunjungan<?php echo $kode; ?>" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="tab_kunjungan<?php echo $kode; ?>">
-                                        <div class="col-xl-12">
+                                    <?php
+                                        $bulan        = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret','04' => 'April', '05' => 'Mei', '06' => 'Juni','07' => 'Juli', '08' => 'Agustus', '09' => 'September','10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+                                        $currentMonth = date('m');
+                                        
+                                        foreach ($bulan as $kode => $nama) {
+                                            $active = $kode == $currentMonth ? 'show active' : '';
+                                        ?>
+
+                                        <div class="tab-pane fade <?php echo $active; ?>" id="tabblnrsms<?php echo $kode; ?>" role="tabpanel">
                                             <div class="table-responsive">
                                                 <table class="table align-middle table-row-dashed fs-6 gy-2">
                                                     <thead class="text-center">
@@ -306,86 +297,176 @@
                                                             <th class="rounded-end">Sistem</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="text-gray-600 fw-bold" id="resultkunjungan<?php echo $kode; ?>"></tbody>
+                                                    <tbody class="text-gray-600 fw-bold" id="resultkunjunganrsms<?php echo $kode; ?>"></tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- <div id="tabpendapatan<?php echo $kode; ?>" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_pendapatan<?php echo $kode; ?>">
-                                        <div class="col-xl-12 mb-5">
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tabrsiabm" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_rsiabm">
+                            <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+                        
+                            </div>
+                            <div class="d-flex overflow-auto h-55px">
+                                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
+                                    <?php
+                                        $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni","Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                                        $bulanSekarang = date('n');
+
+                                        foreach ($bulan as $index => $namaBulan) {
+                                            $active = ($index + 1 == $bulanSekarang) ? 'active' : '';
+                                            $tabId = sprintf("#tabblnrsia%02d", $index + 1);
+
+                                            echo '<li class="nav-item">';
+                                            echo '<a class="nav-link ' . $active . '" data-bs-toggle="tab" href="' . $tabId . '">' . $namaBulan . '</a>';
+                                            echo '</li>';
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="mb-3 mt-5">
+                                <div class="tab-content">
+                                    <?php
+                                        $bulan        = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret','04' => 'April', '05' => 'Mei', '06' => 'Juni','07' => 'Juli', '08' => 'Agustus', '09' => 'September','10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+                                        $currentMonth = date('m');
+                                        
+                                        foreach ($bulan as $kode => $nama) {
+                                            $active = $kode == $currentMonth ? 'show active' : '';
+                                        ?>
+
+                                        <div class="tab-pane fade <?php echo $active; ?>" id="tabblnrsia<?php echo $kode; ?>" role="tabpanel">
                                             <div class="table-responsive">
                                                 <table class="table align-middle table-row-dashed fs-6 gy-2">
                                                     <thead class="text-center">
                                                         <tr class="fw-bolder text-muted bg-light align-middle">
-                                                            <th rowspan="2" class="ps-4 rounded-start">Days</th>
-                                                            <th rowspan="2">Date</th>
-                                                            <th colspan="2">Umum</th>
-                                                            <th colspan="2">Asuransi</th>
-                                                            <th colspan="2">BPJS</th>
-                                                            <th colspan="2">MCU</th>
-                                                            <th rowspan="2">POB</th>
-                                                            <th rowspan="2">Lain-lain</th>
-                                                            <th colspan="2">Total Harian</th>
-                                                            <th rowspan="2">Grand Total</th>
-                                                            <th rowspan="2" class="pe-4 text-end rounded-end">Action</th>
+                                                            <th rowspan="3" class="ps-4 rounded-start">Days</th>
+                                                            <th rowspan="3">Date</th>
+                                                            <th colspan="4">Umum</th>
+                                                            <th colspan="4">Asuransi</th>
+                                                            <th colspan="4">BPJS</th>
+                                                            <th colspan="4" class="rounded-end">MCU</th>
                                                         </tr>
                                                         <tr class="fw-bolder text-muted bg-light align-middle">
-                                                            <th>Rajal</th>
-                                                            <th>Ranap</th>
-                                                            <th>Rajal</th>
-                                                            <th>Ranap</th>
-                                                            <th>Rajal</th>
-                                                            <th>Ranap</th>
-                                                            <th>Cash</th>
-                                                            <th>Invoice</th>
-                                                            <th>Rajal</th>
-                                                            <th>Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Cash</th>
+                                                            <th colspan="2">Invoice</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th class="rounded-end">Sistem</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="text-gray-600 fw-bold" id="resultbln<?php echo $kode; ?>"></tbody>
+                                                    <tbody class="text-gray-600 fw-bold" id="resultkunjunganrsia<?php echo $kode; ?>"></tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div id="tabpengeluaran<?php echo $kode; ?>" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_pengeluaran<?php echo $kode; ?>">
-                                        <div class="row">
-                                            <div class="col-xl-7 mb-5">
-                                                <div class="table-responsive">
-                                                    <table class="table align-middle table-row-dashed fs-6 gy-2">
-                                                        <thead class="text-center">
-                                                            <tr class="fw-bolder text-muted bg-light align-middle">
-                                                                <th class="ps-4 rounded-start">COA</th>
-                                                                <th>Account</th>
-                                                                <th>Category</th>
-                                                                <th>Total</th>
-                                                                <th class="pe-4 text-end rounded-end">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="text-gray-600 fw-bold" id="resultcoadata<?php echo $kode; ?>"></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-5 mb-5">
-                                                <div class="table-responsive">
-                                                    <table class="table align-middle table-row-dashed fs-6 gy-2">
-                                                        <thead class="text-center">
-                                                            <tr class="fw-bolder text-muted bg-light align-middle">
-                                                                <th class="ps-4 rounded-start">Date</th>
-                                                                <th>Account</th>
-                                                                <th class="pe-4 text-end rounded-end">Debit</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="text-gray-600 fw-bold" id="resultjurnal<?php echo $kode; ?>"></tbody>
-                                                    </table>
-                                                </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tabthursina" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_thursina">
+                            <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+                        
+                            </div>
+                            <div class="d-flex overflow-auto h-55px">
+                                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
+                                    <?php
+                                        $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni","Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                                        $bulanSekarang = date('n');
+
+                                        foreach ($bulan as $index => $namaBulan) {
+                                            $active = ($index + 1 == $bulanSekarang) ? 'active' : '';
+                                            $tabId = sprintf("#tabblnrst%02d", $index + 1);
+
+                                            echo '<li class="nav-item">';
+                                            echo '<a class="nav-link ' . $active . '" data-bs-toggle="tab" href="' . $tabId . '">' . $namaBulan . '</a>';
+                                            echo '</li>';
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="mb-3 mt-5">
+                                <div class="tab-content">
+                                    <?php
+                                        $bulan        = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret','04' => 'April', '05' => 'Mei', '06' => 'Juni','07' => 'Juli', '08' => 'Agustus', '09' => 'September','10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+                                        $currentMonth = date('m');
+                                        
+                                        foreach ($bulan as $kode => $nama) {
+                                            $active = $kode == $currentMonth ? 'show active' : '';
+                                        ?>
+
+                                        <div class="tab-pane fade <?php echo $active; ?>" id="tabblnrst<?php echo $kode; ?>" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <table class="table align-middle table-row-dashed fs-6 gy-2">
+                                                    <thead class="text-center">
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th rowspan="3" class="ps-4 rounded-start">Days</th>
+                                                            <th rowspan="3">Date</th>
+                                                            <th colspan="4">Umum</th>
+                                                            <th colspan="4">Asuransi</th>
+                                                            <th colspan="4">BPJS</th>
+                                                            <th colspan="4" class="rounded-end">MCU</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Rajal</th>
+                                                            <th colspan="2">Ranap</th>
+                                                            <th colspan="2">Cash</th>
+                                                            <th colspan="2">Invoice</th>
+                                                        </tr>
+                                                        <tr class="fw-bolder text-muted bg-light align-middle">
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th>Sistem</th>
+                                                            <th>Manual</th>
+                                                            <th class="rounded-end">Sistem</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-gray-600 fw-bold" id="resultkunjunganrst<?php echo $kode; ?>"></tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <?php } ?>
+                </div>
             </div>
         </div>
         <div id="tabgrafik" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_grafik">

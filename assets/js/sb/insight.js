@@ -1,9 +1,14 @@
 datainsight();
-databulan();
+databulanrsms();
+databulanrsia();
+databulanrst();
 
 $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", function (e) {
     e.preventDefault();
     datainsight();
+    databulanrsms();
+    databulanrsia();
+    databulanrst();
 });
 
 function datainsight() {
@@ -472,10 +477,10 @@ function datainsight() {
     return false;
 }
 
-function databulan(){
+function databulanrsms(){
     var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
     $.ajax({
-        url: url + "index.php/sb/quickreport/databulan",
+        url: url + "index.php/sb/insight/databulanrsms",
         data: { periode: periode },
         method: "POST",
         dataType: "JSON",
@@ -485,11 +490,8 @@ function databulan(){
             toastr["info"]("Sending request...", "Please wait");
 
             for(var month = 1; month <= 12; month++){
-                $("#resultkunjungan" + (month < 10 ? '0' + month : month)).html("");
+                $("#resultkunjunganrsms" + (month < 10 ? '0' + month : month)).html("");
             }
-
-            
-            am4core.useTheme(am4themes_animated);
         },       
         success: function (data) {
             var totalPerMonth = {};
@@ -604,7 +606,319 @@ function databulan(){
 
                         tablekunjungan += "</tr>";
         
-                    $("#resultkunjungan" + month).append(tablekunjungan);
+                    $("#resultkunjunganrsms" + month).append(tablekunjungan);
+                }
+            }
+        
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },        
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+    return false;
+};
+
+function databulanrsia(){
+    var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
+    $.ajax({
+        url: url + "index.php/sb/insight/databulanrsia",
+        data: { periode: periode },
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+
+            for(var month = 1; month <= 12; month++){
+                $("#resultkunjunganrsia" + (month < 10 ? '0' + month : month)).html("");
+            }
+        },       
+        success: function (data) {
+            var totalPerMonth = {};
+            var countPerMonth = {};
+        
+            for (var m = 1; m <= 12; m++) {
+                var key = m < 10 ? '0' + m : '' + m;
+                totalPerMonth[key] = {
+                    urj: 0,
+                    uri: 0,
+                    arj: 0,
+                    ari: 0,
+                    brj: 0,
+                    bri: 0,
+                    mcucash: 0,
+                    mcuinv : 0,
+                    lain: 0,
+                    pob: 0,
+                    k_urj: 0,
+                    k_uri: 0,
+                    k_arj: 0,
+                    k_ari: 0,
+                    k_brj: 0,
+                    k_bri: 0,
+                    k_mcucash: 0,
+                    k_mcuinv: 0,
+
+                    k_urjcompare: 0,
+                    k_uricompare: 0,
+                    k_arjcompare: 0,
+                    k_aricompare: 0,
+                    k_brjcompare: 0,
+                    k_bricompare: 0,
+                    k_mcucashcompare: 0,
+                    k_mcuinvcompare: 0,
+
+                    umum: 0,
+                    asuransi: 0,
+                    bpjs: 0,
+                    mcu: 0
+                };
+                countPerMonth[key] = 0;
+            }
+        
+            if(data.responCode === "00"){
+                var result = data.responResult;
+        
+                for (var i in result) {
+                    var item = result[i];
+                    var month = item.bulan;
+        
+                    // Tambah nilai ke total per bulan
+                    totalPerMonth[month].urj       += parseFloat(item.urj || 0);
+                    totalPerMonth[month].uri       += parseFloat(item.uri || 0);
+                    totalPerMonth[month].arj       += parseFloat(item.arj || 0);
+                    totalPerMonth[month].ari       += parseFloat(item.ari || 0);
+                    totalPerMonth[month].brj       += parseFloat(item.brj || 0);
+                    totalPerMonth[month].bri       += parseFloat(item.bri || 0);
+                    totalPerMonth[month].mcucash   += parseFloat(item.mcucash || 0);
+                    totalPerMonth[month].mcuinv    += parseFloat(item.mcuinv || 0);
+                    totalPerMonth[month].lain      += parseFloat(item.lain || 0);
+                    totalPerMonth[month].pob       += parseFloat(item.pob || 0);
+                    totalPerMonth[month].k_urj     += parseFloat(item.kurj || 0);
+                    totalPerMonth[month].k_uri     += parseFloat(item.kuri || 0);
+                    totalPerMonth[month].k_arj     += parseFloat(item.karj || 0);
+                    totalPerMonth[month].k_ari     += parseFloat(item.kari || 0);
+                    totalPerMonth[month].k_brj     += parseFloat(item.kbrj || 0);
+                    totalPerMonth[month].k_bri     += parseFloat(item.kbri || 0);
+                    totalPerMonth[month].k_mcucash += parseFloat(item.kmcucash || 0);
+                    totalPerMonth[month].k_mcuinv  += parseFloat(item.kmcuinv || 0);
+
+                    totalPerMonth[month].k_urjcompare     += parseFloat(item.kurjcompare || 0);
+                    totalPerMonth[month].k_uricompare     += parseFloat(item.kuricompare || 0);
+                    totalPerMonth[month].k_arjcompare     += parseFloat(item.karjcompare || 0);
+                    totalPerMonth[month].k_aricompare     += parseFloat(item.karicompare || 0);
+                    totalPerMonth[month].k_brjcompare     += parseFloat(item.kbrjcompare || 0);
+                    totalPerMonth[month].k_bricompare     += parseFloat(item.kbricompare || 0);
+                    totalPerMonth[month].k_mcucashcompare += parseFloat(item.kmcucashcompare || 0);
+                    totalPerMonth[month].k_mcuinvcompare  += parseFloat(item.kmcuinvcompare || 0);
+
+                    countPerMonth[month]++;
+        
+                    var tablekunjungan = "<tr>";
+
+                        tablekunjungan += "<td class='ps-4'>" + item.nama_hari + "</td>";
+                        tablekunjungan += "<td class='text-center'>" + item.tanggal + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kurj != item.kurjcompare ? "table-danger" : "") + "'>" + todesimal(item.kurj || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kurj != item.kurjcompare ? "table-danger" : "") + "'>" + todesimal(item.kurjcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kuri != item.kuricompare ? "table-danger" : "") + "'>" + todesimal(item.kuri || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kuri != item.kuricompare ? "table-danger" : "") + "'>" + todesimal(item.kuricompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.karj != item.karjcompare ? "table-danger" : "") + "'>" + todesimal(item.karj || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.karj != item.karjcompare ? "table-danger" : "") + "'>" + todesimal(item.karjcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kari != item.karicompare ? "table-danger" : "") + "'>" + todesimal(item.kari || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kari != item.karicompare ? "table-danger" : "") + "'>" + todesimal(item.karicompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kbrj != item.kbrjcompare ? "table-danger" : "") + "'>" + todesimal(item.kbrj || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kbrj != item.kbrjcompare ? "table-danger" : "") + "'>" + todesimal(item.kbrjcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kbri != item.kbricompare ? "table-danger" : "") + "'>" + todesimal(item.kbri || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kbri != item.kbricompare ? "table-danger" : "") + "'>" + todesimal(item.kbricompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kmcucash != item.kmcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcucash || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kmcucash != item.kmcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcucashcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kmcuinv != item.kmcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcuinv || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kmcuinv != item.kmcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcuinvcompare || 0) + "</td>";
+
+
+                        tablekunjungan += "</tr>";
+        
+                    $("#resultkunjunganrsia" + month).append(tablekunjungan);
+                }
+            }
+        
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },        
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+    return false;
+};
+
+function databulanrst(){
+    var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
+    $.ajax({
+        url: url + "index.php/sb/insight/databulanrst",
+        data: { periode: periode },
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+
+            for(var month = 1; month <= 12; month++){
+                $("#resultkunjunganrst" + (month < 10 ? '0' + month : month)).html("");
+            }
+        },       
+        success: function (data) {
+            var totalPerMonth = {};
+            var countPerMonth = {};
+        
+            for (var m = 1; m <= 12; m++) {
+                var key = m < 10 ? '0' + m : '' + m;
+                totalPerMonth[key] = {
+                    urj: 0,
+                    uri: 0,
+                    arj: 0,
+                    ari: 0,
+                    brj: 0,
+                    bri: 0,
+                    mcucash: 0,
+                    mcuinv : 0,
+                    lain: 0,
+                    pob: 0,
+                    k_urj: 0,
+                    k_uri: 0,
+                    k_arj: 0,
+                    k_ari: 0,
+                    k_brj: 0,
+                    k_bri: 0,
+                    k_mcucash: 0,
+                    k_mcuinv: 0,
+
+                    k_urjcompare: 0,
+                    k_uricompare: 0,
+                    k_arjcompare: 0,
+                    k_aricompare: 0,
+                    k_brjcompare: 0,
+                    k_bricompare: 0,
+                    k_mcucashcompare: 0,
+                    k_mcuinvcompare: 0,
+
+                    umum: 0,
+                    asuransi: 0,
+                    bpjs: 0,
+                    mcu: 0
+                };
+                countPerMonth[key] = 0;
+            }
+        
+            if(data.responCode === "00"){
+                var result = data.responResult;
+        
+                for (var i in result) {
+                    var item = result[i];
+                    var month = item.bulan;
+        
+                    // Tambah nilai ke total per bulan
+                    totalPerMonth[month].urj       += parseFloat(item.urj || 0);
+                    totalPerMonth[month].uri       += parseFloat(item.uri || 0);
+                    totalPerMonth[month].arj       += parseFloat(item.arj || 0);
+                    totalPerMonth[month].ari       += parseFloat(item.ari || 0);
+                    totalPerMonth[month].brj       += parseFloat(item.brj || 0);
+                    totalPerMonth[month].bri       += parseFloat(item.bri || 0);
+                    totalPerMonth[month].mcucash   += parseFloat(item.mcucash || 0);
+                    totalPerMonth[month].mcuinv    += parseFloat(item.mcuinv || 0);
+                    totalPerMonth[month].lain      += parseFloat(item.lain || 0);
+                    totalPerMonth[month].pob       += parseFloat(item.pob || 0);
+                    totalPerMonth[month].k_urj     += parseFloat(item.kurj || 0);
+                    totalPerMonth[month].k_uri     += parseFloat(item.kuri || 0);
+                    totalPerMonth[month].k_arj     += parseFloat(item.karj || 0);
+                    totalPerMonth[month].k_ari     += parseFloat(item.kari || 0);
+                    totalPerMonth[month].k_brj     += parseFloat(item.kbrj || 0);
+                    totalPerMonth[month].k_bri     += parseFloat(item.kbri || 0);
+                    totalPerMonth[month].k_mcucash += parseFloat(item.kmcucash || 0);
+                    totalPerMonth[month].k_mcuinv  += parseFloat(item.kmcuinv || 0);
+
+                    totalPerMonth[month].k_urjcompare     += parseFloat(item.kurjcompare || 0);
+                    totalPerMonth[month].k_uricompare     += parseFloat(item.kuricompare || 0);
+                    totalPerMonth[month].k_arjcompare     += parseFloat(item.karjcompare || 0);
+                    totalPerMonth[month].k_aricompare     += parseFloat(item.karicompare || 0);
+                    totalPerMonth[month].k_brjcompare     += parseFloat(item.kbrjcompare || 0);
+                    totalPerMonth[month].k_bricompare     += parseFloat(item.kbricompare || 0);
+                    totalPerMonth[month].k_mcucashcompare += parseFloat(item.kmcucashcompare || 0);
+                    totalPerMonth[month].k_mcuinvcompare  += parseFloat(item.kmcuinvcompare || 0);
+
+                    countPerMonth[month]++;
+        
+                    var tablekunjungan = "<tr>";
+
+                        tablekunjungan += "<td class='ps-4'>" + item.nama_hari + "</td>";
+                        tablekunjungan += "<td class='text-center'>" + item.tanggal + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kurj != item.kurjcompare ? "table-danger" : "") + "'>" + todesimal(item.kurj || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kurj != item.kurjcompare ? "table-danger" : "") + "'>" + todesimal(item.kurjcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kuri != item.kuricompare ? "table-danger" : "") + "'>" + todesimal(item.kuri || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kuri != item.kuricompare ? "table-danger" : "") + "'>" + todesimal(item.kuricompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.karj != item.karjcompare ? "table-danger" : "") + "'>" + todesimal(item.karj || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.karj != item.karjcompare ? "table-danger" : "") + "'>" + todesimal(item.karjcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kari != item.karicompare ? "table-danger" : "") + "'>" + todesimal(item.kari || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kari != item.karicompare ? "table-danger" : "") + "'>" + todesimal(item.karicompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kbrj != item.kbrjcompare ? "table-danger" : "") + "'>" + todesimal(item.kbrj || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kbrj != item.kbrjcompare ? "table-danger" : "") + "'>" + todesimal(item.kbrjcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kbri != item.kbricompare ? "table-danger" : "") + "'>" + todesimal(item.kbri || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kbri != item.kbricompare ? "table-danger" : "") + "'>" + todesimal(item.kbricompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kmcucash != item.kmcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcucash || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kmcucash != item.kmcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcucashcompare || 0) + "</td>";
+
+                        tablekunjungan += "<td class='text-center " + (item.kmcuinv != item.kmcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcuinv || 0) + "</td>";
+                        tablekunjungan += "<td class='text-center " + (item.kmcuinv != item.kmcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.kmcuinvcompare || 0) + "</td>";
+
+
+                        tablekunjungan += "</tr>";
+        
+                    $("#resultkunjunganrst" + month).append(tablekunjungan);
                 }
             }
         
