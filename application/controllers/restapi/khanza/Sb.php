@@ -12,8 +12,8 @@
             $this->load->model("Modelsb","md");
         }
 
-        public function quickreport_post(){
-            $resultdataquickreport = $this->md->dataquickreport();
+        public function quickreportkunjungan_post(){
+            $resultdataquickreport = $this->md->dataquickreportkunjungan();
 
             if(!empty($resultdataquickreport)){
                 foreach($resultdataquickreport as $a){
@@ -57,7 +57,51 @@
             }
         }
 
-        
+        public function quickreportpendapatan_post(){
+            $resultdataquickreport = $this->md->dataquickreportpendapatan();
+
+            if(!empty($resultdataquickreport)){
+                foreach($resultdataquickreport as $a){
+                    $body['orgid']                  = ORG_ID;
+                    $body['quickreport']['tanggal'] = $a->tgl_registrasi;
+
+                    $body['quickreport']['kunjungan']['rawatjalan'] = [
+                        'umum'      => 0,
+                        'asuransi'  => 0,
+                        'bpjs'      => 0,
+                        'mcu_cash'  => 0,
+                        'mcu_inv'   => 0
+                    ];
+
+                    $body['quickreport']['kunjungan']['rawatinap'] = [
+                        'umum'      => 0,
+                        'asuransi'  => 0,
+                        'bpjs'      => 0
+                    ];
+
+                    $body['quickreport']['pendapatan']['rawatjalan'] = [
+                        'umum'      => (int)$a->umum_rajal,
+                        'asuransi'  => (int)$a->asuransi_rajal,
+                        'bpjs'      => (int)$a->bpjs_rajal,
+                        'mcu_cash'  => (int)$a->total_mcu,
+                        'mcu_inv'   => 0,
+                        'lain'      => 0,
+                        'pob'       => 0
+                    ];
+
+                    $body['quickreport']['pendapatan']['rawatinap'] = [
+                        'umum'      => (int)$a->umum_ranap,
+                        'asuransi'  => (int)$a->asuransi_ranap,
+                        'bpjs'      => (int)$a->bpjs_ranap
+                    ];
+
+
+                    $responsequickreport = Dtech::quickreport(json_encode($body));
+                    $this->response($responsequickreport,200);
+                }
+            }
+        }
+
     }
 
 ?>

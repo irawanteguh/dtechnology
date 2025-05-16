@@ -22,9 +22,10 @@
     $route['executesignsingle/bulk']  = 'restapi/tilaka/Tilakaservicebulk/executesignsingle';
     $route['downloadfilesingle/bulk'] = 'restapi/tilaka/Tilakaservicebulk/downloadfilesingle';
 
-    $route['pegawai']        = 'restapi/khanza/Khanza/pegawai';
-    $route['pasien']         = 'restapi/khanza/Khanza/pasien';
-    $route['addquickreport'] = 'restapi/khanza/Sb/quickreport';
+    $route['pegawai']               = 'restapi/khanza/Khanza/pegawai';
+    $route['pasien']                = 'restapi/khanza/Khanza/pasien';
+    $route['quickreportkunjungan']  = 'restapi/khanza/Sb/quickreportkunjungan';
+    $route['quickreportpendapatan'] = 'restapi/khanza/Sb/quickreportpendapatan';
     
     $route['masterDomisili'] = 'restapi/satusehat/MasterDomisili/domisili';
 
