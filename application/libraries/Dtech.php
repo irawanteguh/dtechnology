@@ -33,8 +33,8 @@
                 ];
 
                 $responsecurl = curl([
-                    // 'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportkunjungan",
-                    'url'     => "localhost/dtech/dtechnology/index.php/addquickreportkunjungan",
+                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportkunjungan",
+                    // 'url'     => "localhost/dtech/dtechnology/index.php/addquickreportkunjungan",
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
@@ -60,8 +60,8 @@
                 ];
 
                 $responsecurl = curl([
-                    // 'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportpendapatan",
-                    'url'     => "localhost/dtech/dtechnology/index.php/addquickreportpendapatan",
+                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportpendapatan",
+                    // 'url'     => "localhost/dtech/dtechnology/index.php/addquickreportpendapatan",
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
