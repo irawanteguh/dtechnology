@@ -14,7 +14,7 @@
 
                         from reg_periksa a
                         where a.stts<>'Batal'
-                        and   a.tgl_registrasi BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
+                        and   a.tgl_registrasi BETWEEN CURDATE() - INTERVAL 140 DAY AND CURDATE()
                         group by tgl_registrasi
                     ";
 
@@ -30,32 +30,50 @@
                             b.tgl_byr, 
                             sum(case when 
                                 (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'bpj' 
-                                and (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan' 
+                                and
+                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan' 
+                                and
+                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
                                 then b.totalbiaya else 0 end) as bpjs_rajal,
                             
                             sum(case when 
                                 (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'a09' 
-                                and (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan' 
+                                and
+                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan'
+                                and
+                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
                                 then b.totalbiaya else 0 end) as umum_rajal,
                             
                             sum(case when 
                                 (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) not in ('bpj', 'a09') 
-                                and (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan' 
+                                and
+                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan'
+                                and
+                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal'  
                                 then b.totalbiaya else 0 end) as asuransi_rajal,
                             
                             sum(case when 
                                 (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'bpj' 
-                                and (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
+                                and
+                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
+                                and
+                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
                                 then b.totalbiaya else 0 end) as bpjs_ranap,
                             
                             sum(case when 
                                 (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'a09' 
-                                and (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
+                                and
+                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
+                                and
+                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
                                 then b.totalbiaya else 0 end) as umum_ranap,
                             
                             sum(case when 
                                 (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) not in ('bpj', 'a09') 
-                                and (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
+                                and
+                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
+                                and
+                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
                                 then b.totalbiaya else 0 end) as asuransi_ranap,
                             
                             (select sum(x.totalbiaya) 
@@ -63,7 +81,8 @@
                             where x.tgl_byr = b.tgl_byr) as total_mcu
 
                         from sikms.billing b
-                        where b.tgl_byr between curdate() - interval 30 day and curdate()
+                        where b.tgl_byr between curdate() - interval 140 day and curdate()
+                        and   b.no_rawat=(select no_rawat from reg_periksa where stts<>'Batal' and no_rawat=b.no_rawat)
                         group by b.tgl_byr
                         order by b.tgl_byr;
 

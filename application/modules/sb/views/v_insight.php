@@ -321,14 +321,12 @@
                                                             <th colspan="2">Ranap</th>
                                                             <th colspan="2">Rajal</th>
                                                             <th colspan="2">Ranap</th>
-                                                            <th colspan="2">Cash</th>
-                                                            <th colspan="2">Invoice</th>
+                                                            <th rowspan="2">Cash</th>
+                                                            <th rowspan="2">Invoice</th>
+                                                            <th rowspan="2">Total</th>
+                                                            <th rowspan="2">Sistem</th>
                                                         </tr>
                                                         <tr class="fw-bolder text-muted bg-light align-middle">
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
                                                             <th>Manual</th>
                                                             <th>Sistem</th>
                                                             <th>Manual</th>

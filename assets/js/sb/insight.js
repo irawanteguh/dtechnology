@@ -653,11 +653,16 @@ function databulanrsms(){
                         tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bri || 0) + "</td>";
                         tablependapatan += "<td class='text-center " + (item.bri != item.bricompare ? "table-danger" : "") + "'>" + todesimal(item.bricompare || 0) + "</td>";
 
-                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucash || 0) + "</td>";
-                        tablependapatan += "<td class='text-center " + (item.mcucash != item.mcucashcompare ? "table-danger" : "") + "'>" + todesimal(item.mcucashcompare || 0) + "</td>";
+                        const mcucash = parseFloat(item.mcucash) || 0;
+                        const mcuinv = parseFloat(item.mcuinv) || 0;
+                        const mcutotal = mcucash + mcuinv;
+                        const mcuinvcompare = parseFloat(item.mcuinvcompare) || 0;
+                        const isMismatch = mcutotal !== mcuinvcompare;
 
-                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinv || 0) + "</td>";
-                        tablependapatan += "<td class='text-center " + (item.mcuinv != item.mcuinvcompare ? "table-danger" : "") + "'>" + todesimal(item.mcuinvcompare || 0) + "</td>";
+                        tablependapatan += "<td class='text-center'>" + todesimal(mcucash) + "</td>";
+                        tablependapatan += "<td class='text-center'>" + todesimal(mcuinv) + "</td>";
+                        tablependapatan += "<td class='text-center'>" + todesimal(mcutotal) + "</td>";
+                        tablependapatan += "<td class='text-center " + (isMismatch ? "table-danger" : "") + "'>" + todesimal(mcuinvcompare) + "</td>";
 
                         tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pob || 0) + "</td>";
                         tablependapatan += "<td class='text-center " + (item.pob != item.pobcompare ? "table-danger" : "") + "'>" + todesimal(item.pobcompare || 0) + "</td>";
