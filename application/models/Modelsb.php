@@ -14,7 +14,7 @@
 
                         from reg_periksa a
                         where a.stts<>'Batal'
-                        and   a.tgl_registrasi BETWEEN CURDATE() - INTERVAL 200 DAY AND CURDATE()
+                        and   a.tgl_registrasi BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
                         group by tgl_registrasi
                     ";
 
@@ -63,7 +63,7 @@
                             where x.tgl_byr = b.tgl_byr) as total_mcu
 
                         from sikms.billing b
-                        where b.tgl_byr between curdate() - interval 200 day and curdate()
+                        where b.tgl_byr between curdate() - interval 30 day and curdate()
                         group by b.tgl_byr
                         order by b.tgl_byr;
 
