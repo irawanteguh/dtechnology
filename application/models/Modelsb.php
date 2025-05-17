@@ -26,65 +26,150 @@
         function dataquickreportpendapatan(){
             $query =
                     "
-                        select 
+                        SELECT 
                             b.tgl_byr, 
-                            sum(case when 
-                                (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'bpj' 
-                                and
-                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan' 
-                                and
-                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
-                                then b.totalbiaya else 0 end) as bpjs_rajal,
-                            
-                            sum(case when 
-                                (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'a09' 
-                                and
-                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan'
-                                and
-                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
-                                then b.totalbiaya else 0 end) as umum_rajal,
-                            
-                            sum(case when 
-                                (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) not in ('bpj', 'a09') 
-                                and
-                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ralan'
-                                and
-                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal'  
-                                then b.totalbiaya else 0 end) as asuransi_rajal,
-                            
-                            sum(case when 
-                                (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'bpj' 
-                                and
-                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
-                                and
-                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
-                                then b.totalbiaya else 0 end) as bpjs_ranap,
-                            
-                            sum(case when 
-                                (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'a09' 
-                                and
-                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
-                                and
-                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
-                                then b.totalbiaya else 0 end) as umum_ranap,
-                            
-                            sum(case when 
-                                (select r.kd_pj from sikms.reg_periksa r where r.no_rawat = b.no_rawat) not in ('bpj', 'a09') 
-                                and
-                                (select r.status_lanjut from sikms.reg_periksa r where r.no_rawat = b.no_rawat) = 'ranap' 
-                                and
-                                (select r.stts from sikms.reg_periksa r where r.no_rawat = b.no_rawat) <> 'Batal' 
-                                then b.totalbiaya else 0 end) as asuransi_ranap,
-                            
-                            (select sum(x.totalbiaya) 
-                            from sikmcu.billing x 
-                            where x.tgl_byr = b.tgl_byr) as total_mcu
+                            (
+                            SUM(CASE WHEN 
+                                (SELECT r.kd_pj FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'bpj' 
+                                AND (SELECT r.status_lanjut FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'ralan' 
+                                AND (SELECT r.stts FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) <> 'Batal' 
+                                THEN b.totalbiaya ELSE 0 END) 
+                            -
+                            IFNULL((
+                                SELECT SUM(pp.uangmuka)
+                                FROM piutang_pasien pp
+                                WHERE pp.tgl_piutang = b.tgl_byr
+                                AND pp.no_rawat IN (
+                                    SELECT r2.no_rawat FROM reg_periksa r2
+                                    WHERE r2.status_lanjut = 'ralan'
+                                    AND r2.kd_pj = 'bpj'
+                                    AND r2.stts <> 'Batal'
+                                )
+                            ),0)
+                            )AS bpjs_rajal,
 
-                        from sikms.billing b
-                        where b.tgl_byr between curdate() - interval 140 day and curdate()
-                        and   b.no_rawat=(select no_rawat from reg_periksa where stts<>'Batal' and no_rawat=b.no_rawat)
-                        group by b.tgl_byr
-                        order by b.tgl_byr;
+                            (
+                                SUM(CASE WHEN 
+                                (SELECT r.kd_pj FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'a09' 
+                                AND (SELECT r.status_lanjut FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'ralan'
+                                AND (SELECT r.stts FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) <> 'Batal' 
+                                THEN b.totalbiaya ELSE 0 END)
+                            +
+                            IFNULL((
+                                SELECT SUM(pp.uangmuka)
+                                FROM piutang_pasien pp
+                                WHERE pp.tgl_piutang = b.tgl_byr
+                                AND pp.no_rawat IN (
+                                    SELECT r2.no_rawat FROM reg_periksa r2
+                                    WHERE r2.status_lanjut = 'ralan'
+                                    AND r2.stts <> 'Batal'
+                                )
+                            ),0)
+                        ) AS umum_rajal,
+
+
+                            (
+                            SUM(CASE WHEN 
+                                (SELECT r.kd_pj FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) NOT IN ('bpj', 'a09') 
+                                AND (SELECT r.status_lanjut FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'ralan'
+                                AND (SELECT r.stts FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) <> 'Batal'  
+                                THEN b.totalbiaya ELSE 0 END) 
+                            -
+                            IFNULL((
+                                SELECT SUM(pp.uangmuka)
+                                FROM piutang_pasien pp
+                                WHERE pp.tgl_piutang = b.tgl_byr
+                                AND pp.no_rawat IN (
+                                    SELECT r2.no_rawat FROM reg_periksa r2
+                                    WHERE r2.status_lanjut = 'ralan'
+                                    AND r2.stts <> 'Batal'
+                                    AND r2.kd_pj NOT IN ('bpj', 'a09')
+                                )
+                            ),0)
+                            )AS asuransi_rajal,
+
+                            
+                            (
+                            SUM(CASE WHEN 
+                                (SELECT r.kd_pj FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'bpj' 
+                                AND (SELECT r.status_lanjut FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'ranap' 
+                                AND (SELECT r.stts FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) <> 'Batal' 
+                                THEN b.totalbiaya ELSE 0 END) 
+                            -
+                            IFNULL((
+                                SELECT SUM(pp.uangmuka)
+                                FROM piutang_pasien pp
+                                WHERE pp.tgl_piutang = b.tgl_byr
+                                AND pp.no_rawat IN (
+                                    SELECT r2.no_rawat FROM reg_periksa r2
+                                    WHERE r2.status_lanjut = 'ranap'
+                                    AND r2.stts <> 'Batal'
+                                    AND r2.kd_pj = 'bpj'
+                                )
+                            ),0)
+                            )AS bpjs_ranap,
+
+                            (
+                            SUM(CASE WHEN 
+                                (SELECT r.kd_pj FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'a09' 
+                                AND (SELECT r.status_lanjut FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'ranap' 
+                                AND (SELECT r.stts FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) <> 'Batal' 
+                                THEN b.totalbiaya ELSE 0 END) 
+                            +
+                            IFNULL((
+                                SELECT SUM(pp.uangmuka)
+                                FROM piutang_pasien pp
+                                WHERE pp.tgl_piutang = b.tgl_byr
+                                AND pp.no_rawat IN (
+                                    SELECT r2.no_rawat FROM reg_periksa r2
+                                    WHERE r2.status_lanjut = 'ranap'
+                                    AND r2.stts <> 'Batal'
+                                )
+                            ),0)
+                        ) AS umum_ranap,
+
+
+                            (
+                            SUM(CASE WHEN 
+                                (SELECT r.kd_pj FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) NOT IN ('bpj', 'a09') 
+                                AND (SELECT r.status_lanjut FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) = 'ranap' 
+                                AND (SELECT r.stts FROM sikms.reg_periksa r WHERE r.no_rawat = b.no_rawat) <> 'Batal' 
+                                THEN b.totalbiaya ELSE 0 END)
+                            -
+                            IFNULL((
+                                SELECT SUM(pp.uangmuka)
+                                FROM piutang_pasien pp
+                                WHERE pp.tgl_piutang = b.tgl_byr
+                                AND pp.no_rawat IN (
+                                    SELECT r2.no_rawat FROM reg_periksa r2
+                                    WHERE r2.status_lanjut = 'ranap'
+                                    AND r2.stts <> 'Batal'
+                                    AND r2.kd_pj NOT IN ('bpj', 'a09')
+                                )
+                            ),0)
+                        ) AS asuransi_ranap,
+
+                        IFNULL(
+                            (SELECT SUM(x.totalbiaya) 
+                            FROM sikmcu.billing X 
+                            WHERE x.tgl_byr = b.tgl_byr), 0
+                            ) AS total_mcu,
+                            
+
+                        CEIL(
+                        IFNULL(
+                            (SELECT SUM(ts.jumlah_bayar)
+                            FROM tagihan_sadewa ts
+                            WHERE ts.nama_pasien = 'PEMBELIAN OBAT BEBAS (POB)'
+                            AND DATE(ts.tgl_bayar) = b.tgl_byr
+                            ), 0 )) AS pob
+                            
+                            
+                        FROM sikms.billing b
+                        WHERE b.tgl_byr BETWEEN CURDATE() - INTERVAL 140 DAY AND CURDATE()
+                        AND b.no_rawat = (SELECT no_rawat FROM reg_periksa WHERE stts <> 'Batal' AND no_rawat = b.no_rawat)
+                        GROUP BY b.tgl_byr
+                        ORDER BY b.tgl_byr;
 
                     ";
 
