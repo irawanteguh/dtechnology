@@ -213,6 +213,7 @@
                                                     <th class="bg-danger text-white" colspan="4">MCU</th>
                                                     <th class="bg-warning text-white" colspan="2">POB</th>
                                                     <th class="bg-secondary rounded-end" colspan="2">Lain-lain</th>
+                                                    <th class="bg-dark rounded-end text-white" colspan="2">Total</th>
                                                 </tr>
                                                 <tr class="fw-bolder align-middle">
                                                     <th class="bg-success text-white" colspan="2">Rajal</th>
@@ -228,7 +229,9 @@
                                                     <th class="bg-warning text-white" rowspan="2">Manual</th>
                                                     <th class="bg-warning text-white" rowspan="2">Sistem</th>
                                                     <th class="bg-secondary" rowspan="2">Manual</th>
-                                                    <th class="bg-secondary rounded-end" rowspan="2">Sistem</th>
+                                                    <th class="bg-secondary" rowspan="2">Sistem</th>
+                                                    <th class="bg-dark text-white" rowspan="2">Manual</th>
+                                                    <th class="bg-dark rounded-end text-white" rowspan="2">Sistem</th>
                                                 </tr>
                                                 <tr class="fw-bolder align-middle text-white">
                                                     <th class="bg-success">Manual</th>

@@ -297,6 +297,18 @@ function dataharian() {
 
                     if (!rsCode) continue;
 
+                    const totalRowNow = [
+                        row.u_rj, row.u_ri, row.a_rj, row.a_ri,
+                        row.b_rj, row.b_ri, row.mcu_cash, row.mcu_inv,
+                        row.pob, row.lain
+                    ].reduce((sum, val) => sum + parseFloat(val || 0), 0);
+                    
+                    const totalRowCompare = [
+                        row.u_rj_compare, row.u_ri_compare, row.a_rj_compare, row.a_ri_compare,
+                        row.b_rj_compare, row.b_ri_compare, row.mcu_inv_compare, row.pob_compare,
+                        row.lain_compare
+                    ].reduce((sum, val) => sum + parseFloat(val || 0), 0);
+
                     let htmlRS = `
                         <tr>
                             <td class="ps-4">${new Date(date).toLocaleDateString('id-ID', { weekday: 'long' })}</td>
@@ -335,6 +347,10 @@ function dataharian() {
 
                             <td class='text-end ${parseFloat(row.lain) !== parseFloat(row.lain_compare) ? "table-danger" : ""}'>${todesimal(row.lain)}</td>
                             <td class='text-end ${parseFloat(row.lain) !== parseFloat(row.lain_compare) ? "table-danger" : ""}'>${todesimal(row.lain_compare)}</td>
+
+                            <td class='text-end ${totalRowNow !== totalRowCompare ? "table-danger" : ""}'>${todesimal(totalRowNow)}</td>
+                            <td class='text-end ${totalRowNow !== totalRowCompare ? "table-danger" : ""}'>${todesimal(totalRowCompare)}</td>
+
                         </tr>
                     `;
 
@@ -381,6 +397,19 @@ function dataharian() {
                             let g = groupRMB[key][t];
                             let hari = new Date(g.date).toLocaleDateString('id-ID', { weekday: 'long' });
 
+                            const totalRowNow = [
+                                g.u_rj, g.u_ri, g.a_rj, g.a_ri,
+                                g.b_rj, g.b_ri, g.mcu_cash, g.mcu_inv,
+                                g.pob, g.lain
+                            ].reduce((sum, val) => sum + parseFloat(val || 0), 0);
+                            
+                            const totalRowCompare = [
+                                g.u_rj_compare, g.u_ri_compare, g.a_rj_compare, g.a_ri_compare,
+                                g.b_rj_compare, g.b_ri_compare, g.mcu_inv_compare, g.pob_compare,
+                                g.lain_compare
+                            ].reduce((sum, val) => sum + parseFloat(val || 0), 0);
+
+                            
                             let html = `
                                 <tr>
                                     <td class="ps-4">${hari}</td>
@@ -401,23 +430,30 @@ function dataharian() {
                                     <td class="text-end ${g.b_rj !== g.b_rj_compare ? "table-danger" : ""}">${todesimal(g.b_rj)}</td>
                                     <td class="text-end ${g.b_rj !== g.b_rj_compare ? "table-danger" : ""}">${todesimal(g.b_rj_compare)}</td>
 
+                                    <td class="text-end">${todesimal(g.claimbpjsrj)}</td>
+
                                     <td class="text-end ${g.b_ri !== g.b_ri_compare ? "table-danger" : ""}">${todesimal(g.b_ri)}</td>
                                     <td class="text-end ${g.b_ri !== g.b_ri_compare ? "table-danger" : ""}">${todesimal(g.b_ri_compare)}</td>
 
+                                    <td class="text-end">${todesimal(g.claimbpjsri)}</td>
+
                                     <td class="text-end">${todesimal(g.mcu_cash)}</td>
                                     <td class="text-end">${todesimal(g.mcu_inv)}</td>
+                                    <td class="text-end">${todesimal(g.mcu_cash + g.mcu_inv)}</td>
 
-                                    <td class="text-end ${g.mcu_cash + g.mcu_inv !== g.mcu_inv_compare ? "table-danger" : ""}">
-                                        ${todesimal(g.mcu_inv_compare)}
-                                    </td>
+                                    <td class="text-end ${(g.mcu_cash + g.mcu_inv) !== g.mcu_inv_compare ? "table-danger" : ""}">${todesimal(g.mcu_inv_compare)}</td>
 
                                     <td class="text-end ${g.pob !== g.pob_compare ? "table-danger" : ""}">${todesimal(g.pob)}</td>
                                     <td class="text-end ${g.pob !== g.pob_compare ? "table-danger" : ""}">${todesimal(g.pob_compare)}</td>
 
                                     <td class="text-end ${g.lain !== g.lain_compare ? "table-danger" : ""}">${todesimal(g.lain)}</td>
                                     <td class="text-end ${g.lain !== g.lain_compare ? "table-danger" : ""}">${todesimal(g.lain_compare)}</td>
+
+                                    <td class="text-end ${totalRowNow !== totalRowCompare ? "table-danger" : ""}">${todesimal(totalRowNow)}</td>
+                                    <td class="text-end ${totalRowNow !== totalRowCompare ? "table-danger" : ""}">${todesimal(totalRowCompare)}</td>
                                 </tr>
-                            `;
+                                `;
+
                             rows.push(html);
                         }
                         $("#resultpendapatanrmb" + key).html(rows.join(""));
