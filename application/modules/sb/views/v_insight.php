@@ -1,12 +1,12 @@
 <?php
     function renderHospitalCard($nama, $bg, $idprefix, $totalid, $cardlabel) {
         $jenis = [
-            'Umum'      => ['id' => 'umumlastday', 'icon' => 'bi-cash-stack', 'text' => 'text-success', 'bg' => 'bg-light-success'],
-            'Asuransi'  => ['id' => 'asuransilastday', 'icon' => 'bi-file-medical', 'text' => 'text-primary', 'bg' => 'bg-light-primary'],
-            'BPJS'      => ['id' => 'bpjslastday', 'icon' => 'bi-person-badge', 'text' => 'text-info', 'bg' => 'bg-light-info'],
-            'MCU'       => ['id' => 'mculastday', 'icon' => 'bi-heart-pulse', 'text' => 'text-danger', 'bg' => 'bg-light-danger'],
-            'Obat'      => ['id' => 'obatlastday', 'icon' => 'bi-capsule', 'text' => 'text-warning', 'bg' => 'bg-light-warning'],
-            'Lain-lain' => ['id' => 'lainlastday', 'icon' => 'bi-box', 'text' => 'text-dark', 'bg' => 'bg-light']
+            'Umum'      => ['id' => 'umum', 'icon' => 'bi-cash-stack', 'text' => 'text-success', 'bg' => 'bg-light-success'],
+            'Asuransi'  => ['id' => 'asuransi', 'icon' => 'bi-file-medical', 'text' => 'text-primary', 'bg' => 'bg-light-primary'],
+            'BPJS'      => ['id' => 'bpjs', 'icon' => 'bi-person-badge', 'text' => 'text-info', 'bg' => 'bg-light-info'],
+            'MCU'       => ['id' => 'mcu', 'icon' => 'bi-heart-pulse', 'text' => 'text-danger', 'bg' => 'bg-light-danger'],
+            'Obat'      => ['id' => 'obat', 'icon' => 'bi-capsule', 'text' => 'text-warning', 'bg' => 'bg-light-warning'],
+            'Lain-lain' => ['id' => 'lain', 'icon' => 'bi-box', 'text' => 'text-dark', 'bg' => 'bg-light']
         ];
         ?>
         <div class="col-xl-3 animate__animated animate__fadeIn">
@@ -19,7 +19,7 @@
                         </div>
                         <div class="d-flex text-center flex-column text-white pt-5">
                             <span class="fw-bold fs-5">You Balance</span>
-                            <span class="fw-bolder fs-2x pt-1" id="<?php echo $totalid; ?>">NaN</span>
+                            <span class="fw-bolder fs-2x pt-1" id="<?php echo $totalid.$idprefix.$cardlabel; ?>">NaN</span>
                         </div>
                     </div>
                     <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-4 py-4 position-relative z-index-1" style="margin-top: -140px">
@@ -35,7 +35,7 @@
                                         <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="fw-bolder fs-7 text-gray-800 pe-1" id="<?php echo $idprefix . $item['id']; ?>">NaN</div>
+                                        <div class="fw-bolder fs-7 text-gray-800 pe-1" id="<?php echo $idprefix.$item['id'].$cardlabel; ?>">NaN</div>
                                     </div>
                                 </div>
                             </div>
@@ -83,10 +83,10 @@
                 <div id="tabtoday" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="tab_today">
                     <div class="d-flex flex-wrap flex-sm-nowrap mb-3 row">
                         <?php
-                            renderHospitalCard("RMB Hospital Group", "bg-danger", "rmb", "totalrmblastday","lastdate");
-                            renderHospitalCard("RSU Mutiasari", "bg-info", "rsms", "totalrsmslastday","lastdate");
-                            renderHospitalCard("RSIA Budhi Mulia", "bg-primary", "rsia", "totalrsialastday","lastdate");
-                            renderHospitalCard("RS Thursina", "bg-success", "rst", "totalrstlastday","lastdate");
+                            renderHospitalCard("RMB Hospital Group", "bg-danger", "rmb", "total","lastdate");
+                            renderHospitalCard("RSU Mutiasari", "bg-info", "rsms", "total","lastdate");
+                            renderHospitalCard("RSIA Budhi Mulia", "bg-primary", "rsia", "total","lastdate");
+                            renderHospitalCard("RS Thursina", "bg-success", "rst", "total","lastdate");
                         ?>
                     </div>
                     <div class="d-flex overflow-auto h-55px">
@@ -109,10 +109,10 @@
                 <div id="tabmonth" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_month">
                     <div class="d-flex flex-wrap flex-sm-nowrap mb-3 row">
                         <?php
-                            renderHospitalCard("RMB Hospital Group", "bg-danger", "rmb", "totalrmbmonth","lastmonth");
-                            renderHospitalCard("RSU Mutiasari", "bg-info", "rsms", "totalrsmsmonth","lastmonth");
-                            renderHospitalCard("RSIA Budhi Mulia", "bg-primary", "rsia", "totalrsiamonth","lastmonth");
-                            renderHospitalCard("RS Thursina", "bg-success", "rst", "totalrstmonth","lastmonth");
+                            renderHospitalCard("RMB Hospital Group", "bg-danger", "rmb", "total","month");
+                            renderHospitalCard("RSU Mutiasari", "bg-info", "rsms", "total","month");
+                            renderHospitalCard("RSIA Budhi Mulia", "bg-primary", "rsia", "total","month");
+                            renderHospitalCard("RS Thursina", "bg-success", "rst", "total","month");
                         ?>
                     </div>
                     <div class="d-flex overflow-auto h-55px">
@@ -135,10 +135,10 @@
                 <div id="tabyears" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_years">
                     <div class="d-flex flex-wrap flex-sm-nowrap mb-3 row">
                         <?php
-                            renderHospitalCard("RMB Hospital Group", "bg-danger", "rmb", "totalrmbyears","lastyears");
-                            renderHospitalCard("RSU Mutiasari", "bg-info", "rsms", "totalrsmsyears","lastyears");
-                            renderHospitalCard("RSIA Budhi Mulia", "bg-primary", "rsia", "totalrsiayears","lastyears");
-                            renderHospitalCard("RS Thursina", "bg-success", "rst", "totalrstyears","lastyears");
+                            renderHospitalCard("RMB Hospital Group", "bg-danger", "rmb", "total","years");
+                            renderHospitalCard("RSU Mutiasari", "bg-info", "rsms", "total","years");
+                            renderHospitalCard("RSIA Budhi Mulia", "bg-primary", "rsia", "total","years");
+                            renderHospitalCard("RS Thursina", "bg-success", "rst", "total","years");
                         ?>
                     </div>
                     <div class="d-flex overflow-auto h-55px">
