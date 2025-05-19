@@ -1,12 +1,21 @@
+
 <div class="row gy-5 g-xl-8 mb-xl-8">
-<h2>Upload File TXT</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="txt_file" class="form-label fw-bold">Upload File Claim</label>
+            <div class="input-group">
+                <!-- Input File -->
+                <input type="file" class="form-control" name="txt_file" id="txt_file" accept=".txt" required>
 
-<form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="txt_file" id="txt_file" accept=".txt" required>
-    <button type="submit">Upload</button>
-</form>
+                <!-- Tombol Gabungan -->
+                <button class="btn btn-primary btn-sm" type="submit" id="actionBtn">
+                    <i class="bi bi-upload"></i> Upload
+                </button>
+            </div>
+        </div>
+    </form>
 
-    <hr>
+    <div class="border-dashed border-3 border-primary"></div>
 
     <div class="card card card-flush h-100">
         <div class="card-header">

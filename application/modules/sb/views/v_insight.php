@@ -304,45 +304,47 @@
                                             <div class="table-responsive">
                                                 <table class="table align-middle table-row-dashed fs-8 gy-2">
                                                     <thead class="text-center">
-                                                        <tr class="fw-bolder text-muted bg-light align-middle">
-                                                            <th rowspan="3" class="ps-4 rounded-start">Days</th>
-                                                            <th rowspan="3">Date</th>
-                                                            <th colspan="4">Umum</th>
-                                                            <th colspan="4">Asuransi</th>
-                                                            <th colspan="4">BPJS</th>
-                                                            <th colspan="4">MCU</th>
-                                                            <th rowspan="2" colspan="2">POB</th>
-                                                            <th rowspan="2" colspan="2"  class="rounded-end">Lain-lain</th>
+                                                        <tr class="fw-bolder text-white align-middle">
+                                                            <th class="bg-dark ps-4 rounded-start" rowspan="3">Days</th>
+                                                            <th class="bg-dark" rowspan="3">Date</th>
+                                                            <th class="bg-primary" colspan="4">Umum</th>
+                                                            <th class="bg-info" colspan="4">Asuransi</th>
+                                                            <th class="bg-success" colspan="6">BPJS</th>
+                                                            <th class="bg-warning" colspan="4">MCU</th>
+                                                            <th class="bg-danger" colspan="2">POB</th>
+                                                            <th class="bg-primary rounded-end" colspan="2">Lain-lain</th>
                                                         </tr>
-                                                        <tr class="fw-bolder text-muted bg-light align-middle">
-                                                            <th colspan="2">Rajal</th>
-                                                            <th colspan="2">Ranap</th>
-                                                            <th colspan="2">Rajal</th>
-                                                            <th colspan="2">Ranap</th>
-                                                            <th colspan="2">Rajal</th>
-                                                            <th colspan="2">Ranap</th>
-                                                            <th rowspan="2">Cash</th>
-                                                            <th rowspan="2">Invoice</th>
-                                                            <th rowspan="2">Total</th>
-                                                            <th rowspan="2">Sistem</th>
+                                                        <tr class="fw-bolder text-white align-middle">
+                                                            <th class="bg-primary" colspan="2">Rajal</th>
+                                                            <th class="bg-primary" colspan="2">Ranap</th>
+                                                            <th class="bg-info" colspan="2">Rajal</th>
+                                                            <th class="bg-info" colspan="2">Ranap</th>
+                                                            <th class="bg-success" colspan="3">Rajal</th>
+                                                            <th class="bg-success" colspan="3">Ranap</th>
+                                                            <th class="bg-warning" rowspan="2">Cash</th>
+                                                            <th class="bg-warning" rowspan="2">Invoice</th>
+                                                            <th class="bg-warning" rowspan="2">Total</th>
+                                                            <th class="bg-warning" rowspan="2">Sistem</th>
+                                                            <th class="bg-danger" rowspan="2">Manual</th>
+                                                            <th class="bg-danger" rowspan="2">Sistem</th>
+                                                            <th class="bg-primary" rowspan="2">Manual</th>
+                                                            <th class="bg-primary rounded-end" rowspan="2">Sistem</th>
                                                         </tr>
-                                                        <tr class="fw-bolder text-muted bg-light align-middle">
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th>Sistem</th>
-                                                            <th>Manual</th>
-                                                            <th class="rounded-end">Sistem</th>
+                                                        <tr class="fw-bolder text-white align-middle">
+                                                            <th class="bg-primary">Manual</th>
+                                                            <th class="bg-primary">Sistem</th>
+                                                            <th class="bg-primary">Manual</th>
+                                                            <th class="bg-primary">Sistem</th>
+                                                            <th class="bg-info">Manual</th>
+                                                            <th class="bg-info">Sistem</th>
+                                                            <th class="bg-info">Manual</th>
+                                                            <th class="bg-info">Sistem</th>
+                                                            <th class="bg-success">Manual</th>
+                                                            <th class="bg-success">Sistem</th>
+                                                            <th class="bg-success">InaCBG</th>
+                                                            <th class="bg-success">Manual</th>
+                                                            <th class="bg-success">Sistem</th>
+                                                            <th class="bg-success">InaCBG</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="text-gray-600 fw-bold" id="resultpendapatanrsms<?php echo $kode; ?>"></tbody>
