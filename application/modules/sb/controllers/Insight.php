@@ -6,7 +6,6 @@
             parent:: __construct();
 			rootsystem::system();
             $this->load->model("Modelinsight","md");
-            $this->load->model("Modelsb","ms");
         }
 
 		public function index(){
@@ -27,63 +26,9 @@
             return $data;
 		}
 
-        public function datainsight(){
+        public function dataharian(){
             $tahun = $this->input->post("periode");
-            $result = $this->md->datainsight($tahun);
-            
-			if(!empty($result)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Successfully Found";
-                $json['responResult']=$result;
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Data Failed to Find";
-            }
-
-            echo json_encode($json);
-        }
-
-        public function databulanrsms(){
-			$tahun = $this->input->post("periode");
-            $result = $this->ms->databulan($tahun,"10c84edd-500b-49e3-93a5-a2c8cd2c8524");
-            
-			if(!empty($result)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Successfully Found";
-                $json['responResult']=$result;
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Data Failed to Find";
-            }
-
-            echo json_encode($json);
-        }
-
-        public function databulanrsia(){
-			$tahun = $this->input->post("periode");
-            $result = $this->ms->databulan($tahun,"d5e63fbc-01ec-4ba8-90b8-fb623438b99d");
-            
-			if(!empty($result)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Successfully Found";
-                $json['responResult']=$result;
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Data Failed to Find";
-            }
-
-            echo json_encode($json);
-        }
-
-        public function databulanrst(){
-			$tahun = $this->input->post("periode");
-            $result = $this->ms->databulan($tahun,"a4633f72-4d67-4f65-a050-9f6240704151");
+            $result = $this->md->dataharian($tahun);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
