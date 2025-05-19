@@ -9,33 +9,33 @@
             'Lain-lain' => ['id' => 'lain', 'icon' => 'bi-box', 'text' => 'text-dark', 'bg' => 'bg-light']
         ];
         ?>
-        <div class="col-md-6 col-xl-3 animate__animated animate__fadeIn">
+        <div class="col-3 animate__animated animate__fadeIn">
             <div class="card card-flush h-100 shadow-sm">
                 <div class="card-body p-0">
-                    <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bg; ?>">
+                    <div class="px-6 pt-6 card-rounded h-275px w-100 <?php echo $bg; ?>">
                         <div class="d-flex flex-stack">
-                            <h3 class="m-0 text-white fw-bolder fs-5"><?php echo $nama; ?></h3>
-                            <h3 class="m-0 text-white fw-bolder fs-5" id="<?php echo $cardlabel.$idprefix; ?>"></h3>
+                            <h3 class="m-0 text-white fw-bold fs-6"><?php echo $nama; ?></h3>
+                            <h3 class="m-0 text-white fw-bold fs-6" id="<?php echo $cardlabel.$idprefix; ?>"></h3>
                         </div>
-                        <div class="d-flex text-center flex-column text-white pt-5">
-                            <span class="fw-bold fs-5">You Balance</span>
-                            <span class="fw-bolder fs-2x pt-1" id="<?php echo $totalid.$idprefix.$cardlabel; ?>">NaN</span>
+                        <div class="d-flex text-center flex-column text-white pt-4">
+                            <span class="fw-semibold fs-7">Your Balance</span>
+                            <span class="fw-bolder fs-4 pt-1" id="<?php echo $totalid.$idprefix.$cardlabel; ?>">NaN</span>
                         </div>
                     </div>
-                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-4 py-4 position-relative z-index-1" style="margin-top: -140px">
+                    <div class="bg-body shadow-sm card-rounded mx-6 mb-6 px-3 py-3 position-relative z-index-1" style="margin-top: -140px">
                         <?php foreach ($jenis as $label => $item): ?>
                             <div class="d-flex align-items-center mb-2">
-                                <div class="symbol symbol-45px w-40px me-5">
+                                <div class="symbol symbol-35px w-35px me-3">
                                     <span class="symbol-label <?php echo $item['bg']; ?>">
-                                        <i class="bi <?php echo $item['icon']; ?> fa-2x <?php echo $item['text']; ?>"></i>
+                                        <i class="bi <?php echo $item['icon']; ?> fs-5 <?php echo $item['text']; ?>"></i>
                                     </span>
                                 </div>
                                 <div class="d-flex align-items-center flex-wrap w-100">
-                                    <div class="mb-1 pe-3 flex-grow-1">
-                                        <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
+                                    <div class="mb-1 pe-2 flex-grow-1">
+                                        <a href="#" class="fs-8 text-gray-800 text-hover-primary fw-semibold"><?php echo $label; ?></a>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="fw-bolder fs-7 text-gray-800 pe-1" id="<?php echo $idprefix.$item['id'].$cardlabel; ?>">NaN</div>
+                                        <div class="fw-semibold fs-8 text-gray-800 pe-1" id="<?php echo $idprefix.$item['id'].$cardlabel; ?>">NaN</div>
                                     </div>
                                 </div>
                             </div>
