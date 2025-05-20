@@ -5,13 +5,30 @@
 		public function __construct(){
             parent:: __construct();
 			rootsystem::system();
-            // $this->load->model("Modelinsight","md");
+            $this->load->model("Modelinsight","md");
         }
 
 		public function index(){
 			$this->template->load("template/template-sidebar","v_insight");
 		}
 
+		public function datainsight(){
+            $parameter = "and date(date)='".$this->input->post("startDate")."'";
+            $result = $this->md->datainsight($parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
 
 
 	}
