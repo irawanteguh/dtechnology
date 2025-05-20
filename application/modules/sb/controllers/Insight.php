@@ -9,11 +9,42 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_insight");
+			$data = $this->loadcombobox();
+			$this->template->load("template/template-sidebar","v_insight",$data);
 		}
 
-		public function datainsight(){
+		public function loadcombobox(){
+            $resultperiode = $this->md->periode();
+
+            $periode="";
+            foreach($resultperiode as $a ){
+                $periode.="<option value='".$a->periode."'>".$a->periode."</option>";
+            }
+
+            $data['periode'] = $periode;
+            return $data;
+		}
+
+		public function dataharian(){
             $parameter = "and date(date)='".$this->input->post("startDate")."'";
+            $result = $this->md->datainsight($parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+		public function datatahunan(){
+            $parameter = "and date_format(date,'%Y')='".$this->input->post("startDate")."'";
             $result = $this->md->datainsight($parameter);
             
 			if(!empty($result)){

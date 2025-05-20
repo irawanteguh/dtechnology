@@ -65,6 +65,7 @@
                     <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?>">
                         <div class="d-flex flex-stack">
                             <h3 class="m-0 text-white fw-bolder fs-5"><?php echo $orgname; ?></h3>
+                            <h3 class="m-0 text-white fw-bolder fs-5" id="<?php echo $orgid.$tabid;?>pengeluaranlabel"></h3>
                         </div>
                         <div class="d-flex text-center flex-column text-white pt-5">
                             <span class="fw-bold fs-5">Pengeluaran</span>
@@ -109,6 +110,7 @@
                     <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?>">
                         <div class="d-flex flex-stack">
                             <h3 class="m-0 text-white fw-bolder fs-5"><?php echo $orgname; ?></h3>
+                            <h3 class="m-0 text-white fw-bolder fs-5" id="<?php echo $orgid.$tabid;?>selisihlabel"></h3>
                         </div>
                         <div class="d-flex text-center flex-column text-white pt-5">
                             <span class="fw-bold fs-5">Saldo Akhir</span>
@@ -183,7 +185,7 @@
             <div class="d-flex justify-content-end">
                 <div class="d-flex flex-wrap my-2">
                     <div class="d-flex align-items-center my-2">
-                        <label for="dateperiode" class="form-label fw-bold me-3 mb-0">Date:</label>
+                        <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Date :</span>
                         <input class="form-control flatpickr-input form-control-sm w-auto" name="dateperiode" id="dateperiode" placeholder="Pick a date"  type="text" style="min-width: 200px;">
                     </div>
                 </div>
@@ -196,10 +198,38 @@
             ?>
         </div>
         <div id="tabmonth" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_month">
-            y
+            <div class="d-flex justify-content-end">
+                <div class="d-flex flex-wrap my-2">
+                    <div class="d-flex align-items-center my-2">
+                        <label for="dateperiode" class="form-label fw-bold me-3 mb-0">Date:</label>
+                        <input class="form-control flatpickr-input form-control-sm w-auto" name="dateperiode" id="dateperiode" placeholder="Pick a date"  type="text" style="min-width: 200px;">
+                    </div>
+                </div>
+            </div>
+            <?php
+                renderHospitalCard("rmb","RMB Hospital Group","bg-danger","month");
+                renderHospitalCard("rsms","RSU Mutiasari","bg-info","month");
+                renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","month");
+                renderHospitalCard("rst","RS Thursina","bg-success","month");
+            ?>
         </div>
         <div id="tabyears" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_years">
-            z
+            <div class="d-flex justify-content-end">
+                <div class="d-flex flex-wrap my-2">
+                    <div class="d-flex align-items-center my-2">
+                        <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Periode :</span>
+                        <select data-control="select2" data-placeholder="Please select" class="form-select form-select-sm select2-hidden-accessible" data-hide-search="true" name="yearsperiode" id="yearsperiode">
+                            <?php echo $periode;?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <?php
+                renderHospitalCard("rmb","RMB Hospital Group","bg-danger","years");
+                renderHospitalCard("rsms","RSU Mutiasari","bg-info","years");
+                renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","years");
+                renderHospitalCard("rst","RS Thursina","bg-success","years");
+            ?>
         </div>
     </div>
 </div>
