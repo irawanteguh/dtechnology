@@ -22,24 +22,63 @@
                             <span class="fw-bolder fs-2x pt-1" id="<?php echo $totalid.$idprefix.$cardlabel; ?>">NaN</span>
                         </div>
                     </div>
-                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-4 py-4 position-relative z-index-1" style="margin-top: -140px">
-                        <?php foreach ($jenis as $label => $item): ?>
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="symbol symbol-45px w-40px me-5">
-                                    <span class="symbol-label <?php echo $item['bg']; ?>">
-                                        <i class="bi <?php echo $item['icon']; ?> fa-2x <?php echo $item['text']; ?>"></i>
-                                    </span>
+                    
+                    <div class="bg-body shadow-sm card-rounded mx-5 mb-5 px-3 py-3 position-relative z-index-1" style="margin-top: -140px">
+                        <div id="kt_summary_carousel_<?php echo $idprefix.$cardlabel; ?>" class="carousel slide carousel-custom carousel-stretch" data-bs-ride="carousel" data-bs-interval="5000">
+                            <div class="d-flex flex-stack align-items-center flex-wrap justify-content-end">
+                                <ol class="p-0 m-0 carousel-indicators carousel-indicators-dots">
+                                    <li data-bs-target="#kt_summary_carousel_<?php echo $idprefix.$cardlabel;?>" data-bs-slide-to="0" class="ms-1 active" aria-current="true"></li>
+                                    <li data-bs-target="#kt_summary_carousel_<?php echo $idprefix.$cardlabel;?>" data-bs-slide-to="1" class="ms-1"></li>
+                                </ol>
+                            </div>
+                            <div class="carousel-inner pt-6">
+                                <div class="carousel-item active">
+                                    <?php foreach ($jenis as $label => $item): ?>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="symbol symbol-45px w-40px me-5">
+                                                <span class="symbol-label <?php echo $item['bg']; ?>">
+                                                    <i class="bi <?php echo $item['icon']; ?> fa-2x <?php echo $item['text']; ?>"></i>
+                                                </span>
+                                            </div>
+                                            <div class="d-flex align-items-center flex-wrap w-100">
+                                                <div class="mb-1 pe-3 flex-grow-1">
+                                                    <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="fw-bolder fs-7 text-gray-800 pe-1" id="<?php echo $idprefix.$item['id'].$cardlabel; ?>">NaN</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
-                                <div class="d-flex align-items-center flex-wrap w-100">
-                                    <div class="mb-1 pe-3 flex-grow-1">
-                                        <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="fw-bolder fs-7 text-gray-800 pe-1" id="<?php echo $idprefix.$item['id'].$cardlabel; ?>">NaN</div>
-                                    </div>
+                                <div class="carousel-item">
+                                    <?php
+                                    $subset_jenis = [
+                                        'Umum'      => ['id' => 'umum', 'icon' => 'bi-cash-stack', 'text' => 'text-success', 'bg' => 'bg-light-success'],
+                                        'Asuransi'  => ['id' => 'asuransi', 'icon' => 'bi-file-medical', 'text' => 'text-primary', 'bg' => 'bg-light-primary'],
+                                        'BPJS'      => ['id' => 'bpjs', 'icon' => 'bi-person-badge', 'text' => 'text-info', 'bg' => 'bg-light-info'],
+                                        'MCU'       => ['id' => 'mcu', 'icon' => 'bi-heart-pulse', 'text' => 'text-danger', 'bg' => 'bg-light-danger']
+                                    ];
+                                    foreach ($subset_jenis as $label => $item): ?>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="symbol symbol-45px w-40px me-5">
+                                                <span class="symbol-label <?php echo $item['bg']; ?>">
+                                                    <i class="bi <?php echo $item['icon']; ?> fa-2x <?php echo $item['text']; ?>"></i>
+                                                </span>
+                                            </div>
+                                            <div class="d-flex align-items-center flex-wrap w-100">
+                                                <div class="mb-1 pe-3 flex-grow-1">
+                                                    <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="fw-bolder fs-7 text-gray-800 pe-1" id="kunjungan<?php echo $idprefix.$item['id'].$cardlabel; ?>">NaN</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>

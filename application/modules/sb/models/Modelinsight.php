@@ -16,7 +16,7 @@
         
         function dataharian($tahun) {
             $query = "
-                        select a.org_id, date, u_rj, u_ri, a_rj, a_ri, b_rj, b_ri, mcu_cash, mcu_inv, pob, lain,
+                        select a.org_id, date, u_rj, u_ri, a_rj, a_ri, b_rj, b_ri, mcu_cash, mcu_inv, pob, lain, k_urj, k_uri, k_arj, k_ari, k_brj, k_bri, k_mcu_cash, k_mcu_inv,
                             DATE_FORMAT(date, '%d') AS tanggal,
                             (select u_rj from dt01_report_income_dt_compare where active=a.active and org_id=a.org_id and date=a.date)u_rj_compare,
                             (select u_ri from dt01_report_income_dt_compare where active=a.active and org_id=a.org_id and date=a.date)u_ri_compare,

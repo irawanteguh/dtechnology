@@ -116,6 +116,15 @@ function dataharian() {
                         lain    : Number(data.lain || 0),
                     };
                 }
+
+                function totalrinciankunjungan(data) {
+                    return {
+                        umum    : Number(data.k_urj || 0) + Number(data.k_uri || 0),
+                        asuransi: Number(data.k_arj || 0) + Number(data.k_ari || 0),
+                        bpjs    : Number(data.k_brj || 0) + Number(data.k_bri || 0),
+                        mcu     : Number(data.k_mcu_cash || 0) + Number(data.k_mcu_inv || 0)
+                    };
+                }
             
                 const rmsDatalastday  = getdatalastday("10c84edd-500b-49e3-93a5-a2c8cd2c8524");
                 const rsiaDatalastday = getdatalastday("d5e63fbc-01ec-4ba8-90b8-fb623438b99d");
@@ -130,6 +139,10 @@ function dataharian() {
                 const rsialastday = totalrincianpendapatan(rsiaDatalastday);
                 const rstlastday  = totalrincianpendapatan(rstDatalastday);
 
+                const rmslastdaykunjungan  = totalrinciankunjungan(rmsDatalastday);
+                const rsialastdaykunjungan = totalrinciankunjungan(rsiaDatalastday);
+                const rstlastdaykunjungan  = totalrinciankunjungan(rstDatalastday);
+
                 const rmblastday = {
                     umum    : rmslastday.umum + rsialastday.umum + rstlastday.umum,
                     asuransi: rmslastday.asuransi + rsialastday.asuransi + rstlastday.asuransi,
@@ -137,6 +150,13 @@ function dataharian() {
                     mcu     : rmslastday.mcu + rsialastday.mcu + rstlastday.mcu,
                     obat    : rmslastday.obat + rsialastday.obat + rstlastday.obat,
                     lain    : rmslastday.lain + rsialastday.lain + rstlastday.lain,
+                };
+
+                const kunjunganrmblastday = {
+                    umum    : rmslastdaykunjungan.umum + rsialastdaykunjungan.umum + rstlastdaykunjungan.umum,
+                    asuransi: rmslastdaykunjungan.asuransi + rsialastdaykunjungan.asuransi + rstlastdaykunjungan.asuransi,
+                    bpjs    : rmslastdaykunjungan.bpjs + rsialastdaykunjungan.bpjs + rstlastdaykunjungan.bpjs,
+                    mcu     : rmslastdaykunjungan.mcu + rsialastdaykunjungan.mcu + rstlastdaykunjungan.mcu,
                 };
 
                 $("#lastdatersms").html(rmsDatalastday.date || "-");
@@ -155,12 +175,22 @@ function dataharian() {
                 $("#rmbobatlastdate").html("Rp. "+todesimal(rmblastday.obat));
                 $("#rmblainlastdate").html("Rp. "+todesimal(rmblastday.lain));
 
+                $("#kunjunganrmbumumlastdate").html(kunjunganrmblastday.umum);
+                $("#kunjunganrmbasuransilastdate").html(kunjunganrmblastday.asuransi);
+                $("#kunjunganrmbbpjslastdate").html(kunjunganrmblastday.bpjs);
+                $("#kunjunganrmbmculastdate").html(kunjunganrmblastday.mcu);
+
                 $("#rsmsumumlastdate").html("Rp. "+todesimal(rmslastday.umum));
                 $("#rsmsasuransilastdate").html("Rp. "+todesimal(rmslastday.asuransi));
                 $("#rsmsbpjslastdate").html("Rp. "+todesimal(rmslastday.bpjs));
                 $("#rsmsmculastdate").html("Rp. "+todesimal(rmslastday.mcu));
                 $("#rsmsobatlastdate").html("Rp. "+todesimal(rmslastday.obat));
                 $("#rsmslainlastdate").html("Rp. "+todesimal(rmslastday.lain));
+
+                $("#kunjunganrsmsumumlastdate").html(rmslastdaykunjungan.umum);
+                $("#kunjunganrsmsasuransilastdate").html(rmslastdaykunjungan.asuransi);
+                $("#kunjunganrsmsbpjslastdate").html(rmslastdaykunjungan.bpjs);
+                $("#kunjunganrsmsmculastdate").html(rmslastdaykunjungan.mcu);
 
                 $("#rsiaumumlastdate").html("Rp. "+todesimal(rsialastday.umum));
                 $("#rsiaasuransilastdate").html("Rp. "+todesimal(rsialastday.asuransi));
@@ -169,12 +199,22 @@ function dataharian() {
                 $("#rsiaobatlastdate").html("Rp. "+todesimal(rsialastday.obat));
                 $("#rsialainlastdate").html("Rp. "+todesimal(rsialastday.lain));
 
+                $("#kunjunganrsiaumumlastdate").html(rsialastdaykunjungan.umum);
+                $("#kunjunganrsiaasuransilastdate").html(rsialastdaykunjungan.asuransi);
+                $("#kunjunganrsiabpjslastdate").html(rsialastdaykunjungan.bpjs);
+                $("#kunjunganrsiamculastdate").html(rsialastdaykunjungan.mcu);
+
                 $("#rstumumlastdate").html("Rp. "+todesimal(rstlastday.umum));
                 $("#rstasuransilastdate").html("Rp. "+todesimal(rstlastday.asuransi));
                 $("#rstbpjslastdate").html("Rp. "+todesimal(rstlastday.bpjs));
                 $("#rstmculastdate").html("Rp. "+todesimal(rstlastday.mcu));
                 $("#rstobatlastdate").html("Rp. "+todesimal(rstlastday.obat));
                 $("#rstlainlastdate").html("Rp. "+todesimal(rstlastday.lain));
+
+                $("#kunjunganrstumumlastdate").html(rstlastdaykunjungan.umum);
+                $("#kunjunganrstasuransilastdate").html(rstlastdaykunjungan.asuransi);
+                $("#kunjunganrstbpjslastdate").html(rstlastdaykunjungan.bpjs);
+                $("#kunjunganrstmculastdate").html(rstlastdaykunjungan.mcu);
 
                 const rmsDatalast30day  = getSummaryLast30Days("10c84edd-500b-49e3-93a5-a2c8cd2c8524");
                 const rsiaDatalast30day = getSummaryLast30Days("d5e63fbc-01ec-4ba8-90b8-fb623438b99d");
