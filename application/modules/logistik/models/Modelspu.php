@@ -112,37 +112,89 @@
             return $recordset;
         }
 
+        // function masterbarang($orgid,$nopemesanan,$parameter){
+        //     $query =
+        //             "
+        //                 select x.*,
+        //                     case 
+        //                         when x.itemid is null then
+        //                         '0' 
+        //                         else
+        //                         '1' 
+        //                     end as status
+        //                 from(
+        //                     select a.barang_id,nama_barang,
+        //                         (select item_id            from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')itemid,
+        //                         (select stock              from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')stock,
+        //                         (select qty_minta          from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qty,
+        //                         (select qty_req            from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qtyreq,
+        //                         (select harga              from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')harga,
+        //                         (select ppn                from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')ppn,
+        //                         (select round(harga_ppn,0) from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')hargappn,
+        //                         (select round(total,0)     from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')total,
+        //                         (select note               from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')note,
+                                
+        //                         (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_beli_id)satuanbeli,
+        //                         (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_pakai_id)satuanpakai,
+        //                         (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=a.jenis_id)jenis
+        //                     from dt01_lgu_barang_ms a
+        //                     where a.active='1'
+        //                     and   a.org_id='".$orgid."'
+        //                     ".$parameter."
+        //                 )x
+        //                 order by status desc, nama_barang asc
+        //             ";
+
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
+
         function masterbarang($orgid,$nopemesanan,$parameter){
             $query =
                     "
-                        select x.*,
-                            case 
-                                when x.itemid is null then
-                                '0' 
-                                else
-                                '1' 
-                            end as status
-                        from(
-                            select a.barang_id,nama_barang,
-                                (select item_id            from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')itemid,
-                                (select stock              from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')stock,
-                                (select qty_minta          from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qty,
-                                (select qty_req            from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')qtyreq,
-                                (select harga              from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')harga,
-                                (select ppn                from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')ppn,
-                                (select round(harga_ppn,0) from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')hargappn,
-                                (select round(total,0)     from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')total,
-                                (select note               from dt01_lgu_pemesanan_dt where org_id=a.org_id and barang_id=a.barang_id and no_pemesanan='".$nopemesanan."')note,
-                                
-                                (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_beli_id)satuanbeli,
-                                (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=a.satuan_pakai_id)satuanpakai,
-                                (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=a.jenis_id)jenis
-                            from dt01_lgu_barang_ms a
-                            where a.active='1'
-                            and   a.org_id='".$orgid."'
+                        SELECT 
+                            a.barang_id,
+                            a.nama_barang,
+                            b.item_id,
+                            b.stock,
+                            b.qty_minta AS qty,
+                            b.qty_req,
+                            b.harga,
+                            b.ppn,
+                            ROUND(b.harga_ppn, 0) AS hargappn,
+                            ROUND(b.total, 0) AS total,
+                            b.note,
+                            satuan_beli.satuan AS satuanbeli,
+                            satuan_pakai.satuan AS satuanpakai,
+                            jenis.jenis,
+                            CASE 
+                                WHEN b.item_id IS NULL THEN '0'
+                                ELSE '1'
+                            END AS status
+                        FROM dt01_lgu_barang_ms a
+                        LEFT JOIN dt01_lgu_pemesanan_dt b 
+                            ON b.org_id = a.org_id 
+                            AND b.barang_id = a.barang_id 
+                            AND b.no_pemesanan = '".$nopemesanan."'
+                        LEFT JOIN dt01_lgu_satuan_ms satuan_beli 
+                            ON satuan_beli.satuan_id = a.satuan_beli_id 
+                            AND satuan_beli.org_id = a.org_id 
+                            AND satuan_beli.active = '1'
+                        LEFT JOIN dt01_lgu_satuan_ms satuan_pakai 
+                            ON satuan_pakai.satuan_id = a.satuan_pakai_id 
+                            AND satuan_pakai.org_id = a.org_id 
+                            AND satuan_pakai.active = '1'
+                        LEFT JOIN dt01_lgu_jenis_barang_ms jenis 
+                            ON jenis.jenis_id = a.jenis_id 
+                            AND jenis.org_id = a.org_id 
+                            AND jenis.active = '1'
+                        WHERE 
+                            a.active = '1'
+                            AND a.org_id = '".$orgid."'
                             ".$parameter."
-                        )x
-                        order by status desc, nama_barang asc
+                        ORDER BY status DESC, a.nama_barang ASC;
+
                     ";
 
             $recordset = $this->db->query($query);
