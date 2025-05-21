@@ -33,8 +33,9 @@
 		}
 
 		public function dataharian(){
-            $parameter = "and date(date)='".$this->input->post("startDate")."'";
-            $result = $this->md->datainsight($parameter);
+            $parameter1  = "and date(a.date)='".$this->input->post("startDate")."'";
+            $parameter2 = "and date(h.inv_keu_date)='".$this->input->post("startDate")."'";
+            $result = $this->md->datainsight($parameter1,$parameter2);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -51,8 +52,10 @@
         }
 
         public function databulanan(){
-            $parameter = "and date_format(date,'%m.%Y')='".$this->input->post("startDate")."'";
-            $result = $this->md->datainsight($parameter);
+            $parameter1 = "and date_format(a.date,'%m.%Y')='".$this->input->post("startDate")."'";
+            $parameter2 = "and date_format(h.inv_keu_date,'%m.%Y')='".$this->input->post("startDate")."'";
+
+            $result = $this->md->datainsight($parameter1,$parameter2);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -69,8 +72,9 @@
         }
 
 		public function datatahunan(){
-            $parameter = "and date_format(date,'%Y')='".$this->input->post("startDate")."'";
-            $result = $this->md->datainsight($parameter);
+            $parameter1 = "and date_format(a.date,'%Y')='".$this->input->post("startDate")."'";
+            $parameter2 = "and date_format(h.inv_keu_date,'%Y')='".$this->input->post("startDate")."'";
+            $result = $this->md->datainsight($parameter1,$parameter2);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

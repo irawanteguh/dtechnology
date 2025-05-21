@@ -69,19 +69,19 @@
                         </div>
                         <div class="d-flex text-center flex-column text-white pt-5">
                             <span class="fw-bold fs-5">Pengeluaran</span>
-                            <span class="fw-bolder fs-2x pt-1" id="<?php echo $orgid;?>pendapatan">NaN</span>
+                            <span class="fw-bolder fs-2x pt-1" id="<?php echo $orgid.$tabid;?>pengeluarantotal">NaN</span>
                         </div>
                     </div>
                     <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1" style="margin-top: -140px">
                         <?php
                             $jenis = [
-                                'Gaji & Tunjangan'      => ['id' => 'gaji', 'icon' => 'bi-people-fill', 'text' => 'text-primary', 'bg' => 'bg-light-primary'],
-                                'Pembelian Obat'        => ['id' => 'obat', 'icon' => 'bi-capsule', 'text' => 'text-success', 'bg' => 'bg-light-success'],
-                                'Alkes & BHP'           => ['id' => 'alkes', 'icon' => 'bi-bandaid', 'text' => 'text-info', 'bg' => 'bg-light-info'],
-                                'Pemeliharaan'          => ['id' => 'maintenance', 'icon' => 'bi-wrench', 'text' => 'text-warning', 'bg' => 'bg-light-warning'],
-                                'Listrik, Air, Internet'=> ['id' => 'utilitas', 'icon' => 'bi-lightning-charge', 'text' => 'text-danger', 'bg' => 'bg-light-danger'],
-                                'Lain-lain'             => ['id' => 'lain', 'icon' => 'bi-box', 'text' => 'text-dark', 'bg' => 'bg-light']
-                            ];                        
+                                'Medis'                  => ['id' => 'medis', 'icon' => 'bi-hospital', 'text' => 'text-primary', 'bg' => 'bg-light-primary'],
+                                'Rumah Tangga'           => ['id' => 'rumah_tangga', 'icon' => 'bi-house-door', 'text' => 'text-success', 'bg' => 'bg-light-success'],
+                                'ATK & Percetakan'       => ['id' => 'atk_percetakan', 'icon' => 'bi-printer', 'text' => 'text-info', 'bg' => 'bg-light-info'],
+                                'IT'                     => ['id' => 'it', 'icon' => 'bi-pc-display', 'text' => 'text-warning', 'bg' => 'bg-light-warning'],
+                                'Gizi & Dapur'           => ['id' => 'gizi_dapur', 'icon' => 'bi-egg-fried', 'text' => 'text-danger', 'bg' => 'bg-light-danger'],
+                                'Farmasi'                => ['id' => 'farmasi', 'icon' => 'bi-capsule', 'text' => 'text-dark', 'bg' => 'bg-light']
+                            ];
                         ?>
                         <?php foreach ($jenis as $label => $item): ?>
                             <div class="d-flex align-items-center mb-2">
@@ -95,7 +95,7 @@
                                         <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="fw-bolder fs-7 text-gray-800 pe-1" id="">NaN</div>
+                                        <div class="fw-bolder fs-7 text-gray-800 pe-1" id="<?php echo $orgid.$item['id'].$tabid;?>pengeluaran">NaN</div>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="d-flex text-center flex-column text-white pt-5">
                             <span class="fw-bold fs-5">Saldo Akhir</span>
-                            <span class="fw-bolder fs-2x pt-1" id="<?php echo $orgid.$tabid;?>selisih">NaN</span>
+                            <span class="fw-bolder fs-2x pt-1" id="<?php echo $orgid.$tabid;?>selisihtotal">NaN</span>
                         </div>
                     </div>
                     <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1" style="margin-top: -140px">
