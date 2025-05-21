@@ -14,6 +14,19 @@
             return $recordset;
         }
 
+        function periodebulan(){
+            $query =
+                    "
+                        select distinct date_format(tgl_registrasi, '%m.%Y')id, date_format(tgl_registrasi, '%M %Y')periode
+                        from reg_periksa a
+                        order by tgl_registrasi desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         // function datainsight($parameter) {
         //     $query = "
         //                 select 
@@ -59,7 +72,7 @@
                             SUM(COALESCE(a_rj + a_ri, 0)) AS asuransi,
                             SUM(COALESCE(b_rj + b_ri, 0)) AS bpjs,
                             SUM(COALESCE(mcu_cash + mcu_inv, 0)) AS mcu,
-                            SUM(COALESCE(pob, 0)) AS pob,
+                            SUM(COALESCE(pob, 0)) AS obat,
                             SUM(COALESCE(lain, 0)) AS lain
                         FROM dt01_report_income_dt
                         WHERE active = '1'

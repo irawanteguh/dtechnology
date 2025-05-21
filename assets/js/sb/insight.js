@@ -4,6 +4,7 @@ let startDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
 dataharian(startDate);
 datatahunan();
+databulanan();
 
 flatpickr('[name="dateperiode"]', {
     enableTime: false,
@@ -20,6 +21,12 @@ $(document).on("change", "select[name='yearsperiode']", function (e) {
     e.preventDefault();
     datatahunan();
 });
+
+$(document).on("change", "select[name='monthperiode']", function (e) {
+    e.preventDefault();
+    databulanan();
+});
+
 
 function dataharian(startDate){
     $.ajax({
@@ -150,7 +157,7 @@ function dataharian(startDate){
                     "a4633f72-4d67-4f65-a050-9f6240704151": "rst",
                 };
 
-                const categories = ["umum", "asuransi", "bpjs", "mcu", "pob", "lain"];
+                const categories = ["umum", "asuransi", "bpjs", "mcu", "obat", "lain"];
 
                 // Siapkan penampung total per kategori untuk RMB
                 let rmbTotals = {
@@ -158,7 +165,7 @@ function dataharian(startDate){
                     asuransi: 0,
                     bpjs    : 0,
                     mcu     : 0,
-                    pob     : 0,
+                    obat    : 0,
                     lain    : 0,
                 };
 
@@ -171,7 +178,7 @@ function dataharian(startDate){
                     categories.forEach((cat) => {
                         const value = parseFloat(row[cat] || 0);
                         total += value;
-                        rmbTotals[cat] += value; // Akumulasi untuk RMB
+                        rmbTotals[cat] += value;
                         $(`#${code}${cat}datependapatan`).html("Rp. " + todesimal(value));
                     });
 
@@ -188,8 +195,11 @@ function dataharian(startDate){
                 categories.forEach((cat) => {
                     const value = rmbTotals[cat];
                     totalRmb += value;
+
                     $(`#rmb${cat}datependapatan`).html("Rp. " + todesimal(value));
                 });
+
+                // rmbobatdatependapatan
 
                 $(`#rmbdatependapatantotal`).html("Rp. " + todesimal(totalRmb));
                 $(`#total_pendapatanrmbdate`).html("Rp. " + todesimal(totalRmb));
@@ -256,7 +266,7 @@ function datatahunan(){
                     "a4633f72-4d67-4f65-a050-9f6240704151": "rst",
                 };
 
-                const categories = ["umum", "asuransi", "bpjs", "mcu", "pob", "lain"];
+                const categories = ["umum", "asuransi", "bpjs", "mcu", "obat", "lain"];
 
                 // Siapkan penampung total per kategori untuk RMB
                 let rmbTotals = {
@@ -264,7 +274,7 @@ function datatahunan(){
                     asuransi: 0,
                     bpjs    : 0,
                     mcu     : 0,
-                    pob     : 0,
+                    obat    : 0,
                     lain    : 0,
                 };
 
@@ -277,7 +287,10 @@ function datatahunan(){
                     categories.forEach((cat) => {
                         const value = parseFloat(row[cat] || 0);
                         total += value;
-                        rmbTotals[cat] += value; // Akumulasi untuk RMB
+                        rmbTotals[cat] += value;
+
+                        console.log(cat+" "+value);
+
                         $(`#${code}${cat}yearspendapatan`).html("Rp. " + todesimal(value));
                     });
 
@@ -311,16 +324,125 @@ function datatahunan(){
         },
         error: function (xhr, status, error) {
             Swal.fire({
-                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html: "<b>" + error + "</b>",
-                icon: "error",
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
                 confirmButtonText: "Please Try Again",
-                buttonsStyling: false,
-                timerProgressBar: true,
-                timer: 5000,
-                customClass: { confirmButton: "btn btn-danger" },
-                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+
+    return false;
+};
+
+function databulanan(){
+    const startDate = $("select[name='monthperiode']").val();
+    $.ajax({
+        url       : url + "index.php/sb/insight/databulanan",
+        data      : {startDate:startDate},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            Swal.fire({
+                title            : 'Sending request...',
+                text             : 'Please wait',
+                allowOutsideClick: false,
+                allowEscapeKey   : false,
+                didOpen          : () => Swal.showLoading()
+            });
+        },
+        success: function (data) {
+            Swal.fire({
+                title            : 'Memproses data...',
+                text             : 'Menyiapkan tampilan data rumah sakit.',
+                allowOutsideClick: false,
+                allowEscapeKey   : false,
+                didOpen          : () => Swal.showLoading()
+            });
+            if (data.responCode === "00") {
+                const result = data.responResult;
+
+                const orgMap = {
+                    "10c84edd-500b-49e3-93a5-a2c8cd2c8524": "rsms",
+                    "d5e63fbc-01ec-4ba8-90b8-fb623438b99d": "rsiabm",
+                    "a4633f72-4d67-4f65-a050-9f6240704151": "rst",
+                };
+
+                const categories = ["umum", "asuransi", "bpjs", "mcu", "obat", "lain"];
+
+                // Siapkan penampung total per kategori untuk RMB
+                let rmbTotals = {
+                    umum    : 0,
+                    asuransi: 0,
+                    bpjs    : 0,
+                    mcu     : 0,
+                    obat    : 0,
+                    lain    : 0,
+                };
+
+                result.forEach((row) => {
+                    const code = orgMap[row.org_id];
+                    if (!code) return;
+
+                    let total = 0;
+
+                    categories.forEach((cat) => {
+                        const value = parseFloat(row[cat] || 0);
+                        total += value;
+                        rmbTotals[cat] += value;
+
+                        console.log(cat+" "+value);
+
+                        $(`#${code}${cat}monthpendapatan`).html("Rp. " + todesimal(value));
+                    });
+
+                    $(`#${code}monthpendapatantotal`).html("Rp. " + todesimal(total));
+                    $(`#total_pendapatan${code}month`).html("Rp. " + todesimal(total));
+
+                    $(`#${code}monthpendapatanlabel`).html(startDate);
+                    $(`#${code}monthpengeluaranlabel`).html(startDate);
+                    $(`#${code}monthselisihlabel`).html(startDate);
+                    $(`#${code}monthselisih`).html("Rp. " + todesimal(total));
+                });
+                
+                let totalRmb = 0;
+                categories.forEach((cat) => {
+                    const value = rmbTotals[cat];
+                    totalRmb += value;
+                    $(`#rmb${cat}monthpendapatan`).html("Rp. " + todesimal(value));
+                });
+
+                $(`#rmbmonthpendapatantotal`).html("Rp. " + todesimal(totalRmb));
+                $(`#total_pendapatanrmbmonth`).html("Rp. " + todesimal(totalRmb));
+
+                $(`#rmbmonthpendapatanlabel`).html(startDate);
+                $(`#rmbmonthpengeluaranlabel`).html(startDate);
+                $(`#rmbmonthselisihlabel`).html(startDate);
+                $(`#rmbmonthselisih`).html("Rp. " + todesimal(totalRmb));
+            }
+        },
+        complete: function () {
+            Swal.close();
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
             });
         }
     });

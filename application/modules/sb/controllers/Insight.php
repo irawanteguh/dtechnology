@@ -15,18 +15,43 @@
 
 		public function loadcombobox(){
             $resultperiode = $this->md->periode();
+            $resultperiodebulan = $this->md->periodebulan();
 
             $periode="";
             foreach($resultperiode as $a ){
                 $periode.="<option value='".$a->periode."'>".$a->periode."</option>";
             }
 
+            $periodebulan="";
+            foreach($resultperiodebulan as $a ){
+                $periodebulan.="<option value='".$a->id."'>".$a->periode."</option>";
+            }
+
             $data['periode'] = $periode;
+            $data['periodebulan'] = $periodebulan;
             return $data;
 		}
 
 		public function dataharian(){
             $parameter = "and date(date)='".$this->input->post("startDate")."'";
+            $result = $this->md->datainsight($parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function databulanan(){
+            $parameter = "and date_format(date,'%m.%Y')='".$this->input->post("startDate")."'";
             $result = $this->md->datainsight($parameter);
             
 			if(!empty($result)){

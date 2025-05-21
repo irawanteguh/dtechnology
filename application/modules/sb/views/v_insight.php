@@ -201,8 +201,10 @@
             <div class="d-flex justify-content-end">
                 <div class="d-flex flex-wrap my-2">
                     <div class="d-flex align-items-center my-2">
-                        <label for="dateperiode" class="form-label fw-bold me-3 mb-0">Date:</label>
-                        <input class="form-control flatpickr-input form-control-sm w-auto" name="dateperiode" id="dateperiode" placeholder="Pick a date"  type="text" style="min-width: 200px;">
+                        <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Periode :</span>
+                        <select data-control="select2" data-placeholder="Please select" class="form-select form-select-sm select2-hidden-accessible" data-hide-search="true" name="monthperiode" id="monthperiode">
+                            <?php echo $periodebulan;?>
+                        </select>
                     </div>
                 </div>
             </div>
