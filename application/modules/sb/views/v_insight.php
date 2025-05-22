@@ -7,7 +7,6 @@
         color: #ffffff !important; /* warna tab aktif putih */
         border-color: #ffffff !important; /* garis bawah tab aktif putih */
     }
-
 </style>
 
 <?php

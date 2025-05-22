@@ -160,9 +160,10 @@
                         IFNULL(
                             (SELECT SUM(ts.jumlah_bayar)
                             FROM tagihan_sadewa ts
-                            WHERE ts.nama_pasien = 'PEMBELIAN OBAT BEBAS (POB)'
-                            AND DATE(ts.tgl_bayar) = b.tgl_byr
-                            ), 0 )) AS pob
+                            WHERE ts.no_nota LIKE 'PJ%'
+                                AND DATE(ts.tgl_bayar) = b.tgl_byr
+                            ), 0 )
+                        ) AS pob
                             
                             
                         FROM sikms.billing b

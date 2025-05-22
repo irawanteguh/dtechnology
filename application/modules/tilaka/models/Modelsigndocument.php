@@ -1,6 +1,21 @@
 <?php
     class Modelsigndocument extends CI_Model{
 
+        function checkissueid($orgid,$issueid){
+            $query =
+                    "
+                        select a.*
+                        from dt01_gen_user_data a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        and   a.issue_id='".$issueid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+        
         function datasigndocument($parameter){
             $query =
                     "

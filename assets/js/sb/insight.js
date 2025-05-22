@@ -4,7 +4,7 @@ let startDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
 dataharian(startDate);
 databulanan();
-// datatahunan();
+datatahunan();
 
 
 flatpickr('[name="dateperiode"]', {
@@ -36,6 +36,31 @@ function dataharian(startDate){
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
+            const orgCodes = ["rsms", "rsiabm", "rst", "rmb"];
+            const categories = [
+                "umum", "asuransi", "bpjs", "mcu", "obat", "lain",
+                "medis", "rumah_tangga", "atk_percetakan", "it", "gizi_dapur", "farmasi"
+            ];
+
+            orgCodes.forEach(code => {
+                categories.forEach(cat => {
+                    $(`#${code}${cat}datependapatan`).html("Rp. 0");
+                    $(`#${code}${cat}datepengeluaran`).html("Rp. 0");
+                });
+
+                $(`#${code}datependapatantotal`).html("Rp. 0");
+                $(`#${code}datepengeluarantotal`).html("Rp. 0");
+                $(`#${code}dateselisihtotal`).html("Rp. 0");
+
+                $(`#total_pendapatan${code}date`).html("Rp. 0");
+                $(`#total_pengeluaran${code}date`).html("Rp. 0");
+                $(`#saldo_akhir${code}date`).html("Rp. 0");
+
+                $(`#${code}datependapatanlabel`).html("");
+                $(`#${code}datepengeluaranlabel`).html("");
+                $(`#${code}dateselisihlabel`).html("");
+            });
+
             Swal.fire({
                 title            : 'Sending request...',
                 text             : 'Please wait',
@@ -172,6 +197,32 @@ function databulanan(){
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
+            const orgCodes = ["rsms", "rsiabm", "rst", "rmb"];
+            const categories = [
+                "umum", "asuransi", "bpjs", "mcu", "obat", "lain",
+                "medis", "rumah_tangga", "atk_percetakan", "it", "gizi_dapur", "farmasi"
+            ];
+
+            orgCodes.forEach(code => {
+                categories.forEach(cat => {
+                    $(`#${code}${cat}monthpendapatan`).html("Rp. 0");
+                    $(`#${code}${cat}monthpengeluaran`).html("Rp. 0");
+                });
+
+                $(`#${code}monthpendapatantotal`).html("Rp. 0");
+                $(`#${code}monthpengeluarantotal`).html("Rp. 0");
+                $(`#${code}monthselisihtotal`).html("Rp. 0");
+
+                $(`#total_pendapatan${code}month`).html("Rp. 0");
+                $(`#total_pengeluaran${code}month`).html("Rp. 0");
+                $(`#saldo_akhir${code}month`).html("Rp. 0");
+
+                $(`#${code}monthpendapatanlabel`).html("");
+                $(`#${code}monthpengeluaranlabel`).html("");
+                $(`#${code}monthselisihlabel`).html("");
+            });
+
+            // Tampilkan loading
             Swal.fire({
                 title            : 'Sending request...',
                 text             : 'Please wait',
@@ -308,6 +359,33 @@ function datatahunan(){
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
+            // Reset semua nilai elemen ke "Rp. 0" atau label kosong
+            const orgCodes = ["rsms", "rsiabm", "rst", "rmb"];
+            const categories = [
+                "umum", "asuransi", "bpjs", "mcu", "obat", "lain",
+                "medis", "rumah_tangga", "atk_percetakan", "it", "gizi_dapur", "farmasi"
+            ];
+
+            orgCodes.forEach(code => {
+                categories.forEach(cat => {
+                    $(`#${code}${cat}yearspendapatan`).html("Rp. 0");
+                    $(`#${code}${cat}yearspengeluaran`).html("Rp. 0");
+                });
+
+                $(`#${code}yearspendapatantotal`).html("Rp. 0");
+                $(`#${code}yearspengeluarantotal`).html("Rp. 0");
+                $(`#${code}yearsselisihtotal`).html("Rp. 0");
+
+                $(`#total_pendapatan${code}years`).html("Rp. 0");
+                $(`#total_pengeluaran${code}years`).html("Rp. 0");
+                $(`#saldo_akhir${code}years`).html("Rp. 0");
+
+                $(`#${code}yearspendapatanlabel`).html("");
+                $(`#${code}yearspengeluaranlabel`).html("");
+                $(`#${code}yearsselisihlabel`).html("");
+            });
+
+            // Tampilkan loading
             Swal.fire({
                 title            : 'Sending request...',
                 text             : 'Please wait',
