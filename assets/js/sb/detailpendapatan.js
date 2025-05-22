@@ -21,6 +21,14 @@ function dataharian() {
                 allowEscapeKey   : false,
                 didOpen          : () => Swal.showLoading()
             });
+
+            for (let i = 1; i <= 12; i++) {
+                let key = i < 10 ? i : '' + i;
+                $("#resultpendapatantabblnrsms" + key).html("");
+                $("#resultpendapatantabblnrsia" + key).html("");
+                $("#resultpendapatantabblnrst" + key).html("");
+                $("#resultpendapatantabblnrmb" + key).html("");
+            }
         },
         success: function(data){
 

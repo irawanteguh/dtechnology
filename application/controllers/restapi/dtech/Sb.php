@@ -89,7 +89,7 @@
             $orgid      = $input['orgid'];
             $date       = $qr['tanggal'];
             $kunjungan  = $qr['kunjungan'];
-            $pendapatan = $qr['pendapatan'];
+            // $pendapatan = $qr['pendapatan'];
 
             $getval = function($arr, $kategori, $key) {
                 return isset($arr[$kategori][$key]) ? preg_replace('/\D/', '', $arr[$kategori][$key]) : '0';
@@ -162,7 +162,7 @@
 
             $orgid      = $input['orgid'];
             $date       = $qr['tanggal'];
-            $kunjungan  = $qr['kunjungan'];
+            // $kunjungan  = $qr['kunjungan'];
             $pendapatan = $qr['pendapatan'];
 
             $getval = function($arr, $kategori, $key) {

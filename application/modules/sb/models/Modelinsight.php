@@ -98,7 +98,7 @@
                                     ON p.no_pemesanan = h.no_pemesanan AND p.org_id = h.org_id
                                 LEFT JOIN dt01_lgu_barang_ms b 
                                     ON b.barang_id = p.barang_id
-                                WHERE h.status IN ('16', '17')
+                                WHERE h.status IN ('15','16', '17')
                                 $parameter2
                                 GROUP BY h.org_id
                             )
