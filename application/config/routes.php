@@ -40,6 +40,8 @@
     $route['auth']                     = 'restapi/dtech/Auth/createdtoken';
     $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
+
+    $route['statusdocument'] = 'restapi/dtech/Signdocument/statusdocument';
     
 
     $route['403_override']         = 'errors/error_403';
