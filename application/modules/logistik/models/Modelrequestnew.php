@@ -205,5 +205,33 @@
             return $sql;
         }
 
+        function ceklaststok($orgid,$barangid){
+            $query =
+                    "
+                        select coalesce(qty,0)jml
+                        from dt01_lgu_mutasi_barang a
+                        where a.org_id='".$orgid."'
+                        and   a.department_id='f2998547-2c01-4710-97fb-e2b37eb11f8e'
+                        and   a.location_id='f47399ac-bb19-4ee9-9e47-86dbae594dad'
+                        and   a.barang_id='".$barangid."'
+                        order by created_date desc 
+                        limit 1;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function insertstock($data){           
+            $sql =   $this->db->insert("dt01_lgu_mutasi_barang",$data);
+            return $sql;
+        }
+
+        function updatestock($transaksiid,$data){           
+            $sql =   $this->db->update("dt01_lgu_mutasi_barang",$data,array("transaksi_id"=>$transaksiid));
+            return $sql;
+        }
+
     }
 ?>

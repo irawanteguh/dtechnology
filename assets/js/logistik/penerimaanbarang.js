@@ -1,12 +1,12 @@
 datarequest();
 
 function getdetail(btn){
-    var $btn             = $(btn);
-    var data_nopemesanan = $btn.attr("data_nopemesanan");
-    var data_status      = $btn.attr("data_status");
+    var $btn            = $(btn);
+    var nopemesanan = $btn.attr("data_nopemesanan");
+    var data_status     = $btn.attr("data_status");
 
-    $(":hidden[name='no_pemesanan']").val(data_nopemesanan);
-    datadetail(data_nopemesanan);
+    $(":hidden[name='no_pemesanan']").val(nopemesanan);
+    datadetail(nopemesanan);
 };
 
 function datarequest(){
@@ -78,10 +78,10 @@ function datarequest(){
     return false;
 };
 
-function datadetail(data_nopemesanan){
+function datadetail(nopemesanan){
     $.ajax({
-        url       : url + "index.php/logistik/request/detailbarang",
-        data      : { data_nopemesanan: data_nopemesanan },
+        url       : url + "index.php/logistik/requestnew/detailbarangspu",
+        data      : { nopemesanan:nopemesanan},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -147,8 +147,8 @@ function simpandata(input) {
     }
 
     const qtyterima = document.getElementById(`qtyterima_${barangid}`);
-    const jmlmasuk = document.getElementById(`jmlmasuk_${barangid}`);
-    const order = document.getElementById(`order_${barangid}`);
+    const jmlmasuk  = document.getElementById(`jmlmasuk_${barangid}`);
+    const order     = document.getElementById(`order_${barangid}`);
 
     if (qtyterima && jmlmasuk && order) {
         const qtyTerimaValue = parseFloat(qtyterima.value) || 0;
@@ -171,7 +171,7 @@ function simpandata(input) {
         const no_pemesanan = $("#no_pemesanan").val();
 
         $.ajax({
-            url: url + "index.php/logistik/request/terimabarang",
+            url: url + "index.php/logistik/requestnew/terimabarang",
             method: "POST",
             dataType: "JSON",
             data: {

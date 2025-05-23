@@ -5,7 +5,7 @@
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelrequest", "md");
+            $this->load->model("Modelrequestnew", "md");
         }
 
         public function index(){
@@ -13,8 +13,18 @@
         }
         
         public function datarequest(){
-            $status = "and   a.status = '6' and status_vice='Y' and status_dir='Y'";
-            $result = $this->md->datarequest($_SESSION['orgid'],$status);
+            $status = "
+                        and   a.status = '6'
+                        and   a.status_vice='Y'
+                        and   a.status_dir='Y'
+                        and   a.department_id in (
+                                                    select department_id
+                                                    from dt01_gen_department_ms
+                                                    where user_id='".$_SESSION['userid']."'
+                                                )
+                    ";
+            $orderby ="order by created_date desc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

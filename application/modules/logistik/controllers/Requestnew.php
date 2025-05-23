@@ -469,5 +469,37 @@
 
             echo json_encode($json);
         }
+
+        public function terimabarang(){
+            $no_pemesanan = $this->input->post('no_pemesanan');
+            $barangid     = $this->input->post('barangid');
+            $qty          = $this->input->post('qty');
+            $laststok     = 0;
+
+            $resultceklaststok = $this->md->ceklaststok($_SESSION['orgid'],$barangid);
+
+            if(!empty($resultceklaststok)){
+                $laststok = $resultceklaststok->jml;
+            }
+
+            $data['org_id']        = $_SESSION['orgid'];
+            $data['transaksi_id']  = generateuuid();
+            $data['no_pemesanan']  = $no_pemesanan;
+            $data['barang_id']     = $barangid;
+            $data['masuk']         = $qty;
+            $data['qty']           = $qty+$laststok;
+            $data['department_id'] = "f2998547-2c01-4710-97fb-e2b37eb11f8e";
+            $data['location_id']   = "f47399ac-bb19-4ee9-9e47-86dbae594dad";
+            $data['jenis_id']      = "2";
+            $data['created_by']    = $_SESSION['userid'];
+
+            if($this->md->insertstock($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Berhasil Di Tambah";
+            }
+
+            echo json_encode($json);
+        }
     }
 ?>
