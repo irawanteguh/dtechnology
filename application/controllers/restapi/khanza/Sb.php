@@ -55,7 +55,7 @@
                         'mcu_cash'  => 0,
                         'mcu_inv'   => (int)$a->total_mcu,
                         'lain'      => 0,
-                        'pob'       => (int)$a->pob,
+                        'pob'       => (int)$a->POB,
                     ];
 
                     $body['quickreport']['pendapatan']['rawatinap'] = [
