@@ -114,6 +114,7 @@ function rendertabbulan($orgid) {
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultpengeluaran<?= $tabId ?>"></tbody>
+                                <tfoot class="text-gray-600 fw-bold" id="resultpengeluarantfoot<?= $tabId ?>"></tfoot>
                             </table>
                         </div>
                     </div>

@@ -140,17 +140,15 @@ function dataharian() {
                         }
 
                         rows.push(`
-                            <tfoot>
                                 <tr class="fw-bold bg-light">
                                     <td colspan="6" class="text-center">Total Bulan Ini</td>
                                     <td class='text-end'>${todesimal(totalSubtotal)}</td>
                                     <td class='text-end'>${todesimal(totalPPN)}</td>
                                     <td class='text-end pe-4'>${todesimal(totalAll)}</td>
                                 </tr>
-                            </tfoot>
                         `);
 
-                        $("#resultpengeluarantabblnrmb" + key).html(rows.join(""));
+                        $("#resultpengeluarantfoottabblnrmb" + key).html(rows.join(""));
                     }
                 }
 
@@ -162,17 +160,15 @@ function dataharian() {
                         if (groupPerRS[rsCode][key]) {
                             let t = groupPerRS[rsCode][key];
                             let tfoot = `
-                                <tfoot>
                                     <tr class="fw-bold bg-light">
                                         <td colspan="6" class="text-center">Total Bulan Ini</td>
                                         <td class='text-end'>${todesimal(t.subtotal)}</td>
                                         <td class='text-end'>${todesimal(t.harga_ppn)}</td>
                                         <td class='text-end pe-4'>${todesimal(t.total)}</td>
                                     </tr>
-                                </tfoot>
                             `;
 
-                            $("#resultpengeluarantabbln" + rsCode + key).append(tfoot);
+                            $("#resultpengeluarantfoottabbln" + rsCode + key).html(tfoot);
                         }
                     }
                 }
