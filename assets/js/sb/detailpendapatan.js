@@ -25,7 +25,7 @@ function dataharian() {
             for (let i = 1; i <= 12; i++) {
                 let key = i < 10 ? i : '' + i;
                 $("#resultpendapatantabblnrsms" + key).html("");
-                $("#resultpendapatantabblnrsia" + key).html("");
+                $("#resultpendapatantabblnrsiabm" + key).html("");
                 $("#resultpendapatantabblnrst" + key).html("");
                 $("#resultpendapatantabblnrmb" + key).html("");
             }
@@ -34,7 +34,7 @@ function dataharian() {
 
             const rumahSakitMap = {
                 "10c84edd-500b-49e3-93a5-a2c8cd2c8524": "rsms",
-                "d5e63fbc-01ec-4ba8-90b8-fb623438b99d": "rsia",
+                "d5e63fbc-01ec-4ba8-90b8-fb623438b99d": "rsiabm",
                 "a4633f72-4d67-4f65-a050-9f6240704151": "rst"
             };
 

@@ -104,17 +104,17 @@ function rendertabbulan($orgid) {
                                     <tr class="fw-bolder align-middle bg-light">
                                         <th class="ps-4 rounded-start">Days</th>
                                         <th>Date</th>
-                                        <th>No Pengeluaran</th>
-                                        <th>Pengeluaran</th>
-                                        <th>Department</th>
-                                        <th>No Invoice</th>
-                                        <th>Sub Total</th>
-                                        <th>Ppn</th>
-                                        <th class="rounded-end">Total</th>
+                                        <th>Jenis</th>
+                                        <th>Medical Record</th>
+                                        <th>Nama Pasien</th>
+                                        <th>No Kartu</th>
+                                        <th>No SEP</th>
+                                        <th>Nama Dokter</th>
+                                        <th class="rounded-end">Harga Inacbgs</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 fw-bold" id="resulthutang<?= $tabId ?>"></tbody>
-                                <tfoot class="text-gray-600 fw-bold" id="resulthutangtfoot<?= $tabId ?>"></tfoot>
+                                <tbody class="text-gray-600 fw-bold" id="resultpiutang<?= $tabId ?>"></tbody>
+                                <tfoot class="text-gray-600 fw-bold" id="resultpiutangtfoot<?= $tabId ?>"></tfoot>
                             </table>
                         </div>
                     </div>

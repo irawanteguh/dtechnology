@@ -16,17 +16,10 @@
 
         function dataharian($tahun) {
             $query = "
-                        select a.org_id, no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, subtotal, harga_ppn, total, invoice_no,
-                            date(a.inv_keu_date)date,
-                            date_format(a.inv_keu_date, '%d.%m.%Y') AS tanggal,
-                            (select department from dt01_gen_department_ms where department_id=a.department_id)unitpemohon
-                        from dt01_lgu_pemesanan_hd a
-                        where a.active='1'
-                        and   a.status_vice = 'Y'
-                        and   a.status_dir = 'Y'
-                        and   a.status not in ('15','16','17')
-                        and   date_format(a.inv_keu_date, '%Y') = '".$tahun."'
-                        order by org_id, inv_keu_date asc
+                        select a.org_id, ptd, date(admission_date)date, date_format(a.admission_date, '%d.%m.%Y') AS tanggal, mrn, nama_pasien, nokartu, sep, dpjp, tarif_inacbg
+                        from dt01_casemix_claim a
+                        where date_format(a.admission_date, '%Y') = '".$tahun."'
+                        order by org_id, admission_date asc
                     ";
 
             $recordset = $this->db->query($query);
