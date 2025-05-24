@@ -1,23 +1,25 @@
-let startDate = null;
-let endDate = null;
+let today     = new Date();
+let startDate = today.toISOString().split('T')[0];
+let endDate   = today.toISOString().split('T')[0];
+
+refreshdata(startDate, endDate);
 
 flatpickr('[name="dateperiode"]', {
-    mode: "range", // Mengaktifkan mode range
+    mode      : "range",
     enableTime: false,
     dateFormat: "d.m.Y",
-    maxDate: "today",
-    onChange: function (selectedDates, dateStr, instance) {
-        // Mendapatkan tanggal sesuai dengan zona waktu lokal
+    maxDate   : "today",
+    onChange  : function (selectedDates, dateStr, instance) {
         const formatDate = (date) => {
             if (!date) return null;
             const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+            const month = String(date.getMonth() + 1).padStart(2, '0'); 
             const day = String(date.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`; // Format YYYY-MM-DD
         };
 
         startDate = selectedDates[0] ? formatDate(selectedDates[0]) : null;
-        endDate   = selectedDates[1] ? formatDate(selectedDates[1]) : null;
+        endDate = selectedDates[1] ? formatDate(selectedDates[1]) : null;
     }
 });
 
@@ -29,10 +31,7 @@ $(document).on("click", ".btn-apply", function (e) {
         return;
     }
 
-    datarequest(startDate, endDate);
-    decline(startDate, endDate);
-    approve(startDate, endDate);
-    payment(startDate, endDate);
+    refreshdata(startDate, endDate);
 });
 
 $("#modal_upload_buktibayar").on('shown.bs.modal', function(){
@@ -59,20 +58,36 @@ $("#modal_print_po").on('shown.bs.modal', function(){
     printpo(no_pemesanan);
 });
 
+$("#modal_note_finance").on('hidden.bs.modal', function(){
+    $('#modal_note_finance_catatan').val("");
+});
+
 function getdetail(btn){
     var $btn                  = $(btn);
     var data_nopemesanan      = $btn.attr("data_nopemesanan");
     var data_nopemesanan_unit = $btn.attr("data_nopemesanan_unit");
     var data_suppliers        = $btn.attr("data_suppliers");
+    var data_inv_keu_note      = $btn.attr("data_inv_keu_note");
     var data_createddate      = $btn.attr("data_createddate");
 
     $(":hidden[name='no_pemesanan_buktibayar']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_po']").val(data_nopemesanan);
+    $(":hidden[name='no_pemesanan_note']").val(data_nopemesanan);
 
     $("#pono").html(data_nopemesanan_unit);
     $("#suppliers").html(data_suppliers);
     $("#orderdate").html(data_createddate);
+
+    $("#modal_note_finance_catatan").val((data_inv_keu_note == null || data_inv_keu_note === 'null') ? '' : data_inv_keu_note);
+
 };
+
+function refreshdata(startDate, endDate){
+    datarequest(startDate, endDate);
+    decline(startDate, endDate);
+    approve(startDate, endDate);
+    payment(startDate, endDate);
+}
 
 function datarequest(startDate, endDate){
     $.ajax({
@@ -98,6 +113,7 @@ function datarequest(startDate, endDate){
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
+                                      "data_inv_keu_note='"+result[i].inv_keu_note+"'"+
                                       "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
                                       "data_status='"+result[i].status+"'";
 
@@ -119,6 +135,7 @@ function datarequest(startDate, endDate){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult +="<td>"+(result[i].inv_keu_note ? result[i].inv_keu_note : "")+"</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
@@ -126,6 +143,7 @@ function datarequest(startDate, endDate){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Finance Note</a>";
                                 if(result[i].status==="13"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='15' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
@@ -180,6 +198,7 @@ function decline(startDate, endDate){
                                       "data_suppliers='"+result[i].namasupplier+"'"+
                                       "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
+                                      "data_inv_keu_note='"+result[i].inv_keu_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
                     cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
@@ -200,12 +219,14 @@ function decline(startDate, endDate){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult +="<td>"+(result[i].inv_keu_note ? result[i].inv_keu_note : "")+"</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Finance Note</a>";
                                 if(result[i].status==="14"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_validasi='13' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-info'></i> Cancelled Decline</a>";
                                 }
@@ -261,6 +282,7 @@ function approve(startDate, endDate){
                                       "data_createddate='"+result[i].tglbuat+"'"+
                                       "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
+                                      "data_inv_keu_note='"+result[i].inv_keu_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
                     cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
@@ -291,6 +313,7 @@ function approve(startDate, endDate){
                         tableresult +="<td class='text-end'>0</td>";
                     }
                     tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult +="<td>"+(result[i].inv_keu_note ? result[i].inv_keu_note : "")+"</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
                   
 
@@ -299,6 +322,7 @@ function approve(startDate, endDate){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Finance Note</a>";
                                 if(result[i].status==="15"){
                                     tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline Invoice</a>";
@@ -362,6 +386,7 @@ function payment(startDate, endDate){
                                       "data_nopemesanan_unit='"+result[i].no_pemesanan_unit+"'"+
                                       "data_departmentid='"+result[i].department_id+"'"+
                                       "data_attachment_note='"+result[i].attachment_note+"'"+
+                                      "data_inv_keu_note='"+result[i].inv_keu_note+"'"+
                                       "data_status='"+result[i].status+"'";
 
                     cito = result[i].cito        === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
@@ -389,6 +414,7 @@ function payment(startDate, endDate){
                         tableresult +="<td class='text-end'>0</td>";
                     }
                     tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult +="<td>"+(result[i].inv_keu_note ? result[i].inv_keu_note : "")+"</td>";
                     tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
                   
                     tableresult += "<td class='text-end'>";
@@ -396,6 +422,7 @@ function payment(startDate, endDate){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Finance Note</a>";
                                 if((parseFloat(result[i].cashout)-parseFloat(result[i].total)) > 0){
                                     if(result[i].transaksiid===null){
                                         tableresult +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" data_refpettycase='"+result[i].pettycash_id+"' data_nopemesanan='"+result[i].no_pemesanan+"' data_note='Pengembalian Sisa Cash Out No : "+result[i].nokwitansi+" No Pemesanan Unit : "+result[i].no_pemesanan_unit+" "+result[i].judul_pemesanan+" "+result[i].note+"' data_balance='"+(parseFloat(result[i].cashout)-parseFloat(result[i].total)).toString()+"' onclick='submitpettycash($(this));'><i class='bi bi-check2-circle text-info'></i> Submit Petty Cash</a>";
@@ -475,3 +502,45 @@ function submitpettycash(btn){
 	});
 	return false;
 };
+
+$(document).on("submit", "#formcatatankeuangan", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_note_finance_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_note_finance").modal("hide");
+                refreshdata(startDate, endDate);
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_note_finance_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});

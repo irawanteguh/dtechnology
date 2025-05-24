@@ -53,8 +53,8 @@
                         from(
                         select a.transaksi_id, no_kwitansi, note, cash_out,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit,
-                            (select no_pemesanan from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and ref_pettycash_id=a.transaksi_id order by created_date desc limit 1)refnopemesanan
-                        from dt01_keu_petty_cash_it a
+                            (select no_pemesanan from dt01_keu_rekening_it where org_id=a.org_id and active=a.active and ref_pettycash_id=a.transaksi_id order by created_date desc limit 1)refnopemesanan
+                        from dt01_keu_rekening_it a
                         where a.org_id='".$orgid."'
                         and   a.department_id='".$departmentid."'
                         and   a.active='1'
@@ -156,8 +156,8 @@
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
                             (select color from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)colorstatus,
                             (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)namestatus,
-                            (select transaksi_id from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)transaksiid,
-                            (select no_kwitansi from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)nokwitansi
+                            (select transaksi_id from dt01_keu_rekening_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)transaksiid,
+                            (select no_kwitansi from dt01_keu_rekening_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)nokwitansi
 
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'

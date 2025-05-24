@@ -1,5 +1,5 @@
 <?php
-    class Modelpiutang extends CI_Model{
+    class Modelpiutangbpjs extends CI_Model{
         
         function periode(){
             $query =

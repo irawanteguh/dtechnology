@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-upload-invoice" tabindex="-1" aria-hidden="true">
+<!-- <div class="modal fade" id="modal-upload-invoice" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0">
@@ -46,7 +46,7 @@
             </form> 
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="modal fade" id="modal_upload_buktibayar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -179,6 +179,38 @@
             <div class="modal-footer p-1">	
                 <button class="btn btn-light-primary" onclick="printPDF()">PRINT PDF</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_note_finance" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0">
+                <h1 class="mb-3">Finance Note</h1>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/logistik/requestnew/catatankeuangan" id="formcatatankeuangan">
+                <input type="hidden" id="no_pemesanan_note" name="no_pemesanan_note">
+                <div class="modal-body">
+                    <div class="text-start mb-5">
+                        <div class="text-muted fw-bold fs-5">Silakan Masukan Catatan Keuangan</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Note :</label>
+                            <textarea data-kt-autosize="true" class="form-control form-control-solid" name="modal_note_finance_catatan" id="modal_note_finance_catatan" placeholder="Silakan masukan catatan keuangan"></textarea>
+                        </div>                                        
+                    </div>
+                </div>
+                <div class="modal-footer p-1">	
+                    <input class="btn btn-light-primary" id="modal_note_finance_btn" type="submit" value="SUBMIT" name="simpan" >			
+                </div>
+            </form> 
         </div>
     </div>
 </div>

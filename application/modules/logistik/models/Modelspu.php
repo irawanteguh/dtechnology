@@ -206,7 +206,7 @@
             $query =
                     "
                         select a.balance
-                        from dt01_keu_petty_cash_it a
+                        from dt01_keu_rekening_it a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         order by created_date desc
@@ -227,7 +227,7 @@
                                             coalesce(
                                                 (
                                                     select COUNT(transaksi_id)+1
-                                                    from dt01_keu_petty_cash_it
+                                                    from dt01_keu_rekening_it
                                                     where org_id='".$orgid."'
                                                     and   date_format(created_date, '%Y') = date_format(current_date, '%Y')
                                                 ),
@@ -250,12 +250,12 @@
         }
 
         function insertpettycash($data){           
-            $sql =   $this->db->insert("dt01_keu_petty_cash_it",$data);
+            $sql =   $this->db->insert("dt01_keu_rekening_it",$data);
             return $sql;
         }
 
         function updatepettycash($nopemesanan,$data){           
-            $sql =   $this->db->update("dt01_keu_petty_cash_it",$data,array("no_pemesanan"=>$nopemesanan));
+            $sql =   $this->db->update("dt01_keu_rekening_it",$data,array("no_pemesanan"=>$nopemesanan));
             return $sql;
         }
 

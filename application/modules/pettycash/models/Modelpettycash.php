@@ -10,7 +10,7 @@
                                             coalesce(
                                                 (
                                                     select COUNT(transaksi_id)+1
-                                                    from dt01_keu_petty_cash_it
+                                                    from dt01_keu_rekening_it
                                                     where org_id='".$orgid."'
                                                     and   date_format(created_date, '%Y') = date_format(current_date, '%Y')
                                                 ),
@@ -54,7 +54,7 @@
                         select a.transaksi_id, no_kwitansi, note, cash_in, cash_out, balance, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                                (select name from dt01_gen_user_data where active=a.active and org_id=a.org_id and user_id=a.created_by)dibuatoleh,
                                (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unit
-                        from dt01_keu_petty_cash_it a
+                        from dt01_keu_rekening_it a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         ".$parameter."
@@ -70,7 +70,7 @@
             $query =
                     "
                         select a.balance
-                        from dt01_keu_petty_cash_it a
+                        from dt01_keu_rekening_it a
                         where a.active='1'
                         and   a.status='6'
                         and   a.org_id='".$orgid."'
@@ -84,12 +84,12 @@
         }
 
         function insertpettycash($data){           
-            $sql =   $this->db->insert("dt01_keu_petty_cash_it",$data);
+            $sql =   $this->db->insert("dt01_keu_rekening_it",$data);
             return $sql;
         }
 
         function updatepettycash($transaksiid,$data){           
-            $sql =   $this->db->update("dt01_keu_petty_cash_it",$data,array("transaksi_id"=>$transaksiid));
+            $sql =   $this->db->update("dt01_keu_rekening_it",$data,array("transaksi_id"=>$transaksiid));
             return $sql;
         }
 

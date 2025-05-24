@@ -106,8 +106,10 @@ function rendertabbulan($orgid) {
                                         <th>Date</th>
                                         <th>No Pengeluaran</th>
                                         <th>Pengeluaran</th>
+                                        <th>Supplier</th>
                                         <th>Department</th>
                                         <th>No Invoice</th>
+                                        <th>Catatan</th>
                                         <th>Sub Total</th>
                                         <th>Ppn</th>
                                         <th class="rounded-end">Total</th>

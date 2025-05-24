@@ -4,7 +4,7 @@
         function datarequest($orgid,$status,$parameter){
             $query =
                     "
-                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id, type, method, subtotal, harga_ppn, total, cito, status, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id, type, method, subtotal, harga_ppn, total, cito, status, inv_keu_note, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.from_department_id)unit,
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
@@ -12,10 +12,10 @@
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
                             (select color from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)colorstatus,
                             (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)namestatus,
-                            (select transaksi_id from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan order by created_date desc limit 1)transaksiid,
-                            (select no_kwitansi from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)nokwitansi,
-                            (select no_kwitansi from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan order by created_date desc limit 1)lastnokwitansi,
-                            (select cash_out from dt01_keu_petty_cash_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)cashout
+                            (select transaksi_id from dt01_keu_rekening_it where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan order by created_date desc limit 1)transaksiid,
+                            (select no_kwitansi from dt01_keu_rekening_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)nokwitansi,
+                            (select no_kwitansi from dt01_keu_rekening_it where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan order by created_date desc limit 1)lastnokwitansi,
+                            (select cash_out from dt01_keu_rekening_it where org_id=a.org_id and active=a.active and transaksi_id=a.pettycash_id)cashout
 
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'
@@ -38,7 +38,7 @@
                                             coalesce(
                                                 (
                                                     select COUNT(transaksi_id)+1
-                                                    from dt01_keu_petty_cash_it
+                                                    from dt01_keu_rekening_it
                                                     where org_id='".$orgid."'
                                                     and   date_format(created_date, '%Y') = date_format(current_date, '%Y')
                                                 ),
@@ -64,7 +64,7 @@
             $query =
                     "
                         select a.balance
-                        from dt01_keu_petty_cash_it a
+                        from dt01_keu_rekening_it a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         order by created_date desc
@@ -106,7 +106,7 @@
         }
 
         function insertpettycash($data){           
-            $sql =   $this->db->insert("dt01_keu_petty_cash_it",$data);
+            $sql =   $this->db->insert("dt01_keu_rekening_it",$data);
             return $sql;
         }
 

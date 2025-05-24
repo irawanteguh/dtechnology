@@ -1,16 +1,16 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Piutang extends CI_Controller {
+	class Piutangbpjs extends CI_Controller {
 
 		public function __construct(){
             parent:: __construct();
 			rootsystem::system();
-            $this->load->model("Modelpiutang","md");
+            $this->load->model("Modelpiutangbpjs","md");
         }
 
 		public function index(){
 			$data = $this->loadcombobox();
-			$this->template->load("template/template-sidebar","v_piutang",$data);
+			$this->template->load("template/template-sidebar","v_piutangbpjs",$data);
 		}
 
         public function loadcombobox(){

@@ -483,8 +483,27 @@
         public function notelampiran(){
             $nopemesanan  = $this->input->post("no_pemesanan_upload");
             $notelampiran = $this->input->post("modal-upload-lampiran-note");
+ 
+            $dataupdate['attachment_note'] = $notelampiran;
 
+            if($this->md->updateheader($nopemesanan,$dataupdate)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data failed to update";
+            }
             
+
+            echo json_encode($json);
+        }
+
+        public function catatankeuangan(){
+            $nopemesanan  = $this->input->post("no_pemesanan_upload");
+            $notelampiran = $this->input->post("modal-upload-lampiran-note");
+ 
             $dataupdate['attachment_note'] = $notelampiran;
 
             if($this->md->updateheader($nopemesanan,$dataupdate)){

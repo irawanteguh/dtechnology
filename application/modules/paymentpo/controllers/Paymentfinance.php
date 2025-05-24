@@ -13,12 +13,12 @@
         }
 
         public function datarequest(){
-            $startDate = $this->input->post("startDate") . " 00:00:00";
-            $endDate   = $this->input->post("endDate") . " 23:59:59"; 
+            $startDate             = $this->input->post("startDate");
+            $endDate               = $this->input->post("endDate");
             
             $status="
                         and   a.status in ('13')
-                        and   a.created_date between '".$startDate."' and '".$endDate."'
+                        -- and   a.created_date between '".$startDate."' and '".$endDate."'
                     ";
                     $parameter="order by inv_dir_date desc";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
@@ -38,8 +38,8 @@
         }
 
         public function decline(){
-            $startDate = $this->input->post("startDate") . " 00:00:00";
-            $endDate   = $this->input->post("endDate") . " 23:59:59"; 
+            $startDate             = $this->input->post("startDate");
+            $endDate               = $this->input->post("endDate");
             $status="
                         and   a.status in ('14')
                         and a.created_date between '".$startDate."' and '".$endDate."'
@@ -62,8 +62,8 @@
         }
 
         public function approve(){
-            $startDate = $this->input->post("startDate") . " 00:00:00";
-            $endDate   = $this->input->post("endDate") . " 23:59:59"; 
+            $startDate             = $this->input->post("startDate");
+            $endDate               = $this->input->post("endDate");
             $status="
                         and   a.status in ('15')
                         and a.created_date between '".$startDate."' and '".$endDate."'
@@ -86,8 +86,8 @@
         }
 
         public function payment(){
-            $startDate = $this->input->post("startDate") . " 00:00:00";
-            $endDate   = $this->input->post("endDate") . " 23:59:59"; 
+            $startDate             = $this->input->post("startDate");
+            $endDate               = $this->input->post("endDate");
             $status="
                         and   a.status in ('16','17')
                         and a.created_date between '".$startDate."' and '".$endDate."'

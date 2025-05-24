@@ -8,7 +8,7 @@ $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", functi
 function dataharian() {
     var periode = $("select[name='toolbar_kunjunganyears_periode']").val();
     $.ajax({
-        url       : url + "index.php/sb/piutang/dataharian",
+        url       : url + "index.php/sb/piutangbpjs/dataharian",
         data      : {periode: periode},
         method    : "POST",
         dataType  : "JSON",

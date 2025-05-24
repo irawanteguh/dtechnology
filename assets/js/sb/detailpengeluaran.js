@@ -61,8 +61,10 @@ function dataharian() {
                             <td class='text-center'>${tanggal}</td>
                             <td>${row.no_pemesanan_unit}</td>
                             <td><div>${row.judul_pemesanan}</div><div>${row.note}</div></td>
+                            <td>${row.namasupplier}</td>
                             <td>${row.unitpemohon}</td>
                             <td>${row.invoice_no}</td>
+                            <td>${row.inv_keu_note || ''}</td>
                             <td class='text-end'>${todesimal(row.subtotal)}</td>
                             <td class='text-end'>${todesimal(row.harga_ppn)}</td>
                             <td class='text-end pe-4'>${todesimal(row.total)}</td>
@@ -98,7 +100,9 @@ function dataharian() {
                         judul_pemesanan  : row.judul_pemesanan,
                         note             : row.note,
                         unitpemohon      : row.unitpemohon,
+                        namasupplier     : row.namasupplier,
                         invoice_no       : row.invoice_no,
+                        inv_keu_note     : row.inv_keu_note,
                         subtotal         : Number(row.subtotal || 0),
                         harga_ppn        : Number(row.harga_ppn || 0),
                         total            : Number(row.total || 0)
@@ -125,8 +129,10 @@ function dataharian() {
                                         <td class='text-center'>${t}</td>
                                         <td>${item.no_pemesanan_unit}</td>
                                         <td><div>${item.judul_pemesanan}</div><div>${item.note}</div></td>
+                                        <td>${item.namasupplier}</td>
                                         <td>${item.unitpemohon}</td>
                                         <td>${item.invoice_no}</td>
+                                        <td>${item.inv_keu_note || ''}</td>
                                         <td class='text-end'>${todesimal(item.subtotal)}</td>
                                         <td class='text-end'>${todesimal(item.harga_ppn)}</td>
                                         <td class='text-end pe-4'>${todesimal(item.total)}</td>
