@@ -186,6 +186,23 @@
                                 }
                             }
 
+                            if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "1"){ 
+                                $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
+
+                                $body['user_identifier']=$result->USER_IDENTIFIER;
+                                $response = Tilaka::checkcertificateuser(json_encode($body));
+
+                                if($response['success']){                                    
+                                    $datasimpan['CERTIFICATE']      = $response['status'];
+                                    $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
+                                    $datasimpan['REASON_CODE']      = $_GET['reason_code'];
+                                    $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
+                                    
+                                    $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
+                                    redirect("tilakaV2/registrasi",$data);
+                                }
+                            }
+
                             if($_GET['status'] === "Selesai" && $_GET['reason_code'] === "2"){ 
                                 $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
 
