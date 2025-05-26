@@ -13,7 +13,11 @@ decline();
 $("#modal_upload_lampiran").on('shown.bs.modal', function(){
     var no_pemesanan = $(":hidden[name='no_pemesanan_upload']").val();
 
-    var myDropzone = new Dropzone("#file_doc", {
+    if (Dropzone.instances.length > 0) {
+        Dropzone.instances.forEach(dz => dz.destroy()); // Hapus instance sebelumnya
+    }
+
+    var Dropzone = new Dropzone("#file_doc", {
         url               : url + "index.php/logistik/spu/uploaddocument?no_pemesanan="+no_pemesanan,
         acceptedFiles     : '.pdf',
         paramName         : "file",

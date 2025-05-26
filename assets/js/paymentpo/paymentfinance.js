@@ -67,12 +67,25 @@ function getdetail(btn){
     var data_nopemesanan      = $btn.attr("data_nopemesanan");
     var data_nopemesanan_unit = $btn.attr("data_nopemesanan_unit");
     var data_suppliers        = $btn.attr("data_suppliers");
-    var data_inv_keu_note      = $btn.attr("data_inv_keu_note");
+    var data_inv_keu_note     = $btn.attr("data_inv_keu_note");
     var data_createddate      = $btn.attr("data_createddate");
+
+    var status           = $btn.attr("data_validasi");
+    var validator        = $btn.attr("data_validator");
+    // var data_transaksiid = $btn.attr("data_transaksiid");
+    // var data_balance     = $btn.attr("data_balance");
+    // var data_note        = $btn.attr("data_note");
 
     $(":hidden[name='no_pemesanan_buktibayar']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_po']").val(data_nopemesanan);
     $(":hidden[name='no_pemesanan_note']").val(data_nopemesanan);
+
+    $(":hidden[name='datanopemesanan']").val(data_nopemesanan);
+    $(":hidden[name='status']").val(status);
+    $(":hidden[name='validator']").val(validator);
+    // $(":hidden[name='data_transaksiid']").val(data_transaksiid);
+    // $(":hidden[name='data_balance']").val(data_balance);
+    // $(":hidden[name='data_note']").val(data_note);
 
     $("#pono").html(data_nopemesanan_unit);
     $("#suppliers").html(data_suppliers);
@@ -240,7 +253,7 @@ function approve(startDate, endDate){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po' onclick='getdetail($(this));'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Add Finance Note</a>";
                                 if(result[i].status==="15"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' data-bs-toggle='modal' data-bs-target='#modal_payment' onclick='getdetail($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' data_validator='FINANCE' data-bs-toggle='modal' data-bs-target='#modal_payment' onclick='getdetail($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
                                     // tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='16' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Payment Success</a>";
                                     tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" data_validasi='14' data_validator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline Invoice</a>";
                                 }
@@ -531,6 +544,48 @@ $(document).on("submit", "#formcatatankeuangan", function (e) {
 		},
         complete: function () {
             $("#modal_note_finance_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formupdateheader", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_payment_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_payment").modal("hide");
+                refreshdata(startDate, endDate);
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_payment_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(

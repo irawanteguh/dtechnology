@@ -226,8 +226,10 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/logistik/requestnew/catatankeuangan" id="formcatatankeuangan">
-                <input type="hidden" id="no_pemesanan_note" name="no_pemesanan_note">
+            <form action="<?php echo base_url();?>index.php/logistik/spu/updateheader" id="formupdateheader">
+                <input type="hidden" id="datanopemesanan" name="datanopemesanan">
+                <input type="hidden" id="status" name="status">
+                <input type="hidden" id="validator" name="validator">
                 <div class="modal-body">
                     <div class="text-start mb-5">
                         <div class="text-muted fw-bold fs-5">Silakan pilih rekening pengeluaran</div>
@@ -241,11 +243,11 @@
                             <select data-control="select2" data-dropdown-parent="#modal_payment" data-placeholder="Please Select Rekening pengeluaran" class="form-select form-select-solid" name="modal_payment_rekening_id" id="modal_payment_rekening_id" required>
                                 <?php echo $rekeningid;?>
                             </select>
-                        </div>                                       
+                        </div>                                     
                     </div>
                 </div>
                 <div class="modal-footer p-1">	
-                    <input class="btn btn-light-primary" id="modal_note_finance_btn" type="submit" value="SUBMIT" name="simpan" >			
+                    <input class="btn btn-light-primary" id="modal_payment_btn" type="submit" value="SUBMIT" name="simpan" >			
                 </div>
             </form> 
         </div>

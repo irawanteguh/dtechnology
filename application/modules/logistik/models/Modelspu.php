@@ -202,13 +202,14 @@
             return $recordset;
         }
 
-        function checkbalancelast($orgid){
+        function checkbalancelast($orgid,$rekeningid){
             $query =
                     "
                         select a.balance
                         from dt01_keu_rekening_it a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
+                        and   a.rekening_id='".$rekeningid."'
                         order by created_date desc
                         limit 1;
                     ";

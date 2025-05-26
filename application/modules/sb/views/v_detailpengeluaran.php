@@ -24,7 +24,7 @@ function rendertabbulan($orgid) {
 <?php } ?>
 
 <!-- UI Container -->
-<div class="row gy-5 g-xl-8 mb-xl-3 border">
+<div class="row gy-5 g-xl-8 mb-xl-3">
     <div class="card rounded bgi-no-repeat bgi-position-x-end bgi-size-cover"
          style="background-color: #663259; background-size: auto 100%; background-image: url('<?= base_url(); ?>assets/images/svg/misc/taieri.svg')">
         <div class="card-body pt-9 pb-0">

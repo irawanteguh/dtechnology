@@ -428,6 +428,7 @@
             $balance          = $this->input->post('data_balance');
             $departmentid     = $this->input->post('data_departmentid');
             $note             = $this->input->post('data_note');
+            $rekeningid       = $this->input->post('modal_payment_rekening_id');
             
             if($validator==="REQ"){
                 $data['status']       = $status;
@@ -481,11 +482,12 @@
 
                 if($status==="13" || $status==="14" || $status==="15" || $status==="16"){
                     $data['status']       = $status;
+                    $data['rekening_id']  = $rekeningid;
                     $data['inv_keu_id']   = $_SESSION['userid'];
                     $data['inv_keu_Date'] = date('Y-m-d H:i:s');
 
                     if($transidpettycash!=null){
-                        $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid']);
+                        $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid'], $rekeningid);
 
                         if(empty($resultcheckbalancelast)){
                             $lastbalance = 0;

@@ -596,7 +596,6 @@
                             $json["responHead"]   = "error";
                             $json["responDesc"]   = "Gagal Mendapatkan UUID Registration";
                         }
-        
                 }else{
                     if($responsecheckcertificate['status']==1){
                         $data['CERTIFICATE']      = $responsecheckcertificate['status'];
@@ -606,6 +605,7 @@
                         $json["responCode"]   = "01";
                         $json["responHead"]   = "error";
                         $json["responDesc"]   = $responsecheckcertificate['message']['info'];
+                        $json["responResult"] = $responsecheckcertificate;
                     }else{
                         $json["responCode"]   = "01";
                         $json["responHead"]   = "error";

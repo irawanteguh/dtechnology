@@ -521,8 +521,8 @@
         }
 
         public function noinvoice(){
-            $nopemesanan = $this->input->post("no_pemesanan_invoice");
-            $noinvoice   = $this->input->post("modal_upload_invoice_no");
+            $nopemesanan = $this->input->post("modal_upload_invoice_nopemesanan");
+            $noinvoice   = $this->input->post("modal_upload_invoice_invoiceno");
 
             $dataupdate['invoice_no'] = $noinvoice;
 
