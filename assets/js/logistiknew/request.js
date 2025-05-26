@@ -91,8 +91,8 @@ $("#modal_add_item").on('show.bs.modal', function(event){
     var datanopemesanan    = button.attr("datanopemesanan");
     var datadepartmentid    = button.attr("datadepartmentid");
 
-    $(":hidden[name='modal_add_item_nopemesanan']").val(datanopemesanan);
-    $(":hidden[name='modal_add_item_departmentid']").val(datadepartmentid);
+    $("input[name='modal_add_item_nopemesanan']").val(datanopemesanan);
+    $("input[name='modal_add_item_departmentid']").val(datadepartmentid);
 
     masterbarang(datanopemesanan,datadepartmentid);
 });

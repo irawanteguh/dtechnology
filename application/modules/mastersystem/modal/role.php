@@ -45,7 +45,7 @@
                     <div class="text-muted fw-bold fs-5">Please Add Detail Role</div>
                 </div>
                 <div class="row">
-                    <div class="mh-600px scroll-y me-n5 pe-5" id="listmodules"></div>
+                    <div class="scroll-y me-n5 pe-5" id="listmodules"></div>
                 </div>
             </div>
         </div>
