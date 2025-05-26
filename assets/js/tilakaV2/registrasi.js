@@ -284,7 +284,7 @@ function datakaryawan(){
                         btnaction = btnedit+btnpengajuan;
                     }
 
-                    if(result[i].REGISTER_ID!="" && result[i].CERTIFICATE===""){
+                    if(result[i].REGISTER_ID!="" && (result[i].CERTIFICATE==="" || result[i].CERTIFICATE==="0")){
                         statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                         btnaction = btnverifpengajuan;
                     }

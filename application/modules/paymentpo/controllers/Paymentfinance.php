@@ -9,8 +9,21 @@
         }
 
         public function index(){
-            $this->template->load("template/template-sidebar", "v_paymentfinance");
+            $data = $this->loadcombobox();
+            $this->template->load("template/template-sidebar", "v_paymentfinance",$data);
         }
+
+        public function loadcombobox(){
+            $resultrekening = $this->md->rekening($_SESSION['orgid']);
+            
+            $rekeningid="";
+            foreach($resultrekening as $a ){
+                $rekeningid.="<option value='".$a->rekening_id."'>".$a->keterangan."</option>";
+            }
+
+            $data['rekeningid'] = $rekeningid;
+            return $data;
+		}
 
         public function datarequest(){
             $startDate             = $this->input->post("startDate");
@@ -64,9 +77,10 @@
         public function approve(){
             $startDate             = $this->input->post("startDate");
             $endDate               = $this->input->post("endDate");
+
             $status="
                         and   a.status in ('15')
-                        and a.created_date between '".$startDate."' and '".$endDate."'
+                        and   date(a.inv_keu_date) between '".$startDate."' and '".$endDate."'
                     ";
                     $parameter="order by inv_keu_date desc";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);

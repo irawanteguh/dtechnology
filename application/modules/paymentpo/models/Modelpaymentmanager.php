@@ -1,6 +1,21 @@
 <?php
     class Modelpaymentmanager extends CI_Model{
         
+        function rekening($orgid){
+            $query =
+                    "
+                        select a.rekening_id, concat(account,' ',account_id)keterangan
+                        from dt01_keu_rekening_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        order by account asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function datarequest($orgid,$status,$parameter){
             $query =
                     "

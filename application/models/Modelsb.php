@@ -148,8 +148,6 @@ ORDER BY b.tgl_byr;
             $recordset = $recordset->result();
             return $recordset;
         }
-
-        
         
     }
 ?>
