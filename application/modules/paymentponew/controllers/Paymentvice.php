@@ -39,7 +39,7 @@
 
             $status="
                         and   a.status in ('11','13','15','16','17')
-                        -- and   date(a.inv_vice_date) between '".$startDate."' and '".$endDate."'
+                        and   date(a.inv_vice_date) between '".$startDate."' and '".$endDate."'
                     ";
             $parameter="order by inv_vice_date desc";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
