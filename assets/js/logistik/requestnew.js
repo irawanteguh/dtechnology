@@ -1,3 +1,6 @@
+Dropzone.autoDiscover = false;
+let myDropzone;
+
 const filteritemname = new Tagify(document.querySelector("#filteritemname"), { enforceWhitelist: true });
 const filtercategory = new Tagify(document.querySelector("#filtercategory"), { enforceWhitelist: true });
 const filterunit     = new Tagify(document.querySelector("#filterunit"), { enforceWhitelist: true });
@@ -13,11 +16,11 @@ decline();
 $("#modal_upload_lampiran").on('shown.bs.modal', function(){
     var no_pemesanan = $(":hidden[name='no_pemesanan_upload']").val();
 
-    if (Dropzone.instances.length > 0) {
-        Dropzone.instances.forEach(dz => dz.destroy()); // Hapus instance sebelumnya
+    if (myDropzone) {
+        myDropzone.destroy();
     }
 
-    var Dropzone = new Dropzone("#file_doc", {
+    var myDropzone = new Dropzone("#file_doc", {
         url               : url + "index.php/logistik/spu/uploaddocument?no_pemesanan="+no_pemesanan,
         acceptedFiles     : '.pdf',
         paramName         : "file",
