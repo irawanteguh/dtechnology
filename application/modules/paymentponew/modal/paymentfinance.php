@@ -40,6 +40,8 @@
             </div>
             <form action="<?php echo base_url();?>index.php/paymentponew/paymentfinance/payment" id="formpayment">
                 <input type="hidden" id="modal_finance_payment_nopemesanan" name="modal_finance_payment_nopemesanan">
+                <input type="hidden" id="modal_finance_payment_departmentid" name="modal_finance_payment_departmentid">
+                <input type="hidden" id="modal_finance_payment_note" name="modal_finance_payment_note">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xl-12 mb-5">
@@ -51,18 +53,10 @@
                                 <?php echo $rekeningid;?>
                             </select>
                         </div>
-                        <!-- <div class="col-xl-4 mb-5">
-                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Sub Total :</label>
-                            <input type="text" class="form-control form-control-solid" id="modal_finance_payment_nominal" name="modal_finance_payment_nominal">
-                        </div>
-                        <div class="col-xl-4 mb-5">
-                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Pajak :</label>
-                            <input type="text" class="form-control form-control-solid" id="modal_finance_payment_nominal" name="modal_finance_payment_nominal">
-                        </div> -->
                         <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Total :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_finance_payment_nominal" name="modal_finance_payment_nominal">
-                        </div>                                       
+                        </div>                                     
                     </div>
                 </div>
                 <div class="modal-footer p-1">	

@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header border-0 pt-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bolder fs-3 mb-1">Finance Approval Payment</span>
+                <span class="card-label fw-bolder fs-3 mb-1">Director Approval Payment</span>
                 <span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
             </h3>
         </div>
@@ -13,9 +13,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approved</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tabpayment">Payment</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>
@@ -54,34 +51,12 @@
                                     <th class="text-end">Sub Total</th>
                                     <th class="text-end">Ppn</th>
                                     <th class="text-end">Total</th>
-                                    <th>Catatan</th>
+                                    <th>Status</th>
                                     <th>Disetujui oleh</th>
                                     <th class="pe-4 text-end rounded-end">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultdataapprove"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="tabpayment" role="tabpanel">
-                    <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-8 gy-2">
-                            <thead>
-                                <tr class="fw-bolder text-muted bg-light align-middle">
-                                    <th class="ps-4 rounded-start">No Request</th>
-                                    <th>Pengadaan</th>
-                                    <th>Department</th>
-                                    <th>Supplier / Cara Bayar</th>
-                                    <th class="text-end">Sub Total</th>
-                                    <th class="text-end">Ppn</th>
-                                    <th class="text-end">Total</th>
-                                    <th>Catatan</th>
-                                    <th>Status</th>
-                                    <th>Dibayarkan oleh</th>
-                                    <th class="pe-4 text-end rounded-end">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-600 fw-bold" id="resultdatapayment"></tbody>
                         </table>
                     </div>
                 </div>

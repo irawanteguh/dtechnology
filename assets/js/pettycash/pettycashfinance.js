@@ -96,15 +96,16 @@ function approved(){
                     var getvariabel = " data_transaksiid='"+result[i].transaksi_id+"'";
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>"+(result[i].no_kwitansi ? result[i].no_kwitansi : "")+"</td>";
+                    tableresult +="<td class='ps-4'><div>"+(result[i].rekeningname ? result[i].rekeningname : "")+"</div><div>"+(result[i].rekeningid ? result[i].rekeningid : "")+"</div></td>";
+                    tableresult +="<td>"+(result[i].no_kwitansi ? result[i].no_kwitansi : "")+"</td>";
                     tableresult +="<td>"+result[i].unit+"</td>";
                     tableresult +="<td>"+(result[i].note ? result[i].note : "")+"</td>";
 
                     if(result[i].status==="6"){
                         if(result[i].cash_in!=0){
-                            tableresult +="<td><div><span class='badge badge-light-primary fs-7 fw-bold'>Cash In</span></div></td>";
+                            tableresult +="<td><div><span class='badge badge-light-primary fs-8 fw-bold'>Credit</span></div></td>";
                         }else{
-                            tableresult +="<td><div><span class='badge badge-light-danger fs-7 fw-bold'>Cash Out</span></div></td>";
+                            tableresult +="<td><div><span class='badge badge-light-danger fs-8 fw-bold'>Debit</span></div></td>";
                         }
                     }
 

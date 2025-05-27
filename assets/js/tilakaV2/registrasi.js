@@ -308,6 +308,11 @@ function datakaryawan(){
                         btnaction = btnreenroll;
                     }
 
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID!='' && result[i].REASON_CODE==='3'){
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Issue Id Expired</div><div class='small'>Silakan Melakukan Pengajuan Re Enroll Kembali</div></td>";
+                        btnaction  = btnreenroll;
+                    }
+
                     if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID===''){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btncheckstatus;

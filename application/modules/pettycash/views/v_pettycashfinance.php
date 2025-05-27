@@ -45,7 +45,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tabwaiting" role="tabpanel">
                         <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Receipt</th>
@@ -66,10 +66,11 @@
                     </div>
                     <div class="tab-pane fade" id="tabapprove" role="tabpanel">
                         <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">No Receipt</th>
+                                        <th class="ps-4 rounded-start">Rekening</th>
+                                        <th>No Receipt</th>
                                         <th>Department</th>
                                         <th>Note</th>
                                         <th>Status</th>
@@ -87,7 +88,7 @@
                     </div>
                     <div class="tab-pane fade" id="tabdecline" role="tabpanel">
                         <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Receipt</th>

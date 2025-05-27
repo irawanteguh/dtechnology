@@ -138,9 +138,11 @@
         }
 
         public function payment(){
-            $nopemesanan = $this->input->post("modal_finance_payment_nopemesanan");
-            $rekeningid  = $this->input->post("modal_finance_payment_rekeningid");
-            $nominal     = $this->input->post("modal_finance_payment_nominal");
+            $nopemesanan  = $this->input->post("modal_finance_payment_nopemesanan");
+            $rekeningid   = $this->input->post("modal_finance_payment_rekeningid");
+            $nominal      = $this->input->post("modal_finance_payment_nominal");
+            $departmentid = $this->input->post("modal_finance_payment_departmentid");
+            $catatan      = $this->input->post("modal_finance_payment_note");
  
             $dataupdate['rekening_id']  = $rekeningid;
             $dataupdate['status']       = "16";
@@ -157,11 +159,16 @@
             $datarekening['org_id']         = $_SESSION['orgid'];
             $datarekening['transaksi_id']   = generateuuid();
             $datarekening['rekening_id']    = $rekeningid;
+            $datarekening['department_id']  = $departmentid;
+            $datarekening['note']           = $catatan;
+            $datarekening['no_pemesanan']   = $nopemesanan;
             $datarekening['no_kwitansi']    = $this->md->nokwitansi($_SESSION['orgid'],$rekeningid)->nokwitansi;
             $datarekening['cash_out']       = (int) preg_replace('/\D/', '', $nominal);
             $datarekening['before_balance'] = $lastbalance;
             $datarekening['balance']        = strval($lastbalance)-(int) preg_replace('/\D/', '', $nominal);
             $datarekening['status']         = "6";
+            $datarekening['accept_id']      = $_SESSION['userid'];
+            $datarekening['accept_date']    = date('Y-m-d H:i:s');
             $datarekening['created_by']     = $_SESSION['userid'];
 
             $this->md->insertrekening($datarekening);

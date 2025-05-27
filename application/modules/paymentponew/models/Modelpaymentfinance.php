@@ -23,15 +23,18 @@
                                date_format(a.inv_manager_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                                date_format(a.inv_keu_date, '%d.%m.%Y %H:%i:%s')tglkeuangan,
                                date_format(a.payment_date, '%d.%m.%Y %H:%i:%s')tgldibayar,
+                               date_format(a.inv_dir_date, '%d.%m.%Y %H:%i:%s')tgldir,
                                (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                                (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitdituju,
                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.inv_manager_id)dibuatoleh,
                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.inv_keu_id)disetujuikeuoleh,
                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.payment_id)dibayarkanoleh,
+                               (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.inv_dir_id)namadir,
                                (select color from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)colorstatus,
                                (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_1' and code=a.status)namestatus,
                                (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
-                               (select sum(total) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)itemhargakosong
+                               (select sum(total) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)itemhargakosong,
+                               (select concat(account,' ',account_id) from dt01_keu_rekening_ms where org_id=a.org_id and rekening_id=a.rekening_id)rekening
 
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'

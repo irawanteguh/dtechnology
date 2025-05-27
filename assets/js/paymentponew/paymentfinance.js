@@ -74,11 +74,19 @@ $("#modal_note_finance").on('show.bs.modal', function(event){
 });
 
 $("#modal_finance_payment").on('show.bs.modal', function(event){
-    var button           = $(event.relatedTarget);
-    var datanopemesanan  = button.attr("datanopemesanan");
-    var datanominal  = button.attr("datanominal");
+    var button               = $(event.relatedTarget);
+    var datanopemesanan      = button.attr("datanopemesanan");
+    var datanopemesananunit  = button.attr("datanopemesananunit");
+    var datajudulpemesanan   = button.attr("datajudulpemesanan");
+    var datacatatanpemesanan = button.attr("datacatatanpemesanan");
+    var datacatatankeuangan  = button.attr("datacatatankeuangan");
+    var datainvoiceno        = button.attr("datainvoiceno");
+    var datanominal          = button.attr("datanominal");
+    var datadepartmentid     = button.attr("datadepartmentid");
 
     $("input[name='modal_finance_payment_nopemesanan']").val(datanopemesanan);
+    $("input[name='modal_finance_payment_departmentid']").val(datadepartmentid);
+    $("input[name='modal_finance_payment_note']").val("Pembayaran invoice no : "+datainvoiceno+", no pemesanan : "+datanopemesananunit+" "+datajudulpemesanan+" "+datacatatanpemesanan+" "+datacatatankeuangan+" Sebesar : Rp. "+todesimal(datanominal));
     $("input[name='modal_finance_payment_nominal']").val("Rp. "+todesimal(datanominal));
 });
 
@@ -149,7 +157,12 @@ function dataonprocess(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    if(result[i].method==="4"){
+                        tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    }else{
+                        tableresult +="<td><div>"+result[i].namadir+"<div>"+result[i].tgldir+"</div></td>";
+                    }
+                    
                     tableresult += "<td class='text-end'>";
                         tableresult +="<div class='btn-group' role='group'>";
                             tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
@@ -213,9 +226,13 @@ function dataapprove(){
                     carabayar = result[i].method ? `<div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : result[i].method === "4" ? "On The Spot (BBM / Snack / Etc)" : "Unknown"}</div>` : "";
 
                     var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
+                                        " datanopemesananunit='"+result[i].no_pemesanan_unit+"'"+
                                         " dataattachmentnote='"+result[i].attachment_note+"'"+
                                         " datainvoiceno='"+result[i].invoice_no+"'"+
                                         " datadepartmentid='"+result[i].department_id+"'"+
+                                        " datajudulpemesanan='"+result[i].judul_pemesanan+"'"+
+                                        " datacatatanpemesanan='"+result[i].note+"'"+
+                                        " datacatatankeuangan='"+result[i].inv_keu_note+"'"+
                                         " datanominal='"+result[i].total+"'";
 
                     tableresult +="<tr>";
@@ -226,6 +243,7 @@ function dataapprove(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    tableresult +="<td>"+(result[i].inv_keu_note ? result[i].inv_keu_note : "")+"</td>";
                     tableresult +="<td><div>"+result[i].disetujuikeuoleh+"<div>"+result[i].tglkeuangan+"</div></td>";
                     tableresult += "<td class='text-end'>";
                         tableresult +="<div class='btn-group' role='group'>";
@@ -302,7 +320,8 @@ function datapayment(startDate, endDate){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    tableresult +="<td>"+(result[i].inv_keu_note ? result[i].inv_keu_note : "")+"</td>";
+                    tableresult += "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div>" + (result[i].rekening ? "<br><div class='badge badge-secondary'>" + result[i].rekening + "</div>" : "") + "</td>";
                     tableresult +="<td><div>" + (result[i].dibayarkanoleh || result[i].disetujuikeuoleh)  + "<div>" + (result[i].tgldibayar || result[i].tglkeuangan) + "</div></td>";
                     tableresult +="<td class='text-end'>";
                         tableresult +="<div class='btn-group' role='group'>";
