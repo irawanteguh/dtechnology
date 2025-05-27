@@ -93,6 +93,27 @@
             echo json_encode($json);
         }
 
+        public function datadecline(){
+            $status="
+                        and   a.status in ('14')
+                    ";
+            $parameter="order by inv_keu_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function catatankeuangan(){
             $nopemesanan  = $this->input->post("modal_note_finance_nopemesanan");
             $notelampiran = $this->input->post("modal_note_finance_catatan");
@@ -119,12 +140,32 @@
         public function payment(){
             $nopemesanan = $this->input->post("modal_finance_payment_nopemesanan");
             $rekeningid  = $this->input->post("modal_finance_payment_rekeningid");
+            $nominal     = $this->input->post("modal_finance_payment_nominal");
  
             $dataupdate['rekening_id']  = $rekeningid;
             $dataupdate['status']       = "16";
             $dataupdate['payment_id']   = $_SESSION['userid'];
             $dataupdate['payment_date'] = date('Y-m-d H:i:s');
 
+            $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid'],$rekeningid);
+            if(empty($resultcheckbalancelast)){
+                $lastbalance = 0;
+            }else{
+                $lastbalance =$resultcheckbalancelast[0]->balance;
+            }
+
+            $datarekening['org_id']         = $_SESSION['orgid'];
+            $datarekening['transaksi_id']   = generateuuid();
+            $datarekening['rekening_id']    = $rekeningid;
+            $datarekening['no_kwitansi']    = $this->md->nokwitansi($_SESSION['orgid'],$rekeningid)->nokwitansi;
+            $datarekening['cash_out']       = (int) preg_replace('/\D/', '', $nominal);
+            $datarekening['before_balance'] = $lastbalance;
+            $datarekening['balance']        = strval($lastbalance)-(int) preg_replace('/\D/', '', $nominal);
+            $datarekening['status']         = "6";
+            $datarekening['created_by']     = $_SESSION['userid'];
+
+            $this->md->insertrekening($datarekening);
+            
             if($this->md->updateheader($nopemesanan,$dataupdate)){
                 $json['responCode']="00";
                 $json['responHead']="success";
@@ -137,6 +178,57 @@
             
 
             echo json_encode($json);
+        }
+
+        public function updateheader(){
+            $datanopemesanan = $this->input->post('datanopemesanan');
+            $datastatus      = $this->input->post('datastatus');
+            $datavalidator   = $this->input->post('datavalidator');
+            
+            if($datavalidator==="FINANCE"){
+                $data['status']       = $datastatus;
+                $data['inv_keu_id']   = $_SESSION['userid'];
+                $data['inv_keu_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($this->md->updateheader($datanopemesanan,$data)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function uploadbuktibayar(){
+            $datanopemesanan= $_GET['datanopemesanan'];
+
+            $config['upload_path']   = './assets/buktitransfer/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $datanopemesanan;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+
+                $dataupdate['status']="17";
+
+                $this->md->updateheader($datanopemesanan,$dataupdate);
+
+                echo "Upload Success";
+            }
+
         }
         
     }

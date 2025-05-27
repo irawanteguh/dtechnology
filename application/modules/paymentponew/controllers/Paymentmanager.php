@@ -72,6 +72,36 @@
             echo json_encode($json);
         }
 
+        public function datadecline(){
+            $status="
+                        and   a.status in ('8','10','12','14')
+                        and   a.department_id in (
+                                                    select department_id
+                                                    from dt01_gen_department_ms
+                                                    where header_id in (
+                                                                            select department_id
+                                                                            from dt01_gen_department_ms
+                                                                            where user_id='".$_SESSION['userid']."'
+                                                                    )
+                                                )
+                    ";
+                    $parameter="order by inv_manager_date desc";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function updateheader(){
             $datanopemesanan = $this->input->post('datanopemesanan');
             $datastatus      = $this->input->post('datastatus');

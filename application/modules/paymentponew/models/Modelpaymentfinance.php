@@ -19,7 +19,7 @@
         function datarequest($orgid,$status,$orderby){
             $query =
                     "
-                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id, type, method, status_vice, status_dir, status_com, subtotal, harga_ppn, total, cito, status,
+                        select a.no_pemesanan, no_spu, no_pemesanan_unit, pettycash_id, judul_pemesanan, note, attachment, attachment_note, supplier_id, invoice, invoice_no, from_department_id, department_id, type, method, status_vice, status_dir, status_com, subtotal, harga_ppn, total, cito, status, inv_keu_note,
                                date_format(a.inv_manager_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                                date_format(a.inv_keu_date, '%d.%m.%Y %H:%i:%s')tglkeuangan,
                                date_format(a.payment_date, '%d.%m.%Y %H:%i:%s')tgldibayar,
@@ -45,8 +45,61 @@
             return $recordset;
         }
 
+        function checkbalancelast($orgid,$rekeningid){
+            $query =
+                    "
+                        select a.balance
+                        from dt01_keu_rekening_it a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.rekening_id='".$rekeningid."'
+                        order by created_date desc
+                        limit 1;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function nokwitansi($orgid,$rekeningid){
+            $query =
+                    "
+                        select concat(                              
+                            lpad(
+                                coalesce(
+                                    (
+                                        select COUNT(transaksi_id)+1
+                                        from dt01_keu_rekening_it
+                                        where org_id='".$orgid."'
+                                        and   rekening_id='".$rekeningid."'
+                                        and   date_format(created_date, '%Y') = date_format(current_date, '%Y')
+                                    ),
+                                    1
+                                ),
+                                3,
+                                '0'
+                            ),
+                            '/',(select code from dt01_keu_rekening_ms where rekening_id='".$rekeningid."'),'/KEU/',
+                            date_format(now(), '%m'),
+                            '/',
+                            date_format(now(), '%Y')
+                    ) nokwitansi
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         function updateheader($nopemesanan,$data){           
             $sql =   $this->db->update("dt01_lgu_pemesanan_hd",$data,array("no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
+        function insertrekening($data){           
+            $sql =   $this->db->insert("dt01_keu_rekening_it",$data);
             return $sql;
         }
 
