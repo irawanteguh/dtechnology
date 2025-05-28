@@ -21,8 +21,7 @@ function datapiutang(){
 
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>" + result[i].no_tagihan+"</td>";
-                    tableresult +="<td>"+result[i].note+"</td>";
-                    tableresult +="<td>"+result[i].rekanan+"</td>";
+                    tableresult +="<td><div>"+result[i].note+"</div><div class='badge badge-light-info'>"+result[i].rekanan+"</div></td>";
                     tableresult +="<td class='text-center'>"+result[i].createddate+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].nilai)+"</td>";
                     tableresult +="<td class='text-end'>0</td>";

@@ -53,8 +53,7 @@
                                     <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Action</div>
                                 </div>
                                 <div class="menu-item px-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modal_new_po" class="menu-link px-3">New Purchase order</a>
-                                    <a data-bs-toggle="modal" data-bs-target="#modal_new_invoice" class="menu-link px-3">New Invoice</a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modal_mcu_invoice" class="menu-link px-3">Add Invoice</a>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +65,6 @@
                                     <tr class="fw-bolder align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
                                         <th>Pembayaran</th>
-                                        <th class="text-center">Rekanan</th>
                                         <th class="text-center">Tanggal</th>
                                         <th class="text-center">Tagihan</th>
                                         <th class="text-center">Terbayar</th>
