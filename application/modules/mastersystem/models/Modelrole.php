@@ -13,6 +13,7 @@
                                 FROM dt01_gen_role_dt b
                                 WHERE b.org_id=a.org_id
                                 and   b.active='1'
+                                and   b.modules_id = (select modules_id from dt01_gen_modules_ms where active='1' and modules_id=b.modules_id)
                                 and   b.role_id=a.role_id
                             )  modules
                         from dt01_gen_role_ms a
