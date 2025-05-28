@@ -114,6 +114,24 @@
             echo json_encode($json);
         }
 
+        public function detailbarangpemesanan(){
+            $nopemesanan = $this->input->post("nopemesanan");
+            $result      = $this->md->detailbarangpemesanan($_SESSION['orgid'],$nopemesanan);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function catatankeuangan(){
             $nopemesanan  = $this->input->post("modal_note_finance_nopemesanan");
             $notelampiran = $this->input->post("modal_note_finance_catatan");

@@ -90,6 +90,20 @@ $("#modal_finance_payment").on('show.bs.modal', function(event){
     $("input[name='modal_finance_payment_nominal']").val("Rp. "+todesimal(datanominal));
 });
 
+$("#modal_print_po").on('show.bs.modal', function(event){
+    var button              = $(event.relatedTarget);
+    var datanopemesanan     = button.attr("datanopemesanan");
+    var datanopemesananunit = button.attr("datanopemesananunit");
+    var datasupplier        = button.attr("datasupplier");
+    var datatglorder        = button.attr("datatglorder");
+
+    $("#pono").html(datanopemesananunit);
+    $("#suppliers").html(datasupplier);
+    $("#orderdate").html(datatglorder);
+
+    printpo(datanopemesanan);
+});
+
 function viewdoc(btn) {
     var filename     = $(btn).attr("data-dirfile");
     var note         = $(btn).attr("data_attachment_note");
@@ -233,6 +247,8 @@ function dataapprove(){
                                         " datajudulpemesanan='"+result[i].judul_pemesanan+"'"+
                                         " datacatatanpemesanan='"+result[i].note+"'"+
                                         " datacatatankeuangan='"+result[i].inv_keu_note+"'"+
+                                        " datasupplier='"+result[i].namasupplier+"'"+
+                                        " datatglorder='"+result[i].tglorder+"'"+
                                         " datanominal='"+result[i].total+"'";
 
                     tableresult +="<tr>";
@@ -256,6 +272,7 @@ function dataapprove(){
                             if(result[i].attachment==="1"){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
+                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print Purchase Order</a>";
                             tableresult +="</div>";
                         tableresult +="</div>";
                     tableresult +="</td>";
@@ -427,6 +444,107 @@ function datadecline(){
 		}
     });
     return false;
+};
+
+function printpo(nopemesanan){
+    $.ajax({
+        url       : url+"index.php/paymentponew/paymentfinance/detailbarangpemesanan",
+        data      : {nopemesanan:nopemesanan},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdetailpo").html("");
+        },
+        success: function (data) {
+            let result      = "";
+            let tableresult = "";
+            let ttdkains    = "";
+            let ttdmanager  = "";
+            let totalvat    = 0;
+            let grandtotal  = 0;
+
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (let i in result) {
+                    const stock      = parseFloat(result[i].stock) || 0;
+                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
+                    const harga      = parseFloat(result[i].harga) || 0;
+                    const vatPercent = parseFloat(result[i].ppn) || 0;
+                    const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
+                    const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+                    tableresult += `<td>${result[i].note ? result[i].note : ""}</td>`;
+                    tableresult += `<td class='text-end pe-4'>${todesimal(qty)}</td>`;
+                    tableresult += "</tr>";
+
+                    totalvat   += vatAmount;
+                    grandtotal += subtotal;
+
+                    ttdkains   = result[i].createdby;
+                    ttdmanager = result[i].manager;
+                }
+            }
+
+            $("#resultdetailpo").html(tableresult);
+            $("#ttdkains").html(ttdkains);
+            $("#ttdmanager").html(ttdmanager);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
+        }
+    });
+    return false;
+};
+
+function printPDF() {
+    var printContents = document.querySelector('#modal_print_po .modal-body').innerHTML;
+    var printWindow = window.open('', '', 'height=700,width=900');
+    printWindow.document.write('<html>');
+        printWindow.document.write('<head>');
+            printWindow.document.write('<title>Purchase Request</title>');
+
+            printWindow.document.write('<style>');
+                // Global styles
+                printWindow.document.write('body, * { font-size: 10px; font-family: Arial, sans-serif; margin: 0; padding: 0; }');
+                printWindow.document.write('table { border-collapse: collapse; width: 100%; }');
+                printWindow.document.write('th, td { padding: 5px; }');
+                printWindow.document.write('h1 { font-size: 30px; text-align: center; }');
+                printWindow.document.write('h6 { font-size: 10px; text-align: left; }');
+                printWindow.document.write('img { height: 60px; display: block; margin: 0 auto; }');
+
+                // Styles specific to the header table
+                printWindow.document.write('#tableheader { border: none; }');
+                printWindow.document.write('#tableheader th, #tableheader td { border: none; }');
+
+                // Ensure other tables retain their borders
+                printWindow.document.write('table:not(#tableheader), table:not(#tableheader) th, table:not(#tableheader) td { border: 1px solid black; }');
+
+                // Full-page layout for print
+                printWindow.document.write('@page { size: A4; margin: 0; }');
+                printWindow.document.write('body { margin: 0; }');
+            printWindow.document.write('</style>');
+
+        printWindow.document.write('</head>');
+        printWindow.document.write('<body>');
+        
+            // Konten untuk dicetak
+            printWindow.document.write(printContents);
+        
+        printWindow.document.write('</body>');
+    printWindow.document.write('</html>');
+    printWindow.document.close();
+    printWindow.print();
 };
 
 function validasi(btn) {
