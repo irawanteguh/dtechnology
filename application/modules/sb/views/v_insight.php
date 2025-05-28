@@ -7,6 +7,28 @@
         color: #ffffff !important; /* warna tab aktif putih */
         border-color: #ffffff !important; /* garis bawah tab aktif putih */
     }
+
+    @media (max-width: 690px) {
+        .card-sm-font * {
+            font-size: 100% !important;
+        }
+        .responsive-padding {
+            padding-left: 0.5rem !important; /* px-2 = 0.5rem */
+            padding-right: 0.5rem !important;
+        }
+        .responsive-margin {
+            margin-left: 0.5rem !important;  /* mx-2 = 0.5rem */
+            margin-right: 0.5rem !important;
+            margin-top: -170px !important;
+        }
+        /* .hide-on-sm {
+            display: none !important;
+        } */
+        .stack-on-sm {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+    }
 </style>
 
 <?php
@@ -14,9 +36,9 @@
 ?>
     <div class="row g-4 mb-5">
         <div class="col-sm-4 col-lg-4 animate__animated animate__fadeIn">
-            <div class="card card-flush h-100 shadow-sm">
+            <div class="card card-flush h-100 shadow-sm card-sm-font">
                 <div class="card-body p-0">
-                    <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?>">
+                    <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?> responsive-padding">
                         <div class="d-flex flex-stack">
                             <h3 class="m-0 text-white fw-bolder fs-5"><?php echo $orgname; ?></h3>
                             <h3 class="m-0 text-white fw-bolder fs-5" id="<?php echo $orgid.$tabid;?>pendapatanlabel"></h3>
@@ -26,7 +48,7 @@
                             <span class="fw-bolder fs-2x pt-1" id="<?php echo $orgid.$tabid;?>pendapatantotal">NaN</span>
                         </div>
                     </div>
-                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1" style="margin-top: -140px">
+                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1 responsive-margin" style="margin-top: -140px">
                         <?php
                             $jenis = [
                                 'Umum'      => ['id' => 'umum', 'icon' => 'bi-cash-stack', 'text' => 'text-success', 'bg' => 'bg-light-success'],
@@ -39,12 +61,12 @@
                         ?>
                         <?php foreach ($jenis as $label => $item): ?>
                             <div class="d-flex align-items-center mb-2">
-                                <div class="symbol symbol-40px w-40px me-5">
+                                <div class="symbol symbol-40px w-40px me-5 hide-on-sm">
                                     <span class="symbol-label <?php echo $item['bg']; ?>">
                                         <i class="bi <?php echo $item['icon']; ?> fa-2x <?php echo $item['text']; ?>"></i>
                                     </span>
                                 </div>
-                                <div class="d-flex align-items-center flex-wrap w-100">
+                                <div class="d-flex flex-wrap w-100 stack-on-sm">
                                     <div class="mb-1 pe-3 flex-grow-1">
                                         <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
                                     </div>
@@ -59,9 +81,9 @@
             </div>
         </div>
         <div class="col-sm-4 col-lg-4 animate__animated animate__fadeIn">
-            <div class="card card-flush h-100 shadow-sm">
+            <div class="card card-flush h-100 shadow-sm card-sm-font">
                 <div class="card-body p-0">
-                    <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?>">
+                    <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?> responsive-padding">
                         <div class="d-flex flex-stack">
                             <h3 class="m-0 text-white fw-bolder fs-5"><?php echo $orgname; ?></h3>
                             <h3 class="m-0 text-white fw-bolder fs-5" id="<?php echo $orgid.$tabid;?>pengeluaranlabel"></h3>
@@ -71,7 +93,7 @@
                             <span class="fw-bolder fs-2x pt-1" id="<?php echo $orgid.$tabid;?>pengeluarantotal">NaN</span>
                         </div>
                     </div>
-                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1" style="margin-top: -140px">
+                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1 responsive-margin" style="margin-top: -140px">
                         <?php
                             $jenis = [
                                 'Medis'                  => ['id' => 'medis', 'icon' => 'bi-hospital', 'text' => 'text-primary', 'bg' => 'bg-light-primary'],
@@ -84,12 +106,12 @@
                         ?>
                         <?php foreach ($jenis as $label => $item): ?>
                             <div class="d-flex align-items-center mb-2">
-                                <div class="symbol symbol-40px w-40px me-5">
+                                <div class="symbol symbol-40px w-40px me-5 hide-on-sm">
                                     <span class="symbol-label <?php echo $item['bg']; ?>">
                                         <i class="bi <?php echo $item['icon']; ?> fa-2x <?php echo $item['text']; ?>"></i>
                                     </span>
                                 </div>
-                                <div class="d-flex align-items-center flex-wrap w-100">
+                                <div class="d-flex flex-wrap w-100 stack-on-sm">
                                     <div class="mb-1 pe-3 flex-grow-1">
                                         <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
                                     </div>
@@ -104,9 +126,9 @@
             </div>
         </div>
         <div class="col-sm-4 col-lg-4 animate__animated animate__fadeIn">
-            <div class="card card-flush h-100 shadow-sm">
+            <div class="card card-flush h-100 shadow-sm card-sm-font">
                 <div class="card-body p-0">
-                    <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?>">
+                    <div class="px-9 pt-7 card-rounded h-275px w-100 <?php echo $bgcolor; ?> responsive-padding">
                         <div class="d-flex flex-stack">
                             <h3 class="m-0 text-white fw-bolder fs-5"><?php echo $orgname; ?></h3>
                             <h3 class="m-0 text-white fw-bolder fs-5" id="<?php echo $orgid.$tabid;?>selisihlabel"></h3>
@@ -116,22 +138,22 @@
                             <span class="fw-bolder fs-2x pt-1" id="<?php echo $orgid.$tabid;?>selisihtotal">NaN</span>
                         </div>
                     </div>
-                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1" style="margin-top: -140px">
+                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-5 py-5 position-relative z-index-1 responsive-margin" style="margin-top: -140px">
                         <?php
                             $jenis = [
-                                'Total Pendapatan'  => ['id' => 'total_pendapatan', 'icon' => 'bi-cash-stack', 'text' => 'text-success', 'bg' => 'bg-light-success'],
-                                'Total Pengeluaran' => ['id' => 'total_pengeluaran', 'icon' => 'bi-cash-coin', 'text' => 'text-danger', 'bg' => 'bg-light-danger'],
-                                'Saldo Akhir'       => ['id' => 'saldo_akhir','icon' => 'bi-cash-stack','text' => 'text-dark','bg'   => 'bg-light']
+                                'Pendapatan'  => ['id' => 'total_pendapatan', 'icon' => 'bi-cash-stack', 'text' => 'text-success', 'bg' => 'bg-light-success'],
+                                'Pengeluaran' => ['id' => 'total_pengeluaran', 'icon' => 'bi-cash-coin', 'text' => 'text-danger', 'bg' => 'bg-light-danger'],
+                                'Saldo Akhir' => ['id' => 'saldo_akhir','icon' => 'bi-cash-stack','text' => 'text-dark','bg'   => 'bg-light']
                             ];
                         ?>
                         <?php foreach ($jenis as $label => $item): ?>
                             <div class="d-flex align-items-center mb-2">
-                                <div class="symbol symbol-40px w-40px me-5">
+                                <div class="symbol symbol-40px w-40px me-5 hide-on-sm">
                                     <span class="symbol-label <?php echo $item['bg']; ?>">
                                         <i class="bi <?php echo $item['icon']; ?> fa-2x <?php echo $item['text']; ?>"></i>
                                     </span>
                                 </div>
-                                <div class="d-flex align-items-center flex-wrap w-100">
+                                <div class="d-flex flex-wrap w-100 stack-on-sm">
                                     <div class="mb-1 pe-3 flex-grow-1">
                                         <a href="#" class="fs-7 text-gray-800 text-hover-primary fw-bolder"><?php echo $label; ?></a>
                                     </div>
@@ -234,3 +256,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    function cekUkuranFont() {
+        const elemen = document.getElementById('cek-font');
+        const fontSize = window.getComputedStyle(elemen).fontSize;
+        console.log("Ukuran font elemen:", fontSize);
+    }
+
+    // Jalankan saat halaman load dan saat resize
+    // window.addEventListener('load', cekUkuranFont);
+    // window.addEventListener('resize', cekUkuranFont);
+
+    window.addEventListener('resize', function () {
+        console.log("Halaman sedang di-resize, width: " + window.innerWidth);
+    });
+
+
+</script>
