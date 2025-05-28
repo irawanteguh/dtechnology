@@ -1,9 +1,6 @@
 <?php
 function rendertabbulan($orgid) {
-    $bulan = [
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
+    $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni","Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     $bulanSekarang = date('n');
     ?>
     <div class="d-flex overflow-auto min-h-40px">

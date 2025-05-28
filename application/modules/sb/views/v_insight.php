@@ -173,104 +173,90 @@
 ?>
 
 <div class="row gy-5 g-xl-8 mb-xl-3 border">
-    <div class="card rounded bgi-no-repeat bgi-position-x-end bgi-size-cover" style="background-color: #663259;background-size: auto 100%; background-image: url('<?php echo base_url();?>assets/images/svg/misc/taieri.svg')">
-        <div class="card-body pt-9 pb-0">
-            <div class="d-flex flex-wrap flex-sm-nowrap mb-5">
-                <div>
-                    <h1 class="text-white">Hospital Insight RMB Hospital Group</h1>
-                    <p class="text-white mb-0">
-                        Insight data real-time untuk memantau kinerja dan layanan rumah sakit dalam grup RMB.
-                    </p>
+    <div class="col-xl-12">
+        <div class="card rounded bgi-no-repeat bgi-position-x-end bgi-size-cover" style="background-color: #663259;background-size: auto 100%; background-image: url('<?php echo base_url();?>assets/images/svg/misc/taieri.svg')">
+            <div class="card-body pt-9 pb-0">
+                <div class="d-flex flex-wrap flex-sm-nowrap mb-5">
+                    <div>
+                        <h1 class="text-white">Hospital Insight RMB Hospital Group</h1>
+                        <p class="text-white mb-0">
+                            Insight data real-time untuk memantau kinerja dan layanan rumah sakit dalam grup RMB.
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="d-flex overflow-auto h-55px">
-                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
-                    <li class="nav-item">
-                        <a class="text-warning nav-link active" data-bs-toggle="tab" href="#tabdate" id="tab_date">Date</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-warning nav-link" data-bs-toggle="tab" href="#tabmonth" id="tab_month">Month</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-warning nav-link" data-bs-toggle="tab" href="#tabyears" id="tab_years">Years</a>
-                    </li>
-                </ul>
+                <div class="d-flex overflow-auto h-55px">
+                    <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#tabdate" id="tab_date" style="color:#fff;">Date</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#tabmonth" id="tab_month" style="color:#fff;">Month</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#tabyears" id="tab_years" style="color:#fff;">Years</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row gy-5 g-xl-8 mb-xl-8">
-    <div class="tab-content p-0">
-        <div id="tabdate" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="tab_date">
-            <div class="d-flex justify-content-end">
-                <div class="d-flex flex-wrap my-2">
-                    <div class="d-flex align-items-center my-2">
-                        <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Date :</span>
-                        <input class="form-control flatpickr-input form-control-sm w-auto" name="dateperiode" id="dateperiode" placeholder="Pick a date"  type="text" style="min-width: 200px;">
+    <div class="col-xl-12">
+        <div class="tab-content p-0">
+            <div id="tabdate" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="tab_date">
+                <div class="d-flex justify-content-end">
+                    <div class="d-flex flex-wrap my-2">
+                        <div class="d-flex align-items-center my-2">
+                            <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Date :</span>
+                            <input class="form-control flatpickr-input form-control-sm w-auto" name="dateperiode" id="dateperiode" placeholder="Pick a date"  type="text" style="min-width: 200px;">
+                        </div>
                     </div>
                 </div>
+                <?php
+                    renderHospitalCard("rmb","RMB Hospital Group","bg-danger","date");
+                    renderHospitalCard("rsms","RSU Mutiasari","bg-info","date");
+                    renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","date");
+                    renderHospitalCard("rst","RS Thursina","bg-success","date");
+                ?>
             </div>
-            <?php
-                renderHospitalCard("rmb","RMB Hospital Group","bg-danger","date");
-                renderHospitalCard("rsms","RSU Mutiasari","bg-info","date");
-                renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","date");
-                renderHospitalCard("rst","RS Thursina","bg-success","date");
-            ?>
-        </div>
-        <div id="tabmonth" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_month">
-            <div class="d-flex justify-content-end">
-                <div class="d-flex flex-wrap my-2">
-                    <div class="d-flex align-items-center my-2">
-                        <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Periode :</span>
-                        <select data-control="select2" data-placeholder="Please select" class="form-select form-select-sm select2-hidden-accessible" data-hide-search="true" name="monthperiode" id="monthperiode">
-                            <?php echo $periodebulan;?>
-                        </select>
+            <div id="tabmonth" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_month">
+                <div class="d-flex justify-content-end">
+                    <div class="d-flex flex-wrap my-2">
+                        <div class="d-flex align-items-center my-2">
+                            <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Periode :</span>
+                            <select data-control="select2" data-placeholder="Please select" class="form-select form-select-sm select2-hidden-accessible" data-hide-search="true" name="monthperiode" id="monthperiode">
+                                <?php echo $periodebulan;?>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <?php
+                    renderHospitalCard("rmb","RMB Hospital Group","bg-danger","month");
+                    renderHospitalCard("rsms","RSU Mutiasari","bg-info","month");
+                    renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","month");
+                    renderHospitalCard("rst","RS Thursina","bg-success","month");
+                ?>
             </div>
-            <?php
-                renderHospitalCard("rmb","RMB Hospital Group","bg-danger","month");
-                renderHospitalCard("rsms","RSU Mutiasari","bg-info","month");
-                renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","month");
-                renderHospitalCard("rst","RS Thursina","bg-success","month");
-            ?>
-        </div>
-        <div id="tabyears" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_years">
-            <div class="d-flex justify-content-end">
-                <div class="d-flex flex-wrap my-2">
-                    <div class="d-flex align-items-center my-2">
-                        <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Periode :</span>
-                        <select data-control="select2" data-placeholder="Please select" class="form-select form-select-sm select2-hidden-accessible" data-hide-search="true" name="yearsperiode" id="yearsperiode">
-                            <?php echo $periode;?>
-                        </select>
+            <div id="tabyears" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_years">
+                <div class="d-flex justify-content-end">
+                    <div class="d-flex flex-wrap my-2">
+                        <div class="d-flex align-items-center my-2">
+                            <span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Periode :</span>
+                            <select data-control="select2" data-placeholder="Please select" class="form-select form-select-sm select2-hidden-accessible" data-hide-search="true" name="yearsperiode" id="yearsperiode">
+                                <?php echo $periode;?>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <?php
+                    renderHospitalCard("rmb","RMB Hospital Group","bg-danger","years");
+                    renderHospitalCard("rsms","RSU Mutiasari","bg-info","years");
+                    renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","years");
+                    renderHospitalCard("rst","RS Thursina","bg-success","years");
+                ?>
             </div>
-            <?php
-                renderHospitalCard("rmb","RMB Hospital Group","bg-danger","years");
-                renderHospitalCard("rsms","RSU Mutiasari","bg-info","years");
-                renderHospitalCard("rsiabm","RSIA Budhi Mulia","bg-primary","years");
-                renderHospitalCard("rst","RS Thursina","bg-success","years");
-            ?>
         </div>
     </div>
 </div>
-
-<script>
-    function cekUkuranFont() {
-        const elemen = document.getElementById('cek-font');
-        const fontSize = window.getComputedStyle(elemen).fontSize;
-        console.log("Ukuran font elemen:", fontSize);
-    }
-
-    // Jalankan saat halaman load dan saat resize
-    // window.addEventListener('load', cekUkuranFont);
-    // window.addEventListener('resize', cekUkuranFont);
-
-    window.addEventListener('resize', function () {
-        console.log("Halaman sedang di-resize, width: " + window.innerWidth);
-    });
-
-
-</script>
