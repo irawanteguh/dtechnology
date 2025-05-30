@@ -12,15 +12,15 @@
                                     else CONCAT('Due in ', X.WEEKS_DIFF, ' Weeks')
                                 end KETERANGAN,
                                 case 
-                                    when X.status = '1' and X.DAYS_DIFF < 1 then 
+                                    when X.STATUS = '1' and X.DAYS_DIFF < 1 then 
                                     '0'
                                     else
                                     '1'
                                 end statusshow,
                                 case
-                                    WHEN x.status = '0' AND x.due_date < CURRENT_DATE THEN '1'
-                                    WHEN x.status = '0' AND x.due_date >= CURRENT_DATE THEN '2'
-                                    WHEN x.status = '1' THEN '3'
+                                    WHEN x.STATUS = '0' AND x.due_date < CURRENT_DATE THEN '1'
+                                    WHEN x.STATUS = '0' AND x.due_date >= CURRENT_DATE THEN '2'
+                                    WHEN x.STATUS = '1' THEN '3'
                                     ELSE '0'
                                 end countstatus
                                 
