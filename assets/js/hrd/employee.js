@@ -244,7 +244,7 @@ function masteremployee(){
                         }
                     }
                     tableresult += "</td>";
-                    tableresult += `<td>${result[i].suspended === "Y" ? "<div><span class='badge badge-info'>Account Suspended</span></div>" : ""}<div><span class='badge ${result[i].active === "1" ? "badge-success'>Active" : "badge-danger'>Non Active"}</span></div></td>`;
+                    tableresult += `<td>${result[i].suspended === "Y" ? "<div><span class='badge badge-light-info'>Account Suspended</span></div>" : ""}<div><span class='badge ${result[i].active === "1" ? "badge-light-success'>Active" : "badge-light-danger'>Non Active"}</span></div></td>`;
                     tableresult += "<td class='text-end'>";
                         tableresult += "<div class='btn-group' role='group'>";
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
