@@ -91,7 +91,8 @@
 								'dt01_gen_role_ms',
 								'dt01_gen_role_dt',
 								'dt01_gen_role_access',
-								'dt01_gen_master_ms'
+								'dt01_gen_master_ms',
+								'dt01_hrd_kategori_tenaga_ms'
 							];
 		
 			foreach ($tables as $table) {
