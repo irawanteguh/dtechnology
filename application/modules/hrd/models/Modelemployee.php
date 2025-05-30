@@ -237,7 +237,7 @@
                                 from dt01_gen_user_data a
                                 where a.org_id='".$orgid."'
                                 ".$parameter."
-                            )X
+                            )x
                         )y
                         order by name asc
                     ";
