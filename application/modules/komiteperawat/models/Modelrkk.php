@@ -37,7 +37,7 @@
                                 where a.active='1'
                                 and   a.org_id='".$orgid."'
                                 and   a.kategori_id in ('65f1ccae-3ae6-4209-a66e-d7920b5824f5','b9710449-f5e4-4553-a962-f3b0f574dbc4')
-                            )X
+                            )x
                         )y
                         order by name asc
                     ";
