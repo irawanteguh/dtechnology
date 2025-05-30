@@ -5,27 +5,31 @@
             $query =
                     "
                         SELECT X.*,
-                                case 
-                                    when X.DUEDATE = '1' THEN 'Today'
-                                    when X.DUEDATE = '2' then CONCAT('Due in ', X.DAYS_DIFF, ' Days')
-                                    when X.DUEDATE = '3' then CONCAT('Due in ', X.DAYS_DIFF, ' Days')
-                                    else CONCAT('Due in ', X.WEEKS_DIFF, ' Weeks')
-                                end KETERANGAN,
-                                case 
-                                    when X.STATUS = '1' and X.DAYS_DIFF < 1 then 
-                                    '0'
-                                    else
-                                    '1'
-                                end statusshow,
-                                case
-                                    WHEN x.STATUS = '0' AND x.due_date < CURRENT_DATE THEN '1'
-                                    WHEN x.STATUS = '0' AND x.due_date >= CURRENT_DATE THEN '2'
-                                    WHEN x.STATUS = '1' THEN '3'
-                                    ELSE '0'
-                                end countstatus
-                                
-                        FROM(
-                            SELECT a.*,
+                            CASE 
+                                WHEN X.DUEDATE = '1' THEN 'Today'
+                                WHEN X.DUEDATE = '2' THEN CONCAT('Due in ', X.DAYS_DIFF, ' Days')
+                                WHEN X.DUEDATE = '3' THEN CONCAT('Due in ', X.DAYS_DIFF, ' Days')
+                                ELSE CONCAT('Due in ', X.WEEKS_DIFF, ' Weeks')
+                            END KETERANGAN,
+                            CASE 
+                                WHEN X.status = '1' AND X.DAYS_DIFF < 1 THEN '0'
+                                ELSE '1'
+                            END statusshow,
+                            CASE
+                                WHEN X.status = '0' AND X.due_date < CURRENT_DATE THEN '1'
+                                WHEN X.status = '0' AND X.due_date >= CURRENT_DATE THEN '2'
+                                WHEN X.status = '1' THEN '3'
+                                ELSE '0'
+                            END countstatus
+                        FROM (
+                            SELECT 
+                                a.user_id, 
+                                todo_id, 
+                                todo, 
+                                priority, 
+                                a.status AS status, 
+                                due_date, 
+                                active,
                                 CASE
                                     WHEN DATE(a.DUE_DATE) <= CURDATE() THEN 1
                                     WHEN YEAR(a.DUE_DATE) = YEAR(CURDATE()) AND WEEK(a.DUE_DATE) = WEEK(CURDATE()) THEN 2
@@ -35,14 +39,18 @@
                                 END DUEDATE,
                                 DATEDIFF(a.DUE_DATE, CURDATE()) AS DAYS_DIFF,
                                 TIMESTAMPDIFF(WEEK, CURDATE(), a.DUE_DATE) AS WEEKS_DIFF,
-                                (select name from dt01_gen_user_data where active='1' and org_id='".$orgid."' and user_id=a.created_by)dibuatoleh
-                                
+                                (SELECT name 
+                                FROM dt01_gen_user_data 
+                                WHERE active = '1' 
+                                AND org_id = '".$orgid."' 
+                                AND user_id = a.created_by) AS dibuatoleh
                             FROM dt01_hrd_todo_dt a
-                            WHERE a.active='1'
-                            AND a.org_id='".$orgid."'
-                            AND a.user_id='".$userid."'
-                        )X
-                        order by DUEDATE asc,  DUE_DATE  ASC
+                            WHERE a.active = '1'
+                            AND a.org_id = '".$orgid."'
+                            AND a.user_id = '".$userid."'
+                        ) X
+                        ORDER BY DUEDATE ASC, DUE_DATE ASC;
+
                 
                     ";
 
