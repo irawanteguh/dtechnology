@@ -31,7 +31,7 @@
                                     <th class="text-end">Sub Total</th>
                                     <th class="text-end">Ppn</th>
                                     <th class="text-end">Total</th>
-                                    <th>Diajukan oleh</th>
+                                    <th>Disetujui oleh</th>
                                     <th class="pe-4 text-end rounded-end">Action</th>
                                 </tr>
                             </thead>
@@ -73,7 +73,7 @@
                                     <th class="text-end">Ppn</th>
                                     <th class="text-end">Total</th>
                                     <th>Status</th>
-                                    <th class="pe-4 text-end rounded-end">Dihapus oleh</th>
+                                    <th class="pe-4 text-end rounded-end">Ditolak oleh</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultdatadecline"></tbody>

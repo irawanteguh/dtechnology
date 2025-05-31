@@ -51,6 +51,7 @@
                                     <th>Pengadaan</th>
                                     <th>Department</th>
                                     <th>Supplier / Cara Bayar</th>
+                                    <th>No Invoice</th>
                                     <th class="text-end">Sub Total</th>
                                     <th class="text-end">Ppn</th>
                                     <th class="text-end">Total</th>
@@ -98,7 +99,7 @@
                                     <th class="text-end">Ppn</th>
                                     <th class="text-end">Total</th>
                                     <th>Status</th>
-                                    <th class="pe-4 text-end rounded-end">Dihapus oleh</th>
+                                    <th class="pe-4 text-end rounded-end">Ditolak oleh</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultdatadecline"></tbody>

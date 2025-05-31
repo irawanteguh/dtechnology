@@ -86,7 +86,7 @@ $("#modal_finance_payment").on('show.bs.modal', function(event){
 
     $("input[name='modal_finance_payment_nopemesanan']").val(datanopemesanan);
     $("input[name='modal_finance_payment_departmentid']").val(datadepartmentid);
-    $("input[name='modal_finance_payment_note']").val("Pembayaran invoice no : "+datainvoiceno+", no pemesanan : "+datanopemesananunit+" "+datajudulpemesanan+" "+datacatatanpemesanan+" "+datacatatankeuangan+" Sebesar : Rp. "+todesimal(datanominal));
+    $("input[name='modal_finance_payment_note']").val("Pembayaran invoice no : "+(datainvoiceno || '')+", no pemesanan : "+datanopemesananunit+" "+datajudulpemesanan+" "+(datacatatanpemesanan || '')+" "+(datacatatankeuangan || ''));
     $("input[name='modal_finance_payment_nominal']").val("Rp. "+todesimal(datanominal));
 });
 
@@ -256,6 +256,7 @@ function dataapprove(){
                     tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>"; 
                     tableresult +="<td>"+result[i].unitdituju+"</td>";
                     tableresult +="<td><div>"+result[i].namasupplier+"</div><div>"+carabayar+"</div></td>";
+                    tableresult +="<td>"+(result[i].invoice_no ? result[i].invoice_no : "")+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
@@ -641,36 +642,53 @@ $(document).on("submit", "#formcatatankeuangan", function (e) {
 });
 
 $(document).on("submit", "#formpayment", function (e) {
-	e.preventDefault();
+    e.preventDefault();
     e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
-	$.ajax({
-        url       : url,
-        data      : form.serialize(),
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
+
+    // Ambil nilai nominal dan bersihkan karakter non-angka
+    var nominalRaw = $("#modal_finance_payment_nominal").val().replace(/[^0-9]/g, "");
+    var nominal = parseInt(nominalRaw);
+
+    // Validasi nilai nominal
+    if (!nominal || nominal <= 0) {
+        Swal.fire({
+            title: "Nominal Tidak Valid",
+            text: "Silakan isi jumlah transfer yang benar dan lebih dari 0.",
+            icon: "warning",
+            confirmButtonText: "OK",
+            confirmButtonClass: "btn btn-warning"
+        });
+        return false; // Stop form submit
+    }
+
+    var form = $(this);
+    var url = $(this).attr("action");
+
+    $.ajax({
+        url: url,
+        data: form.serialize(),
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-			$("#modal_finance_payment_btn").addClass("disabled");
+            $("#modal_finance_payment_btn").addClass("disabled");
         },
-		success: function (data) {
-
-            if(data.responCode == "00"){
+        success: function (data) {
+            if (data.responCode == "00") {
                 $("#modal_finance_payment").modal("hide");
                 dataonprocess();
                 dataapprove();
-			}
+            }
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
+        },
         complete: function () {
             $("#modal_finance_payment_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
+        },
+        error: function (xhr, status, error) {
             showAlert(
                 "I'm Sorry",
                 error,
@@ -678,7 +696,52 @@ $(document).on("submit", "#formpayment", function (e) {
                 "Please Try Again",
                 "btn btn-danger"
             );
-		}
-	});
+        }
+    });
+
     return false;
 });
+
+
+// $(document).on("submit", "#formpayment", function (e) {
+// 	e.preventDefault();
+//     e.stopPropagation();
+// 	var form = $(this);
+//     var url  = $(this).attr("action");
+// 	$.ajax({
+//         url       : url,
+//         data      : form.serialize(),
+//         method    : "POST",
+//         dataType  : "JSON",
+//         cache     : false,
+//         beforeSend: function () {
+//             toastr.clear();
+//             toastr["info"]("Sending request...", "Please wait");
+// 			$("#modal_finance_payment_btn").addClass("disabled");
+//         },
+// 		success: function (data) {
+
+//             if(data.responCode == "00"){
+//                 $("#modal_finance_payment").modal("hide");
+//                 dataonprocess();
+//                 dataapprove();
+// 			}
+
+//             toastr.clear();
+//             toastr[data.responHead](data.responDesc, "INFORMATION");
+// 		},
+//         complete: function () {
+//             $("#modal_finance_payment_btn").removeClass("disabled");
+// 		},
+//         error: function(xhr, status, error) {
+//             showAlert(
+//                 "I'm Sorry",
+//                 error,
+//                 "error",
+//                 "Please Try Again",
+//                 "btn btn-danger"
+//             );
+// 		}
+// 	});
+//     return false;
+// });

@@ -54,7 +54,7 @@
                             </select>
                         </div>
                         <div class="col-xl-12 mb-5">
-                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Total :</label>
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Total Transfer :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_finance_payment_nominal" name="modal_finance_payment_nominal">
                         </div>                                     
                     </div>

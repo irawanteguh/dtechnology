@@ -51,7 +51,7 @@
             $status="
                         and   a.status in ('15')
                     ";
-            $parameter="order by inv_keu_date desc";
+            $parameter="order by inv_keu_date asc";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){
@@ -162,10 +162,11 @@
             $departmentid = $this->input->post("modal_finance_payment_departmentid");
             $catatan      = $this->input->post("modal_finance_payment_note");
  
-            $dataupdate['rekening_id']  = $rekeningid;
-            $dataupdate['status']       = "16";
-            $dataupdate['payment_id']   = $_SESSION['userid'];
-            $dataupdate['payment_date'] = date('Y-m-d H:i:s');
+            $dataupdate['rekening_id']    = $rekeningid;
+            $dataupdate['total_transfer'] = (int) preg_replace('/\D/', '', $nominal);
+            $dataupdate['status']         = "16";
+            $dataupdate['payment_id']     = $_SESSION['userid'];
+            $dataupdate['payment_date']   = date('Y-m-d H:i:s');
 
             $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid'],$rekeningid);
             if(empty($resultcheckbalancelast)){
