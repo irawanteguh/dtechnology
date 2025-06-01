@@ -44,7 +44,7 @@ class Activity extends CI_Controller{
 			$data['kegiatandetail'] = $a->activity;
 			$data['start']          = $a->start_date;
 			$data['end']            = $a->end_date;
-			$data['validator']            = $a->validatorkegiatan;
+			$data['validator']      = $a->validatorkegiatan;
 
 			if($a->status === "0"){
 				$data['color']     = '#0d6efd';

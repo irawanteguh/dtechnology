@@ -65,7 +65,8 @@
                                     <tr class="fw-bolder align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
                                         <th>Pembayaran</th>
-                                        <th class="text-center">Tanggal</th>
+                                        <th>Rekanan</th>
+                                        <th class="text-center">Tanggal Tagihan</th>
                                         <th class="text-center">Tagihan</th>
                                         <th class="text-center">Terbayar</th>
                                         <th class="text-center">Sisa Tagihan</th>
