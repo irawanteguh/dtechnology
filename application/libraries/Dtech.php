@@ -20,7 +20,6 @@
             return json_decode($responsecurl,TRUE); 
         }
 
-
         public static function quickreportkunjungan($body){
             $oauthResponse = Dtech::oauth();
 
@@ -38,7 +37,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "DTECH-QUICKREPORT"
                 ]);
     
@@ -65,7 +64,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "DTECH-QUICKREPORT"
                 ]);
     
