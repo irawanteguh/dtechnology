@@ -64,7 +64,8 @@ function datapiutang(){
                             tableresult += "<td colspan='4' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
                             tableresult += "<td class='text-end'>" + todesimal(subtotal) + "</td>";
                             tableresult += "<td class='text-end'>0</td>";
-                            tableresult += "<td class='text-end pe-4'>0</td>";
+                            tableresult += "<td class='text-end'>0</td>";
+                            tableresult += "<td class='text-end'></td>";
                             tableresult += "</tr>";
                         }
             
@@ -81,7 +82,8 @@ function datapiutang(){
                     tableresult += "<td class='text-center'>" + item.tgldate + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(item.nilai) + "</td>";
                     tableresult += "<td class='text-end'>0</td>";
-                    tableresult += "<td class='text-end pe-4'>0</td>";
+                    tableresult += "<td class='text-end'>0</td>";
+                    tableresult += "<td class='text-end'><a class='btn btn-sm btn-light-success'>Payment</a></td>";
                     tableresult += "</tr>";
             
                     subtotal += parseFloat(item.nilai);
@@ -93,7 +95,8 @@ function datapiutang(){
                     tableresult += "<td colspan='4' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(subtotal) + "</td>";
                     tableresult += "<td class='text-end'>0</td>";
-                    tableresult += "<td class='text-end pe-4'>0</td>";
+                    tableresult += "<td class='text-end'>0</td>";
+                    tableresult += "<td class='text-end'></td>";
                     tableresult += "</tr>";
                 }
             }

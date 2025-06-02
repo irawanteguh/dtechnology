@@ -176,6 +176,27 @@
                                                 $listpdf['signatures'][] = $listpdfsignatures;
                                             }
                                         }
+                                    }else{
+                                        $listpdf     = [];
+                                        $coordinatex = floatval(COORDINATE_X);
+                                        $coordinatey = floatval(COORDINATE_Y);
+                                        $page        = floatval(PAGE);
+        
+        
+                                        $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                        $listpdfsignatures['location']        = $files->orgname;
+                                        $listpdfsignatures['width']           = floatval(WIDTH);
+                                        $listpdfsignatures['height']          = floatval(HEIGHT);
+                                        $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                        $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                        $listpdfsignatures['page_number']     = $page;
+                                        $listpdfsignatures['qrcombine']       = "QRONLY";
+                                        if(CERTIFICATE==="PERSONAL"){
+                                            $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                        }
+                
+                                        $listpdf['filename']     = $files->filename;
+                                        $listpdf['signatures'][] = $listpdfsignatures;
                                     }
                                 }else{
                                     $listpdf     = [];

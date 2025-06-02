@@ -70,6 +70,7 @@
                                         <th class="text-center">Tagihan</th>
                                         <th class="text-center">Terbayar</th>
                                         <th class="text-center">Sisa Tagihan</th>
+                                        <th class="pe-4 rounded-end text-end">Actions</th>
                                     </tr>
                                     
                                 </thead>
