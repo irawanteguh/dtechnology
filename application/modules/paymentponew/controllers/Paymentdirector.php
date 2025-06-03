@@ -16,7 +16,7 @@
             $status="
                         and   a.status in ('11')
                     ";
-            $parameter="order by inv_vice_date desc";
+            $parameter="order by inv_vice_date asc";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             
 			if(!empty($result)){

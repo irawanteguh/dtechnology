@@ -30,5 +30,10 @@
             return $recordset;
         }
 
+        function updateheader($nopemesanan,$data){           
+            $sql =   $this->db->update("dt01_lgu_pemesanan_hd",$data,array("no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
     }
 ?>

@@ -353,9 +353,14 @@ function datakaryawan(){
                         btnaction  = btnapprevoke;
                     }
 
-                    if(result[i].CERTIFICATE==="4"){
+                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID===""){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
                         btnaction  = btnedit+btnpengajuan;
+                    }
+
+                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID!=""){
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
+                        btnaction  = btnreenroll;
                     }
 
                     tableresult +="<tr>";

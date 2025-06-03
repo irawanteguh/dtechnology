@@ -31,6 +31,7 @@
                                     <th class="text-end">Sub Total</th>
                                     <th class="text-end">Ppn</th>
                                     <th class="text-end">Total</th>
+                                    <th>Status</th>
                                     <th>Dibuat oleh</th>
                                     <th class="pe-4 text-end rounded-end">Action</th>
                                 </tr>
