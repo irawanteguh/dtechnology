@@ -14,14 +14,31 @@
         }
 
         public function loadcombobox(){
+            $parameter1        = "";
+
+            $resultmasterunit = $this->md->masterunit($_SESSION['orgid'],$parameter1);
             $resultprovider   = $this->md->provider($_SESSION['orgid']);
+            $resultrekening   = $this->md->rekening($_SESSION['orgid']);
+
+            $department="";
+            foreach($resultmasterunit as $a ){
+                $department.="<option value='".$a->department_id."'>".$a->department."</option>";
+            }
 
             $provider="";
             foreach($resultprovider as $a ){
                 $provider.="<option value='".$a->provider_id."'>".$a->provider."</option>";
             }
 
+            $rekening="";
+            foreach($resultrekening as $a ){
+                $rekening.="<option value='".$a->rekening_id."'>".$a->keterangan."</option>";
+            }
+
+
             $data['provider']   = $provider;
+            $data['rekening']   = $rekening;
+            $data['department'] = $department;
             return $data;
 		}
 
@@ -61,6 +78,50 @@
             $data['created_by']   = $_SESSION['userid'];
 
             if($this->md->insertpiutang($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function pembayaran(){
+            $piutangid = $this->input->post("modal_mcu_pembayaran_piutangid");
+            $departmentid = $this->input->post("modal_mcu_pembayaran_departmentid");
+            $rekeningid = $this->input->post("modal_mcu_pembayaran_rekeningid");
+            $note       = $this->input->post("modal_mcu_pembayaran_note");
+            $date       = $this->input->post("modal_mcu_pembayaran_date");
+            $nominal    = $this->input->post("modal_mcu_pembayaran_in");
+            
+            $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid'],$rekeningid);
+
+            if(empty($resultcheckbalancelast)){
+                $lastbalance = 0;
+            }else{
+                $lastbalance =$resultcheckbalancelast[0]->balance;
+            }
+
+            $data['org_id']         = $_SESSION['orgid'];
+            $data['transaksi_id']   = generateuuid();
+            $data['no_kwitansi']    = $this->md->nokwitansi($_SESSION['orgid'],$rekeningid)->nokwitansi;
+            $data['rekening_id']    = $rekeningid;
+            $data['note']           = $note;
+            $data['ref_id']         = $piutangid;
+            $data['department_id']  = $departmentid;
+            $data['cash_in']        = (int) preg_replace('/\D/', '', $nominal);
+            $data['before_balance'] = $lastbalance;
+            $data['balance']        = strval($lastbalance)+(int) preg_replace('/\D/', '', $nominal);
+            $data['status']         = "6";
+            $data['accept_id']      = $_SESSION['userid'];
+            $data['accept_date']    = date('Y-m-d H:i:s');
+            $data['created_by']     = $_SESSION['userid'];
+
+            if($this->md->insertrekening($data)){
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Added Successfully";

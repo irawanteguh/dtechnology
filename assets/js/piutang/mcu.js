@@ -9,6 +9,22 @@ flatpickr('[name="modal_mcu_invoice_date"]', {
     }
 });
 
+flatpickr('[name="modal_mcu_pembayaran_date"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
+$("#modal_mcu_pembayaran").on('show.bs.modal', function(event){
+    var button              = $(event.relatedTarget);
+    var datapiutangid     = button.attr("datapiutangid");
+    $("#modal_mcu_pembayaran_piutangid").val(datapiutangid);
+});
+
+
 function formatRupiah(angka, prefix = 'Rp ') {
     let numberString = angka.replace(/[^,\d]/g, '').toString();
     let split = numberString.split(',');
@@ -51,29 +67,35 @@ function datapiutang(){
                 var result = data.responResult;
                 var tableresult = "";
                 var currentRekanan = "";
-                var subtotal = 0;
-            
+                var subtotalNilai = 0;
+                var subtotalTerbayar = 0;
+                var subtotalSisa = 0;
+
                 for (var i = 0; i < result.length; i++) {
                     var item = result[i];
-            
+
                     // Deteksi pergantian rekanan
                     if (item.rekanan !== currentRekanan) {
                         // Jika bukan pertama dan ada subtotal sebelumnya, tampilkan subtotal dulu
                         if (currentRekanan !== "") {
                             tableresult += "<tr class='fw-bold bg-warning'>";
                             tableresult += "<td colspan='4' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
-                            tableresult += "<td class='text-end'>" + todesimal(subtotal) + "</td>";
-                            tableresult += "<td class='text-end'>0</td>";
-                            tableresult += "<td class='text-end'>0</td>";
+                            tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
+                            tableresult += "<td class='text-end'>" + todesimal(subtotalTerbayar) + "</td>";
+                            tableresult += "<td class='text-end'>" + todesimal(subtotalSisa) + "</td>";
                             tableresult += "<td class='text-end'></td>";
                             tableresult += "</tr>";
                         }
-            
+
                         // Reset subtotal dan set rekanan baru
                         currentRekanan = item.rekanan;
-                        subtotal = 0;
+                        subtotalNilai = 0;
+                        subtotalTerbayar = 0;
+                        subtotalSisa = 0;
                     }
-            
+
+                    var getvariabel =   " datapiutangid='"+result[i].piutang_id+"'";
+
                     // Tampilkan baris data
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + item.no_tagihan + "</td>";
@@ -81,25 +103,29 @@ function datapiutang(){
                     tableresult += "<td>" + item.rekanan + "</td>";
                     tableresult += "<td class='text-center'>" + item.tgldate + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(item.nilai) + "</td>";
-                    tableresult += "<td class='text-end'>0</td>";
-                    tableresult += "<td class='text-end'>0</td>";
-                    tableresult += "<td class='text-end'><a class='btn btn-sm btn-light-success'>Payment</a></td>";
+                    tableresult += "<td class='text-end'>" + todesimal(item.jmlterbayar) + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(item.sisa) + "</td>";
+                    tableresult += "<td class='text-end'><a class='btn btn-sm btn-light-success' data-bs-toggle='modal' data-bs-target='#modal_mcu_pembayaran' "+getvariabel+">Payment</a></td>";
                     tableresult += "</tr>";
-            
-                    subtotal += parseFloat(item.nilai);
+
+                    // Tambahkan ke subtotal
+                    subtotalNilai += parseFloat(item.nilai);
+                    subtotalTerbayar += parseFloat(item.jmlterbayar);
+                    subtotalSisa += parseFloat(item.sisa);
                 }
-            
+
                 // Subtotal terakhir setelah loop selesai
                 if (currentRekanan !== "") {
                     tableresult += "<tr class='fw-bold bg-warning'>";
                     tableresult += "<td colspan='4' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
-                    tableresult += "<td class='text-end'>" + todesimal(subtotal) + "</td>";
-                    tableresult += "<td class='text-end'>0</td>";
-                    tableresult += "<td class='text-end'>0</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(subtotalTerbayar) + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(subtotalSisa) + "</td>";
                     tableresult += "<td class='text-end'></td>";
                     tableresult += "</tr>";
                 }
             }
+
             
 
             $("#resultrekappiutang").html(tableresult);
@@ -151,6 +177,48 @@ $(document).on("submit", "#formnewinvoicemcu", function (e) {
 		},
         complete: function () {
             $("#modal_mcu_invoice_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formpembayaran", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_mcu_pembayaran_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_mcu_pembayaran").modal("hide");
+                datapiutang();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_mcu_pembayaran_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(
