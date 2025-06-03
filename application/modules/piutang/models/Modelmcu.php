@@ -117,8 +117,71 @@
             return $recordset;
         }
 
+        function historypembayaran($orgid,$tahun){
+            $query =
+                    "
+                        SELECT 
+                            a.piutang_id,
+                            a.no_tagihan,
+                            a.note,
+                            a.rekanan_id,
+                            a.nilai,
+                            a.date,
+                            p.provider,
+
+                            -- Total nominal per bulan
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '01' THEN b.nominal ELSE 0 END) AS jml1,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '02' THEN b.nominal ELSE 0 END) AS jml2,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '03' THEN b.nominal ELSE 0 END) AS jml3,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '04' THEN b.nominal ELSE 0 END) AS jml4,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '05' THEN b.nominal ELSE 0 END) AS jml5,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '06' THEN b.nominal ELSE 0 END) AS jml6,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '07' THEN b.nominal ELSE 0 END) AS jml7,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '08' THEN b.nominal ELSE 0 END) AS jml8,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '09' THEN b.nominal ELSE 0 END) AS jml9,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '10' THEN b.nominal ELSE 0 END) AS jml10,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '11' THEN b.nominal ELSE 0 END) AS jml11,
+                            SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '12' THEN b.nominal ELSE 0 END) AS jml12,
+
+                            -- Tambahan total pembayaran tahun itu
+                            SUM(COALESCE(b.nominal, 0)) AS total_terbayar,
+
+                            -- Sisa tagihan
+                            a.nilai - SUM(COALESCE(b.nominal, 0)) AS sisa_tagihan
+
+                        FROM dt01_keu_piutang_hd a
+
+                        LEFT JOIN dt01_keu_piutang_it b
+                            ON a.piutang_id = b.piutang_id AND a.org_id = b.org_id
+                            AND YEAR(b.date) = '".$tahun."' -- Tahun sebagai parameter
+
+                        LEFT JOIN dt01_keu_provider_ms p
+                            ON a.org_id = p.org_id AND a.rekanan_id = p.provider_id
+
+                        WHERE a.org_id = '".$orgid."'
+                        AND a.jenis_id = '2'
+
+                        GROUP BY 
+                            a.piutang_id, a.no_tagihan, a.note, a.rekanan_id, a.nilai, a.date, p.provider
+
+                        ORDER BY 
+                            p.provider ASC, a.date ASC;
+
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function insertpiutang($data){           
             $sql =   $this->db->insert("dt01_keu_piutang_hd",$data);
+            return $sql;
+        }
+
+        function insertpembayaran($data){           
+            $sql =   $this->db->insert("dt01_keu_piutang_it",$data);
             return $sql;
         }
 

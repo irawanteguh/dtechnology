@@ -81,7 +81,44 @@
                 </div>
             </div>
             <div id="tabhistory" class="card-body p-0 tab-pane fade" role="tabpanel" aria-labelledby="tab_month">
-                
+                <div class="card card-flush">
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Piutang Medical Check Up</span>
+                            <span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder align-middle bg-light">
+                                        <th class="ps-4 rounded-start">No invoice</th>
+                                        <th>Pembayaran</th>
+                                        <th>Rekanan</th>
+                                        <th>Tagihan</th>
+                                        <th>Januari</th>
+                                        <th>Febuari</th>
+                                        <th>Maret</th>
+                                        <th>April</th>
+                                        <th>Mei</th>
+                                        <th>Juni</th>
+                                        <th>Juli</th>
+                                        <th>Agustus</th>
+                                        <th>September</th>
+                                        <th>Oktober</th>
+                                        <th>November</th>
+                                        <th>Desember</th>
+                                        <th>Sisa Tagihan</th>
+                                    </tr>
+                                    
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultrekappembayaran"></tbody>
+                                <tfoot id="footrekappembayaran"></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

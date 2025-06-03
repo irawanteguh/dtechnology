@@ -1,4 +1,5 @@
 datapiutang();
+historypembayaran();
 
 flatpickr('[name="modal_mcu_invoice_date"]', {
     enableTime: false,
@@ -149,6 +150,135 @@ function datapiutang(){
     return false;
 };
 
+function historypembayaran(){
+    $.ajax({
+        url       : url+"index.php/piutang/mcu/historypembayaran",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultrekappembayaran").html("");
+        },
+        success:function(data){
+            var result      = "";
+            var tableresult = "";
+
+            if (data.responCode === "00") {
+                var result = data.responResult;
+                var tableresult = "";
+                var currentProvider = "";
+                var subtotalNilai = 0;
+                var subtotalJml = Array(12).fill(0);
+                var subtotalSisa = 0;
+
+                var totalNilai = 0;
+                var totalJml = Array(12).fill(0);
+                var totalSisa = 0;
+
+                for (var i = 0; i < result.length; i++) {
+                    var row = result[i];
+
+                    // Jika provider berubah, tampilkan subtotal sebelumnya
+                    if (row.provider !== currentProvider) {
+                        if (currentProvider !== "") {
+                            // Subtotal row
+                            tableresult += "<tr class='fw-bold bg-warning'>";
+                            tableresult += "<td colspan='3' class='text-end pe-2'>Subtotal " + currentProvider + "</td>";
+                            tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
+
+                            for (var j = 0; j < 12; j++) {
+                                tableresult += "<td class='text-end'>" + todesimal(subtotalJml[j]) + "</td>";
+                            }
+
+                            tableresult += "<td class='text-end pe-4'>" + todesimal(subtotalSisa) + "</td>";
+                            tableresult += "</tr>";
+                        }
+
+                        // Reset subtotal
+                        currentProvider = row.provider;
+                        subtotalNilai = 0;
+                        subtotalJml = Array(12).fill(0);
+                        subtotalSisa = 0;
+                    }
+
+                    // Tambahkan baris data
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>" + row.no_tagihan + "</td>";
+                    tableresult += "<td>" + row.note + "</td>";
+                    tableresult += "<td>" + row.provider + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(row.nilai) + "</td>";
+
+                    for (var m = 1; m <= 12; m++) {
+                        var val = parseFloat(row["jml" + m]) || 0;
+                        tableresult += "<td class='text-end'>" + todesimal(val) + "</td>";
+                        subtotalJml[m - 1] += val;
+                        totalJml[m - 1] += val;
+                    }
+
+                    tableresult += "<td class='text-end pe-4'>" + todesimal(row.sisa_tagihan) + "</td>";
+                    tableresult += "</tr>";
+
+                    subtotalNilai += parseFloat(row.nilai) || 0;
+                    subtotalSisa += parseFloat(row.sisa_tagihan) || 0;
+
+                    totalNilai += parseFloat(row.nilai) || 0;
+                    totalSisa += parseFloat(row.sisa_tagihan) || 0;
+                }
+
+                // Subtotal terakhir
+                if (currentProvider !== "") {
+                    tableresult += "<tr class='fw-bold bg-warning'>";
+                    tableresult += "<td colspan='3' class='text-end pe-2'>Subtotal " + currentProvider + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
+
+                    for (var j = 0; j < 12; j++) {
+                        tableresult += "<td class='text-end'>" + todesimal(subtotalJml[j]) + "</td>";
+                    }
+
+                    tableresult += "<td class='text-end pe-4'>" + todesimal(subtotalSisa) + "</td>";
+                    tableresult += "</tr>";
+                }
+
+                // TFOOT: total
+                var footresult = "<tr class='fw-bold bg-light'>";
+                footresult += "<td colspan='3' class='text-end pe-2'>TOTAL</td>";
+                footresult += "<td class='text-end'>" + todesimal(totalNilai) + "</td>";
+
+                for (var j = 0; j < 12; j++) {
+                    footresult += "<td class='text-end'>" + todesimal(totalJml[j]) + "</td>";
+                }
+
+                footresult += "<td class='text-end pe-4'>" + todesimal(totalSisa) + "</td>";
+                footresult += "</tr>";
+
+                $("#resultrekappembayaran").html(tableresult);
+                $("#footrekappembayaran").html(footresult);
+            }
+
+
+
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
 $(document).on("submit", "#formnewinvoicemcu", function (e) {
 	e.preventDefault();
     e.stopPropagation();
@@ -212,6 +342,7 @@ $(document).on("submit", "#formpembayaran", function (e) {
             if(data.responCode == "00"){
                 $("#modal_mcu_pembayaran").modal("hide");
                 datapiutang();
+                historypembayaran();
 			}
 
             toastr.clear();
