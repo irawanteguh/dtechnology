@@ -43,7 +43,11 @@
         }
 
         public function dataapprove(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
+
             $status="
+                        and   date(a.inv_manager_date) between '".$startDate."' and '".$endDate."'
                         and   a.status in ('9','11','13','15','16','17')
                         and   a.department_id in (
                                                     select department_id
@@ -54,6 +58,7 @@
                                                                             where user_id='".$_SESSION['userid']."'
                                                                     )
                                                 )
+                        
                     ";
             $parameter="order by inv_manager_date desc";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);

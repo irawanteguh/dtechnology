@@ -1,5 +1,39 @@
+let today     = new Date();
+let startDate = today.toISOString().split('T')[0];
+let endDate   = today.toISOString().split('T')[0];
+
+flatpickr('[name="dateperiode"]', {
+    mode      : "range",
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate   : "today",
+    onChange: function (selectedDates, dateStr, instance) {
+        const formatDate = (date) => {
+            if (!date) return null;
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); 
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`; // Format YYYY-MM-DD
+        };
+
+        startDate = selectedDates[0] ? formatDate(selectedDates[0]) : null;
+        endDate = selectedDates[1] ? formatDate(selectedDates[1]) : null;
+    }
+});
+
+$(document).on("click", ".btn-apply", function (e) {
+    e.preventDefault();
+
+    if (!startDate || !endDate) {
+        toastr["warning"]("Please select a valid date range", "Warning");
+        return;
+    }
+
+    dataapprove(startDate, endDate);
+});
+
 dataonprocess();
-dataapprove();
+dataapprove(startDate, endDate);
 datadecline();
 
 function viewdoc(btn) {
@@ -114,9 +148,10 @@ function dataonprocess(){
     return false;
 };
 
-function dataapprove(){
+function dataapprove(startDate, endDate){
     $.ajax({
         url       : url+"index.php/paymentponew/paymentmanager/dataapprove",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -155,6 +190,7 @@ function dataapprove(){
                         tableresult +="<div class='btn-group' role='group'>";
                             tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                            tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='7' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-danger'></i> Cancelled Approved</a>";
                             if(result[i].invoice==="1"){
                                 tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
                             }
@@ -283,7 +319,7 @@ function validasi(btn) {
                 },
                 complete: function () {
                     dataonprocess();
-                    dataapprove();
+                    dataapprove(startDate, endDate);
                     datadecline();
                 },
                 error: function (xhr, status, error) {
