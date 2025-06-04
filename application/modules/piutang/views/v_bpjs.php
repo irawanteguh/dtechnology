@@ -4,9 +4,9 @@
             <div class="card-body pt-9 pb-0">
                 <div class="d-flex flex-wrap flex-sm-nowrap mb-5">
                     <div>
-                        <h1 class="text-white">Laporan Piutang Medical Check Up</h1>
+                        <h1 class="text-white">Laporan Piutang BPJS / BPJSTK</h1>
                         <p class="text-white mb-0">
-                            Menyajikan data piutang MCU secara real-time untuk evaluasi finansial dan peningkatan pelayanan rumah sakit.
+                            Menyajikan data piutang BPJS / BPJSTK secara real-time untuk evaluasi finansial dan peningkatan pelayanan rumah sakit.
                         </p>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="card card-flush">
                     <div class="card-header border-0 pt-5">
                         <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Piutang Medical Check Up</span>
+                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Piutang BPJS / BPJSTK</span>
                             <span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
                         </h3>
                         <div class="card-toolbar">
@@ -84,7 +84,7 @@
                 <div class="card card-flush">
                     <div class="card-header border-0 pt-5">
                         <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Pembayaran Medical Check Up</span>
+                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Pembayaran BPJS / BPJSTK</span>
                             <span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
                         </h3>
                     </div>
