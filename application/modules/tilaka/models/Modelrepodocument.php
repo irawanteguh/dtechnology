@@ -30,7 +30,7 @@
                             ".$parameter."
                             and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         )x
-                        order by created_date desc
+                        order by status asc, created_date desc
                     ";
 
             $recordset = $this->db->query($query);
