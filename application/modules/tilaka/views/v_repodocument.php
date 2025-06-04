@@ -45,7 +45,7 @@
 				<div class="tab-content">
                     <div class="tab-pane fade show active" id="tabonprocess" role="tabpanel">
 						<div class="table-responsive">
-							<table class="table align-middle table-row-dashed fs-6 gy-2">
+							<table class="table align-middle table-row-dashed fs-8 gy-2">
 								<thead>
 									<tr class="fw-bolder text-muted bg-light align-middle">
 										<th class="ps-4 rounded-start">Status</th>
@@ -62,7 +62,7 @@
                     </div>
 					<div class="tab-pane fade show" id="tabfinish" role="tabpanel">
 						<div class="table-responsive">
-							<table class="table align-middle table-row-dashed fs-6 gy-2">
+							<table class="table align-middle table-row-dashed fs-8 gy-2">
 								<thead>
 									<tr class="fw-bolder text-muted bg-light align-middle">
 										<th class="ps-4 rounded-start">Status</th>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="tab-pane fade" id="tabhold" role="tabpanel">
 						<div class="table-responsive">
-							<table class="table align-middle table-row-dashed fs-6 gy-2">
+							<table class="table align-middle table-row-dashed fs-8 gy-2">
 								<thead>
 									<tr class="fw-bolder text-muted bg-light align-middle">
 										<th class="ps-4 rounded-start">Status</th>

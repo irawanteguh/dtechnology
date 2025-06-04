@@ -4,9 +4,9 @@
             <div class="card-body pt-9 pb-0">
                 <div class="d-flex flex-wrap flex-sm-nowrap mb-5">
                     <div>
-                        <h1 class="text-white">Laporan Piutang BPJS / BPJSTK</h1>
+                        <h1 class="text-white">Laporan Piutang BPJS</h1>
                         <p class="text-white mb-0">
-                            Menyajikan data piutang BPJS / BPJSTK secara real-time untuk evaluasi finansial dan peningkatan pelayanan rumah sakit.
+                            Menyajikan data piutang BPJS secara real-time untuk evaluasi finansial dan peningkatan pelayanan rumah sakit.
                         </p>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="card card-flush">
                     <div class="card-header border-0 pt-5">
                         <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Piutang BPJS / BPJSTK</span>
+                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Piutang BPJS</span>
                             <span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
                         </h3>
                         <div class="card-toolbar">
@@ -53,7 +53,7 @@
                                     <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Action</div>
                                 </div>
                                 <div class="menu-item px-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modal_mcu_invoice" class="menu-link px-3">Add Invoice</a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modal_bpjs_invoice" class="menu-link px-3">Add Invoice</a>
                                 </div>
                             </div>
                         </div>
@@ -64,8 +64,8 @@
                                 <thead>
                                     <tr class="fw-bolder align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
-                                        <th>Pembayaran</th>
-                                        <th>Rekanan</th>
+                                        <th>Jenis Tagihan</th>
+                                        <th>Catatan</th>
                                         <th class="text-center">Tanggal Tagihan</th>
                                         <th class="text-center">Tagihan</th>
                                         <th class="text-center">Terbayar</th>
@@ -84,7 +84,7 @@
                 <div class="card card-flush">
                     <div class="card-header border-0 pt-5">
                         <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Pembayaran BPJS / BPJSTK</span>
+                            <span class="card-label fw-bolder fs-3 mb-1">Laporan Pembayaran BPJS</span>
                             <span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
                         </h3>
                     </div>
@@ -94,8 +94,8 @@
                                 <thead>
                                     <tr class="fw-bolder align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
-                                        <th>Pembayaran</th>
-                                        <th>Rekanan</th>
+                                        <th>Jenis Tagihan</th>
+                                        <th>Note</th>
                                         <th>Tagihan</th>
                                         <th>Januari</th>
                                         <th>Febuari</th>

@@ -14,9 +14,7 @@
         }
 
         public function loadcombobox(){
-            $parameter1        = "";
-
-            $resultmasterunit = $this->md->masterunit($_SESSION['orgid'],$parameter1);
+            $resultmasterunit = $this->md->masterunit($_SESSION['orgid'],"");
             $resultprovider   = $this->md->provider($_SESSION['orgid']);
             $resultrekening   = $this->md->rekening($_SESSION['orgid']);
 
