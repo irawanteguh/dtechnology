@@ -27,10 +27,8 @@
 
         public function datamutasi(){
             $rekeningid = $this->input->post("rekeningid");
-            $parameter = "
-                            and a.status='6'
-                         ";
-            $result = $this->md->datamutasi($_SESSION['orgid'],$rekeningid,$parameter);
+            $parameter  = "and a.status='6'";
+            $result = $this->md->datamutasi($rekeningid,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

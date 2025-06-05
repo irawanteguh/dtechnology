@@ -1,49 +1,28 @@
 <?php
     defined('BASEPATH') or exit('No direct script access allowed');
-    class Bpjs extends CI_Controller{
+    class Lain extends CI_Controller{
 
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelbpjs", "md");
+            $this->load->model("Modellain", "md");
         }
 
         public function index(){
             $data = $this->loadcombobox();
-            $this->template->load("template/template-sidebar", "v_bpjs",$data);
+            $this->template->load("template/template-sidebar", "v_lain",$data);
         }
 
+
         public function loadcombobox(){
-            $resultmasterunit   = $this->md->masterunit($_SESSION['orgid'],"");
-            $resultperiode      = $this->md->periode();
             $resultperiodetahun = $this->md->periodetahun();
-            $resultjenistagihan = $this->md->jenistagihan();
-            $resultprovider     = $this->md->provider($_SESSION['orgid']);
             $resultrekening     = $this->md->rekening($_SESSION['orgid']);
+            $resultmasterunit   = $this->md->masterunit($_SESSION['orgid'],"");
 
-            $periode="";
-            foreach($resultperiode as $a ){
-                $periode.="<option value='".$a->periodeid."'>".$a->keterangan."</option>";
-            }
-
+            
             $periodetahun="";
             foreach($resultperiodetahun as $a ){
                 $periodetahun.="<option value='".$a->periode."'>".$a->periode."</option>";
-            }
-
-            $jenistagihan="";
-            foreach($resultjenistagihan as $a ){
-                $jenistagihan.="<option value='".$a->jenisid."'>".$a->keterangan."</option>";
-            }
-
-            $provider="";
-            foreach($resultprovider as $a ){
-                $provider.="<option value='".$a->provider_id."'>".$a->provider."</option>";
-            }
-
-            $department="";
-            foreach($resultmasterunit as $a ){
-                $department.="<option value='".$a->department_id."'>".$a->department."</option>";
             }
 
             $rekening="";
@@ -51,10 +30,12 @@
                 $rekening.="<option value='".$a->rekening_id."'>".$a->keterangan."</option>";
             }
 
-            $data['periode']      = $periode;
+            $department="";
+            foreach($resultmasterunit as $a ){
+                $department.="<option value='".$a->department_id."'>".$a->department."</option>";
+            }
+
             $data['periodetahun'] = $periodetahun;
-            $data['provider']     = $provider;
-            $data['jenistagihan'] = $jenistagihan;
             $data['rekening']     = $rekening;
             $data['department']   = $department;
             return $data;
@@ -95,23 +76,19 @@
             echo json_encode($json);
         }
 
-        public function newinvoicebpjs(){
-            $notagihan = $this->input->post("modal_bpjs_invoice_notagihan");
-            $note      = $this->input->post("modal_bpjs_invoice_note");
-            $date      = $this->input->post("modal_bpjs_invoice_date");
-            $provider  = $this->input->post("modal_bpjs_invoice_provider");
-            $nominal   = $this->input->post("modal_bpjs_invoice_tagihan");
-            $jenisid   = $this->input->post("modal_bpjs_invoice_jenisid");
-            $periodeid = $this->input->post("modal_bpjs_invoice_periodeid");
+
+        public function newinvoice(){
+            $notagihan = $this->input->post("modal_mcu_invoice_notagihan");
+            $note      = $this->input->post("modal_mcu_invoice_note");
+            $date      = $this->input->post("modal_mcu_invoice_date");
+            $nominal   = $this->input->post("modal_mcu_invoice_tagihan");
 
             $data['org_id']       = $_SESSION['orgid'];
             $data['piutang_id']   = generateuuid();
             $data['no_tagihan']   = $notagihan;
-            $data['rekanan_id']   = $provider;
             $data['note']         = $note;
-            $data['periode']      = $periodeid;
             $data['date']         = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
-            $data['jenis_id']     = $jenisid;
+            $data['jenis_id']     = "6";
             $data['nilai']        = (int) preg_replace('/\D/', '', $nominal);
             $data['created_date'] = date('Y-m-d H:i:s');
             $data['created_by']   = $_SESSION['userid'];
@@ -183,7 +160,5 @@
 
             echo json_encode($json);
         }
-
-
     }
 ?>

@@ -1,39 +1,34 @@
 <?php
     defined('BASEPATH') or exit('No direct script access allowed');
-    class Bpjs extends CI_Controller{
+    class Asuransi extends CI_Controller{
 
         public function __construct(){
             parent::__construct();
             rootsystem::system();
-            $this->load->model("Modelbpjs", "md");
+            $this->load->model("Modelasuransi", "md");
         }
 
         public function index(){
             $data = $this->loadcombobox();
-            $this->template->load("template/template-sidebar", "v_bpjs",$data);
+            $this->template->load("template/template-sidebar", "v_asuransi",$data);
         }
 
+
         public function loadcombobox(){
-            $resultmasterunit   = $this->md->masterunit($_SESSION['orgid'],"");
-            $resultperiode      = $this->md->periode();
             $resultperiodetahun = $this->md->periodetahun();
-            $resultjenistagihan = $this->md->jenistagihan();
+            $resultperiode      = $this->md->periode();
             $resultprovider     = $this->md->provider($_SESSION['orgid']);
             $resultrekening     = $this->md->rekening($_SESSION['orgid']);
+            $resultmasterunit   = $this->md->masterunit($_SESSION['orgid'],"");
 
             $periode="";
             foreach($resultperiode as $a ){
                 $periode.="<option value='".$a->periodeid."'>".$a->keterangan."</option>";
             }
-
+            
             $periodetahun="";
             foreach($resultperiodetahun as $a ){
                 $periodetahun.="<option value='".$a->periode."'>".$a->periode."</option>";
-            }
-
-            $jenistagihan="";
-            foreach($resultjenistagihan as $a ){
-                $jenistagihan.="<option value='".$a->jenisid."'>".$a->keterangan."</option>";
             }
 
             $provider="";
@@ -41,20 +36,19 @@
                 $provider.="<option value='".$a->provider_id."'>".$a->provider."</option>";
             }
 
-            $department="";
-            foreach($resultmasterunit as $a ){
-                $department.="<option value='".$a->department_id."'>".$a->department."</option>";
-            }
-
             $rekening="";
             foreach($resultrekening as $a ){
                 $rekening.="<option value='".$a->rekening_id."'>".$a->keterangan."</option>";
             }
 
+            $department="";
+            foreach($resultmasterunit as $a ){
+                $department.="<option value='".$a->department_id."'>".$a->department."</option>";
+            }
+
             $data['periode']      = $periode;
             $data['periodetahun'] = $periodetahun;
             $data['provider']     = $provider;
-            $data['jenistagihan'] = $jenistagihan;
             $data['rekening']     = $rekening;
             $data['department']   = $department;
             return $data;
@@ -95,14 +89,14 @@
             echo json_encode($json);
         }
 
-        public function newinvoicebpjs(){
-            $notagihan = $this->input->post("modal_bpjs_invoice_notagihan");
-            $note      = $this->input->post("modal_bpjs_invoice_note");
-            $date      = $this->input->post("modal_bpjs_invoice_date");
-            $provider  = $this->input->post("modal_bpjs_invoice_provider");
-            $nominal   = $this->input->post("modal_bpjs_invoice_tagihan");
-            $jenisid   = $this->input->post("modal_bpjs_invoice_jenisid");
-            $periodeid = $this->input->post("modal_bpjs_invoice_periodeid");
+
+        public function newinvoicerawatjalan(){
+            $notagihan = $this->input->post("modal_mcu_invoice_notagihan");
+            $note      = $this->input->post("modal_mcu_invoice_note");
+            $date      = $this->input->post("modal_mcu_invoice_date");
+            $provider  = $this->input->post("modal_mcu_invoice_provider");
+            $nominal   = $this->input->post("modal_mcu_invoice_tagihan");
+            $periodeid = $this->input->post("modal_mcu_invoice_periodeid");
 
             $data['org_id']       = $_SESSION['orgid'];
             $data['piutang_id']   = generateuuid();
@@ -111,7 +105,41 @@
             $data['note']         = $note;
             $data['periode']      = $periodeid;
             $data['date']         = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
-            $data['jenis_id']     = $jenisid;
+            $data['jenis_id']     = "1";
+            $data['nilai']        = (int) preg_replace('/\D/', '', $nominal);
+            $data['created_date'] = date('Y-m-d H:i:s');
+            $data['created_by']   = $_SESSION['userid'];
+
+            if($this->md->insertpiutang($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+
+        public function newinvoicerawatinap(){
+            $notagihan = $this->input->post("modal_mcu_invoice_ri_notagihan");
+            $note      = $this->input->post("modal_mcu_invoice_ri_note");
+            $date      = $this->input->post("modal_mcu_invoice_ri_date");
+            $provider  = $this->input->post("modal_mcu_invoice_ri_provider");
+            $nominal   = $this->input->post("modal_mcu_invoice_ri_tagihan");
+            $periodeid = $this->input->post("modal_mcu_invoice_ri_periodeid");
+
+            $data['org_id']       = $_SESSION['orgid'];
+            $data['piutang_id']   = generateuuid();
+            $data['no_tagihan']   = $notagihan;
+            $data['rekanan_id']   = $provider;
+            $data['note']         = $note;
+            $data['periode']      = $periodeid;
+            $data['date']         = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
+            $data['jenis_id']     = "7";
             $data['nilai']        = (int) preg_replace('/\D/', '', $nominal);
             $data['created_date'] = date('Y-m-d H:i:s');
             $data['created_by']   = $_SESSION['userid'];
@@ -183,7 +211,5 @@
 
             echo json_encode($json);
         }
-
-
     }
 ?>

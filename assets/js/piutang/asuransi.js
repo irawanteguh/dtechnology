@@ -1,7 +1,16 @@
 datapiutang();
 historypembayaran();
 
-flatpickr('[name="modal_bpjs_invoice_date"]', {
+flatpickr('[name="modal_mcu_invoice_date"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
+flatpickr('[name="modal_mcu_invoice_ri_date"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
     maxDate   : "today",
@@ -19,11 +28,11 @@ flatpickr('[name="modal_mcu_pembayaran_date"]', {
     }
 });
 
-$(document).on("change", "select[name='toolbar_kunjunganyears_periode']", function (e) {
-    e.preventDefault();
-    historypembayaran();
+$("#modal_mcu_pembayaran").on('show.bs.modal', function(event){
+    var button              = $(event.relatedTarget);
+    var datapiutangid     = button.attr("datapiutangid");
+    $("#modal_mcu_pembayaran_piutangid").val(datapiutangid);
 });
-
 
 function formatRupiah(angka, prefix = 'Rp ') {
     let numberString = angka.replace(/[^,\d]/g, '').toString();
@@ -48,15 +57,9 @@ document.querySelectorAll('.currency-rp').forEach(function(input) {
     });
 });
 
-$("#modal_mcu_pembayaran").on('show.bs.modal', function(event){
-    var button              = $(event.relatedTarget);
-    var datapiutangid     = button.attr("datapiutangid");
-    $("#modal_mcu_pembayaran_piutangid").val(datapiutangid);
-});
-
 function datapiutang(){
     $.ajax({
-        url       : url+"index.php/piutang/bpjs/datapiutang",
+        url       : url+"index.php/piutang/asuransi/datapiutang",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -66,11 +69,13 @@ function datapiutang(){
             $("#resultrekappiutang").html("");
         },
         success:function(data){
+            var result      = "";
             var tableresult = "";
 
             if (data.responCode === "00") {
                 var result = data.responResult;
-                var currentJenisTagihan = "";
+                var tableresult = "";
+                var currentRekanan = "";
                 var subtotalNilai = 0;
                 var subtotalTerbayar = 0;
                 var subtotalSisa = 0;
@@ -78,64 +83,69 @@ function datapiutang(){
                 for (var i = 0; i < result.length; i++) {
                     var item = result[i];
 
-                    // Deteksi pergantian jenistagihan
-                    if (item.jenistagihan !== currentJenisTagihan) {
+                    // Deteksi pergantian rekanan
+                    if (item.rekanan !== currentRekanan) {
                         // Jika bukan pertama dan ada subtotal sebelumnya, tampilkan subtotal dulu
-                        if (currentJenisTagihan !== "") {
+                        if (currentRekanan !== "") {
                             tableresult += "<tr class='fw-bold bg-warning'>";
-                            tableresult += "<td colspan='4' class='text-end pe-4'>Subtotal " + currentJenisTagihan + "</td>";
+                            tableresult += "<td colspan='5' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
                             tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
                             tableresult += "<td class='text-end'>" + todesimal(subtotalTerbayar) + "</td>";
                             tableresult += "<td class='text-end'>" + todesimal(subtotalSisa) + "</td>";
-                            tableresult += "<td></td>";
+                            tableresult += "<td class='text-end'></td>";
                             tableresult += "</tr>";
                         }
 
-                        // Reset subtotal dan set grup baru
-                        currentJenisTagihan = item.jenistagihan;
+                        // Reset subtotal dan set rekanan baru
+                        currentRekanan = item.rekanan;
                         subtotalNilai = 0;
                         subtotalTerbayar = 0;
                         subtotalSisa = 0;
                     }
 
+                    var getvariabel =   " datapiutangid='"+result[i].piutang_id+"'";
+
                     // Tampilkan baris data
-                    var getvariabel = " datapiutangid='" + item.piutang_id + "'";
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + item.no_tagihan + "</td>";
                     tableresult += "<td><div>" + item.jenistagihan + "</div><div class='badge badge-light-info'>" + item.periode_indonesia + "</div></td>";
                     tableresult += "<td>" + item.note + "</td>";
+                    tableresult += "<td>" + item.rekanan + "</td>";
                     tableresult += "<td class='text-center'>" + item.tgldate + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(item.nilai) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(item.jmlterbayar) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(item.sisa) + "</td>";
-                    tableresult += "<td class='text-end'><a class='btn btn-sm btn-light-success' data-bs-toggle='modal' data-bs-target='#modal_mcu_pembayaran' " + getvariabel + ">Payment</a></td>";
+                    tableresult += "<td class='text-end'><a class='btn btn-sm btn-light-success' data-bs-toggle='modal' data-bs-target='#modal_mcu_pembayaran' "+getvariabel+">Payment</a></td>";
                     tableresult += "</tr>";
 
-                    // Hitung subtotal
+                    // Tambahkan ke subtotal
                     subtotalNilai += parseFloat(item.nilai);
                     subtotalTerbayar += parseFloat(item.jmlterbayar);
                     subtotalSisa += parseFloat(item.sisa);
                 }
 
                 // Subtotal terakhir setelah loop selesai
-                if (currentJenisTagihan !== "") {
+                if (currentRekanan !== "") {
                     tableresult += "<tr class='fw-bold bg-warning'>";
-                    tableresult += "<td colspan='4' class='text-end pe-4'>Subtotal " + currentJenisTagihan + "</td>";
+                    tableresult += "<td colspan='5' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(subtotalTerbayar) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(subtotalSisa) + "</td>";
-                    tableresult += "<td></td>";
+                    tableresult += "<td class='text-end'></td>";
                     tableresult += "</tr>";
                 }
             }
 
+            
+
             $("#resultrekappiutang").html(tableresult);
+
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-            toastr.clear();
-        },
+			toastr.clear();
+		},
         error: function(xhr, status, error) {
             showAlert(
                 "I'm Sorry",
@@ -144,15 +154,15 @@ function datapiutang(){
                 "Please Try Again",
                 "btn btn-danger"
             );
-        }
+		}
     });
     return false;
 };
 
-function historypembayaran() {
+function historypembayaran(){
     const startDate = $("select[name='toolbar_kunjunganyears_periode']").val();
     $.ajax({
-        url       : url + "index.php/piutang/bpjs/historypembayaran",
+        url       : url+"index.php/piutang/asuransi/historypembayaran",
         data      : {startDate:startDate},
         method    : "POST",
         dataType  : "JSON",
@@ -162,18 +172,17 @@ function historypembayaran() {
             toastr["info"]("Sending request...", "Please wait");
             $("#resultrekappembayaran").html("");
         },
-        success: function (data) {
-            var result = "";
+        success:function(data){
+            var result      = "";
             var tableresult = "";
 
             if (data.responCode === "00") {
                 var result = data.responResult;
+                var tableresult = "";
                 var currentProvider = "";
-                var currentJenisTagihan = "";
-
-                var subtotalNilaiJenis = 0;
-                var subtotalJmlJenis = Array(12).fill(0);
-                var subtotalSisaJenis = 0;
+                var subtotalNilai = 0;
+                var subtotalJml = Array(12).fill(0);
+                var subtotalSisa = 0;
 
                 var totalNilai = 0;
                 var totalJml = Array(12).fill(0);
@@ -182,91 +191,69 @@ function historypembayaran() {
                 for (var i = 0; i < result.length; i++) {
                     var row = result[i];
 
-                    // Jika provider berubah, reset currentJenisTagihan & subtotal jenistagihan
+                    // Jika provider berubah, tampilkan subtotal sebelumnya
                     if (row.provider !== currentProvider) {
-                        // Tampilkan subtotal jenistagihan terakhir sebelum reset
-                        if (currentJenisTagihan !== "") {
-                            tableresult += "<tr class='fw-bold bg-light'>";
-                            tableresult += "<td colspan='3' class='text-end pe-2'>" + currentJenisTagihan + "</td>";
-                            tableresult += "<td class='text-end'>" + todesimal(subtotalNilaiJenis) + "</td>";
+                        if (currentProvider !== "") {
+                            // Subtotal row
+                            tableresult += "<tr class='fw-bold bg-warning'>";
+                            tableresult += "<td colspan='4' class='text-end pe-2'>Subtotal " + currentProvider + "</td>";
+                            tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
 
                             for (var j = 0; j < 12; j++) {
-                                tableresult += "<td class='text-end'>" + todesimal(subtotalJmlJenis[j]) + "</td>";
+                                tableresult += "<td class='text-end'>" + todesimal(subtotalJml[j]) + "</td>";
                             }
 
-                            tableresult += "<td class='text-end pe-4'>" + todesimal(subtotalSisaJenis) + "</td>";
+                            tableresult += "<td class='text-end pe-4'>" + todesimal(subtotalSisa) + "</td>";
                             tableresult += "</tr>";
                         }
 
-                        // Reset provider & subtotal jenistagihan
+                        // Reset subtotal
                         currentProvider = row.provider;
-                        currentJenisTagihan = row.jenistagihan;
-
-                        subtotalNilaiJenis = 0;
-                        subtotalJmlJenis = Array(12).fill(0);
-                        subtotalSisaJenis = 0;
+                        subtotalNilai = 0;
+                        subtotalJml = Array(12).fill(0);
+                        subtotalSisa = 0;
                     }
 
-                    // Jika jenis tagihan berubah tapi provider sama
-                    if (row.jenistagihan !== currentJenisTagihan) {
-                        // Tampilkan subtotal jenistagihan sebelumnya
-                        tableresult += "<tr class='fw-bold bg-light'>";
-                        tableresult += "<td colspan='3' class='text-end pe-2'>" + currentJenisTagihan + "</td>";
-                        tableresult += "<td class='text-end'>" + todesimal(subtotalNilaiJenis) + "</td>";
-
-                        for (var j = 0; j < 12; j++) {
-                            tableresult += "<td class='text-end'>" + todesimal(subtotalJmlJenis[j]) + "</td>";
-                        }
-
-                        tableresult += "<td class='text-end pe-4'>" + todesimal(subtotalSisaJenis) + "</td>";
-                        tableresult += "</tr>";
-
-                        // Reset subtotal jenistagihan baru
-                        currentJenisTagihan = row.jenistagihan;
-                        subtotalNilaiJenis = 0;
-                        subtotalJmlJenis = Array(12).fill(0);
-                        subtotalSisaJenis = 0;
-                    }
-
-                    // Baris data normal
+                    // Tambahkan baris data
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + row.no_tagihan + "</td>";
                     tableresult += "<td><div>" + row.jenistagihan + "</div><div class='badge badge-light-info'>" + row.periode_indonesia + "</div></td>";
                     tableresult += "<td>" + row.note + "</td>";
+                    tableresult += "<td>" + row.provider + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(row.nilai) + "</td>";
 
                     for (var m = 1; m <= 12; m++) {
                         var val = parseFloat(row["jml" + m]) || 0;
                         tableresult += "<td class='text-end'>" + todesimal(val) + "</td>";
-                        subtotalJmlJenis[m - 1] += val;
+                        subtotalJml[m - 1] += val;
                         totalJml[m - 1] += val;
                     }
 
                     tableresult += "<td class='text-end pe-4'>" + todesimal(row.sisa_tagihan) + "</td>";
                     tableresult += "</tr>";
 
-                    subtotalNilaiJenis += parseFloat(row.nilai) || 0;
-                    subtotalSisaJenis += parseFloat(row.sisa_tagihan) || 0;
+                    subtotalNilai += parseFloat(row.nilai) || 0;
+                    subtotalSisa += parseFloat(row.sisa_tagihan) || 0;
 
                     totalNilai += parseFloat(row.nilai) || 0;
                     totalSisa += parseFloat(row.sisa_tagihan) || 0;
                 }
 
-                // Tampilkan subtotal jenistagihan terakhir
-                if (currentJenisTagihan !== "") {
-                    tableresult += "<tr class='fw-bold bg-light'>";
-                    tableresult += "<td colspan='3' class='text-end pe-2'>" + currentJenisTagihan + "</td>";
-                    tableresult += "<td class='text-end'>" + todesimal(subtotalNilaiJenis) + "</td>";
+                // Subtotal terakhir
+                if (currentProvider !== "") {
+                    tableresult += "<tr class='fw-bold bg-warning'>";
+                    tableresult += "<td colspan='4' class='text-end pe-2'>Subtotal " + currentProvider + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
 
                     for (var j = 0; j < 12; j++) {
-                        tableresult += "<td class='text-end'>" + todesimal(subtotalJmlJenis[j]) + "</td>";
+                        tableresult += "<td class='text-end'>" + todesimal(subtotalJml[j]) + "</td>";
                     }
 
-                    tableresult += "<td class='text-end pe-4'>" + todesimal(subtotalSisaJenis) + "</td>";
+                    tableresult += "<td class='text-end pe-4'>" + todesimal(subtotalSisa) + "</td>";
                     tableresult += "</tr>";
                 }
 
-                // Total keseluruhan footer
+                // TFOOT: total
                 var footresult = "<tr class='fw-bold bg-light'>";
                 footresult += "<td colspan='3' class='text-end pe-2'>TOTAL</td>";
                 footresult += "<td class='text-end'>" + todesimal(totalNilai) + "</td>";
@@ -282,13 +269,16 @@ function historypembayaran() {
                 $("#footrekappembayaran").html(footresult);
             }
 
+
+
+
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-            toastr.clear();
-        },
-        error: function (xhr, status, error) {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
             showAlert(
                 "I'm Sorry",
                 error,
@@ -296,15 +286,12 @@ function historypembayaran() {
                 "Please Try Again",
                 "btn btn-danger"
             );
-        }
+		}
     });
-
     return false;
-}
+};
 
-
-
-$(document).on("submit", "#newinvoicebpjs", function (e) {
+$(document).on("submit", "#formnewinvoicerj", function (e) {
 	e.preventDefault();
     e.stopPropagation();
 	var form = $(this);
@@ -318,12 +305,12 @@ $(document).on("submit", "#newinvoicebpjs", function (e) {
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-			$("#modal_bpjs_invoice_btn").addClass("disabled");
+			$("#modal_mcu_invoice_btn").addClass("disabled");
         },
 		success: function (data) {
 
             if(data.responCode == "00"){
-                $("#modal_bpjs_invoice").modal("hide");
+                $("#modal_mcu_invoice").modal("hide");
                 datapiutang();
 			}
 
@@ -331,7 +318,49 @@ $(document).on("submit", "#newinvoicebpjs", function (e) {
             toastr[data.responHead](data.responDesc, "INFORMATION");
 		},
         complete: function () {
-            $("#modal_bpjs_invoice_btn").removeClass("disabled");
+            $("#modal_mcu_invoice_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formnewinvoiceri", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_mcu_invoice_ri_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_mcu_invoice_ri").modal("hide");
+                datapiutang();
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_mcu_invoice_ri_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(
