@@ -8,7 +8,7 @@
         border-color: #ffffff !important; /* garis bawah tab aktif putih */
     }
 
-    @media (max-width: 690px) {
+    @media (max-width: 707px) {
         .card-sm-font * {
             font-size: 100% !important;
         }
