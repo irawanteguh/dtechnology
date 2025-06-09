@@ -126,13 +126,8 @@
                         WHERE a.org_id = '".$orgid."'
                         AND a.jenis_id = '6'
 
-                        GROUP BY 
-                            a.piutang_id, a.no_tagihan, a.note, a.rekanan_id, a.nilai, a.date, p.provider
-
-                        ORDER BY 
-                            p.provider ASC, a.date ASC;
-
-
+                        GROUP BY a.piutang_id, a.no_tagihan, a.note, a.rekanan_id, a.nilai, a.date, p.provider
+                        ORDER BY a.created_date desc;
                     ";
 
             $recordset = $this->db->query($query);
