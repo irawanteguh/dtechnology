@@ -13,11 +13,11 @@
             font-size: 100% !important;
         }
         .responsive-padding {
-            padding-left: 0.5rem !important; /* px-2 = 0.5rem */
-            padding-right: 0.5rem !important;
+            padding-left: 0.25rem !important;
+            padding-right: 0.25rem !important;
         }
         .responsive-margin {
-            margin-left: 0.25rem !important;  /* mx-2 = 0.5rem */
+            margin-left: 0.25rem !important;
             margin-right: 0.25rem !important;
             margin-top: -170px !important;
         }
