@@ -10,15 +10,15 @@
 
     @media (max-width: 707px) {
         .card-sm-font * {
-            font-size: 50% !important;
+            font-size: 100% !important;
         }
         .responsive-padding {
-            padding-left: 0.25rem !important;
-            padding-right: 0.25rem !important;
+            padding-left: 0.5rem !important; /* px-2 = 0.5rem */
+            padding-right: 0.5rem !important;
         }
         .responsive-margin {
-            margin-left: 0.25rem !important;
-            margin-right: 0.25rem !important;
+            margin-left: 0.5rem !important;  /* mx-2 = 0.5rem */
+            margin-right: 0.5rem !important;
             margin-top: -170px !important;
         }
         .stack-on-sm {
