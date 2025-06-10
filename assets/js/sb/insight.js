@@ -7,20 +7,9 @@ databulanan();
 datatahunan();
 
 window.onload = function () {
-    const mediaQuery = window.matchMedia("(max-width: 600px)");
-
-    if (mediaQuery.matches) {
-        alert("Mode mobile aktif: lebar layar di bawah atau sama dengan 600px");
-    }
-
-    // Opsional: jika kamu ingin mendeteksi perubahan secara live
-    mediaQuery.addEventListener("change", function(e) {
-        if (e.matches) {
-            alert("Berpindah ke mode mobile (≤ 600px)");
-        } else {
-            alert("Keluar dari mode mobile (> 600px)");
-        }
-    });
+    const width  = window.innerWidth;
+    const height = window.innerHeight;
+    alert("Ukuran layar saat ini: " + width + " x " + height);
 };
 
 flatpickr('[name="dateperiode"]', {

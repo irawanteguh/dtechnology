@@ -8,17 +8,17 @@
         border-color: #ffffff !important; /* garis bawah tab aktif putih */
     }
 
-    @media (max-width: 600px) {
+    @media (min-width: 700px) {
         .card-sm-font * {
             font-size: 100% !important;
         }
         .responsive-padding {
-            padding-left: 0.2rem !important; /* px-2 = 0.5rem */
-            padding-right: 0.2rem !important;
+            padding-left: 0.5rem !important; /* px-2 = 0.5rem */
+            padding-right: 0.5rem !important;
         }
         .responsive-margin {
-            margin-left: 0.2rem !important;  /* mx-2 = 0.5rem */
-            margin-right: 0.2rem !important;
+            margin-left: 0.5rem !important;  /* mx-2 = 0.5rem */
+            margin-right: 0.5rem !important;
             margin-top: -170px !important;
         }
         .stack-on-sm {
