@@ -10,7 +10,7 @@
 
     @media (max-width: 707px) {
         .card-sm-font * {
-            font-size: 100% !important;
+            font-size: 90% !important;
         }
         .responsive-padding {
             padding-left: 0.5rem !important; /* px-2 = 0.5rem */
