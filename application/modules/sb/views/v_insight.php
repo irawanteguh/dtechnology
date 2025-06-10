@@ -13,12 +13,12 @@
             font-size: 100% !important;
         }
         .responsive-padding {
-            padding-left: 0.5rem !important; /* px-2 = 0.5rem */
-            padding-right: 0.5rem !important;
+            padding-left: 0.2rem !important; /* px-2 = 0.5rem */
+            padding-right: 0.2rem !important;
         }
         .responsive-margin {
-            margin-left: 0.5rem !important;  /* mx-2 = 0.5rem */
-            margin-right: 0.5rem !important;
+            margin-left: 0.2rem !important;  /* mx-2 = 0.5rem */
+            margin-right: 0.2rem !important;
             margin-top: -170px !important;
         }
         .stack-on-sm {
