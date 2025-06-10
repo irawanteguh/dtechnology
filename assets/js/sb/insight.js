@@ -9,7 +9,7 @@ datatahunan();
 window.onload = function () {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    alert("Ukuran layar saat ini: " + width + " x " + height);
+    alert("Ukuran layar saat ini 1: " + width + " x " + height);
   };
 
 flatpickr('[name="dateperiode"]', {
