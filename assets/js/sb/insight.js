@@ -6,11 +6,34 @@ dataharian(startDate);
 databulanan();
 datatahunan();
 
-window.onload = function () {
-    const width  = window.innerWidth;
-    const height = window.innerHeight;
-    alert("Ukuran layar saat ini: " + width + " x " + height);
-};
+// window.onload = function () {
+//     const width  = window.innerWidth;
+//     const height = window.innerHeight;
+//     alert("Ukuran layar saat ini: " + width + " x " + height);
+// };
+
+// window.onload = function () {
+//     const mediaQuery = window.matchMedia("(max-width: 707px)");
+//     const width = window.innerWidth;
+//     const height = window.innerHeight;
+
+//     if (mediaQuery.matches) {
+//         alert("Mode mobile aktif (≤ 707px)\nUkuran layar saat ini: " + width + " x " + height);
+//     }
+
+//     // Deteksi perubahan ukuran layar secara dinamis
+//     mediaQuery.addEventListener("change", function(e) {
+//         const newWidth = window.innerWidth;
+//         const newHeight = window.innerHeight;
+
+//         if (e.matches) {
+//             alert("Berpindah ke mode mobile (≤ 707px)\nUkuran layar saat ini: " + newWidth + " x " + newHeight);
+//         } else {
+//             alert("Keluar dari mode mobile (> 707px)\nUkuran layar saat ini: " + newWidth + " x " + newHeight);
+//         }
+//     });
+// };
+
 
 flatpickr('[name="dateperiode"]', {
     enableTime: false,

@@ -13,17 +13,17 @@
             font-size: 100% !important;
         }
         .responsive-padding {
-            padding-left: 0.5rem !important; /* px-2 = 0.5rem */
+            padding-left : 0.5rem !important;
             padding-right: 0.5rem !important;
         }
         .responsive-margin {
-            margin-left: 0.5rem !important;  /* mx-2 = 0.5rem */
+            margin-left : 0.5rem !important;
             margin-right: 0.5rem !important;
-            margin-top: -170px !important;
+            margin-top  : -170px !important;
         }
         .stack-on-sm {
             flex-direction: column !important;
-            align-items: flex-start !important;
+            align-items   : flex-start !important;
         }
     }
 </style>
