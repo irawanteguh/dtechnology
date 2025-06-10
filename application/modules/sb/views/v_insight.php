@@ -21,9 +21,6 @@
             margin-right: 0.5rem !important;
             margin-top: -170px !important;
         }
-        /* .hide-on-sm {
-            display: none !important;
-        } */
         .stack-on-sm {
             flex-direction: column !important;
             align-items: flex-start !important;
