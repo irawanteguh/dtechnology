@@ -62,17 +62,24 @@
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
-                                    <tr class="fw-bolder align-middle bg-light">
+                                    <tr class="fw-bolder text-muted align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
                                         <th>Jenis Tagihan</th>
                                         <th>Catatan</th>
+                                        <th class="text-center">Periode</th>
                                         <th class="text-center">Tanggal Tagihan</th>
                                         <th class="text-center">Tagihan</th>
                                         <th class="text-center">Terbayar</th>
                                         <th class="text-center">Sisa Tagihan</th>
+                                        <th class="text-end">Diperbaharui Oleh</th>
                                         <th class="pe-4 rounded-end text-end">Actions</th>
                                     </tr>
-                                    
+                                    <tr>
+                                        <th><input id="filternoinvoice" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter No Invoice"></th>
+                                        <th><input id="filterjenisid" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Jenis Tagihan"></th>
+                                        <th><input id="filternote" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Catatan"></th>
+                                        <th><input id="filterperiode" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Periode"></th>
+                                    </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultrekappiutang"></tbody>
                             </table>
@@ -92,10 +99,11 @@
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
-                                    <tr class="fw-bolder align-middle bg-light">
+                                    <tr class="fw-bolder text-muted align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
                                         <th>Jenis Tagihan</th>
-                                        <th>Note</th>
+                                        <th>Catatan</th>
+                                        <th>Periode</th>
                                         <th>Tagihan</th>
                                         <th>Januari</th>
                                         <th>Febuari</th>
@@ -114,7 +122,7 @@
                                     
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultrekappembayaran"></tbody>
-                                <tfoot id="footrekappembayaran"></tfoot>
+                                <tfoot class="text-gray-600 fw-bold" id="footrekappembayaran"></tfoot>
                             </table>
                         </div>
                     </div>

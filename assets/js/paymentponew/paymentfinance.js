@@ -86,7 +86,7 @@ $("#modal_finance_payment").on('show.bs.modal', function(event){
 
     $("input[name='modal_finance_payment_nopemesanan']").val(datanopemesanan);
     $("input[name='modal_finance_payment_departmentid']").val(datadepartmentid);
-    $("input[name='modal_finance_payment_note']").val("Pembayaran invoice no : "+(datainvoiceno || '')+", no pemesanan : "+datanopemesananunit+" "+datajudulpemesanan+" "+(datacatatanpemesanan || '')+" "+(datacatatankeuangan || ''));
+    $("input[name='modal_finance_payment_note']").val("Pembayaran invoice no : "+(datainvoiceno ?? '')+", no pemesanan : "+datanopemesananunit+" "+datajudulpemesanan+" "+(datacatatanpemesanan || '')+" "+(datacatatankeuangan || ''));
     $("input[name='modal_finance_payment_nominal']").val("Rp. "+todesimal(datanominal));
 });
 

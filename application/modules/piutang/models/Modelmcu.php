@@ -1,6 +1,19 @@
 <?php
     class Modelmcu extends CI_Model{
         
+        function periode(){
+            $query =
+                    "
+                        select distinct date_format(a.tgl_registrasi,'%m.%Y')periodeid, date_format(a.tgl_registrasi,'%M %Y')keterangan
+                        from reg_periksa a
+                        order by tgl_registrasi desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+        
         function rekening($orgid){
             $query =
                     "
@@ -101,15 +114,31 @@
                         select x.*,
                             nilai-jmlterbayar sisa
                         from(
-                            select a.piutang_id, no_tagihan, rekanan_id, date_format(a.date, '%d.%m.%Y')tgldate, note, nilai,
+                            select a.piutang_id, no_tagihan, date, rekanan_id, note, nilai, jenis_id, periode, attachment,
+                                DATE_FORMAT(a.date, '%d.%m.%Y') tgldate, 
+                                DATE_FORMAT(a.last_update_date, '%d.%m.%Y %H:%i:%s') tgldibuat, 
+                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.last_update_by)dibuatoleh,
                                 (select provider from dt01_keu_provider_ms where org_id=a.org_id and provider_id=a.rekanan_id)rekanan,
-                                (select coalesce(sum(nominal),0) from dt01_keu_piutang_it where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar
+                                (select coalesce(sum(nominal), 0) from dt01_keu_piutang_it  where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar,
+                                CONCAT(ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',YEAR(STR_TO_DATE(periode, '%m.%Y'))) AS periode_indonesia,
+                                
+                                CASE 
+                                    WHEN a.jenis_id = '3' THEN 'Tagihan Klaim BPJS'
+                                    WHEN a.jenis_id = '4' THEN 'Obat Kronis'
+                                    WHEN a.jenis_id = '5' THEN 'Ambulance'
+                                    ELSE 'Lainnya'
+                                END AS jenistagihan,
+
+                                -- Tambahan field bantu untuk ORDER BY
+                                MONTH(STR_TO_DATE(periode, '%m.%Y')) bulan_order,
+                                YEAR(STR_TO_DATE(periode, '%m.%Y')) tahun_order
+
                             from dt01_keu_piutang_hd a
-                            where a.active='1'
+                            where a.active = '1'
                             and   a.org_id='".$orgid."'
-                            and   a.jenis_id='2'
-                            order by rekanan asc, date asc
-                        )x
+                            and a.jenis_id='2'
+                        ) x
+                        order by rekanan asc, date asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -142,6 +171,8 @@
                             SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '10' THEN b.nominal ELSE 0 END) AS jml10,
                             SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '11' THEN b.nominal ELSE 0 END) AS jml11,
                             SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '12' THEN b.nominal ELSE 0 END) AS jml12,
+
+                            CONCAT(ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',YEAR(STR_TO_DATE(periode, '%m.%Y'))) AS periode_indonesia,
 
                             -- Tambahan total pembayaran tahun itu
                             SUM(COALESCE(b.nominal, 0)) AS total_terbayar,
@@ -177,6 +208,11 @@
 
         function insertpiutang($data){           
             $sql =   $this->db->insert("dt01_keu_piutang_hd",$data);
+            return $sql;
+        }
+
+        function updatepiutang($piutangid,$data){           
+            $sql =   $this->db->update("dt01_keu_piutang_hd",$data,array("piutang_id"=>$piutangid));
             return $sql;
         }
 

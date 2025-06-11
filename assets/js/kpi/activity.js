@@ -161,50 +161,6 @@ function calendar() {
                         hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
                     });
                 }
-
-
-                // var batasperiodeid = $("input[name='data_activity_periodeid_add']").val();
-
-                // var pilihtgl  = info.dateStr;
-                //     pilihtgl  = String(pilihtgl);
-                //     pilihtgl  = pilihtgl.substr(8,2)+'.'+pilihtgl.substr(5,2)+'.'+pilihtgl.substr(0,4);
-                // var periodeid = pilihtgl.substr(3,7);
-
-                // if(periodeid === batasperiodeid){
-                //     $(":input[name='data_activity_date_add']").val(pilihtgl);
-                //     $('#modal_activity_add').modal('show');
-                // }else{
-                //     Swal.fire({
-                //         title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                //         html             : "<b>Input has exceeded the specified time limit.</b>",
-                //         icon             : "error",
-                //         confirmButtonText: "Please Try Again",
-                //         buttonsStyling   : false,
-                //         timerProgressBar : true,
-                //         timer            : 5000,
-                //         customClass      : {confirmButton: "btn btn-danger"},
-                //         showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                //         hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                //     });
-                // }
-
-                // if (periodeid <= batasperiodeid){
-                //     $(":input[name='data_activity_date_add']").val(pilihtgl);
-                //     $('#modal_activity_add').modal('show');
-                // } else {
-                //     Swal.fire({
-                //         title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                //         html             : "<b>Input has exceeded the specified time limit.</b>",
-                //         icon             : "error",
-                //         confirmButtonText: "Please Try Again",
-                //         buttonsStyling   : false,
-                //         timerProgressBar : true,
-                //         timer            : 5000,
-                //         customClass      : {confirmButton: "btn btn-danger"},
-                //         showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                //         hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-                //     });
-                // }
             }
         },
         eventDrop: function(info) {},

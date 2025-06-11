@@ -62,14 +62,16 @@
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
-                                    <tr class="fw-bolder align-middle bg-light">
+                                    <tr class="fw-bolder text-muted align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
-                                        <th>Pembayaran</th>
+                                        <th>Catatan</th>
                                         <th>Rekanan</th>
+                                        <th>Periode</th>
                                         <th class="text-center">Tanggal Tagihan</th>
                                         <th class="text-center">Tagihan</th>
                                         <th class="text-center">Terbayar</th>
                                         <th class="text-center">Sisa Tagihan</th>
+                                        <th class="text-end">Diperbaharui Oleh</th>
                                         <th class="pe-4 rounded-end text-end">Actions</th>
                                     </tr>
                                     
@@ -92,10 +94,11 @@
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
-                                    <tr class="fw-bolder align-middle bg-light">
+                                    <tr class="fw-bolder text-muted align-middle bg-light">
                                         <th class="ps-4 rounded-start">No invoice</th>
-                                        <th>Pembayaran</th>
+                                        <th>Catatan</th>
                                         <th>Rekanan</th>
+                                        <th>Periode</th>
                                         <th>Tagihan</th>
                                         <th>Januari</th>
                                         <th>Febuari</th>
@@ -114,7 +117,7 @@
                                     
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultrekappembayaran"></tbody>
-                                <tfoot id="footrekappembayaran"></tfoot>
+                                <tfoot class="text-gray-600 fw-bold" id="footrekappembayaran"></tfoot>
                             </table>
                         </div>
                     </div>

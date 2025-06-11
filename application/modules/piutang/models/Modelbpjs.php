@@ -90,35 +90,17 @@
         function datapiutang($orgid){
             $query =
                     "
-                        SELECT x.*,
-                            nilai - jmlterbayar AS sisa
-                        FROM (
-                            SELECT 
-                                a.piutang_id, 
-                                no_tagihan, 
-                                rekanan_id, 
-                                DATE_FORMAT(a.date, '%d.%m.%Y') AS tgldate, 
-                                note, 
-                                nilai, 
-                                jenis_id,
-                                periode,
-                                -- Format Indonesia
-                                CONCAT(
-                                    ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),
-                                        'Januari','Februari','Maret','April','Mei','Juni',
-                                        'Juli','Agustus','September','Oktober','November','Desember'),
-                                    ' ',
-                                    YEAR(STR_TO_DATE(periode, '%m.%Y'))
-                                ) AS periode_indonesia,
+                        select x.*,
+                            nilai-jmlterbayar sisa
+                        from(
+                            select a.piutang_id, no_tagihan, rekanan_id, note, nilai, jenis_id, periode, attachment,
+                                DATE_FORMAT(a.date, '%d.%m.%Y') tgldate, 
+                                DATE_FORMAT(a.last_update_date, '%d.%m.%Y %H:%i:%s') tgldibuat, 
+                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.last_update_by)dibuatoleh,
+                                (select provider from dt01_keu_provider_ms where org_id=a.org_id and provider_id=a.rekanan_id)rekanan,
+                                (select coalesce(sum(nominal), 0) from dt01_keu_piutang_it  where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar,
+                                CONCAT(ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',YEAR(STR_TO_DATE(periode, '%m.%Y'))) AS periode_indonesia,
                                 
-                                (SELECT provider 
-                                FROM dt01_keu_provider_ms 
-                                WHERE org_id = a.org_id AND provider_id = a.rekanan_id) AS rekanan,
-
-                                (SELECT COALESCE(SUM(nominal), 0) 
-                                FROM dt01_keu_piutang_it 
-                                WHERE org_id = a.org_id AND piutang_id = a.piutang_id) AS jmlterbayar,
-
                                 CASE 
                                     WHEN a.jenis_id = '3' THEN 'Tagihan Klaim BPJS'
                                     WHEN a.jenis_id = '4' THEN 'Obat Kronis'
@@ -127,15 +109,15 @@
                                 END AS jenistagihan,
 
                                 -- Tambahan field bantu untuk ORDER BY
-                                MONTH(STR_TO_DATE(periode, '%m.%Y')) AS bulan_order,
-                                YEAR(STR_TO_DATE(periode, '%m.%Y')) AS tahun_order
+                                MONTH(STR_TO_DATE(periode, '%m.%Y')) bulan_order,
+                                YEAR(STR_TO_DATE(periode, '%m.%Y')) tahun_order
 
-                            FROM dt01_keu_piutang_hd a
-                            WHERE a.active = '1'
+                            from dt01_keu_piutang_hd a
+                            where a.active = '1'
                             and   a.org_id='".$orgid."'
-                            AND a.jenis_id IN ('3','4','5')
+                            and a.jenis_id IN ('3','4','5')
                         ) x
-                        ORDER BY jenis_id ASC, tahun_order ASC, bulan_order ASC;
+                        order by jenis_id asc, tahun_order asc, bulan_order asc;
 
                     ";
 
@@ -171,13 +153,7 @@
                             SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '11' THEN b.nominal ELSE 0 END) AS jml11,
                             SUM(CASE WHEN DATE_FORMAT(b.date, '%m') = '12' THEN b.nominal ELSE 0 END) AS jml12,
 
-                            CONCAT(
-                                ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),
-                                    'Januari','Februari','Maret','April','Mei','Juni',
-                                    'Juli','Agustus','September','Oktober','November','Desember'),
-                                ' ',
-                                YEAR(STR_TO_DATE(periode, '%m.%Y'))
-                            ) AS periode_indonesia,
+                            CONCAT(ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',YEAR(STR_TO_DATE(periode, '%m.%Y'))) AS periode_indonesia,
 
                             CASE 
                                 WHEN a.jenis_id = '3' THEN 'Tagihan Klaim BPJS'
@@ -220,8 +196,61 @@
             return $recordset;
         }
 
+        function nokwitansi($orgid,$rekeningid){
+            $query =
+                    "
+                        select concat(                              
+                            lpad(
+                                coalesce(
+                                    (
+                                        select COUNT(transaksi_id)+1
+                                        from dt01_keu_rekening_it
+                                        where org_id='".$orgid."'
+                                        and   rekening_id='".$rekeningid."'
+                                        and   date_format(created_date, '%Y') = date_format(current_date, '%Y')
+                                    ),
+                                    1
+                                ),
+                                3,
+                                '0'
+                            ),
+                            '/',(select code from dt01_keu_rekening_ms where rekening_id='".$rekeningid."'),'/KEU/',
+                            date_format(now(), '%m'),
+                            '/',
+                            date_format(now(), '%Y')
+                    ) nokwitansi
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function checkbalancelast($orgid,$rekeningid){
+            $query =
+                    "
+                        select a.balance
+                        from dt01_keu_rekening_it a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.rekening_id='".$rekeningid."'
+                        order by created_date desc
+                        limit 1;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function insertpiutang($data){           
             $sql =   $this->db->insert("dt01_keu_piutang_hd",$data);
+            return $sql;
+        }
+
+        function updatepiutang($piutangid,$data){           
+            $sql =   $this->db->update("dt01_keu_piutang_hd",$data,array("piutang_id"=>$piutangid));
             return $sql;
         }
 

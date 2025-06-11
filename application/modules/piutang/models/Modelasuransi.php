@@ -79,30 +79,33 @@
                         select x.*,
                             nilai-jmlterbayar sisa
                         from(
-                            select a.piutang_id, no_tagihan, rekanan_id, date_format(a.date, '%d.%m.%Y')tgldate, note, nilai, jenis_id,
+                            select a.piutang_id, no_tagihan, rekanan_id, note, nilai, jenis_id, periode, attachment,
+                                DATE_FORMAT(a.date, '%d.%m.%Y') tgldate, 
+                                DATE_FORMAT(a.last_update_date, '%d.%m.%Y %H:%i:%s') tgldibuat, 
+                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.last_update_by)dibuatoleh,
                                 (select provider from dt01_keu_provider_ms where org_id=a.org_id and provider_id=a.rekanan_id)rekanan,
-                                (select coalesce(sum(nominal),0) from dt01_keu_piutang_it where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar,
-                                CONCAT(
-                                    ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),
-                                        'Januari','Februari','Maret','April','Mei','Juni',
-                                        'Juli','Agustus','September','Oktober','November','Desember'),
-                                    ' ',
-                                    YEAR(STR_TO_DATE(periode, '%m.%Y'))
-                                ) AS periode_indonesia,
+                                (select coalesce(sum(nominal), 0) from dt01_keu_piutang_it  where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar,
+                                CONCAT(ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',YEAR(STR_TO_DATE(periode, '%m.%Y'))) AS periode_indonesia,
+                                
                                 CASE 
                                     WHEN a.jenis_id = '1' THEN 'Rawat Jalan'
-                                    ELSE 'Rawat Inap'
+                                    WHEN a.jenis_id = '3' THEN 'Tagihan Klaim BPJS'
+                                    WHEN a.jenis_id = '4' THEN 'Obat Kronis'
+                                    WHEN a.jenis_id = '5' THEN 'Ambulance'
+                                    WHEN a.jenis_id = '7' THEN 'Rawat Inap'
+                                    ELSE 'Lainnya'
                                 END AS jenistagihan,
 
-                                MONTH(STR_TO_DATE(periode, '%m.%Y')) AS bulan_order,
-                                YEAR(STR_TO_DATE(periode, '%m.%Y')) AS tahun_order
+                                -- Tambahan field bantu untuk ORDER BY
+                                MONTH(STR_TO_DATE(periode, '%m.%Y')) bulan_order,
+                                YEAR(STR_TO_DATE(periode, '%m.%Y')) tahun_order
 
                             from dt01_keu_piutang_hd a
-                            where a.active='1'
+                            where a.active = '1'
                             and   a.org_id='".$orgid."'
                             and   a.jenis_id in ('1','7')
-                        )x
-                        ORDER BY jenis_id ASC, tahun_order ASC, bulan_order ASC
+                        ) x
+                        order by jenis_id asc, tahun_order asc, bulan_order asc;
                     ";
 
             $recordset = $this->db->query($query);
@@ -230,6 +233,11 @@
 
         function insertpiutang($data){           
             $sql =   $this->db->insert("dt01_keu_piutang_hd",$data);
+            return $sql;
+        }
+
+        function updatepiutang($piutangid,$data){           
+            $sql =   $this->db->update("dt01_keu_piutang_hd",$data,array("piutang_id"=>$piutangid));
             return $sql;
         }
 

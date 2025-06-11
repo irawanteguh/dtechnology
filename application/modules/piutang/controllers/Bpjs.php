@@ -104,17 +104,19 @@
             $jenisid   = $this->input->post("modal_bpjs_invoice_jenisid");
             $periodeid = $this->input->post("modal_bpjs_invoice_periodeid");
 
-            $data['org_id']       = $_SESSION['orgid'];
-            $data['piutang_id']   = generateuuid();
-            $data['no_tagihan']   = $notagihan;
-            $data['rekanan_id']   = $provider;
-            $data['note']         = $note;
-            $data['periode']      = $periodeid;
-            $data['date']         = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
-            $data['jenis_id']     = $jenisid;
-            $data['nilai']        = (int) preg_replace('/\D/', '', $nominal);
-            $data['created_date'] = date('Y-m-d H:i:s');
-            $data['created_by']   = $_SESSION['userid'];
+            $data['org_id']           = $_SESSION['orgid'];
+            $data['piutang_id']       = generateuuid();
+            $data['no_tagihan']       = $notagihan;
+            $data['rekanan_id']       = $provider;
+            $data['note']             = $note;
+            $data['periode']          = $periodeid;
+            $data['date']             = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
+            $data['jenis_id']         = $jenisid;
+            $data['nilai']            = (int) preg_replace('/\D/', '', $nominal);
+            $data['created_by']       = $_SESSION['userid'];
+            $data['last_update_by']   = $_SESSION['userid'];
+            $data['created_date']     = date('Y-m-d H:i:s');
+            $data['last_update_date'] = date('Y-m-d H:i:s');
 
             if($this->md->insertpiutang($data)){
                 $json['responCode']="00";
@@ -129,13 +131,72 @@
             echo json_encode($json);
         }
 
+        public function editinvoicebpjs(){
+            $piutangid = $this->input->post("modal_bpjs_invoice_edit_piutangid");
+            $notagihan = $this->input->post("modal_bpjs_invoice_edit_notagihan");
+            $note      = $this->input->post("modal_bpjs_invoice_edit_note");
+            $date      = $this->input->post("modal_bpjs_invoice_edit_date");
+            $provider  = $this->input->post("modal_bpjs_invoice_edit_provider");
+            $nominal   = $this->input->post("modal_bpjs_invoice_edit_tagihan");
+            $jenisid   = $this->input->post("modal_bpjs_invoice_edit_jenisid");
+            $periodeid = $this->input->post("modal_bpjs_invoice_edit_periodeid");
+
+            $data['org_id']           = $_SESSION['orgid'];
+            $data['piutang_id']       = generateuuid();
+            $data['no_tagihan']       = $notagihan;
+            $data['rekanan_id']       = $provider;
+            $data['note']             = $note;
+            $data['periode']          = $periodeid;
+            $data['date']             = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
+            $data['jenis_id']         = $jenisid;
+            $data['nilai']            = (int) preg_replace('/\D/', '', $nominal);
+            $data['last_update_by']   = $_SESSION['userid'];
+            $data['last_update_date'] = date('Y-m-d H:i:s');
+
+            if($this->md->updatepiutang($piutangid, $data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Update Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Update";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function uploadinvoice(){
+            $piutangid= $_GET['piutangid'];
+
+            $config['upload_path']   = './assets/invoice/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $piutangid;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                $upload_data = $this->upload->data();
+                $dataupdate['attachment']="1";
+                $this->md->updatepiutang($piutangid,$dataupdate);
+                echo "Upload Success";
+            }
+
+        }
+
         public function pembayaran(){
-            $piutangid    = $this->input->post("modal_mcu_pembayaran_piutangid");
-            $departmentid = $this->input->post("modal_mcu_pembayaran_departmentid");
-            $rekeningid   = $this->input->post("modal_mcu_pembayaran_rekeningid");
-            $note         = $this->input->post("modal_mcu_pembayaran_note");
-            $date         = $this->input->post("modal_mcu_pembayaran_date");
-            $nominal      = $this->input->post("modal_mcu_pembayaran_in");
+            $piutangid    = $this->input->post("modal_bpjs_pembayaran_piutangid");
+            $departmentid = $this->input->post("modal_bpjs_pembayaran_departmentid");
+            $rekeningid   = $this->input->post("modal_bpjs_pembayaran_rekeningid");
+            $note         = $this->input->post("modal_bpjs_pembayaran_note");
+            $date         = $this->input->post("modal_bpjs_pembayaran_date");
+            $nominal      = $this->input->post("modal_bpjs_pembayaran_in");
             $transaksiid  = generateuuid();
             
             $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid'],$rekeningid);
@@ -167,6 +228,7 @@
             $datapemabyaran['transaksi_id'] = $transaksiid;
             $datapemabyaran['piutang_id']   = $piutangid;
             $datapemabyaran['rekening_id']  = $rekeningid;
+            $datapemabyaran['note']         = $note;
             $datapemabyaran['date']         = DateTime::createFromFormat("d.m.Y",$date)->format("Y-m-d");
             $datapemabyaran['nominal']      = (int) preg_replace('/\D/', '', $nominal);
             $datapemabyaran['created_by']   = $_SESSION['userid'];
