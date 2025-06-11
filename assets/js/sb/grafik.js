@@ -1,14 +1,16 @@
-datainsight();
+databulanan();
+dataharian();
 
 $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", function (e) {
     e.preventDefault();
-    datainsight();
+    databulanan();
+    dataharian();
 });
 
-function datainsight() {
+function databulanan() {
     const periode = $("select[name='toolbar_kunjunganyears_periode']").val();
     $.ajax({
-        url      : url + "index.php/sb/grafik/datainsight",
+        url      : url + "index.php/sb/grafik/databulanan",
         method   : "POST",
         data     : { periode },
         dataType : "JSON",
@@ -90,7 +92,7 @@ function datainsight() {
 
             const avgTotal = Math.round(totalKunjungan.all / (validPeriods * 3));
 
-            createChartlinebar("grafikKunjunganRS", chartSeriesBar, avgTotal, "bar", "Kunjungan Pasien");
+            createChartlinebarbulan("grafikkunjunganbulanan", chartSeriesBar, avgTotal, "bar", "Kunjungan Pasien");
             createRadarChart("grafikDistribusiProviderkunjungan", chartSeriesRadar, ['UMUM', 'ASURANSI', 'BPJS', 'MCU']);
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -117,8 +119,75 @@ function datainsight() {
     return false;
 }
 
+function dataharian() {
+    const periode = $("select[name='toolbar_kunjunganyears_periode']").val();
 
-const createChartlinebar = (elementId, seriesData, avgLine = null, chartType = 'bar', titlechart) => {
+    $.ajax({
+        url     : url + "index.php/sb/grafik/dataharian",
+        method  : "POST",
+        data    : { periode },
+        dataType: "JSON",
+        cache   : false,
+        beforeSend() {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success(data) {
+            if (data.responCode !== "00") {
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+                return;
+            }
+
+            const hospitals = {
+                rsms  : { name: "RSU Mutiasari", data: [] },
+                rsiabm: { name: "RSIA Budhi Mulia", data: [] },
+                rst   : { name: "RS Thursina", data: [] }
+            };
+
+            const parseTanggalToTimestamp = tanggal => {
+                const [dd, mm, yyyy] = tanggal.split('.');
+                return new Date(`${yyyy}-${mm}-${dd}`).getTime();
+            };
+
+            data.responResult.forEach(item => {
+                const timestamp = parseTanggalToTimestamp(item.tanggal);
+
+                hospitals.rsms.data.push([timestamp, +item.kunjungantotalrsms]);
+                hospitals.rsiabm.data.push([timestamp, +item.kunjungantotalrsiabm]);
+                hospitals.rst.data.push([timestamp, +item.kunjungantotalrst]);
+            });
+
+            const chartSeries = Object.values(hospitals).map(hosp => ({
+                name: hosp.name,
+                data: hosp.data
+            }));
+
+            createChartlinebarhari("grafikkunjunganharian", chartSeries, "area");
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete() {
+            toastr.clear();
+        },
+        error(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+
+    return false;
+}
+
+const createChartlinebarbulan = (elementId, seriesData, avgLine = null, chartType = 'bar', titlechart) => {
     const el = document.getElementById(elementId);
     const height = parseInt(KTUtil.css(el, "height"));
 
@@ -177,6 +246,80 @@ const createChartlinebar = (elementId, seriesData, avgLine = null, chartType = '
     newChart.render();
     window[elementId] = newChart;
 };
+
+const createChartlinebarhari = (elementId, seriesData, chartType = 'area', categories = []) => {
+    const el = document.getElementById(elementId);
+    const height = parseInt(KTUtil.css(el, "height")) || 350;
+
+    if (window[elementId] instanceof ApexCharts) {
+        window[elementId].destroy();
+    }
+
+    const newChart = new ApexCharts(el, {
+        series: seriesData,
+        chart: {
+            type: chartType,
+            stacked: false,
+            height: height,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            },
+            fontFamily: "inherit",
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: { enabled: true, delay: 150 },
+                dynamicAnimation: { enabled: true, speed: 350 }
+            }
+        },
+        stroke    : { curve: "smooth", width: 2, show: true },
+        dataLabels: { enabled: false },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                inverseColors: false,
+                opacityFrom: 0.5,
+                opacityTo: 0,
+                stops: [0, 90, 100]
+            }
+        },
+        yaxis: {
+            labels: {
+                show     : true,
+                formatter: value => todesimal(value)
+            },
+            title: {
+                text: 'Jumlah Kunjungan'
+            }
+        },
+        xaxis: {
+            type: 'datetime',
+            labels: {
+                datetimeUTC: false,
+                format: 'dd MMM'
+            }
+        },
+        tooltip: {
+            x: {
+                format: 'dd MMM yyyy'
+            },
+            y: {
+                formatter: val => todesimal(val, 2)
+            }
+        }
+    });
+
+    newChart.render();
+    window[elementId] = newChart;
+};
+
 
 const createRadarChart = (chartId, seriesData, categories) => {
     const el = document.getElementById(chartId);

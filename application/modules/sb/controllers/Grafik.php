@@ -25,9 +25,27 @@
             return $data;
 		}
 
-        public function datainsight(){
+        public function databulanan(){
             $tahun  = $this->input->post("periode");
-            $result = $this->md->datainsight($tahun);
+            $result = $this->md->databulanan($tahun);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function dataharian(){
+            $tahun  = $this->input->post("periode");
+            $result = $this->md->dataharian($tahun);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

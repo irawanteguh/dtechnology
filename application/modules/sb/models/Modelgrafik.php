@@ -14,7 +14,7 @@
             return $recordset;
         }
 
-        function datainsight($tahun) {
+        function databulanan($tahun) {
             $tanggal_awal = $tahun . '-01-01';
             $tanggal_akhir = $tahun . '-11-31';
 
@@ -52,6 +52,33 @@
 
                             FROM calendar
                         )X;
+                    ";
+
+            $recordset = $this->db->query($query);
+            return $recordset->result();
+        }
+
+        function dataharian($tahun) {
+            $tanggal_awal = $tahun . '-01-01';
+            $tanggal_akhir = $tahun . '-12-31';
+
+            $query = "
+                        WITH RECURSIVE calendar AS (
+                            SELECT DATE('$tanggal_awal') AS tanggal
+                            UNION ALL
+                            SELECT DATE_ADD(tanggal, INTERVAL 1 DAY)
+                            FROM calendar
+                            WHERE tanggal < DATE('$tanggal_akhir')
+                            AND tanggal < CURDATE()
+                        )
+                        select x.*
+                        from(
+                            select DATE_FORMAT(tanggal, '%d.%m.%Y')tanggal,
+                            (select coalesce(sum(k_urj+k_uri+k_arj+k_ari+k_brj+k_bri+k_mcu_cash+k_mcu_inv),0) from dt01_report_income_dt where active='1' and org_id='10c84edd-500b-49e3-93a5-a2c8cd2c8524' and date_format(date,'%d.%m.%Y')=date_format(tanggal,'%d.%m.%Y'))kunjungantotalrsms,
+                            (select coalesce(sum(k_urj+k_uri+k_arj+k_ari+k_brj+k_bri+k_mcu_cash+k_mcu_inv),0) from dt01_report_income_dt where active='1' and org_id='d5e63fbc-01ec-4ba8-90b8-fb623438b99d' and date_format(date,'%d.%m.%Y')=date_format(tanggal,'%d.%m.%Y'))kunjungantotalrsiabm,
+                            (select coalesce(sum(k_urj+k_uri+k_arj+k_ari+k_brj+k_bri+k_mcu_cash+k_mcu_inv),0) from dt01_report_income_dt where active='1' and org_id='a4633f72-4d67-4f65-a050-9f6240704151' and date_format(date,'%d.%m.%Y')=date_format(tanggal,'%d.%m.%Y'))kunjungantotalrst
+                            from calendar
+                        )x;
                     ";
 
             $recordset = $this->db->query($query);
