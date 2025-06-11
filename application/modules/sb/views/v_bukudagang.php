@@ -39,7 +39,7 @@
         <?php $isActive = ($id === $firstKey) ? 'show active' : ''; ?>
         <div class="tab-pane fade <?= $isActive ?>" id="bukudagang_<?= $id ?>" role="tabpanel">
             <div class="row gy-5 g-xl-8 mb-xl-8">
-                <div class="col-xl-12 border">
+                <div class="col-xl-12">
                     <div class="card card-flush">
                         <div class="card-body p-2">
                             <div class="table-responsive">
