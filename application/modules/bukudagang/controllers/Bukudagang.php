@@ -27,7 +27,7 @@
 
         public function rekapbukudagang(){
             $periode = $this->input->post("periode");
-            $result = $this->md->rekapbukudagang($periode);
+            $result = $this->md->rekapbukudagang("2025");
             
 			if(!empty($result)){
                 $json["responCode"]="00";

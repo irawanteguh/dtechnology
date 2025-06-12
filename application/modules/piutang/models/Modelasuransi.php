@@ -105,7 +105,7 @@
                             and   a.org_id='".$orgid."'
                             and   a.jenis_id in ('1','7')
                         ) x
-                        order by jenis_id asc, tahun_order asc, bulan_order asc;
+                        order by rekanan_id asc, jenis_id asc, tahun_order asc, bulan_order asc;
                     ";
 
             $recordset = $this->db->query($query);

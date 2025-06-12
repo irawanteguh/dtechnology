@@ -363,6 +363,11 @@ function datakaryawan(){
                         btnaction  = btnreenroll;
                     }
 
+                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID!="" && result[i].NOTE!='"Pemohon tidak hadir saat melakukan verifikasi manual sebanyak 3 kaliThe user is not present when'){
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
+                        btnaction  = btnedit+btnpengajuan;
+                    }
+
                     tableresult +="<tr>";
                         tableresult +="<td class='d-flex align-items-center'>";
                                 tableresult +="<div class='symbol symbol-circle symbol-50px overflow-hidden me-3'>";
