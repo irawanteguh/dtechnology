@@ -18,38 +18,64 @@
     }
 
     function rendertab() {
-    $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    $bulanSekarang = date('n');
-    $html          = '';
+        $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        $bulanSekarang = date('n');
+        $html          = '';
 
-    foreach ($bulan as $index => $namaBulan) {
-        $bulanKe = $index + 1;
-        $active  = ($bulanKe == $bulanSekarang) ? 'show active' : '';
+        foreach ($bulan as $index => $namaBulan) {
+            $bulanKe = $index + 1;
+            $active  = ($bulanKe == $bulanSekarang) ? 'show active' : '';
 
-        $html .= '<div class="tab-pane fade ' . $active . '" id="tabbln' . $bulanKe . '">';
-            $html .= '<div class="card card-flush">';
-                $html .= '<div class="card-body p-2">';
-                    $html .= '<div class="table-responsive">';
-                        $html .= '<table class="table align-middle table-row-dashed fs-8 gy-2">';
-                            $html .= '<thead>';
-                                $html .= '<tr class="fw-bolder align-middle bg-primary text-white">';
-                                    $html .= '<th class="ps-4 rounded-start">Pendapatan</th>';
-                                    $html .= '<th class="text-end">Estimasi</th>';
-                                    $html .= '<th class="text-center">Penerimaan</th>';
-                                    $html .= '<th class="pe-4 rounded-end text-end">Sisa Tagihan</th>';
-                                $html .= '</tr>';
-                            $html .= '</thead>';
-                            $html .= '<tbody class="text-gray-600 fw-bold" id="resultdatabukudagang_'.$bulanKe.'"></tbody>';
-                            $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagang_'.$bulanKe.'"></tbody>';
-                        $html .= '</table>';
+            
+            $html .= '<div class="tab-pane fade ' . $active . '" id="tabbln' . $bulanKe . '">';
+                $html .= '<div class="row">';
+                    $html .= '<div class="col-xl-6">';
+                        $html .= '<div class="card card-flush">';
+                            $html .= '<div class="card-body p-2">';
+                                $html .= '<div class="table-responsive">';
+                                    $html .= '<table class="table align-middle table-row-dashed fs-8 gy-2">';
+                                        $html .= '<thead>';
+                                            $html .= '<tr class="fw-bolder align-middle bg-primary text-white">';
+                                                $html .= '<th class="ps-4 rounded-start">Pendapatan</th>';
+                                                $html .= '<th class="text-end">Estimasi</th>';
+                                                $html .= '<th class="text-center">Penerimaan</th>';
+                                                $html .= '<th class="pe-4 rounded-end text-end">Sisa Tagihan</th>';
+                                            $html .= '</tr>';
+                                        $html .= '</thead>';
+                                        $html .= '<tbody class="text-gray-600 fw-bold" id="resultdatabukudagang_'.$bulanKe.'"></tbody>';
+                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagang_'.$bulanKe.'"></tbody>';
+                                    $html .= '</table>';
+                                $html .= '</div>';
+                            $html .= '</div>';
+                        $html .= '</div>';
+                    $html .= '</div>';
+                    
+                    $html .= '<div class="col-xl-6">';
+                        $html .= '<div class="card card-flush">';
+                            $html .= '<div class="card-body p-2">';
+                                $html .= '<div class="table-responsive">';
+                                    $html .= '<table class="table align-middle table-row-dashed fs-8 gy-2">';
+                                        $html .= '<thead>';
+                                            $html .= '<tr class="fw-bolder align-middle bg-danger text-white">';
+                                                $html .= '<th class="ps-4 rounded-start">Pengeluaran</th>';
+                                                $html .= '<th class="text-end">Estimasi</th>';
+                                                $html .= '<th class="text-center">Dibayarkan</th>';
+                                                $html .= '<th class="pe-4 rounded-end text-end">Sisa Tagihan</th>';
+                                            $html .= '</tr>';
+                                        $html .= '</thead>';
+                                        $html .= '<tbody class="text-gray-600 fw-bold" id="resultdatabukudagangpengeluaran_'.$bulanKe.'"></tbody>';
+                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagangpengeluaran_'.$bulanKe.'"></tbody>';
+                                    $html .= '</table>';
+                                $html .= '</div>';
+                            $html .= '</div>';
+                        $html .= '</div>';
                     $html .= '</div>';
                 $html .= '</div>';
             $html .= '</div>';
-        $html .= '</div>';
-    }
+        }
 
-    return $html;
-}
+        return $html;
+    }
 ?>
 
 <div class="row gy-5 g-xl-8 mb-xl-8">
@@ -76,7 +102,7 @@
 </div>
 
 <div class="row gy-5 g-xl-8 mb-xl-8">
-    <div class="col-xl-6">
+    <div class="col-xl-12">
         <div class="tab-content p-0">
             <?= rendertab(); ?>
         </div>
