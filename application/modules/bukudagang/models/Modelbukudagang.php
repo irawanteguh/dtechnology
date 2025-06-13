@@ -28,7 +28,7 @@
                 $estimasi .= "
                     CASE
                         WHEN a.manual = 'Y' THEN COALESCE((SELECT SUM(estimasi) FROM dt01_keu_buku_dagang_it WHERE buku_id=a.buku_id AND periode = '{$periode}'), 0)
-                        WHEN a.manual = 'P' THEN COALESCE((SELECT SUM(total) FROM dt01_lgu_pemesanan_dt WHERE active='1' AND barang_id IN (SELECT barang_id FROM dt01_lgu_barang_ms WHERE active='1' AND jenis_id=a.buku_id) AND no_pemesanan IN (SELECT no_pemesanan FROM dt01_lgu_pemesanan_hd WHERE active='1' AND DATE_FORMAT(payment_date,'%m.%Y')='{$periode}' or DATE_FORMAT(created_date,'%m.%Y')='{$periode}')),0)
+                        WHEN a.manual in ('S','P') THEN COALESCE((SELECT SUM(total) FROM dt01_lgu_pemesanan_dt WHERE active='1' AND barang_id IN (SELECT barang_id FROM dt01_lgu_barang_ms WHERE active='1' AND jenis_id=a.buku_id) AND no_pemesanan IN (SELECT no_pemesanan FROM dt01_lgu_pemesanan_hd WHERE active='1' AND DATE_FORMAT(payment_date,'%m.%Y')='{$periode}' or DATE_FORMAT(created_date,'%m.%Y')='{$periode}')),0)
                         WHEN a.buku_id = '916ffd91-c750-41f7-b747-aa7e3b0358c2' THEN COALESCE((SELECT SUM(estimasi) FROM dt01_keu_buku_dagang_it WHERE buku_id=a.buku_id AND periode = '{$periode}'), 0)
                         WHEN a.buku_id = '365477ec-46d8-11f0-8318-0894effd6cc3' THEN COALESCE((SELECT SUM(u_rj+u_ri) FROM dt01_report_income_dt WHERE active='1' AND org_id='".$orgid."' AND DATE_FORMAT(date,'%m.%Y') = '{$periode}'), 0)
                         WHEN a.buku_id = '36547ba5-46d8-11f0-8318-0894effd6cc3' THEN COALESCE((SELECT nilai FROM dt01_keu_piutang_hd WHERE jenis_id = '2' AND periode = '{$periode}' LIMIT 1), 0)
@@ -45,6 +45,7 @@
                 $penerimaan .= "
                     CASE
                         WHEN a.manual = 'Y' THEN COALESCE((SELECT SUM(penerimaan) FROM dt01_keu_buku_dagang_it WHERE buku_id=a.buku_id AND periode = '{$periode}'), 0)
+                        WHEN a.manual = 'S' THEN COALESCE((SELECT SUM(penerimaan) FROM dt01_keu_buku_dagang_it WHERE buku_id=a.buku_id AND periode = '{$periode}'), 0)
                         WHEN a.manual = 'P' THEN COALESCE((SELECT SUM(total) FROM dt01_lgu_pemesanan_dt WHERE active='1' AND barang_id IN (SELECT barang_id FROM dt01_lgu_barang_ms WHERE active='1' AND jenis_id=a.buku_id) AND no_pemesanan IN (SELECT no_pemesanan FROM dt01_lgu_pemesanan_hd WHERE active='1' AND DATE_FORMAT(payment_date,'%m.%Y')='{$periode}' or DATE_FORMAT(created_date,'%m.%Y')='{$periode}')),0)
                         WHEN a.buku_id = '916ffd91-c750-41f7-b747-aa7e3b0358c2' THEN COALESCE((SELECT SUM(penerimaan) FROM dt01_keu_buku_dagang_it WHERE buku_id=a.buku_id AND periode = '{$periode}'), 0)
                         WHEN a.buku_id = '36547ba5-46d8-11f0-8318-0894effd6cc3' THEN COALESCE((SELECT SUM(nominal) FROM dt01_keu_piutang_it WHERE piutang_id IN (SELECT piutang_id FROM dt01_keu_piutang_hd WHERE jenis_id = '2' AND periode = '{$periode}')), 0)
