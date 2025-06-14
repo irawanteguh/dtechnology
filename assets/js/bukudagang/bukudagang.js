@@ -201,10 +201,10 @@ function rekapbukudagang() {
                     var bulanStr = bulan.toString().padStart(2, '0');
 
                     for (var i in result) {
-                        var jenisId = result[i].jenis_id;
-                        var bukuId = result[i].buku_id;
+                        var jenisId  = result[i].jenis_id;
+                        var bukuId   = result[i].buku_id;
                         var bukuNama = result[i].buku;
-                        var manual = result[i].manual;
+                        var manual   = result[i].manual;
 
                         var estimasi = parseFloat(result[i]['estimasi_' + bulan]) || 0;
                         var bayar1   = parseFloat(result[i]['penerimaan_' + bulan]) || 0;
@@ -218,11 +218,7 @@ function rekapbukudagang() {
                             var selisih = estimasi - bayar1;
 
                             var baris = "<tr>";
-                            baris += "<td class='ps-4'>" + (manual === "P" ? "<a href='#'>" + bukuNama + "</a>" : bukuNama);
-                            if (manual === "Y") {
-                                baris += " <a class='btn btn-sm btn-light-primary p-1' data-bs-toggle='modal' data-bs-target='#modal_buku_dagang' " + getvariabel + "><i class='bi bi-pencil-square'></i> Update data</a>";
-                            }
-                            baris += "</td>";
+                            baris += "<td class='ps-4'><div>" + ((manual === "P" || manual === "N") ? "<a href='#' title='Klik Untuk Melihat Rincian'>" + bukuNama + "</a>" : bukuNama) + "</div>" + (result[i].keterangan ? "<div class='fst-italic'>" + result[i].keterangan + "</div>" : "") + (manual === "Y" ? "<div><a class='btn btn-sm btn-light-primary p-1' data-bs-toggle='modal' data-bs-target='#modal_buku_dagang' " + getvariabel + "><i class='bi bi-pencil-square'></i> Update data</a></div>" : "") + "</td>";
                             baris += "<td class='text-end'>" + todesimal(estimasi) + "</td>";
                             baris += "<td class='text-end'>" + todesimal(bayar1) + "</td>";
                             baris += "<td class='text-end pe-4'>" + todesimal(selisih) + "</td>";
@@ -254,7 +250,7 @@ function rekapbukudagang() {
                             totalPersediaanAkhir += persediaanAkhir;
 
                             var baris = "<tr>";
-                            baris += "<td class='ps-4'>" + bukuNama + "</td>";
+                            baris += "<td class='ps-4'><div>" + bukuNama + (result[i].keterangan ? "<div class='fst-italic'>" + result[i].keterangan + "</div>" : "")+"</div></td>";
                             baris += "<td class='text-end'>" + todesimal(persediaanAwal) + "</td>";
                             baris += "<td class='text-end'>" + todesimal(pembelian) + "</td>";
                             baris += "<td class='text-end'>" + todesimal(pemakaian) + "</td>";

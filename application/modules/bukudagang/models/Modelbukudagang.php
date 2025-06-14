@@ -64,7 +64,7 @@
             $penerimaan = rtrim($penerimaan, ",");
 
             $query = "
-                SELECT a.buku_id, a.buku, a.manual, jenis_id,
+                SELECT a.buku_id, a.buku, a.keterangan, a.manual, jenis_id,
                     {$estimasi},
                     {$penerimaan}
                 FROM dt01_keu_buku_dagang_ms a
