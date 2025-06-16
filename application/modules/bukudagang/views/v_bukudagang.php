@@ -43,7 +43,7 @@
                                             $html .= '</tr>';
                                         $html .= '</thead>';
                                         $html .= '<tbody class="text-gray-600 fw-bold" id="resultdatabukudagang_'.$bulanKe.'"></tbody>';
-                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagang_'.$bulanKe.'"></tbody>';
+                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagang_'.$bulanKe.'"></tfoot>';
                                     $html .= '</table>';
                                 $html .= '</div>';
                             $html .= '</div>';
@@ -63,7 +63,7 @@
                                             $html .= '</tr>';
                                         $html .= '</thead>';
                                         $html .= '<tbody class="text-gray-600 fw-bold" id="resultdatabukudagangpersediaan_'.$bulanKe.'"></tbody>';
-                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagangpersediaan_'.$bulanKe.'"></tbody>';
+                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagangpersediaan_'.$bulanKe.'"></tfoot>';
                                     $html .= '</table>';
                                 $html .= '</div>';
                             $html .= '</div>';
@@ -84,7 +84,7 @@
                                             $html .= '</tr>';
                                         $html .= '</thead>';
                                         $html .= '<tbody class="text-gray-600 fw-bold" id="resultdatabukudagangpengeluaran_'.$bulanKe.'"></tbody>';
-                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagangpengeluaran_'.$bulanKe.'"></tbody>';
+                                        $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotalbukudagangpengeluaran_'.$bulanKe.'"></tfoot>';
                                     $html .= '</table>';
                                 $html .= '</div>';
                             $html .= '</div>';
