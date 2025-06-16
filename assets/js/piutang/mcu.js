@@ -191,41 +191,45 @@ function deletepiutang(elm) {
     });
 }
 
-function datapiutang(){
+function datapiutang() {
     $.ajax({
-        url       : url+"index.php/piutang/mcu/datapiutang",
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
+        url: url + "index.php/piutang/mcu/datapiutang",
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
             $("#resultrekappiutang").html("");
+            $("#footrekappiutang").html("");
         },
-        success:function(data){
-            var result      = "";
+        success: function (data) {
             var tableresult = "";
+            var footresult  = "";
 
             if (data.responCode === "00") {
                 var result = data.responResult;
-                var tableresult = "";
                 var currentRekanan = "";
                 var subtotalNilai = 0;
                 var subtotalTerbayar = 0;
                 var subtotalSisa = 0;
 
+                // TOTAL AKHIR
+                var totalNilai = 0;
+                var totalTerbayar = 0;
+                var totalSisa = 0;
+
                 for (var i = 0; i < result.length; i++) {
                     var item = result[i];
 
-                    if(item.rekanan !== currentRekanan){
+                    if (item.rekanan !== currentRekanan) {
                         if (currentRekanan !== "") {
                             tableresult += "<tr class='fw-bold bg-warning'>";
                             tableresult += "<td colspan='5' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
                             tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
                             tableresult += "<td class='text-end'>" + todesimal(subtotalTerbayar) + "</td>";
                             tableresult += "<td class='text-end'>" + todesimal(subtotalSisa) + "</td>";
-                            tableresult += "<td class='text-end'></td>";
-                            tableresult += "<td class='text-end'></td>";
+                            tableresult += "<td></td><td></td>";
                             tableresult += "</tr>";
                         }
 
@@ -235,17 +239,17 @@ function datapiutang(){
                         subtotalSisa     = 0;
                     }
 
-                     var getvariabel = " datapiutangid='" + item.piutang_id + "'" +
-                                      " datanotagihan='" + item.no_tagihan + "'" +
-                                      " datajenistagihan='" + item.jenis_id + "'" +
-                                      " datajenis='" + item.jenistagihan + "'" +
-                                      " dataperiodetagihan='" + item.periode_indonesia + "'" +
-                                      " datanote='" + item.note + "'" +
-                                      " dataperiode='" + item.periode + "'" +
-                                      " datatanggal='" + item.tgldate + "'" +
-                                      " datanilai='" + item.nilai + "'" +
-                                      " dataprovider='" + item.rekanan + "'" +
-                                      " datarekananid='" + item.rekanan_id + "'";
+                    var getvariabel = " datapiutangid='" + item.piutang_id + "'" +
+                        " datanotagihan='" + item.no_tagihan + "'" +
+                        " datajenistagihan='" + item.jenis_id + "'" +
+                        " datajenis='" + item.jenistagihan + "'" +
+                        " dataperiodetagihan='" + item.periode_indonesia + "'" +
+                        " datanote='" + item.note + "'" +
+                        " dataperiode='" + item.periode + "'" +
+                        " datatanggal='" + item.tgldate + "'" +
+                        " datanilai='" + item.nilai + "'" +
+                        " dataprovider='" + item.rekanan + "'" +
+                        " datarekananid='" + item.rekanan_id + "'";
 
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + item.no_tagihan + "</td>";
@@ -268,50 +272,51 @@ function datapiutang(){
                     }
                     tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " data-bs-toggle='modal' data-bs-target='#modal_mcu_pembayaran'><i class='bi bi-credit-card text-success'></i> Payment</a>";
                     tableresult += "<a class='dropdown-item btn btn-sm text-danger' " + getvariabel + " onclick='deletepiutang(this)'><i class='bi bi-trash3 text-danger'></i> Delete</a>";
-                    tableresult += "</div>";
-                    tableresult += "</div>";
-                    tableresult += "</td>";
-                    tableresult += "</tr>";
+                    tableresult += "</div></div></td></tr>";
 
                     subtotalNilai    += parseFloat(item.nilai);
                     subtotalTerbayar += parseFloat(item.jmlterbayar);
                     subtotalSisa     += parseFloat(item.sisa);
+
+                    totalNilai    += parseFloat(item.nilai);
+                    totalTerbayar += parseFloat(item.jmlterbayar);
+                    totalSisa     += parseFloat(item.sisa);
                 }
 
+                // Tambahkan subtotal terakhir
                 if (currentRekanan !== "") {
                     tableresult += "<tr class='fw-bold bg-warning'>";
                     tableresult += "<td colspan='5' class='text-end pe-4'>Subtotal " + currentRekanan + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(subtotalNilai) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(subtotalTerbayar) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(subtotalSisa) + "</td>";
-                    tableresult += "<td class='text-end'></td>";
-                    tableresult += "<td class='text-end'></td>";
-                    tableresult += "</tr>";
+                    tableresult += "<td></td><td></td></tr>";
                 }
+
+                
+                footresult += "<tr class='bg-light fw-bold'>";
+                footresult += "<td colspan='5' class='text-end pe-4'>TOTAL KESELURUHAN</td>";
+                footresult += "<td class='text-end'>" + todesimal(totalNilai) + "</td>";
+                footresult += "<td class='text-end'>" + todesimal(totalTerbayar) + "</td>";
+                footresult += "<td class='text-end'>" + todesimal(totalSisa) + "</td>";
+                footresult += "<td></td><td></td></tr>";
             }
 
-            
-
             $("#resultrekappiutang").html(tableresult);
+            $("#footrekappiutang").html(footresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-			toastr.clear();
-		},
-        error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                error,
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
-		}
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            showAlert("I'm Sorry", error, "error", "Please Try Again", "btn btn-danger");
+        }
     });
     return false;
-};
+}
 
 function historypembayaran(){
     $.ajax({

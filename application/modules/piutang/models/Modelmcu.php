@@ -136,7 +136,7 @@
                             from dt01_keu_piutang_hd a
                             where a.active = '1'
                             and   a.org_id='".$orgid."'
-                            and a.jenis_id='2'
+                            and   a.jenis_id='2'
                         ) x
                         order by rekanan asc, date asc
                     ";

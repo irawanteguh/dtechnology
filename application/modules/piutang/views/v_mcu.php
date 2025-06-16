@@ -77,6 +77,7 @@
                                     
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultrekappiutang"></tbody>
+                                <tfoot class="text-gray-600 fw-bold" id="footrekappiutang"></tfoot>
                             </table>
                         </div>
                     </div>
