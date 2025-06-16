@@ -149,6 +149,24 @@
             echo json_encode($json);
         }
 
+        public function hapuspiutang(){
+            $piutangid = $this->input->post("piutang_id");
+
+            $data['active'] = "0";
+
+            if($this->md->updatepiutang($piutangid, $data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Update Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Update";
+            }
+
+            echo json_encode($json);
+        }
+
         public function uploadinvoice(){
             $piutangid= $_GET['piutangid'];
 

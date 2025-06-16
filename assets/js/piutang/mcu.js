@@ -149,6 +149,48 @@ document.querySelectorAll('.currency-rp').forEach(function(input) {
     });
 });
 
+function deletepiutang(elm) {
+    var piutang_id = $(elm).attr("datapiutangid");
+    var no_tagihan = $(elm).attr("datanotagihan");
+
+    Swal.fire({
+        title             : "Hapus Data?",
+        html              : "Yakin ingin menghapus tagihan: <b>" + no_tagihan + "</b>?",
+        icon              : "warning",
+        showCancelButton  : true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor : "#3085d6",
+        confirmButtonText : "Ya, hapus!",
+        cancelButtonText  : "Batal"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url + "index.php/piutang/mcu/hapuspiutang",
+                type: "POST",
+                data: { piutang_id: piutang_id },
+                dataType: "JSON",
+                beforeSend: function () {
+                    toastr.info("Menghapus data...", "Mohon tunggu");
+                },
+                success: function (res) {
+                    toastr.clear();
+                    if (res.responCode === "00") {
+                        toastr.success(res.responDesc, "Berhasil");
+                        datapiutang();
+                        historypembayaran();
+                    } else {
+                        toastr.error(res.responDesc, "Gagal");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    toastr.clear();
+                    toastr.error("Terjadi kesalahan saat menghapus data", "Error");
+                }
+            });
+        }
+    });
+}
+
 function datapiutang(){
     $.ajax({
         url       : url+"index.php/piutang/mcu/datapiutang",
@@ -225,6 +267,7 @@ function datapiutang(){
                         tableresult += "<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' " + getvariabel + " data-dirfile='" + url + "assets/invoice/" + item.piutang_id + ".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                     }
                     tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " data-bs-toggle='modal' data-bs-target='#modal_mcu_pembayaran'><i class='bi bi-credit-card text-success'></i> Payment</a>";
+                    tableresult += "<a class='dropdown-item btn btn-sm text-danger' " + getvariabel + " onclick='deletepiutang(this)'><i class='bi bi-trash3 text-danger'></i> Delete</a>";
                     tableresult += "</div>";
                     tableresult += "</div>";
                     tableresult += "</td>";
