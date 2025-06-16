@@ -212,7 +212,7 @@
                                 <div class="ms-4">
                                     <h3 class="dfs-3 fw-bolder text-gray-900 mb-1">Drop files here or click to upload.</h3>
                                     <span class="fw-bold fs-8 text-muted">File Document Dalam Format .Pdf</span><br>
-                                    <span class="fw-bold fs-8 text-muted">Max File Size 2 Mb</span>
+                                    <span class="fw-bold fs-8 text-muted">Max File Size 30 Mb</span>
                                 </div>
                             </div>
                         </div>   

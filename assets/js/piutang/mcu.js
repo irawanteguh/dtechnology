@@ -85,7 +85,7 @@ $("#modal_mcu_upload_invoice").on('show.bs.modal', function (event) {
         paramName         : "file",
         dictDefaultMessage: "Drop files here or click to upload",
         maxFiles          : 1,
-        maxFilesize       : 2,
+        maxFilesize       : 30,
         addRemoveLinks    : true,
         autoProcessQueue  : true,
         init: function () {
