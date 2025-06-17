@@ -1,9 +1,11 @@
 databulanan();
 dataharian();
+databulananpiutang();
 
 $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", function (e) {
     e.preventDefault();
     databulanan();
+    databulananpiutang();
     dataharian();
 });
 
@@ -119,6 +121,82 @@ function databulanan() {
     return false;
 }
 
+function databulananpiutang() {
+    const periode = $("select[name='toolbar_kunjunganyears_periode']").val();
+
+    $.ajax({
+        url: url + "index.php/sb/grafik/databulananpiutang",
+        method: "POST",
+        data: { periode },
+        dataType: "JSON",
+        cache: false,
+        beforeSend() {
+            toastr.clear();
+            toastr["info"]("Mengambil data piutang bulanan...", "Harap Tunggu");
+        },
+        success(data) {
+            if (data.responCode !== "00") {
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+                return;
+            }
+
+            const raw = data.responResult;
+            const seriesMap = {};
+            const bulanSet = new Set();
+
+            raw.forEach(item => {
+                const bulan = item.periode;
+                const jenis = item.jenistagihan;
+                const nilai = parseFloat(item.jml) || 0;
+
+                bulanSet.add(bulan);
+
+                if (!seriesMap[jenis]) {
+                    seriesMap[jenis] = {};
+                }
+
+                seriesMap[jenis][bulan] = nilai;
+            });
+
+            const categories = Array.from(bulanSet).sort((a, b) => {
+                const [ma, ya] = a.split(".");
+                const [mb, yb] = b.split(".");
+                return new Date(ya, ma - 1) - new Date(yb, mb - 1);
+            });
+
+            const series = Object.entries(seriesMap).map(([jenis, values]) => {
+                const data = categories.map(bulan => values[bulan] || 0);
+                return { name: jenis, data };
+            });
+
+            createChartStacked100("grafikpiutang", series, categories, "Distribusi Piutang Piutang per Bulan (100%)");
+
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete() {
+            toastr.clear();
+        },
+        error(xhr, status, error) {
+            Swal.fire({
+                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html: "<b>" + error + "</b>",
+                icon: "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling: false,
+                timerProgressBar: true,
+                timer: 5000,
+                customClass: { confirmButton: "btn btn-danger" },
+                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+
+    return false;
+}
+
+
+
 function dataharian() {
     const periode = $("select[name='toolbar_kunjunganyears_periode']").val();
 
@@ -186,6 +264,60 @@ function dataharian() {
 
     return false;
 }
+
+const createChartStacked100 = (elementId, seriesData, categories = [], title = "Stacked Column 100%", height = 400) => {
+    const options = {
+        chart: {
+            type: 'bar',
+            height: height,
+            stacked: true,
+            stackType: '100%',
+            toolbar: { show: false },
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+            }
+        },
+        stroke: {
+            width: 1,
+            colors: ['#fff']
+        },
+        xaxis: {
+            categories: categories
+        },
+        yaxis: {
+            labels: {
+                formatter: val => val.toFixed(0) + '%'
+            },
+            max: 100
+        },
+        tooltip: {
+            y: {
+                formatter: val => val.toLocaleString("id-ID")
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            offsetX: 20
+        },
+        dataLabels: {
+            enabled: true
+        }
+    };
+
+    const chart = new ApexCharts(document.querySelector(`#${elementId}`), {
+        ...options,
+        series: seriesData
+    });
+
+    chart.render();
+};
+
 
 const createChartlinebarbulan = (elementId, seriesData, avgLine = null, chartType = 'bar', titlechart) => {
     const el = document.getElementById(elementId);
@@ -319,7 +451,6 @@ const createChartlinebarhari = (elementId, seriesData, chartType = 'area', categ
     newChart.render();
     window[elementId] = newChart;
 };
-
 
 const createRadarChart = (chartId, seriesData, categories) => {
     const el = document.getElementById(chartId);

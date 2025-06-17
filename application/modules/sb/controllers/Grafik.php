@@ -43,6 +43,24 @@
             echo json_encode($json);
         }
 
+        public function databulananpiutang(){
+            $tahun  = $this->input->post("periode");
+            $result = $this->md->databulananpiutang($tahun);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function dataharian(){
             $tahun  = $this->input->post("periode");
             $result = $this->md->dataharian($tahun);

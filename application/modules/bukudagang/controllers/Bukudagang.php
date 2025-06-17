@@ -43,6 +43,55 @@
             echo json_encode($json);
         }
 
+        public function datapiutang(){
+            $parameter ="";
+            $periode = $this->input->post("periodeid");
+            $bukuid  = $this->input->post("bukuid");
+
+            if($bukuid==="36547ad1-46d8-11f0-8318-0894effd6cc3"){
+                $parameter ="and jenis_id IN ('1','7') and rekanan_id = 'daf5e80d-fdb6-48a9-9712-ab253091dcdb'";
+            }
+
+            if($bukuid==="36547ba5-46d8-11f0-8318-0894effd6cc3"){
+                $parameter ="and jenis_id = '2'";
+            }
+            
+            if($bukuid==="36547c63-46d8-11f0-8318-0894effd6cc3"){
+                $parameter ="and jenis_id = '3'";
+            }
+
+            if($bukuid==="36547cd1-46d8-11f0-8318-0894effd6cc3"){
+                $parameter ="and jenis_id = '4'";
+            }
+
+            
+
+            if($bukuid==="36547b3e-46d8-11f0-8318-0894effd6cc3"){
+                $parameter ="and jenis_id IN ('1','7') and rekanan_id = '10217fa6-f8d6-4495-940e-17bad5f4c61e'";
+            }
+
+            if($bukuid==="36547a64-46d8-11f0-8318-0894effd6cc3"){
+                $parameter ="and jenis_id IN ('1','7') and rekanan_id NOT IN ('10217fa6-f8d6-4495-940e-17bad5f4c61e','daf5e80d-fdb6-48a9-9712-ab253091dcdb')";
+            }
+
+            
+
+            $result = $this->md->datapiutang($_SESSION['orgid'],$periode,$parameter);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function updatedata(){
             $bukuid     = $this->input->post("modal_buku_dagang_bukuid");
             $periodeid  = $this->input->post("modal_buku_dagang_periodeid");

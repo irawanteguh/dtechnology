@@ -18,6 +18,14 @@ $("#modal_buku_dagang").on('show.bs.modal', function(event){
     $("#modal_buku_dagang_penerimaan").val(formatRupiah(penerimaan));
 });
 
+$("#modal_buku_dagang_detail").on('show.bs.modal', function(event){
+    var button     = $(event.relatedTarget);
+    var periodeid  = button.attr("periodeid");
+    var bukuid     = button.attr("bukuid");
+
+    datapiutang(periodeid,bukuid);
+});
+
 function formatRupiah(angka, prefix = 'Rp ') {
     let numberString = angka.replace(/[^,\d]/g, '').toString();
     let split = numberString.split(',');
@@ -95,7 +103,7 @@ function rekapbukudagang() {
                             var selisih = estimasi - bayar1;
 
                             var baris = "<tr>";
-                            baris += "<td class='ps-4'><div>" + ((manual === "P" || manual === "N") ? "<a href='#' title='Klik Untuk Melihat Rincian'>" + bukuNama + "</a>" : bukuNama) + "</div>" + (result[i].keterangan ? "<div class='fst-italic'>" + result[i].keterangan + "</div>" : "") + (manual === "Y" ? "<div><a class='btn btn-sm btn-light-primary p-1' data-bs-toggle='modal' data-bs-target='#modal_buku_dagang' " + getvariabel + "><i class='bi bi-pencil-square'></i> Update data</a></div>" : "") + "</td>";
+                            baris += "<td class='ps-4'><div>" + ((manual === "P" || manual === "N") ? "<a href='#' data-bs-toggle='modal' data-bs-target='#modal_buku_dagang_detail' title='Klik Untuk Melihat Rincian' "+getvariabel+">" + bukuNama + "</a>" : bukuNama) + "</div>" + (result[i].keterangan ? "<div class='fst-italic'>" + result[i].keterangan + "</div>" : "") + (manual === "Y" ? "<div><a class='btn btn-sm btn-light-primary p-1' data-bs-toggle='modal' data-bs-target='#modal_buku_dagang' " + getvariabel + "><i class='bi bi-pencil-square'></i> Update data</a></div>" : "") + "</td>";
                             baris += "<td class='text-end'>" + todesimal(estimasi) + "</td>";
                             baris += "<td class='text-end'>" + todesimal(bayar1) + "</td>";
                             baris += "<td class='text-end pe-4'>" + todesimal(selisih) + "</td>";
@@ -189,6 +197,77 @@ function rekapbukudagang() {
     return false;
 }
 
+function datapiutang(periodeid,bukuid) {
+    $.ajax({
+        url: url + "index.php/bukudagang/bukudagang/datapiutang",
+        data: { periodeid:periodeid,bukuid:bukuid},
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Mengambil data piutang...", "Harap tunggu");
+            $("#resultdatadetail").html("");
+            $("#resulttotaldetail").html("");
+        },
+        success: function (data) {
+            if (data.responCode === "00") {
+                var result = data.responResult;
+                var tableresult = "";
+
+                var totalNilai = 0;
+                var totalTerbayar = 0;
+                var totalSisa = 0;
+
+                for (var i in result) {
+                    var nilai = parseFloat(result[i].nilai) || 0;
+                    var terbayar = parseFloat(result[i].jmlterbayar) || 0;
+                    var sisa = nilai - terbayar;
+
+                    totalNilai += nilai;
+                    totalTerbayar += terbayar;
+                    totalSisa += sisa;
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>" + result[i].no_tagihan + "<div>" + result[i].jenistagihan + "</div></td>";
+                    tableresult += "<td>" + result[i].note + "</td>";
+                    tableresult += "<td>" + result[i].provider + "</td>";
+                    tableresult += "<td><div class='badge badge-light-info'>" + result[i].periode_indonesia + "</div></td>";
+                    tableresult += "<td class='text-center'>" + result[i].tgldate + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(nilai) + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(terbayar) + "</td>";
+                    tableresult += "<td class='text-end'>" + todesimal(sisa) + "</td>";
+                    tableresult += "<td class='text-end pe-4'><div>" + result[i].dibuatoleh + "<div>" + result[i].tgldibuat + "</div></div></td>";
+                    tableresult += "</tr>";
+                }
+
+                // Baris total
+                var totalRow = "<tr>";
+                totalRow += "<td colspan='5' class='text-end pe-2'>Total</td>";
+                totalRow += "<td class='text-end'>" + todesimal(totalNilai) + "</td>";
+                totalRow += "<td class='text-end'>" + todesimal(totalTerbayar) + "</td>";
+                totalRow += "<td class='text-end'>" + todesimal(totalSisa) + "</td>";
+                totalRow += "<td></td>";
+                totalRow += "</tr>";
+
+                $("#resultdatadetail").html(tableresult);
+                $("#resulttotaldetail").html(totalRow);
+
+                toastr["success"]("Data berhasil dimuat", "INFORMASI");
+            } else {
+                toastr["warning"](data.responDesc || "Data tidak ditemukan", "PERINGATAN");
+            }
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            showAlert("Maaf", error, "error", "Silakan coba lagi", "btn btn-danger");
+        }
+    });
+
+    return false;
+}
 
 $(document).on("submit", "#updatedata", function (e) {
 	e.preventDefault();
