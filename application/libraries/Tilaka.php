@@ -10,7 +10,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => http_build_query($body),
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "TILAKA-TOKEN"
             ]);
 
