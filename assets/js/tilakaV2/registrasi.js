@@ -359,13 +359,8 @@ function datakaryawan(){
                     }
 
                     if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID!=""){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
+                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><br><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
                         btnaction  = btnreenroll;
-                    }
-
-                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID!="" && result[i].NOTE!='"Pemohon tidak hadir saat melakukan verifikasi manual sebanyak 3 kaliThe user is not present when'){
-                        statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
-                        btnaction  = btnedit+btnpengajuan;
                     }
 
                     tableresult +="<tr>";
