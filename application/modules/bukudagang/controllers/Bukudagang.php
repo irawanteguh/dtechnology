@@ -74,8 +74,6 @@
                 $parameter ="and jenis_id IN ('1','7') and rekanan_id NOT IN ('10217fa6-f8d6-4495-940e-17bad5f4c61e','daf5e80d-fdb6-48a9-9712-ab253091dcdb')";
             }
 
-            
-
             $result = $this->md->datapiutang($_SESSION['orgid'],$periode,$parameter);
             
 			if(!empty($result)){
@@ -104,6 +102,8 @@
             $data['periode']      = $periodeid;
             $data['estimasi']     = (int) preg_replace('/\D/', '', $estimasi);
             $data['penerimaan']   = (int) preg_replace('/\D/', '', $penerimaan);
+            $data['created_by']   = $_SESSION['userid'];
+            $data['created_date'] = date('Y-m-d H:i:s');
 
             $existing = $this->md->cekdata($_SESSION['orgid'],$bukuid,$periodeid);
 
