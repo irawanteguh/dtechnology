@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="d-flex overflow-auto h-55px">
-                    <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
+                    <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-7 fw-bolder flex-nowrap">
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#tabrekapitulasi" id="tab_rekapitulasi" style="color:#fff;">Rekapitulasi</a>
                         </li>
@@ -62,13 +62,15 @@
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
-                                    <tr class="fw-bolder align-middle bg-light">
+                                    <tr class="fw-bolder align-middle bg-light text-muted">
                                         <th class="ps-4 rounded-start">No invoice</th>
-                                        <th>Pembayaran</th>
+                                        <th>Catatan</th>
+                                        <th class="text-center">Periode</th>
                                         <th class="text-center">Tanggal Tagihan</th>
-                                        <th class="text-center">Tagihan</th>
-                                        <th class="text-center">Terbayar</th>
-                                        <th class="text-center">Sisa Tagihan</th>
+                                        <th class="text-end">Tagihan</th>
+                                        <th class="text-end">Terbayar</th>
+                                        <th class="text-end">Sisa Tagihan</th>
+                                        <th class="text-end">Diperbaharui Oleh</th>
                                         <th class="pe-4 rounded-end text-end">Actions</th>
                                     </tr>
                                     

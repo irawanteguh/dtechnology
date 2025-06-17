@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="d-flex overflow-auto h-55px">
-                    <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
+                    <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-7 fw-bolder flex-nowrap">
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#tabrekapitulasi" id="tab_rekapitulasi" style="color:#fff;">Rekapitulasi</a>
                         </li>

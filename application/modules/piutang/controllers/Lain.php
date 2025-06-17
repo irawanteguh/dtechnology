@@ -88,6 +88,7 @@
             $data['no_tagihan']       = $notagihan;
             $data['note']             = $note;
             $data['date']             = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
+            $data['periode']          = DateTime::createFromFormat("d.m.Y", $date)->format("m.Y");
             $data['jenis_id']         = "6";
             $data['nilai']            = (int) preg_replace('/\D/', '', $nominal);
             $data['created_by']       = $_SESSION['userid'];

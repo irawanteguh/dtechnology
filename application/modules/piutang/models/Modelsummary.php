@@ -19,7 +19,22 @@
                     "
                         select a.jenis_id, rekanan_id, periode, sum(nilai)jml,
                             (select coalesce(sum(nominal), 0) from dt01_keu_piutang_it  where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar,
-                            (select provider from dt01_keu_provider_ms where provider_id=a.rekanan_id)provider,
+                            case
+                            	when a.jenis_id='6' then
+                            	(
+                                    SELECT GROUP_CONCAT(
+                                            b.note,
+                                            ' no invoice : ', b.no_tagihan,
+                                            ' nilai tagihan : ', REPLACE(FORMAT(b.nilai, 0), ',', '.')
+                                        SEPARATOR ';')
+                                    FROM dt01_keu_piutang_hd b
+                                    where b.org_id=a.org_id
+                                    and   b.active='1'
+                                    and   b.jenis_id='6'
+                                    and   b.periode=a.periode
+                                )
+                            	else (select provider from dt01_keu_provider_ms where provider_id=a.rekanan_id)
+                            end provider,
                             CONCAT(ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',YEAR(STR_TO_DATE(periode, '%m.%Y'))) AS periode_indonesia,
                             CASE 
                                     WHEN a.jenis_id = '1' THEN 'Asuransi Rawat Jalan'

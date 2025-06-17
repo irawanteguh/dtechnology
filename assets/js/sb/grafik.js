@@ -266,6 +266,11 @@ function dataharian() {
 }
 
 const createChartStacked100 = (elementId, seriesData, categories = [], title = "Stacked Column 100%", height = 400) => {
+    // Destroy existing chart if exists
+    if (window[elementId] instanceof ApexCharts) {
+        window[elementId].destroy();
+    }
+
     const options = {
         chart: {
             type: 'bar',
@@ -310,14 +315,14 @@ const createChartStacked100 = (elementId, seriesData, categories = [], title = "
         }
     };
 
-    const chart = new ApexCharts(document.querySelector(`#${elementId}`), {
+    // Create and store chart instance globally
+    window[elementId] = new ApexCharts(document.querySelector(`#${elementId}`), {
         ...options,
         series: seriesData
     });
 
-    chart.render();
+    window[elementId].render();
 };
-
 
 const createChartlinebarbulan = (elementId, seriesData, avgLine = null, chartType = 'bar', titlechart) => {
     const el = document.getElementById(elementId);

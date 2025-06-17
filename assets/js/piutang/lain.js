@@ -74,10 +74,12 @@ function datapiutang(){
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + result[i].no_tagihan + "</td>";
                     tableresult += "<td>" + result[i].note + "</td>";
+                    tableresult += "<td class='text-center'><div class='badge badge-light-info'>" + result[i].periode_indonesia + "</div></td>";
                     tableresult += "<td class='text-center'>" + result[i].tgldate + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(result[i].nilai) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(result[i].jmlterbayar) + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(result[i].sisa) + "</td>";
+                    tableresult += "<td class='text-end'><div>" + result[i].dibuatoleh + "<div>" + result[i].tgldibuat + "</div></div></td>";
                     tableresult += "<td class='text-end'><a class='btn btn-sm btn-light-success' data-bs-toggle='modal' data-bs-target='#modal_mcu_pembayaran' "+getvariabel+">Payment</a></td>";
                     tableresult += "</tr>";
                 }

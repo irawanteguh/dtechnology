@@ -67,13 +67,16 @@
                             nilai-jmlterbayar sisa
                         from(
                             select a.piutang_id, no_tagihan, rekanan_id, date_format(a.date, '%d.%m.%Y')tgldate, note, nilai,
+                                DATE_FORMAT(a.last_update_date, '%d.%m.%Y %H:%i:%s') tgldibuat, 
+                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.last_update_by)dibuatoleh,
                                 (select provider from dt01_keu_provider_ms where org_id=a.org_id and provider_id=a.rekanan_id)rekanan,
-                                (select coalesce(sum(nominal),0) from dt01_keu_piutang_it where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar
+                                (select coalesce(sum(nominal),0) from dt01_keu_piutang_it where org_id=a.org_id and piutang_id=a.piutang_id)jmlterbayar,
+                                CONCAT(ELT(MONTH(STR_TO_DATE(periode, '%m.%Y')),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',YEAR(STR_TO_DATE(periode, '%m.%Y'))) AS periode_indonesia
                             from dt01_keu_piutang_hd a
                             where a.active='1'
                             and   a.org_id='".$orgid."'
                             and   a.jenis_id='6'
-                            order by rekanan asc, date asc
+                            order by created_date desc
                         )x
                     ";
 
