@@ -13,7 +13,7 @@
                 'method'  => "GET",
                 'header'  => $header,
                 'body'    => json_encode($body),
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "DTECH-TOKEN"
             ]);
 
@@ -59,8 +59,8 @@
                 ];
 
                 $responsecurl = curl([
-                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportpendapatan",
-                    // 'url'     => "localhost/dtech/dtechnology/index.php/addquickreportpendapatan",
+                    // 'url'     => "https://rsumutiasari.com/dtechnology/index.php/addquickreportpendapatan",
+                    'url'     => "localhost/dtech/dtechnology/index.php/addquickreportpendapatan",
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,

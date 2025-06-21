@@ -52,7 +52,8 @@
 
         curl_close($curl);
 
-        if($config['savelog']){
+        
+        if($config['savelog'] != false){
             $requestlog = [
                 'ORG_ID'                => ORG_ID,
                 'REQUEST_ID'            => round(microtime(true) * 1000),
