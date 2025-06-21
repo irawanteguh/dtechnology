@@ -14,13 +14,20 @@
         }
 
         public function loadcombobox(){
-            $resulcategory = $this->md->category($_SESSION['orgid']);
+            $resulitemtype       = $this->md->itemtype($_SESSION['orgid']);
+            $resulsatuan         = $this->md->satuan($_SESSION['orgid']);
             $resulclassification = $this->md->classification();
-            $resulsatuan = $this->md->satuan($_SESSION['orgid']);
+            $resulcategory       = $this->md->category();
             
+            
+            $itemtype="";
+            foreach($resulitemtype as $a ){
+                $itemtype.="<option value='".$a->jenis_id."'>".$a->jenis."</option>";
+            }
+
             $category="";
             foreach($resulcategory as $a ){
-                $category.="<option value='".$a->jenis_id."'>".$a->jenis."</option>";
+                $category.="<option value='".$a->buku_id."'>".$a->buku."</option>";
             }
 
             $classification="";
@@ -34,6 +41,7 @@
             }
 
 
+            $data['itemtype']       = $itemtype;
             $data['category']       = $category;
             $data['classification'] = $classification;
             $data['pu']             = $satuan;
@@ -79,6 +87,7 @@
         public function edititem(){
             $barangid       = $this->input->post("modal_edit_itemid");
             $namabarang     = $this->input->post("modal_edit_item");
+            $itemtype       = $this->input->post("modal_edit_itemtype");
             $category       = $this->input->post("modal_edit_category");
             $classification = $this->input->post("modal_edit_classification");
             $pu             = $this->input->post("modal_edit_pu");
@@ -86,7 +95,8 @@
 
             
             $data['nama_barang']       = $namabarang;
-            $data['jenis_id']          = $category;
+            $data['jenis_id']          = $itemtype;
+            $data['buku_id']           = $category;
             $data['type']              = $classification;
             $data['satuan_beli_id']    = $pu;
             $data['satuan_pakai_id']   = $uu;

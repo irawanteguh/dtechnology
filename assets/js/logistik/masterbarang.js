@@ -4,14 +4,16 @@ function getdetail(btn){
     var barangid       = btn.attr("data-barangid");
     var barang         = btn.attr("data-barang");
     var type           = btn.attr("data-type");
+    var bukuid         = btn.attr("data-bukuid");
     var classification = btn.attr("data-classification");
-    var beli         = btn.attr("data-beliid");
-    var pakai        = btn.attr("data-pakaiid");
+    var beli           = btn.attr("data-beliid");
+    var pakai          = btn.attr("data-pakaiid");
 
     $(":hidden[name='modal_edit_itemid']").val(barangid);
     $("[name='modal_edit_item']").val(barang);
 
-    var $typeid           = $('#modal_edit_category').select2(); $typeid.val(type).trigger('change');
+    var $typeid           = $('#modal_edit_itemtype').select2(); $typeid.val(type).trigger('change');
+    var $bukuid           = $('#modal_edit_category').select2(); $bukuid.val(type).trigger('change');
     var $classificationid = $('#modal_edit_classification').select2(); $classificationid.val(classification).trigger('change');
     var $beliid           = $('#modal_edit_pu').select2(); $beliid.val(beli).trigger('change');
     var $pakaiid          = $('#modal_edit_uu').select2(); $pakaiid.val(pakai).trigger('change');
@@ -39,6 +41,7 @@ function masterbarang(){
                     getvariabel =   "data-barangid='"+result[i].barang_id+"'"+
                                     "data-barang='"+result[i].nama_barang+"'"+
                                     "data-type='"+result[i].jenis_id+"'"+
+                                    "data-bukuid='"+result[i].buku_id+"'"+
                                     "data-classification='"+result[i].type+"'"+
                                     "data-beliid='"+result[i].satuan_beli_id+"'"+
                                     "data-pakaiid='"+result[i].satuan_pakai_id+"'";
@@ -60,6 +63,7 @@ function masterbarang(){
 
                     tableresult +="<td class='ps-4'>"+result[i].nama_barang+" "+type+"</td>";
                     tableresult +="<td>"+(result[i].jenis ? result[i].jenis : "")+"</td>";
+                    tableresult +="<td>"+(result[i].buku ? result[i].buku : "")+"</td>";
                     tableresult +="<td>"+(result[i].satuanbeli ? result[i].satuanbeli : "")+"</td>";
                     tableresult +="<td>"+(result[i].satuanpakai ? result[i].satuanpakai : "")+"</td>";
                     tableresult +="<td class='text-center'>"+result[i].final_stok+"</td>";

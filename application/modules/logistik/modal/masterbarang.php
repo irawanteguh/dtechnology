@@ -47,11 +47,20 @@
                         <div class="text-muted fw-bold fs-5"></div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-6 mb-5">
+                        <div class="col-xl-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Item Name :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_edit_item" name="modal_edit_item" required>
                         </div>
-                        <div class="col-md-6 mb-5">
+                        <div class="col-md-4 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Item Type</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Item Type"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_edit_barang" data-placeholder="Please Select Item Type" class="form-select form-select-solid" name="modal_edit_itemtype" id="modal_edit_itemtype" required>
+                                <?php echo $itemtype;?>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span class="required">Category</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Category"></i>

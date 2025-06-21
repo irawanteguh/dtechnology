@@ -31,17 +31,18 @@
 			</div>
 			<div class="card-body py-3">
 				<div class="table-responsive">
-					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
+					<table class="table align-middle table-row-dashed fs-8 gy-2" id="tablemasterkaryawan">
 						<thead>
-							<tr class="fw-bolder text-muted bg-light align-middle">
-								<th class="ps-4 rounded-start">Item Name</th>
+                            <tr class="fw-bolder text-muted bg-light align-middle">
+                                <th class="ps-4 rounded-start">Item Name</th>
+                                <th class="min-w-200px">Item Type</th>
                                 <th class="min-w-200px">Category</th>
                                 <th>Purchase Unit</th>
-                                <th>Unit of Use</th>
+                                <th>Usage Unit</th>
                                 <th class="text-center">Last Stock</th>
-                                <th>Last Update</th>
-								<th class="pe-4 text-end rounded-end">Action</th>
-							</tr>
+                                <th class="min-w-200px">Last Update</th>
+                                <th class="pe-4 text-end rounded-end">Action</th>
+                            </tr>
 						</thead>
 						<tbody class="text-gray-600 fw-bold" id="resultmasterbarang"></tbody>
 					</table>

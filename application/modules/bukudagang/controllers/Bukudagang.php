@@ -64,6 +64,10 @@
                 $parameter ="and jenis_id = '4'";
             }
 
+            if($bukuid==="36547d87-46d8-11f0-8318-0894effd6cc3"){
+                $parameter ="and jenis_id in ('5','6')";
+            }
+
             
 
             if($bukuid==="36547b3e-46d8-11f0-8318-0894effd6cc3"){

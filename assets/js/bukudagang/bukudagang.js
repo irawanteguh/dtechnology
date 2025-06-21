@@ -231,7 +231,7 @@ function datapiutang(periodeid,bukuid) {
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + result[i].no_tagihan + "<div>" + result[i].jenistagihan + "</div></td>";
                     tableresult += "<td>" + result[i].note + "</td>";
-                    tableresult += "<td>" + result[i].provider + "</td>";
+                    tableresult += "<td>" + (result[i].provider || '') + "</td>";
                     tableresult += "<td><div class='badge badge-light-info'>" + result[i].periode_indonesia + "</div></td>";
                     tableresult += "<td class='text-center'>" + result[i].tgldate + "</td>";
                     tableresult += "<td class='text-end'>" + todesimal(nilai) + "</td>";
