@@ -87,7 +87,7 @@
                     {$selectEstimasi},
                     {$selectPenerimaan}
                 from dt01_keu_buku_dagang_ms a
-                order by a.jenis_id, a.manual, a.buku
+                order by a.manual, urut
             ";
         
             $recordset = $this->db->query($query);
