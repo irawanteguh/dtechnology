@@ -31,7 +31,7 @@
                 </div>
 			</div>
 			<div class="card-body py-3">
-                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
+                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-7 fw-bolder flex-nowrap mb-10">
                     <li class="nav-item">
                         <a class="nav-link active" data-bs-toggle="tab" href="#tabwaiting">On Process</a>
                     </li>
@@ -45,7 +45,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tabwaiting" role="tabpanel">
                         <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Request</th>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="tab-pane fade" id="tabapprove" role="tabpanel">
                         <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Request</th>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="tab-pane fade" id="tabdecline" role="tabpanel">
                         <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-6 gy-2">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Request</th>

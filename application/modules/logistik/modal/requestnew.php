@@ -11,7 +11,7 @@
             <form action="<?php echo base_url();?>index.php/logistik/requestnew/newrequest" id="formnewrequest">
                 <div class="modal-body">
                     <div class="text-center mb-5">
-                        <h1 class="mb-3">Add New PO</h1>
+                        <h1 class="mb-3">Add New Purchase Order</h1>
                         <div class="text-muted fw-bold fs-5"></div>
                     </div>
                     <div class="row">

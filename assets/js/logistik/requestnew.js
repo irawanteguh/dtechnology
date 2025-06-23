@@ -54,13 +54,13 @@ $("#modal_upload_invoice").on('shown.bs.modal', function(){
 });
 
 $("#modal_master_detail_spu").on('shown.bs.modal', function(){
-    var nopemesanan  = $(":hidden[name='nopemesanan_item']").val();
+    var nopemesanan = $(":hidden[name='nopemesanan_item']").val();
     detailbarangspu(nopemesanan);
 });
 
 $("#modal_master_item").on('shown.bs.modal', function(){
     var nopemesanan  = $(":hidden[name='nopemesanan_item']").val();
-    var departmentid  = $(":hidden[name='department_id']").val();
+    var departmentid = $(":hidden[name='department_id']").val();
     masterbarang(nopemesanan,departmentid);
 });
 

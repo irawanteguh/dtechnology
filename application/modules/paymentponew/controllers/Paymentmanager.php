@@ -116,8 +116,6 @@
                 $data['status']           = $datastatus;
                 $data['inv_manager_id']   = $_SESSION['userid'];
                 $data['inv_manager_date'] = date('Y-m-d H:i:s');
-                $data['inv_vice_date']    = date('Y-m-d H:i:s');
-                $data['inv_dir_date']     = date('Y-m-d H:i:s');
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){

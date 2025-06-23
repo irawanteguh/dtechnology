@@ -298,7 +298,27 @@ function dataapprove(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
                     tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
-                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    if(result[i].status==="11"){
+                        tableresult +="<td><div>"+result[i].vicename+"<div>"+result[i].tglvice+"</div></td>";
+                    }else{
+                        if(result[i].status==="13"){
+                            tableresult +="<td><div>"+result[i].dirname+"<div>"+result[i].tgldir+"</div></td>";
+                        }else{
+                            if(result[i].status==="15"){
+                                tableresult +="<td><div>"+result[i].disetujuikeuoleh+"<div>"+result[i].tglkeuangan+"</div></td>";
+                            }else{
+                                if(result[i].status==="16" || result[i].status==="17"){
+                                    tableresult +="<td><div>"+(result[i].dibayarkanoleh || result[i].disetujuikeuoleh)+"<div>"+(result[i].tgldibayar || result[i].tglkeuangan)+"</div></td>";
+                                }else{
+                                    tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    
+                    
                     tableresult += "<td class='text-end'>";
                         tableresult +="<div class='btn-group' role='group'>";
                             tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";

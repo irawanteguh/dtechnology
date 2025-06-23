@@ -115,9 +115,9 @@
             $datadepartmentid = $this->input->post("datadepartmentid");
 
             if($datadepartmentid === "fbcefc36-f43e-4b7f-8731-fbe8453a08c2"){
-                $parameter ="and a.jenis_id='c98d4236-f1d0-4eec-8b74-737cdf2d8f32'";
+                $parameter ="and a.jenis_id='b3a2e1a0-0001-4a00-9001-000000000001'";
             }else{
-                $parameter ="and a.jenis_id<>'c98d4236-f1d0-4eec-8b74-737cdf2d8f32'";
+                $parameter ="and a.jenis_id<>'b3a2e1a0-0001-4a00-9001-000000000001'";
             }
             $result       = $this->md->masterbarang($_SESSION['orgid'],$datanopemesanan,$parameter);
             
@@ -138,6 +138,44 @@
         public function dataonprocess(){
             $status="   and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
                         and   a.status in ('0','92')
+                    ";
+            $orderby ="order by created_date desc;";
+            $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function dataapprove(){
+            $status="   and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+                        and   a.status in ('2','4','6')
+                        and (
+                                (
+                                    a.status<>'6'
+                                    and (a.status_vice is null or a.status_dir is null)
+                                )   and (a.status_vice is null or a.status_dir is null)
+                                or
+                                (
+                                    a.status='6' 
+                                    and (a.status_vice is null or a.status_vice = '') 
+                                    and (a.status_dir is null or a.status_dir = '')
+                                )
+                                or
+                                (
+                                    a.status='6'
+                                    and (a.status_vice='Y' or a.status_dir='Y')
+                                )
+                            )
                     ";
             $orderby ="order by created_date desc;";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);

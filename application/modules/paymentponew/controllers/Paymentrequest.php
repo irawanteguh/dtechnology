@@ -34,7 +34,7 @@
 
         public function dataapprove(){
             $status    = "and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."') and a.status in ('9','11','13','15','16','17')";
-            $parameter = "order by created_date desc";
+            $parameter = "order by status asc, created_date desc";
 
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$parameter);
             

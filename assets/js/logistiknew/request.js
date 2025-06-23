@@ -87,22 +87,35 @@ $("#modal_upload_invoice").on('show.bs.modal', function (event) {
 });
 
 $("#modal_add_item").on('show.bs.modal', function(event){
-    var button             = $(event.relatedTarget);
-    var datanopemesanan    = button.attr("datanopemesanan");
-    var datadepartmentid    = button.attr("datadepartmentid");
+    var button           = $(event.relatedTarget);
+    var datanopemesanan  = button.attr("datanopemesanan");
+    var datadepartmentid = button.attr("datadepartmentid");
+    var datastatus       = button.attr("datastatus");
 
     $("input[name='modal_add_item_nopemesanan']").val(datanopemesanan);
     $("input[name='modal_add_item_departmentid']").val(datadepartmentid);
 
-    masterbarang(datanopemesanan,datadepartmentid);
+    masterbarang(datanopemesanan,datadepartmentid,datastatus);
 });
 
 $('#modal_add_item').on('hidden.bs.modal', function (e) {
     dataonprocess();
+    dataapprove();
+});
+
+$('#modal_upload_lampiran').on('hidden.bs.modal', function (e) {
+    dataonprocess();
+    dataapprove();
+});
+
+$('#modal_upload_invoice').on('hidden.bs.modal', function (e) {
+    dataonprocess();
+    dataapprove();
 });
 
 dataonprocess();
 datadecline();
+dataapprove();
 
 function viewdoc(btn) {
     var filename     = $(btn).attr("data-dirfile");
@@ -136,7 +149,7 @@ function viewdoc(btn) {
     }
 };
 
-function masterbarang(datanopemesanan,datadepartmentid){
+function masterbarang(datanopemesanan,datadepartmentid,datastatus){
     $.ajax({
         url       : url+"index.php/logistiknew/request/masterbarang",
         data      : {datanopemesanan:datanopemesanan,datadepartmentid:datadepartmentid},
@@ -183,12 +196,16 @@ function masterbarang(datanopemesanan,datadepartmentid){
                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].barang_id}' onchange='simpandata(this)'></td>`;
                     }
 
-                    if(result[i].qty!=null){
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' value='${todesimal(result[i].qty)}' onchange='simpandata(this)'></td>`;
+                    if(datastatus==="updateharga"){
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' value='${todesimal(result[i].qty)}' disabled></td>`;
                     }else{
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' onchange='simpandata(this)'></td>`;
+                        if(result[i].qty!=null){
+                            tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' value='${todesimal(result[i].qty)}' onchange='simpandata(this)'></td>`;
+                        }else{
+                            tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].barang_id}' onchange='simpandata(this)'></td>`;
+                        }
                     }
-
+                    
                     if(result[i].harga!=null){
                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].barang_id}' value='${todesimal(result[i].harga)}' onchange='simpandata(this)'></td>`;
                     }else{
@@ -260,6 +277,8 @@ function dataonprocess(){
 
                     cito      = result[i].cito === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
                     carabayar = result[i].method ? `<div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : result[i].method === "4" ? "On The Spot (BBM / Snack / Etc)" : "Unknown"}</div>` : "";
+                    vice      = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
+                    dir       = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
 
                     var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
                                         " dataattachmentnote='"+result[i].attachment_note+"'"+
@@ -279,7 +298,7 @@ function dataonprocess(){
                         tableresult +="<div class='btn-group' role='group'>";
                             tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_add_item'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" datastatus='insertharga' data-bs-toggle='modal' data-bs-target='#modal_add_item'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                             if(result[i].jmlitem!="0"){
                                 if(result[i].type==="0"){
                                     if(result[i].method==="4"){
@@ -287,7 +306,7 @@ function dataonprocess(){
                                             tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                         }
                                     }else{
-                                        tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data_validasi='2' data_validator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     }
                                 }else{
                                     if(result[i].itemhargakosong!="0"){
@@ -311,6 +330,109 @@ function dataonprocess(){
             }
 
             $("#resultdataonprocess").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function dataapprove(){
+    $.ajax({
+        url       : url+"index.php/logistiknew/request/dataapprove",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdataapprove").html("");
+        },
+        success:function(data){
+            var result      = "";
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                result = data.responResult;
+                for(var i in result){
+
+                    cito      = result[i].cito === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
+                    carabayar = result[i].method ? `<div class='badge badge-light-info fw-bolder'>${result[i].method === "1" ? "Invoice" : result[i].method === "2" ? "Cash / Bon" : result[i].method === "3" ? "Invoice dan Cash / Bon" : result[i].method === "4" ? "On The Spot (BBM / Snack / Etc)" : "Unknown"}</div>` : "";
+                    vice      = result[i].status_vice === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Vice Director</div>" : (result[i].status_vice === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Vice Director</div>" : "");
+                    dir       = result[i].status_dir  === "Y" ? " <div class='badge badge-light-info fw-bolder'>PO Approval Director</div>" : (result[i].status_dir === "N" ? " <div class='badge badge-light-danger fw-bolder'>PO Decline Director</div>" : "");
+
+                    var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
+                                        " dataattachmentnote='"+result[i].attachment_note+"'"+
+                                        " datainvoiceno='"+result[i].invoice_no+"'"+
+                                        " datadepartmentid='"+result[i].department_id+"'";
+
+                    tableresult +="<tr>";
+                    tableresult += "<td class='ps-2'><div>" + result[i].no_pemesanan_unit + "</div><div class='badge badge-light-primary fw-bolder'>"+(result[i].type === "1" ? "Invoice" : "Purchase order") + "</div></td>";
+                    tableresult +="<td><div>"+result[i].judul_pemesanan+cito+"<div class='small fst-italic'>"+result[i].note+"</div></td>"; 
+                    tableresult +="<td>"+result[i].unitdituju+"</td>";
+                    tableresult +="<td><div>"+result[i].namasupplier+"</div><div>"+carabayar+"</div></td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    if(result[i].status!="6" || (vice==="" && dir==="")){
+                        tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    }else{
+                        tableresult +="<td>"+vice+dir+"</td>";
+                    }
+                    if(result[i].status!="6"){
+                        tableresult +="<td><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    }else{
+                        if(result[i].status==="6" && vice==="" && dir===""){
+                            tableresult +="<td><div>"+result[i].keuname+"<div>"+result[i].keudate+"</div></td>";
+                        }else{
+                            tableresult +="<td><div>"+result[i].wadirname+"<div>"+result[i].wadirdate+"</div><div>"+result[i].dirname+"<div>"+result[i].dirdate+"</div></td>";
+                        }
+                    }
+                    
+                    
+                    tableresult += "<td class='text-end'>";
+                        tableresult +="<div class='btn-group' role='group'>";
+                            tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                if(result[i].status==="2"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approve</a>";
+                                }else{
+                                    if(result[i].status==="6" && vice!="" && dir!=""){
+                                        if(result[i].itemhargakosong!="0"){
+                                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                        }else{
+                                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" datastatus='updateharga' data-bs-toggle='modal' data-bs-target='#modal_add_item'><i class='bi bi-pencil-square text-primary'></i> Update Harga Satuan</a>";
+                                        }
+                                    }
+                                }
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
+                                if(result[i].invoice==="1"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
+                                }
+                                if(result[i].attachment==="1"){
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                                }                            
+                            tableresult +="</div>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
+                    tableresult +="</tr>";
+                }
+            }
+
+            $("#resultdataapprove").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -365,7 +487,7 @@ function datadecline(){
                     tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    if(result[i].status!="6"){
+                    if(result[i].status!="6" || (vice==="" && dir==="")){
                         tableresult +="<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
                     }else{
                         tableresult +="<td>"+vice+dir+"</td>";
@@ -429,6 +551,7 @@ function validasi(btn) {
                 complete: function () {
                     dataonprocess();
                     datadecline();
+                    dataapprove();
                 },
                 error: function (xhr, status, error) {
                     showAlert(
@@ -443,6 +566,119 @@ function validasi(btn) {
         }
     });
     return false;
+};
+
+function simpandata(input) {
+    const barangid = input.id.split("_")[1];
+    const value    = input.value;
+
+    if (input.id !== `note_${barangid}` && (isNaN(value) || value.trim() === "")) {
+        showAlert(
+            "I'm Sorry",
+            "Masukkan nilai numerik yang valid!",
+            "error",
+            "Please Try Again",
+            "btn btn-danger"
+        );
+        input.value = "";
+        return;
+    }
+
+    const stockInput       = document.getElementById(`stock_${barangid}`);
+    const qtyInput         = document.getElementById(`qty_${barangid}`);
+    const hargaInput       = document.getElementById(`harga_${barangid}`);
+    const vatElement       = document.getElementById(`vat_${barangid}`);
+    const vatAmountElement = document.getElementById(`vat_amount_${barangid}`);
+    const subtotalElement  = document.getElementById(`subtotal_${barangid}`);
+    const note             = document.getElementById(`note_${barangid}`);
+
+    if (stockInput && qtyInput && hargaInput && vatElement && vatAmountElement) {
+        const stock = parseFloat(stockInput.value);
+        const qty   = parseFloat(qtyInput.value);
+        const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
+        const ppn   = parseFloat(vatElement.value) / 100;
+
+        if (isNaN(qty) || isNaN(harga) || isNaN(ppn)) {
+            console.error("Nilai qty, harga, atau VAT tidak valid.");
+            return;
+        }
+
+        const newVat    = parseFloat((qty * (harga * ppn)).toFixed(0));
+        const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
+
+
+        vatAmountElement.innerText = todesimal(newVat);
+        subtotalElement.innerText  = todesimal(itemTotal);
+
+        let totalVat   = 0;
+        let grandTotal = 0;
+
+        document.querySelectorAll("[id^='vat_amount_']").forEach((vat) => {
+            totalVat += parseFloat(vat.innerText.replace(/\./g, "").replace(",", ".")) || 0;
+        });
+
+        document.querySelectorAll("[id^='qty_']").forEach((qtyElem) => {
+            const id        = qtyElem.id.split("_")[1];
+            const hargaElem = document.getElementById(`harga_${id}`);
+            const vatElem   = document.getElementById(`vat_${id}`);
+
+            const qtyVal   = parseFloat(qtyElem.value);
+            const hargaVal = parseFloat(hargaElem.value.replace(/\./g, "").replace(",", "."));
+            const ppnVal   = parseFloat(vatElem.value) / 100;
+
+            if (!isNaN(qtyVal) && !isNaN(hargaVal) && !isNaN(ppnVal)) {
+                const vatAmount = qtyVal * (hargaVal * ppnVal);
+                const itemTotal = (qtyVal * hargaVal) + vatAmount;
+
+                grandTotal += itemTotal;
+            }
+        });
+
+        const no_pemesanan = $("#modal_add_item_nopemesanan").val();
+        
+        $.ajax({
+            url     : url + "index.php/logistiknew/request/additem",
+            method  : "POST",
+            dataType: "JSON",
+            data    :
+            {
+                no_pemesanan: no_pemesanan,
+                barangid    : barangid,
+                note        : note ? note.value: "",
+                stock       : stock,
+                qty         : qty,
+                harga       : harga,
+                ppn         : ppn,
+                subtotal    : itemTotal,
+                vat_amount  : newVat
+            },
+            beforeSend: function () {
+                toastr.clear();
+                toastr.info("Updating data...", "Please wait");
+            },
+            success: function (data) {
+                toastr.clear();
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+            },
+            error: function (xhr, status, error) {
+                showAlert(
+                    "I'm Sorry",
+                    "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+                    "error",
+                    "Please Try Again",
+                    "btn btn-danger"
+                );
+            }
+        });
+    }else{
+        showAlert(
+            "I'm Sorry",
+            "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+            "error",
+            "Please Try Again",
+            "btn btn-danger"
+        );
+    }
 };
 
 $(document).on("submit", "#formnewpurchaseorder", function (e) {
@@ -508,6 +744,7 @@ $(document).on("submit", "#formnewinvoice", function (e) {
             if(data.responCode == "00"){
                 $("#modal_new_invoice").modal("hide");
                 dataonprocess();
+                dataapprove();
 			}
 
             toastr.clear();
@@ -613,115 +850,3 @@ $(document).on("submit", "#formnoinvoice", function (e) {
 	});
     return false;
 });
-
-function simpandata(input) {
-    const barangid = input.id.split("_")[1];
-    const value    = input.value;
-
-    if (input.id !== `note_${barangid}` && (isNaN(value) || value.trim() === "")) {
-        showAlert(
-            "I'm Sorry",
-            "Masukkan nilai numerik yang valid!",
-            "error",
-            "Please Try Again",
-            "btn btn-danger"
-        );
-        input.value = "";
-        return;
-    }
-
-    const stockInput       = document.getElementById(`stock_${barangid}`);
-    const qtyInput         = document.getElementById(`qty_${barangid}`);
-    const hargaInput       = document.getElementById(`harga_${barangid}`);
-    const vatElement       = document.getElementById(`vat_${barangid}`);
-    const vatAmountElement = document.getElementById(`vat_amount_${barangid}`);
-    const subtotalElement  = document.getElementById(`subtotal_${barangid}`);
-    const note             = document.getElementById(`note_${barangid}`);
-
-    if (stockInput && qtyInput && hargaInput && vatElement && vatAmountElement) {
-        const stock = parseFloat(stockInput.value);
-        const qty   = parseFloat(qtyInput.value);
-        const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
-        const ppn   = parseFloat(vatElement.value) / 100;
-
-        if (isNaN(qty) || isNaN(harga) || isNaN(ppn)) {
-            console.error("Nilai qty, harga, atau VAT tidak valid.");
-            return;
-        }
-
-        const newVat    = parseFloat((qty * (harga * ppn)).toFixed(0));
-        const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
-
-
-        vatAmountElement.innerText = todesimal(newVat);
-        subtotalElement.innerText  = todesimal(itemTotal);
-
-        let totalVat   = 0;
-        let grandTotal = 0;
-
-        document.querySelectorAll("[id^='vat_amount_']").forEach((vat) => {
-            totalVat += parseFloat(vat.innerText.replace(/\./g, "").replace(",", ".")) || 0;
-        });
-
-        document.querySelectorAll("[id^='qty_']").forEach((qtyElem) => {
-            const id        = qtyElem.id.split("_")[1];
-            const hargaElem = document.getElementById(`harga_${id}`);
-            const vatElem   = document.getElementById(`vat_${id}`);
-
-            const qtyVal   = parseFloat(qtyElem.value);
-            const hargaVal = parseFloat(hargaElem.value.replace(/\./g, "").replace(",", "."));
-            const ppnVal   = parseFloat(vatElem.value) / 100;
-
-            if (!isNaN(qtyVal) && !isNaN(hargaVal) && !isNaN(ppnVal)) {
-                const vatAmount = qtyVal * (hargaVal * ppnVal);
-                const itemTotal = (qtyVal * hargaVal) + vatAmount;
-
-                grandTotal += itemTotal;
-            }
-        });
-
-        const no_pemesanan = $("#modal_add_item_nopemesanan").val();
-        
-        $.ajax({
-            url     : url + "index.php/logistiknew/request/additem",
-            method  : "POST",
-            dataType: "JSON",
-            data    : {
-                        no_pemesanan: no_pemesanan,
-                        barangid    : barangid,
-                        note        : note ? note.value: "",
-                        stock       : stock,
-                        qty         : qty,
-                        harga       : harga,
-                        ppn         : ppn,
-                        subtotal    : itemTotal,
-                        vat_amount  : newVat
-            },
-            beforeSend: function () {
-                toastr.clear();
-                toastr.info("Updating data...", "Please wait");
-            },
-            success: function (data) {
-                toastr.clear();
-                toastr[data.responHead](data.responDesc, "INFORMATION");
-            },
-            error: function (xhr, status, error) {
-                showAlert(
-                    "I'm Sorry",
-                    "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
-                    "error",
-                    "Please Try Again",
-                    "btn btn-danger"
-                );
-            }
-        });
-    }else{
-        showAlert(
-            "I'm Sorry",
-            "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
-            "error",
-            "Please Try Again",
-            "btn btn-danger"
-        );
-    }
-};
