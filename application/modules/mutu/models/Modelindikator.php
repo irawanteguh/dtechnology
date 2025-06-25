@@ -8,7 +8,7 @@
                         from dt01_mutu_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
-                        order by mutu
+                        order by jenis_indikator, mutu
                     ";
 
             $recordset = $this->db->query($query);
