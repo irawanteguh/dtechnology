@@ -102,9 +102,9 @@
             $departmentid = $this->input->post("departmentid");
 
             if($departmentid === "fbcefc36-f43e-4b7f-8731-fbe8453a08c2"){
-                $parameter ="and a.jenis_id='c98d4236-f1d0-4eec-8b74-737cdf2d8f32'";
+                $parameter ="and a.jenis_id='b3a2e1a0-0001-4a00-9001-000000000001'";
             }else{
-                $parameter ="and a.jenis_id<>'c98d4236-f1d0-4eec-8b74-737cdf2d8f32'";
+                $parameter ="and a.jenis_id<>'b3a2e1a0-0001-4a00-9001-000000000001'";
             }
             $result       = $this->md->masterbarang($_SESSION['orgid'],$nopemesanan,$parameter);
             
