@@ -1,7 +1,7 @@
-<div class="row gy-5 g-xl-8 mb-xl-8">
-    <div class="col-xl-12">
-        <div id="chartMutu" style="height: 400px;"></div>
+<!-- <div class="row gy-5 g-xl-8 mb-xl-8">
+    <div class="col-xl-12" id="kontainerMutu">
     </div>
+
     <div class="col-xl-12">
         <div class="card card-flush">
             <div class="card-body p-2">
@@ -11,4 +11,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
+<div class="row gy-5 g-xl-8 mb-xl-8" id="kontainerMutu"></div>
