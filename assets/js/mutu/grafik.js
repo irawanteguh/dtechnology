@@ -19,23 +19,23 @@ function datagrafik() {
                 indikatorList.forEach((mutuId, i) => {
                     const indikatorData = data.filter(d => d.MUTU_ID === mutuId);
                     const namaIndikator = indikatorData[0].MUTU;
-                    const definisi = indikatorData[0].definisi_operasional;
+                    const definisi      = indikatorData[0].definisi_operasional;
 
                     const chartId = `chart_${mutuId}`;
                     const tableId = `table_${mutuId}`;
 
-                    const bulanUnik = [...new Set(indikatorData.map(d => d.BULAN))].sort();
-                    const dataMap = {};
+                    const bulanUnik  = [...new Set(indikatorData.map(d => d.BULAN))].sort();
+                    const dataMap    = {};
                     const seriesData = [];
 
                     bulanUnik.forEach(b => {
                         const item = indikatorData.find(d => d.BULAN === b);
                         if (item) {
                             dataMap[b] = {
-                                numerator: item.TOTAL_NUMERATOR,
+                                numerator  : item.TOTAL_NUMERATOR,
                                 denumerator: item.TOTAL_DENUMERATOR,
-                                target: item.target_num,
-                                capaian: parseFloat(item.CAPAIAN_PERSEN).toFixed(2) + '%'
+                                target     : item.target_num,
+                                capaian    : parseFloat(item.CAPAIAN_PERSEN).toFixed(2) + '%'
                             };
                             seriesData.push(parseFloat(item.CAPAIAN_PERSEN));
                         } else {
@@ -141,7 +141,7 @@ function datagrafik() {
                         const val = dataMap[b] || { numerator: '-', denumerator: '-', capaian: '-' };
                         tbody.append(`
                             <tr>
-                                <td>${new Date(b + "-01").toLocaleString("id-ID", { month: "long", year: "numeric" })}</td>
+                                <td>${new Date(b + "-01").toLocaleString("id-ID",{ month: "long", year: "numeric" })}</td>
                                 <td>${val.numerator}</td>
                                 <td>${val.denumerator}</td>
                                 <td>${val.capaian}</td>

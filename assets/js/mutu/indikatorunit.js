@@ -25,13 +25,21 @@ function masterindikator(){
             if(data.responCode==="00"){
                 result = data.responResult;
                 for(var i in result){
-                    tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div class='fw-bolder'>"+result[i].mutu+"</div><div class='fst-italic fs-9'>"+result[i].definisi_operasional+"</div><div><span class='badge badge-light-success'>"+result[i].jenis_indikator+"</span><span class='badge badge-light-info'>"+result[i].dimensi_mutu+"</span></div></td>";
-                    tableresult +="<td><div class='fw-bolder'>Numerator :</div><div>"+result[i].numerator+"</div><div class='fw-bolder'>Denumerator :</div><div>"+result[i].denumerator+"</div></td>";
-                    tableresult +="<td><div>"+result[i].target+"</div><div class='fw-bolder'>Formulasi :</div><div>"+result[i].formula+"</div></td>";
-                    tableresult +="<td><div class='fw-bolder'>Tujuan :</div><div>"+result[i].tujuan+"</div><div class='fw-bolder'>Dasar Pemikiran :</div><div>"+result[i].dasar_pemikiran+"</div></td>";
-                    tableresult +="<td><div class='fw-bolder'>Inklusi :</div><div>"+result[i].kriteria_inklusi+"</div><div class='fw-bolder'>Eksklusi :</div><div>"+result[i].kriteria_eksklusi+"</div></td>";
-                    tableresult +="</tr>";
+                    var jenisindikator = "<span class='badge badge-light-"+result[i].colorjenisindikator+"'>"+result[i].namejenisindikator+"</span>";
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'><div class='fw-bolder'>"+result[i].mutu+"</div><div class='fst-italic fs-9'>"+result[i].definisi_operasional+"</div><div>"+jenisindikator+"<span class='badge badge-light-info'>"+result[i].dimensi_mutu+"</span></div></td>";
+                    tableresult += "<td><div class='fw-bolder'>Numerator :</div><div>"+result[i].numerator+"</div><br><div class='fw-bolder'>Denumerator :</div><div>"+result[i].denumerator+"</div></td>";
+                    tableresult += "<td>"+result[i].formula+"</td>";
+                    tableresult += "<td><div class='fw-bolder'>Tujuan :</div><div>"+result[i].tujuan+"</div><br><div class='fw-bolder'>Dasar Pemikiran :</div><div>"+result[i].dasar_pemikiran+"</div></td>";
+                    tableresult += "<td><div class='fw-bolder'>Inklusi :</div><div>"+result[i].kriteria_inklusi+"</div><br><div class='fw-bolder'>Eksklusi :</div><div>"+result[i].kriteria_eksklusi+"</div></td>";
+                    tableresult += "<td>"+result[i].metode_pengumpulan_data+"</td>";
+                    tableresult += "<td>"+result[i].sumber_data+"</td>";
+                    tableresult += "<td>"+result[i].instrumen_pengambilan_data+"</td>";
+                    tableresult += "<td>"+result[i].sampel+"</td>";
+                    tableresult += "<td><div class='fw-bolder'>Pengumpulan Data :</div><div>"+result[i].periode_pengumpulan_data+"</div><br><div class='fw-bolder'>Analisis Pelaporan :</div><div>"+result[i].periode_analisis_pelaporan+"</div></td>";
+                    tableresult += "<td>"+result[i].penyajian_data+"</td>";
+                    tableresult += "</tr>";
                 }
             }
 
