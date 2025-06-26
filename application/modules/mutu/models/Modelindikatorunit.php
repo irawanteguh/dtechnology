@@ -21,8 +21,8 @@
                                 (select color       from dt01_gen_master_ms where org_id=a.org_id and jenis_id='Mutu_1' and code=a.jenis_indikator)colorjenisindikator,
                                 (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='Mutu_1' and code=a.jenis_indikator)namejenisindikator,
                                 (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='Mutu_1' and code=a.periode_pengumpulan_data)periode_pengumpulan_data,
-                                (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='Mutu_1' and code=a.periode_analisis_pelaporan)periode_analisis_pelaporan
-
+                                (select master_name from dt01_gen_master_ms where org_id=a.org_id and jenis_id='Mutu_1' and code=a.periode_analisis_pelaporan)periode_analisis_pelaporan,
+                                (select target from dt01_mutu_unit_hd where active='1' and org_id=a.org_id and mutu_id=a.mutu_id and periode='".$periode."' $department)target
                         from dt01_mutu_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'

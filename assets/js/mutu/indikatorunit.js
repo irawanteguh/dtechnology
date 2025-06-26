@@ -39,6 +39,16 @@ function masterindikator(){
                     tableresult += "<td>"+result[i].sampel+"</td>";
                     tableresult += "<td><div class='fw-bolder'>Pengumpulan Data :</div><div>"+result[i].periode_pengumpulan_data+"</div><br><div class='fw-bolder'>Analisis Pelaporan :</div><div>"+result[i].periode_analisis_pelaporan+"</div></td>";
                     tableresult += "<td>"+result[i].penyajian_data+"</td>";
+                    tableresult += "<td class='text-center'>"+result[i].target+"%</td>";
+                    tableresult += "<td class='text-end'>";
+                        tableresult += "<div class='btn-group' role='group'>";
+                            tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-primary'><i class='bi bi-pencil-square text-primary'></i> Submit</a>";
+                                tableresult +="<a class='dropdown-item btn btn-sm text-info'><i class='bi-bar-chart-line text-info'></i> Result</a>";
+                            tableresult +="</div>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
                     tableresult += "</tr>";
                 }
             }

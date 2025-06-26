@@ -32,6 +32,7 @@
                                 <th>Sampel</th>
                                 <th>Periode Pengumpulan / Pelaporan Data</th>
                                 <th>Penyajian Data</th>
+                                <th>Target</th>
                                 <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>
                         </thead>
