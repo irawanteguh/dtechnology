@@ -32,6 +32,9 @@ assets/invoice/*
 service/*
 !service/index.html
 
+wa_credentials/*
+
+#####FILE#######
 !application/*/.htaccess
 
 application/config/database.php
