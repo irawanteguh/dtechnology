@@ -41,7 +41,9 @@
     $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
     $route['statusdocument']           = 'restapi/dtech/Signdocument/statusdocument';
-    $route['senddocument']           = 'restapi/dtech/Notification/senddocument';
+    $route['senddocument']             = 'restapi/dtech/Notification/senddocument';
+
+    $route['updatedevice']             = 'restapi/dtech/Whatsapp/updatedevice';
     
 
     $route['403_override']         = 'errors/error_403';

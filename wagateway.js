@@ -1,16 +1,13 @@
-const express = require("express");
-const cors = require("cors");
-const fs = require("fs");
+const express  = require("express");
+const cors     = require("cors");
+const fs       = require("fs");
 const whatsapp = require("wa-multi-session");
+const qrStore  = {};
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// QR Store
-const qrStore = {};
-
-// Load saved sessions on startup
 whatsapp.loadSessionsFromStorage();
 
 // Start new session
@@ -61,6 +58,33 @@ app.post("/message/send-document", async (req, res) => {
   }
 });
 
+// Get session info
+app.get("/session/info/:session", async (req, res) => {
+	const sessionId = req.params.session;
+
+	try {
+		const session = await whatsapp.getSession(sessionId);
+
+		if (!session) {
+			console.warn(`⚠️ Session ${sessionId} tidak ditemukan.`);
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		const info = {
+			user     : session.user || {},
+			pushname : session.pushname || null,
+			platform : session.platform || null,
+			state    : session.user?.id ? "CONNECTED" : "PAIRING",
+			sessionId: sessionId
+		};
+
+		res.json({ status: true, info });
+	}catch (err){
+		console.error(`❌ Gagal ambil info session ${sessionId}:`, err.message);
+		res.status(500).json({ status: false, message: "Failed to retrieve session info", error: err.message });
+	}
+});
+
 // Fetch file from URL or local path
 async function fetchFile(url) {
   if (url.startsWith("http")) {
@@ -83,16 +107,94 @@ whatsapp.onQRUpdated(({ sessionId, qr }) => {
   console.log(`📲 QR updated for session ${sessionId}`);
 });
 
-whatsapp.onConnected(sessionId => {
-  console.log("✅ Session connected:", sessionId);
+whatsapp.onConnected(async (sessionId) => {
+	console.log("✅ Session connected:", sessionId);
+
+	try{
+		const session = await whatsapp.getSession(sessionId);
+		const phone    = (session?.user?.id || "").split(":")[0];
+		const username = session?.user?.name || "";
+
+		// const info = {
+		// 	user    : session?.user,
+		// 	pushname: session?.pushname,
+		// 	platform: session?.platform,
+		// 	state   : session?.state
+		// };
+
+		console.log("ℹ️  Informasi session:", session?.user);
+
+		const payload = {
+			session_id: sessionId,
+			status    : 'connected',
+			username  : username,
+			phone     : phone
+		};
+
+		console.log("ℹ️  Informasi Payload:", payload);
+
+		const response = await fetch('http://localhost/dtech/dtechnology/index.php/updatedevice', {
+			method: 'POST',
+			headers: {
+			'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		});
+
+		const text = await response.text();
+
+		try {
+			const data = JSON.parse(text);
+			console.log('Device update sent to API:', data);
+		} catch (e) {
+			console.error('❌ Response bukan JSON. Kemungkinan HTML:', text);
+		}
+
+	}catch (err){
+		console.error('❌ Fetch error:', err.message);
+	}
+});
+
+whatsapp.onDisconnected(async (sessionId, reason) => {
+	console.log("ℹ️  Informasi Session Disconnected : ", sessionId);
+
+	const payload = {
+		session_id: sessionId,
+		status    : "disconnected",
+		phone     : ""
+	};
+
+	try{
+		const response = await fetch("http://localhost/dtech/dtechnology/index.php/updatedevice", {
+			method : "POST",
+			headers: { "Content-Type": "application/json" },
+			body   : JSON.stringify(payload)
+		});
+		const text = await response.text();
+		try{
+			const data = JSON.parse(text);
+			console.log("ℹ️  Informasi Update Divice Disconnected : ", data);
+		}catch{
+			console.log("❌ Response Update Divice Disconnected : ", text);
+		}
+	}catch(err){
+		console.log("❌ Fetch error Session Disconnected : ", err.message);
+	}
 });
 
 whatsapp.onMessageReceived(msg => {
-  console.log(`📨 New message from ${msg.key.remoteJid} on session ${msg.sessionId}`);
+	const from       = msg.key?.remoteJid?.split('@')[0] || "unknown";
+	const sessionId  = msg.sessionId || "unknown";
+	const pushName   = msg.pushName || "Tanpa Nama";
+
+	console.log("Pesan Baru Diterima:");
+	console.log(`Session     : ${sessionId}`);
+	console.log(`Pengirim    : ${from}`);
+	console.log(`Nama        : ${pushName}`);
 });
 
-// Run server
+
 const PORT = 5001;
 app.listen(PORT, () => {
-  console.log(`🚀 WhatsApp Gateway running at http://localhost:${PORT}`);
+	console.log(`🚀 WhatsApp Gateway running at http://localhost:${PORT}`);
 });
