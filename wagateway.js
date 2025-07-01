@@ -1,6 +1,8 @@
+const port     = 5001;
 const express  = require("express");
 const cors     = require("cors");
 const fs       = require("fs");
+const https    = require("https");
 const whatsapp = require("wa-multi-session");
 const qrStore  = {};
 
@@ -8,57 +10,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// =======================================================
+// 🔄 Load sessions from disk (jika pernah tersimpan)
+// =======================================================
 whatsapp.loadSessionsFromStorage();
 
-// Start new session
-app.post("/session/start", async (req, res) => {
-  const { session } = req.body;
-  if (!session) return res.status(400).json({ message: "Session is required" });
-
-  await whatsapp.startSession(session);
-  res.json({ message: "Session started", session });
-});
-
-// Get QR Code
-app.get("/session/qr/:session", (req, res) => {
-  const sessionId = req.params.session;
-  if (qrStore[sessionId]) {
-    res.json({ qr: qrStore[sessionId] });
-  } else {
-    res.status(404).json({ message: "QR not available" });
-  }
-});
-
-// Send Text Message
-app.post("/message/send-text", async (req, res) => {
-  const { session, to, text } = req.body;
-  try {
-    const result = await whatsapp.sendTextMessage({ sessionId: session, to, text });
-    res.json({ status: true, result });
-  } catch (err) {
-    res.status(500).json({ status: false, error: err.message });
-  }
-});
-
-// Send Document
-app.post("/message/send-document", async (req, res) => {
-  const { session, to, document_url, document_name, text } = req.body;
-  try {
-    const fileBuffer = await fetchFile(document_url);
-    const result = await whatsapp.sendDocument({
-      sessionId: session,
-      to,
-      filename: document_name,
-      media: fileBuffer,
-      text: text || ""
-    });
-    res.json({ status: true, result });
-  } catch (err) {
-    res.status(500).json({ status: false, error: err.message });
-  }
-});
-
-// Get session info
+// =======================================================
+// 📡 Endpoint: Get session info
+// =======================================================
 app.get("/session/info/:session", async (req, res) => {
 	const sessionId = req.params.session;
 
@@ -66,7 +25,7 @@ app.get("/session/info/:session", async (req, res) => {
 		const session = await whatsapp.getSession(sessionId);
 
 		if (!session) {
-			console.warn(`⚠️ Session ${sessionId} tidak ditemukan.`);
+			console.warn(`⚠️  Session ${sessionId} tidak ditemukan.`);
 			return res.status(404).json({ message: "Session not found" });
 		}
 
@@ -75,54 +34,120 @@ app.get("/session/info/:session", async (req, res) => {
 			pushname : session.pushname || null,
 			platform : session.platform || null,
 			state    : session.user?.id ? "CONNECTED" : "PAIRING",
-			sessionId: sessionId
+			sessionId
 		};
 
 		res.json({ status: true, info });
-	}catch (err){
-		console.error(`❌ Gagal ambil info session ${sessionId}:`, err.message);
+	} catch (err) {
+		console.error(`❌ Gagal mengambil info session ${sessionId}:`, err.message);
 		res.status(500).json({ status: false, message: "Failed to retrieve session info", error: err.message });
 	}
 });
 
-// Fetch file from URL or local path
-async function fetchFile(url) {
-  if (url.startsWith("http")) {
-    const https = require("https");
-    return new Promise((resolve, reject) => {
-      https.get(url, res => {
-        const chunks = [];
-        res.on("data", chunk => chunks.push(chunk));
-        res.on("end", () => resolve(Buffer.concat(chunks)));
-      }).on("error", reject);
-    });
-  } else {
-    return fs.readFileSync(url);
-  }
-}
+// =======================================================
+// ▶️ Endpoint: Start new session
+// =======================================================
+app.post("/session/start", async (req, res) => {
+	const { session } = req.body;
+	if (!session) return res.status(400).json({ message: "Session is required" });
 
-// Event handlers
-whatsapp.onQRUpdated(({ sessionId, qr }) => {
-  qrStore[sessionId] = qr;
-  console.log(`📲 QR updated for session ${sessionId}`);
+	try {
+		await whatsapp.startSession(session);
+		console.log(`✅ Session ${session} berhasil dimulai`);
+		res.json({ message: "Session started", session });
+	} catch (err) {
+		console.error(`❌ Gagal memulai session ${session}:`, err.message);
+		res.status(500).json({ message: "Failed to start session", error: err.message });
+	}
 });
 
-whatsapp.onConnected(async (sessionId) => {
-	console.log("✅ Session connected:", sessionId);
+// =======================================================
+// 📷 Endpoint: Get QR Code
+// =======================================================
+app.get("/session/qr/:session", (req, res) => {
+	const sessionId = req.params.session;
 
-	try{
-		const session = await whatsapp.getSession(sessionId);
+	if (qrStore[sessionId]) {
+		res.json({ qr: qrStore[sessionId] });
+	} else {
+		res.status(404).json({ message: "QR not available" });
+	}
+});
+
+// =======================================================
+// 💬 Endpoint: Send text message
+// =======================================================
+app.post("/message/send-text", async (req, res) => {
+	const { session, to, text } = req.body;
+	try {
+		const result = await whatsapp.sendTextMessage({ sessionId: session, to, text });
+		console.log(`✅ Pesan berhasil dikirim ke ${to} melalui session ${session}`);
+		res.json({ status: true, result });
+	} catch (err) {
+		console.error(`❌ Gagal mengirim pesan ke ${to}:`, err.message);
+		res.status(500).json({ status: false, error: err.message });
+	}
+});
+
+// =======================================================
+// 📎 Endpoint: Send document
+// =======================================================
+app.post("/message/send-document", async (req, res) => {
+	const { session, to, document_url, document_name, text } = req.body;
+	try {
+		const fileBuffer = await fetchFile(document_url);
+		const result = await whatsapp.sendDocument({
+			sessionId: session,
+			to,
+			filename: document_name,
+			media: fileBuffer,
+			text: text || ""
+		});
+		console.log(`✅ Dokumen berhasil dikirim ke ${to} melalui session ${session}`);
+		res.json({ status: true, result });
+	} catch (err) {
+		console.error(`❌ Gagal mengirim dokumen ke ${to}:`, err.message);
+		res.status(500).json({ status: false, error: err.message });
+	}
+});
+
+// =======================================================
+// 📥 Fungsi bantu: Ambil file dari URL atau lokal
+// =======================================================
+async function fetchFile(url) {
+	if (url.startsWith("http")) {
+		return new Promise((resolve, reject) => {
+			https.get(url, res => {
+				const chunks = [];
+				res.on("data", chunk => chunks.push(chunk));
+				res.on("end", () => resolve(Buffer.concat(chunks)));
+			}).on("error", reject);
+		});
+	} else {
+		return fs.readFileSync(url);
+	}
+}
+
+// =======================================================
+// 📌 Event: Saat QR diperbarui
+// =======================================================
+whatsapp.onQRUpdated(({ sessionId, qr }) => {
+	qrStore[sessionId] = qr;
+	console.log(`📲 QR Code diperbarui untuk session ${sessionId}`);
+});
+
+// =======================================================
+// ✅ Event: Saat session berhasil terhubung
+// =======================================================
+whatsapp.onConnected(async (sessionId) => {
+	console.log(`✅ Session ${sessionId} berhasil terhubung`);
+
+	try {
+		const session  = await whatsapp.getSession(sessionId);
 		const phone    = (session?.user?.id || "").split(":")[0];
 		const username = session?.user?.name || "";
 
-		// const info = {
-		// 	user    : session?.user,
-		// 	pushname: session?.pushname,
-		// 	platform: session?.platform,
-		// 	state   : session?.state
-		// };
-
-		console.log("ℹ️  Informasi session:", session?.user);
+		console.log("ℹ️  Informasi Pengguna:", session?.user);
 
 		const payload = {
 			session_id: sessionId,
@@ -131,32 +156,29 @@ whatsapp.onConnected(async (sessionId) => {
 			phone     : phone
 		};
 
-		console.log("ℹ️  Informasi Payload:", payload);
-
-		const response = await fetch('http://localhost/dtech/dtechnology/index.php/updatedevice', {
+		const response = await fetch('http://localhost/dtechnology/index.php/updatedevice', {
 			method: 'POST',
-			headers: {
-			'Content-Type': 'application/json'
-			},
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(payload)
 		});
 
 		const text = await response.text();
-
 		try {
 			const data = JSON.parse(text);
-			console.log('Device update sent to API:', data);
-		} catch (e) {
-			console.error('❌ Response bukan JSON. Kemungkinan HTML:', text);
+			console.log('📡 Payload terkirim ke API:', data);
+		} catch {
+			console.warn('⚠️  Respon bukan JSON (kemungkinan HTML):', text);
 		}
-
-	}catch (err){
-		console.error('❌ Fetch error:', err.message);
+	} catch (err) {
+		console.error('❌ Error saat mengirim info ke API:', err.message);
 	}
 });
 
+// =======================================================
+// 🔌 Event: Saat session terputus
+// =======================================================
 whatsapp.onDisconnected(async (sessionId, reason) => {
-	console.log("ℹ️  Informasi Session Disconnected : ", sessionId);
+	console.log(`🔌 Session ${sessionId} terputus`);
 
 	const payload = {
 		session_id: sessionId,
@@ -164,37 +186,42 @@ whatsapp.onDisconnected(async (sessionId, reason) => {
 		phone     : ""
 	};
 
-	try{
-		const response = await fetch("http://localhost/dtech/dtechnology/index.php/updatedevice", {
+	try {
+		const response = await fetch("http://localhost/dtechnology/index.php/updatedevice", {
 			method : "POST",
 			headers: { "Content-Type": "application/json" },
 			body   : JSON.stringify(payload)
 		});
 		const text = await response.text();
-		try{
+		try {
 			const data = JSON.parse(text);
-			console.log("ℹ️  Informasi Update Divice Disconnected : ", data);
-		}catch{
-			console.log("❌ Response Update Divice Disconnected : ", text);
+			console.log("📡 Informasi disconnect dikirim ke API:", data);
+		} catch {
+			console.warn("⚠️  Response disconnect bukan JSON:", text);
 		}
-	}catch(err){
-		console.log("❌ Fetch error Session Disconnected : ", err.message);
+	} catch (err) {
+		console.error("❌ Gagal kirim update disconnect:", err.message);
 	}
 });
 
+// =======================================================
+// 📥 Event: Saat menerima pesan masuk
+// =======================================================
 whatsapp.onMessageReceived(msg => {
-	const from       = msg.key?.remoteJid?.split('@')[0] || "unknown";
-	const sessionId  = msg.sessionId || "unknown";
-	const pushName   = msg.pushName || "Tanpa Nama";
+	const from      = msg.key?.remoteJid?.split('@')[0] || "unknown";
+	const sessionId = msg.sessionId || "unknown";
+	const pushName  = msg.pushName || "Tanpa Nama";
 
-	console.log("Pesan Baru Diterima:");
-	console.log(`Session     : ${sessionId}`);
-	console.log(`Pengirim    : ${from}`);
-	console.log(`Nama        : ${pushName}`);
+	console.log("💬 Pesan Baru Diterima:");
+	console.log(`📨 Session : ${sessionId}`);
+	console.log(`👤 Dari    : ${from} (${pushName})`);
 });
 
-
-const PORT = 5001;
-app.listen(PORT, () => {
-	console.log(`🚀 WhatsApp Gateway running at http://localhost:${PORT}`);
+// =======================================================
+// 🚀 Jalankan server
+// =======================================================
+app.listen(port, () => {
+	console.log("==================================================");
+	console.log(`🚀 WhatsApp Gateway aktif di http://localhost:${port}`);
+	console.log("==================================================");
 });

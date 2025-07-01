@@ -112,17 +112,20 @@ async function startSession(sessionId) {
 	const pollConnection = async () => {
 		try {
 			const infoRes = await fetch(`http://localhost:5001/session/info/${sessionId}`);
-			if (infoRes.ok) {
+			if(infoRes.ok){
 				const data = await infoRes.json();
 				const userId = data?.info?.user?.id;
 
-				if (userId) {
+				if(userId){
 					statusEl.innerHTML = `✅ Terhubung dengan WhatsApp<br><b>ID:</b> ${userId.split(":")[0]}`;
 					clearInterval(qrPollingLoop);
 					clearInterval(pollingConnectionLoop);
 					clearTimeout(qrTimeout);
-					masterdevice();
+					
 					$('#modal_sessionwhatsapp_viewbarcode').modal('hide');
+					setTimeout(() => {masterdevice();}, 3000);
+				}else{
+					await pollQR();
 				}
 			}
 		}catch(err){
