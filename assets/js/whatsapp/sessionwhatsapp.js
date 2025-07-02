@@ -39,7 +39,7 @@ function masterdevice() {
                     if (result[i].status === "disconnected" || !result[i].status) {
                         tableresult += `<td class='text-end pe-4'><a class='btn btn-sm btn-light-success' data-bs-toggle='modal' data-bs-target='#modal_sessionwhatsapp_viewbarcode' onclick="startSession('${result[i].transaksi_id}')"><i class='bi bi-link-45deg'></i> Link Device</a></td>`;
                     } else {
-                        tableresult += "<td></td>";
+                        tableresult += `<td class='text-end pe-4'><a class='btn btn-sm btn-light-danger' onclick="deleteSession('${result[i].transaksi_id}')"><i class='bi bi-link-45deg'></i> Logout</a></td>`;
                     }
                     tableresult += "</tr>";
                 }

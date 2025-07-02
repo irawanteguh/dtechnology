@@ -9,7 +9,7 @@ const http         = require("http");
 const https        = require("https");
 const whatsapp     = require("wa-multi-session");
 const qrStore      = {};
-const API_BASE_URL = "http://localhost/dtech/dtechnology/index.php";
+const API_BASE_URL = "http://localhost/dtechnology/index.php";
 
 const app = express();
 app.use(cors());
@@ -189,7 +189,10 @@ whatsapp.onConnected(async (sessionId) => {
 		const phone    = (session?.user?.id || "").split(":")[0];
 		const username = session?.user?.name || "";
 
-		console.log("ℹ️  Informasi Pengguna:", session?.user);
+		console.log("ℹ️  Informasi Pengguna :");
+		console.log("   id   :",session?.user.id);
+		console.log("   lid  :",session?.user.lid);
+		console.log("   name :",session?.user.name);
 
 		const payload = {
 			session_id: sessionId,
@@ -262,8 +265,8 @@ whatsapp.onMessageReceived(msg => {
 	// console.log(msg);
 	// console.log("==================================");
 	
-	let from     = "-";
-	let to       = "-";
+	let from     = "";
+	let to       = "";
 	let groupId  = "-";
 	let msgType  = "[📎 Unknown]";
 	let content  = "[📎 Tidak ada isi pesan]";
@@ -337,14 +340,19 @@ whatsapp.onMessageReceived(msg => {
 	console.log(`${timeStr} ${label}`);
 	console.log(`📨  Session   : ${sessionId}`);
 	console.log(`👤  From      : ${from}${!isFromMe ? ` ${pushName}` : ""}`);
-	console.log(`📲  To        : ${to}`);
-	console.log(`👥  Group     : ${isGroup ? "True" : "False"}`);
-	if (isGroup) {
-		console.log(`🆔  Group ID  : ${groupId}`);
+
+	if(!broadcast){
+		console.log(`📲  To        : ${to}`);
+		console.log(`👥  Group     : ${isGroup ? "True" : "False"}`);
+
+		if (isGroup) {
+			console.log(`🆔  Group ID  : ${groupId}`);
+		}
 	}
-	console.log(`🗂️  Tipe      : ${msgType}`);
-	console.log(`🗂️  Broadcast : ${broadcast}`);
-	console.log(`✉️  Message   : ${content}`);
+		
+	console.log(`🗂️   Tipe      : ${msgType}`);
+	console.log(`🗂️   Broadcast : ${broadcast}`);
+	console.log(`✉️   Message   : ${content}`);
 });
 
 

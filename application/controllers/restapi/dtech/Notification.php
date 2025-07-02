@@ -8,7 +8,7 @@
 
         public function __construct() {
             parent::__construct();
-            date_default_timezone_set('Asia/Jakarta');
+            $this->load->model("Modelnotification","md");
         }
 
         // public function senddocument() {
@@ -89,23 +89,77 @@
             $document_path = FCPATH . "assets/whatsapp/0bde8d61-f6cc-4fdd-8e1a-3621756e722e.pdf";
             $document_name = "Laporan Quickreport.pdf";
 
-            $body = [
-                "session"       => $session_id,
-                "to"            => $group_id,
-                "text"          => $caption,
-                "document_url"  => $document_path,
-                "document_name" => $document_name
-            ];
+            // return var_dump($document_path);
 
-            $res = Whatsapp::sendWhatsAppDocument($body);
+            // $body = [
+            //     "session"       => $session_id,
+            //     "to"            => $group_id,
+            //     "text"          => $caption,
+            //     "document_url"  => $document_path,
+            //     "document_name" => $document_name
+            // ];
 
-            if ($res['status'] === true) {
-                echo json_encode(['status' => true, 'message' => 'Dokumen berhasil dikirim.']);
-            } else {
-                echo json_encode([
-                    'status' => false,
-                    'message' => $res['error'] ?? 'Gagal mengirim dokumen.'
-                ]);
+            // $res = Whatsapp::sendWhatsAppDocument($body);
+
+            // if ($res['status'] === true) {
+            //     echo json_encode(['status' => true, 'message' => 'Dokumen berhasil dikirim.']);
+            // } else {
+            //     echo json_encode([
+            //         'status' => false,
+            //         'message' => $res['error'] ?? 'Gagal mengirim dokumen.'
+            //     ]);
+            // }
+        }
+
+        public function broadcastwhatsapp_post() {
+            $resultbroadcastwhatsapp = $this->md->broadcastwhatsapp(ORG_ID);
+
+            if(!empty($resultbroadcastwhatsapp)){
+                foreach($resultbroadcastwhatsapp as $a){
+                    $body_parts = [];
+
+                    $session_id    = $a->session;
+                    $to            = $a->to;
+                    for ($i = 1; $i <= 10; $i++) {
+                        $key = "body_$i";
+                        if (!empty($a->$key)) {
+                            $body_parts[] = $a->$key . "%0a";
+                        }
+                    }
+
+                    // Gabungkan semua bagian body yang tidak null
+                    $body_text = implode("", $body_parts);
+
+                    $footer        = "%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+                    $text          = $body_text.$footer;
+                    $document_path = $a->directory;
+                    $document_name = $a->document_name;
+
+                    $body = [
+                        "session"       => $session_id,
+                        "to"            => $to,
+                        "text"          => urldecode($text),
+                        "document_url"  => $document_path,
+                        "document_name" => $document_name
+                    ];
+        
+                    if($a->type_file==="1"){
+                        $res = Whatsapp::sendWhatsAppDocument($body);
+                    }
+
+                    if ($res['status'] === true) {
+                        $dataupdate['status']="1";
+
+                        $this->md->updatestatusbroadcastwhatsapp($dataupdate,$a->transaksi_id);
+
+                        echo json_encode(['status' => true, 'message' => 'Dokumen berhasil dikirim.']);
+                    } else {
+                        echo json_encode([
+                            'status' => false,
+                            'message' => $res['error'] ?? 'Gagal mengirim dokumen.'
+                        ]);
+                    }
+                }
             }
         }
 
