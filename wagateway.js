@@ -20,7 +20,8 @@ app.use(express.json());
 // =======================================================
 whatsapp.loadSessionsFromStorage();
 console.log("📦 [INIT] Sessions loaded from storage");
-
+console.log("📦 ",Object.keys(whatsapp));
+console.log("_______________________________________________________");
 // =======================================================
 // 📡 Endpoint: Get session info
 // =======================================================
@@ -268,6 +269,42 @@ whatsapp.onDisconnected(async (sessionId) => {
 		console.error("❌ Gagal kirim update disconnect:", err.message);
 	}
 });
+
+// whatsapp.onMessageUpdate(async (msg) => {
+//     const remoteJid  = msg.key?.remoteJid || "";
+//     const fromMe     = msg.key?.fromMe || false;
+//     const messageId  = msg.key?.id || "";
+//     const timestamp  = new Date((msg.messageTimestamp || Date.now() / 1000) * 1000).toLocaleString();
+//     const pushName   = msg.pushName || msg.verifiedBizName || "Unknown";
+//     const sessionId  = msg.sessionId || "unknown";
+
+//     // Ambil isi pesan hasil update
+	
+//     const m = msg.message || {};
+//     let updatedContent = "[Unknown Update]";
+
+// 	console.log(m);
+
+//     if (m?.conversation) {
+//         updatedContent = m.conversation;
+//     } else if (m?.extendedTextMessage?.text) {
+//         updatedContent = m.extendedTextMessage.text;
+//     } else if (m?.imageMessage?.caption) {
+//         updatedContent = "[Image] " + m.imageMessage.caption;
+//     } else if (m?.videoMessage?.caption) {
+//         updatedContent = "[Video] " + m.videoMessage.caption;
+//     }
+
+//     // Log
+//     console.log("📝 :: Message Updated ::");
+//     console.log(`   From       : ${remoteJid} ${pushName}`);
+//     console.log(`   From Me    : ${fromMe}`);
+//     console.log(`   Message ID : ${messageId}`);
+//     console.log(`   Session ID : ${sessionId}`);
+//     console.log(`   Timestamp  : ${timestamp}`);
+//     console.log(`   New Content: ${updatedContent}`);
+// });
+
 
 // =======================================================
 // 💬 Event: Saat menerima pesan masuk / keluar
