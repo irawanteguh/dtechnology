@@ -84,14 +84,17 @@
             return $recordset;
         }
 
-        function broadcastwhatsapp($orgid){
+        function hasillaboratorium($orgid,$limit){
             $query =
                     "
-                        select a.transaksi_id, a.to, directory, body_1, body_2, body_3, body_4, body_5, body_6, body_7, body_8, body_9, body_10, type_file, document_name,
-                            (select transaksi_id from dt01_whatsapp_device_ms where status='connected' and org_id=a.org_id and device_id=a.device_id)session
-                        from dt01_whatsapp_broadcast_hd a
-                        where a.active='1'
-                        and   a.status='0'                   
+                        select a.no_file, transaksi_idx,
+                               (select org_name from dt01_gen_organization_ms where org_id=a.org_id)namars
+                        from dt01_gen_document_file_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.jenis_doc='003'
+                        and   a.status_sign='5'
+                        order by created_date desc
+                        ".$limit."                  
                     ";
 
             $recordset = $this->db->query($query);
@@ -99,9 +102,35 @@
             return $recordset;
         }
 
-        function updatestatusbroadcastwhatsapp($data, $transaksi){           
-            $sql =   $this->db->update("dt01_whatsapp_broadcast_hd",$data,array("transaksi_id"=>$transaksi));
-            return $sql;
+        function informasikunjunganpasien($norawat){
+            $query =
+                    "
+                        SELECT 
+                            a.no_rkm_medis,
+                            a.almt_pj,
+                            DATE_FORMAT(a.tgl_registrasi, '%d.%m.%Y') AS tglkunjungan,
+                            pl.nm_poli AS politujuan,
+                            d.nm_dokter AS namadokter,
+                            p.nm_pasien AS namapasien,
+                            DATE_FORMAT(p.tgl_lahir, '%d.%m.%Y') AS bod,
+                            CASE
+                                WHEN LEFT(REPLACE(REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''), '+62', '62'), 2) = '62' 
+                                    THEN REPLACE(REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''), '+62', '62')
+                                WHEN LEFT(p.no_tlp, 1) = '0' 
+                                    THEN CONCAT('62', SUBSTRING(REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''), 2))
+                                ELSE CONCAT('62', REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''))
+                            END AS nohp
+                        FROM reg_periksa a
+                        JOIN pasien p ON p.no_rkm_medis = a.no_rkm_medis
+                        LEFT JOIN poliklinik pl ON pl.kd_poli = a.kd_poli
+                        LEFT JOIN dokter d ON d.kd_dokter = a.kd_dokter
+                        WHERE a.no_rawat = '".$norawat."';
+           
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
         }
 
     }

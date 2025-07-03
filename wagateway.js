@@ -9,7 +9,7 @@ const http         = require("http");
 const https        = require("https");
 const whatsapp     = require("wa-multi-session");
 const qrStore      = {};
-const API_BASE_URL = "http://localhost/dtechnology/index.php";
+const API_BASE_URL = "http://localhost/dtech/dtechnology/index.php";
 
 const app = express();
 app.use(cors());
@@ -126,15 +126,22 @@ app.post("/message/send-document", async (req, res) => {
 			sessionId: session,
 			to,
 			filename: document_name,
-			media: fileBuffer,
-			text: text || ""
+			media   : fileBuffer,
+			text    : text || ""
 		});
 
-		console.log(`📎 Dokumen berhasil dikirim ke ${to} via ${session}`);
+		console.log("_______________________________________________________");
+		console.log(`:: ✅ Berhasil mengirim dokumen ::`);
+		console.log(`   To      : ${to}`);
+		console.log(`   Session : ${session}`);
+
 		res.json({ status: true, result });
 
 	} catch (err) {
-		console.error(`❌ Gagal mengirim dokumen ke ${to}:`, err.message);
+		console.log("_______________________________________________________");
+		console.log(`:: ❌ Gagal mengirim dokumen ::`);
+		console.log(`   To      : ${to}`);
+		console.log(`   Mesasge : `,err.message);
 		res.status(500).json({ status: false, error: err.message });
 	}
 });
@@ -182,16 +189,20 @@ whatsapp.onQRUpdated(({ sessionId, qr }) => {
 // ✅ Event: Saat session berhasil terhubung
 // =======================================================
 whatsapp.onConnected(async (sessionId) => {
-	console.log(`📶 Session ${sessionId} berhasil terhubung`);
+	console.log("_______________________________________________________");
+	console.log(`:: ✅ Session ${sessionId} : Connected ::`);
 
 	try {
 		const session  = await whatsapp.getSession(sessionId);
 		const phone    = (session?.user?.id || "").split(":")[0];
 		const username = session?.user?.name || "";
 
-		console.log("ℹ️  Informasi Pengguna :");
-		console.log("   id   :",session?.user.id);
-		console.log("   lid  :",session?.user.lid);
+		// console.log(session);
+
+		console.log("_______________________________________________________");
+		console.log(":: ℹ️  Informasi Pengguna ::");
+		console.log("   id   :",(session?.user?.id || "").split(":")[0]);
+		console.log("   lid  :",(session?.user?.lid || "").split(":")[0]);
 		console.log("   name :",session?.user.name);
 
 		const payload = {
@@ -210,12 +221,21 @@ whatsapp.onConnected(async (sessionId) => {
 		const text = await response.text();
 		try {
 			const data = JSON.parse(text);
-			console.log('📡 Payload terkirim ke API:', data);
+			console.log("_______________________________________________________");
+			console.log(':: ✅ Payload terkirim ke API ::');
+			console.log("   status   :",data.status);
+			console.log("   message  :",data.message);
+			console.log("   username :",data.data.username);
+			console.log("   phone    :",data.data.phone);
+			console.log("   status   :",data.data.status);
 		} catch {
-			console.warn('⚠️  Respon bukan JSON:', text);
+			console.log("_______________________________________________________");
+			console.log(':: ⚠️  Response Rest API ::');
+			console.log(text);
 		}
 	} catch (err) {
-		console.error('❌ Error saat mengirim info ke API:', err.message);
+		console.log("_______________________________________________________");
+		console.log('❌ Error saat mengirim info ke API:', err.message);
 	}
 });
 
@@ -252,109 +272,239 @@ whatsapp.onDisconnected(async (sessionId) => {
 // =======================================================
 // 💬 Event: Saat menerima pesan masuk / keluar
 // =======================================================
-whatsapp.onMessageReceived(msg => {
-	const sessionId   = msg.sessionId || "unknown";
-	const isFromMe    = msg.key?.fromMe === true;
-	const isGroup     = msg.key?.remoteJid?.endsWith("@g.us");
-	const remoteJid   = msg.key?.remoteJid || "unknown";
-	const pushName    = msg.pushName || "";
-	const broadcast   = msg.broadcast;
-	const participant = msg.key?.participant || null;
+// whatsapp.onMessageReceived(async msg => {
+// 	const sessionId   = msg.sessionId || "unknown";
+// 	const isFromMe    = msg.key?.fromMe === true;
+// 	const isGroup     = msg.key?.remoteJid?.endsWith("@g.us");
+// 	const remoteJid   = msg.key?.remoteJid || "unknown";
+// 	const pushName    = msg.pushName || "";
+// 	const broadcast   = msg.broadcast || false;
+// 	const participant = msg.key?.participant || null;
+
+// 	// console.log("==================================");
+// 	// console.log(msg);
+// 	// console.log("==================================");
+
+// 	let from      = "";
+// 	let to        = "";
+// 	let groupId   = "";
+// 	let groupName = "";
+// 	let msgType   = "[📎 Unknown]";
+// 	let content   = "[📎 Tidak ada isi pesan]";
+
+// 	// Tentukan From & To
+// 	if (isFromMe) {
+// 		from = remoteJid.split("@")[0]+" "+pushName || "Me";
+// 		to   = remoteJid.split("@")[0];
+// 	} else {
+// 		from = (participant || remoteJid).split("@")[0];
+// 		to   = "Me";
+// 	}
+
+// 	// Ambil ID dan Nama Grup jika grup
+// 	if (isGroup) {
+// 		const match = remoteJid.match(/^(.*)@g\.us$/);
+// 		groupId = match ? match[1] : remoteJid.split("@")[0];
+
+// 		try {
+// 			const metadata = await whatsapp.groupMetadata(remoteJid);
+// 			groupName = metadata?.subject || "";
+// 		} catch (err) {
+// 			groupName = "";
+// 		}
+// 	}
+
+// 	// Deteksi isi dan tipe pesan
+// 	const m = msg.message || {};
+
+// 	if (m.protocolMessage && m.protocolMessage.type === 0) {
+// 		msgType = "Pesan Dihapus";
+// 		content = "[Pesan telah dihapus]";
+// 	} else if (m.conversation) {
+// 		msgType = "Teks";
+// 		content = m.conversation;
+// 	} else if (m.extendedTextMessage?.text) {
+// 		msgType = "Teks";
+// 		content = m.extendedTextMessage.text;
+// 	} else if (m.imageMessage?.caption) {
+// 		msgType = "Gambar";
+// 		content = m.imageMessage.caption;
+// 	} else if (m.imageMessage) {
+// 		msgType = "Gambar";
+// 		content = "[Gambar tanpa caption]";
+// 	} else if (m.documentMessage?.fileName) {
+// 		msgType = "Dokumen";
+// 		content = m.documentMessage.fileName;
+// 	} else if (m.videoMessage?.caption) {
+// 		msgType = "Video";
+// 		content = m.videoMessage.caption;
+// 	} else if (m.videoMessage) {
+// 		msgType = "Video";
+// 		content = "[Video tanpa caption]";
+// 	} else if (m.audioMessage) {
+// 		msgType = "Audio";
+// 		content = "[Audio]";
+// 	} else if (m.stickerMessage) {
+// 		msgType = "Stiker";
+// 		content = "[Stiker]";
+// 	} else if (m.contactMessage) {
+// 		msgType = "Kontak";
+// 		content = "[Kontak dikirim]";
+// 	} else if (m.locationMessage) {
+// 		msgType = "Lokasi";
+// 		content = "[Lokasi dibagikan]";
+// 	} else if (m.buttonsMessage) {
+// 		msgType = "Tombol";
+// 		content = "[Pesan dengan tombol]";
+// 	}
+
+
+// 	// Format waktu
+// 	const timestamp = msg.messageTimestamp
+// 		? new Date(msg.messageTimestamp * 1000)
+// 		: new Date();
+// 	const pad = n => n.toString().padStart(2, '0');
+// 	const timeStr = `${pad(timestamp.getDate())}.${pad(timestamp.getMonth() + 1)}.${timestamp.getFullYear()} ${pad(timestamp.getHours())}:${pad(timestamp.getMinutes())}:${pad(timestamp.getSeconds())}`;
+// 	const label = isFromMe ? "📤 Pesan Keluar :" : "💬 Pesan Masuk :";
+
+// 	// Tampilkan ke console
+// 	console.log("=========================================================");
+// 	console.log(`${timeStr} ${label}`);
+// 	console.log(`📨  Session   : ${sessionId}`);
+// 	console.log(`🆔  Message ID: ${msg.key?.id || '-'}`); 
+// 	console.log(`👤  From      : ${from}${!isFromMe ? ` ${pushName}` : ""}`);
+// 	console.log(`📲  To        : ${to}`);
+// 	if(isGroup){
+// 		console.log(`👥  Group     : True | 🆔 ID: ${groupId} | 📛 Name: ${groupName}`);
+// 	}
+// 	console.log(`🗂️   Tipe      : ${msgType}`);
+// 	console.log(`🗂️   Broadcast : ${broadcast}`);
+// 	console.log(`✉️   Message   : ${content}`);
+// });
+
+whatsapp.onMessageReceived(async msg => {
+	const separator     = "_______________________________________________________";
+	const sessionId     = msg.sessionId || "unknown";
+	const remoteJidFull = msg.key?.remoteJid || "";                                                                                                                                                                                                                                                                                                      // ex: 120363422251812300@g.us
+	const remoteJid     = remoteJidFull.split("@")[0];                                                                                                                                                                                                                                                                                                   // ex: 120363422251812300
+	const groupId       = (remoteJidFull.match(/^.+?-(\d+)@g\.us$/) || remoteJidFull.match(/^(\d+)@g\.us$/) || [])[1] || "";
+	const participant   = msg.key?.participant ? msg.key.participant.split("@")[0] : "";
+	const isGroup       = msg.key?.remoteJid?.endsWith("@g.us");
+	const isFromMe      = msg.key?.fromMe === true;
+	const broadcast     = msg.broadcast || false;
+	const pushName      = msg.verifiedBizName || msg.pushName || "";
+	const m             = msg.message || {};
+	const messageId     = m?.protocolMessage?.key?.id || msg.key?.id || "";
+	const timestamp     = `${(t => `${t.getDate().toString().padStart(2,'0')}.${(t.getMonth()+1).toString().padStart(2,'0')}.${t.getFullYear()} ${t.getHours().toString().padStart(2,'0')}:${t.getMinutes().toString().padStart(2,'0')}:${t.getSeconds().toString().padStart(2,'0')}`)(new Date((msg.messageTimestamp || Date.now() / 1000) * 1000))}`;
+	
+	let msgType = "Unknown";
+	let content = "";
+	let caption = "";
 
 	// console.log("==================================");
 	// console.log(msg);
 	// console.log("==================================");
-	
-	let from     = "";
-	let to       = "";
-	let groupId  = "-";
-	let msgType  = "[📎 Unknown]";
-	let content  = "[📎 Tidak ada isi pesan]";
 
-	// Tentukan From & To
-	if (isFromMe) {
-		from = pushName ? pushName : "Me";
-		to   = remoteJid.split("@")[0]; // penerima
-	} else {
-		from = (participant || remoteJid).split("@")[0];
-		to   = remoteJid.endsWith("@g.us") ? "Me" : "Me";
-	}
-
-	// Ambil Group ID jika grup
-	if (isGroup) {
-		const match = remoteJid.match(/-(\d+)@/);
-		groupId = match ? match[1] : remoteJid.split("@")[0];;
-	}
-
-	// Deteksi isi dan tipe pesan
-	const m = msg.message || {};
-	if (m.conversation) {
-		msgType = "Teks";
+	if (m.editedMessage?.message) {
+		const em = m.editedMessage.message;
+		if (em.conversation) {
+			msgType = "Edited Message";
+			content = em.conversation;
+		} else if (em.extendedTextMessage?.text) {
+			msgType = "Edited Message";
+			content = em.extendedTextMessage.text;
+		} else if (em.imageMessage?.caption) {
+			msgType = "Edited Image";
+			caption = em.imageMessage.caption;
+			content = "[Image]";
+		} else {
+			msgType = "Edited Message";
+			content = "[Unrecognized edited message]";
+		}
+	} else if (m.conversation) {
+		msgType = "Text";
 		content = m.conversation;
 	} else if (m.extendedTextMessage?.text) {
-		msgType = "Teks";
+		msgType = "Text";
 		content = m.extendedTextMessage.text;
-	} else if (m.imageMessage?.caption) {
-		msgType = "Gambar";
-		content = m.imageMessage.caption;
 	} else if (m.imageMessage) {
-		msgType = "Gambar";
-		content = "[Gambar tanpa caption]";
-	} else if (m.documentMessage?.fileName) {
-		msgType = "Dokumen";
-		content = m.documentMessage.fileName;
-	} else if (m.videoMessage?.caption) {
-		msgType = "Video";
-		content = m.videoMessage.caption;
+		msgType = "Image";
+		caption = m.imageMessage.caption || "";
+		content = "";
+	} else if (m.documentMessage) {
+		msgType = "Document";
+		caption = m.documentMessage.caption || "";
+		content = m.documentMessage.fileName || "";
 	} else if (m.videoMessage) {
 		msgType = "Video";
-		content = "[Video tanpa caption]";
+		caption = m.videoMessage.caption || "";
+		content = caption || "";
 	} else if (m.audioMessage) {
 		msgType = "Audio";
-		content = "[Audio]";
+		content = "Audio message";
 	} else if (m.stickerMessage) {
-		msgType = "Stiker";
-		content = "[Stiker]";
+		msgType = "Sticker";
+		content = "Sticker";
 	} else if (m.contactMessage) {
-		msgType = "Kontak";
-		content = "[Kontak dikirim]";
+		msgType = "Contact";
+		content = "Contact shared";
 	} else if (m.locationMessage) {
-		msgType = "Lokasi";
-		content = "[Lokasi dibagikan]";
+		msgType = "Location";
+		content = "Location shared";
 	} else if (m.buttonsMessage) {
-		msgType = "Tombol";
-		content = "[Pesan dengan tombol]";
+		msgType = "Buttons";
+		content = "Message with buttons";
+	} else if (m.templateMessage?.templateId) {
+		msgType = "Template";
+		content = `Template ID: ${m.templateMessage.templateId}`;
 	}
 
-	// Format timestamp dari WhatsApp
-	const timestamp = msg.messageTimestamp
-		? new Date(msg.messageTimestamp * 1000)
-		: new Date();
-	const pad = n => n.toString().padStart(2, '0');
-	const timeStr = `${pad(timestamp.getDate())}.${pad(timestamp.getMonth() + 1)}.${timestamp.getFullYear()} ${pad(timestamp.getHours())}:${pad(timestamp.getMinutes())}:${pad(timestamp.getSeconds())}`;
 
-	const label = isFromMe ? "📤 Pesan Keluar :" : "💬 Pesan Masuk :";
-
-	// Cetak ke console
-	console.log("=========================================================");
-	console.log(`${timeStr} ${label}`);
-	console.log(`📨  Session   : ${sessionId}`);
-	console.log(`👤  From      : ${from}${!isFromMe ? ` ${pushName}` : ""}`);
-
-	if(!broadcast){
-		console.log(`📲  To        : ${to}`);
-		console.log(`👥  Group     : ${isGroup ? "True" : "False"}`);
-
-		if (isGroup) {
-			console.log(`🆔  Group ID  : ${groupId}`);
+	console.log(separator);
+	if(broadcast){
+		console.log(":: 📢  Broadcast ::");
+		console.log(`   From          : ${participant} ${pushName}`);
+		console.log(`   Message Type  : ${msgType}`);
+		console.log(`   Message       : ${content}`);
+	}else{
+		if(m.protocolMessage?.type === 0){
+			if(isGroup){
+				console.log(":: 🗑️  Messages in Group have been deleted ::");
+				console.log(`   From          : ${participant} ${pushName}`);
+				console.log(`   Group ID      : ${remoteJid}`);
+			}else{
+				console.log(":: 🗑️  Message has been deleted ::");
+				console.log(`   From          : ${pushName}`);
+				console.log(`   To            : ${remoteJid}`);
+			}
+		}else{
+			console.log(`${isGroup ? (isFromMe ? ":: 📤 Outgoing Group Message ::" : ":: 📥 Incoming Group Message ::") : (isFromMe ? ":: 📤 Outgoing Message ::" : ":: 📥 Incoming Message ::")}`);
+			if(isGroup){
+				console.log(`   From          : ${participant} ${pushName}`);
+				console.log(`   Group ID      : ${groupId}`);
+			}else{
+				if(isFromMe){
+					console.log(`   From          : ${pushName}`);
+					console.log(`   To            : ${remoteJid}`);
+				}else{
+					console.log(`   From          : ${remoteJid} ${pushName}`);
+					console.log(`   To            : Me`);
+				}
+			}
+			console.log(`   Message Type  : ${msgType}`);
+			console.log(`   Message       : ${content}`);
+			if(msgType!="Text"){
+				console.log(`   Caption       : ${caption}`);
+			}
+			
 		}
 	}
-		
-	console.log(`🗂️   Tipe      : ${msgType}`);
-	console.log(`🗂️   Broadcast : ${broadcast}`);
-	console.log(`✉️   Message   : ${content}`);
-});
 
+	console.log(`   Session ID    : ${sessionId}`);
+	console.log(`   Message ID    : ${messageId}`);
+	console.log(`   Timestamp     : ${timestamp}`);
+	
+});
 
 // =======================================================
 // 🚀 Jalankan server
