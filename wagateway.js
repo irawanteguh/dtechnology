@@ -1,15 +1,19 @@
 // =======================================================
 // 🚀 WhatsApp Gateway Server
 // =======================================================
-const port         = 5001;
-const express      = require("express");
-const cors         = require("cors");
-const fs           = require("fs");
-const http         = require("http");
-const https        = require("https");
-const whatsapp     = require("wa-multi-session");
-const qrStore      = {};
-const API_BASE_URL = "http://localhost/dtech/dtechnology/index.php";
+const port            = 5001;
+const express         = require("express");
+const cors            = require("cors");
+const fs              = require("fs");
+const http            = require("http");
+const https           = require("https");
+const whatsapp        = require("wa-multi-session");
+const qrStore         = {};
+const API_BASE_URL    = "http://localhost/dtechnology/index.php";
+const separator       = "=========================================================================================";
+let   autoSendLoop    = null;
+let   autoSendEnabled = true;
+
 
 const app = express();
 app.use(cors());
@@ -19,9 +23,12 @@ app.use(express.json());
 // 🔄 Load sessions from disk (jika pernah tersimpan)
 // =======================================================
 whatsapp.loadSessionsFromStorage();
+
+console.log(separator);
+console.log("📦",Object.keys(whatsapp));
+console.log(separator);
 console.log("📦 [INIT] Sessions loaded from storage");
-console.log("📦 ",Object.keys(whatsapp));
-console.log("_______________________________________________________");
+
 // =======================================================
 // 📡 Endpoint: Get session info
 // =======================================================
@@ -131,7 +138,7 @@ app.post("/message/send-document", async (req, res) => {
 			text    : text || ""
 		});
 
-		console.log("_______________________________________________________");
+		console.log(separator);
 		console.log(`:: ✅ Berhasil mengirim dokumen ::`);
 		console.log(`   To      : ${to}`);
 		console.log(`   Session : ${session}`);
@@ -139,7 +146,7 @@ app.post("/message/send-document", async (req, res) => {
 		res.json({ status: true, result });
 
 	} catch (err) {
-		console.log("_______________________________________________________");
+		console.log(separator);
 		console.log(`:: ❌ Gagal mengirim dokumen ::`);
 		console.log(`   To      : ${to}`);
 		console.log(`   Mesasge : `,err.message);
@@ -189,8 +196,59 @@ whatsapp.onQRUpdated(({ sessionId, qr }) => {
 // =======================================================
 // ✅ Event: Saat session berhasil terhubung
 // =======================================================
+// whatsapp.onConnected(async (sessionId) => {
+// 	console.log("_______________________________________________________");
+// 	console.log(`:: ✅ Session ${sessionId} : Connected ::`);
+
+// 	try {
+// 		const session  = await whatsapp.getSession(sessionId);
+// 		const phone    = (session?.user?.id || "").split(":")[0];
+// 		const username = session?.user?.name || "";
+
+// 		// console.log(session);
+
+// 		console.log("_______________________________________________________");
+// 		console.log(":: ℹ️  Informasi Pengguna ::");
+// 		console.log("   id   :",(session?.user?.id || "").split(":")[0]);
+// 		console.log("   lid  :",(session?.user?.lid || "").split(":")[0]);
+// 		console.log("   name :",session?.user.name);
+
+// 		const payload = {
+// 			session_id: sessionId,
+// 			status    : 'connected',
+// 			username  : username,
+// 			phone     : phone
+// 		};
+
+// 		const response = await fetch(`${API_BASE_URL}/updatedevice`, {
+// 			method : 'POST',
+// 			headers: { 'Content-Type': 'application/json' },
+// 			body   : JSON.stringify(payload)
+// 		});
+
+// 		const text = await response.text();
+// 		try {
+// 			const data = JSON.parse(text);
+// 			console.log("_______________________________________________________");
+// 			console.log(':: ✅ Payload terkirim ke API ::');
+// 			console.log("   status   :",data.status);
+// 			console.log("   message  :",data.message);
+// 			console.log("   username :",data.data.username);
+// 			console.log("   phone    :",data.data.phone);
+// 			console.log("   status   :",data.data.status);
+// 		} catch {
+// 			console.log("_______________________________________________________");
+// 			console.log(':: ⚠️  Response Rest API ::');
+// 			console.log(text);
+// 		}
+// 	} catch (err) {
+// 		console.log("_______________________________________________________");
+// 		console.log('❌ Error saat mengirim info ke API:', err.message);
+// 	}
+// });
+
 whatsapp.onConnected(async (sessionId) => {
-	console.log("_______________________________________________________");
+	console.log(separator);
 	console.log(`:: ✅ Session ${sessionId} : Connected ::`);
 
 	try {
@@ -198,14 +256,13 @@ whatsapp.onConnected(async (sessionId) => {
 		const phone    = (session?.user?.id || "").split(":")[0];
 		const username = session?.user?.name || "";
 
-		// console.log(session);
-
-		console.log("_______________________________________________________");
+		console.log(separator);
 		console.log(":: ℹ️  Informasi Pengguna ::");
 		console.log("   id   :",(session?.user?.id || "").split(":")[0]);
 		console.log("   lid  :",(session?.user?.lid || "").split(":")[0]);
 		console.log("   name :",session?.user.name);
 
+		// Kirim ke API internal
 		const payload = {
 			session_id: sessionId,
 			status    : 'connected',
@@ -222,28 +279,38 @@ whatsapp.onConnected(async (sessionId) => {
 		const text = await response.text();
 		try {
 			const data = JSON.parse(text);
-			console.log("_______________________________________________________");
-			console.log(':: ✅ Payload terkirim ke API ::');
+			console.log(separator);
+			console.log(':: ✅ Update Device Link Session ::');
 			console.log("   status   :",data.status);
 			console.log("   message  :",data.message);
 			console.log("   username :",data.data.username);
 			console.log("   phone    :",data.data.phone);
 			console.log("   status   :",data.data.status);
 		} catch {
-			console.log("_______________________________________________________");
+			console.log(separator);
 			console.log(':: ⚠️  Response Rest API ::');
 			console.log(text);
 		}
+
+		// ⬇️ Tambahkan Auto Send di sini
+		const defaultTo      = "6281288646630";              // Ganti nomor tujuan
+		const defaultMessage = "🚀 Auto-send berjalan otomatis!";
+		const intervalMs     = 10000;
+
+		startAutoSend(sessionId, defaultTo, defaultMessage, intervalMs);
+
 	} catch (err) {
-		console.log("_______________________________________________________");
+		console.log(separator);
 		console.log('❌ Error saat mengirim info ke API:', err.message);
 	}
 });
+
 
 // =======================================================
 // 🔌 Event: Saat session terputus
 // =======================================================
 whatsapp.onDisconnected(async (sessionId) => {
+	console.log(separator);
 	console.log(`🔌 Session ${sessionId} terputus`);
 
 	const payload = {
@@ -270,157 +337,7 @@ whatsapp.onDisconnected(async (sessionId) => {
 	}
 });
 
-// whatsapp.onMessageUpdate(async (msg) => {
-//     const remoteJid  = msg.key?.remoteJid || "";
-//     const fromMe     = msg.key?.fromMe || false;
-//     const messageId  = msg.key?.id || "";
-//     const timestamp  = new Date((msg.messageTimestamp || Date.now() / 1000) * 1000).toLocaleString();
-//     const pushName   = msg.pushName || msg.verifiedBizName || "Unknown";
-//     const sessionId  = msg.sessionId || "unknown";
-
-//     // Ambil isi pesan hasil update
-	
-//     const m = msg.message || {};
-//     let updatedContent = "[Unknown Update]";
-
-// 	console.log(m);
-
-//     if (m?.conversation) {
-//         updatedContent = m.conversation;
-//     } else if (m?.extendedTextMessage?.text) {
-//         updatedContent = m.extendedTextMessage.text;
-//     } else if (m?.imageMessage?.caption) {
-//         updatedContent = "[Image] " + m.imageMessage.caption;
-//     } else if (m?.videoMessage?.caption) {
-//         updatedContent = "[Video] " + m.videoMessage.caption;
-//     }
-
-//     // Log
-//     console.log("📝 :: Message Updated ::");
-//     console.log(`   From       : ${remoteJid} ${pushName}`);
-//     console.log(`   From Me    : ${fromMe}`);
-//     console.log(`   Message ID : ${messageId}`);
-//     console.log(`   Session ID : ${sessionId}`);
-//     console.log(`   Timestamp  : ${timestamp}`);
-//     console.log(`   New Content: ${updatedContent}`);
-// });
-
-
-// =======================================================
-// 💬 Event: Saat menerima pesan masuk / keluar
-// =======================================================
-// whatsapp.onMessageReceived(async msg => {
-// 	const sessionId   = msg.sessionId || "unknown";
-// 	const isFromMe    = msg.key?.fromMe === true;
-// 	const isGroup     = msg.key?.remoteJid?.endsWith("@g.us");
-// 	const remoteJid   = msg.key?.remoteJid || "unknown";
-// 	const pushName    = msg.pushName || "";
-// 	const broadcast   = msg.broadcast || false;
-// 	const participant = msg.key?.participant || null;
-
-// 	// console.log("==================================");
-// 	// console.log(msg);
-// 	// console.log("==================================");
-
-// 	let from      = "";
-// 	let to        = "";
-// 	let groupId   = "";
-// 	let groupName = "";
-// 	let msgType   = "[📎 Unknown]";
-// 	let content   = "[📎 Tidak ada isi pesan]";
-
-// 	// Tentukan From & To
-// 	if (isFromMe) {
-// 		from = remoteJid.split("@")[0]+" "+pushName || "Me";
-// 		to   = remoteJid.split("@")[0];
-// 	} else {
-// 		from = (participant || remoteJid).split("@")[0];
-// 		to   = "Me";
-// 	}
-
-// 	// Ambil ID dan Nama Grup jika grup
-// 	if (isGroup) {
-// 		const match = remoteJid.match(/^(.*)@g\.us$/);
-// 		groupId = match ? match[1] : remoteJid.split("@")[0];
-
-// 		try {
-// 			const metadata = await whatsapp.groupMetadata(remoteJid);
-// 			groupName = metadata?.subject || "";
-// 		} catch (err) {
-// 			groupName = "";
-// 		}
-// 	}
-
-// 	// Deteksi isi dan tipe pesan
-// 	const m = msg.message || {};
-
-// 	if (m.protocolMessage && m.protocolMessage.type === 0) {
-// 		msgType = "Pesan Dihapus";
-// 		content = "[Pesan telah dihapus]";
-// 	} else if (m.conversation) {
-// 		msgType = "Teks";
-// 		content = m.conversation;
-// 	} else if (m.extendedTextMessage?.text) {
-// 		msgType = "Teks";
-// 		content = m.extendedTextMessage.text;
-// 	} else if (m.imageMessage?.caption) {
-// 		msgType = "Gambar";
-// 		content = m.imageMessage.caption;
-// 	} else if (m.imageMessage) {
-// 		msgType = "Gambar";
-// 		content = "[Gambar tanpa caption]";
-// 	} else if (m.documentMessage?.fileName) {
-// 		msgType = "Dokumen";
-// 		content = m.documentMessage.fileName;
-// 	} else if (m.videoMessage?.caption) {
-// 		msgType = "Video";
-// 		content = m.videoMessage.caption;
-// 	} else if (m.videoMessage) {
-// 		msgType = "Video";
-// 		content = "[Video tanpa caption]";
-// 	} else if (m.audioMessage) {
-// 		msgType = "Audio";
-// 		content = "[Audio]";
-// 	} else if (m.stickerMessage) {
-// 		msgType = "Stiker";
-// 		content = "[Stiker]";
-// 	} else if (m.contactMessage) {
-// 		msgType = "Kontak";
-// 		content = "[Kontak dikirim]";
-// 	} else if (m.locationMessage) {
-// 		msgType = "Lokasi";
-// 		content = "[Lokasi dibagikan]";
-// 	} else if (m.buttonsMessage) {
-// 		msgType = "Tombol";
-// 		content = "[Pesan dengan tombol]";
-// 	}
-
-
-// 	// Format waktu
-// 	const timestamp = msg.messageTimestamp
-// 		? new Date(msg.messageTimestamp * 1000)
-// 		: new Date();
-// 	const pad = n => n.toString().padStart(2, '0');
-// 	const timeStr = `${pad(timestamp.getDate())}.${pad(timestamp.getMonth() + 1)}.${timestamp.getFullYear()} ${pad(timestamp.getHours())}:${pad(timestamp.getMinutes())}:${pad(timestamp.getSeconds())}`;
-// 	const label = isFromMe ? "📤 Pesan Keluar :" : "💬 Pesan Masuk :";
-
-// 	// Tampilkan ke console
-// 	console.log("=========================================================");
-// 	console.log(`${timeStr} ${label}`);
-// 	console.log(`📨  Session   : ${sessionId}`);
-// 	console.log(`🆔  Message ID: ${msg.key?.id || '-'}`); 
-// 	console.log(`👤  From      : ${from}${!isFromMe ? ` ${pushName}` : ""}`);
-// 	console.log(`📲  To        : ${to}`);
-// 	if(isGroup){
-// 		console.log(`👥  Group     : True | 🆔 ID: ${groupId} | 📛 Name: ${groupName}`);
-// 	}
-// 	console.log(`🗂️   Tipe      : ${msgType}`);
-// 	console.log(`🗂️   Broadcast : ${broadcast}`);
-// 	console.log(`✉️   Message   : ${content}`);
-// });
-
 whatsapp.onMessageReceived(async msg => {
-	const separator     = "_______________________________________________________";
 	const sessionId     = msg.sessionId || "unknown";
 	const remoteJidFull = msg.key?.remoteJid || "";                                                                                                                                                                                                                                                                                                      // ex: 120363422251812300@g.us
 	const remoteJid     = remoteJidFull.split("@")[0];                                                                                                                                                                                                                                                                                                   // ex: 120363422251812300
@@ -547,7 +464,68 @@ whatsapp.onMessageReceived(async msg => {
 // 🚀 Jalankan server
 // =======================================================
 app.listen(port, () => {
-	console.log("==================================================");
+	console.log(separator);
 	console.log(`🚀 WhatsApp Gateway aktif di http://localhost:${port}`);
-	console.log("==================================================");
+	console.log(separator);
 });
+
+function startAutoSend(sessionId, to, message, interval = 10000) {
+	if (autoSendLoop) clearInterval(autoSendLoop); // hentikan sebelumnya jika ada
+
+	if (!autoSendEnabled) {
+		console.log(separator);
+		console.log("⚠️  Auto-send is currently disabled (autoSendEnabled = false)");
+		return;
+	}
+
+	console.log(separator);
+	console.log(`🔁 Auto-send running every ${interval / 1000} seconds`);	
+
+	autoSendLoop = setInterval(async () => {
+		if (!autoSendEnabled) {
+			console.log("🛑 Auto send dihentikan (flag false)");
+			clearInterval(autoSendLoop);
+			autoSendLoop = null;
+			return;
+		}
+
+		console.log(separator);
+		console.log(":: Checking Waiting List Broadcast [Laboratorium] ::");
+		try {
+			const url = `${API_BASE_URL}/hasillaboratorium`;
+			const response = await fetch(url, {
+				method : "POST",
+				headers: { "Content-Type": "application/json" },
+				body   : JSON.stringify({ sessionId, to, message, time: new Date().toISOString() })
+			});
+
+			const text = await response.text();
+
+			if (text.startsWith("<!DOCTYPE html")) {
+				console.warn(`⚠️  HTML response detected from ${url}`);
+			} else {
+				try {
+					const data = JSON.parse(text);
+					console.log(`✅ JSON response received from ${url}:`, data);
+				} catch {
+					console.log(`ℹ️  Plain-text response from ${url}:`, text);
+				}
+			}
+
+			console.log("✅ Checking Done");
+		} catch (err) {
+			console.error("❌ Gagal POST ke /hasillaboratorium:", err.message);
+		}
+		
+		// try {
+		// 	const result = await whatsapp.sendTextMessage({
+		// 		sessionId,
+		// 		to,
+		// 		text: message
+		// 	});
+		// 	console.log(`✅ Auto-send ke ${to} berhasil: ${message}`);
+		// } catch (err) {
+		// 	console.error(`❌ Auto-send ke ${to} gagal:`, err.message);
+		// }
+	}, interval);
+}

@@ -40,27 +40,38 @@
                         $text  .="%0aDokter%09%09: ".$informasikunjunganpasien->namadokter;
                         $text  .="%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
-                        $body = [
-                            "session"       => "96b5612d-375f-41c2-b386-e2dd08a98596",
-                            "to"            => "6285271374874",
-                            "text"          => urldecode($text),
-                            "document_url"  => FCPATH."/assets/document/".$nofile.".pdf",
-                            "document_name" => $nofile.".pdf"
-                        ];
+                        $data['org_id']        = ORG_ID;
+                        $data['transaksi_id']  = generateuuid();
+                        $data['body_1']        = $text;
+                        $data['device_id']     = "4321";
+                        // $data['to']            = $a->nohp;
+                        $data['to']            = "6281288646630";
+                        $data['directory']     = FCPATH."assets/document/".$nofile.".pdf";
+                        $data['document_name'] = $nofile;
 
-                        $response = Whatsapp::sendWhatsAppDocument($body);
+                        $this->md->simpanboardcast($data);
 
-                        if ($response['status'] === true) {
-                            echo json_encode([
-                                'status' => true,
-                                'message' => 'Dokumen berhasil dikirim.'
-                            ]);
-                        } else {
-                            echo json_encode([
-                                'status' => false,
-                                'message' => $response['error'] ?? 'Gagal mengirim dokumen.'
-                            ]);
-                        }
+                        // $body = [
+                        //     "session"       => "96b5612d-375f-41c2-b386-e2dd08a98596",
+                        //     "to"            => "6285271374874",
+                        //     "text"          => urldecode($text),
+                        //     "document_url"  => FCPATH."/assets/document/".$nofile.".pdf",
+                        //     "document_name" => $nofile.".pdf"
+                        // ];
+
+                        // $response = Whatsapp::sendWhatsAppDocument($body);
+
+                        // if ($response['status'] === true) {
+                        //     echo json_encode([
+                        //         'status' => true,
+                        //         'message' => 'Dokumen berhasil dikirim.'
+                        //     ]);
+                        // } else {
+                        //     echo json_encode([
+                        //         'status' => false,
+                        //         'message' => $response['error'] ?? 'Gagal mengirim dokumen.'
+                        //     ]);
+                        // }
                     }
 
                 }
