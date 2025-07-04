@@ -88,7 +88,7 @@ async function startSession(sessionId) {
 
     const pollQR = async () => {
         try {
-            const qrRes = await fetch(`http://localhost:5001/session/qr/${sessionId}`);
+            const qrRes = await fetch(`http://192.168.102.13:5001/session/qr/${sessionId}`);
             if (qrRes.ok) {
                 const qrData = await qrRes.json();
                 if (qrData.qr && qrData.qr.startsWith("2@")) {
