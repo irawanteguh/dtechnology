@@ -1,6 +1,41 @@
 Dropzone.autoDiscover = false;
 let myDropzone;
 
+const filternoinvoice = new Tagify(document.querySelector("#filternoinvoice"), { enforceWhitelist: true });
+const filternote      = new Tagify(document.querySelector("#filternote"), { enforceWhitelist: true });
+const filterjenisid   = new Tagify(document.querySelector("#filterjenisid"), { enforceWhitelist: true });
+const filterperiode   = new Tagify(document.querySelector("#filterperiode"), { enforceWhitelist: true });
+
+function filterTable() {
+    const noinvoicefilter = filternoinvoice.value.map(tag => tag.value);
+    const jenisidfilter   = filterjenisid.value.map(tag => tag.value);
+    const notefilter      = filternote.value.map(tag => tag.value);
+    const periodefilter   = filterperiode.value.map(tag => tag.value);
+
+    const tbody = document.getElementById("resultrekappiutang");
+    const rows = tbody.getElementsByTagName("tr");
+
+    for (const row of rows) {
+        const noinvoice = row.getElementsByTagName("td")[0].textContent;
+        const jenisid   = row.getElementsByTagName("td")[2].textContent;
+        const note      = row.getElementsByTagName("td")[1].textContent;
+        const periode   = row.getElementsByTagName("td")[3].textContent;
+
+        const showRow = 
+            (noinvoicefilter.length === 0 || noinvoicefilter.includes(noinvoice)) &&
+            (jenisidfilter.length === 0 || jenisidfilter.includes(jenisid)) &&
+            (notefilter.length === 0 || notefilter.includes(note)) &&
+            (periodefilter.length === 0 || periodefilter.includes(periode));
+
+        row.style.display = showRow ? "" : "none";
+    }
+}
+
+filternoinvoice.on('change', filterTable);
+filterjenisid.on('change', filterTable);
+filternote.on('change', filterTable);
+filterperiode.on('change', filterTable);
+
 datapiutang();
 historypembayaran();
 
@@ -206,18 +241,22 @@ function datapiutang() {
         success: function (data) {
             var tableresult = "";
             var footresult  = "";
+            var noinvoice   = new Set();
+            var jenisid     = new Set();
+            var note        = new Set();
+            var periode     = new Set();
 
             if (data.responCode === "00") {
-                var result = data.responResult;
-                var currentRekanan = "";
-                var subtotalNilai = 0;
+                var result           = data.responResult;
+                var currentRekanan   = "";
+                var subtotalNilai    = 0;
                 var subtotalTerbayar = 0;
-                var subtotalSisa = 0;
+                var subtotalSisa     = 0;
 
                 // TOTAL AKHIR
-                var totalNilai = 0;
+                var totalNilai    = 0;
                 var totalTerbayar = 0;
-                var totalSisa = 0;
+                var totalSisa     = 0;
 
                 for (var i = 0; i < result.length; i++) {
                     var item = result[i];
@@ -281,6 +320,11 @@ function datapiutang() {
                     totalNilai    += parseFloat(item.nilai);
                     totalTerbayar += parseFloat(item.jmlterbayar);
                     totalSisa     += parseFloat(item.sisa);
+
+                    noinvoice.add(item.no_tagihan);
+                    jenisid.add(item.rekanan);
+                    note.add(item.note);
+                    periode.add(item.periode_indonesia);
                 }
 
                 // Tambahkan subtotal terakhir
@@ -300,6 +344,11 @@ function datapiutang() {
                 footresult += "<td class='text-end'>" + todesimal(totalTerbayar) + "</td>";
                 footresult += "<td class='text-end'>" + todesimal(totalSisa) + "</td>";
                 footresult += "<td></td><td></td></tr>";
+
+                filternoinvoice.settings.whitelist = Array.from(noinvoice);
+                filterjenisid.settings.whitelist   = Array.from(jenisid);
+                filternote.settings.whitelist      = Array.from(note);
+                filterperiode.settings.whitelist   = Array.from(periode);
             }
 
             $("#resultrekappiutang").html(tableresult);

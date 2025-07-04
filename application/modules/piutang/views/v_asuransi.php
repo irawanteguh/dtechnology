@@ -76,7 +76,13 @@
                                         <th class="text-end">Diperbaharui Oleh</th>
                                         <th class="pe-4 rounded-end text-end">Actions</th>
                                     </tr>
-                                    
+                                    <tr>
+                                        <th><input id="filternoinvoice" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter No Invoice"></th>
+                                        <th><input id="filterjenisid" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Jenis Tagihan"></th>
+                                        <th><input id="filternote" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Catatan"></th>
+                                        <th><input id="filterrekananid" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Rekanan"></th>
+                                        <th><input id="filterperiode" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Periode"></th>
+                                    </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultrekappiutang"></tbody>
                             </table>
