@@ -10,6 +10,7 @@ const https           = require("https");
 const whatsapp        = require("wa-multi-session");
 const qrStore         = {};
 const API_BASE_URL    = "http://localhost/dtech/dtechnology/index.php";
+const ipgateway       = "http://localhost:";
 const separator       = "=========================================================================================";
 const intervalMs      = 10000;
 let   autoSendLoop    = null;
@@ -410,7 +411,7 @@ whatsapp.onMessageReceived(async msg => {
 // =======================================================
 app.listen(port, () => {
 	console.log(separator);
-	console.log(`🚀 WhatsApp Gateway aktif di http://localhost:${port}`);
+	console.log(`🚀 WhatsApp Gateway aktif di ${ipgateway}${port}`);
 	console.log(separator);
 });
 
@@ -479,16 +480,5 @@ function startAutoSend() {
 		} catch (err) {
 			console.error("❌ Gagal POST ke ${url} : ", err.message);
 		}
-		
-		// try {
-		// 	const result = await whatsapp.sendTextMessage({
-		// 		sessionId,
-		// 		to,
-		// 		text: message
-		// 	});
-		// 	console.log(`✅ Auto-send ke ${to} berhasil: ${message}`);
-		// } catch (err) {
-		// 	console.error(`❌ Auto-send ke ${to} gagal:`, err.message);
-		// }
 	}, intervalMs);
 }
