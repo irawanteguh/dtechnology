@@ -92,7 +92,7 @@
                         from dt01_gen_document_file_dt a
                         where a.org_id='".$orgid."'
                         and   a.jenis_doc='003'
-                        and   a.status_sign='x'
+                        and   a.status_sign='5'
                         and   a.no_file not in (select document_name from dt01_whatsapp_broadcast_hd where document_name=a.no_file)
                         order by created_date desc
                         ".$limit."                  

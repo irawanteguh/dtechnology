@@ -9,10 +9,11 @@ const http            = require("http");
 const https           = require("https");
 const whatsapp        = require("wa-multi-session");
 const qrStore         = {};
-const API_BASE_URL    = "http://localhost/dtechnology/index.php";
+const API_BASE_URL    = "http://localhost/dtech/dtechnology/index.php";
 const separator       = "=========================================================================================";
+const intervalMs      = 10000;
 let   autoSendLoop    = null;
-let   autoSendEnabled = true;
+let   autoSendEnabled = false;
 
 
 const app = express();
@@ -24,8 +25,8 @@ app.use(express.json());
 // =======================================================
 whatsapp.loadSessionsFromStorage();
 
-console.log(separator);
-console.log("📦",Object.keys(whatsapp));
+// console.log(separator);
+// console.log("📦",Object.keys(whatsapp));
 console.log(separator);
 console.log("📦 [INIT] Sessions loaded from storage");
 
@@ -144,7 +145,6 @@ app.post("/message/send-document", async (req, res) => {
 		console.log(`   Session : ${session}`);
 
 		res.json({ status: true, result });
-
 	} catch (err) {
 		console.log(separator);
 		console.log(`:: ❌ Gagal mengirim dokumen ::`);
@@ -153,7 +153,6 @@ app.post("/message/send-document", async (req, res) => {
 		res.status(500).json({ status: false, error: err.message });
 	}
 });
-
 
 // =======================================================
 // 📥 Fungsi bantu: Ambil file dari URL atau lokal
@@ -196,57 +195,6 @@ whatsapp.onQRUpdated(({ sessionId, qr }) => {
 // =======================================================
 // ✅ Event: Saat session berhasil terhubung
 // =======================================================
-// whatsapp.onConnected(async (sessionId) => {
-// 	console.log("_______________________________________________________");
-// 	console.log(`:: ✅ Session ${sessionId} : Connected ::`);
-
-// 	try {
-// 		const session  = await whatsapp.getSession(sessionId);
-// 		const phone    = (session?.user?.id || "").split(":")[0];
-// 		const username = session?.user?.name || "";
-
-// 		// console.log(session);
-
-// 		console.log("_______________________________________________________");
-// 		console.log(":: ℹ️  Informasi Pengguna ::");
-// 		console.log("   id   :",(session?.user?.id || "").split(":")[0]);
-// 		console.log("   lid  :",(session?.user?.lid || "").split(":")[0]);
-// 		console.log("   name :",session?.user.name);
-
-// 		const payload = {
-// 			session_id: sessionId,
-// 			status    : 'connected',
-// 			username  : username,
-// 			phone     : phone
-// 		};
-
-// 		const response = await fetch(`${API_BASE_URL}/updatedevice`, {
-// 			method : 'POST',
-// 			headers: { 'Content-Type': 'application/json' },
-// 			body   : JSON.stringify(payload)
-// 		});
-
-// 		const text = await response.text();
-// 		try {
-// 			const data = JSON.parse(text);
-// 			console.log("_______________________________________________________");
-// 			console.log(':: ✅ Payload terkirim ke API ::');
-// 			console.log("   status   :",data.status);
-// 			console.log("   message  :",data.message);
-// 			console.log("   username :",data.data.username);
-// 			console.log("   phone    :",data.data.phone);
-// 			console.log("   status   :",data.data.status);
-// 		} catch {
-// 			console.log("_______________________________________________________");
-// 			console.log(':: ⚠️  Response Rest API ::');
-// 			console.log(text);
-// 		}
-// 	} catch (err) {
-// 		console.log("_______________________________________________________");
-// 		console.log('❌ Error saat mengirim info ke API:', err.message);
-// 	}
-// });
-
 whatsapp.onConnected(async (sessionId) => {
 	console.log(separator);
 	console.log(`:: ✅ Session ${sessionId} : Connected ::`);
@@ -260,9 +208,8 @@ whatsapp.onConnected(async (sessionId) => {
 		console.log(":: ℹ️  Informasi Pengguna ::");
 		console.log("   id   :",(session?.user?.id || "").split(":")[0]);
 		console.log("   lid  :",(session?.user?.lid || "").split(":")[0]);
-		console.log("   name :",session?.user.name);
+		console.log("   name :",session?.user.name || "");
 
-		// Kirim ke API internal
 		const payload = {
 			session_id: sessionId,
 			status    : 'connected',
@@ -293,42 +240,40 @@ whatsapp.onConnected(async (sessionId) => {
 		}
 
 		// ⬇️ Tambahkan Auto Send di sini
-		const defaultTo      = "6281288646630";              // Ganti nomor tujuan
-		const defaultMessage = "🚀 Auto-send berjalan otomatis!";
-		const intervalMs     = 10000;
-
-		startAutoSend(sessionId, defaultTo, defaultMessage, intervalMs);
-
+		startAutoSend();
 	} catch (err) {
 		console.log(separator);
 		console.log('❌ Error saat mengirim info ke API:', err.message);
 	}
 });
 
-
 // =======================================================
 // 🔌 Event: Saat session terputus
 // =======================================================
 whatsapp.onDisconnected(async (sessionId) => {
 	console.log(separator);
-	console.log(`🔌 Session ${sessionId} terputus`);
-
-	const payload = {
-		session_id: sessionId,
-		status    : "disconnected",
-		phone     : ""
-	};
+	console.log(`:: ⚠️ Session ${sessionId} : Disconnected ::`);
 
 	try {
+		const payload = {
+			session_id: sessionId,
+			status    : "disconnected",
+			phone     : ""
+		};
+		
 		const response = await fetch(`${API_BASE_URL}/updatedevice`, {
 			method : "POST",
 			headers: { "Content-Type": "application/json" },
 			body   : JSON.stringify(payload)
 		});
+
 		const text = await response.text();
 		try {
 			const data = JSON.parse(text);
-			console.log("📡 Informasi disconnect dikirim ke API:", data);
+			console.log(separator);
+			console.log(':: ⚠️ Device Disconnect Session ::');
+			console.log("   status   :",data.data.status);
+			console.log("   message  :",data.message);
 		} catch {
 			console.warn("⚠️  Response disconnect bukan JSON:", text);
 		}
@@ -469,8 +414,8 @@ app.listen(port, () => {
 	console.log(separator);
 });
 
-function startAutoSend(sessionId, to, message, interval = 10000) {
-	if (autoSendLoop) clearInterval(autoSendLoop); // hentikan sebelumnya jika ada
+function startAutoSend() {
+	if (autoSendLoop) clearInterval(autoSendLoop);
 
 	if (!autoSendEnabled) {
 		console.log(separator);
@@ -479,7 +424,7 @@ function startAutoSend(sessionId, to, message, interval = 10000) {
 	}
 
 	console.log(separator);
-	console.log(`🔁 Auto-send running every ${interval / 1000} seconds`);	
+	console.log(`🔁 Auto-send running every ${intervalMs / 1000} seconds`);	
 
 	autoSendLoop = setInterval(async () => {
 		if (!autoSendEnabled) {
@@ -495,8 +440,7 @@ function startAutoSend(sessionId, to, message, interval = 10000) {
 			const url = `${API_BASE_URL}/hasillaboratorium`;
 			const response = await fetch(url, {
 				method : "POST",
-				headers: { "Content-Type": "application/json" },
-				body   : JSON.stringify({ sessionId, to, message, time: new Date().toISOString() })
+				headers: { "Content-Type": "application/json" }
 			});
 
 			const text = await response.text();
@@ -506,7 +450,26 @@ function startAutoSend(sessionId, to, message, interval = 10000) {
 			} else {
 				try {
 					const data = JSON.parse(text);
-					console.log(`✅ JSON response received from ${url}:`, data);
+					console.log(`✅ JSON response received from ${url}:`);
+					console.log(`   Status         : ${data.status}`);
+					console.log(`   Message        : ${data.message}`);
+
+					if (Array.isArray(data.data) && data.data.length > 0) {
+						console.log("   Data Broadcast :");
+						data.data.forEach((item, i) => {
+							console.log(`   #${i + 1}`);
+							console.log(`     Status        : ${item.status}`);
+							console.log(`     Transaksi ID  : ${item.transaksi_id}`);
+							console.log(`     To            : ${item.to}`);
+							console.log(`     File Name     : ${item.document_name}`);
+							console.log(`     Directory     : ${item.directory}`);
+							console.log(`     Device ID     : ${item.device_id}`);
+							console.log("     ------------------------------");
+						});
+					} else {
+						console.log("⚠️  Tidak ada data broadcast tersedia.");
+					}
+					
 				} catch {
 					console.log(`ℹ️  Plain-text response from ${url}:`, text);
 				}
@@ -514,7 +477,7 @@ function startAutoSend(sessionId, to, message, interval = 10000) {
 
 			console.log("✅ Checking Done");
 		} catch (err) {
-			console.error("❌ Gagal POST ke /hasillaboratorium:", err.message);
+			console.error("❌ Gagal POST ke ${url} : ", err.message);
 		}
 		
 		// try {
@@ -527,5 +490,5 @@ function startAutoSend(sessionId, to, message, interval = 10000) {
 		// } catch (err) {
 		// 	console.error(`❌ Auto-send ke ${to} gagal:`, err.message);
 		// }
-	}, interval);
+	}, intervalMs);
 }

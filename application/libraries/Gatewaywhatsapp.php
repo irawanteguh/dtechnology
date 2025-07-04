@@ -1,5 +1,6 @@
 <?php
-    class Whatsapp {
+    class Gatewaywhatsapp {
+    
         public static function sendWhatsAppDocument($body) {
             $header = ["Content-Type: application/json"];
 

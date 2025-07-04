@@ -31,13 +31,13 @@
 
                 $this->response([
                     'status'  => 'success',
-                    'message' => 'Device info updated.',
+                    'message' => 'Device info updated',
                     'data'    => $data
                 ], REST_Controller::HTTP_OK);
             } else {
                 $this->response([
                     'status'  => 'error',
-                    'message' => 'Missing required fields.',
+                    'message' => 'Missing required fields',
                     'debug'   => compact('session_id', 'status', 'phone')
                 ], REST_Controller::HTTP_BAD_REQUEST);
             }
@@ -144,11 +144,13 @@
         // }
 
         public function broadcastwhatsapp_post() {
-            $resultbroadcastwhatsapp = $this->md->broadcastwhatsapp(ORG_ID);
+            $limit                   = "limit ".rand(1, 2).";";
+            $resultbroadcastwhatsapp = $this->md->broadcastwhatsapp(ORG_ID,$limit);
 
             if(!empty($resultbroadcastwhatsapp)){
                 foreach($resultbroadcastwhatsapp as $a){
                     $body_parts = [];
+                    $extensions = "";
 
                     $session_id    = $a->session;
                     $to            = $a->to;
@@ -159,44 +161,56 @@
                         }
                     }
 
-                    // Gabungkan semua bagian body yang tidak null
                     $body_text = implode("", $body_parts);
-
-                    $footer        = "%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
-                    $text          = $body_text.$footer;
                     $document_path = $a->directory;
                     $document_name = $a->document_name;
+
+                    if($a->type_file==="1"){
+                        $extensions =".pdf";
+                    };
 
                     $body = [
                         "session"       => $session_id,
                         "to"            => $to,
-                        "text"          => urldecode($text),
+                        "text"          => urldecode($body_text),
                         "document_url"  => $document_path,
-                        "document_name" => $document_name
+                        "document_name" => $document_name.$extensions
                     ];
         
                     if($a->type_file==="1"){
-                        $res = Whatsapp::sendWhatsAppDocument($body);
+                        $res = Gatewaywhatsapp::sendWhatsAppDocument($body);
                     }
 
-                    if ($res['status'] === true) {
-                        $dataupdate['message_id'] = $res['result']['key']['id'];
-                        $dataupdate['status']     = "1";
+                    if (!empty($res)) {
+                        if (isset($res['status']) && $res['status'] === true) {
+                            $dataupdate['message_id'] = $res['result']['key']['id'];
+                            $dataupdate['status']     = "1";
 
-                        $this->md->updatestatusbroadcastwhatsapp($dataupdate,$a->transaksi_id);
+                            $this->md->updatestatusbroadcastwhatsapp($dataupdate, $a->transaksi_id);
 
-                        echo json_encode(['status' => true, 'message' => 'Dokumen berhasil dikirim.']);
+                            echo json_encode([
+                                'status'            => true,
+                                'message'           => 'Dokumen berhasil dikirim.',
+                                'remoteJid'         => $res['result']['key']['remoteJid'] ?? null,
+                                'id'                => $res['result']['key']['id'] ?? null,
+                                'mimetype'          => $res['result']['message']['documentMessage']['mimetype'] ?? null,
+                                'fileName'          => $res['result']['message']['documentMessage']['fileName'] ?? null,
+                                'messageTimestamp'  => $res['result']['messageTimestamp'] ?? null
+                            ]);
+                        } else {
+                            echo json_encode([
+                                'status'  => false,
+                                'message' => $res['error'] ?? 'Gagal mengirim dokumen'
+                            ]);
+                        }
                     } else {
                         echo json_encode([
-                            'status' => false,
-                            'message' => $res['error'] ?? 'Gagal mengirim dokumen.'
+                            'status'  => false,
+                            'message' => 'Respon kosong dari gateway'
                         ]);
                     }
                 }
             }
         }
-
-
-
     }
 ?>
