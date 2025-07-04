@@ -1,13 +1,12 @@
-let qrPollingLoop = null;
+let qrPollingLoop         = null;
 let pollingConnectionLoop = null;
-let qrTimeout = null;
+let qrTimeout             = null;
+let ipgateway             = "http://localhost:5001";
 
-// Hentikan semua loop jika modal ditutup manual
 $('#modal_sessionwhatsapp_viewbarcode').on('hidden.bs.modal', function () {
     if (qrPollingLoop) clearInterval(qrPollingLoop);
     if (pollingConnectionLoop) clearInterval(pollingConnectionLoop);
     if (qrTimeout) clearTimeout(qrTimeout);
-
     masterdevice();
 });
 
@@ -76,7 +75,7 @@ async function startSession(sessionId) {
 
     const statusEl = document.getElementById("status");
     const loaderEl = document.getElementById("qr-loader");
-    const qrEl = document.getElementById("qr");
+    const qrEl     = document.getElementById("qr");
 
     statusEl.innerText = "Mengecek status sesi...";
     loaderEl.style.display = "block";
@@ -88,7 +87,7 @@ async function startSession(sessionId) {
 
     const pollQR = async () => {
         try {
-            const qrRes = await fetch(`http://192.168.102.13:5001/session/qr/${sessionId}`);
+            const qrRes = await fetch(`${ipgateway}/session/qr/${sessionId}`);
             if (qrRes.ok) {
                 const qrData = await qrRes.json();
                 if (qrData.qr && qrData.qr.startsWith("2@")) {
@@ -117,7 +116,7 @@ async function startSession(sessionId) {
 
     const pollConnection = async () => {
         try {
-            const infoRes = await fetch(`http://192.168.102.13:5001/session/info/${sessionId}`);
+            const infoRes = await fetch(`${ipgateway}/session/info/${sessionId}`);
             if (infoRes.ok) {
                 const data = await infoRes.json();
                 const userId = data?.info?.user?.id;
@@ -140,7 +139,7 @@ async function startSession(sessionId) {
     };
 
     try {
-        const sessionCheck = await fetch(`http://192.168.102.13:5001/session/info/${sessionId}`);
+        const sessionCheck = await fetch(`${ipgateway}/session/info/${sessionId}`);
 
         if (sessionCheck.ok) {
             const sessionData = await sessionCheck.json();
@@ -165,7 +164,7 @@ async function startSession(sessionId) {
         } else {
             statusEl.innerText = "Membuat Session Baru...";
 
-            const startRes = await fetch("http://192.168.102.13:5001/session/start", {
+            const startRes = await fetch(`${ipgateway}/session/start`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ session: sessionId })
@@ -210,7 +209,7 @@ function deleteSession(sessionId) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const res = await fetch(`http://localhost:5001/session/logout?session=${sessionId}`);
+                const res = await fetch(`${ipgateway}/session/logout?session=${sessionId}`);
                 const json = await res.json();
 
                 if (json.status) {

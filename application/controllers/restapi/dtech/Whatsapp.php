@@ -170,15 +170,22 @@
                     };
 
                     $body = [
-                        "session"       => $session_id,
-                        "to"            => $to,
-                        "text"          => urldecode($body_text),
-                        "document_url"  => $document_path,
-                        "document_name" => $document_name.$extensions
+                        "session" => $session_id,
+                        "to"      => $to,
+                        "text"    => urldecode($body_text)
                     ];
+
+                    if ($a->type_file !== "0") {
+                        $body["document_url"]  = $document_path;
+                        $body["document_name"] = $document_name . $extensions;
+                    }
         
-                    if($a->type_file==="1"){
-                        $res = Gatewaywhatsapp::sendWhatsAppDocument($body);
+                    if($a->type_file === "0") {
+                        $res  = Gatewaywhatsapp::sendWhatsAppText($body);
+                        $type = "text";
+                    } else {
+                        $res  = Gatewaywhatsapp::sendWhatsAppDocument($body);
+                        $type = "document";
                     }
 
                     if (!empty($res)) {
@@ -190,7 +197,8 @@
 
                             echo json_encode([
                                 'status'            => true,
-                                'message'           => 'Dokumen berhasil dikirim.',
+                                'message'           => 'Broadcast message sent successfully',
+                                'type'              => $type,
                                 'remoteJid'         => $res['result']['key']['remoteJid'] ?? null,
                                 'id'                => $res['result']['key']['id'] ?? null,
                                 'mimetype'          => $res['result']['message']['documentMessage']['mimetype'] ?? null,

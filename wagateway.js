@@ -9,12 +9,12 @@ const http            = require("http");
 const https           = require("https");
 const whatsapp        = require("wa-multi-session");
 const qrStore         = {};
-const API_BASE_URL    = "http://192.168.102.13/dtechnology/index.php";
-const ipgateway       = "http://192.168.102.13:";
+const baseurl         = "http://localhost/dtech/dtechnology/index.php";
+const ipgateway       = "http://localhost:";
 const separator       = "=========================================================================================";
 const intervalMs      = 10000;
 let   autoSendLoop    = null;
-let   autoSendEnabled = false;
+let   autoSendEnabled = true;
 
 
 const app = express();
@@ -141,16 +141,16 @@ app.post("/message/send-document", async (req, res) => {
 		});
 
 		console.log(separator);
-		console.log(`:: ✅ Berhasil mengirim dokumen ::`);
-		console.log(`   To      : ${to}`);
-		console.log(`   Session : ${session}`);
+		console.log(`:: ✅ Document sent successfully ::`);
+		console.log(`      To      : ${to}`);
+		console.log(`      Session : ${session}`);
 
 		res.json({ status: true, result });
 	} catch (err) {
 		console.log(separator);
-		console.log(`:: ❌ Gagal mengirim dokumen ::`);
-		console.log(`   To      : ${to}`);
-		console.log(`   Mesasge : `,err.message);
+		console.log(`:: ❌ Sending document failed. Please try again ::`);
+		console.log(`      To      : ${to}`);
+		console.log(`      Mesasge : `,err.message);
 		res.status(500).json({ status: false, error: err.message });
 	}
 });
@@ -218,7 +218,7 @@ whatsapp.onConnected(async (sessionId) => {
 			phone     : phone
 		};
 
-		const response = await fetch(`${API_BASE_URL}/updatedevice`, {
+		const response = await fetch(`${baseurl}/updatedevice`, {
 			method : 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body   : JSON.stringify(payload)
@@ -262,7 +262,7 @@ whatsapp.onDisconnected(async (sessionId) => {
 			phone     : ""
 		};
 		
-		const response = await fetch(`${API_BASE_URL}/updatedevice`, {
+		const response = await fetch(`${baseurl}/updatedevice`, {
 			method : "POST",
 			headers: { "Content-Type": "application/json" },
 			body   : JSON.stringify(payload)
@@ -423,9 +423,9 @@ function startAutoSend() {
 		console.log("⚠️  Auto-send is currently disabled (autoSendEnabled = false)");
 		return;
 	}
-
+ 
 	console.log(separator);
-	console.log(`🔁 Auto-send running every ${intervalMs / 1000} seconds`);	
+	console.log(`ℹ️  Auto-send running every ${intervalMs / 1000} seconds`);	
 
 	autoSendLoop = setInterval(async () => {
 		if (!autoSendEnabled) {
@@ -437,48 +437,120 @@ function startAutoSend() {
 
 		console.log(separator);
 		console.log(":: Checking Waiting List Broadcast [Laboratorium] ::");
+
+		// try {
+		// 	const url = `${baseurl}/hasillaboratorium`;
+		// 	const response = await fetch(url, {
+		// 		method : "POST",
+		// 		headers: { "Content-Type": "application/json" }
+		// 	});
+
+		// 	const text = await response.text();
+
+		// 	if (text.startsWith("<!DOCTYPE html")) {
+		// 		console.warn(`⚠️  HTML response detected from ${url}`);
+		// 	} else {
+		// 		try {
+		// 			const data = JSON.parse(text);
+		// 			console.log(`✅ JSON response received from ${url}:`);
+		// 			console.log(`   Status         : ${data.status}`);
+		// 			console.log(`   Message        : ${data.message}`);
+
+		// 			if (Array.isArray(data.data) && data.data.length > 0) {
+		// 				console.log("   Data Broadcast :");
+		// 				data.data.forEach((item, i) => {
+		// 					console.log(`   #${i + 1}`);
+		// 					console.log(`     Status        : ${item.status}`);
+		// 					console.log(`     Transaksi ID  : ${item.transaksi_id}`);
+		// 					console.log(`     To            : ${item.to}`);
+		// 					console.log(`     File Name     : ${item.document_name}`);
+		// 					console.log(`     Directory     : ${item.directory}`);
+		// 					console.log(`     Device ID     : ${item.device_id}`);
+		// 					console.log("     ------------------------------");
+		// 				});
+		// 			} else {
+		// 				console.log("⚠️  Tidak ada data broadcast tersedia.");
+		// 			}
+		// 		} catch {
+		// 			console.log(`ℹ️  Plain-text response from ${url}:`, text);
+		// 		}
+		// 	}
+
+		// 	console.log("✅ Checking Done");
+		// } catch (err) {
+		// 	console.error(`❌ Gagal POST ke ${url} : `, err.message);
+		// }
+
+		console.log(separator);
+		console.log(":: 🔄 Process Broadcasting Message ::");
+
 		try {
-			const url = `${API_BASE_URL}/hasillaboratorium`;
+			const url = `${baseurl}/broadcastwhatsapp`;
 			const response = await fetch(url, {
-				method : "POST",
+				method: "POST",
 				headers: { "Content-Type": "application/json" }
 			});
 
 			const text = await response.text();
 
 			if (text.startsWith("<!DOCTYPE html")) {
-				console.warn(`⚠️  HTML response detected from ${url}`);
+				console.warn(`❌  HTML response detected from ${url}`);
 			} else {
 				try {
 					const data = JSON.parse(text);
-					console.log(`✅ JSON response received from ${url}:`);
-					console.log(`   Status         : ${data.status}`);
-					console.log(`   Message        : ${data.message}`);
 
-					if (Array.isArray(data.data) && data.data.length > 0) {
-						console.log("   Data Broadcast :");
-						data.data.forEach((item, i) => {
-							console.log(`   #${i + 1}`);
-							console.log(`     Status        : ${item.status}`);
-							console.log(`     Transaksi ID  : ${item.transaksi_id}`);
-							console.log(`     To            : ${item.to}`);
-							console.log(`     File Name     : ${item.document_name}`);
-							console.log(`     Directory     : ${item.directory}`);
-							console.log(`     Device ID     : ${item.device_id}`);
-							console.log("     ------------------------------");
-						});
+					if (data.status === false && data.message.includes("ENOENT")) {
+						// Handle error file not found
+						const match = data.message.match(/open '(.*?)'/);
+						const filePath = match ? match[1] : "Unknown";
+
+						console.log(separator);
+						console.log(":: ❌ Gagal mengirim broadcast ::");
+						console.log(`      To       : ${data.to || "Unknown"}`);
+						console.log(`      Message  : ${data.message}`);
+						console.log(`      File     : ${filePath}`);
 					} else {
-						console.log("⚠️  Tidak ada data broadcast tersedia.");
+						// Success log
+						console.log(`   ✅ JSON response received from ${url} ::`);
+						console.log(`      Status   : ${data.status}`);
+						console.log(`      Message  : ${data.message}`);
+						console.log(`      Type     : ${data.type}`);
+						if (data.remoteJid) {
+							console.log(`      RemoteJid : ${data.remoteJid}`);
+							console.log(`      FileName  : ${data.fileName}`);
+							console.log(`      MIME Type : ${data.mimetype}`);
+							console.log(`      ID        : ${data.id}`);
+							console.log(`      Timestamp : ${data.messageTimestamp}`);
+						}
 					}
-					
 				} catch {
-					console.log(`ℹ️  Plain-text response from ${url}:`, text);
+					console.log(separator);
+					console.log(`:: ❌  Plain-text response from ${url} ::`);
+					
+					const cleaned = text.trim().replace(/}\s*{/g, '}\n{');
+					const lines = cleaned.split('\n');
+
+					lines.forEach((line, i) => {
+						try {
+							const json = JSON.parse(line);
+							console.log(`       #${i + 1} Broadcast message delivery failed:`);
+							console.log(`          Status   : ${json.status}`);
+							console.log(`          Message  : ${json.message}`);
+							const match = json.message.match(/open '(.*?)'/);
+							if (match) console.log(`          File     : ${match[1]}`);
+							console.log("       ------------------------------");
+						} catch (err) {
+							console.log(`       #${i + 1} Tidak dapat parse JSON:`);
+							console.log(line);
+						}
+					});
 				}
 			}
-
 			console.log("✅ Checking Done");
 		} catch (err) {
-			console.error("❌ Gagal POST ke ${url} : ", err.message);
+			console.log(separator);
+			console.error(`❌ Gagal POST ke ${url} :`, err.message);
 		}
+
 	}, intervalMs);
 }
