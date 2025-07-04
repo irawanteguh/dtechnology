@@ -117,7 +117,7 @@ async function startSession(sessionId) {
 
     const pollConnection = async () => {
         try {
-            const infoRes = await fetch(`http://localhost:5001/session/info/${sessionId}`);
+            const infoRes = await fetch(`http://192.168.102.13:5001/session/info/${sessionId}`);
             if (infoRes.ok) {
                 const data = await infoRes.json();
                 const userId = data?.info?.user?.id;
@@ -140,7 +140,7 @@ async function startSession(sessionId) {
     };
 
     try {
-        const sessionCheck = await fetch(`http://localhost:5001/session/info/${sessionId}`);
+        const sessionCheck = await fetch(`http://192.168.102.13:5001/session/info/${sessionId}`);
 
         if (sessionCheck.ok) {
             const sessionData = await sessionCheck.json();
@@ -165,7 +165,7 @@ async function startSession(sessionId) {
         } else {
             statusEl.innerText = "Membuat Session Baru...";
 
-            const startRes = await fetch("http://localhost:5001/session/start", {
+            const startRes = await fetch("http://192.168.102.13:5001/session/start", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ session: sessionId })

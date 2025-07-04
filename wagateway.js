@@ -9,7 +9,7 @@ const http            = require("http");
 const https           = require("https");
 const whatsapp        = require("wa-multi-session");
 const qrStore         = {};
-const API_BASE_URL    = "http://192.168.102.13/dtech/dtechnology/index.php";
+const API_BASE_URL    = "http://192.168.102.13/dtechnology/index.php";
 const ipgateway       = "http://192.168.102.13:";
 const separator       = "=========================================================================================";
 const intervalMs      = 10000;
