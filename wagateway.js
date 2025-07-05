@@ -14,7 +14,7 @@ const ipgateway       = "http://localhost:";
 const separator       = "=========================================================================================";
 const intervalMs      = 10000;
 let   autoSendLoop    = null;
-let   autoSendEnabled = false;
+let   autoSendEnabled = true;
 
 
 const app = express();
