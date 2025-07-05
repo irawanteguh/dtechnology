@@ -95,8 +95,8 @@
                     $data        = [];
                    
                     $transaksiid = generateuuid();
-                    $deviceid    = "4321";
-                    $to          = "6281288646630";
+                    $deviceid    = "1234";
+                    $to          = "6281266678881";
                     $refid       = $a->no_pemesanan;
                     
                     $text  = "*".$a->namars."*";
