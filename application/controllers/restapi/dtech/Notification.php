@@ -11,14 +11,14 @@
             $this->load->model("Modelnotification","md");
         }
 
-        public function hasillaboratorium_post() {
-            $responList              = [];
-            $resulthasillaboratorium = "";
-            $limit                   = "limit ".rand(1, 5).";";
-            $resulthasillaboratorium = $this->md->hasillaboratorium(ORG_ID, $limit);
+        public function documenttte_post() {
+            $responList = [];
+            $resultdata = "";
+            $limit      = "limit ".rand(1, 5).";";
+            $resultdata = $this->md->documenttte(ORG_ID, $limit);
 
-            if (!empty($resulthasillaboratorium)) {
-                foreach ($resulthasillaboratorium as $a) {
+            if (!empty($resultdata)) {
+                foreach ($resultdata as $a) {
                     $transaksiid = "";
                     $deviceid    = "";
                     $nofile      = "";
@@ -35,10 +35,12 @@
                     $informasikunjunganpasien = $this->md->informasikunjunganpasien($norawat);
                     if (!empty($informasikunjunganpasien)) {
                         $text  = "*".$a->namars."*";
-                        $text .= "%0a*RMB Hospital Group*%0a";
+                        $text .= "%0a*RMB Hospital Group*";
                         $text .= "%0aKepada Yth,.";
                         $text .= "%0a*".$informasikunjunganpasien->namapasien."*%0a";
-                        $text .= "%0aBerikut kami sampaikan hasil pemeriksaan laboratorium";
+                        if($a->jenis_doc==="003"){
+                            $text .= "%0aBerikut kami sampaikan hasil pemeriksaan laboratorium";
+                        }
                         $text .= "%0aNo Rekam Medis%09: ".$informasikunjunganpasien->no_rkm_medis;
                         $text .= "%0aNama Pasien%09: ".$informasikunjunganpasien->namapasien;
                         $text .= "%0aTanggal Lahir%09: ".$informasikunjunganpasien->bod;
@@ -70,6 +72,66 @@
                             'document_name' => $nofile
                         ];
                     }
+                }
+                $this->response(['status'  => true,'message' => 'Data berhasil diambil.','data'    => $responList], 200);
+            } else {
+                $this->response(['status'  => false,'message' => 'Tidak ada hasil laboratorium ditemukan.'], 200);
+            }
+        }
+
+        public function approvalpodirector_post() {
+            $responList = [];
+            $resultdata = "";
+            $parameter  = "and   a.status='6' and   a.status_dir is null";
+            $limit      = "limit ".rand(1, 1).";";
+            $resultdata = $this->md->approvalpo(ORG_ID,$parameter,$limit);
+
+            if (!empty($resultdata)) {
+                foreach ($resultdata as $a) {
+                    $transaksiid = "";
+                    $deviceid    = "";
+                    $to          = "";
+                    $refid       = "";
+                    $data        = [];
+                   
+                    $transaksiid = generateuuid();
+                    $deviceid    = "4321";
+                    $to          = "6281288646630";
+                    $refid       = $a->no_pemesanan;
+                    
+                    $text  = "*".$a->namars."*";
+                    $text .= "%0a*RMB Hospital Group*";
+                    $text .= "%0aKepada Yth,.";
+                    $text .= "%0a*dr. Abdul Robby Azhadi, MARS, FISQua.*%0a";
+                    $text .= "%0aBerikut kami sampaikan permohonan persetujuan purchase order direktur:";
+                    $text .= "%0a%0aNo Pemesanan%09: ";
+                    $text .= "%0a".$a->no_pemesanan_unit;
+                    $text .= "%0a%0aJudul Pemesanan%09: ";
+                    $text .= "%0a".$a->judul_pemesanan;
+                    $text .= "%0a%0aCatatan%09: ";
+                    $text .= "%0a".$a->note;
+                    $text .= "%0a%0aDepartment%09: ";
+                    $text .= "%0a".$a->departmen;
+                    $text .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+
+                    $data['org_id']       = ORG_ID;
+                    $data['transaksi_id'] = $transaksiid;
+                    $data['body_1']       = $text;
+                    $data['device_id']    = $deviceid;
+                    $data['to']           = $to;
+                    $data['ref_id']       = $refid;
+                    $data['type_file']    = "0";
+                    $data['template_id']  = "APPROVAL PO DIRECTOR";
+                    
+                    $responList[] = [
+                        'status'       => $this->md->simpanboardcast($data),
+                        'org_id'       => ORG_ID,
+                        'transaksi_id' => $transaksiid,
+                        'device_id'    => $deviceid,
+                        'to'           => $to,
+                        'ref_id'       => $a->no_pemesanan,
+                        'type_file'    => "0"
+                    ];
                 }
                 $this->response(['status'  => true,'message' => 'Data berhasil diambil.','data'    => $responList], 200);
             } else {
