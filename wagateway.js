@@ -436,7 +436,7 @@ function startAutoSend() {
 		}
 
 		console.log(separator);
-		console.log(":: Checking Waiting List Broadcast [Laboratorium] ::");
+		console.log(":: Checking Waiting List Broadcast Tanda Tangan Elektronik ::");
 
 		// try {
 		// 	const url = `${baseurl}/documenttte`;
