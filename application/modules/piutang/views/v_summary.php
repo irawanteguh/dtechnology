@@ -23,16 +23,18 @@
         $html          = '';
 
         foreach ($bulan as $index => $namaBulan) {
-            $bulanKe = $index + 1;
-            $active  = ($bulanKe == $bulanSekarang) ? 'show active' : '';
-
+            $bulanKe         = $index + 1;
+            $active          = ($bulanKe == $bulanSekarang) ? 'show active' : '';
+            $filterJenisId   = "filterjenis_" . $bulanKe;
+            $filterPeriodeId = "filterperiode_" . $bulanKe;
+            $filterRekananId = "filterrekanan_" . $bulanKe;
             
             $html .= '<div class="tab-pane fade ' . $active . '" id="tabbln' . $bulanKe . '">';
                 $html .= '<div class="col-xl-12">';
                     $html .= '<div class="card card-flush">';
                         $html .= '<div class="card-body p-2">';
                             $html .= '<div class="table-responsive">';
-                                $html .= '<table class="table align-middle table-row-dashed fs-8 gy-2">';
+                                $html .= '<table class="table align-middle table-row-dashed fs-8 gy-2" id="resultrekappiutang_'.$bulanKe.'">';
                                     $html .= '<thead>';
                                         $html .= '<tr class="fw-bolder align-middle bg-light text-muted">';
                                             $html .= '<th class="ps-4 rounded-start">Jenis Piutang</th>';
@@ -42,6 +44,12 @@
                                             $html .= '<th class="text-end">Terbayar</th>';
                                             $html .= '<th class="pe-4 rounded-end text-end">Sisa Tagihan</th>';
                                         $html .= '</tr>';
+                                        $html .= '<tr>';
+                                            $html .= '<th><input id="' . $filterJenisId . '" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Jenis Piutang"></th>';
+                                            $html .= '<th><input id="' . $filterPeriodeId . '" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Periode"></th>';
+                                            $html .= '<th><input id="' . $filterRekananId . '" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Rekanan"></th>';
+                                        $html .= '</tr>';
+
                                     $html .= '</thead>';
                                     $html .= '<tbody class="text-gray-600 fw-bold" id="resultdatapiutang_'.$bulanKe.'"></tbody>';
                                     $html .= '<tfoot class="text-gray-600 fw-bold" id="resulttotaldatapiutang_'.$bulanKe.'"></tfoot>';

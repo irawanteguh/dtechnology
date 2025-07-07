@@ -282,10 +282,10 @@ function datapiutang(){
                         }
 
                         // Reset subtotal dan set rekanan baru
-                        currentRekanan = item.rekanan;
-                        subtotalNilai = 0;
+                        currentRekanan   = item.rekanan;
+                        subtotalNilai    = 0;
                         subtotalTerbayar = 0;
-                        subtotalSisa = 0;
+                        subtotalSisa     = 0;
                     }
 
                     var getvariabel = " datapiutangid='" + item.piutang_id + "'" +
@@ -355,7 +355,7 @@ function datapiutang(){
                 filternoinvoice.settings.whitelist = Array.from(noinvoice);
                 filterjenisid.settings.whitelist   = Array.from(jenisid);
                 filternote.settings.whitelist      = Array.from(note);
-                filterrekananid.settings.whitelist      = Array.from(rekananid);
+                filterrekananid.settings.whitelist = Array.from(rekananid);
                 filterperiode.settings.whitelist   = Array.from(periode);
             }
 

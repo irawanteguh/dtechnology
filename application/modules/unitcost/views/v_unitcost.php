@@ -37,7 +37,10 @@
                         <thead>
                             <tr class="fw-bolder text-muted bg-light align-middle">
                                 <th rowspan="2" class="ps-4 rounded-start">Nama Componen</th>
-                                <th rowspan="2">Cost</th>
+                                <th rowspan="2">Depresiasi</th>
+                                <th rowspan="2">Pemeliharaan</th>
+                                <th rowspan="2">Bunga Angsuran</th>
+                                <th rowspan="2">Beban Pasien</th>
                                 <th rowspan="2" class="pe-4 text-end rounded-end">Action</th>
                             </tr>
                         </thead>
