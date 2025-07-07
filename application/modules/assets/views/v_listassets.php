@@ -7,22 +7,51 @@
 					<span class="text-muted mt-1 fw-bold fs-7" id="info_list_document"></span>
 				</h3>
 			</div>
-			<div class="card-body py-3">
-                <div class="table-responsive">
-                    <table class="table align-middle table-row-dashed fs-6 gy-2">
+			<div class="card-body py-3" style="overflow-y: auto;">
+                <!-- <div> -->
+                    <table class="table align-middle table-row-dashed fs-8 gy-2">
                         <thead>
                             <tr class="fw-bolder text-muted bg-light align-middle">
-                                <th class="ps-4 rounded-start">No Assets</th>
-                                <th>Nama Barang</th>
-                                <th>Spesifikasi</th>
-                                <th>Serial Number</th>
-                                <th>Created By</th>
-                                <th class="pe-4 text-end rounded-end">Action</th>
+                                <th rowspan="2" class="ps-4 rounded-start">No Assets</th>
+                                <th rowspan="2">Nama Barang</th>
+                                <th rowspan="2">Kategori</th>
+                                <th rowspan="2">Serial Number</th>
+                                <th rowspan="2">Tahun Pembuatan</th>
+                                <th rowspan="2">Tanggal Pembelian</th>
+                                <th rowspan="2">Masa Ekonomis</th>
+                                <th rowspan="2">Nilai Pembelian</th>
+                                <th rowspan="2">Biaya Pemeliharaan</th>
+                                <th rowspan="2">Masa Angsuran</th>
+                                <th rowspan="2">Bunga Angsuran</th>
+                                <th rowspan="2">Nilai Residu</th>
+                                <th rowspan="2">Estimasi Penggunaan</th>
+                                <th colspan="4" class="text-center bg-success text-white">Depresiasi</th>
+                                <th colspan="4" class="text-center bg-primary text-white">Pemeliharaan</th>
+                                <th colspan="4" class="text-center bg-info text-white">Bunga Angsuran</th>
+                                <th rowspan="2" class="bg-danger text-white">Beban Per Pasien</th>
+                                <th rowspan="2">Depresiasi Saat ini</th>
+                                <th rowspan="2">Sisa Depresiasi</th>
+                                <th rowspan="2">Created By</th>
+                                <th rowspan="2" class="pe-4 text-end rounded-end">Action</th>
+                            </tr>
+                            <tr class="fw-bolder text-muted bg-light align-middle">
+                                <th class="text-center bg-success text-white">Tahunan</th>
+                                <th class="text-center bg-success text-white">Bulanan</th>
+                                <th class="text-center bg-success text-white">Harian</th>
+                                <th class="text-center bg-success text-white">Pasien</th>
+                                <th class="text-center bg-primary text-white">Tahunan</th>
+                                <th class="text-center bg-primary text-white">Bulanan</th>
+                                <th class="text-center bg-primary text-white">Harian</th>
+                                <th class="text-center bg-primary text-white">Pasien</th>
+                                <th class="text-center bg-info text-white">Tahunan</th>
+                                <th class="text-center bg-info text-white">Bulanan</th>
+                                <th class="text-center bg-info text-white">Harian</th>
+                                <th class="text-center bg-info text-white">Pasien</th>
                             </tr>
                         </thead>
-                        <tbody class="text-gray-600 fw-bold" id="resultdataassets"></tbody>
+                        <tbody class="text-gray-600 fw-bold" id="resultdatamasterassets"></tbody>
                     </table>
-                </div>
+                <!-- </div> -->
 			</div>
 		</div>
 	</div>

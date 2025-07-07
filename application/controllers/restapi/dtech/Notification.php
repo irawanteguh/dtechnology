@@ -27,7 +27,7 @@
                     $data        = [];
 
                     $transaksiid = generateuuid();
-                    $deviceid    = "4321";
+                    $deviceid    = "1234";
                     $nofile      = $a->no_file ?? '';
                     $norawat     = $a->transaksi_idx ?? '';
                     $filepath    = FCPATH."assets/document/".$nofile.".pdf";
