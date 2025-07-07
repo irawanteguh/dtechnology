@@ -9,7 +9,7 @@ const http            = require("http");
 const https           = require("https");
 const whatsapp        = require("wa-multi-session");
 const qrStore         = {};
-const baseurl         = "http://localhost/dtech/dtechnology/index.php";
+const baseurl         = "http://localhost/dtechnology/index.php";
 const ipgateway       = "http://localhost:";
 const separator       = "=========================================================================================";
 const intervalMs      = 10000;
@@ -439,7 +439,7 @@ function startAutoSend() {
 		console.log(":: Checking Waiting List Broadcast [Laboratorium] ::");
 
 		// try {
-		// 	const url = `${baseurl}/hasillaboratorium`;
+		// 	const url = `${baseurl}/documenttte`;
 		// 	const response = await fetch(url, {
 		// 		method : "POST",
 		// 		headers: { "Content-Type": "application/json" }

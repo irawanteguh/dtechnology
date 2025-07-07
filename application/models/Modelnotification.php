@@ -84,10 +84,10 @@
             return $recordset;
         }
 
-        function hasillaboratorium($orgid,$limit){
+        function documenttte($orgid,$limit){
             $query =
                     "
-                        select a.no_file, transaksi_idx,
+                        select a.no_file, transaksi_idx, jenis_doc,
                                (select org_name from dt01_gen_organization_ms where org_id=a.org_id)namars
                         from dt01_gen_document_file_dt a
                         where a.org_id='".$orgid."'
@@ -95,6 +95,25 @@
                         and   a.status_sign='5'
                         and   a.no_file not in (select document_name from dt01_whatsapp_broadcast_hd where document_name=a.no_file)
                         order by created_date desc
+                        ".$limit."                  
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function approvalpo($orgid,$parameter,$limit){
+            $query =
+                    "
+                        select a.no_pemesanan, no_pemesanan_unit, judul_pemesanan, note,
+                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)namars,
+                            (select department from dt01_gen_department_ms where org_id=a.org_id and department_id=a.department_id)departmen
+                        from dt01_lgu_pemesanan_hd a
+                        where a.org_id='".$orgid."'
+                        and   a.no_pemesanan not in (select ref_id from dt01_whatsapp_broadcast_hd where template_id='APPROVAL PO DIRECTOR' and ref_id=a.no_pemesanan)
+                        ".$parameter."
+                        order by created_date desc 
                         ".$limit."                  
                     ";
 

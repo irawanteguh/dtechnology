@@ -42,7 +42,8 @@
     $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
     $route['statusdocument']           = 'restapi/dtech/Signdocument/statusdocument';
 
-    $route['hasillaboratorium']             = 'restapi/dtech/Notification/hasillaboratorium';
+    $route['documenttte']  = 'restapi/dtech/Notification/documenttte';
+    $route['approvalpodirector'] = 'restapi/dtech/Notification/approvalpodirector';
 
     
     $route['updatedevice']      = 'restapi/dtech/Whatsapp/updatedevice';
