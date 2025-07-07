@@ -40,7 +40,7 @@
 
                         $text  = "*".$a->namars."*";
                         $text .= "%0a*RMB Hospital Group*";
-                        $text .= "%0aKepada Yth,.";
+                        $text .= "%0a%0aKepada Yth,.";
                         $text .= "%0a*".$informasikunjunganpasien->namapasien."*%0a";
                         if($a->jenis_doc==="003"){
                             $text .= "%0aBerikut kami sampaikan hasil pemeriksaan laboratorium";
