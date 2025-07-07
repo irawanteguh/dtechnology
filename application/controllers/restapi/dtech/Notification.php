@@ -72,7 +72,8 @@
                             'to'            => $to,
                             'type_file'     => "1",
                             'directory'     => $filepath,
-                            'document_name' => $nofile
+                            'document_name' => $nofile,
+                            'ref_id'        => $nofile
                         ];
                     }
                 }
