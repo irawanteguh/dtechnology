@@ -1,33 +1,4 @@
 <?php
-    function getLastThreeMonths($currentMonth) {
-        $months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $result = [];
-
-        for ($i = 3; $i >= 0; $i--) { // dari 3 bulan lalu s/d bulan sekarang
-            $monthIndex = ($currentMonth - $i - 1 + 12) % 12;
-            $result[]   = $months[$monthIndex];
-        }
-
-        return $result;
-    }
-
-    function renderbulan() {
-        $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $bulanSekarang = date('n');
-        $html          = '';
-
-        foreach ($bulan as $index => $namaBulan) {
-            $bulanKe = $index + 1;
-            $active  = ($bulanKe == $bulanSekarang) ? 'active' : '';
-            $tabId   = "#tabbln{$bulanKe}";
-
-            $html .= '<li class="nav-item">';
-            $html .= '<a class="nav-link ' . $active . '" data-bs-toggle="tab" href="' . $tabId . '" style="color:#fff;">' . $namaBulan . '</a>';
-            $html .= '</li>';
-        }
-
-        return $html;
-    }
 
     function rendertab() {
         $bulan         = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -94,11 +65,6 @@
                         </p>
                     </div>
                 </div>
-                <div class="d-flex overflow-auto min-h-30px">
-                    <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-7 fw-bolder flex-nowrap">
-                        <?= renderbulan(); ?>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
@@ -106,8 +72,30 @@
 
 <div class="row gy-5 g-xl-8 mb-xl-8">
     <div class="col-xl-12">
-        <div class="tab-content p-0">
-            <?= rendertab(); ?>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-8 gy-2">
+                        <thead>
+                            <tr class="fw-bolder align-middle bg-light text-muted">
+                                <th class="ps-4 rounded-start">Nama Barang</th>
+                                <th>Kategori</th>
+                                <th class="bulan-dinamis text-end"></th>
+                                <th class="bulan-dinamis text-end"></th>
+                                <th class="bulan-dinamis text-end"></th>
+                                <th class="bulan-dinamis text-end"></th>
+                                <th class="text-end">Rata-rata</th>
+                                <th class="text-end">Sisa Stok</th>
+                                <th class="text-end">Pemesanan</th>
+                                <th class="text-end">Total</th>
+                                <th class="pe-4 rounded-end">Distributor</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 fw-bold" id="resultdataforecasting"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+        
     </div>
 </div>

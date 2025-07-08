@@ -337,7 +337,7 @@
 
                         ) y
 
-                        ORDER BY y.name ASC;
+                        ORDER BY y.positioidprimary asc, name asc
 
                     ";
 
