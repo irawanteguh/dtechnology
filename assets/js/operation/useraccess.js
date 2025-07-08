@@ -177,3 +177,28 @@ $(document).on("change", ".form-check-input", function (e) {
         }
     });
 });
+
+var processs = function (search) {
+    var timeout = setTimeout(function () {
+        const inputField = element.querySelector("[data-kt-search-element='input']");
+        const val = $.trim(inputField.value).replace(/ +/g, ' ').toLowerCase();
+
+        $("#listuser > div").removeClass('d-none').filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !text.includes(val);
+        }).addClass('d-none');
+
+        search.complete();
+    }, 300);
+};
+
+var clear = function (search) {
+    $("#listuser > div").removeClass('d-none');
+};
+
+const element = document.querySelector('#kt_docs_search_handler_position');
+if (element) {
+    const searchObject = new KTSearch(element);
+    searchObject.on("kt.search.process", processs);
+    searchObject.on("kt.search.clear", clear);
+}

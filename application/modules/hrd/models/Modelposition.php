@@ -1,39 +1,39 @@
 <?php
     class Modelposition extends CI_Model{
 
-        function daftarjabatan($orgid,$parameter){
+        function daftarjabatan($parameter1,$parameter2){
             $query =
                     "
-                        SELECT a.ORG_ID, a.POSITION_ID, a.POSITION, a.RVU, a.LEVEL, a.LEVEL_FUNGSIONAL, department_id,
-                                date_format(last_update_date,'%d.%m.%Y %H:%i:%s')last_update_date,
+                        SELECT a.org_id, a.position_id, a.position, a.rvu, a.level_fungsional, a.department_id,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.bagian_id)bagian,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.unit_id)unit,
-                                (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.created_by)dibuatoleh,
-                                (SELECT IFNULL(name, 'Unknown')  FROM dt01_gen_user_data  WHERE active = '1'  AND org_id = a.org_id AND user_id = IFNULL(a.CREATED_BY, a.LAST_UPDATE_BY)) LASTUPDATEDBY,
-                                (SELECT level FROM dt01_gen_level_fungsional_ms WHERE active = '1' AND level_id = a.LEVEL_FUNGSIONAL) FUNCTIONAL,
+                                date_format(last_update_date,'%d.%m.%Y %H:%i:%s')last_update_date,
+                                (select ifnull(name, 'Unknown')  from dt01_gen_user_data where active='1' and user_id=a.last_update_by) lastupdateby,
+                                (select level                    from dt01_gen_level_fungsional_ms where active = '1' and level_id = a.level_fungsional) functional,
+                                (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname,
                                 (
                                     SELECT GROUP_CONCAT(
                                             b.user_id, ':',
                                             (SELECT image_profile 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = a.org_id 
+                                                AND org_id = b.org_id
                                                 AND user_id = b.user_id), ':',
                                             (SELECT name 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = a.org_id 
+                                                AND org_id = b.org_id
                                                 AND user_id = b.user_id), ':',
                                             (SELECT UPPER(LEFT(name, 1)) 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = a.org_id 
+                                                AND org_id = b.org_id
                                                 AND user_id = b.user_id)
                                         SEPARATOR '; ')
                                     FROM dt01_hrd_position_dt b
                                     WHERE b.active = '1'
-                                    AND b.org_id = a.org_id
+                                    ".$parameter2."
                                     AND b.position_primary = 'Y'
                                     AND b.position_id = a.position_id
                                 ) memberprimary,
@@ -43,30 +43,46 @@
                                             (SELECT image_profile 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = a.org_id 
+                                                AND org_id = b.org_id
                                                 AND user_id = b.user_id), ':',
                                             (SELECT name 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = a.org_id 
+                                                AND org_id = b.org_id
                                                 AND user_id = b.user_id), ':',
                                             (SELECT UPPER(LEFT(name, 1)) 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = a.org_id 
+                                                AND org_id = b.org_id
                                                 AND user_id = b.user_id)
                                         SEPARATOR '; ')
                                     FROM dt01_hrd_position_dt b
                                     WHERE b.active = '1'
-                                    AND b.org_id = a.org_id
+                                    ".$parameter2."
                                     AND b.position_primary = 'N'
                                     AND b.position_id = a.position_id
                                 ) membersecondry
                         FROM dt01_hrd_position_ms a
                         WHERE a.active = '1'
-                        AND a.org_id = '".$orgid."'
+                        ".$parameter1."
                         ORDER BY LEVEL DESC, POSITION ASC, RVU DESC, POSITION ASC
                 
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masterlevelfungsional($groupid){
+            $query =
+                    "
+                        select 'x' level_id,':: General Level ::'level, 0 urut union
+                        select a.level_id, level, urut
+                        from dt01_gen_level_fungsional_ms a
+                        where a.active='1'
+                        and   a.group_id='".$groupid."'
+                        order by urut asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -110,7 +126,7 @@
         function masterunit($orgid,$headerid){
             $query =
                     "
-                        select 'x'department_id,':: Head ::'department union
+                        select 'x' department_id,':: Head ::'department union
                         select a.department_id, replace(replace(department,'Wakil Direktur ',''),'Manajer ','')department
                         from dt01_gen_department_ms a
                         where a.active='1'

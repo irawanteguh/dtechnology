@@ -4,7 +4,8 @@
         function masteruser($orgid){
             $query =
                     "
-                        select a.org_id, user_id, name
+                        select a.org_id, user_id, name,
+                               (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname
                         from dt01_gen_user_data a
                         where a.org_id='".$orgid."'
                         and   a.active='1'

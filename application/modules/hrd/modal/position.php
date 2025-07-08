@@ -56,34 +56,43 @@
                         <div class="text-muted fw-bold fs-5">Please Edit Master Position</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 mb-5">
+                        <div class="col-md-8 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Position Name</label>
                             <input type="text" class="form-control form-control-solid" id="data_position_name_edit" name="data_position_name_edit" required>
                         </div>
                         <div class="col-md-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                <span class="required">Department</span>
+                                <span class="required">Level Fungsional</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Level Fungsional for position"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Level Fungsional" class="form-select form-select-solid" name="modal_position_edit_fungsional_edit" id="modal_position_edit_fungsional_edit" required>
+                                <?php echo $masterfungsionaledit;?>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span>Department</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department for position"></i>
                             </label>
-                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_position_edit_departmentid_edit" id="modal_position_edit_departmentid_edit" required>
+                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_position_edit_departmentid_edit" id="modal_position_edit_departmentid_edit">
                                 <?php echo $masterdepartmentedit;?>
                             </select>
                         </div>
                         <div class="col-md-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                <span class="required">Part Of</span>
+                                <span>Part Of</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Part Of for position"></i>
                             </label>
-                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Part of" class="form-select form-select-solid" name="modal_position_edit_bagianid_edit" id="modal_position_edit_bagianid_edit" required>
+                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Part of" class="form-select form-select-solid" name="modal_position_edit_bagianid_edit" id="modal_position_edit_bagianid_edit">
                                 <?php echo $masterbagianedit;?>
                             </select>
                         </div>
                         <div class="col-md-4 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                <span class="required">Units</span>
+                                <span>Units</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Units for position"></i>
                             </label>
-                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Units" class="form-select form-select-solid" name="modal_position_edit_unitid_edit" id="modal_position_edit_unitid_edit" required>
+                            <select data-control="select2" data-dropdown-parent="#modal_position_edit" data-placeholder="Please Select Units" class="form-select form-select-solid" name="modal_position_edit_unitid_edit" id="modal_position_edit_unitid_edit">
                                 <?php echo $masterunitedit;?>
                             </select>
                         </div>

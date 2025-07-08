@@ -26,11 +26,10 @@
             $query =
                     "
                         select a.position_id, position,
-                            (select level from dt01_gen_level_fungsional_ms where active='1' and level_id=a.LEVEL_FUNGSIONAL)fungsional
-
+                            (select level from dt01_gen_level_fungsional_ms where active='1' and level_id=a.level_fungsional)fungsional
                         from dt01_hrd_position_ms a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        and   a.group_id='".$orgid."'
                         order by level DESC, position asc, rvu desc
                     ";
 
@@ -202,44 +201,144 @@
         function masteremployee($orgid,$parameter){
             $query =
                     "
-                        select y.*,
-                            (select level from dt01_gen_level_fungsional_ms where org_id=y.org_id and active='1' and level_id=y.levelfungsionalprimaryid)fungsionalprimary
-                        from(
-                            select x.*,
-                                (select name             from dt01_gen_user_data   where org_id=x.org_id and active='1' and user_id=x.atasanidprimary)atasanprimary,
-                                (select position         from dt01_hrd_position_ms where org_id=x.org_id and active='1' and position_id=x.positioidprimary)positionprimary,
-                                (select level_fungsional from dt01_hrd_position_ms where org_id=x.org_id and active='1' and position_id=x.positioidprimary)levelfungsionalprimaryid
-                            from(
-                                select a.org_id, user_id, name, email, nik, identity_no, image_profile, upper(LEFT(a.name, 1)) initial,kategori_id, duty_days, duty_hours, hours_month, active, suspended,
-                                    (select kategori from dt01_hrd_kategori_tenaga_ms where org_id=a.org_id and active='1' and kategori_id=a.kategori_id)kategori,
-                                    (select trans_id    from dt01_hrd_position_dt where org_id=a.org_id and active='1' and status='1' and position_primary='Y' and user_id=a.user_id)transidprimary,
-                                    (select atasan_id   from dt01_hrd_position_dt where org_id=a.org_id and active='1' and status='1' and position_primary='Y' and user_id=a.user_id)atasanidprimary,
-                                    (select position_id from dt01_hrd_position_dt where org_id=a.org_id and active='1' and status='1' and position_primary='Y' and user_id=a.user_id)positioidprimary,
+                        SELECT 
+                            y.*,
+                            -- Nama level fungsional dari posisi utama
+                            (
+                                SELECT level 
+                                FROM dt01_gen_level_fungsional_ms 
+                                WHERE org_id = y.org_id 
+                                AND active = '1' 
+                                AND level_id = y.levelfungsionalprimaryid
+                            ) AS fungsionalprimary
+
+                        FROM (
+                            SELECT 
+                                x.*,
+
+                                -- Nama atasan dari posisi utama
+                                (
+                                    SELECT name 
+                                    FROM dt01_gen_user_data 
+                                    WHERE org_id = x.org_id 
+                                    AND active = '1' 
+                                    AND user_id = x.atasanidprimary
+                                ) AS atasanprimary,
+
+                                -- Nama posisi utama
+                                (
+                                    SELECT position 
+                                    FROM dt01_hrd_position_ms 
+                                    WHERE active = '1' 
+                                    AND position_id = x.positioidprimary
+                                ) AS positionprimary,
+
+                                -- Level fungsional ID dari posisi utama
+                                (
+                                    SELECT level_fungsional 
+                                    FROM dt01_hrd_position_ms 
+                                    WHERE active = '1' 
+                                    AND position_id = x.positioidprimary
+                                ) AS levelfungsionalprimaryid
+
+                            FROM (
+                                SELECT 
+                                    a.org_id,
+                                    a.user_id,
+                                    a.name,
+                                    a.email,
+                                    a.nik,
+                                    a.identity_no,
+                                    a.image_profile,
+                                    UPPER(LEFT(a.name, 1)) AS initial,
+                                    a.kategori_id,
+                                    a.duty_days,
+                                    a.duty_hours,
+                                    a.hours_month,
+                                    a.active,
+                                    a.suspended,
+
+                                    -- Nama kategori tenaga
+                                    (
+                                        SELECT kategori 
+                                        FROM dt01_hrd_kategori_tenaga_ms 
+                                        WHERE org_id = a.org_id 
+                                        AND active = '1' 
+                                        AND kategori_id = a.kategori_id
+                                    ) AS kategori,
+
+                                    -- Posisi utama
+                                    (
+                                        SELECT trans_id 
+                                        FROM dt01_hrd_position_dt 
+                                        WHERE org_id = a.org_id 
+                                        AND active = '1' 
+                                        AND status = '1' 
+                                        AND position_primary = 'Y' 
+                                        AND user_id = a.user_id
+                                    ) AS transidprimary,
+
+                                    (
+                                        SELECT atasan_id 
+                                        FROM dt01_hrd_position_dt 
+                                        WHERE org_id = a.org_id 
+                                        AND active = '1' 
+                                        AND status = '1' 
+                                        AND position_primary = 'Y' 
+                                        AND user_id = a.user_id
+                                    ) AS atasanidprimary,
+
+                                    (
+                                        SELECT position_id 
+                                        FROM dt01_hrd_position_dt 
+                                        WHERE org_id = a.org_id 
+                                        AND active = '1' 
+                                        AND status = '1' 
+                                        AND position_primary = 'Y' 
+                                        AND user_id = a.user_id
+                                    ) AS positioidprimary,
+
+                                    -- Gabungan data posisi sekunder (secondary)
                                     (
                                         SELECT GROUP_CONCAT(
-                                                b.trans_id, ':',
-                                                b.position_id, ':',
-                                                b.atasan_id, ':',
-                                                COALESCE(p.position, ''), ':',
-                                                COALESCE(f.level, ''), ':',
-                                                COALESCE(u.name, '')
-                                            SEPARATOR ';')
+                                            b.trans_id, ':',
+                                            b.position_id, ':',
+                                            b.atasan_id, ':',
+                                            COALESCE(p.position, ''), ':',
+                                            COALESCE(f.level, ''), ':',
+                                            COALESCE(u.name, '')
+                                            SEPARATOR ';'
+                                        )
                                         FROM dt01_hrd_position_dt b
-                                        LEFT JOIN dt01_hrd_position_ms p ON p.position_id = b.position_id AND p.active = '1' AND p.org_id = a.org_id
-                                        LEFT JOIN dt01_gen_level_fungsional_ms f ON f.level_id = p.level_fungsional AND f.active = '1' AND f.org_id = a.org_id
-                                        LEFT JOIN dt01_gen_user_data u ON u.user_id = b.atasan_id AND u.active = '1' AND u.org_id = a.org_id
+                                        LEFT JOIN dt01_hrd_position_ms p 
+                                            ON p.position_id = b.position_id 
+                                        AND p.active = '1' 
+                                        AND p.org_id = a.org_id
+                                        LEFT JOIN dt01_gen_level_fungsional_ms f 
+                                            ON f.level_id = p.level_fungsional 
+                                        AND f.active = '1' 
+                                        AND f.org_id = a.org_id
+                                        LEFT JOIN dt01_gen_user_data u 
+                                            ON u.user_id = b.atasan_id 
+                                        AND u.active = '1' 
+                                        AND u.org_id = a.org_id
                                         WHERE b.active = '1'
-                                        and   b.status='1'
-                                        AND   b.org_id = a.org_id
-                                        AND   b.position_primary = 'N'
-                                        AND   b.user_id = a.user_id
-                                    )  membersecondry
-                                from dt01_gen_user_data a
-                                where a.org_id='".$orgid."'
+                                        AND b.status = '1'
+                                        AND b.position_primary = 'N'
+                                        AND b.org_id = a.org_id
+                                        AND b.user_id = a.user_id
+                                    ) AS membersecondry
+
+                                FROM dt01_gen_user_data a
+                                WHERE a.org_id = '".$orgid."'
                                 ".$parameter."
-                            )x
-                        )y
-                        order by name asc
+
+                            ) x
+
+                        ) y
+
+                        ORDER BY y.name ASC;
+
                     ";
 
             $recordset = $this->db->query($query);

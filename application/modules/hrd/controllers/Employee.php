@@ -48,7 +48,7 @@
 		}
 
         public function position(){
-            $resultdaftarjabatan = $this->md->daftarjabatan($_SESSION['orgid']);
+            $resultdaftarjabatan = $this->md->daftarjabatan($_SESSION['groupid']);
             
             $position="";
             foreach($resultdaftarjabatan as $a ){

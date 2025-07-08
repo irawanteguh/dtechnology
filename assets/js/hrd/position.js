@@ -38,12 +38,12 @@ function daftarjabatan(){
                 for(var i in result){
                     
 
-                    getvariabel =   "data_positionid='"+result[i].POSITION_ID+"'"+
-                                    "data_position='"+result[i].POSITION+"'"+
+                    getvariabel =   "data_positionid='"+result[i].position_id+"'"+
+                                    "data_position='"+result[i].position+"'"+
                                     "data_departmentid='"+result[i].department_id+"'";
 
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>"+result[i].POSITION+" "+(result[i].FUNCTIONAL ? result[i].FUNCTIONAL : "")+"</td>";
+                    tableresult +="<td class='ps-4'>"+result[i].position+" "+(result[i].functional ? result[i].functional : "")+"</td>";
                     tableresult +="<td>";
                     tableresult +="<div class='symbol-group symbol-hover flex-nowrap flex-grow-1 min-w-100px pe-2'>";
                     
@@ -129,8 +129,8 @@ function daftarjabatan(){
 
                     tableresult += "</div>";
                     tableresult += "</td>";
-                    tableresult += "<td><span class='fw-bold d-block fs-7'>"+(result[i].department ? result[i].department : "")+"</span><span class='fw-bold d-block fs-7'>"+(result[i].bagian ? result[i].bagian : "")+"</span><span class='fw-bold d-block fs-7'>"+(result[i].unit ? result[i].unit : "")+"</span></td>";
-                    tableresult += "<td><span class='fw-bold d-block fs-7'>"+result[i].dibuatoleh+"</span><span class='fw-bold text-muted d-block fs-7'>"+result[i].last_update_date+"</span></td>";
+                    tableresult += "<td><span class='fw-bold d-block'>"+(result[i].department ? result[i].department : "")+"</span><span class='fw-bold d-block'>"+(result[i].bagian ? result[i].bagian : "")+"</span><span class='fw-bold d-block'>"+(result[i].unit ? result[i].unit : "")+"</span></td>";
+                    tableresult += "<td><span class='fw-bold d-block'>"+result[i].lastupdateby+"</span><span class='fw-bold text-muted d-block'>"+result[i].last_update_date+"</span><span class='badge badge-light-info'>"+result[i].orgname+"</span></td>";
                     tableresult += "<td class='text-end'>";
                     tableresult += "<div class='btn-group' role='group'>";
                     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";

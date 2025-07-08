@@ -25,9 +25,11 @@
 
                 $sessiondata = array(
                     "orgid"               => $datasession->org_id,
+                    "groupid"             => $datasession->group_id,
                     "hospitalname"        => $datasession->hospitalname,
                     "website"             => $datasession->website,
                     "trial"               => $datasession->trial,
+                    "holding"             => $datasession->holding,
                     "userid"              => $datasession->user_id,
                     "name"                => $datasession->name,
                     "initial"             => $datasession->initial,
@@ -66,7 +68,7 @@
         public function changepassword(){
             $password = encodedata($this->input->post("newpassword"));
         
-            $data['PASSWORD'] = $password;
+            $data['password'] = $password;
         
             if($this->md->updatepassword($data, $_SESSION['orgid'], $_SESSION['userid'])){
                 $json["responCode"] = "00";
