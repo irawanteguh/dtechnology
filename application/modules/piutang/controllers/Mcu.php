@@ -64,6 +64,24 @@
             echo json_encode($json);
         }
 
+        public function historypayment(){
+            $piutangid = $this->input->post("datapiutangid");
+            $result    = $this->md->historypayment($_SESSION['orgid'],$piutangid);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function historypembayaran(){
             $result = $this->md->historypembayaran($_SESSION['orgid'],"2025");
             
@@ -225,14 +243,15 @@
             $data['created_by']     = $_SESSION['userid'];
             $this->md->insertrekening($data);
 
-            $datapemabyaran['org_id']       = $_SESSION['orgid'];
-            $datapemabyaran['transaksi_id'] = $transaksiid;
-            $datapemabyaran['piutang_id']   = $piutangid;
-            $datapemabyaran['rekening_id']  = $rekeningid;
-            $datapemabyaran['note']         = $note;
-            $datapemabyaran['date']         = DateTime::createFromFormat("d.m.Y",$date)->format("Y-m-d");
-            $datapemabyaran['nominal']      = (int) preg_replace('/\D/', '', $nominal);
-            $datapemabyaran['created_by']   = $_SESSION['userid'];
+            $datapemabyaran['org_id']        = $_SESSION['orgid'];
+            $datapemabyaran['transaksi_id']  = $transaksiid;
+            $datapemabyaran['piutang_id']    = $piutangid;
+            $datapemabyaran['rekening_id']   = $rekeningid;
+            $datapemabyaran['department_id'] = $departmentid;
+            $datapemabyaran['note']          = $note;
+            $datapemabyaran['date']          = DateTime::createFromFormat("d.m.Y",$date)->format("Y-m-d");
+            $datapemabyaran['nominal']       = (int) preg_replace('/\D/', '', $nominal);
+            $datapemabyaran['created_by']    = $_SESSION['userid'];
 
             if($this->md->insertpembayaran($datapemabyaran)){
                 $json['responCode']="00";

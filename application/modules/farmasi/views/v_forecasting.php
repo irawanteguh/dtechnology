@@ -5,7 +5,7 @@
 
         for ($i = 3; $i >= 0; $i--) { // dari 3 bulan lalu s/d bulan sekarang
             $monthIndex = ($currentMonth - $i - 1 + 12) % 12;
-            $result[] = strtoupper($months[$monthIndex]);
+            $result[]   = $months[$monthIndex];
         }
 
         return $result;
@@ -59,12 +59,12 @@
                                             foreach ($lastThreeMonths as $monthName) {
                                                 $html .= "<th>{$monthName}</th>";
                                             }
-                                            $html .= '<th>RATA-RATA</th>';
-                                            $html .= '<th>SISA STOK</th>';
-                                            $html .= '<th>PEMESANAN</th>';
-                                            $html .= '<th>JUMLAH BOX PEMESANAN</th>';
-                                            $html .= '<th class="text-end">TOTAL</th>';
-                                            $html .= '<th class="pe-4 rounded-end text-end">DISTRIBUTOR</th>';
+                                            $html .= '<th>Rata-rata</th>';
+                                            $html .= '<th>Sisa Stok</th>';
+                                            $html .= '<th>Pemesanan</th>';
+                                            $html .= '<th>Jumlah Box Pemesanan</th>';
+                                            $html .= '<th class="text-end">Total</th>';
+                                            $html .= '<th class="pe-4 rounded-end text-end">Distributor</th>';
                                         $html .= '</tr>';
                                     $html .= '</thead>';
                                     $html .= '<tbody class="text-gray-600 fw-bold" id="resultdataforecasting_'.$bulanKe.'"></tbody>';

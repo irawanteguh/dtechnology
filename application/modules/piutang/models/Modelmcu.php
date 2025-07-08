@@ -146,6 +146,37 @@
             return $recordset;
         }
 
+        function historypayment($orgid,$piutangid){
+            $query =
+                    "
+                        select a.note, date_format(date,'%d.%m.%Y')tglpembayaran, nominal,
+                               (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.created_by)dibuatoleh,
+                               (
+                                select concat(account,' ',account_id)keterangan
+                                from dt01_keu_rekening_ms
+                                where org_id=a.org_id
+                                and   active='1'
+                                and   rekening_id=a.rekening_id
+                               )rekening,
+                               (
+                                select department
+                                from dt01_gen_department_ms
+                                where org_id=a.org_id
+                                and   active='1'
+                                and   department_id=a.department_id
+                               )department
+                        from dt01_keu_piutang_it a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.piutang_id='".$piutangid."'
+                        order by date asc, created_date asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function historypembayaran($orgid,$tahun){
             $query =
                     "
