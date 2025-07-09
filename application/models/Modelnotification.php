@@ -99,6 +99,7 @@
                         and   a.jenis_doc in ('003')
                         and   a.status_sign='5'
                         AND   a.created_date >= '2025-07-08'
+                        and   a.transaksi_idx = (select no_rawat from reg_periksa where status_lanjut='Ralan' and no_rawat=a.transaksi_idx)
                         and   a.no_file not in (select document_name from dt01_whatsapp_broadcast_hd where ref_id=a.no_file)
                         order by created_date desc
                         ".$limit."                  
