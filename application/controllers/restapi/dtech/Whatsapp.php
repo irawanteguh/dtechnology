@@ -53,7 +53,8 @@
                     $extensions = "";
 
                     $session_id    = $a->session;
-                    $to            = $a->to;
+                    $to            = $a->no_hp;
+
                     for ($i = 1; $i <= 10; $i++) {
                         $key = "body_$i";
                         if (!empty($a->$key)) {
@@ -61,7 +62,7 @@
                         }
                     }
 
-                    $body_text = implode("", $body_parts);
+                    $body_text     = implode("", $body_parts);
                     $document_path = $a->directory;
                     $document_name = $a->document_name;
 

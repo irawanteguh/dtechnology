@@ -59,7 +59,7 @@
                         $data['transaksi_id']  = $transaksiid;
                         $data['body_1']        = $text;
                         $data['device_id']     = $deviceid;
-                        $data['to']            = $to;
+                        $data['nohp']          = $to;
                         $data['type_file']     = "1";
                         $data['directory']     = $filepath;
                         $data['document_name'] = $nofile;
@@ -71,7 +71,7 @@
                                 'org_id'        => ORG_ID,
                                 'transaksi_id'  => $transaksiid,
                                 'device_id'     => $deviceid,
-                                'to'            => $to,
+                                'nohp'          => $to,
                                 'type_file'     => "1",
                                 'directory'     => $filepath,
                                 'document_name' => $nofile,
@@ -83,7 +83,7 @@
                                 'org_id'        => ORG_ID,
                                 'transaksi_id'  => $transaksiid,
                                 'device_id'     => $deviceid,
-                                'to'            => $to,
+                                'nohp'          => $to,
                                 'type_file'     => "1",
                                 'directory'     => null,
                                 'document_name' => null,
