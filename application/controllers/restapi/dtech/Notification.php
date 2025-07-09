@@ -65,7 +65,7 @@
                         $data['document_name'] = $nofile;
                         $data['ref_id']        = $nofile;
 
-                        if ($informasikunjunganpasien->statusmiddleware === "TRUE") {
+                        if ($a->statusmiddleware === "TRUE") {
                             $responList[] = [
                                 'status'        => $this->md->simpanboardcast($data),
                                 'org_id'        => ORG_ID,
