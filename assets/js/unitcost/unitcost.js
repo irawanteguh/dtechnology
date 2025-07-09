@@ -69,7 +69,7 @@ function detailcomponent() {
             if (data.responCode === "00") {
                 const result = data.responResult;
                 const grouped = {};
-                let grandtotal = 0; // 👈 Grand total inisialisasi
+                let grandtotal = 0;
 
                 // 1. Kelompokkan data berdasarkan kategori
                 for (const i in result) {
@@ -91,10 +91,10 @@ function detailcomponent() {
 
                     // 3. Baris komponen
                     for (let i = 0; i < items.length; i++) {
-                        const row         = items[i];
-                        const biaya       = Number(row.total_biaya_per_pasien) || 0;
-                              subtotal   += biaya;
-                              grandtotal += biaya;
+                        const row       = items[i];
+                        const biaya     = Number(row.total_biaya_per_pasien) || 0;
+                        subtotal       += biaya;
+                        grandtotal     += biaya;
 
                         tableresult += `<tr>
                                             <td class='ps-4'>${row.namecomponent || ""}</td>
@@ -122,8 +122,16 @@ function detailcomponent() {
                                     <td class="text-end pe-3">${todesimal(grandtotal)}</td>
                                     <td></td>
                                 </tr>`;
+
+                // 6. Tambahan: Total Unit Cost x 30%
+                const totalUnitCost30 = (grandtotal * 0.3)+grandtotal;
+                tableresult += `<tr class="table-info fw-bold">
+                                    <td class="text-end pe-2" colspan='4'>Total Unit Cost x 30%</td>
+                                    <td class="text-end pe-3">${todesimal(totalUnitCost30)}</td>
+                                    <td></td>
+                                </tr>`;
             } else {
-                tableresult = `<tr><td colspan='5' class='text-center text-danger'>${data.responDesc}</td></tr>`;
+                tableresult = `<tr><td colspan='6' class='text-center text-danger'>${data.responDesc}</td></tr>`;
             }
 
             $("#resultdatadetailcomponent").html(tableresult);
@@ -146,4 +154,5 @@ function detailcomponent() {
     });
     return false;
 }
+
 
