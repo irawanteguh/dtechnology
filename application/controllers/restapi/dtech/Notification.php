@@ -65,17 +65,32 @@
                         $data['document_name'] = $nofile;
                         $data['ref_id']        = $nofile;
 
-                        $responList[] = [
-                            'status'        => $this->md->simpanboardcast($data),
-                            'org_id'        => ORG_ID,
-                            'transaksi_id'  => $transaksiid,
-                            'device_id'     => $deviceid,
-                            'nohp'          => $to,
-                            'type_file'     => "1",
-                            'directory'     => $filepath,
-                            'document_name' => $nofile,
-                            'ref_id'        => $nofile
-                        ];
+                        if ($a->statusmiddleware === "TRUE") {
+                            $responList[] = [
+                                'status'        => $this->md->simpanboardcast($data),
+                                'org_id'        => ORG_ID,
+                                'transaksi_id'  => $transaksiid,
+                                'device_id'     => $deviceid,
+                                'nohp'          => $to,
+                                'type_file'     => "1",
+                                'directory'     => $filepath,
+                                'document_name' => $nofile,
+                                'ref_id'        => $nofile
+                            ];
+                        } else {
+                            $responList[] = [
+                                'status'        => false,
+                                'org_id'        => ORG_ID,
+                                'transaksi_id'  => $transaksiid,
+                                'device_id'     => $deviceid,
+                                'nohp'          => $to,
+                                'type_file'     => "1",
+                                'directory'     => null,
+                                'document_name' => null,
+                                'ref_id'        => null,
+                                'note'          => 'Status middleware bukan TRUE, file tidak disimpan'
+                            ];
+                        }
 
                     }
                 }
