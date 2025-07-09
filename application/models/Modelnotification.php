@@ -99,7 +99,7 @@
                         and   a.jenis_doc in ('003','014','015','016','017','092','094','095','096','097','098','100','101','102','103','104','105','106','107')
                         and   a.status_sign='5'
                         AND   a.created_date >= '2025-07-08'
-                        and   a.no_file not in (select document_name from dt01_whatsapp_broadcast_hd where document_name=a.no_file)
+                        and   a.no_file not in (select document_name from dt01_whatsapp_broadcast_hd where ref_id=a.no_file)
                         order by created_date desc
                         ".$limit."                  
                     ";

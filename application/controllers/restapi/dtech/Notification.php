@@ -63,6 +63,7 @@
                         $data['type_file']     = "1";
                         $data['directory']     = $filepath;
                         $data['document_name'] = $nofile;
+                        $data['ref_id']        = $nofile;
 
                         $responList[] = [
                             'status'        => $this->md->simpanboardcast($data),
