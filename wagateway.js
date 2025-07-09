@@ -12,7 +12,7 @@ const qrStore         = {};
 const baseurl         = "http://192.168.102.13/dtechnology/index.php";
 const ipgateway       = "http://192.168.102.13:";
 const separator       = "=========================================================================================";
-const intervalMs      = 10000;
+const intervalMs      = 20000;
 let   autoSendLoop    = null;
 let   autoSendEnabled = true;
 
@@ -500,8 +500,7 @@ function startAutoSend() {
 					const data = JSON.parse(text);
 
 					if (data.status === false && data.message.includes("ENOENT")) {
-						// Handle error file not found
-						const match = data.message.match(/open '(.*?)'/);
+						const match    = data.message.match(/open '(.*?)'/);
 						const filePath = match ? match[1] : "Unknown";
 
 						console.log(separator);
@@ -510,7 +509,6 @@ function startAutoSend() {
 						console.log(`      Message  : ${data.message}`);
 						console.log(`      File     : ${filePath}`);
 					} else {
-						// Success log
 						console.log(`   ✅ JSON response received from ${url} ::`);
 						console.log(`      Status   : ${data.status}`);
 						console.log(`      Message  : ${data.message}`);
