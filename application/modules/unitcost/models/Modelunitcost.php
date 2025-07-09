@@ -56,6 +56,12 @@
                         and a.layan_id='9f18804e-f8b7-4107-8026-d12f5ebc37ae'
                         
                         order by jenis_id asc, namecomponent asc
+
+                        select a.position_id componentid, durasi,
+       (select position from dt01_hrd_position_ms where position_id=(select position_id from dt01_hrd_gaji_ms where transaksi_id=a.position_id))kategori,
+       (select ((nilai/(30*8*60))*a.durasi) from dt01_hrd_gaji_ms where transaksi_id=a.position_id)total_biaya_per_pasien
+from dt01_keu_unit_cost_dt a
+where a.jenis_id='2'
                     ";
 
             $recordset = $this->db->query($query);
