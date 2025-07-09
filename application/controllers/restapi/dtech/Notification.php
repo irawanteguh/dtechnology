@@ -35,14 +35,14 @@
                     $informasikunjunganpasien = $this->md->informasikunjunganpasien($norawat);
                     if (!empty($informasikunjunganpasien)) {
                         $to = "";
-                        // $to = $informasikunjunganpasien->nohp;
-                        $to = "6281288646630";
+                        $to = $informasikunjunganpasien->nohp;
 
                         $text  = "*".$a->namars."*";
                         $text .= "%0a*RMB Hospital Group*";
                         $text .= "%0a%0aKepada Yth,.";
                         $text .= "%0a*".$informasikunjunganpasien->namapasien."*%0a";
-                        if($a->jenis_doc==="003"){
+
+                        if($a->typedocument==="LAB"){
                             $text .= "%0aBerikut kami sampaikan hasil pemeriksaan laboratorium";
                         }
                         $text .= "%0aNo Rekam Medis%09: ".$informasikunjunganpasien->no_rkm_medis;

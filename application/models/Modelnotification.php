@@ -87,12 +87,18 @@
         function documenttte($orgid,$limit){
             $query =
                     "
-                        select a.no_file, transaksi_idx, jenis_doc,
-                               (select org_name from dt01_gen_organization_ms where org_id=a.org_id)namars
+                        select a.no_file, transaksi_idx, jenis_doc, created_date,
+                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)namars,
+                            case 
+                                when a.jenis_doc in ('003','014','015','016','017','092','094','095','096','097','098','100','101','102','103','104','105','106','107') then 'LAB'
+                                else ''
+                            end typedocument
+                            
                         from dt01_gen_document_file_dt a
                         where a.org_id='".$orgid."'
-                        and   a.jenis_doc='003'
+                        and   a.jenis_doc in ('003','014','015','016','017','092','094','095','096','097','098','100','101','102','103','104','105','106','107')
                         and   a.status_sign='5'
+                        AND   a.created_date >= '2025-07-08'
                         and   a.no_file not in (select document_name from dt01_whatsapp_broadcast_hd where document_name=a.no_file)
                         order by created_date desc
                         ".$limit."                  
