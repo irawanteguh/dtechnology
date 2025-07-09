@@ -59,7 +59,7 @@
                         $data['transaksi_id']  = $transaksiid;
                         $data['body_1']        = $text;
                         $data['device_id']     = $deviceid;
-                        $data['nohp']          = $to;
+                        $data['no_hp']          = $to;
                         $data['type_file']     = "1";
                         $data['directory']     = $filepath;
                         $data['document_name'] = $nofile;
