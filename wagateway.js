@@ -438,48 +438,48 @@ function startAutoSend() {
 		console.log(separator);
 		console.log(":: Checking Waiting List Broadcast Tanda Tangan Elektronik ::");
 
-		// try {
-		// 	const url = `${baseurl}/documenttte`;
-		// 	const response = await fetch(url, {
-		// 		method : "POST",
-		// 		headers: { "Content-Type": "application/json" }
-		// 	});
+		try {
+			const url = `${baseurl}/documenttte`;
+			const response = await fetch(url, {
+				method : "POST",
+				headers: { "Content-Type": "application/json" }
+			});
 
-		// 	const text = await response.text();
+			const text = await response.text();
 
-		// 	if (text.startsWith("<!DOCTYPE html")) {
-		// 		console.warn(`⚠️  HTML response detected from ${url}`);
-		// 	} else {
-		// 		try {
-		// 			const data = JSON.parse(text);
-		// 			console.log(`✅ JSON response received from ${url}:`);
-		// 			console.log(`   Status         : ${data.status}`);
-		// 			console.log(`   Message        : ${data.message}`);
+			if (text.startsWith("<!DOCTYPE html")) {
+				console.warn(`⚠️  HTML response detected from ${url}`);
+			} else {
+				try {
+					const data = JSON.parse(text);
+					console.log(`✅ JSON response received from ${url}:`);
+					console.log(`   Status         : ${data.status}`);
+					console.log(`   Message        : ${data.message}`);
 
-		// 			if (Array.isArray(data.data) && data.data.length > 0) {
-		// 				console.log("   Data Broadcast :");
-		// 				data.data.forEach((item, i) => {
-		// 					console.log(`   #${i + 1}`);
-		// 					console.log(`     Status        : ${item.status}`);
-		// 					console.log(`     Transaksi ID  : ${item.transaksi_id}`);
-		// 					console.log(`     To            : ${item.to}`);
-		// 					console.log(`     File Name     : ${item.document_name}`);
-		// 					console.log(`     Directory     : ${item.directory}`);
-		// 					console.log(`     Device ID     : ${item.device_id}`);
-		// 					console.log("     ------------------------------");
-		// 				});
-		// 			} else {
-		// 				console.log("⚠️  Tidak ada data broadcast tersedia.");
-		// 			}
-		// 		} catch {
-		// 			console.log(`ℹ️  Plain-text response from ${url}:`, text);
-		// 		}
-		// 	}
+					if (Array.isArray(data.data) && data.data.length > 0) {
+						console.log("   Data Broadcast :");
+						data.data.forEach((item, i) => {
+							console.log(`   #${i + 1}`);
+							console.log(`     Status        : ${item.status}`);
+							console.log(`     Transaksi ID  : ${item.transaksi_id}`);
+							console.log(`     To            : ${item.to}`);
+							console.log(`     File Name     : ${item.document_name}`);
+							console.log(`     Directory     : ${item.directory}`);
+							console.log(`     Device ID     : ${item.device_id}`);
+							console.log("     ------------------------------");
+						});
+					} else {
+						console.log("⚠️  Tidak ada data broadcast tersedia.");
+					}
+				} catch {
+					console.log(`ℹ️  Plain-text response from ${url}:`, text);
+				}
+			}
 
-		// 	console.log("✅ Checking Done");
-		// } catch (err) {
-		// 	console.error(`❌ Gagal POST ke ${url} : `, err.message);
-		// }
+			console.log("✅ Checking Done");
+		} catch (err) {
+			console.error(`❌ Gagal POST ke ${url} : `, err.message);
+		}
 
 		console.log(separator);
 		console.log(":: 🔄 Process Broadcasting Message ::");
