@@ -49,7 +49,7 @@
                         $text .= "%0aNama Pasien%09: ".$informasikunjunganpasien->namapasien;
                         $text .= "%0aTanggal Lahir%09: ".$informasikunjunganpasien->bod;
                         $text .= "%0aAlamat%09%09: ".$informasikunjunganpasien->almt_pj;
-                        $text .= "%0aNo Transaksi%09: ".$norawat;
+                        // $text .= "%0aNo Transaksi%09: ".$norawat;
                         $text .= "%0aTanggal Berobat%09: ".$informasikunjunganpasien->tglkunjungan;
                         $text .= "%0aPoliklinik%09%09: ".$informasikunjunganpasien->politujuan;
                         $text .= "%0aDokter%09%09: ".$informasikunjunganpasien->namadokter;
