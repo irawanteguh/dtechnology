@@ -92,7 +92,8 @@
                             case 
                                 when a.jenis_doc in ('003') then 'LAB'
                                 else ''
-                            end typedocument
+                            end typedocument,
+                            (select prod from dt01_gen_enviroment_ms where env_id='6ac2fbad-c514-4fcd-813d-b4845a5a5999')statusmiddleware
                             
                         from dt01_gen_document_file_dt a
                         where a.org_id='".$orgid."'

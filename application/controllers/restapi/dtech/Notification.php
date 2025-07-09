@@ -17,7 +17,7 @@
             $limit      = "limit ".rand(1, 5).";";
             $resultdata = $this->md->documenttte(ORG_ID, $limit);
 
-            if (!empty($resultdata)) {
+            if(!empty($resultdata)){
                 foreach ($resultdata as $a) {
                     $transaksiid = "";
                     $deviceid    = "";
@@ -65,17 +65,33 @@
                         $data['document_name'] = $nofile;
                         $data['ref_id']        = $nofile;
 
-                        $responList[] = [
-                            'status'        => $this->md->simpanboardcast($data),
-                            'org_id'        => ORG_ID,
-                            'transaksi_id'  => $transaksiid,
-                            'device_id'     => $deviceid,
-                            'to'            => $to,
-                            'type_file'     => "1",
-                            'directory'     => $filepath,
-                            'document_name' => $nofile,
-                            'ref_id'        => $nofile
-                        ];
+                        if ($informasikunjunganpasien->statusmiddleware === "TRUE") {
+                            $responList[] = [
+                                'status'        => $this->md->simpanboardcast($data),
+                                'org_id'        => ORG_ID,
+                                'transaksi_id'  => $transaksiid,
+                                'device_id'     => $deviceid,
+                                'to'            => $to,
+                                'type_file'     => "1",
+                                'directory'     => $filepath,
+                                'document_name' => $nofile,
+                                'ref_id'        => $nofile
+                            ];
+                        } else {
+                            $responList[] = [
+                                'status'        => false,
+                                'org_id'        => ORG_ID,
+                                'transaksi_id'  => $transaksiid,
+                                'device_id'     => $deviceid,
+                                'to'            => $to,
+                                'type_file'     => "1",
+                                'directory'     => null,
+                                'document_name' => null,
+                                'ref_id'        => null,
+                                'note'          => 'Status middleware bukan TRUE, file tidak disimpan'
+                            ];
+                        }
+
                     }
                 }
                 $this->response(['status'  => true,'message' => 'Data berhasil diambil.','data'    => $responList], 200);
