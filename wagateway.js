@@ -234,14 +234,14 @@ whatsapp.onConnected(async (sessionId) => {
 			console.log("   username :",data.data.username);
 			console.log("   phone    :",data.data.phone);
 			console.log("   status   :",data.data.status);
+
+			// ?? Tambahkan Auto Send di sini
+			startAutoSend();
 		} catch {
 			console.log(separator);
 			console.log(':: ⚠️  Response Rest API ::');
-			console.log(text);
+			console.log(response);
 		}
-
-		// ⬇️ Tambahkan Auto Send di sini
-		startAutoSend();
 	} catch (err) {
 		console.log(separator);
 		console.log('❌ Error saat mengirim info ke API:', err.message);
