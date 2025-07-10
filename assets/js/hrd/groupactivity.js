@@ -77,14 +77,14 @@ function daftarjabatan() {
             if (data.responCode === "00") {
                 var result = data.responResult;
                 for (var i in result) {
-                    getvariabel = "data-positionid='" + result[i].POSITION_ID + "'" +
-                        "data-position='" + result[i].POSITION + "'";
+                    getvariabel = "data-positionid='" + result[i].position_id + "'" +
+                                  "data-position='" + result[i].position + "'";
 
                     tableresult += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-hover border border-dashed border-gray-300 cursor-pointer mb-1' data-kt-search-element='customer' title='Klik Untuk Memilih' " + getvariabel + ">";
                     if (result[i].jml > 0) {
-                        tableresult += "<div class='fw-bold'><span class='fs-6 text-gray-800 me-2'>" + result[i].POSITION + " " + (result[i].FUNCTIONAL ? result[i].FUNCTIONAL : '') + "</span><span class='badge badge-light-info'>" + (result[i].jml ? result[i].jml : '') + " Staff</span></div>";
+                        tableresult += "<div class='fw-bold'><span class='fs-6 text-gray-800 me-2'>" + result[i].position + " " + (result[i].functional ? result[i].functional : '') + "</span><span class='badge badge-light-info'>" + (result[i].jml ? result[i].jml : '') + " Staff</span></div>";
                     } else {
-                        tableresult += "<div class='fw-bold'><span class='fs-6 text-gray-800 me-2'>" + result[i].POSITION + " " + (result[i].FUNCTIONAL ? result[i].FUNCTIONAL : '') + "</span></div>";
+                        tableresult += "<div class='fw-bold'><span class='fs-6 text-gray-800 me-2'>" + result[i].position + " " + (result[i].functional ? result[i].functional : '') + "</span></div>";
                     }
                     tableresult += "</div>";
                 }
@@ -140,14 +140,14 @@ function daftarkegiatan() {
 
                     tableresult += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' data-kt-search-element='customer'>";
                     tableresult += "<div class='fw-bold'>";
-                    tableresult += "<span class='fs-6 text-gray-800 me-2'>" + result[i].ACTIVITY + "</span><br>";
-                    tableresult += "<span class='fs-6 text-muted me-2'>Durasi : " + result[i].DURASI + " Menit </span>";
+                    tableresult += "<span class='fs-6 text-gray-800 me-2'>" + result[i].activity + "</span><br>";
+                    tableresult += "<span class='fs-6 text-muted me-2'>Durasi : " + result[i].durasi + " Menit </span>";
                     tableresult += "</div>";
                     tableresult += "<div class='fw-bold d-flex justify-content-end'>";
                     if (result[i].transidmapping != null) {
-                        tableresult += "<div class='form-check form-switch form-check-custom form-check-solid'><input class='form-check-input h-20px w-30px' type='checkbox' id='" + result[i].ACTIVITY_ID + "' checked='checked' /></div>";
+                        tableresult += "<div class='form-check form-switch form-check-custom form-check-solid'><input class='form-check-input h-20px w-30px' type='checkbox' id='" + result[i].activity_id + "' checked='checked' /></div>";
                     } else {
-                        tableresult += "<div class='form-check form-switch form-check-custom form-check-solid'><input class='form-check-input h-20px w-30px' type='checkbox' id='" + result[i].ACTIVITY_ID + "' /></div>";
+                        tableresult += "<div class='form-check form-switch form-check-custom form-check-solid'><input class='form-check-input h-20px w-30px' type='checkbox' id='" + result[i].activity_id + "' /></div>";
                     }
                     tableresult += "</div>";
                     tableresult += "</div>";

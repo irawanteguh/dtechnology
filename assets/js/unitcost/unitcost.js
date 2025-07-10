@@ -85,22 +85,20 @@ function detailcomponent() {
 
                     // Header kategori
                     tableresult += `<tr class="table-primary fw-bold">
-                                        <td colspan="5" class="ps-3">${kategori}</td>
+                                        <td colspan="3" class="ps-3">${kategori}</td>
                                         <td></td>
                                     </tr>`;
 
                     // 3. Baris komponen
                     for (let i = 0; i < items.length; i++) {
                         const row       = items[i];
-                        const biaya     = Number(row.total_biaya_per_pasien) || 0;
+                        const biaya     = Number(row.cost) || 0;
                         subtotal       += biaya;
                         grandtotal     += biaya;
 
                         tableresult += `<tr>
                                             <td class='ps-4'>${row.namecomponent || ""}</td>
-                                            <td class='text-end'>${row.depresiasi_pasien ? todesimal(row.depresiasi_pasien) : "0"}</td>
-                                            <td class='text-end'>${row.pemeliharaan_pasien ? todesimal(row.pemeliharaan_pasien) : "0"}</td>
-                                            <td class='text-end'>${row.bunga_pasien ? todesimal(row.bunga_pasien) : "0"}</td>
+                                            <td>${row.description ? row.description : ""}</td>
                                             <td class='text-end'>${biaya ? todesimal(biaya) : "0"}</td>
                                             <td class='text-end'>
                                                 <a class='btn btn-sm btn-light-primary'>Detail</a>
@@ -110,7 +108,7 @@ function detailcomponent() {
 
                     // 4. Subtotal kategori
                     tableresult += `<tr class="table-warning fw-semibold">
-                                        <td class="text-end pe-2" colspan='4'>Subtotal</td>
+                                        <td class="text-end pe-2" colspan='2'>Subtotal</td>
                                         <td class="text-end fw-bold pe-3">${todesimal(subtotal)}</td>
                                         <td></td>
                                     </tr>`;
@@ -118,20 +116,18 @@ function detailcomponent() {
 
                 // 5. Grand total di akhir semua kategori
                 tableresult += `<tr class="table-success fw-bold">
-                                    <td class="text-end pe-2" colspan='4'>Grand Total</td>
+                                    <td class="text-end pe-2" colspan='2'>Grand Total</td>
                                     <td class="text-end pe-3">${todesimal(grandtotal)}</td>
                                     <td></td>
                                 </tr>`;
 
                 // 6. Tambahan: Total Unit Cost x 30%
-                const totalUnitCost30 = (grandtotal * 0.3)+grandtotal;
+                const totalUnitCost30 = Math.round(grandtotal * 1.3);
                 tableresult += `<tr class="table-info fw-bold">
-                                    <td class="text-end pe-2" colspan='4'>Total Unit Cost x 30%</td>
+                                    <td class="text-end pe-2" colspan='2'>Total Unit Cost x 30%</td>
                                     <td class="text-end pe-3">${todesimal(totalUnitCost30)}</td>
                                     <td></td>
                                 </tr>`;
-            } else {
-                tableresult = `<tr><td colspan='6' class='text-center text-danger'>${data.responDesc}</td></tr>`;
             }
 
             $("#resultdatadetailcomponent").html(tableresult);
@@ -154,5 +150,3 @@ function detailcomponent() {
     });
     return false;
 }
-
-

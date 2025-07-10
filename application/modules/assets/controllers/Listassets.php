@@ -9,21 +9,47 @@
         }
 
 		public function index(){
-            // $data = $this->loadcombobox();
-			$this->template->load("template/template-sidebar","v_listassets");
+            $data = $this->loadcombobox();
+			$this->template->load("template/template-sidebar","v_listassets",$data);
 		}
 
-        // public function loadcombobox(){
-        //     $resultmasterbarang = $this->md->masterbarang($_SESSION['orgid']);
+        public function loadcombobox(){
+            $resultkategoriasset = $this->md->kategoriasset();
 
-        //     $masterbarang="";
-        //     foreach($resultmasterbarang as $a ){
-        //         $masterbarang.="<option value='".$a->barang_id."'>".$a->nama_barang."</option>";
-        //     }
+            $kategoriassets = "";
+            foreach($resultkategoriasset as $a){
+                $kategoriassets .= "<label class='d-flex flex-stack mb-5 cursor-pointer'>";
 
-        //     $data['masterbarang']   = $masterbarang;
-        //     return $data;
-		// }
+                // Kolom Kiri: Icon + Label
+                $kategoriassets .= "<span class='d-flex align-items-center me-2'>";
+
+                // Icon/Simbol
+                $kategoriassets .= "<span class='symbol symbol-50px me-6'>";
+                $kategoriassets .= "<span class='symbol-label bg-light-".$a->color."'>";
+                $kategoriassets .= "<i class='".$a->icon." fa-2x text-".$a->color."'></i>";
+                $kategoriassets .= "</span>";
+                $kategoriassets .= "</span>";
+
+                // Informasi Nama & Deskripsi
+                $kategoriassets .= "<span class='d-flex flex-column'>";
+                $kategoriassets .= "<span class='fw-bolder fs-6'>" . $a->master_name . "</span>";
+                $kategoriassets .= "<span class='fs-7 text-muted'>" . $a->master_name . "</span>";
+                $kategoriassets .= "</span>"; // end info
+
+                $kategoriassets .= "</span>"; // end align-items-center
+
+                // Kolom Kanan: Input radio
+                $kategoriassets .= "<span class='form-check form-check-custom form-check-solid is-valid'>";
+                $kategoriassets .= "<input class='form-check-input' type='radio' name='category' value='" . $a->code . "'>";
+                $kategoriassets .= "</span>";
+
+                $kategoriassets .= "</label>";
+            }
+
+            $data['kategoriassets'] = $kategoriassets;
+            return $data;
+        }
+
 
         // public function insertassets(){
 
