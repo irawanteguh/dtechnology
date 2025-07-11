@@ -108,6 +108,9 @@
                                 'messageTimestamp'  => $res['result']['messageTimestamp'] ?? null
                             ]);
                         } else {
+                            $dataupdate['status']       = "9";
+                            $this->md->updatestatusbroadcastwhatsapp($dataupdate, $a->transaksi_id);
+
                             echo json_encode([
                                 'status'  => false,
                                 'message' => $res['error'] ?? 'Gagal mengirim dokumen'
