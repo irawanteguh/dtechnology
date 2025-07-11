@@ -9,8 +9,8 @@
                             select a.trans_id, status, activity,
                                 concat(DATE_FORMAT(a.start_date, '%Y-%m-%d'),'T',start_time_in,':00') start_date,
                                 concat(DATE_FORMAT(a.end_date, '%Y-%m-%d'),'T',end_time_out,':00') end_date,
-                                (select activity from dt01_hrd_activity_ms where active='1' and org_id=a.org_id and activity_id=a.activity_id)kegiatanutama,
-                                (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=a.atasan_id)validatorkegiatan
+                                (select activity from dt01_hrd_activity_ms where active='1' and activity_id=a.activity_id)kegiatanutama,
+                                (select name from dt01_gen_user_data where active='1' and user_id=a.atasan_id)validatorkegiatan
                             from dt01_hrd_activity_dt a
                             where a.active='1'
                             and   a.org_id='".$orgid."'
@@ -40,13 +40,13 @@
             return $recordset;
         }
 
-        function cekklinisactivity($orgid,$activityid){
+        function cekklinisactivity($orgid,$groupid,$activityid){
             $query =
                     "
                         select a.pk
                         from dt01_hrd_activity_ms a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
                         and   a.activity_id='".$activityid."'
                     ";
 
@@ -55,13 +55,13 @@
             return $recordset;
         }
 
-        function cekklinisid($orgid,$userid){
+        function cekklinisid($orgid,$groupid,$userid){
             $query =
                     "
                         select a.klinis_id
                         from dt01_gen_user_data a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
                         and   a.user_id='".$userid."'
                     ";
 
@@ -70,13 +70,13 @@
             return $recordset;
         }
 
-        function cekatasanid($orgid,$userid){
+        function cekatasanid($orgid,$groupid,$userid){
             $query =
                     "
                         select a.atasan_id
                         from dt01_hrd_position_dt a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
                         and   a.user_id='".$userid."'
                         and   a.position_primary='Y'
                     ";
@@ -86,12 +86,12 @@
             return $recordset;
         }
 
-        function cekatasan($orgid,$userid,$activityid){
+        function cekatasan($orgid,$groupid,$userid,$activityid){
             $query =
                     "
                         select a.atasan_id, position_primary
                         from dt01_hrd_position_dt a
-                        where a.org_id='".$orgid."'
+                        where a.org_id='".$orgid."' or group_id='".$groupid."'
                         and   a.active='1'
                         and   a.user_id='".$userid."'
                         and   a.position_id in (select position_id from dt01_hrd_mapping_activity where org_id=a.org_id and active='1' and activity_id='".$activityid."')
@@ -103,7 +103,7 @@
             return $recordset;
         }
 
-        function activity($orgid,$userid,$pk){
+        function activity($groupid,$userid,$pk){
             $query =
                     "
                         select x.*
@@ -112,16 +112,16 @@
                                     (select nomor from dt01_hrd_klinis_ms a where active='1' and klinis_id=a.pk)urut
                                 from dt01_hrd_activity_ms a
                                 where a.active='1'
-                                and   a.org_id='".$orgid."'
-                                and   a.activity_id in ( select activity_id from dt01_hrd_mapping_activity where org_id='".$orgid."' and active='1' and position_id in (select position_id from dt01_hrd_position_dt where org_id='".$orgid."' and active='1' and active='1' and status='1' and user_id='".$userid."'))
-
+                                and   a.group_id='".$groupid."'
+                                and   a.activity_id in ( select activity_id from dt01_hrd_mapping_activity where group_id='".$groupid."' and active='1' and position_id in (select position_id from dt01_hrd_position_dt where group_id='".$groupid."' and active='1' and status='1' and user_id='".$userid."'))
+                                
                                 union
 
                                 select concat(a.activity_id,':',durasi)activity_id, concat(' [ ',(select concat(name,' ',area)  from dt01_hrd_klinis_ms where active='1' and klinis_id=a.pk),' ] ',activity,' Durasi ',durasi,' Menit')activity, durasi,
                                      (select nomor from dt01_hrd_klinis_ms a where active='1' and klinis_id=a.pk)urut
                                 from dt01_hrd_activity_ms a
                                 where a.active='1'
-                                and   a.org_id='".$orgid."'
+                                and   a.group_id='".$groupid."'
                                 and   a.pk in ( select sub_klinis_id from dt01_hrd_mapping_klinis where active='1' ".$pk.")
                         )x
                         order by x.urut desc, x.activity asc, x.durasi asc
@@ -132,7 +132,6 @@
             $recordset = $recordset->result();
             return $recordset;
         }
-
 
         function cekKegiatan($org_id, $user_id, $start_date, $start_time_in, $end_time_out){
             $query =
@@ -157,65 +156,71 @@
             $recordset = $recordset->result();
             return $recordset;
         }     
-        
-        
 
-        function volume($orgid,$activityid,$starttime,$endtime){
-            $query =
-                    "
-                        select x.*
-                        from (
-                            select '1' as vol union all
-                            select '2' union all
-                            select '3' union all
-                            select '4' union all
-                            select '5' union all
-                            select '6' union all
-                            select '7' union all
-                            select '8' union all
-                            select '9' union all
-                            select '10' union all
-                            select '11' union all
-                            select '12' union all
-                            select '13' union all
-                            select '14' union all
-                            select '15' union all
-                            select '16' union all
-                            select '17' union all
-                            select '18' union all
-                            select '19' union all
-                            select '20' union all
-                            select '21' union all
-                            select '22' union all
-                            select '23' union all
-                            select '24' union all
-                            select '25' union all
-                            select '26' union all
-                            select '27' union all
-                            select '28' union all
-                            select '29' union all
-                            select '30' union all
-                            select '31' union all
-                            select '32' union all
-                            select '33' union all
-                            select '34' union all
-                            select '35' union all
-                            select '36' union all
-                            select '37' union all
-                            select '38' union all
-                            select '39' union all
-                            select '40'
-                        ) x
-                        where cast(x.vol as unsigned) <= (
-                            select 
-                                ((time_to_sec(str_to_date('".$endtime."', '%H:%i')) - time_to_sec(str_to_date('".$starttime."', '%H:%i'))) / 60) / 
-                                ( select durasi from dt01_hrd_activity_ms where active = '1' and org_id = '".$orgid."' and activity_id = '".$activityid."')
-                        )
-                        order by cast(x.vol as unsigned) desc;
-                    ";
+        function volume($groupid,$activityid,$starttime,$endtime) {
+            // Cleaned & parameterized where possible
+            $groupid    = $this->db->escape_str($groupid);
+            $activityid = $this->db->escape_str($activityid);
+            $starttime  = $this->db->escape_str($starttime);
+            $endtime    = $this->db->escape_str($endtime);
 
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
+            $query = "
+                SELECT x.*
+                FROM (
+                    SELECT 1 AS vol UNION ALL
+                    SELECT 2 UNION ALL
+                    SELECT 3 UNION ALL
+                    SELECT 4 UNION ALL
+                    SELECT 5 UNION ALL
+                    SELECT 6 UNION ALL
+                    SELECT 7 UNION ALL
+                    SELECT 8 UNION ALL
+                    SELECT 9 UNION ALL
+                    SELECT 10 UNION ALL
+                    SELECT 11 UNION ALL
+                    SELECT 12 UNION ALL
+                    SELECT 13 UNION ALL
+                    SELECT 14 UNION ALL
+                    SELECT 15 UNION ALL
+                    SELECT 16 UNION ALL
+                    SELECT 17 UNION ALL
+                    SELECT 18 UNION ALL
+                    SELECT 19 UNION ALL
+                    SELECT 20 UNION ALL
+                    SELECT 21 UNION ALL
+                    SELECT 22 UNION ALL
+                    SELECT 23 UNION ALL
+                    SELECT 24 UNION ALL
+                    SELECT 25 UNION ALL
+                    SELECT 26 UNION ALL
+                    SELECT 27 UNION ALL
+                    SELECT 28 UNION ALL
+                    SELECT 29 UNION ALL
+                    SELECT 30 UNION ALL
+                    SELECT 31 UNION ALL
+                    SELECT 32 UNION ALL
+                    SELECT 33 UNION ALL
+                    SELECT 34 UNION ALL
+                    SELECT 35 UNION ALL
+                    SELECT 36 UNION ALL
+                    SELECT 37 UNION ALL
+                    SELECT 38 UNION ALL
+                    SELECT 39 UNION ALL
+                    SELECT 40
+                ) x
+                WHERE CAST(x.vol AS UNSIGNED) <= (
+                    SELECT FLOOR(
+                        (TIME_TO_SEC(STR_TO_DATE('$endtime', '%H:%i')) - TIME_TO_SEC(STR_TO_DATE('$starttime', '%H:%i'))) / 60 
+                        / durasi
+                    )
+                    FROM dt01_hrd_activity_ms
+                    WHERE active = '1' AND group_id = '$groupid' AND activity_id = '$activityid'
+                    LIMIT 1
+                )
+                ORDER BY CAST(x.vol AS UNSIGNED) DESC
+            ";
+
+            $recordset = $this->db->query($query)->result();
             return $recordset;
         }
 
@@ -224,12 +229,10 @@
             return $sql;
         }
 
-
         function updateactivity($data,$transid){           
             $sql =   $this->db->update("dt01_hrd_activity_dt",$data,array("trans_id"=>$transid));
             return $sql;
         }
-
 
     }
 ?>

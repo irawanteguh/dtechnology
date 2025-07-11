@@ -8,11 +8,17 @@ $('#modal_activity_userguides').on('hidden.bs.modal', function (e) {
 });
 
 $('#modal_activity_add').on('show.bs.modal', function (e) {
-    $("input[name='data_activity_time_start_add']").val(new Date().getHours() + ":" + ('0' + new Date().getMinutes()).slice(-2));
-    $("input[name='data_activity_time_end_add']").val(new Date().getHours() + ":" + ('0' + new Date().getMinutes()).slice(-2));
+    const now           = new Date();
+    const hours         = String(now.getHours()).padStart(2, '0');    // HH24
+    const minutes       = String(now.getMinutes()).padStart(2, '0');  // MI
+    const timeFormatted = `${hours}:${minutes}`;
+
+    $("input[name='data_activity_time_start_add']").val(timeFormatted);
+    $("input[name='data_activity_time_end_add']").val(timeFormatted);
     $('#data_activity_description_add').val("");
     volume();
 });
+
 
 flatpickr('[name="data_activity_date_add"]', {
     enableTime: false,

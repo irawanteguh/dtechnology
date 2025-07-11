@@ -15,7 +15,7 @@
 
         public function loadcombobox(){
             $resulttype                 = $this->md->type();
-            $resultmasterclassification = $this->md->masterclassification($_SESSION['orgid']);
+            $resultmasterclassification = $this->md->masterclassification($_SESSION['orgid'],$_SESSION['groupid']);
             $resultdutydays             = $this->md->dutydays();
             $resultdutyhours            = $this->md->dutyhours();
 
@@ -72,7 +72,7 @@
         }
 
         public function masteremployee(){
-            $result = $this->md->masteremployee($_SESSION['orgid'],"");
+            $result = $this->md->masteremployee($_SESSION['orgid']);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -96,6 +96,7 @@
             $date           = DateTime::createFromFormat("d.m.Y", $this->input->post("drawer_data_employee_registrationposition_date_add"))->format("Y-m-d");
             
 
+            $data['group_id']         = $_SESSION['groupid'];
             $data['org_id']           = $_SESSION['orgid'];
             $data['trans_id']         = generateuuid();
             $data['user_id']          = $userid;
@@ -106,7 +107,7 @@
             $data['created_by']       = $_SESSION['userid'];
             
             if($type === "Y"){
-                $cekdataprimary = $this->md->cekdataprimary(ORG_ID,$userid);
+                $cekdataprimary = $this->md->cekdataprimary($_SESSION['orgid'],$userid);
                 if(empty($cekdataprimary)){
                     if($this->md->insertpenempatan($data)){
                         $json['responCode']="00";

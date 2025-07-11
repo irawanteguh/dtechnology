@@ -14,7 +14,7 @@ class Activity extends CI_Controller{
 	}
 
 	public function loadcombobox(){
-		$resultcekklinisid = $this->md->cekklinisid($_SESSION['orgid'], $_SESSION['userid']);
+		$resultcekklinisid = $this->md->cekklinisid($_SESSION['orgid'],$_SESSION['groupid'],$_SESSION['userid']);
 
 		if ($resultcekklinisid->klinis_id != "") {
 			$pk = "and klinis_id = '".$resultcekklinisid->klinis_id."'";
@@ -22,7 +22,7 @@ class Activity extends CI_Controller{
 			$pk = "and klinis_id is null";
 		}
 
-		$resultactivity = $this->md->activity($_SESSION['orgid'],$_SESSION['userid'],$pk);
+		$resultactivity = $this->md->activity($_SESSION['groupid'],$_SESSION['userid'],$pk);
 		$activity       = "";
 		foreach ($resultactivity as $a) {
 			$activity .= "<option value='" . $a->activity_id . "'>" . $a->activity . "</option>";
@@ -75,7 +75,7 @@ class Activity extends CI_Controller{
 		$mulaikegiatan   = $this->input->post('mulaikegiatan');
 		$selesaikegiatan = $this->input->post('selesaikegiatan');
 
-		$lisvol = $this->md->volume($_SESSION['orgid'], $kegiatanidarray[0], $mulaikegiatan, $selesaikegiatan,);
+		$lisvol = $this->md->volume($_SESSION['groupid'],$kegiatanidarray[0],$mulaikegiatan,$selesaikegiatan,);
 		$list   = "";
 
 		foreach ($lisvol as $d) {
@@ -89,12 +89,12 @@ class Activity extends CI_Controller{
 		$activityid       = $this->input->post("data_activity_primaryactivity_add");
 		$activityIdsArray = explode(":", $activityid);
 	
-		$resultcekklinisactivity = $this->md->cekklinisactivity($_SESSION['orgid'], $activityIdsArray[0]);
+		$resultcekklinisactivity = $this->md->cekklinisactivity($_SESSION['orgid'],$_SESSION['groupid'],$activityIdsArray[0]);
 		if($resultcekklinisactivity->pk === ""){
-			$resultcekatasan = $this->md->cekatasan($_SESSION['orgid'], $_SESSION['userid'], $activityIdsArray[0]);
+			$resultcekatasan = $this->md->cekatasan($_SESSION['orgid'],$_SESSION['groupid'],$_SESSION['userid'], $activityIdsArray[0]);
 			$atasanid        = $resultcekatasan->atasan_id;
 		}else{
-			$resultcekatasanid = $this->md->cekatasanid($_SESSION['orgid'], $_SESSION['userid']);
+			$resultcekatasanid = $this->md->cekatasanid($_SESSION['orgid'],$_SESSION['groupid'],$_SESSION['userid']);
 			$atasanid = $resultcekatasanid->atasan_id;            
 		}
 		
@@ -105,7 +105,7 @@ class Activity extends CI_Controller{
 		if (strlen($start_time_in) < 5 || strlen($end_time_out) < 5) {
 			$json['responCode'] = "01";
 			$json['responHead'] = "error";
-			$json['responDesc'] = "Mohon Periksa Kembali Jam Mulai dan atau Jam Selesai";
+			$json['responDesc'] = "Mohon Periksa Kembali Format Jam Mulai dan atau Jam Selesai HH24:MI";
 		} else {
 			$conflict = $this->md->cekKegiatan($_SESSION['orgid'], $_SESSION['userid'], $start_date, $start_time_in, $end_time_out);
 		

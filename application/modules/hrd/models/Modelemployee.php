@@ -38,13 +38,13 @@
             return $recordset;
         }
 
-        function masterclassification($orgid){
+        function masterclassification($orgid,$groupid){
             $query =
                     "
                         select a.kategori_id, kategori
                         from dt01_hrd_kategori_tenaga_ms a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
                         order by kategori asc
                     ";
 
@@ -198,7 +198,7 @@
             return $recordset;
         }
 
-        function masteremployee($orgid,$parameter){
+        function masteremployee($orgid){
             $query =
                     "
                         SELECT 
@@ -331,10 +331,7 @@
 
                                 FROM dt01_gen_user_data a
                                 WHERE a.org_id = '".$orgid."'
-                                ".$parameter."
-
                             ) x
-
                         ) y
 
                         ORDER BY y.positioidprimary asc, name asc
