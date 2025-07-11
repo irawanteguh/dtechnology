@@ -35,6 +35,21 @@
             return $recordset;
         }
 
+        function masterdepartment(){
+            $query =
+                    "
+                        select a.department_id, department
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.level_id='5'
+                        order by department asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterpoliklinik(){
             $query =
                     "
@@ -140,8 +155,22 @@
             return $recordset;
         }
 
+        function datasaran($transid){
+            $query =
+                    "
+                        select a.trans_id, code, nama, saran
+                        from dt01_crm_saran_hd a
+                        where a.trans_id='".$transid."'
+                        limit 1;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function insertepisode($data){           
-            $sql =   $this->db->insert("reg_periksa",$data);
+            $sql =   $this->db->insert("dt01_crm_saran_hd",$data);
             return $sql;
         }
     }

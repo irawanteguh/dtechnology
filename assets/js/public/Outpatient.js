@@ -1,25 +1,34 @@
+Dropzone.autoDiscover = false;
+let myDropzone;
+
+
 document.querySelectorAll('[data-kt-plan]').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
-
-        // Hapus kelas 'active' dari semua tombol
         document.querySelectorAll('[data-kt-plan]').forEach(b => b.classList.remove('active'));
-
-        // Tambahkan kelas 'active' ke tombol yang diklik
         this.classList.add('active');
-
-        // Ambil data target yang diklik
         const target = this.getAttribute('data-kt-plan');
-
-        // Sembunyikan semua konten
         document.querySelectorAll('.plan-content').forEach(div => {
             div.classList.add('d-none');
         });
-
-        // Tampilkan konten yang sesuai
         document.getElementById(target).classList.remove('d-none');
     });
 });
+
+$("#notlpsaran").on("input", function () {
+    let val = $(this).val().trim();
+    if (val !== "") {
+        if (val.startsWith("0")) {
+            val = "62" + val.substring(1);
+        } else if (!val.startsWith("62")) {
+            val = "62" + val;
+        }
+        if (!val.startsWith("6262")) {
+            $(this).val(val);
+        }
+    }
+});
+
 
 flatpickr('[name="booking_date"]', {
     enableTime: false,
@@ -44,14 +53,13 @@ var KTCreateAccount = (function () {
     var stepper, form, nextBtn, prevBtn, stepperInstance;
 
     return {
-        init: function () {
-            stepper         = document.querySelector("#kt_create_account_stepper");
+        booking: function () {
+            stepper         = document.querySelector("#stepper_booking");
             form            = document.querySelector("#formbooking");
             nextBtn         = stepper.querySelector('[data-kt-stepper-action="next"]');
-            prevBtn         = stepper.querySelector('[data-kt-stepper-action="previous"]'); // Tombol Previous
+            prevBtn         = stepper.querySelector('[data-kt-stepper-action="previous"]');
             stepperInstance = new KTStepper(stepper);
 
-            // 🔹 Sembunyikan tombol Previous di Step 4
             stepperInstance.on("kt.stepper.changed", function () {
                 var currentStep = stepperInstance.getCurrentStepIndex();
 
@@ -159,12 +167,192 @@ var KTCreateAccount = (function () {
                 e.goPrevious();
                 KTUtil.scrollTop();
             });
+        },
+        saran: function () {
+            const stepper = document.querySelector("#stepper_saran");
+            const form = document.querySelector("#formsaran");
+            const nextBtn = stepper.querySelector('[data-kt-stepper-action="next"]');
+            const prevBtn = stepper.querySelector('[data-kt-stepper-action="previous"]');
+            const stepperInstance = new KTStepper(stepper);
+
+            stepperInstance.on("kt.stepper.changed", function () {
+                var currentStep = stepperInstance.getCurrentStepIndex();
+                if (currentStep === 4) {
+                    prevBtn.style.display = "none";
+                } else {
+                    prevBtn.style.display = "";
+                }
+            });
+
+            stepperInstance.on("kt.stepper.next", function (e) {
+                var currentStep = e.getCurrentStepIndex();
+
+                // === STEP 1: Validasi Identitas ===
+                if (currentStep === 1) {
+                    const nama = $("#namapasiensaran").val().trim();
+                    const noktp = $("#noktppasiensaran").val().trim();
+                    const notelp = $("#notlpsaran").val().trim();
+
+                    if (nama === "" || noktp === "" || notelp === "") {
+                        Swal.fire({
+                            title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html: "<b>Silakan lengkapi Nama, No KTP/BPJS, dan No Telepon sebelum melanjutkan.</b>",
+                            icon: "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling: false,
+                            timerProgressBar: true,
+                            timer: 5000,
+                            customClass: { confirmButton: "btn btn-danger" },
+                            showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }
+                }
+
+                // === STEP 2: Validasi Masukan dan UUID ===
+                if (currentStep === 2) {
+                    const sarandanmasukansaran = $("#sarandanmasukansaran").val();
+
+                    if (sarandanmasukansaran === "") {
+                        Swal.fire({
+                            title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html: "<b>Silakan lengkapi Saran dan Masukan Anda.</b>",
+                            icon: "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling: false,
+                            timerProgressBar: true,
+                            timer: 5000,
+                            customClass: { confirmButton: "btn btn-danger" },
+                            showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }
+
+                    // Generate UUID dan set ke field
+                    const uuid = crypto.randomUUID();
+                    $("#saranmasukanid").val(uuid);
+
+                    // Inisialisasi Dropzone upload file bukti
+                    if (window.myDropzone) {
+                        window.myDropzone.destroy();
+                    }
+
+                    window.myDropzone = new Dropzone("#file_bukti", {
+                        url: url + "index.php/public/outpatient/uploadbukti?transid=" + uuid,
+                        acceptedFiles: '.pdf',
+                        paramName: "file",
+                        dictDefaultMessage: "Drop files here or click to upload",
+                        maxFiles: 1,
+                        maxFilesize: 2,
+                        addRemoveLinks: true,
+                        autoProcessQueue: true,
+                        init: function () {
+                            this.on("success", function (file, response) {
+                                Swal.fire({
+                                    title: "<h1 class='font-weight-bold' style='color:#234974;'>Upload Berhasil</h1>",
+                                    html: "<b>File bukti berhasil diunggah.</b>",
+                                    icon: "success",
+                                    confirmButtonText: "OK",
+                                    buttonsStyling: false,
+                                    customClass: { confirmButton: "btn btn-success" },
+                                    showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                                    hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                                });
+                            });
+
+                            this.on("error", function (file, errorMessage) {
+                                Swal.fire({
+                                    title: "<h1 class='font-weight-bold' style='color:#234974;'>Upload Gagal</h1>",
+                                    html: "<b>Gagal mengunggah file bukti. Pastikan file adalah PDF dan ukurannya di bawah 2MB.</b>",
+                                    icon: "error",
+                                    confirmButtonText: "Coba Lagi",
+                                    buttonsStyling: false,
+                                    customClass: { confirmButton: "btn btn-danger" },
+                                    showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                                    hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                                });
+                            });
+                        }
+                    });
+                }
+
+                // === STEP 3: Submit ke server ===
+                if (currentStep === 3) {
+                    const formData = new FormData(form);
+
+                    $.ajax({
+                        url: url + "index.php/public/outpatient/insertsaran",
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        dataType   : "JSON",
+                        cache: false,
+                        beforeSend: function () {
+                            Swal.fire({
+                                title: "<h1 class='font-weight-bold' style='color:#234974;'>Mengirim...</h1>",
+                                html: "<b>Mohon tunggu, data sedang diproses.</b>",
+                                allowOutsideClick: false,
+                                didOpen: () => Swal.showLoading()
+                            });
+                        },
+                        success: function (data) {
+                            Swal.close();
+
+                            if (data.responCode === "00") {
+                                $("#namapasiensaranresponse").html(data.responResult[0].nama);
+                                $("#codesaranresponse").html(data.responResult[0].code);
+
+                                var qrcode = new QRCode(document.getElementById("qrcode_saran"), {
+                                    text    : data.responResult[0].code,
+                                    width   : 128,
+                                    height  : 128,
+                                    colorDark : "#000000",
+                                    colorLight: "#ffffff",
+                                    correctLevel: QRCode.CorrectLevel.H // High error correction
+                                });
+                                
+                                e.goNext();
+                            } else {
+                                Swal.fire({
+                                    title: "Gagal!",
+                                    html: "<b>Gagal menyimpan data. Silakan coba kembali.</b>",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                title: "Error!",
+                                html: "<b>Terjadi kesalahan saat menghubungi server.</b>",
+                                icon: "error",
+                                confirmButtonText: "OK"
+                            });
+                        }
+                    });
+
+                    return; // STOP auto next
+                }
+
+                e.goNext();
+            });
+
+            stepperInstance.on("kt.stepper.previous", function (e) {
+                e.goPrevious();
+                KTUtil.scrollTop();
+            });
         }
+
+
     };
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
-    KTCreateAccount.init();
+    KTCreateAccount.booking();
+    KTCreateAccount.saran();
 });
 
 function datapasien(identitaspasien) {

@@ -13,10 +13,6 @@
                                     </svg>
                                 </span>
                             </button>
-                            <!-- <a href="index.php/public/outpatient">
-                                <img alt="Logo" src="assets/media/logos/logo-landing.svg" class="logo-default h-25px h-lg-30px" />
-                                <img alt="Logo" src="assets/media/logos/logo-landing-dark.svg" class="logo-sticky h-20px h-lg-25px" />
-                            </a> -->
                         </div>
                         <div class="d-lg-block" id="kt_header_nav_wrapper">
                             <div class="d-lg-block p-5 p-lg-0" data-kt-drawer="true" data-kt-drawer-name="landing-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="200px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_landing_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav_wrapper'}">
@@ -39,12 +35,13 @@
                                     <div class="menu-item">
                                         <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Harga</a>
                                     </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#saranmasukan" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Saran dan Masukan</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex-equal text-end ms-1">
-                            <!-- <a href="../../demo1/dist/authentication/flows/basic/sign-in.html" class="btn btn-success">Sign In</a> -->
-                        </div>
+                        <div class="flex-equal text-end ms-1"></div>
                     </div>
                 </div>
             </div>
@@ -59,14 +56,7 @@
                     <a href="#reservasi" class="btn btn-primary">Reservasi Rawat Jalan</a>
                 </div>
 
-                <div class="d-flex flex-center flex-wrap position-relative px-5">
-                    <!-- <div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="RSU Mutiasari">
-                        <img src="<?php echo base_url();?>assets/images/clients/10c84edd-500b-49e3-93a5-a2c8cd2c8524.png" class="mh-30px mh-lg-40px" alt="" />
-                    </div>
-                    <div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="RSU Mutiasari">
-                        <img src="<?php echo base_url();?>assets/images/clients/4169b311-3119-48e1-8d5c-e1924d52d7c6.png" class="mh-30px mh-lg-40px" alt="" />
-                    </div> -->
-                </div>
+                <div class="d-flex flex-center flex-wrap position-relative px-5"></div>
             </div>
         </div>
         <div class="landing-curve landing-dark-color mb-10 mb-lg-20">
@@ -75,6 +65,8 @@
             </svg>
         </div>
     </div>
+
+    <!-- Cara Reservasi Rawat Jalan -->
     <div class="mb-n10 mb-lg-n20 z-index-2">
         <div class="container">
             <div class="text-center mb-17">
@@ -160,6 +152,7 @@
         </div>
     </div>
 
+    <!-- We Make Things Better -->
     <div class="mt-sm-n10">
         <div class="landing-curve landing-dark-color">
             <svg viewBox="15 -1 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -227,6 +220,7 @@
         </div>
     </div>
 
+    <!-- Tim Dokter Kami -->
     <div class="py-10 py-lg-20">
         <div class="container">
             <div class="text-center mb-12">
@@ -258,6 +252,7 @@
         </div>
     </div>
 
+    <!-- Reservasi Rawat Jalan -->
     <div class="mb-lg-n15 position-relative z-index-2">
         <div class="container">
             <div class="card" style="filter: drop-shadow(0px 0px 40px rgba(68, 81, 96, 0.08))">
@@ -270,7 +265,7 @@
                             Silakan lengkapi data yang diperlukan untuk melanjutkan proses pendaftaran.
                         </div>
                     </div>
-                    <div class="stepper stepper-links d-flex flex-column" id="kt_create_account_stepper">
+                    <div class="stepper stepper-links d-flex flex-column" id="stepper_booking">
                         <div class="stepper-nav py-5">
                             <div class="stepper-item current" data-kt-stepper-element="nav">
                                 <h3 class="stepper-title">Identity</h3>
@@ -472,11 +467,11 @@
                         </form>
                     </div>
                 </div>
-                <!--end::Card body-->
             </div>
         </div>
     </div>
 
+    <!-- Transparansi Biaya untuk Kenyamanan Anda -->
     <div class="mt-sm-n20">
         <div class="landing-curve landing-dark-color">
             <svg viewBox="15 -1 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -909,12 +904,179 @@
         </div>
     </div>
 
+    <!-- What Our Patient Say -->
     <div class="mt-20 mb-n20 position-relative z-index-2">
         <div class="container">
             <div class="text-center mb-17">
-                <h3 class="fs-2hx text-dark mb-5" id="clients" data-kt-scroll-offset="{default: 125, lg: 150}">What Our Patient Say</h3>
+                <h3 class="fs-2hx text-dark mb-5" id="saranmasukan" data-kt-scroll-offset="{default: 125, lg: 150}">What Our Patient Say</h3>
                 <div class="fs-5 text-muted fw-bold">Real experiences from patients who experience the best service
                 <br />at RMB Hospital Group</div>
+            </div>
+
+            <div class="row g-lg-10 mb-10 mb-lg-20">
+                <div class="card" style="filter: drop-shadow(0px 0px 40px rgba(68, 81, 96, 0.08))">
+                    <div class="card-body p-lg-20">
+                        <div class="text-center mb-5 mb-lg-10">
+                            <!-- <h3 class="fs-2hx text-dark mb-5" id="reservasi" data-kt-scroll-offset="{default: 100, lg: 150}">Saran dan Masukan</h3> -->
+                            <div class="fs-5 text-muted fw-bold">
+                                Kami sangat menghargai setiap saran dan masukan yang Anda berikan.<br>
+                                Pendapat Anda membantu kami dalam meningkatkan kualitas layanan dan kenyamanan pasien.<br>
+                                Silakan isi formulir di bawah ini untuk menyampaikan kritik, saran, atau pengalaman Anda selama menggunakan layanan kami.
+                            </div>
+                        </div>
+                        <div class="stepper stepper-links d-flex flex-column" id="stepper_saran">
+                            <div class="stepper-nav py-5">
+                                <div class="stepper-item current" data-kt-stepper-element="nav">
+                                    <h3 class="stepper-title">Identitas</h3>
+                                </div>
+                                <div class="stepper-item" data-kt-stepper-element="nav">
+                                    <h3 class="stepper-title">Saran dan Masukan</h3>
+                                </div>
+                                <div class="stepper-item" data-kt-stepper-element="nav">
+                                    <h3 class="stepper-title">Upload Bukti</h3>
+                                </div>
+                                <div class="stepper-item" data-kt-stepper-element="nav">
+                                    <h3 class="stepper-title">Completed</h3>
+                                </div>
+                            </div>
+                            <form class="mx-auto mw-600px w-100 py-10" id="formsaran">
+                                <div class="current" data-kt-stepper-element="content">
+                                    <div class="w-100">
+                                        <div class="fv-row mb-10">
+                                            <label class="form-label required">Nama</label>
+                                            <input id="namapasiensaran" name="namapasiensaran" class="form-control form-control-lg form-control-solid" placeholder="Silakan Masukan Nama Anda" />
+                                        </div>
+                                        <div class="row">
+                                            <div class="fv-row mb-10 col-xl-6">
+                                                <label class="form-label required">No Medical Record / KTP / BPJS</label>
+                                                <input id="noktppasiensaran" name="noktppasiensaran" class="form-control form-control-lg form-control-solid" placeholder="Silakan Masukan" />
+                                            </div>
+                                            <div class="fv-row mb-10 col-xl-6">
+                                                <label class="form-label required">No Telephone</label>
+                                                <input id="notlpsaran" name="notlpsaran" class="form-control form-control-lg form-control-solid" placeholder="Silakan Masukan" />
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div data-kt-stepper-element="content">
+                                    <div class="w-100 row">
+                                        <div class="fv-row mb-10 col-md-12">
+                                            <label class="form-label required">Nama Petugas</label>
+                                            <input id="namapetugassaran" name="namapetugassaran" class="form-control form-control-lg form-control-solid"/>
+                                        </div>
+                                        <div class="fv-row mb-10 col-md-12">
+                                            <label class="form-label required">Ruangan / Lantai</label>
+                                            <input id="ruangansaran" name="ruangansaran" class="form-control form-control-lg form-control-solid"/>
+                                        </div>
+                                        <div class="fv-row col-md-12 pb-10">
+                                            <label class="fs-6 fw-bold mb-2 required">Department</label>
+                                            <select data-control="select2" data-dropdown-parent="#formsaran" data-placeholder="Select a Provider..." class="form-select form-select-solid" name="departmentsaran" id="departmentsaran">
+                                                <?php echo $department;?>
+                                            </select>
+                                        </div>
+                                        <div class="fv-row mb-10 col-md-12">
+                                            <label class="form-label required">Saran dan Masukan</label>
+                                            <textarea name="sarandanmasukansaran" id="sarandanmasukansaran" class="form-control form-control-lg form-control-solid"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div data-kt-stepper-element="content">
+                                    <div class="w-100 row">
+                                        <input type="hidden" id="saranmasukanid" name="saranmasukanid">
+                                        <div class="form-group col-md-12">
+                                            <div class="dropzone" id="file_bukti">
+                                                <div class="dz-message needsclick">
+                                                    <span class="svg-icon svg-icon-3hx svg-icon-primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22ZM16 12.6L12.7 9.3C12.3 8.9 11.7 8.9 11.3 9.3L8 12.6H11V18C11 18.6 11.4 19 12 19C12.6 19 13 18.6 13 18V12.6H16Z" fill="black" />
+                                                            <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="black" />
+                                                        </svg>
+                                                    </span>
+                                                    <div class="ms-4">
+                                                        <h3 class="dfs-3 fw-bolder text-gray-900 mb-1">Drop files here or click to upload.</h3>
+                                                        <span class="fw-bold fs-8 text-muted">File Document Dalam Format .Pdf</span><br>
+                                                        <span class="fw-bold fs-8 text-muted">Max File Size 2 Mb</span>
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div data-kt-stepper-element="content" class="text-center">
+                                    <div class="w-100 row justify-content-center">
+                                        <div class="col-lg-12 col-md-8">
+                                            <div class="card shadow-lg p-5 animate__animated animate__fadeInUp">
+                                                <div class="pb-4">
+                                                    <i class="fas fa-comment-dots text-info fa-5x animate__animated animate__bounceIn"></i>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark">Terima Kasih atas Masukan Anda!</h2>
+                                                <p class="text-muted fw-bold fs-6">
+                                                    Saran dan masukan Anda telah berhasil dikirim.<br>
+                                                    Kami menghargai kontribusi Anda dalam meningkatkan layanan kami.
+                                                </p>
+
+                                                <h3 class="fw-bolder text-muted" id="namapasiensaranresponse">Nama Anda</h3>
+                                                <div id="qrcode_saran"></div>
+                                                <h3 class="fw-bolder text-muted" id="codesaranresponse">ID Masukan</h3>
+                                                <h4 class="fw-bolder text-muted">Terima kasih atas partisipasi Anda</h4>
+
+                                                <div class="d-flex flex-column gap-3 mt-4">
+                                                    <a href="javascript:void(0);" class="btn btn-outline-info" id="downloadReceipt">
+                                                        <i class="fas fa-file-download me-2"></i> Download Bukti Pengiriman
+                                                    </a>
+                                                    <a href="./feedback" class="btn btn-primary" data-kt-element="complete-start">
+                                                        <i class="fas fa-home me-2"></i> Kembali ke Formulir
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-stack pt-15">
+                                    <div class="mr-2">
+                                        <button type="button" class="btn btn-lg btn-light-primary me-3" data-kt-stepper-action="previous">
+                                            <span class="svg-icon svg-icon-4 me-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="6" y="11" width="13" height="2" rx="1" fill="black" />
+                                                    <path d="M8.56569 11.4343L12.75 7.25C13.1642 6.83579 13.1642 6.16421 12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75L5.70711 11.2929C5.31658 11.6834 5.31658 12.3166 5.70711 12.7071L11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25C13.1642 17.8358 13.1642 17.1642 12.75 16.75L8.56569 12.5657C8.25327 12.2533 8.25327 11.7467 8.56569 11.4343Z" fill="black" />
+                                                </svg>
+                                            </span>
+                                            Back
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-lg btn-primary me-3" data-kt-stepper-action="submit">
+                                            <span class="indicator-label">
+                                                Submit
+                                                <span class="svg-icon svg-icon-3 ms-2 me-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="black" />
+                                                        <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="black" />
+                                                    </svg>
+                                                </span>
+                                            </span>
+                                            <span class="indicator-progress">Please wait...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                        </button>
+                                        <button type="button" class="btn btn-lg btn-primary" data-kt-stepper-action="next">Continue
+                                            <span class="svg-icon svg-icon-4 ms-1 me-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="black" />
+                                                    <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="black" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row g-lg-10 mb-10 mb-lg-20">
@@ -1002,6 +1164,7 @@
         </div>
     </div>
 
+    <!-- Butuh Bantuan atau Informasi Lainnya? -->
     <div class="mb-0">
         <div class="landing-curve landing-dark-color">
             <svg viewBox="15 -1 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">

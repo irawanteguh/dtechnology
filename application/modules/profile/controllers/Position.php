@@ -13,7 +13,7 @@
 		}
 
 		public function historyposition(){
-            $result = $this->md->historyposition($_SESSION['orgid'],$_SESSION['userid']);
+            $result = $this->md->historyposition($_SESSION['groupid'],$_SESSION['userid']);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

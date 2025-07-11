@@ -1,10 +1,24 @@
 <?php
     class Modelunitcost extends CI_Model{
 
+        function masterkategori(){
+            $query =
+                    "
+                        select a.code, master_name
+                        from dt01_gen_master_ms a
+                        where a.jenis_id='Layan_1'
+                        order by master_name
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterlayanan($orgid){
             $query =
                     "
-                        select a.layan_id, nama_layan,
+                        select a.layan_id, nama_layan, durasi,
                             (select master_name from dt01_gen_master_ms where jenis_id='Layan_1' and code=a.jenis_id)kategori
                         from dt01_keu_layan_ms a
                         WHERE a.active = '1'
@@ -115,6 +129,11 @@
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
+        }
+
+        function insertsimulation($data){           
+            $sql =   $this->db->insert("dt01_keu_layan_ms",$data);
+            return $sql;
         }
 
     }

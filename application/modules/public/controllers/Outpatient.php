@@ -15,15 +15,21 @@
 
         public function loadcombobox(){
             $resultmasterprovider   = $this->md->masterprovider();
+            $resultmasterdepartment   = $this->md->masterdepartment();
             $resultmasterpoliklinik = $this->md->masterpoliklinik();
             $resultmasterdoctor     = $this->md->masterdoctor(ORG_ID);
     
             $provider     = "";
+            $department   = "";
             $poliklinik   = "";
             $masterdoctor = "";
 
             foreach ($resultmasterprovider as $a) {
                 $provider .= "<option value='" . $a->providerid . "'>" . $a->provider . "</option>";
+            }
+
+            foreach ($resultmasterdepartment as $a) {
+                $department .= "<option value='" . $a->department_id . "'>" . $a->department . "</option>";
             }
 
             foreach ($resultmasterpoliklinik as $a) {
@@ -44,6 +50,7 @@
             
     
             $data['provider']     = $provider;
+            $data['department']   = $department;
             $data['poliklinik']   = $poliklinik;
             $data['masterdoctor'] = $masterdoctor;
 
@@ -145,6 +152,52 @@
             }
             
             echo json_encode($json);
+        }
+
+        public function insertsaran(){
+            $code = generateUniqueNumber();
+
+            $data['org_id']   = ORG_ID;
+            $data['trans_id'] = $this->input->post("saranmasukanid");
+            $data['code']     = $code;
+            $data['nama']     = $this->input->post("namapasiensaran");
+            $data['saran']    = $this->input->post("sarandanmasukansaran");
+
+            if($this->md->insertepisode($data)){
+                $datasaran=$this->md->datasaran($this->input->post("saranmasukanid"));
+
+                $json['responCode']   = "00";
+                $json['responHead']   = "success";
+                $json['responDesc']   = "Data Added Successfully";
+                $json['responResult'] = $datasaran;
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+            
+            echo json_encode($json);
+        }
+
+        public function uploadbukti(){
+            $transid= $_GET['transid'];
+
+            $config['upload_path']   = './assets/crm/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $transid;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error = array('error' => $this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . implode(' ', $error));
+                echo json_encode($error);
+            } else {
+                echo "Upload Success";
+            }
+
         }
 
 	}
