@@ -15,19 +15,19 @@ document.querySelectorAll('[data-kt-plan]').forEach(btn => {
     });
 });
 
-$("#notlpsaran").on("input", function () {
-    let val = $(this).val().trim();
-    if (val !== "") {
-        if (val.startsWith("0")) {
-            val = "62" + val.substring(1);
-        } else if (!val.startsWith("62")) {
-            val = "62" + val;
-        }
-        if (!val.startsWith("6262")) {
-            $(this).val(val);
-        }
-    }
-});
+// $("#notlpsaran").on("input", function () {
+//     let val = $(this).val().trim();
+//     if (val !== "") {
+//         if (val.startsWith("0")) {
+//             val = "62" + val.substring(1);
+//         } else if (!val.startsWith("62")) {
+//             val = "62" + val;
+//         }
+//         if (!val.startsWith("6262")) {
+//             $(this).val(val);
+//         }
+//     }
+// });
 
 
 flatpickr('[name="booking_date"]', {

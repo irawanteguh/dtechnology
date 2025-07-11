@@ -12,7 +12,7 @@ const qrStore         = {};
 const baseurl         = "http://192.168.102.13/dtechnology/index.php";
 const ipgateway       = "http://192.168.102.13:";
 const separator       = "=========================================================================================";
-const intervalMs      = 20000;
+const intervalMs      = 30000;
 let   autoSendLoop    = null;
 let   autoSendEnabled = true;
 

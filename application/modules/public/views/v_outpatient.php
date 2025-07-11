@@ -971,6 +971,12 @@
                                             <input id="ruangansaran" name="ruangansaran" class="form-control form-control-lg form-control-solid"/>
                                         </div>
                                         <div class="fv-row col-md-12 pb-10">
+                                            <label class="fs-6 fw-bold mb-2 required">Rumah Sakit</label>
+                                            <select data-control="select2" data-dropdown-parent="#formsaran" data-placeholder="Select a Hospital..." class="form-select form-select-solid" name="rssaran" id="rssaran">
+                                                <?php echo $organization;?>
+                                            </select>
+                                        </div>
+                                        <div class="fv-row col-md-12 pb-10">
                                             <label class="fs-6 fw-bold mb-2 required">Department</label>
                                             <select data-control="select2" data-dropdown-parent="#formsaran" data-placeholder="Select a Provider..." class="form-select form-select-solid" name="departmentsaran" id="departmentsaran">
                                                 <?php echo $department;?>

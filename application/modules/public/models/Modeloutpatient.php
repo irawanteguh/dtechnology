@@ -50,6 +50,21 @@
             return $recordset;
         }
 
+        function masterorganization(){
+            $query =
+                    "
+                        select a.org_id, org_name
+                        from dt01_gen_organization_ms a
+                        where a.active='1'
+                        and   a.holding='N'
+                        order by org_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterpoliklinik(){
             $query =
                     "
@@ -158,7 +173,11 @@
         function datasaran($transid){
             $query =
                     "
-                        select a.trans_id, code, nama, saran
+                        select a.trans_id, code, nama, saran,
+                               (select org_name from dt01_gen_organization_ms where org_id=a.org_id)nameorg,
+                               (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id=a.org_id and department_id='e47a3989-52c2-4827-a62f-967a8cc05438'))nohpmarketing,
+                               (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id=a.org_id and department_id='e47a3989-52c2-4827-a62f-967a8cc05438'))namamarketing
+                               
                         from dt01_crm_saran_hd a
                         where a.trans_id='".$transid."'
                         limit 1;
@@ -171,6 +190,11 @@
 
         function insertepisode($data){           
             $sql =   $this->db->insert("dt01_crm_saran_hd",$data);
+            return $sql;
+        }
+
+        function simpanboardcast($data){           
+            $sql =   $this->db->insert("dt01_whatsapp_broadcast_hd",$data);
             return $sql;
         }
     }
