@@ -207,10 +207,8 @@
                 $text .= "%0a%0aKepada Yth,.";
                 $text .= "%0a*{$datasaran[0]->namamarketing}*%0a";
                 $text .= "%0aMohon tindaklanjuti saran dan masukan";
-                $text .= "%0a%0aAtasnama%09: ";
-                $text .= "%0a{$datasaran[0]->nama}";
-                $text .= "%0a%0aKode Laporan%09: ";
-                $text .= "%0a{$datasaran[0]->code}";
+                $text .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
+                $text .= "%0a%0aKode Laporan%09: {$datasaran[0]->code}";
                 $text .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
