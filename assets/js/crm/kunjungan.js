@@ -20,8 +20,10 @@ function databulanan() {
                 mcu     : []
             };
 
-            let totalKunjungan = 0;
+            
             const periodeList = [];
+            let totalKunjungan = 0;
+            let validPeriodeCount = 0;
 
             (data.responResult || []).forEach(item => {
                 const bulan = item.periode || '-';
@@ -38,11 +40,17 @@ function databulanan() {
                 rsms.asuransi.push(asuransi);
                 rsms.bpjs.push(bpjs);
                 rsms.mcu.push(mcu);
-                
-                totalKunjungan += total;
+
+                if (total > 0) {
+                    totalKunjungan += total;
+                    validPeriodeCount++;
+                }
             });
 
-            const avgKunjungan = Math.round(totalKunjungan / periodeList.length);
+            const avgKunjungan = validPeriodeCount > 0 
+                ? Math.round(totalKunjungan / validPeriodeCount) 
+                : 0;
+
 
             const seriesData1 = [
                 { name: "Total", data: rsms.total }
@@ -55,7 +63,7 @@ function databulanan() {
                 { name: "MCU", data: rsms.mcu }
             ];
 
-            createChartlinebarbulan("grafikkunjungantotal",periodeList,seriesData1,avgKunjungan,"line","Jumlah Kunjungan per Bulan", true);
+            createChartlinebarbulan("grafikkunjungantotal",periodeList,seriesData1,avgKunjungan,"area","Jumlah Kunjungan per Bulan", true);
             createChartlinebarbulan("grafikkunjunganbulanan",periodeList,seriesData2,avgKunjungan,"bar","Jumlah Kunjungan per Bulan", false);
         },
         error: function () {
