@@ -91,10 +91,10 @@ class Activity extends CI_Controller{
 	
 		$resultcekklinisactivity = $this->md->cekklinisactivity($_SESSION['orgid'],$_SESSION['groupid'],$activityIdsArray[0]);
 		if($resultcekklinisactivity->pk === ""){
-			$resultcekatasan = $this->md->cekatasan($_SESSION['orgid'],$_SESSION['groupid'],$_SESSION['userid'], $activityIdsArray[0]);
+			$resultcekatasan = $this->md->cekatasan($_SESSION['orgid'],$_SESSION['userid'], $activityIdsArray[0]);
 			$atasanid        = $resultcekatasan->atasan_id;
 		}else{
-			$resultcekatasanid = $this->md->cekatasanid($_SESSION['orgid'],$_SESSION['groupid'],$_SESSION['userid']);
+			$resultcekatasanid = $this->md->cekatasanid($_SESSION['orgid'],$_SESSION['userid']);
 			$atasanid = $resultcekatasanid->atasan_id;            
 		}
 		

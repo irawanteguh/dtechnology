@@ -70,13 +70,13 @@
             return $recordset;
         }
 
-        function cekatasanid($orgid,$groupid,$userid){
+        function cekatasanid($orgid,$userid){
             $query =
                     "
                         select a.atasan_id
                         from dt01_hrd_position_dt a
                         where a.active='1'
-                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
+                        and   a.org_id='".$orgid."'
                         and   a.user_id='".$userid."'
                         and   a.position_primary='Y'
                     ";
@@ -86,12 +86,12 @@
             return $recordset;
         }
 
-        function cekatasan($orgid,$groupid,$userid,$activityid){
+        function cekatasan($orgid,$userid,$activityid){
             $query =
                     "
                         select a.atasan_id, position_primary
                         from dt01_hrd_position_dt a
-                        where a.org_id='".$orgid."' or group_id='".$groupid."'
+                        where a.org_id='".$orgid."'
                         and   a.active='1'
                         and   a.user_id='".$userid."'
                         and   a.position_id in (select position_id from dt01_hrd_mapping_activity where org_id=a.org_id and active='1' and activity_id='".$activityid."')

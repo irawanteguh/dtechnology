@@ -147,7 +147,6 @@
             $atasanid   = $this->input->post("modal_data_employee_registrationposition_atasanid_edit");
             $date       = DateTime::createFromFormat("d.m.Y", $this->input->post("drawer_data_employee_registrationposition_date_edit"))->format("Y-m-d");
             
-
             $data['org_id']           = $_SESSION['orgid'];
             $data['trans_id']         = generateuuid();
             $data['user_id']          = $userid;
@@ -155,7 +154,8 @@
             $data['atasan_id']        = $atasanid;
             $data['start_date']       = $date;
             $data['position_primary'] = $type;
-            $data['created_by']       = $_SESSION['userid'];
+            $data['last_update_by']   = $_SESSION['userid'];
+            $data['last_update_date'] = date('Y-m-d H:i:s');
             
             if($this->md->updatepenempatan($data,$transid)){
                 $json['responCode']="00";
