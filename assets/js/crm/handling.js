@@ -29,7 +29,13 @@ function datahandling(){
                 let result        = data.responResult;
                 for(var i in result){
                     var getvariabel =   " datatransid='" + result[i].trans_id + "'"+
-                                        " datadepartmentid='" + result[i].department_id + "'";
+                                        " datadepartmentid='" + result[i].department_id + "'"+
+                                        " datanamapic='" + (result[i].namapic ? result[i].namapic : "")+ "'"+
+                                        " datanohppic='" + result[i].nohppic + "'"+
+                                        " datanamapasien='" + result[i].nama + "'"+
+                                        " datacodelaporan='" + result[i].code + "'"+
+                                        " datasaran='" + result[i].saran + "'"+
+                                        " dataorgname='" + result[i].nameorg + "'";
 
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].code+"</td>";
@@ -138,12 +144,27 @@ function updatestatus(btn) {
         cancelButtonText  : 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            var datatransid = btn.attr("datatransid");
+            var datatransid     = btn.attr("datatransid");
+            var datanamapic     = btn.attr("datanamapic");
+            var datanohppic     = btn.attr("datanohppic");
+            var datanamapasien  = btn.attr("datanamapasien");
+            var datacodelaporan = btn.attr("datacodelaporan");
+            var datasaran       = btn.attr("datasaran");
             var datastatus      = btn.attr("datastatus");
+            var dataorgname     = btn.attr("dataorgname");
 
             $.ajax({
                 url       : url+"index.php/crm/handling/updatesaran",
-                data      : {datatransid:datatransid,datastatus:datastatus},
+                data      : {
+                                datatransid    : datatransid,
+                                datastatus     : datastatus,
+                                datanamapic    : datanamapic,
+                                datanohppic    : datanohppic,
+                                datanamapasien : datanamapasien,
+                                datacodelaporan: datacodelaporan,
+                                datasaran      : datasaran,
+                                dataorgname    : dataorgname
+                            },
                 method    : "POST",
                 dataType  : "JSON",
                 cache     : false,
