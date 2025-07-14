@@ -35,7 +35,7 @@
                     <h1 class="mb-3">Setup New Password</h1>
                     <div class="text-muted fw-bold fs-5">
                         Please change your password every 3 months<br>
-                        Already have reset your password? <a href="../index.php/auth/sign" class="link-primary fw-bolder">Sign in here</a>
+                        Already have reset your password? <a href="../auth/sign" class="link-primary fw-bolder">Sign in here</a>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center row">

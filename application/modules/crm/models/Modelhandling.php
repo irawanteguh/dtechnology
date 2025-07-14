@@ -1,0 +1,46 @@
+<?php
+    class Modelhandling extends CI_Model{
+        
+        function datahandling($orgid){
+            $query =
+                    "
+                        select a.trans_id, code, nama, no_identitas, no_hp, lantai, nama_petugas, saran, department_id, status,
+                               date_format(a.created_date, '%d.%m.%Y %H:%i:%s') tgldibuat,
+                               (select department from dt01_gen_department_ms where active='1' and department_id=a.department_id)department,
+                               (select name from dt01_gen_user_data where active='1' and user_id=(select user_id from dt01_gen_department_ms where active='1' and department_id=a.department_id))namapic,
+                               (select master_name from dt01_gen_master_ms where jenis_id='CRM_1' and code=a.status)statusname,
+                               (select color from dt01_gen_master_ms where jenis_id='CRM_1' and code=a.status)statuscolor
+                        from dt01_crm_saran_hd a
+                        where a.org_id='".$orgid."'
+                        and   a.active='1'
+                        order by status asc, created_date desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+
+        function masterdepartment(){
+            $query =
+                    "
+                        select a.department_id, department
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.level_id='5'
+                        order by department asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function updatesaran($data,$userid){           
+            $sql =   $this->db->update("dt01_crm_saran_hd",$data,array("trans_id"=>$userid));
+            return $sql;
+        }
+
+    }
+?>
