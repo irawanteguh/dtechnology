@@ -35,12 +35,11 @@
         function masterassets($orgid){
             $query =
                     "
-                        select a.trans_id, no_assets, name, spesifikasi, serial_number, tahun_pembuatan,
+                        select a.trans_id, no_assets, no_laporan_penilaian_assets, name, spesifikasi, luas, tahun_pembuatan,
                                 date_format(a.created_date, '%d.%m.%Y %H:%i:%s') tgldibuat,
-                                date_format(a.tanggal_pembelian, '%d.%m.%Y') tglpembelian,
-                                nilai_perolehan, nilai_bunga_pinjaman, nilai_pemeliharaan, nilai_residu, nilai_perijinan, nilai_konsultan, pajak,
-                                nilai_ekonomis, masa_bunga,
-                                estimasi_penggunaan_day,
+                                nilai_perolehan,
+                                round((nilai_perolehan / luas),0) nilaibangunanpermeter,
+                                waktu_depresiasi, 
                                 (select master_name from dt01_gen_master_ms where jenis_id='Asset_1' and code=a.jenis_id)kategori,
                                 (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.created_by)dibuatoleh
                         from dt01_lgu_assets_ms a

@@ -51,28 +51,33 @@
         }
 
 
-        // public function insertassets(){
+        public function insertassets(){
 
-        //     $data['org_id']        = $_SESSION['orgid'];
-        //     $data['trans_id']      = generateuuid();
-        //     $data['barang_id']     = $this->input->post("modal_assets_add_barangid");
-        //     $data['serial_number'] = $this->input->post("modal_assets_add_sn");
-        //     $data['note']          = $this->input->post("modal_assets_add_spek");
-        //     $data['created_by']    = $_SESSION['userid'];
-        //     $data['created_date']  = date("Y-m-d H:i:s");
+            $data['org_id']                      = $_SESSION['orgid'];
+            $data['trans_id']                    = generateuuid();
+            $data['no_assets']                   = generateUniqueCode();
+            $data['no_laporan_penilaian_assets'] = $this->input->post("laporan_penilaian");
+            $data['name']                        = $this->input->post("name");
+            $data['jenis_id']                    = $this->input->post("category");
+            $data['luas']                        = $this->input->post("luas");
+            $data['tahun_pembuatan']             = $this->input->post("tahun_dibangun");
+            $data['nilai_perolehan']             = $this->input->post("nilai_perolehan");
+            $data['waktu_depresiasi']            = $this->input->post("depresiasi");
+            $data['created_by']                  = $_SESSION['userid'];
+            $data['created_date']                = date("Y-m-d H:i:s");
 
-        //     if($this->md->insertassets($data)){
-        //         $json['responCode']="00";
-        //         $json['responHead']="success";
-        //         $json['responDesc']="Data Added Successfully";
-        //     } else {
-        //         $json['responCode']="01";
-        //         $json['responHead']="info";
-        //         $json['responDesc']="Data Failed to Add";
-        //     }
+            if($this->md->insertassets($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
 
-        //     echo json_encode($json);
-        // }
+            echo json_encode($json);
+        }
 
         public function masterassets(){
             $result = $this->md->masterassets($_SESSION['orgid']);
