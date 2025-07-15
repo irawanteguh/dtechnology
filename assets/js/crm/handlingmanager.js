@@ -60,6 +60,8 @@ function datahandling(){
                                         " dataorghpmarketing='" + result[i].nohpmarketing + "'";
 
                     const timerId = "sla_timer_" + i;
+                    const createdAt = result[i].tgldibuat;
+                    const tglMarketing = result[i].tglmarketing;
 
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + result[i].code + "</td>";
@@ -72,12 +74,28 @@ function datahandling(){
                     tableresult += "<td>" + result[i].saran + "</td>";
                     tableresult += "<td>" + (result[i].answer_instalasi || "") + "</td>";
                     tableresult += "<td><div class='badge badge-light-" + (result[i].statuscolor || "") + "'>" + (result[i].statusname || "") + "</div></td>";
-                    if(result[i].status === "2"){
-                        tableresult += "<td><div>" + result[i].tglmanager + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
-                    }else{
-                        if(result[i].status === "3"){
-                            tableresult += "<td>" + result[i].tglmarketing + "</td>";
-                        }
+                    if(result[i].status === "0"){
+                        tableresult += "<td><div>" + createdAt + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
+                    } else if(result[i].status === "1"){
+                        tableresult += "<td>" + result[i].tgldepartment + "</td>";
+                    } else if(result[i].status === "2"){
+                        tableresult += "<td>" + result[i].tglmanager + "</td>";
+                    } else if(result[i].status === "3"){
+                        tableresult += "<td><div>" + tglMarketing + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
+                    } else if(result[i].status === "4") {
+                        const startParts = createdAt.split(" ");
+                        const endParts   = result[i].tglpasien.split(" ");
+
+                        const startDate = new Date(startParts[0].split(".").reverse().join("-") + "T" + startParts[1]);
+                        const endDate   = new Date(endParts[0].split(".").reverse().join("-") + "T" + endParts[1]);
+
+                        const diffMs = endDate - startDate;
+                        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                        const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                        const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+                        const diffDisplay = diffMs > 0 ? `${diffHours} Jam : ${diffMinutes} Menit : ${diffSeconds} Detik` : "-";
+                        tableresult += "<td><div>" + result[i].tglpasien + "</div><div><span class='badge badge-light-info fw-bold'>" + diffDisplay + "</span></div></td>";
                     }
                     
 

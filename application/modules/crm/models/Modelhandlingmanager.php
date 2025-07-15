@@ -9,6 +9,7 @@
                                date_format(a.datetime_fwd_department, '%d.%m.%Y %H:%i:%s') tgldepartment,
                                date_format(a.datetime_fwd_manager, '%d.%m.%Y %H:%i:%s') tglmanager,
                                date_format(a.datetime_fwd_marketing, '%d.%m.%Y %H:%i:%s') tglmarketing,
+                               date_format(a.datetime_fwd_pasien, '%d.%m.%Y %H:%i:%s') tglpasien,
                                (select org_name from dt01_gen_organization_ms where org_id=a.org_id)nameorg,
                                (select department from dt01_gen_department_ms where active='1' and department_id=a.department_id)department,
                                (select name from dt01_gen_user_data where active='1' and user_id=(select user_id from dt01_gen_department_ms where active='1' and department_id=(select header_id from dt01_gen_department_ms where active='1' and department_id=a.department_id)))namapic,
