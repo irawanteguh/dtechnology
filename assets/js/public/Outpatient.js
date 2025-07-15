@@ -15,21 +15,6 @@ document.querySelectorAll('[data-kt-plan]').forEach(btn => {
     });
 });
 
-// $("#notlpsaran").on("input", function () {
-//     let val = $(this).val().trim();
-//     if (val !== "") {
-//         if (val.startsWith("0")) {
-//             val = "62" + val.substring(1);
-//         } else if (!val.startsWith("62")) {
-//             val = "62" + val;
-//         }
-//         if (!val.startsWith("6262")) {
-//             $(this).val(val);
-//         }
-//     }
-// });
-
-
 flatpickr('[name="booking_date"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
@@ -169,10 +154,10 @@ var KTCreateAccount = (function () {
             });
         },
         saran: function () {
-            const stepper = document.querySelector("#stepper_saran");
-            const form = document.querySelector("#formsaran");
-            const nextBtn = stepper.querySelector('[data-kt-stepper-action="next"]');
-            const prevBtn = stepper.querySelector('[data-kt-stepper-action="previous"]');
+            const stepper         = document.querySelector("#stepper_saran");
+            const form            = document.querySelector("#formsaran");
+            const nextBtn         = stepper.querySelector('[data-kt-stepper-action="next"]');
+            const prevBtn         = stepper.querySelector('[data-kt-stepper-action="previous"]');
             const stepperInstance = new KTStepper(stepper);
 
             stepperInstance.on("kt.stepper.changed", function () {
@@ -240,26 +225,25 @@ var KTCreateAccount = (function () {
                     }
 
                     window.myDropzone = new Dropzone("#file_bukti", {
-                        url: url + "index.php/public/outpatient/uploadbukti?transid=" + uuid,
-                        acceptedFiles: '.pdf',
-                        paramName: "file",
+                        url               : url + "index.php/public/outpatient/uploadbukti?transid="+uuid,
+                        paramName         : "file",
                         dictDefaultMessage: "Drop files here or click to upload",
-                        maxFiles: 1,
-                        maxFilesize: 2,
-                        addRemoveLinks: true,
-                        autoProcessQueue: true,
+                        maxFiles          : 1,
+                        maxFilesize       : 2,
+                        addRemoveLinks    : true,
+                        autoProcessQueue  : true,
                         init: function () {
                             this.on("success", function (file, response) {
-                                Swal.fire({
-                                    title: "<h1 class='font-weight-bold' style='color:#234974;'>Upload Berhasil</h1>",
-                                    html: "<b>File bukti berhasil diunggah.</b>",
-                                    icon: "success",
-                                    confirmButtonText: "OK",
-                                    buttonsStyling: false,
-                                    customClass: { confirmButton: "btn btn-success" },
-                                    showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                                    hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
-                                });
+                                // Swal.fire({
+                                //     title: "<h1 class='font-weight-bold' style='color:#234974;'>Upload Berhasil</h1>",
+                                //     html: "<b>File bukti berhasil diunggah.</b>",
+                                //     icon: "success",
+                                //     confirmButtonText: "OK",
+                                //     buttonsStyling: false,
+                                //     customClass: { confirmButton: "btn btn-success" },
+                                //     showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                                //     hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                                // });
                             });
 
                             this.on("error", function (file, errorMessage) {

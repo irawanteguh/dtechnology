@@ -57,6 +57,7 @@
                         from dt01_gen_organization_ms a
                         where a.active='1'
                         and   a.holding='N'
+                        and   a.org_id='10c84edd-500b-49e3-93a5-a2c8cd2c8524'
                         order by org_name asc
                     ";
 
@@ -188,13 +189,36 @@
             return $recordset;
         }
 
+        function cekdatasaran($transid){
+            $query =
+                    "
+                        select a.trans_id
+                        from dt01_crm_saran_hd a
+                        where a.trans_id='".$transid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function insertepisode($data){           
+            $sql =   $this->db->insert("reg_periksa",$data);
+            return $sql;
+        }
+
+        function insertsaran($data){           
             $sql =   $this->db->insert("dt01_crm_saran_hd",$data);
             return $sql;
         }
 
         function simpanboardcast($data){           
             $sql =   $this->db->insert("dt01_whatsapp_broadcast_hd",$data);
+            return $sql;
+        }
+
+        function updatesaran($data,$userid){           
+            $sql =   $this->db->update("dt01_crm_saran_hd",$data,array("trans_id"=>$userid));
             return $sql;
         }
     }

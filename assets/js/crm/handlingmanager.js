@@ -1,23 +1,5 @@
 datahandling();
 
-$("#modal_handling_update_department").on('show.bs.modal', function(event){
-    var button           = $(event.relatedTarget);
-    var datatransid      = button.attr("datatransid");
-    var datadepartmentid = button.attr("datadepartmentid");
-
-    $("#modal_handling_update_department_transid").val(datatransid);
-
-    var $datadepartmentid = $('#modal_handling_update_department_departmentid').select2();
-        $datadepartmentid.val(datadepartmentid).trigger('change');
-});
-
-$("#modal_handling_response").on('show.bs.modal', function(event){
-    var button           = $(event.relatedTarget);
-    var datatransid      = button.attr("datatransid");
-
-    $("#modal_handling_response_transid").val(datatransid);
-});
-
 function viewdoc(btn) {
     var filename     = $(btn).attr("data-dirfile");
     var filename     = filename.replace('/www/wwwroot/', 'http://');
@@ -49,7 +31,7 @@ function viewdoc(btn) {
 
 function datahandling(){
     $.ajax({
-        url       : url + "index.php/crm/handling/datahandling",
+        url       : url + "index.php/crm/handlingmanager/datahandling",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -72,11 +54,12 @@ function datahandling(){
                                         " datanamapasien='" + result[i].nama + "'" +
                                         " datacodelaporan='" + result[i].code + "'" +
                                         " datasaran='" + result[i].saran + "'" +
-                                        " dataorgname='" + result[i].nameorg + "'";
+                                        " datajawaban='" + result[i].answer_instalasi + "'" +
+                                        " dataorgname='" + result[i].nameorg + "'"+
+                                        " dataorgnamemarketing='" + result[i].namamarketing + "'"+
+                                        " dataorghpmarketing='" + result[i].nohpmarketing + "'";
 
                     const timerId = "sla_timer_" + i;
-                    const createdAt = result[i].tgldibuat;
-                    const tglMarketing = result[i].tglmarketing;
 
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>" + result[i].code + "</td>";
@@ -88,44 +71,24 @@ function datahandling(){
                     tableresult += "<td>" + result[i].nama_petugas + "</td>";
                     tableresult += "<td>" + result[i].saran + "</td>";
                     tableresult += "<td>" + (result[i].answer_instalasi || "") + "</td>";
-                    tableresult += "<td>" + (result[i].response || "") + "</td>";
                     tableresult += "<td><div class='badge badge-light-" + (result[i].statuscolor || "") + "'>" + (result[i].statusname || "") + "</div></td>";
-
-                    if(result[i].status === "0"){
-                        tableresult += "<td><div>" + createdAt + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
-                    } else if(result[i].status === "1"){
-                        tableresult += "<td>" + result[i].tgldepartment + "</td>";
-                    } else if(result[i].status === "2"){
-                        tableresult += "<td>" + result[i].tglmanager + "</td>";
-                    } else if(result[i].status === "3"){
-                        tableresult += "<td><div>" + tglMarketing + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
-                    } else if(result[i].status === "4") {
-                        const startParts = createdAt.split(" ");
-                        const endParts   = result[i].tglpasien.split(" ");
-
-                        const startDate = new Date(startParts[0].split(".").reverse().join("-") + "T" + startParts[1]);
-                        const endDate   = new Date(endParts[0].split(".").reverse().join("-") + "T" + endParts[1]);
-
-                        const diffMs = endDate - startDate;
-                        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-                        const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-                        const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
-
-                        const diffDisplay = diffMs > 0 ? `${diffHours} Jam : ${diffMinutes} Menit : ${diffSeconds} Detik` : "-";
-                        tableresult += "<td><div>" + result[i].tglpasien + "</div><div><span class='badge badge-light-info fw-bold'>" + diffDisplay + "</span></div></td>";
+                    if(result[i].status === "2"){
+                        tableresult += "<td><div>" + result[i].tglmanager + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
+                    }else{
+                        if(result[i].status === "3"){
+                            tableresult += "<td>" + result[i].tglmarketing + "</td>";
+                        }
                     }
+                    
 
+                    // Kolom Action
                     tableresult += "<td class='text-end'>";
                     tableresult += "<div class='btn-group' role='group'>";
                     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                     tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
-                    if(result[i].status === "0"){
-                        tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " datastatus='1' onclick='updatestatus($(this));'><i class='bi bi-check2-circle text-success'></i> Forward Department</a>";
-                    }
-
-                    if(result[i].status === "3"){
-                        tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " data-bs-toggle='modal' data-bs-target='#modal_handling_response' ><i class='bi bi-check2-circle text-success'></i> Response Saran dan Masukan</a>";
+                    if(result[i].status === "2"){
+                        tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " datastatus='3' onclick='updatestatus($(this));'><i class='bi bi-check2-circle text-success'></i> Approved Manager</a>";
                     }
 
                     if(result[i].attachment === "1"){
@@ -139,11 +102,8 @@ function datahandling(){
                     tableresult += "</div></div></td>";
                     tableresult += "</tr>";
 
-                    if(result[i].status === "0") {
-                        setCountdownSLA(createdAt, timerId, 24);
-                    } else if(result[i].status === "3") {
-                        setCountdownSLA(tglMarketing, timerId, 2);
-                    }
+                    // Jalankan Countdown Timer SLA
+                    setCountdownSLA(result[i].tglmanager, timerId);
                 }
             }
 
@@ -171,29 +131,16 @@ function datahandling(){
     return false;
 }
 
-function parseCustomDate(dateStr) {
-    const parts = dateStr.split(" ");
-    if (parts.length !== 2) return new Date("Invalid");
+function setCountdownSLA(createdAtString, elementId) {
+    const SLA_HOURS = 24;
 
-    const dateParts = parts[0].split(".");
-    const timePart = parts[1];
-
-    if (dateParts.length !== 3) return new Date("Invalid");
-
-    return new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timePart}`);
-}
-
-function setCountdownSLA(createdAtString, elementId, SLA_HOURS) {
-    if (!createdAtString) return;
-
+    // Ubah format "15.07.2025 11:25:00" menjadi "2025-07-15T11:25:00"
     const parts = createdAtString.split(" ");
     const dateParts = parts[0].split(".");
     const timePart = parts[1];
     const isoDateString = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timePart}`;
 
     const createdAt = new Date(isoDateString);
-    if (isNaN(createdAt)) return;
-
     const deadline = new Date(createdAt.getTime() + SLA_HOURS * 60 * 60 * 1000);
 
     const interval = setInterval(() => {
@@ -221,48 +168,6 @@ function setCountdownSLA(createdAtString, elementId, SLA_HOURS) {
     }, 1000);
 }
 
-$(document).on("submit", "#formupdatedepartment", function (e) {
-	e.preventDefault();
-    e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
-	$.ajax({
-        url       : url,
-        data      : form.serialize(),
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-			$("#modal_handling_update_department_btn").addClass("disabled");
-        },
-		success: function (data) {
-
-            if(data.responCode == "00"){
-                $("#modal_handling_update_department").modal("hide");
-                datahandling();
-			}
-
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
-        complete: function () {
-            $("#modal_handling_update_department_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                error,
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
-		}
-	});
-    return false;
-});
-
 function updatestatus(btn) {
     Swal.fire({
         title             : 'Are you sure?',
@@ -275,26 +180,32 @@ function updatestatus(btn) {
         cancelButtonText  : 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            var datatransid     = btn.attr("datatransid");
-            var datanamapic     = btn.attr("datanamapic");
-            var datanohppic     = btn.attr("datanohppic");
-            var datanamapasien  = btn.attr("datanamapasien");
-            var datacodelaporan = btn.attr("datacodelaporan");
-            var datasaran       = btn.attr("datasaran");
-            var datastatus      = btn.attr("datastatus");
-            var dataorgname     = btn.attr("dataorgname");
+            var datatransid          = btn.attr("datatransid");
+            var datanamapic          = btn.attr("datanamapic");
+            var datanohppic          = btn.attr("datanohppic");
+            var datanamapasien       = btn.attr("datanamapasien");
+            var datacodelaporan      = btn.attr("datacodelaporan");
+            var datasaran            = btn.attr("datasaran");
+            var datastatus           = btn.attr("datastatus");
+            var datajawaban          = btn.attr("datajawaban");
+            var dataorgname          = btn.attr("dataorgname");
+            var dataorgnamemarketing = btn.attr("dataorgnamemarketing");
+            var dataorghpmarketing   = btn.attr("dataorghpmarketing");
 
             $.ajax({
-                url       : url+"index.php/crm/handling/updatesaran",
+                url       : url+"index.php/crm/handlingmanager/updatesaran",
                 data      : {
-                                datatransid    : datatransid,
-                                datastatus     : datastatus,
-                                datanamapic    : datanamapic,
-                                datanohppic    : datanohppic,
-                                datanamapasien : datanamapasien,
-                                datacodelaporan: datacodelaporan,
-                                datasaran      : datasaran,
-                                dataorgname    : dataorgname
+                                datatransid         : datatransid,
+                                datastatus          : datastatus,
+                                datanamapic         : datanamapic,
+                                datanohppic         : datanohppic,
+                                datanamapasien      : datanamapasien,
+                                datacodelaporan     : datacodelaporan,
+                                datasaran           : datasaran,
+                                datajawaban         : datajawaban,
+                                dataorgname         : dataorgname,
+                                dataorgnamemarketing: dataorgnamemarketing,
+                                dataorghpmarketing  : dataorghpmarketing
                             },
                 method    : "POST",
                 dataType  : "JSON",
@@ -324,45 +235,3 @@ function updatestatus(btn) {
     });
     return false;
 };
-
-$(document).on("submit", "#formresponse", function (e) {
-	e.preventDefault();
-    e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
-	$.ajax({
-        url       : url,
-        data      : form.serialize(),
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
-			$("#modal_handling_response_btn").addClass("disabled");
-        },
-		success: function (data) {
-
-            if(data.responCode == "00"){
-                $("#modal_handling_response").modal("hide");
-                datahandling();
-			}
-
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
-        complete: function () {
-            $("#modal_handling_response_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                error,
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
-		}
-	});
-    return false;
-});

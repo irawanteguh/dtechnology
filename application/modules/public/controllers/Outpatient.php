@@ -162,99 +162,137 @@
         }
 
         public function insertsaran(){
-            $code = generateUniqueNumber();
+            $code     = generateUniqueNumber();
+            $refId    = $this->input->post("saranmasukanid");
+            $orgId    = $this->input->post("rssaran");
+            $nohpUser = preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("notlpsaran")));
 
-            $data['org_id']        = $this->input->post("rssaran");
-            $data['trans_id']      = $this->input->post("saranmasukanid");
-            $data['code']          = $code;
-            $data['nama']          = $this->input->post("namapasiensaran");
-            $data['no_identitas']  = $this->input->post("noktppasiensaran");
-            $data['no_hp']         = $this->input->post("notlpsaran");
-            $data['nama_petugas']  = $this->input->post("namapetugassaran");
-            $data['lantai']        = $this->input->post("ruangansaran");
-            $data['department_id'] = $this->input->post("departmentsaran");
-            $data['saran']         = $this->input->post("sarandanmasukansaran");
+            // Cek apakah ini data baru atau update
+            $isNew = empty($this->md->cekdatasaran($refId));
 
-            if($this->md->insertepisode($data)){
-                $datasaran = $this->md->datasaran($this->input->post("saranmasukanid"));
-                $refId     = $this->input->post("saranmasukanid");
-                $orgId     = $this->input->post("rssaran");
+            // Data umum (insert & update)
+            $data = [
+                'org_id'        => $orgId,
+                'code'          => $code,
+                'nama'          => $this->input->post("namapasiensaran"),
+                'no_identitas'  => $this->input->post("noktppasiensaran"),
+                'no_hp'         => $this->input->post("notlpsaran"),
+                'nama_petugas'  => $this->input->post("namapetugassaran"),
+                'lantai'        => $this->input->post("ruangansaran"),
+                'department_id' => $this->input->post("departmentsaran"),
+                'saran'         => $this->input->post("sarandanmasukansaran"),
+                'active'        => "1"
+            ];
 
-                // === Kirim ke user ===
-                $text  = "*{$datasaran[0]->nameorg}*";
-                $text .= "%0a*RMB Hospital Group*";
-                $text .= "%0a%0aKepada Yth,.";
-                $text .= "%0a*{$datasaran[0]->nama}*%0a";
-                $text .= "%0aTerima Kasih atas Masukan Anda";
-                $text .= "%0aSaran dan masukan Anda telah berhasil dikirim.";
-                $text .= "%0aKami menghargai kontribusi Anda dalam meningkatkan layanan kami.";
-                $text .= "%0aSilakan Simpan Kode Laporan Anda : *{$datasaran[0]->code}*";
-                $text .= "%0a%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
-
-                $this->md->simpanboardcast([
-                    'org_id'       => $orgId,
-                    'transaksi_id' => generateuuid(),
-                    'body_1'       => $text,
-                    'device_id'    => '1234',
-                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("notlpsaran"))),
-                    'ref_id'       => $refId,
-                    'type_file'    => '0'
-                ]);
-
-                // === Kirim ke marketing ===
-                $text  = "*{$datasaran[0]->nameorg}*";
-                $text .= "%0a*RMB Hospital Group*";
-                $text .= "%0a%0aKepada Yth,.";
-                $text .= "%0a*{$datasaran[0]->namamarketing}*%0a";
-                $text .= "%0aMohon tindaklanjuti saran dan masukan";
-                $text .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
-                $text .= "%0aKode Laporan%09: {$datasaran[0]->code}";
-                $text .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
-
-                $this->md->simpanboardcast([
-                    'org_id'       => $orgId,
-                    'transaksi_id' => generateuuid(),
-                    'body_1'       => $text,
-                    'device_id'    => '1234',
-                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->nohpmarketing)),
-                    'ref_id'       => $refId,
-                    'type_file'    => '0'
-                ]);
-
-
-                $json['responCode']   = "00";
-                $json['responHead']   = "success";
-                $json['responDesc']   = "Data Added Successfully";
-                $json['responResult'] = $datasaran;
+            // Jika insert, tambahkan field kunci
+            if ($isNew) {
+                $data['trans_id'] = $refId;
+                $saved = $this->md->insertsaran($data);
             } else {
-                $json['responCode']="01";
-                $json['responHead']="info";
-                $json['responDesc']="Data Failed to Add";
+                $saved = $this->md->updatesaran($data, $refId);
             }
-            
+
+            // Ambil data terbaru untuk respon dan pesan
+            $datasaran = $this->md->datasaran($refId);
+
+            if ($saved && !empty($datasaran)) {
+                $json = [
+                    'responCode'   => "00",
+                    'responHead'   => "success",
+                    'responDesc'   => "Data Added Successfully",
+                    'responResult' => $datasaran
+                ];
+
+                // === Kirim ke User ===
+                $textUser  = "*{$datasaran[0]->nameorg}*";
+                $textUser .= "%0a*RMB Hospital Group*";
+                $textUser .= "%0a%0aKepada Yth,.";
+                $textUser .= "%0a*{$datasaran[0]->nama}*%0a";
+                $textUser .= "%0aTerima Kasih atas Masukan Anda";
+                $textUser .= "%0aSaran dan masukan Anda telah berhasil dikirim.";
+                $textUser .= "%0aKami menghargai kontribusi Anda dalam meningkatkan layanan kami.";
+                $textUser .= "%0aSilakan Simpan Kode Laporan Anda : *{$datasaran[0]->code}*";
+                $textUser .= "%0a%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+
+                $this->md->simpanboardcast([
+                    'org_id'       => $orgId,
+                    'transaksi_id' => generateuuid(),
+                    'body_1'       => $textUser,
+                    'device_id'    => '1234',
+                    'no_hp'        => $nohpUser,
+                    'ref_id'       => $refId,
+                    'type_file'    => '0'
+                ]);
+
+                // === Kirim ke Marketing ===
+                $textMarketing  = "*{$datasaran[0]->nameorg}*";
+                $textMarketing .= "%0a*RMB Hospital Group*";
+                $textMarketing .= "%0a%0aKepada Yth,.";
+                $textMarketing .= "%0a*{$datasaran[0]->namamarketing}*%0a";
+                $textMarketing .= "%0aMohon tindaklanjuti saran dan masukan";
+                $textMarketing .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
+                $textMarketing .= "%0aKode Laporan%09: {$datasaran[0]->code}";
+                $textMarketing .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+
+                $nohpMarketing = preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->nohpmarketing));
+
+                $this->md->simpanboardcast([
+                    'org_id'       => $orgId,
+                    'transaksi_id' => generateuuid(),
+                    'body_1'       => $textMarketing,
+                    'device_id'    => '1234',
+                    'no_hp'        => $nohpMarketing,
+                    'ref_id'       => $refId,
+                    'type_file'    => '0'
+                ]);
+            } else {
+                $json = [
+                    'responCode' => "01",
+                    'responHead' => "info",
+                    'responDesc' => "Data Failed to Add"
+                ];
+            }
+
             echo json_encode($json);
         }
 
-        public function uploadbukti(){
-            $transid= $_GET['transid'];
+        public function uploadbukti() {
+            $transid = $_GET['transid'];
+
+            // Ambil ekstensi file dari $_FILES
+            $original_filename = $_FILES['file']['name'];
+            $extension = pathinfo($original_filename, PATHINFO_EXTENSION); // contoh: pdf, jpg, png, etc.
+
+            // Bangun nama file dengan ekstensi
+            $filename_with_ext = $transid . '.' . $extension;
 
             $config['upload_path']   = './assets/crm/';
-            $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $transid;
+            $config['allowed_types'] = '*';
+            $config['file_name']     = $filename_with_ext;
             $config['overwrite']     = TRUE;
 
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload('file')) {
                 $error = array('error' => $this->upload->display_errors());
-
                 log_message('error', 'File upload error: ' . implode(' ', $error));
                 echo json_encode($error);
             } else {
-                echo "Upload Success";
-            }
+                $data['trans_id']   = $transid;
+                $data['attachment'] = "1";
+                $data['active']     = "0";
+                $data['filename']   = $filename_with_ext;
 
+                $this->md->insertsaran($data);
+
+                echo json_encode([
+                    'status'   => true,
+                    'message'  => 'Upload Success',
+                    'filename' => $filename_with_ext
+                ]);
+            }
         }
+
 
 	}
 ?>

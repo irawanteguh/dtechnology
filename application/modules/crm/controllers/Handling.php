@@ -105,5 +105,45 @@
             echo json_encode($json);
         }
 
+        public function response(){
+            $data['response']            = $this->input->post("modal_handling_response_response");
+            $data['datetime_fwd_pasien'] = date("Y-m-d H:i:s");
+            $data['status']              = "4";
+            
+            $datasaran = $this->md->datasaran($this->input->post("modal_handling_response_transid"));
+
+            $textUser  = "*{$datasaran[0]->nameorg}*";
+            $textUser .= "%0a*RMB Hospital Group*";
+            $textUser .= "%0a%0aKepada Yth,.";
+            $textUser .= "%0a*{$datasaran[0]->nama}*%0a";
+            $textUser .= "%0aTerima Kasih atas Masukan Anda";
+            $textUser .= "%0aBerikut kami sampaikan :";
+            $textUser .= "%0a_".$datasaran[0]->response."_";
+            $textUser .= "%0a%0aKami menghargai kontribusi Anda dalam meningkatkan layanan kami.";
+            $textUser .= "%0a%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+
+            $this->md->simpanboardcast([
+                'org_id'       => $datasaran[0]->org_id,
+                'transaksi_id' => generateuuid(),
+                'body_1'       => $textUser,
+                'device_id'    => '1234',
+                'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->no_hp)),
+                'ref_id'       => $this->input->post("modal_handling_response_transid"),
+                'type_file'    => '0'
+            ]);
+
+            if($this->md->updatesaran($data,$this->input->post("modal_handling_response_transid"))){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Update Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="error";
+                $json['responDesc']="Data Failed to Updated";
+            }
+
+            echo json_encode($json);
+        }
+
 	}
 ?>
