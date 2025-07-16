@@ -59,10 +59,18 @@
             $data['no_laporan_penilaian_assets'] = $this->input->post("laporan_penilaian");
             $data['name']                        = $this->input->post("name");
             $data['jenis_id']                    = $this->input->post("category");
-            $data['luas']                        = $this->input->post("luas");
-            $data['tahun_pembuatan']             = $this->input->post("tahun_dibangun");
-            $data['nilai_perolehan']             = $this->input->post("nilai_perolehan");
-            $data['waktu_depresiasi']            = $this->input->post("depresiasi");
+            
+            $data['tahun_pembuatan']         = $this->input->post("tahun_dibangun");
+            $data['dinding']                 = $this->input->post("dinding_pelapis");
+            $data['volume']                  = $this->input->post("volume");
+            $data['estimasi_penggunaan_day'] = $this->input->post("estimasi_penggunaan");
+            
+            $data['nilai_perolehan']      = preg_replace('/[^0-9]/', '', $this->input->post("nilai_perolehan"));
+            $data['nilai_pemeliharaan']   = preg_replace('/[^0-9]/', '', $this->input->post("biaya_pemeliharaan"));
+            $data['waktu_bunga']          = $this->input->post("waktu_pinjaman");
+            $data['nilai_bunga_pinjaman'] = preg_replace('/[^0-9]/', '', $this->input->post("bunga_pinjaman"));
+            $data['waktu_depresiasi']     = $this->input->post("depresiasi");
+            
             $data['created_by']                  = $_SESSION['userid'];
             $data['created_date']                = date("Y-m-d H:i:s");
 

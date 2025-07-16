@@ -3,8 +3,14 @@ function todesimal(value) {
 };
 
 function formatCurrency(value) {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
-};
+    const number = parseInt(value.replace(/[^0-9]/g, ''));
+    if (isNaN(number)) return '';
+    return 'Rp. ' + new Intl.NumberFormat('id-ID', {
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0
+    }).format(number);
+}
+
 
 if (window.location.href !== url+'index.php/auth/sign') {
     var sessiontimeout = function() {
@@ -34,6 +40,13 @@ if (window.location.href !== url+'index.php/auth/sign') {
         sessiontimeout.init();
     });
 };
+
+document.querySelectorAll('.currency-rp').forEach(function(input) {
+    input.addEventListener('input', function(e) {
+        let formatted = formatCurrency(e.target.value);
+        e.target.value = formatted;
+    });
+});
 
 $('#openInNewTabButton').on('click', function() {
     var filename = $(this).data('filename');

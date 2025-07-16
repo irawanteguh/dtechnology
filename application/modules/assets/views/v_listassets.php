@@ -112,32 +112,64 @@
                                 <tr class="fw-bolder text-muted bg-light align-middle">
                                     <th class="ps-4 rounded-start">No Assets</th>
                                     <th>Nama Bangunan</th>
-                                    <!-- <th>Jumlah Lantai</th>
-                                    <th>Pondasi</th>
-                                    <th>Struktur</th>
-                                    <th>Rangka Atap</th>
-                                    <th>Penutup Atap</th>
-                                    <th>Plafon</th>
-                                    <th>Dinding & Pelapis</th>
-                                    <th>Pintu</th>
-                                    <th>Jendela</th>
-                                    <th>Lantai</th> -->
                                     <th class="text-end">Luas (m²)</th>
                                     <th class="text-center">Tahun Perolehan</th>
-                                    <th class="text-end">Nilai Perolehan</th>
+                                    <th class="text-end">Nilai Asset</th>
+                                    <th class="text-end">Bunga Pinjaman</th>
+                                    <th class="text-end">Pemeliharaan</th>
                                     <th class="text-end">Harga Per (m²)</th>
                                     <th class="text-end">Depresiasi</th>
-                                    <!-- <th>Kualitas Bangunan</th>
-                                    <th>Kondisi Bangunan</th> -->
+                                    <th class="text-end">Volume</th>
+                                    <th class="text-end">Cost</th>
                                     <th>Created By</th>
                                     <th class="pe-4 text-end rounded-end">Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-gray-600 fw-bold" id="resultdatamasterassets"></tbody>
+                            <tbody class="text-gray-600 fw-bold" id="resultdatamasterassets_2"></tbody>
                         </table>
                     </div>
-                    <div id="tab_alkes" class="card-body p-0 tab-pane" role="tabpanel"></div>
-                    <div id="tab_nonalkes" class="card-body p-0 tab-pane" role="tabpanel"></div>
+                    <div id="tab_alkes" class="card-body p-0 tab-pane" role="tabpanel">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light align-middle">
+                                    <th class="ps-4 rounded-start">No Assets</th>
+                                    <th>Nama Alat Kesehatan</th>
+                                    <th class="text-end">Qty</th>
+                                    <th class="text-center">Tahun Perolehan</th>
+                                    <th class="text-end">Nilai Asset</th>
+                                    <th class="text-end">Bunga Pinjaman</th>
+                                    <th class="text-end">Pemeliharaan</th>
+                                    <th class="text-end">Depresiasi</th>
+                                    <th class="text-end">Volume</th>
+                                    <th class="text-end">Cost</th>
+                                    <th>Created By</th>
+                                    <th class="pe-4 text-end rounded-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 fw-bold" id="resultdatamasterassets_1"></tbody>
+                        </table>
+                    </div>
+                    <div id="tab_nonalkes" class="card-body p-0 tab-pane" role="tabpanel">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light align-middle">
+                                    <th class="ps-4 rounded-start">No Assets</th>
+                                    <th>Nama Non Alat Kesehatan</th>
+                                    <th class="text-end">Qty</th>
+                                    <th class="text-center">Tahun Perolehan</th>
+                                    <th class="text-end">Nilai Asset</th>
+                                    <th class="text-end">Bunga Pinjaman</th>
+                                    <th class="text-end">Pemeliharaan</th>
+                                    <th class="text-end">Depresiasi</th>
+                                    <th class="text-end">Volume</th>
+                                    <th class="text-end">Cost</th>
+                                    <th>Created By</th>
+                                    <th class="pe-4 text-end rounded-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 fw-bold" id="resultdatamasterassets_3"></tbody>
+                        </table>
+                    </div>
                     <div id="tab_rumahtangga" class="card-body p-0 tab-pane" role="tabpanel"></div>
                     <div id="tab_software" class="card-body p-0 tab-pane" role="tabpanel"></div>
                 </div>

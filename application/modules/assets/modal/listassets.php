@@ -79,7 +79,7 @@
 													<span class="required">Nama Asset</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Specify your unique app name" aria-label="Specify your unique app name"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="name" placeholder="" value="">
+												<input type="text" class="form-control form-control-lg form-control-solid" name="name" placeholder="" value="" required>
 											</div>
 
 											<div class="fv-row">
@@ -98,13 +98,13 @@
 										<div class="w-100 row">
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Tahun Dibangun</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tahun bangunan mulai dibangun"></i>
+													<span class="required">Tahun Perolehan</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tahun Perolehan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="tahun_dibangun" placeholder="Contoh: ± 2013">
+												<input type="text" class="form-control form-control-lg form-control-solid" name="tahun_dibangun" placeholder="Contoh: ± 2013" required>
 											</div>
 
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Jumlah Lantai</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jumlah total lantai bangunan"></i>
@@ -150,17 +150,17 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis plafon yang digunakan"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" name="plafon" placeholder="Contoh: Gypsum">
-											</div>
+											</div> -->
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Dinding & Pelapis</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis material dan pelapis dinding"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="dinding_pelapis" placeholder="Contoh: Bata ringan dilapis cat">
+												<input type="text" class="form-control form-control-lg form-control-solid" name="dinding_pelapis" placeholder="Contoh: Bata ringan dilapis cat" required>
 											</div>
 
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Pintu</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis bahan dan rangka pintu"></i>
@@ -182,17 +182,17 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Material lantai utama"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" name="lantai" placeholder="Contoh: Keramik">
-											</div>
+											</div> -->
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Luas (m²)</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Total luas bangunan"></i>
+													<span class="required">Qty / Luas (m²)</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Total QTY / luas bangunan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="luas" placeholder="Contoh: ± 3.241,00 m²">
+												<input type="text" class="form-control form-control-lg form-control-solid" name="volume" placeholder="Contoh: ± 3.241,00 m² / 1 Unit" required>
 											</div>
 
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Kualitas Bangunan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Kualitas konstruksi secara umum"></i>
@@ -206,6 +206,14 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Kondisi terkini bangunan"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" name="kondisi_bangunan" placeholder="Contoh: Terawat">
+											</div> -->
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span class="required">Estimasi Penggunaan</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid" name="estimasi_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>
 											</div>
 
 										</div>
@@ -218,10 +226,10 @@
 													<span class="required">Nilai Perolehan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Harga awal perolehan aset/bangunan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="nilai_perolehan" placeholder="Contoh: 12.500.000.000">
+												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="nilai_perolehan" placeholder="Contoh: 12.500.000.000" required>
 											</div>
 
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Biaya Perijinan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="IMB, SLF, PBG, amdal, dll."></i>
@@ -251,6 +259,22 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Pengawasan pekerjaan, audit teknis, supervisi"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" name="biaya_pengawasan" placeholder="Contoh: 200.000.000">
+											</div> -->
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span class="required">Biaya Pemeliharaan</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Perawatan setelah serah terima konstruksi"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="biaya_pemeliharaan" placeholder="Contoh: 50.000.000 / Bulan">
+											</div>
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span class="required">Jangka Waktu Pinjaman</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jangka Waktu Pinjaman Jika pembangunan dibiayai kredit/pinjaman"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid" name="waktu_pinjaman" placeholder="Contoh: 20 Tahun" required>
 											</div>
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
@@ -258,23 +282,17 @@
 													<span class="required">Bunga Pinjaman</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jika pembangunan dibiayai kredit/pinjaman"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="bunga_pinjaman" placeholder="Contoh: 100.000.000">
+												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="bunga_pinjaman" placeholder="Contoh: 100.000.000" required>
 											</div>
 
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Biaya Pemeliharaan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Perawatan awal setelah serah terima konstruksi"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="biaya_pemeliharaan_awal" placeholder="Contoh: 50.000.000">
-											</div>
+											
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Depresiasi</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Waktu penyusutan aset"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="depresiasi" placeholder="Contoh: 20 Tahun">
+												<input type="text" class="form-control form-control-lg form-control-solid" name="depresiasi" placeholder="Contoh: 20 Tahun" required>
 											</div>
 
 
@@ -283,7 +301,7 @@
 
 									<div data-kt-stepper-element="content">
 										<div class="w-100 row">
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Sertifikat Kepemilikan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis sertifikat seperti SHM, HGB, dsb."></i>
@@ -305,7 +323,7 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nama file atau link ke dokumen gambar bangunan"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" name="blueprint" placeholder="Contoh: blueprint_rsu_2020.pdf">
-											</div>
+											</div> -->
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
@@ -315,7 +333,7 @@
 												<input type="text" class="form-control form-control-lg form-control-solid" name="laporan_penilaian" placeholder="Contoh: LAP/Penilaian/2023/001">
 											</div>
 
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Status Hukum</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Milik sendiri / sewa / pinjam pakai, dll."></i>
@@ -369,7 +387,7 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Link lokasi di Google Maps (bila tersedia)"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" name="link_maps" placeholder="Contoh: https://maps.google.com/?q=-6.23,106.81">
-											</div>
+											</div> -->
 
 
 

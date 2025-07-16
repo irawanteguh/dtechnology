@@ -35,17 +35,28 @@
         function masterassets($orgid){
             $query =
                     "
-                        select a.trans_id, no_assets, no_laporan_penilaian_assets, name, spesifikasi, luas, tahun_pembuatan,
+                        select a.trans_id, no_assets, no_laporan_penilaian_assets, name, spesifikasi, volume, tahun_pembuatan, estimasi_penggunaan_day, jenis_id,
                                 date_format(a.created_date, '%d.%m.%Y %H:%i:%s') tgldibuat,
-                                nilai_perolehan,
-                                round((nilai_perolehan / luas),0) nilaibangunanpermeter,
-                                waktu_depresiasi, 
+                                nilai_perolehan, nilai_bunga_pinjaman, nilai_pemeliharaan,
+                                round((nilai_perolehan / volume),0) nilaibangunanpermeter,
+                                waktu_depresiasi, waktu_bunga,
+                                round(
+                                        (
+                                            (((nilai_perolehan / (waktu_depresiasi * 12)) / 30) / estimasi_penggunaan_day) +
+                                            (((nilai_pemeliharaan / (waktu_depresiasi * 12)) / 30) / estimasi_penggunaan_day) +
+                                            IF(
+                                                waktu_bunga = 0 OR estimasi_penggunaan_day = 0,
+                                                0,
+                                                (((nilai_bunga_pinjaman / (waktu_bunga * 12)) / 30) / estimasi_penggunaan_day)
+                                            )
+                                        ),0
+                                    )cost,
                                 (select master_name from dt01_gen_master_ms where jenis_id='Asset_1' and code=a.jenis_id)kategori,
                                 (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.created_by)dibuatoleh
                         from dt01_lgu_assets_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
-                        order by kategori asc
+                        order by kategori asc, created_date desc
                     ";
 
             $recordset = $this->db->query($query);

@@ -10,61 +10,88 @@ $('#modal_assets_add').on('shown.bs.modal', function () {
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 });
 
-function masterassets(){
+function masterassets() {
     $.ajax({
-        url       : url+"index.php/assets/listassets/masterassets",
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
+        url: url + "index.php/assets/listassets/masterassets",
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-            $("#resultdatamasterassets").html("");
+            $("#resultdatamasterassets_1").html("");
+            $("#resultdatamasterassets_2").html("");
+            $("#resultdatamasterassets_3").html("");
         },
-        success:function(data){
-            let tableresult;
+        success: function (data) {
+            let tableAlkes = "";
+            let tableBangunan = "";
+            let tableNonAlkes = "";
 
-            if(data.responCode==="00"){
-                let result        = data.responResult;
-                for(var i in result){
+            if (data.responCode === "00") {
+                let result = data.responResult;
 
-                    tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'><div>"+(result[i].no_assets ? result[i].no_assets : "")+"</div><div>"+(result[i].no_laporan_penilaian_assets ? result[i].no_laporan_penilaian_assets : "")+"</div></td>";
-                    tableresult +="<td><div>"+result[i].name+"</div><div class='fst-italic fs-9'>"+(result[i].spesifikasi ? result[i].spesifikasi : "")+"</div></td>";
-                    tableresult +="<td class='text-end'>"+(result[i].luas ? todesimal(result[i].luas) : "")+"</td>";
-                    tableresult +="<td class='text-center'>"+(result[i].tahun_pembuatan ? result[i].tahun_pembuatan : "")+"</td>";
-                    tableresult +="<td class='text-end'>"+(result[i].nilai_perolehan ? todesimal(result[i].nilai_perolehan) : "")+"</td>";
-                    tableresult +="<td class='text-end'>"+(result[i].nilaibangunanpermeter ? todesimal(result[i].nilaibangunanpermeter) : "")+"</td>";
-                    tableresult +="<td class='text-end'>"+(result[i].waktu_depresiasi ? result[i].waktu_depresiasi+" Tahun" : "")+"</td>";
-                    tableresult +="<td><div>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "")+"<div>"+result[i].tgldibuat+"</div></td>";
-                    tableresult +="</tr>";
+                for (let i in result) {
+                    let row = "<tr>";
+                    row += "<td class='ps-4'><div>" + (result[i].no_assets || "") + "</div><div>" + (result[i].no_laporan_penilaian_assets || "") + "</div></td>";
+                    row += "<td><div>" + result[i].name + "</div><div class='fst-italic fs-9'>" + (result[i].spesifikasi || "") + "</div></td>";
+                    row += "<td class='text-end'>" + (result[i].volume ? todesimal(result[i].volume) : "") + "</td>";
+                    row += "<td class='text-center'>" + (result[i].tahun_pembuatan || "") + "</td>";
+                    row += "<td class='text-end'><span title='Nilai Perolehan'>" + (result[i].nilai_perolehan ? todesimal(result[i].nilai_perolehan) : "") + "</span></td>";
+                    row += "<td class='text-end'><span title='Bunga Pinjaman'>" + (result[i].nilai_bunga_pinjaman ? todesimal(result[i].nilai_bunga_pinjaman) + " / " + (result[i].waktu_bunga || "") + " Tahun" : "") + "</span></td>";
+                    row += "<td class='text-end'><span title='Biaya Pemeliharaan'>" + (result[i].nilai_pemeliharaan ? todesimal(result[i].nilai_pemeliharaan) + " / Bulan" : "") + "</span></td>";
+
+                    // Tampilkan kolom harga per m² hanya jika jenis_id bukan 1 (bukan alkes)
+                    if (result[i].jenis_id === "2") {
+                        row += "<td class='text-end'>" + (result[i].nilaibangunanpermeter ? todesimal(result[i].nilaibangunanpermeter) : "0") + "</td>";
+                    }
+
+                    row += "<td class='text-end'>" + (result[i].waktu_depresiasi ? result[i].waktu_depresiasi + " Tahun" : "") + "</td>";
+                    row += "<td class='text-end'>" + (result[i].estimasi_penggunaan_day ? result[i].estimasi_penggunaan_day + " / Hari" : "") + "</td>";
+                    row += "<td class='text-end'><span title='Cost Per Pasien'>" + (result[i].cost ? todesimal(result[i].cost) : "") + "</span></td>";
+                    row += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + result[i].tgldibuat + "</div></td>";
+                    row += "<td class='pe-4 text-end'>...</td>"; // Tambahkan tombol action jika perlu
+                    row += "</tr>";
+
+                    if (result[i].jenis_id === "1") {
+                        tableAlkes += row;
+                    } else {
+                        if (result[i].jenis_id === "2") {
+                            tableBangunan += row;
+                        }else{
+                            tableNonAlkes += row;
+                        }
+                    }
                 }
             }
 
+            $("#resultdatamasterassets_1").html(tableAlkes);
+            $("#resultdatamasterassets_2").html(tableBangunan);
+            $("#resultdatamasterassets_3").html(tableNonAlkes);
 
-            $("#resultdatamasterassets").html(tableresult);
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-			toastr.clear();
-		},
-        error: function(xhr, status, error) {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
             Swal.fire({
-                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html             : "<b>"+error+"</b>",
-                icon             : "error",
+                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html: "<b>" + error + "</b>",
+                icon: "error",
                 confirmButtonText: "Please Try Again",
-                buttonsStyling   : false,
-                timerProgressBar : true,
-                timer            : 5000,
-                customClass      : {confirmButton: "btn btn-danger"},
-                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                buttonsStyling: false,
+                timerProgressBar: true,
+                timer: 5000,
+                customClass: { confirmButton: "btn btn-danger" },
+                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
             });
-		}		
+        }
     });
     return false;
-};
+}
+
 
 // function masterassets(){
 //     $.ajax({
@@ -225,6 +252,7 @@ var KTCreateApp = (function () {
                             });
                             masterassets();
                             $('#modal_assets_add').modal('hide');
+                            stepper.goTo(1);
                         } else {
                             Swal.fire({
                                 text: result.responDesc || "Gagal menyimpan data.",
