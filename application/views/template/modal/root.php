@@ -73,6 +73,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal_auth_change_mobilephone" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-icon btn-sm btn-color-gray-400 btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1"><i class="bi bi-x-lg"></i></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-5">
+                    <h1 class="mb-3">Update Mobile Phone</h1>
+                    <div class="text-muted fw-bold fs-5">
+                        Please provide your mobile number to continue.
+                    </div>
+                </div>
+                <form action="<?= base_url('auth/sign/updatemobile') ?>" id="formupdatemobilephone" method="post">
+                    <div class="mb-10 fv-row">
+                        <label class="form-label fw-bolder text-dark fs-6">Mobile Number</label>
+                        <input class="form-control form-control-lg form-control-solid" type="text" name="no_hp" id="no_hp" required />
+                    </div>
+                    <div class="modal-footer p-1">
+                        <button type="submit" class="btn btn-light-success">SUBMIT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal_view_pdf" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">

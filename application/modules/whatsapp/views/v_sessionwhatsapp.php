@@ -1,5 +1,5 @@
 <div class="row gy-5 g-xl-8 mb-xl-8">
-    <div class="col-xl-6">
+    <div class="col-xl-12">
         <div class="card card-flush h-100">
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">

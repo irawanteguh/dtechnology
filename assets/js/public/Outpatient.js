@@ -500,6 +500,20 @@ $(document).on("change","select[name='booking_poliid']",function(e){
 	});
 });
 
+$(document).on("change","select[name='rssaran']",function(e){
+	e.preventDefault();
+    var orgid = $(this).val();
+	$.ajax({
+		url    : url + "index.php/public/outpatient/masterdepartment",
+		method : "POST",
+		data   : {orgid:orgid,orgid:orgid},
+		cache  : false,
+		success: function (data) {
+			$("select[name='departmentsaran']").html(data);
+		}
+	});
+});
+
 $(document).on("change", "select[name='booking_doctorid']",function(e){
     e.preventDefault();
     jadwaldokter();

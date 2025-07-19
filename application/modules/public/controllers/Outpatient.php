@@ -15,13 +15,11 @@
 
         public function loadcombobox(){
             $resultmasterprovider     = $this->md->masterprovider();
-            $resultmasterdepartment   = $this->md->masterdepartment();
             $resultmasterorganization = $this->md->masterorganization();
             $resultmasterpoliklinik   = $this->md->masterpoliklinik();
             $resultmasterdoctor       = $this->md->masterdoctor(ORG_ID);
     
             $provider     = "";
-            $department   = "";
             $organization = "";
             $poliklinik   = "";
             $masterdoctor = "";
@@ -32,10 +30,6 @@
 
             foreach ($resultmasterorganization as $a) {
                 $organization .= "<option value='" . $a->org_id . "'>" . $a->org_name . "</option>";
-            }
-
-            foreach ($resultmasterdepartment as $a) {
-                $department .= "<option value='" . $a->department_id . "'>" . $a->department . "</option>";
             }
 
             foreach ($resultmasterpoliklinik as $a) {
@@ -56,7 +50,6 @@
             
     
             $data['provider']     = $provider;
-            $data['department']   = $department;
             $data['organization'] = $organization;
             $data['poliklinik']   = $poliklinik;
             $data['masterdoctor'] = $masterdoctor;
@@ -97,6 +90,18 @@
             }
 
             echo $doctor;
+        }
+
+        public function masterdepartment(){
+            $resultmasterdepartment = $this->md->masterdepartment($this->input->post('orgid'));
+
+            $department="";
+
+            foreach ($resultmasterdepartment as $a) {
+                $department .= "<option value='" . $a->department_id . "'>" . $a->department . "</option>";
+            }
+
+            echo $department;
         }
 
         public function jadwaldokter(){
@@ -165,12 +170,10 @@
             $code     = generateUniqueNumber();
             $refId    = $this->input->post("saranmasukanid");
             $orgId    = $this->input->post("rssaran");
-            $nohpUser = preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("notlpsaran")));
+            
 
-            // Cek apakah ini data baru atau update
             $isNew = empty($this->md->cekdatasaran($refId));
 
-            // Data umum (insert & update)
             $data = [
                 'org_id'        => $orgId,
                 'code'          => $code,
@@ -193,7 +196,7 @@
             }
 
             // Ambil data terbaru untuk respon dan pesan
-            $datasaran = $this->md->datasaran($refId);
+            $datasaran = $this->md->datasaran($orgId,$refId);
 
             if ($saved && !empty($datasaran)) {
                 $json = [
@@ -213,15 +216,16 @@
                 $textUser .= "%0aKami menghargai kontribusi Anda dalam meningkatkan layanan kami.";
                 $textUser .= "%0aSilakan Simpan Kode Laporan Anda : *{$datasaran[0]->code}*";
                 $textUser .= "%0a%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
-
+                
                 $this->md->simpanboardcast([
                     'org_id'       => $orgId,
                     'transaksi_id' => generateuuid(),
                     'body_1'       => $textUser,
-                    'device_id'    => '1234',
-                    'no_hp'        => $nohpUser,
+                    'device_id'    => $datasaran[0]->deviceid,
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("notlpsaran"))),
                     'ref_id'       => $refId,
-                    'type_file'    => '0'
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [RESPONDEN]'
                 ]);
 
                 // === Kirim ke Marketing ===
@@ -234,16 +238,57 @@
                 $textMarketing .= "%0aKode Laporan%09: {$datasaran[0]->code}";
                 $textMarketing .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
-                $nohpMarketing = preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->nohpmarketing));
-
                 $this->md->simpanboardcast([
                     'org_id'       => $orgId,
                     'transaksi_id' => generateuuid(),
                     'body_1'       => $textMarketing,
-                    'device_id'    => '1234',
-                    'no_hp'        => $nohpMarketing,
+                    'device_id'    => $datasaran[0]->deviceid,
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->nohpmarketing)),
                     'ref_id'       => $refId,
-                    'type_file'    => '0'
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [MARKETING]'
+                ]);
+
+                // === Kirim ke Direktur ===
+                $textDirektur  = "*{$datasaran[0]->nameorg}*";
+                $textDirektur .= "%0a*RMB Hospital Group*";
+                $textDirektur .= "%0a%0aKepada Yth,.";
+                $textDirektur .= "%0a*{$datasaran[0]->namadirektur}*%0a";
+                $textDirektur .= "%0aMohon tindaklanjuti saran dan masukan";
+                $textDirektur .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
+                $textDirektur .= "%0aKode Laporan%09: {$datasaran[0]->code}";
+                $textDirektur .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+
+                $this->md->simpanboardcast([
+                    'org_id'       => $orgId,
+                    'transaksi_id' => generateuuid(),
+                    'body_1'       => $textDirektur,
+                    'device_id'    => $datasaran[0]->deviceid,
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->nohpdirektur)),
+                    'ref_id'       => $refId,
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [DIREKTUR RS]'
+                ]);
+
+                // === Kirim ke Direktur PT ===
+                $textDirekturPT  = "*{$datasaran[0]->nameorg}*";
+                $textDirekturPT .= "%0a*RMB Hospital Group*";
+                $textDirekturPT .= "%0a%0aKepada Yth,.";
+                $textDirekturPT .= "%0a*{$datasaran[0]->namadireakturpt}*%0a";
+                $textDirekturPT .= "%0aMohon tindaklanjuti saran dan masukan";
+                $textDirekturPT .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
+                $textDirekturPT .= "%0aKode Laporan%09: {$datasaran[0]->code}";
+                $textDirekturPT .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+
+                $this->md->simpanboardcast([
+                    'org_id'       => $orgId,
+                    'transaksi_id' => generateuuid(),
+                    'body_1'       => $textDirekturPT,
+                    'device_id'    => $datasaran[0]->deviceid,
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->nohpdirekturpt)),
+                    'ref_id'       => $refId,
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [DIREKTUR PT]'
                 ]);
             } else {
                 $json = [

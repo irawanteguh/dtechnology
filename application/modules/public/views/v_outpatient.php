@@ -1033,7 +1033,7 @@
                                                     <a href="javascript:void(0);" class="btn btn-outline-info" id="downloadReceipt">
                                                         <i class="fas fa-file-download me-2"></i> Download Bukti Pengiriman
                                                     </a>
-                                                    <a href="./feedback" class="btn btn-primary" data-kt-element="complete-start">
+                                                    <a href="./outpatient#saranmasukan" class="btn btn-primary" data-kt-element="complete-start">
                                                         <i class="fas fa-home me-2"></i> Kembali ke Formulir
                                                     </a>
                                                 </div>

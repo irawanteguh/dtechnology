@@ -14,7 +14,8 @@
 		}
 
         public function loadcombobox(){
-            $resultkategoriasset = $this->md->kategoriasset();
+            $resultkategoriasset  = $this->md->kategoriasset();
+            $resultmasterlocation = $this->md->masterlocation($_SESSION['orgid']);
 
             $kategoriassets = "";
             foreach($resultkategoriasset as $a){
@@ -46,7 +47,13 @@
                 $kategoriassets .= "</label>";
             }
 
+            $location="";
+            foreach($resultmasterlocation as $a ){
+                $location.="<option value='".$a->trans_id."'>".$a->keterangan."</option>";
+            }
+
             $data['kategoriassets'] = $kategoriassets;
+            $data['location'] = $location;
             return $data;
         }
 
@@ -70,6 +77,8 @@
             $data['waktu_bunga']          = $this->input->post("waktu_pinjaman");
             $data['nilai_bunga_pinjaman'] = preg_replace('/[^0-9]/', '', $this->input->post("bunga_pinjaman"));
             $data['waktu_depresiasi']     = $this->input->post("depresiasi");
+
+            $data['location_id']     = $this->input->post("location_id");
             
             $data['created_by']                  = $_SESSION['userid'];
             $data['created_date']                = date("Y-m-d H:i:s");

@@ -32,6 +32,20 @@
             return $recordset;
         }
 
+        function masterlocation($orgid){
+            $query =
+                    "
+                        select a.trans_id, concat(no_assets,' | ',name)keterangan
+                        from dt01_lgu_assets_ms a
+                        where a.org_id='".$orgid."'
+                        and   a.jenis_id='2'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterassets($orgid){
             $query =
                     "
@@ -51,8 +65,52 @@
                                             )
                                         ),0
                                     )cost,
+
+                                round((nilai_perolehan/waktu_depresiasi),0)perolehantahunan, 
+                                round((nilai_perolehan/(waktu_depresiasi*12)),0)perolehanbulanan,
+                                round(((nilai_perolehan/(waktu_depresiasi*12))/30),0)perolehanharian, 
+                                round((((nilai_perolehan/(waktu_depresiasi*12))/30)/estimasi_penggunaan_day),0)perolehanpasien,
+
+                                round((nilai_bunga_pinjaman/waktu_bunga),0)pinjamantahunan, 
+                                round((nilai_bunga_pinjaman/(waktu_bunga*12)),0)pinjamanbulanan,
+                                round(((nilai_bunga_pinjaman/(waktu_bunga*12))/30),0)pinjamanharian, 
+                                round((((nilai_bunga_pinjaman/(waktu_bunga*12))/30)/estimasi_penggunaan_day),0)pinjamanpasien,
+
+                                round((nilai_pemeliharaan/waktu_depresiasi),0)pemeliharaantahunan, 
+                                round((nilai_pemeliharaan/(waktu_depresiasi*12)),0)pemeliharaanbulanan,
+                                round(((nilai_pemeliharaan/(waktu_depresiasi*12))/30),0)pemeliharaanharian, 
+                                round((((nilai_pemeliharaan/(waktu_depresiasi*12))/30)/estimasi_penggunaan_day),0)pemeliharaanpasien,
+
                                 (select master_name from dt01_gen_master_ms where jenis_id='Asset_1' and code=a.jenis_id)kategori,
-                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.created_by)dibuatoleh
+                                (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.created_by)dibuatoleh,
+
+                                case
+                                    when a.jenis_id='2' then
+                                        (
+                                            select GROUP_CONCAT(
+                                                                    b.trans_id,':',
+                                                                    b.no_assets,':',
+                                                                    b.name,':',
+                                                                    b.volume,':',
+                                                                    b.tahun_pembuatan,':',
+                                                                    b.nilai_perolehan,':',
+                                                                    b.nilai_bunga_pinjaman,':',
+                                                                    b.nilai_pemeliharaan,':',
+                                                                    waktu_depresiasi,':',
+                                                                    (select master_name from dt01_gen_master_ms where jenis_id='Asset_1' and code=b.jenis_id),':',
+                                                                    (select color from dt01_gen_master_ms where jenis_id='Asset_1' and code=b.jenis_id)
+                                                                    order by b.jenis_id asc
+                                                                    separator ';'
+                                                                )
+                                            from dt01_lgu_assets_ms b
+                                            where b.active='1'
+                                            and   b.org_id='".$orgid."'
+                                            and   b.location_id=a.trans_id
+                                        )
+                                    else
+                                    (select name from dt01_lgu_assets_ms where active='1' and org_id='".$orgid."' and trans_id=a.location_id)
+                                end rincianasset
+
                         from dt01_lgu_assets_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'

@@ -67,6 +67,17 @@
 										</div>
 									</div>
 
+									<div class="stepper-item" data-kt-stepper-element="nav">
+										<div class="stepper-line w-40px"></div>
+										<div class="stepper-icon w-40px h-40px">
+											<i class="stepper-check fas fa-check"></i>
+											<span class="stepper-number">5</span>
+										</div>
+										<div class="stepper-label">
+											<h3 class="stepper-title">Lokasi</h3>
+											<div class="stepper-desc">Lokasi / penempatan asset</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="flex-row-fluid py-lg-5 px-lg-15">
@@ -391,6 +402,20 @@
 
 
 
+										</div>
+									</div>
+
+									<div data-kt-stepper-element="content">
+										<div class="w-100 row">
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span class="required">Lokasi Penempatan Asset</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis sertifikat seperti SHM, HGB, dsb."></i>
+												</label>
+												<select data-control="select2" data-dropdown-parent="#modal_assets_add" data-placeholder="Please Select Location" class="form-select form-select-solid" name="location_id" required>
+													<?php echo $location;?>
+												</select>
+											</div>
 										</div>
 									</div>
 									
