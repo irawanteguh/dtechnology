@@ -13,7 +13,8 @@
 		}
 
         public function datahandling(){
-            $status    = "and   a.department_id in (
+            $status    = "and a.status='2'
+                          and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
                                                     where header_id in (
@@ -57,10 +58,12 @@
                     'org_id'       => $_SESSION['orgid'],
                     'transaksi_id' => generateuuid(),
                     'body_1'       => $text,
-                    'device_id'    => '1234',
+                    'device_id'    => $this->input->post("datadeviceid"),
                     'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datanohppic"))),
-                    'ref_id'       => $this->input->post("dataorghpmarketing"),
-                    'type_file'    => '0'
+                    'ref_id'       => $this->input->post("datatransid"),
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [MANAGER]',
+                    'created_by'   => $_SESSION['userid']
                 ]);
 
                 $data['datetime_fwd_marketing'] = date("Y-m-d H:i:s");

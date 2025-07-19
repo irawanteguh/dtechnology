@@ -103,6 +103,7 @@ function datahandling(){
                                         " datanohppic='" + result[i].nohppic + "'" +
                                         " datanamapasien='" + result[i].nama + "'" +
                                         " datacodelaporan='" + result[i].code + "'" +
+                                        " datadeviceid='" + result[i].deviceid + "'" +
                                         " datasaran='" + result[i].saran + "'" +
                                         " datajawaban='" + result[i].answer_instalasi + "'" +
                                         " dataorgname='" + result[i].nameorg + "'";
@@ -154,15 +155,10 @@ function datahandling(){
                     tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
                     if(result[i].status === "1"){
-                        if(result[i].answer_instalasi===null || result[i].answer_instalasi===""){
-                            tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " data-bs-toggle='modal' data-bs-target='#modal_handlinginstlasi_tindaklanjut' ><i class='bi bi-check2-circle text-success'></i> Tindaklanjuti</a>";
-                        }
+                        tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " data-bs-toggle='modal' data-bs-target='#modal_handlinginstlasi_tindaklanjut' ><i class='bi bi-check2-circle text-success'></i> Tindaklanjuti</a>";
+                        tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_handlinginstlasi_uploadbuktitl'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Bukti Tindaklanjut</a>";
 
-                        if(result[i].bukti_tl==="0"){
-                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_handlinginstlasi_uploadbuktitl'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Bukti Tindaklanjut</a>";
-                        }
-
-                        if((result[i].answer_instalasi!=null && result[i].answer_instalasi!="") || result[i].bukti_tl==="0"){
+                        if ((result[i].answer_instalasi != null || result[i].answer_instalasi != "") && result[i].bukti_tl === "1") {
                             tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " datastatus='2' onclick='updatestatus($(this));'><i class='bi bi-check2-circle text-success'></i> Forward Manager</a>";
                         }
                     }
@@ -305,6 +301,7 @@ function updatestatus(btn) {
             var datacodelaporan = btn.attr("datacodelaporan");
             var datasaran       = btn.attr("datasaran");
             var datastatus      = btn.attr("datastatus");
+            var datadeviceid    = btn.attr("datadeviceid");
             var datajawaban     = btn.attr("datajawaban");
             var dataorgname     = btn.attr("dataorgname");
 
@@ -319,6 +316,7 @@ function updatestatus(btn) {
                                 datacodelaporan: datacodelaporan,
                                 datasaran      : datasaran,
                                 datajawaban    : datajawaban,
+                                datadeviceid   : datadeviceid,
                                 dataorgname    : dataorgname
                             },
                 method    : "POST",

@@ -11,6 +11,7 @@
                                date_format(a.datetime_fwd_marketing, '%d.%m.%Y %H:%i:%s') tglmarketing,
                                date_format(a.datetime_fwd_pasien, '%d.%m.%Y %H:%i:%s') tglpasien,
                                (select org_name from dt01_gen_organization_ms where org_id=a.org_id)nameorg,
+                               (select device_id from dt01_whatsapp_device_ms where org_id=a.org_id and device_id in ('2221','2222','2223'))deviceid,
                                (select department from dt01_gen_department_ms where active='1' and department_id=a.department_id)department,
                                (select name from dt01_gen_user_data where active='1' and user_id=(select user_id from dt01_gen_department_ms where active='1' and department_id=(select header_id from dt01_gen_department_ms where active='1' and department_id=a.department_id)))namapic,
                                (select no_hp from dt01_gen_user_data where active='1' and user_id=(select user_id from dt01_gen_department_ms where active='1' and department_id=(select header_id from dt01_gen_department_ms where active='1' and department_id=a.department_id)))nohppic,

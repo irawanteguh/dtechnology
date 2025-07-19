@@ -83,10 +83,12 @@
                     'org_id'       => $_SESSION['orgid'],
                     'transaksi_id' => generateuuid(),
                     'body_1'       => $text,
-                    'device_id'    => '1234',
+                    'device_id'    => $this->input->post("datadeviceid"),
                     'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datanohppic"))),
                     'ref_id'       => $this->input->post("datatransid"),
-                    'type_file'    => '0'
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [MARKETING]',
+                    'created_by'   => $_SESSION['userid']
                 ]);
 
                 $data['datetime_fwd_department'] = date("Y-m-d H:i:s");

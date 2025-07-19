@@ -71,6 +71,7 @@ function datahandling(){
                                         " datanohppic='" + result[i].nohppic + "'" +
                                         " datanamapasien='" + result[i].nama + "'" +
                                         " datacodelaporan='" + result[i].code + "'" +
+                                        " datadeviceid='" + result[i].deviceid + "'" +
                                         " datasaran='" + result[i].saran + "'" +
                                         " dataorgname='" + result[i].nameorg + "'";
 
@@ -282,6 +283,7 @@ function updatestatus(btn) {
             var datacodelaporan = btn.attr("datacodelaporan");
             var datasaran       = btn.attr("datasaran");
             var datastatus      = btn.attr("datastatus");
+            var datadeviceid    = btn.attr("datadeviceid");
             var dataorgname     = btn.attr("dataorgname");
 
             $.ajax({
@@ -294,6 +296,7 @@ function updatestatus(btn) {
                                 datanamapasien : datanamapasien,
                                 datacodelaporan: datacodelaporan,
                                 datasaran      : datasaran,
+                                datadeviceid   : datadeviceid,
                                 dataorgname    : dataorgname
                             },
                 method    : "POST",

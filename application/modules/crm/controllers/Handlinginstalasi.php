@@ -13,7 +13,7 @@
 		}
 
         public function datahandling(){
-            $status    = "and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')";
+            $status    = "and a.status='1' and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')";
             $result = $this->md->datahandling($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
@@ -68,10 +68,12 @@
                     'org_id'       => $_SESSION['orgid'],
                     'transaksi_id' => generateuuid(),
                     'body_1'       => $text,
-                    'device_id'    => '1234',
+                    'device_id'    => $this->input->post("datadeviceid"),
                     'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datanohppic"))),
                     'ref_id'       => $this->input->post("datatransid"),
-                    'type_file'    => '0'
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [INSTALASI]',
+                    'created_by'   => $_SESSION['userid']
                 ]);
 
                 $data['datetime_fwd_manager'] = date("Y-m-d H:i:s");

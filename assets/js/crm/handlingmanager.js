@@ -56,6 +56,7 @@ function datahandling(){
                                         " datasaran='" + result[i].saran + "'" +
                                         " datajawaban='" + result[i].answer_instalasi + "'" +
                                         " dataorgname='" + result[i].nameorg + "'"+
+                                        " datadeviceid='" + result[i].deviceid + "'" +
                                         " dataorgnamemarketing='" + result[i].namamarketing + "'"+
                                         " dataorghpmarketing='" + result[i].nohpmarketing + "'";
 
@@ -106,6 +107,7 @@ function datahandling(){
                     tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
                     if(result[i].status === "2"){
+                        tableresult += "<a class='dropdown-item btn btn-sm text-danger' " + getvariabel + " datastatus='1' onclick='updatestatus($(this));'><i class='bi bi-check2-circle text-danger'></i> Decline Manager</a>";
                         tableresult += "<a class='dropdown-item btn btn-sm text-success' " + getvariabel + " datastatus='3' onclick='updatestatus($(this));'><i class='bi bi-check2-circle text-success'></i> Approved Manager</a>";
                     }
 
@@ -205,6 +207,7 @@ function updatestatus(btn) {
             var datacodelaporan      = btn.attr("datacodelaporan");
             var datasaran            = btn.attr("datasaran");
             var datastatus           = btn.attr("datastatus");
+            var datadeviceid         = btn.attr("datadeviceid");
             var datajawaban          = btn.attr("datajawaban");
             var dataorgname          = btn.attr("dataorgname");
             var dataorgnamemarketing = btn.attr("dataorgnamemarketing");
@@ -222,6 +225,7 @@ function updatestatus(btn) {
                                 datasaran           : datasaran,
                                 datajawaban         : datajawaban,
                                 dataorgname         : dataorgname,
+                                datadeviceid        : datadeviceid,
                                 dataorgnamemarketing: dataorgnamemarketing,
                                 dataorghpmarketing  : dataorghpmarketing
                             },
