@@ -69,6 +69,9 @@
             $data['nama_layan']   = $this->input->post("modal_unit_cost_add_name");
             $data['jenis_id']     = $this->input->post("modal_unit_cost_add_kategori");
             $data['durasi']       = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_add_durasi"));
+            $data['com_1']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_add_com1"));
+            $data['com_2']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_add_com2"));
+            $data['com_3']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_add_com3"));
             $data['created_by']   = $_SESSION['userid'];
             $data['created_date'] = date("Y-m-d H:i:s");
 
@@ -81,6 +84,54 @@
                 $json['responHead']="info";
                 $json['responDesc']="Data Failed to Add";
             }
+
+            echo json_encode($json);
+        }
+
+        public function editsimulation(){
+
+            if($this->input->post("modal_unit_cost_edit_type")==="1"){
+                $data['group_id']     = $_SESSION['groupid'];
+                $data['org_id']       = $_SESSION['orgid'];
+                $data['layan_id']     = generateuuid();
+                $data['layan_id_rs']  = $this->input->post("modal_unit_cost_edit_layanid");
+                $data['nama_layan']   = $this->input->post("modal_unit_cost_edit_name");
+                $data['jenis_id']     = $this->input->post("modal_unit_cost_edit_kategori");
+                $data['durasi']       = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_durasi"));
+                $data['com_1']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_com1"));
+                $data['com_2']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_com2"));
+                $data['com_3']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_com3"));
+                $data['created_by']   = $_SESSION['userid'];
+                $data['created_date'] = date("Y-m-d H:i:s");
+
+                if($this->md->insertsimulation($data)){
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Added Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }else{
+                $data['nama_layan']   = $this->input->post("modal_unit_cost_edit_name");
+                $data['jenis_id']     = $this->input->post("modal_unit_cost_edit_kategori");
+                $data['durasi']       = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_durasi"));
+                $data['com_1']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_com1"));
+                $data['com_2']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_com2"));
+                $data['com_3']        = (int) preg_replace('/\D/', '', $this->input->post("modal_unit_cost_edit_com3"));
+
+                if($this->md->updatesimulation($_SESSION['orgid'],$this->input->post("modal_unit_cost_edit_layanid"),$data)){
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Updated Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Updated";
+                }
+            }
+            
 
             echo json_encode($json);
         }

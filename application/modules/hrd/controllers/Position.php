@@ -105,7 +105,8 @@
         }
 
         public function editposition(){
-            $positionid     = $this->input->post("data_positiion_id_edit");
+            $data     = [];
+            $datagaji = [];
 
             $data['org_id']           = $_SESSION['orgid'];
             $data['position']         = $this->input->post("data_position_name_edit");
@@ -117,7 +118,24 @@
             $data['last_update_by']   = $_SESSION['userid'];
             $data['last_update_date'] = date("Y-m-d H:i:s");
 
-            if($this->md->updatemasterposition($positionid,$data)){
+            if($this->md->updatemasterposition($this->input->post("data_positiion_id_edit"),$data)){
+                $resultcekdatagajiremun = $this->md->cekdatagajiremun($_SESSION['orgid'],$this->input->post("data_positiion_id_edit"));
+
+                if(empty($resultcekdatagajiremun)){
+                    $datagaji['group_id']     = $_SESSION['groupid'];
+                    $datagaji['org_id']       = $_SESSION['orgid'];
+                    $datagaji['transaksi_id'] = generateuuid();
+                    $datagaji['position_id']  = $this->input->post("data_positiion_id_edit");
+                    $datagaji['nilai']        = (int) preg_replace('/\D/','',$this->input->post("data_position_salary_edit"));
+                    $datagaji['remunerasi']   = (int) preg_replace('/\D/','',$this->input->post("data_position_allowance_edit"));
+                    $datagaji['created_by']   = $_SESSION['userid'];
+                    $this->md->insertgajiremun($datagaji);
+                }else{
+                    $datagaji['nilai']        = (int) preg_replace('/\D/','',$this->input->post("data_position_salary_edit"));
+                    $datagaji['remunerasi']   = (int) preg_replace('/\D/','',$this->input->post("data_position_allowance_edit"));
+                    $this->md->updategajiremun($_SESSION['orgid'],$this->input->post("data_positiion_id_edit"),$datagaji);
+                }
+
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Berhasil Di Perbaharui";

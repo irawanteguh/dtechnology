@@ -96,6 +96,14 @@
                                 <?php echo $masterunitedit;?>
                             </select>
                         </div>
+                        <div class="col-md-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Salary</label>
+                            <input type="text" class="form-control form-control-solid currency-rp" id="data_position_salary_edit" name="data_position_salary_edit" required>
+                        </div>
+                        <div class="col-md-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Allowance</label>
+                            <input type="text" class="form-control form-control-solid currency-rp" id="data_position_allowance_edit" name="data_position_allowance_edit" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer p-1">				

@@ -36,6 +36,8 @@
                                 <th>Member Primary</th>
                                 <th>Member Secondry</th>
                                 <th>Department</th>
+                                <th>Salary</th>
+                                <th>Allowance</th>
                                 <th>Last Update</th>
                                 <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>

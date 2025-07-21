@@ -1,5 +1,5 @@
 <div class="row gy-5 g-xl-8 mb-xl-8">
-    <div class="col-xl-6">
+    <div class="col-xl-12">
 		<div class="card">
 			<div class="card-header border-0 pt-5">
 				<h3 class="card-title align-items-start flex-column">
@@ -36,8 +36,16 @@
                             <tr class="fw-bolder text-muted bg-light align-middle">
                                 <th class="ps-4 rounded-start">Kategori</th>
                                 <th>Nama Pelayanan</th>
-                                <th>Durasi Pengerjaan</th>
+                                <th class="text-end">Estimasi Lama Pengerjaan</th>
+                                <th class="text-end">Kompetitor 1</th>
+                                <th class="text-end">Kompetitor 2</th>
+                                <th class="text-end">Kompetitor 3</th>
+                                <th class="text-end">Rata-rata</th>
                                 <th class="pe-4 text-end rounded-end">Action</th>
+                            </tr>
+                            <tr>
+                                <th><input id="filterkategori" class="tagify form-control form-control-solid form-control-sm fs-8" placeholder="Filter Kategori"></th>
+                                <th><input id="filternamapelayanan" class="tagify form-control form-control-solid form-control-sm fs-8" placeholder="Filter Nama Pelayanan"></th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-bold" id="resultdatamasterlayanan"></tbody>

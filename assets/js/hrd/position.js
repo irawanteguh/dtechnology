@@ -1,18 +1,27 @@
 daftarjabatan();
 
 function getdata(btn){
-    // var $btn = $(btn);
-
     var data_positionid   = btn.attr("data_positionid");
     var data_position     = btn.attr("data_position");
     var data_departmentid = btn.attr("data_departmentid");
+    var data_bagianid     = btn.attr("data_bagianid");
+    var data_unitid       = btn.attr("data_unitid");
+    var data_gaji         = btn.attr("data_gaji");
+    var data_remun        = btn.attr("data_remun");
 
     $(":hidden[name='data_positiion_id_edit']").val(data_positionid);
     $(":text[name='data_position_name_edit']").val(data_position);
+    $(":text[name='data_position_salary_edit']").val(formatCurrency(data_gaji));
+    $(":text[name='data_position_allowance_edit']").val(formatCurrency(data_remun));
 
-    var $departmentid = $('#modal_position_edit_departmentid_edit').select2();
-    $departmentid.val(data_departmentid).trigger('change');
+    var $data_departmentid = $('#modal_position_edit_departmentid_edit').select2();
+    $data_departmentid.val(data_departmentid).trigger('change');
 
+    var $data_bagianid = $('#modal_position_edit_bagianid_edit').select2();
+    $data_bagianid.val(data_bagianid).trigger('change');
+
+    var $data_unitid = $('#modal_position_edit_unitid_edit').select2();
+    $data_unitid.val(data_unitid).trigger('change');
 };
 
 function daftarjabatan(){
@@ -40,7 +49,11 @@ function daftarjabatan(){
 
                     getvariabel =   "data_positionid='"+result[i].position_id+"'"+
                                     "data_position='"+result[i].position+"'"+
-                                    "data_departmentid='"+result[i].department_id+"'";
+                                    "data_departmentid='"+result[i].department_id+"'"+
+                                    "data_bagianid='"+result[i].bagian_id+"'"+
+                                    "data_unitid='"+result[i].unit_id+"'"+
+                                    "data_gaji='"+result[i].gaji+"'"+
+                                    "data_remun='"+result[i].remun+"'";
 
                     tableresult +="<tr>";
                     tableresult +="<td class='ps-4'>"+result[i].position+" "+(result[i].functional ? result[i].functional : "")+"</td>";
@@ -130,6 +143,8 @@ function daftarjabatan(){
                     tableresult += "</div>";
                     tableresult += "</td>";
                     tableresult += "<td><span class='fw-bold d-block'>"+(result[i].department ? result[i].department : "")+"</span><span class='fw-bold d-block'>"+(result[i].bagian ? result[i].bagian : "")+"</span><span class='fw-bold d-block'>"+(result[i].unit ? result[i].unit : "")+"</span></td>";
+                    tableresult += "<td class='text-end'>"+(result[i].gaji ? todesimal(result[i].gaji) : "0")+"</td>";
+                    tableresult += "<td class='text-end'>"+(result[i].remun ? todesimal(result[i].remun) : "0")+"</td>";
                     tableresult += "<td><span class='fw-bold d-block'>"+result[i].lastupdateby+"</span><span class='fw-bold text-muted d-block'>"+result[i].last_update_date+"</span><span class='badge badge-light-info'>"+result[i].orgname+"</span></td>";
                     tableresult += "<td class='text-end'>";
                     tableresult += "<div class='btn-group' role='group'>";

@@ -1,13 +1,48 @@
 masterassets();
 
 $('#modal_assets_add').on('shown.bs.modal', function () {
-    // Reset semua input, textarea, select, dan file input
     $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
-    $(this).find('select').prop('selectedIndex', 0).trigger('change'); // untuk reset select
-    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false); // reset checkbox & radio
-
-    // Optional: reset form validation feedback
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+});
+
+$('#modal_assets_edit').on('shown.bs.modal', function (event) {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    var button                = $(event.relatedTarget);
+    var datatransid           = button.attr("datatransid");
+    var dataname              = button.attr("dataname");
+    var datajenisid           = button.attr("datajenisid");
+    var datatahunperolehan    = button.attr("datatahunperolehan");
+    var datavolume            = button.attr("datavolume");
+    var datapenggunaan        = button.attr("datapenggunaan");
+    var datanilaiasset        = button.attr("datanilaiasset");
+    var datanilaipemeliharaan = button.attr("datanilaipemeliharaan");
+    var datanilaibunga        = button.attr("datanilaibunga");
+    var datawaktubunga        = button.attr("datawaktubunga");
+    var datadepresiasi        = button.attr("datadepresiasi");
+    var datanolaporanasset    = button.attr("datanolaporanasset");
+    var datalokasi            = button.attr("datalokasi");
+
+    $("#modal_assets_edit_transid").val(datatransid);
+    $("#modal_assets_edit_name").val(dataname);
+    $("#modal_assets_edit_tahun").val(datatahunperolehan);
+    $("#modal_assets_edit_volume").val(datavolume);
+    $("#modal_assets_edit_penggunaan").val(datapenggunaan);
+    $("#modal_assets_edit_nilaiasset").val(formatCurrency(datanilaiasset));
+    $("#modal_assets_edit_nilaipemeliharaan").val(formatCurrency(datanilaipemeliharaan));
+    $("#modal_assets_edit_nilaibunga").val(formatCurrency(datanilaibunga));
+    $("#modal_assets_edit_waktubunga").val(datawaktubunga);
+    $("#modal_assets_edit_depresiasi").val(datadepresiasi);
+    $("#modal_assets_edit_laporanasset").val(datanolaporanasset);
+    var $datalokasi = $('#modal_assets_edit_location').select2();
+        $datalokasi.val(datalokasi).trigger('change');
+
+    $('input[name="categoryedit"][value="' + datajenisid + '"]').prop("checked", true);
 });
 
 function masterassets() {
@@ -34,6 +69,20 @@ function masterassets() {
                 let result = data.responResult;
 
                 for (let i in result) {
+                    var getvariabel =  " datatransid='" + result[i].trans_id + "'"+
+                                       " dataname='" + result[i].name + "'"+
+                                       " datajenisid='" + result[i].jenis_id + "'"+
+                                       " datatahunperolehan='" + result[i].tahun_perolehan + "'"+
+                                       " datavolume='" + (result[i].volume || "0") + "'"+
+                                       " datapenggunaan='" + result[i].estimasi_penggunaan_day + "'"+
+                                       " datanilaiasset='" + result[i].nilai_perolehan + "'"+
+                                       " datanilaipemeliharaan='" + result[i].nilai_pemeliharaan + "'"+
+                                       " datanilaibunga='" + result[i].nilai_bunga_pinjaman + "'"+
+                                       " datawaktubunga='" + result[i].waktu_bunga + "'"+
+                                       " datadepresiasi='" + result[i].waktu_depresiasi + "'"+
+                                       " datanolaporanasset='" + (result[i].no_laporan_penilaian_assets || "") + "'"+
+                                       " datalokasi='" + result[i].location_id + "'";
+                    
                     let row = "<tr>";
                     row += "<td class='ps-4'><div>" + (result[i].no_assets || "") + "</div><div>" + (result[i].no_laporan_penilaian_assets || "") + "</div></td>";
                     row += "<td><div>" + result[i].name + "</div><div class='fst-italic fs-9'>" + (result[i].spesifikasi || "") + "</div></td>";
@@ -43,7 +92,7 @@ function masterassets() {
                     row += "<td class='text-end'>" + (result[i].volume ? todesimal(result[i].volume) : "") + "</td>";
                     row += "<td class='text-center'>" + (result[i].tahun_perolehan || "") + "</td>";
                     row += "<td class='text-end'><span title='Nilai Perolehan'>" + (result[i].nilai_perolehan ? todesimal(result[i].nilai_perolehan) : "") + "</span></td>";
-                    row += "<td class='text-end'><span title='Bunga Pinjaman'>" + (result[i].nilai_bunga_pinjaman ? todesimal(result[i].nilai_bunga_pinjaman) + " / " + (result[i].waktu_bunga || "") + " Tahun" : "") + "</span></td>";
+                    row += "<td class='text-end'><div><span title='Bunga Pinjaman'>" + (result[i].nilai_bunga_pinjaman ? todesimal(result[i].nilai_bunga_pinjaman)+"</span></div><div><span title='Bunga Pinjaman'>"+ (result[i].waktu_bunga || "") + " Tahun" : "") + "</span></div></td>";
                     row += "<td class='text-end'><span title='Biaya Pemeliharaan'>" + (result[i].nilai_pemeliharaan ? todesimal(result[i].nilai_pemeliharaan) + " / Bulan" : "") + "</span></td>";
 
                     // Tampilkan kolom harga per m² hanya jika jenis_id bukan 1 (bukan alkes)
@@ -53,15 +102,30 @@ function masterassets() {
 
                     row += "<td class='text-end'>" + (result[i].waktu_depresiasi ? result[i].waktu_depresiasi + " Tahun" : "") + "</td>";
                     row += "<td class='text-end'>" + (result[i].estimasi_penggunaan_day ? result[i].estimasi_penggunaan_day + " / Hari" : "") + "</td>";
-                    row += "<td class='text-end'><span title='Cost Per Pasien'>" + (result[i].cost ? todesimal(result[i].cost) : "") + "</span></td>";
+                    row += "<td class='text-end'><span title='Cost Per Pasien'>" + todesimal(
+                                                                                                Math.round(
+                                                                                                    parseFloat(result[i].perolehanpasien) +
+                                                                                                    parseFloat(result[i].pinjamanpasien) +
+                                                                                                    parseFloat(result[i].pemeliharaanpasien)
+                                                                                                )
+                                                                                            ) + "</span></td>";
                     row += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + result[i].tgldibuat + "</div></td>";
                     
                     row += "<td class='text-end pe-4'>";
-                    row += "<button type='button' class='btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px' data-kt-table-widget-4='expand_row'>";
+                    row += "<div class='btn-group' role='group'>";
+
+                    row += "<button type='button' class='btn btn-sm btn-light-primary' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' "+getvariabel+">Edit</button>";
+
+                    row += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
                     row += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
                     row += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
                     row += "</button>";
+
+                    row += "</div>";
                     row += "</td>";
+
+
+
                     
                     row += "</tr>";
 
@@ -95,6 +159,7 @@ function masterassets() {
                                                 row +="<th class='bg-danger' colspan='4'>Depresiasi</th>";
                                                 row +="<th class='bg-success'colspan='4'>Pinjaman</th>";
                                                 row +="<th class='bg-primary' colspan='4'>Pemeliharaan</th>";
+                                                row +="<th class='bg-info' rowspan='2'>Cost Per Pasien</th>";
                                             row +="</tr>";
                                             row +="<tr class='fw-bolder align-middle text-white'>";
                                                 row +="<th class='bg-danger'>Tahunan</th>";
@@ -165,6 +230,16 @@ function masterassets() {
                                             rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanbulanan) + "</td>";
                                             rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanharian) + "</td>";
                                             rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanpasien) + "</td>";
+
+                                            
+                                            rincianRows += "<td class='text-end pe-4'>" + todesimal(
+                                                                Math.round(
+                                                                    parseFloat(result[i].perolehanpasien) +
+                                                                    parseFloat(result[i].pinjamanpasien) +
+                                                                    parseFloat(result[i].pemeliharaanpasien)
+                                                                )
+                                                            ) + "</td>";
+
 
                                             rincianRows += "</tr>";
                                         }
@@ -262,119 +337,22 @@ function masterassets() {
     return false;
 }
 
-
-// function masterassets(){
-//     $.ajax({
-//         url       : url+"index.php/assets/listassets/masterassets",
-//         method    : "POST",
-//         dataType  : "JSON",
-//         cache     : false,
-//         beforeSend: function () {
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-//             $("#resultdatamasterassets").html("");
-//         },
-//         success:function(data){
-//             let tableresult;
-
-//             if(data.responCode==="00"){
-//                 let result        = data.responResult;
-//                 for(var i in result){
-//                     let total_nilai_asset = (
-//                         (parseFloat(result[i].nilai_perolehan || 0)) +
-//                         (parseFloat(result[i].nilai_bunga_pinjaman || 0)) +
-//                         (parseFloat(result[i].nilai_pemeliharaan || 0)) -
-//                         (parseFloat(result[i].nilai_residu || 0))
-//                     );
-
-//                     tableresult +="<tr>";
-//                     tableresult +="<td class='ps-4'>"+(result[i].no_assets ? result[i].no_assets : "")+"</td>";
-//                     tableresult +="<td><div>"+result[i].name+"</div><div class='fst-italic fs-9'>"+(result[i].spesifikasi ? result[i].spesifikasi : "")+"</div></td>";
-//                     tableresult +="<td><div class='badge badge-light-info'>"+(result[i].kategori ? result[i].kategori : "")+"</div></td>";
-//                     tableresult +="<td>"+(result[i].serial_number ? result[i].serial_number : "")+"</td>";
-//                     tableresult +="<td class='text-center'>"+(result[i].tahun_pembuatan ? result[i].tahun_pembuatan : "")+"</td>";
-//                     tableresult +="<td class='text-center'>"+(result[i].tglpembelian ? result[i].tglpembelian : "")+"</td>";
-//                     tableresult +="<td>"+(result[i].nilai_ekonomis ? result[i].nilai_ekonomis+" Tahun" : "")+"</td>";
-//                     tableresult +="<td>"+(result[i].masa_bunga ? result[i].masa_bunga+" Tahun" : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+(result[i].nilai_perolehan ? todesimal(result[i].nilai_perolehan) : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+(result[i].nilai_bunga_pinjaman ? todesimal(result[i].nilai_bunga_pinjaman) : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+(result[i].nilai_pemeliharaan ? todesimal(result[i].nilai_pemeliharaan) : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+(result[i].nilai_perijinan ? todesimal(result[i].nilai_perijinan) : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+(result[i].nilai_konsultan ? todesimal(result[i].nilai_konsultan) : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+(result[i].pajak ? todesimal(result[i].pajak) : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+(result[i].nilai_residu ? todesimal(result[i].nilai_residu) : "")+"</td>";
-//                     tableresult +="<td class='text-end'>"+todesimal(total_nilai_asset)+"</td>";
-//                     tableresult +="<td class='text-center'>"+(result[i].estimasi_penggunaan_day ? result[i].estimasi_penggunaan_day+" Pasien / Hari" : "")+"</td>";
-//                     tableresult +="<td><div>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "")+"<div>"+result[i].tgldibuat+"</div></td>";
-
-
-//                     // tableresult +="<td class='text-end'>"+(result[i].depresiasi_tahun ? todesimal(result[i].depresiasi_tahun) : "")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].depresiasi_bulan ? todesimal(result[i].depresiasi_bulan) : "")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].depresiasi_hari ? todesimal(result[i].depresiasi_hari) : "")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].depresiasi_pasien ? todesimal(result[i].depresiasi_pasien) : "")+"</td>";
-
-//                     // tableresult +="<td class='text-end'>"+(result[i].pemeliharaan_tahun ? todesimal(result[i].pemeliharaan_tahun) : "")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].pemeliharaan_bulan ? todesimal(result[i].pemeliharaan_bulan) : "")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].pemeliharaan_hari ? todesimal(result[i].pemeliharaan_hari) : "")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].pemeliharaan_pasien ? todesimal(result[i].pemeliharaan_pasien) : "")+"</td>";
-
-//                     // tableresult +="<td class='text-end'>"+(result[i].bunga_tahun ? todesimal(result[i].bunga_tahun) : "0")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].bunga_bulan ? todesimal(result[i].bunga_bulan) : "0")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].bunga_hari ? todesimal(result[i].bunga_hari) : "0")+"</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].bunga_pasien ? todesimal(result[i].bunga_pasien) : "0")+"</td>";
-
-//                     // tableresult += "<td class='text-end'>" + todesimal((parseFloat(result[i].depresiasi_pasien) || 0) + (parseFloat(result[i].pemeliharaan_pasien) || 0) + (parseFloat(result[i].bunga_pasien) || 0)) + "</td>";
-//                     // tableresult +="<td class='text-end'>"+(result[i].depresiasi_saat_ini ? todesimal(result[i].depresiasi_saat_ini) : "")+"</td>";
-//                     // tableresult += "<td class='text-end " + ((result[i].nilai_buku_sisa < 0) ? "table-success" : "") + "'>" + (result[i].nilai_buku_sisa != null ? todesimal(Math.abs(result[i].nilai_buku_sisa)) : "") + "</td>";
-
-//                     // tableresult +="<td>"+(result[i].dibuatoleh ? result[i].dibuatoleh : "")+"</td>";
-//                     tableresult +="</tr>";
-//                 }
-//             }
-
-
-//             $("#resultdatamasterassets").html(tableresult);
-//             toastr[data.responHead](data.responDesc, "INFORMATION");
-//         },
-//         complete: function () {
-// 			toastr.clear();
-// 		},
-//         error: function(xhr, status, error) {
-//             Swal.fire({
-//                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-//                 html             : "<b>"+error+"</b>",
-//                 icon             : "error",
-//                 confirmButtonText: "Please Try Again",
-//                 buttonsStyling   : false,
-//                 timerProgressBar : true,
-//                 timer            : 5000,
-//                 customClass      : {confirmButton: "btn btn-danger"},
-//                 showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-//                 hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-//             });
-// 		}		
-//     });
-//     return false;
-// };
-
 var KTCreateApp = (function () {
-    var modal, stepperElement, form, btnSubmit, btnNext, stepper;
-
+    var stepper, form, nextBtn, prevBtn, stepperInstance;
     return {
-        init: function () {
-            stepperElement = document.querySelector("#kt_modal_create_app_stepper");
-            if (!stepperElement) return;
+        insertform: function () {
+            const stepperElement  = document.querySelector("#modal_assets_add_stepper");
+            const form            = document.querySelector("#forminsertassets");
+            const btnNext         = stepperElement.querySelector('[data-kt-stepper-action="next"]');
+            const btnPrev         = stepperElement.querySelector('[data-kt-stepper-action="previous"]');
+            const btnSubmit       = document.querySelector("#btn_submit_assets");
 
-            form      = document.querySelector("#forminsertassets");
-            btnSubmit = stepperElement.querySelector('[data-kt-stepper-action="submit"]');
-            btnNext   = stepperElement.querySelector('[data-kt-stepper-action="next"]');
+            // Inisialisasi stepper
+            const stepperInstance = new KTStepper(stepperElement);
 
-            // Init Stepper
-            stepper = new KTStepper(stepperElement);
-
-            // Step changed
-            stepper.on("kt.stepper.changed", function () {
-                const current = stepper.getCurrentStepIndex();
+            // Saat step berubah
+            stepperInstance.on("kt.stepper.changed", function () {
+                const current = stepperInstance.getCurrentStepIndex(); // pakai stepperInstance
 
                 if (current === 5) {
                     btnSubmit.classList.remove("d-none");
@@ -386,14 +364,21 @@ var KTCreateApp = (function () {
                 }
             });
 
-            // Next button
+            // Tombol Next
             btnNext.addEventListener("click", function (e) {
                 e.preventDefault();
-                stepper.goNext();
+                stepperInstance.goNext(); // pakai stepperInstance
                 KTUtil.scrollTop();
             });
 
-            // Submit button with AJAX
+            // Tombol Previous
+            btnPrev.addEventListener("click", function (e) {
+                e.preventDefault();
+                stepperInstance.goPrevious();
+                KTUtil.scrollTop();
+            });
+
+            // Tombol Submit dengan AJAX
             btnSubmit.addEventListener("click", function (e) {
                 e.preventDefault();
                 btnSubmit.setAttribute("data-kt-indicator", "on");
@@ -402,24 +387,24 @@ var KTCreateApp = (function () {
                 const formData = new FormData(form);
 
                 $.ajax({
-                    url: url + "index.php/assets/listassets/insertassets", // ganti sesuai controller kamu
-                    method     : "POST",
-                    dataType   : "JSON",
-                    data       : formData,
+                    url: url + "index.php/assets/listassets/insertassets",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: formData,
                     processData: false,
                     contentType: false,
                     beforeSend: function () {
                         toastr.clear();
                         toastr["info"]("Sending request...", "Please wait");
                     },
-                    success:function (data) {
+                    success: function (data) {
                         btnSubmit.removeAttribute("data-kt-indicator");
                         btnSubmit.disabled = false;
 
-                        if(data.responCode === "00"){
+                        if (data.responCode === "00") {
                             masterassets();
                             $('#modal_assets_add').modal('hide');
-                            stepper.goTo(1);
+                            stepperInstance.goTo(1); // reset ke step awal
                         }
 
                         toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -439,23 +424,100 @@ var KTCreateApp = (function () {
                     }
                 });
             });
+        },
+        editform: function () {
+            const stepperElement = document.querySelector("#modal_assets_edit_stepper");
+            const form           = document.querySelector("#formeditassets");
+            const btnSubmit      = document.querySelector("#btn_edit_assets");
+            const btnNext        = stepperElement.querySelector('[data-kt-stepper-action="next"]');
+            const btnPrev        = stepperElement.querySelector('[data-kt-stepper-action="previous"]');
 
-            // Previous button
-            const btnPrev = stepperElement.querySelector('[data-kt-stepper-action="previous"]');
-            btnPrev.addEventListener("click", function (e) {
+            // Init Stepper
+            const stepper = new KTStepper(stepperElement);
+
+            // Saat step berubah
+            stepper.on("kt.stepper.changed", function () {
+                const current = stepper.getCurrentStepIndex();
+
+                if (current === 5) {
+                    btnSubmit.classList.remove("d-none");
+                    btnSubmit.classList.add("d-inline-block");
+                    btnNext?.classList.add("d-none");
+                } else {
+                    btnSubmit.classList.add("d-none");
+                    btnNext?.classList.remove("d-none");
+                }
+            });
+
+            // Tombol Next
+            btnNext?.addEventListener("click", function (e) {
+                e.preventDefault();
+                stepper.goNext();
+                KTUtil.scrollTop();
+            });
+
+            // Tombol Previous
+            btnPrev?.addEventListener("click", function (e) {
                 e.preventDefault();
                 stepper.goPrevious();
                 KTUtil.scrollTop();
             });
+
+            // Tombol Submit AJAX
+            btnSubmit.addEventListener("click", function (e) {
+                e.preventDefault();
+                btnSubmit.setAttribute("data-kt-indicator", "on");
+                btnSubmit.disabled = true;
+
+                const formData = new FormData(form);
+
+                $.ajax({
+                    url: url + "index.php/assets/listassets/editassets",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function () {
+                        toastr.clear();
+                        toastr["info"]("Sending request...", "Please wait");
+                    },
+                    success: function (data) {
+                        btnSubmit.removeAttribute("data-kt-indicator");
+                        btnSubmit.disabled = false;
+
+                        if (data.responCode === "00") {
+                            masterassets();
+                            $('#modal_assets_edit').modal('hide');
+                            stepper.goTo(1); // Reset ke step awal
+                        }
+
+                        toastr[data.responHead](data.responDesc, "INFORMATION");
+                    },
+                    complete: function () {
+                        toastr.clear();
+                    },
+                    error: function () {
+                        btnSubmit.removeAttribute("data-kt-indicator");
+                        btnSubmit.disabled = false;
+
+                        Swal.fire({
+                            text: "Terjadi kesalahan sistem. Coba lagi nanti.",
+                            icon: "error",
+                            confirmButtonText: "OK"
+                        });
+                    }
+                });
+            });
         }
+
     };
 })();
 
-
-KTUtil.onDOMContentLoaded(function () {
-    KTCreateApp.init();
+document.addEventListener("DOMContentLoaded", function () {
+    KTCreateApp.insertform();
+    KTCreateApp.editform();
 });
-
 
 // $(document).on("submit", "#forminsertassets", function (e) {
 // 	e.preventDefault();

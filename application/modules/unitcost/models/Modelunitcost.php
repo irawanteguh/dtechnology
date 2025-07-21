@@ -18,13 +18,31 @@
         function masterlayanan($orgid){
             $query =
                     "
-                        select a.layan_id, nama_layan, durasi,
-                            (select master_name from dt01_gen_master_ms where jenis_id='Layan_1' and code=a.jenis_id)kategori
-                        from dt01_keu_layan_ms a
-                        WHERE a.active = '1'
-                        AND a.org_id = '".$orgid."'
-                        order by jenis_id asc
+                        select x.*,
+                            (select master_name from dt01_gen_master_ms where jenis_id='Layan_1' and code=x.jenis_id)kategori
+                        from(
+                            select '1'type, a.kd_jenis_prw layan_id, TRIM(SUBSTRING_INDEX(nm_perawatan, '-', -1)) nama_layan,
+                                '1'jenis_id,
+                                0 durasi,
+                                0 com_1,
+                                0 com_2,
+                                0 com_3
+                            from jns_perawatan_radiologi a
+                            where a.status='1'
+                            and   a.kd_jenis_prw not in (select layan_id_rs from dt01_keu_layan_ms where active='1' and org_id='".$orgid."' and layan_id_rs=a.kd_jenis_prw)
+                            union
 
+                            select '2'type, a.layan_id, nama_layan,
+                                   a.jenis_id,
+                                   durasi,
+                                   com_1,
+                                   com_2,
+                                   com_3
+                            from dt01_keu_layan_ms a
+                            WHERE a.active = '1'
+                            AND a.org_id = '".$orgid."'
+                        )x
+                        order by kategori asc, nama_layan asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -133,6 +151,11 @@
 
         function insertsimulation($data){           
             $sql =   $this->db->insert("dt01_keu_layan_ms",$data);
+            return $sql;
+        }
+
+        function updatesimulation($orgid,$layanid,$data){           
+            $sql =   $this->db->update("dt01_keu_layan_ms",$data,array("org_id"=>$orgid,"layan_id"=>$layanid));
             return $sql;
         }
 

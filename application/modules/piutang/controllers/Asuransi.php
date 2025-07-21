@@ -151,15 +151,15 @@
             $nominal   = $this->input->post("modal_mcu_invoice_ri_tagihan");
             $periodeid = $this->input->post("modal_mcu_invoice_ri_periodeid");
 
-            $data['org_id']       = $_SESSION['orgid'];
-            $data['piutang_id']   = generateuuid();
-            $data['no_tagihan']   = $notagihan;
-            $data['rekanan_id']   = $provider;
-            $data['note']         = $note;
-            $data['periode']      = $periodeid;
-            $data['date']         = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
-            $data['jenis_id']     = "7";
-            $data['nilai']        = (int) preg_replace('/\D/', '', $nominal);
+            $data['org_id']           = $_SESSION['orgid'];
+            $data['piutang_id']       = generateuuid();
+            $data['no_tagihan']       = $notagihan;
+            $data['rekanan_id']       = $provider;
+            $data['note']             = $note;
+            $data['periode']          = $periodeid;
+            $data['date']             = DateTime::createFromFormat("d.m.Y", $date)->format("Y-m-d");
+            $data['jenis_id']         = "7";
+            $data['nilai']            = (int) preg_replace('/\D/', '', $nominal);
             $data['created_by']       = $_SESSION['userid'];
             $data['last_update_by']   = $_SESSION['userid'];
             $data['created_date']     = date('Y-m-d H:i:s');

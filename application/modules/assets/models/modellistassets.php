@@ -35,7 +35,8 @@
         function masterlocation($orgid){
             $query =
                     "
-                        select a.trans_id, concat(no_assets,' | ',name)keterangan
+                        select 'x'sarana_id_aspak, ':: Lokasi Penempatan Tidak Dapat Di Tentukan ::'keterangan union
+                        select a.sarana_id_aspak, concat(no_assets,' | ',name)keterangan
                         from dt01_lgu_assets_ms a
                         where a.org_id='".$orgid."'
                         and   a.jenis_id='2'
@@ -49,22 +50,11 @@
         function masterassets($orgid){
             $query =
                     "
-                        select a.trans_id, no_assets, no_laporan_penilaian_assets, name, spesifikasi, volume, tahun_perolehan, estimasi_penggunaan_day, jenis_id,
+                        select a.trans_id, no_assets, no_laporan_penilaian_assets, name, spesifikasi, volume, tahun_perolehan, estimasi_penggunaan_day, jenis_id, location_id,
                                 date_format(a.created_date, '%d.%m.%Y %H:%i:%s') tgldibuat,
                                 nilai_perolehan, nilai_bunga_pinjaman, nilai_pemeliharaan,
                                 round((nilai_perolehan / volume),0) nilaibangunanpermeter,
                                 waktu_depresiasi, waktu_bunga,
-                                round(
-                                        (
-                                            (((nilai_perolehan / (waktu_depresiasi * 12)) / 30) / estimasi_penggunaan_day) +
-                                            (((nilai_pemeliharaan / (waktu_depresiasi * 12)) / 30) / estimasi_penggunaan_day) +
-                                            IF(
-                                                waktu_bunga = 0 OR estimasi_penggunaan_day = 0,
-                                                0,
-                                                (((nilai_bunga_pinjaman / (waktu_bunga * 12)) / 30) / estimasi_penggunaan_day)
-                                            )
-                                        ),0
-                                    )cost,
 
                                 round((nilai_perolehan/waktu_depresiasi),0)perolehantahunan, 
                                 round((nilai_perolehan/(waktu_depresiasi*12)),0)perolehanbulanan,
@@ -188,6 +178,11 @@
 
         function insertassets($data){           
             $sql =   $this->db->insert("dt01_lgu_assets_ms",$data);
+            return $sql;
+        }
+
+        function updateassets($transid,$data){           
+            $sql =   $this->db->update("dt01_lgu_assets_ms",$data,array("trans_id"=>$transid));
             return $sql;
         }
 

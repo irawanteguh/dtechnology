@@ -4,14 +4,18 @@
         function daftarjabatan($parameter1,$parameter2){
             $query =
                     "
-                        SELECT a.org_id, a.position_id, a.position, a.rvu, a.level_fungsional, a.department_id,
+                        SELECT a.org_id, a.position_id, a.position, a.rvu, a.level_fungsional, a.department_id, a.bagian_id, a.unit_id,
+                                date_format(last_update_date,'%d.%m.%Y %H:%i:%s')last_update_date,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.bagian_id)bagian,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.unit_id)unit,
-                                date_format(last_update_date,'%d.%m.%Y %H:%i:%s')last_update_date,
                                 (select ifnull(name, 'Unknown')  from dt01_gen_user_data where active='1' and user_id=a.last_update_by) lastupdateby,
                                 (select level                    from dt01_gen_level_fungsional_ms where active = '1' and level_id = a.level_fungsional) functional,
-                                (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname,
+
+                                (select org_name   from dt01_gen_organization_ms where org_id=a.org_id)orgname,
+                                (select nilai      from dt01_hrd_gaji_ms where org_id=a.org_id and active='1' and position_id=a.position_id)gaji,
+                                (select remunerasi from dt01_hrd_gaji_ms where org_id=a.org_id and active='1' and position_id=a.position_id)remun,
+
                                 (
                                     SELECT GROUP_CONCAT(
                                             b.user_id, ':',
@@ -90,6 +94,21 @@
             return $recordset;
         }
 
+        function cekdatagajiremun($orgid,$positionid){
+            $query =
+                    "
+                        select a.transaksi_id
+                        from dt01_hrd_gaji_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.position_id='".$positionid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterdepartment($orgid){
             $query =
                     "
@@ -139,6 +158,16 @@
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
+        }
+
+        function insertgajiremun($data){           
+            $sql =   $this->db->insert("dt01_hrd_gaji_ms",$data);
+            return $sql;
+        }
+
+        function updategajiremun($orgid,$positionid,$data){           
+            $sql =   $this->db->update("dt01_hrd_gaji_ms",$data,array("org_id"=>$orgid,"position_id"=>$positionid));
+            return $sql;
         }
 
         function insertmasterposition($data){           
