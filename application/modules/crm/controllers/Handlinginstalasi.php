@@ -54,6 +54,7 @@
                 $text  = "*".$this->input->post("dataorgname")."*";
                 $text .= "%0a*RMB Hospital Group*";
                 $text .= "%0a%0aKepada Yth,.";
+                $text .= "%0aManager";
                 $text .= "%0a*".$this->input->post("datanamapic")."*%0a";
                 $text .= "%0aMohon konfirmasi tindaklanjuti jawaban dari instalasi";
                 $text .= "%0a%0aAtasnama%09%09%09: ".$this->input->post("datanamapasien")."";

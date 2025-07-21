@@ -29,7 +29,7 @@
                     </div> -->
                 </div>
                 <div class="card-body py-3">
-                    <div class="mh-450px scroll-y me-n5 pe-5" id="listdepartment"></div>
+                    <div id="listdepartment"></div>
                 </div>
             </div>
         </div>

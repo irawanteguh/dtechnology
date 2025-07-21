@@ -171,7 +171,6 @@
             $refId    = $this->input->post("saranmasukanid");
             $orgId    = $this->input->post("rssaran");
             
-
             $isNew = empty($this->md->cekdatasaran($refId));
 
             $data = [
@@ -232,6 +231,7 @@
                 $textMarketing  = "*{$datasaran[0]->nameorg}*";
                 $textMarketing .= "%0a*RMB Hospital Group*";
                 $textMarketing .= "%0a%0aKepada Yth,.";
+                $textMarketing .= "%0aKepala Unit / Department Marketing";
                 $textMarketing .= "%0a*{$datasaran[0]->namamarketing}*%0a";
                 $textMarketing .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textMarketing .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
@@ -253,6 +253,7 @@
                 $textDirektur  = "*{$datasaran[0]->nameorg}*";
                 $textDirektur .= "%0a*RMB Hospital Group*";
                 $textDirektur .= "%0a%0aKepada Yth,.";
+                $textDirektur .= "%0aDirektur {$datasaran[0]->nameorg}";
                 $textDirektur .= "%0a*{$datasaran[0]->namadirektur}*%0a";
                 $textDirektur .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textDirektur .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
@@ -274,6 +275,7 @@
                 $textDirekturPT  = "*{$datasaran[0]->nameorg}*";
                 $textDirekturPT .= "%0a*RMB Hospital Group*";
                 $textDirekturPT .= "%0a%0aKepada Yth,.";
+                $textDirekturPT .= "%0aDirektur RMB Group";
                 $textDirekturPT .= "%0a*{$datasaran[0]->namadireakturpt}*%0a";
                 $textDirekturPT .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textDirekturPT .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";

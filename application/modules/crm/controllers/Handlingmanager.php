@@ -47,6 +47,7 @@
                 $text  = "*".$this->input->post("dataorgname")."*";
                 $text .= "%0a*RMB Hospital Group*";
                 $text .= "%0a%0aKepada Yth,.";
+                $text .= "%0aKepala Unit / Department Marketing";
                 $text .= "%0a*".$this->input->post("dataorgnamemarketing")."*%0a";
                 $text .= "%0aSaran dan masukan";
                 $text .= "%0a%0aAtasnama%09%: ".$this->input->post("datanamapasien")."";
