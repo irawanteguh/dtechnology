@@ -41,7 +41,7 @@ function masterassets() {
                         row += "<td>" + (result[i].rincianasset || "") + "</td>";
                     }
                     row += "<td class='text-end'>" + (result[i].volume ? todesimal(result[i].volume) : "") + "</td>";
-                    row += "<td class='text-center'>" + (result[i].tahun_pembuatan || "") + "</td>";
+                    row += "<td class='text-center'>" + (result[i].tahun_perolehan || "") + "</td>";
                     row += "<td class='text-end'><span title='Nilai Perolehan'>" + (result[i].nilai_perolehan ? todesimal(result[i].nilai_perolehan) : "") + "</span></td>";
                     row += "<td class='text-end'><span title='Bunga Pinjaman'>" + (result[i].nilai_bunga_pinjaman ? todesimal(result[i].nilai_bunga_pinjaman) + " / " + (result[i].waktu_bunga || "") + " Tahun" : "") + "</span></td>";
                     row += "<td class='text-end'><span title='Biaya Pemeliharaan'>" + (result[i].nilai_pemeliharaan ? todesimal(result[i].nilai_pemeliharaan) + " / Bulan" : "") + "</span></td>";

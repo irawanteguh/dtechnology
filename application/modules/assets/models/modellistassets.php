@@ -49,7 +49,7 @@
         function masterassets($orgid){
             $query =
                     "
-                        select a.trans_id, no_assets, no_laporan_penilaian_assets, name, spesifikasi, volume, tahun_pembuatan, estimasi_penggunaan_day, jenis_id,
+                        select a.trans_id, no_assets, no_laporan_penilaian_assets, name, spesifikasi, volume, tahun_perolehan, estimasi_penggunaan_day, jenis_id,
                                 date_format(a.created_date, '%d.%m.%Y %H:%i:%s') tgldibuat,
                                 nilai_perolehan, nilai_bunga_pinjaman, nilai_pemeliharaan,
                                 round((nilai_perolehan / volume),0) nilaibangunanpermeter,
@@ -92,7 +92,7 @@
                                                                     b.no_assets,':',
                                                                     b.name,':',
                                                                     b.volume,':',
-                                                                    b.tahun_pembuatan,':',
+                                                                    b.tahun_perolehan,':',
                                                                     b.nilai_perolehan,':',
                                                                     b.nilai_bunga_pinjaman,':',
                                                                     b.nilai_pemeliharaan,':',
@@ -104,11 +104,14 @@
                                                                 )
                                             from dt01_lgu_assets_ms b
                                             where b.active='1'
+                                            and   b.jenis_id<>'2'
                                             and   b.org_id='".$orgid."'
-                                            and   b.location_id=a.trans_id
+                                            and   (b.location_id=a.trans_id or b.location_id=a.sarana_id_aspak)
                                         )
+
+                                        
                                     else
-                                    (select name from dt01_lgu_assets_ms where active='1' and org_id='".$orgid."' and trans_id=a.location_id)
+                                    (select name from dt01_lgu_assets_ms where active='1' and org_id='".$orgid."' and jenis_id='2' and (trans_id=a.location_id or sarana_id_aspak=a.location_id) limit 1)
                                 end rincianasset
 
                         from dt01_lgu_assets_ms a
