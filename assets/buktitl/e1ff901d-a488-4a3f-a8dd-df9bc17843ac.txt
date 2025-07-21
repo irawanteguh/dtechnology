@@ -1,0 +1,914 @@
+Format Import Sarana					RS Umum  Mutia Sari			
+Kode Faskes	1408055							
+Form	f1							
+								
+mark	Sarana			Tersedia	Tahun		Kondisi	Keterangan
+					Pendirian	Renovasi		
+*	Pelayanan Medik dan Keperawatan							
+**		Pelayanan Rawat Intensif (ICU)						
+857			Gudang Kotor (Spoelhoek/ dirty ultility)	Ada	2023		Baik	
+1036			Gudang alat medik	Ada	2023		Baik	
+852			Sentral Monitoring/ Nurse Station ICU	Ada	2023		Baik	
+859			Toilet Petugas	Ada	2016		Baik	
+855			Ruangan Dokter ICU	Ada	2023		Baik	
+854			Ruangan Administrasi	Ada	2016		Baik	
+853			Gudang Bersih (Clean Utility)	-			Baik	"{""nama"":""Gudang"",""ket"":""simpan alat-alat bersih""}"
+862			Toilet Pengunjung	Ada	2016		Baik	
+1030			Loker (Ruang Ganti)	Ada	2016		Baik	
+1031			Ruangan Perawat ICU	Ada	2023		Baik	
+1032			Ruangan Kepala Perawat ICU	-			Baik	
+1033			Ruangan rawat pasien non isolasi ICU	Ada	2016		Baik	
+1057			Ruangan parkir brankar	Ada	2016		Baik	
+861			Ruangan Tunggu Pengantar/Keluarga pasien ICU	Ada	2016		Baik	
+863			Ruangan Janitor/ ruangan cleaning service	-			Baik	
+160			Ruangan rawat pasien Isolasi tipe tekanan standar (kelas S) ICU	Ada	2023		Baik	
+123			ICCU Jantung dan Pembuluh Darah	-			Baik	
+151			Perawatan Intensif Luka Bakar (Burn ICU)	-			Baik	
+204			Unit Stroke	-			Baik	
+856			Loker/ Ruangan Ganti Pakaian Petugas	Ada	2016		Baik	
+860			Ruangan Ganti Pakaian Petugas ICU	Ada	2016		Baik	
+864			Ruangan Diskusi Medis	-			Baik	
+90205			Ruangan rawat pasien Isolasi tipe tekanan positif (kelas P) ICU	-			Baik	
+90206			Ruangan rawat pasien Isolasi tipe tekanan negatif (kelas N) ICU	-			Baik	
+**		Pelayanan Kebidanan dan Penyakit Kandungan						
+1027			Ruangan Dokter	Ada	2016		Baik	
+1006			Ruangan Administrasi dan Pendaftaran	Ada	2016		Baik	
+632			Ruang Tunggu Pengantar Pasien	Ada	2016		Baik	
+627			Ruang Scrub/Cuci Tangan	Ada	2016		Baik	
+622			Ruangan Persiapan Bersalin (Observasi) Tanpa Komplikasi/Kala II-III (labour)	Ada	2016		Baik	
+1014			Ruang Persiapan Bersalin (Observasi) dengan komplikasi (pre-eclamsy labour)	Ada	2016		Baik	
+624			Pemulihan/Recovery	Ada	2016		Baik	
+1022			Ruangan Perawatan (Post Partum)	Ada	2016		Baik	
+635			Ruang Bayi Normal/Transisi	Ada	2016		Baik	
+1707			Ruangan Penyimpanan Linen	Ada	2016		Baik	
+934			Toilet( Petugas, Pasien, Pengunjung)	Ada	2016		Baik	
+623			Ruang Bersalin Tanpa Komplikasi (VK/delivery)	Ada	2015	2018	Baik	
+630			Gudang Barang Bersih	Ada	2016		Baik	
+629			Ruang Ganti Pakaian/ Loker	Ada	2018		Baik	
+634			Ruang Perawat/Petugas	Ada	2018		Baik	
+631			Ruangan Janitor/ Utilitas Kotor	Ada	2016		Baik	
+1029			Gudang Kotor (Spoolhoek/Dirty Utility)	Ada	2019		Baik	
+628			Ruang Menyusui dan KIE	Ada	2020		Baik	
+1024			Ruang Perawatan Isolasi tipe tekanan standar (kelas S)	-			Baik	
+625			Tindakan 	Ada	2016		Baik	
+626			Periksa/Triage	Ada	2021		Baik	
+633			Pos Jaga Perawat/Nurse Station	Ada	2021		Baik	
+1020			Ruangan Laktasi + KIE	Ada	2022		Baik	
+1531			Ruangan USG	Ada	2021		Baik	
+90207			Ruang Perawatan Isolasi tipe tekanan positif (kelas P)	-			Baik	
+90208			Ruang Perawatan Isolasi tipe tekanan negatif (kelas N)	-			Baik	
+1039			Pantry					
+**		Pelayanan Rawat Intensif Jiwa (UPIP)						
+90017			Ruangan Administrasi	-			Baik	
+90014			Ruangan Rawat Intensive Pasien Jiwa Isolasi	-			Baik	
+90013			Ruangan Rawat Intensive Pasien Jiwa Non Isolasi	-			Baik	
+90016			Ruangan Perawat UPIP	-			Baik	
+90015			Ruangan Dokter UPIP	-			Baik	
+90019			Toilet Petugas	-			Baik	
+**		Pelayanan Jantung Terpadu						
+1852			Gudang Instrumen dan Linen Bersih	-			Baik	
+1830			Ruang Pemulihan	-			Baik	
+1826			Ruang Ganti Pasien	-			Baik	
+1815			Ruang ICCU Jantung dan Pembuluh Darah	-			Baik	
+1833			Ruang Persiapan	-			Baik	
+1837			Ruang Ganti Petugas/Loker	-			Baik	
+1829			Ruang Kepala Instalasi	-			Baik	
+1855			Ruang Resident	-			Baik	
+1827			Ruang Klinik Spesialis Jantung & Pembuluh Darah, Sub Spesialis	-			Baik	
+1814			Ruang Jantung Anak	-			Baik	
+955			Pelayanan Jantung Terpadu	-			Baik	
+1816			Ruang ICCU Jantung dan Pembuluh Darah VIP	-			Baik	
+1817			Ruang Bedah Jantung	-			Baik	
+1818			Ruang Cathlab	-			Baik	
+1819			Ruang Echo	-			Baik	
+1822			Ruang Intermediet VIP	-			Baik	
+1820			Ruang Emergency Jantung	-			Baik	
+1821			Ruang Intermediet Regular	-			Baik	
+1824			Ruang Dokter Jaga	-			Baik	
+1823			Ruang Dokter	-			Baik	
+1825			Ruang Farmasi	-			Baik	
+1828			Ruang Konseling	-			Baik	
+1831			Ruang Peralihan	-			Baik	
+1832			Ruang Perawat	-			Baik	
+1834			Ruang Treadmill	Ada	2022		Baik	untuk 2 unit treadmill
+1835			Ruang Tunggu	-			Baik	
+1836			Ruang Tunggu VIP	-			Baik	
+1838			Ruang Pendaftaran	-			Baik	
+1839			Ruang Administrasi	-			Baik	
+1840			Ruang Alat	-			Baik	
+20219			Ruangan Lab Elektro Phisiology (EP)	-			Baik	
+1856			Pantry	-			Baik	
+1854			Gudang Maintenance	-			Baik	
+1853			Gudang Kotor (Spoelhock/Dirty Utility)	-			Baik	
+1851			Gudang Alat Medis	-			Baik	
+1841			Nurse Station / Central Monitoring	-			Baik	
+1842			Ruang Rekam Medis	-			Baik	
+1843			Ruang Inventaris	-			Baik	
+1844			Ruang Gas Center	-			Baik	
+1845			Toilet Pasien	-			Baik	
+1846			Toilet Pengunjung	-			Baik	
+1847			Toilet Petugas	-			Baik	
+1848			Toilet Pegawai	-			Baik	
+1849			Ruang Kepala Staf Medik Fungsional	-			Baik	
+1850			Ruang Sekretariat Staf Medik Fungsional (SMF)	-			Baik	
+**		Pelayanan Neonatus (Bayi)						
+646			Ruangan Cuci Alat	Ada	2016		Baik	
+645			Pos Jaga Perawat/Nurse Station	Ada	2016		Baik	
+644			Ruangan Petugas	-			Baik	
+639			Ruangan Neonatus Level III	-			Baik	
+637			Ruangan Neonatus Level I	-			Baik	
+638			Ruangan Neonatus Level II	-			Baik	
+640			Ruangan Isolasi Neonatus	-			Baik	
+641			Ruangan Tindakan	Ada	2016		Baik	
+642			Ruangan Loker/Ganti	Ada	2016		Baik	
+643			Ruangan Laktasi/Menyusui	Ada	2016		Baik	
+647			Gudang Barang Bersih	Ada	2016		Baik	
+648			Ruangan Utilitas Kotor	Ada	2016		Baik	
+649			Ruangan Tunggu	Ada	2016		Baik	
+935			Toilet Petugas	Ada	2016		Baik	
+**		Pelayanan Khusus International						
+20204			Ruangan Klinik Sp. Mata	-			Baik	
+20197			Admision	-			Baik	
+20209			Ruangan Tindakan Sp. Bedah Umum	-			Baik	
+20199			Depo Obat (Satelit)	-			Baik	
+20196			Cafetaria	-			Baik	
+20198			Bank	-			Baik	
+20200			ESWL	-			Baik	
+20201			Ruangan Klinik Sp. Jantung	-			Baik	
+20202			Ruangan Klinik Sp. Kebidanan dan Kandungan	-			Baik	
+20203			Ruangan Klinik Sp. Bedah	-			Baik	
+20205			Ruangan Klinik Sp. Orthopedi	-			Baik	
+20206			Ruangan Triage	-			Baik	
+20207			Ruangan Ganti/Loker Laki-Laki	-			Baik	
+20208			Ruangan Ganti/Loker Perempuan	-			Baik	
+20210			Ruangan Pemulihan	-			Baik	
+20211			Ruangan Jaga Perawat	-			Baik	
+20212			Toilet Pasien	-			Baik	
+20213			Toilet Petugas	-			Baik	
+**		Pelayanan Rawat Jalan						
+907			Ruangan Sp. Kedokteran Nuklir	-			Baik	
+1349			Ruangan Klinik Umum	Ada	2016		Baik	
+103			Ruangan Klinik Sp. Kesehatan Anak	Ada	2016		Baik	2 DOKTER 
+105			Ruangan Klinik Sp. Kebidanan dan Kandungan	Ada	2016		Baik	
+917			Ruangan Sp. Patologi Anatomi	-			Baik	
+930			Ruangan Sp. Radiologi	Ada	2023		Baik	
+923			Ruang Medical Check-up	Ada	2017		Baik	
+925			Toilet Petugas	-			Baik	
+1462			Ruangan Klinik Anak B	-			Baik	
+20229			Ruangan CVC	-			Baik	
+102			Ruangan Klinik Sp. Penyakit Dalam	Ada	2010		Baik	
+129			Ruangan Klinik Sp. Paru + Pernafasan	Ada	2018		Baik	
+128			Ruangan Klinik Sp. Jantung & Pembuluh Darah, Sub Spesialis	Ada	2022		Baik	
+104			Ruangan Klinik Sp. Bedah	Ada	2015		Baik	
+133			Ruangan Klinik Sp. Bedah Orthopaedi Umum & Sub Spesialistik	Ada	2017		Baik	
+106			Ruangan Klinik Sp. Mata & Sub Spesialistik	Ada	2017		Baik	
+108			Ruangan Klinik dr. Gigi umum, Gigi Spesialis dan Gigi Sub Spesialis 	Ada	2023		Baik	
+107			Ruangan Klinik Sp. THT dan THT	Ada	2017		Baik	
+131			Ruangan Klinik Sp. Saraf/ Neurologi & Sub Spesialistik	Ada	2017		Baik	
+132			Ruangan Klinik Sp. Kulit dan Kelamin	Ada	2016		Baik	
+130			Ruangan Klinik Sp. Kedokteran Jiwa/ Psikiatri	-			Baik	
+978			Ruangan Tindakan Sp. Paru dan Pernafasan	-	2016		Baik	
+980			Ruangan Tindakan Sp. THT	-	2017		Baik	
+981			Ruangan Tindakan Sp. Bedah Syaraf	-			Baik	
+983			Ruangan Tindakan Sp. Bedah Umum/ Bedah	-	2015		Baik	
+982			Ruangan Tindakan Sp. Kulit dan Kelamin	-	2016		Baik	
+135			Ruangan Klinik Sp. Bedah Syaraf	-			Baik	
+1567			Ruangan Kesehatan Jiwa Masyarakat	-			Baik	
+977			Ruangan Tindakan Sp. Penyakit Dalam	-			Baik	
+134			Ruangan Klinik SP. Bedah Plastik	-			Baik	
+136			Ruangan Klinik Sp. Urologi	-			Baik	
+137			Ruangan Sp. Onkologi Radiasi	-			Baik	
+138			Ruangan Sp. Anestesiologi & Terapi Intensif	Ada	2016		Baik	
+139			Ruangan Sp. Gizi Klinik	-			Baik	
+140			Ruangan Sp. Geriatri	-			Baik	
+141			Ruangan Sp. Akupuntur Klinik	-			Baik	
+200			Ruangan Sp. Kedokteran Fisik & Rehabilitasi	-			Baik	
+896			Ruangan Sp. Kedokteran Okupasi	-			Baik	
+897			Ruangan Sp. Andrologi	-			Baik	
+898			Ruangan Sp. Bedah Anak	-			Baik	
+899			Ruangan Sp. Bedah Mulut & Maksilofasial	-			Baik	
+900			Ruangan SP. Bedah Plastik Rekonstruksi & Estetik	-			Baik	
+901			Ruangan Sp. Bedah Toraks Kardiovaskuler	-			Baik	
+902			Ruangan Sp. Kedokteran Forensik & Medikolegal	-			Baik	
+903			Ruangan Sp. Farmokologi Klinik	-			Baik	
+904			Ruangan Sp. Konservasi Gigi	-			Baik	
+905			Ruangan Sp. Kedokteran Gigi Anak	-			Baik	
+908			Ruangan Sp. Kedokteran Olahraga	-			Baik	
+909			Ruangan Sp. Ortodonsia	-			Baik	
+911			Ruangan Sp. Prostodonsia	-			Baik	
+910			Ruangan Sp. Penyakit Mulut	-			Baik	
+913			Ruangan Sp. Radiologi Kedokteran Gigi	-			Baik	
+914			Ruangan Sp. Mikrobiologi Klinik	-			Baik	
+915			Ruangan Sp. Parasitologi Klinik	-			Baik	
+916			Ruangan Sp. Periodonsia	-			Baik	
+918			Ruangan Sp. Patologi Klinik	-			Baik	
+920			Ruangan Administrasi	Ada	2016		Baik	
+919			Ruangan Tunggu	Ada	2016		Baik	
+922			Ruangan Rekam Medis	Ada	2016		Baik	
+924			Ruangan Laktasi	Ada	2024		Baik	"{""nama"":""Laktasi"",""ket"":""""}"
+926			Toilet Pasien	Ada	2016		Baik	
+927			Ruangan Janitor	-			Baik	
+928			Ruangan Kepala IRJ	-			Baik	
+929			Ruangan JKN/Askes	Ada	2016		Baik	
+933			Ruangan Sp. Kedokteran Penerbangan	-			Baik	
+957			Ruangan Pelayanan Hemodialisa	-			Baik	
+1351			Ruangan Klinik Kusta	-			Baik	
+1352			Ruangan Klinik VCT	-			Baik	
+1353			Ruangan Klinik CST	-			Baik	
+1443			Ruangan Klinik Onkologi Medik A	-			Baik	
+1444			Ruangan Klinik Onkologi Medik B	-			Baik	
+1445			Ruangan Klinik Onkologi Medik C	-			Baik	
+1446			Ruangan Klinik Onkologi Bedah A	-			Baik	
+1447			Ruangan Klinik THT Onkologi A	-			Baik	
+1448			Ruangan Klinik THT Onkologi C	-			Baik	
+1449			Ruangan Klinik Kulit Kelamin A	-			Baik	
+1450			Ruangan Klinik Kulit Kelamin B	-			Baik	
+1451			Ruangan Klinik Kulit Kelamin C	-			Baik	
+1452			Ruangan Klinik Paru Onkologi A	-			Baik	
+1453			Ruangan Klinik Paru Onkologi B	-			Baik	
+1454			Ruangan Klinik Paru Onkologi C	-			Baik	
+1455			Ruangan Klinik Digestif Onkologi A	-			Baik	
+1456			Ruangan Klinik Digestif Onkologi C	-			Baik	
+1457			Ruangan Klinik Neurologi A	-			Baik	
+1458			Ruangan Klinik Neurologi C	-			Baik	
+1459			Ruangan Klinik Bedah Saraf A	-			Baik	
+1460			Ruangan Klinik Bedah Saraf B	-			Baik	
+1461			Ruangan Klinik Anak A	-			Baik	
+1463			Ruangan Klinik Anak C	-			Baik	
+1464			Ruangan Pemeriksaan EKG A	-			Baik	
+90215			Ruangan Klinik Vaksin	-			Baik	
+90197			Ruangan Klinik Kosmetik & Anti Aging	-			Baik	
+1465			Ruangan Klinik Lab A	-			Baik	
+1541			Ruangan Tumbuh Kembang(Psiakitri) anak & remaja	-			Baik	
+1555			Ruangan Klinik Psikogeriatri	-			Baik	
+1559			Ruangan Klinik Psikometri	-			Baik	
+1560			Ruangan Klinik Gangguan Mental Organik	-			Baik	
+1561			Ruangan Klinik Ketergantungan Obat/NAPZA	-			Baik	
+1563			Ruangan Konseling	-			Baik	
+1569			Ruangan Penyuluhan PKMRS	-			Baik	
+1858			Ruangan Klinik Psikologi	-			Baik	
+20214			Ruangan Klinik Hiperbarik	-			Baik	
+20215			Ruangan Klinik Rabies	-			Baik	
+20216			Ruangan Klinik Diabetic	-			Baik	
+20217			Ruangan Klinik Sp. Bedah Urology	-			Baik	
+20218			Ruangan Klinik Sp. Bedah Digestif	-			Baik	
+20223			Ruangan Klinik Nyeri	-			Baik	
+90009			Ruangan Klinik Psikososial	-			Baik	
+90010			Ruangan Terapi Rumatan Metadon	-			Baik	
+90011			Ruangan Terapi Rumatan	-			Baik	
+90049			Ruangan Klinik Orthopedi	-			Baik	
+90048			Ruangan Klinik Penyakit Infeksi	-			Baik	
+90080			Ruangan Tindakan Sp. Bedah Orthopedi	-			Baik	
+90148			Ruangan Poli Khusus	-			Baik	
+90191			Ruangan  Tindakan Sp. Bedah Urology	-			Baik	
+90200			Ruangan Pelayanan Hiperbarik	-			Baik	
+**		Pelayanan Prosedur Diagnostik						
+1441			Ruang Tunggu Pasien R.Jalan	-			Baik	
+1442			Ruang Tunggu Pasien R.Inap	-			Baik	
+1433			Ruangan Administrasi	-			Baik	
+1434			Ruangan Ginekologi	-			Baik	
+1435			Ruangan Ginekologi Tindakan	-			Baik	
+1438			Ruangan Tindakan BMP	-			Baik	
+1436			Ruangan Saluran Cerna	-			Baik	
+1437			Ruangan Saluran Napas	-			Baik	
+1439			Ruangan Jaringan Lunak	-			Baik	
+1440			Ruangan Kardiologi	-			Baik	
+**		Pelayanan Gawat Darurat						
+866			Ruangan Administrasi dan Pendaftaran	Ada	2016		Baik	
+865			Ruangan Tunggu Pengantar Pasien/Keluarga	Ada	2016		Baik	
+954			Ruangan Tindakan	Ada	2016		Baik	
+963			Ruangan Linen Steril	Ada	2016		Baik	
+874			Area Penyimpanan Alat Medik	Ada	2016		Baik	
+871			Ruangan Pos Perawat/Nurse Station	Ada	2016		Baik	
+877			Ruangan Petugas/Staf/Perawat	Ada	2016		Baik	
+878			Gudang Kotor (Ruangan Spoel Hoek/ Dirty Utility)	Ada	2016		Baik	
+879			Toilet Petugas	Ada	2016		Baik	
+870			Ruangan Observasi	Ada	2015	2017	Baik	ADA 4 BAD
+967			Ruangan Gas Medis	Ada	2016	2018	Baik	
+962			Ruangan Isolasi tipe tekanan standar (kelas S)	Ada	2018		Baik	
+110			Ruangan Triase	Ada	2019		Baik	
+150			Ruangan Resusitasi	Ada	2019		Baik	
+868			Ruangan Dekontaminasi	Ada	2022		Baik	
+961			Ruangan Persiapan Bencana Massal	-			Baik	
+964			Ruangan Dokter Konsulen	-			Baik	
+867			Ruangan Strectcher/Brangkar	Ada	2019		Baik	
+968			Ruangan Parkir Troli/ Kursi Roda	Ada	2019		Baik	
+109			Umum	-			Baik	
+111			Ruangan Bedah	-			Baik	
+112			Medical	-			Baik	
+113			Ruangan Pediatry/Anak	-			Baik	
+114			Ruangan Kebidanan dan Kandungan	Ada	2021		Baik	
+115			Supporting	-			Baik	
+116			Intermediate Word	-			Baik	
+117			High Care Unit	-			Baik	
+118			Oneday Care	-			Baik	
+869			Ruangan non Bedah	-			Baik	
+873			Area Penyimpanan Linen Bersih	Ada	2016		Baik	
+875			Ruangan Radiologi Cito	-			Baik	
+876			Ruangan Laboratorium Standar	-			Baik	
+880			Toilet Pengantar/Keluarga Pasien	-			Baik	
+881			Ruangan Sterilisasi	-			Baik	
+882			Ruangan Loker Petugas/Staf	-			Baik	
+883			Ruangan Janitor	-			Baik	
+90204			Ruangan Isolasi tipe tekanan negatif (kelas N)	-			Baik	
+90203			Ruangan Isolasi tipe tekanan positif (kelas P)	-			Baik	
+30003			Ruangan Gaduh Gelisah	-			Baik	
+20193			Ruangan Tindakan 2	Ada	2016		Baik	
+1959			Peralatan Mobil Jenazah II	-			Baik	
+1958			Peralatan Mobil Jenazah I	-			Baik	
+1759			Peralatan Ambulance Gawat Darurat III	-			Baik	
+1753			Peralatan Ambulance Transport II	-			Baik	
+1754			Peralatan Ambulance Transport III	-			Baik	
+1755			Peralatan Ambulance Transport IV	-			Baik	
+1756			Peralatan Ambulance Gawat Darurat I	-			Baik	
+1757			Peralatan Ambulance Gawat Darurat II	-			Baik	
+1760			Peralatan Ambulance Gawat Darurat IV	-			Baik	
+1424			Toilet Pasien	Ada	2016		Baik	
+1425			Ruangan Kepala	-			Baik	
+1426			Ruangan Dokter Jaga	Ada	2016		Baik	
+965			Ruangan Kepala IGD	-			Baik	
+969			Peralatan Ambulance Transport I	-			Baik	
+1423			Ruangan DOA	-			Baik	
+960			Ruangan Rekam Medik					
+872			Area/ Ruangan/ Depo Obat (Satelit)					
+**		Pelayanan Rawat Inap						
+606			Ruangan Perawatan Anak	Ada	2016		Baik	
+1222			Ruangan Perawatan Dewasa Laki-Laki	Ada	2016		Baik	
+1223			Ruangan Perawatan Dewasa Perempuan	Ada	2016		Baik	
+884			Ruangan Stasi Perawat/Nurse Station	Ada	2016		Baik	
+1224			Ruangan Perawat	Ada	2016		Baik	
+893			Toilet Pasien	Ada	2016		Baik	
+1227			Dapur Kecil (Pantry)	Ada	2016		Baik	
+895			Janitor/ Ruang Petugas Kebersihan	Ada	2016		Baik	
+892			Toilet Petugas/ Pengunjung	Ada	2016		Baik	
+885			Ruangan Linen Bersih	Ada	2018		Baik	
+886			Ruangan Linen Kotor	Ada	2018		Baik	
+1225			Ruangan Kepala Instalasi Rawat Inap	Ada	2018		Baik	
+1226			Ruangan Loker	Ada	2018		Baik	
+588			Ruangan Perawatan Obstetri dan Ginekologi	Ada	2017		Baik	
+591			Ruangan Perawatan Penyakit Dalam/ Sp. THT/ Sp. Syaraf	Ada	2018		Baik	
+739			Ruangan Perawatan Perinatologi	Ada	2017		Baik	
+894			Gudang Kotor (Spoel Hoek/ Dirty Utility) + Janitor/ Ruang Petugas Kebersihan	Ada	2016		Baik	
+1228			Gudang Bersih	Ada	2019		Baik	
+201			Rawat Inap	Ada	2016		Baik	
+723			Ruangan Perawatan Bedah Umum/ Sp. Bedah Syaraf/ Sp. Ortopedi Umum/ Ortopedi Spesialistik	Ada	2016		Baik	
+618			Ruangan Perawatan Jiwa/ Psikiatri	-			Baik	
+620			Ruangan Perawatan Sp. Jantung dan Pembuluh Darah	-			Baik	
+617			Ruangan Perawatan Paru + Pernafasan	-			Baik	
+890			Ruangan Dokter Jaga	Ada	2018		Baik	
+1229			High Care Unit (HCU)	Ada	2023		Baik	
+1230			Ruangan Perawatan Isolasi tipe tekanan standar (kelas S)	-			Baik	
+90202			Ruangan Perawatan Isolasi tipe tekanan positive (kelas P)	-			Baik	
+90201			Ruangan Perawatan Isolasi tipe tekanan negative (Kelas N)	-			Baik	
+143			Bangsal	-			Baik	
+144			Rawat Inap Kelas III	Ada	2016		Baik	
+147			Rawat Utama / VIP / VVIP	Ada	2016		Baik	
+888			Tindakan	Ada	2016		Baik	
+146			Rawat Inap Kelas I	Ada	2016		Baik	
+938			Rawat Inap Kelas III Pria	-			Baik	
+956			Rawat Inap Kelas III Wanita	-			Baik	
+145			Rawat Inap Kelas II	Ada	2016		Baik	
+958			Rawat Inap Kelas II Pria	-			Baik	
+959			Rawat Inap Kelas II Wanita	-			Baik	
+1428			Depo Farmasi	-			Baik	
+1429			Ruangan Kepala	Ada	2016		Baik	
+1430			Ruangan RIIM	-			Baik	
+1527			ICVCU	-			Baik	
+1538			Ruangan Jiwa	-			Baik	
+1539			Ruangan Fisik	-			Baik	
+1540			Ruangan Psikiatri anak & remaja	-			Baik	
+1564			Ruangan Rawat Inap Forensik	-			Baik	
+1565			Ruangan Rawat Jiwa Intensif	-			Baik	
+1859			Ruang Rawat Inap NAPZA	-			Baik	
+20230			Ruangan CVC	-			Baik	
+30004			Ruangan Perawatan Umum	-			Baik	
+30005			Ruangan Bayi	Ada	2016		Baik	
+90139			Ruangan Perawatan Mata	-			Baik	
+90149			Rawat Inap Kelas I Utama	Ada	2017		Baik	
+887			Konsultasi	-			Baik	
+889			Ruangan Administrasi dan pendaftaran	-			Baik	
+**		Pelayanan Bedah Sentral (OK)						
+974			Ruang Pendaftaran	Ada	2016		Baik	
+976			Ruang Tunggu	Ada	2016		Baik	
+998			Ruang Transfer (Ganti Brankar) + Parkir Brankar	Ada	2016		Baik	
+163			Ruangan Persiapan	Ada	2016		Baik	
+847			Area Scrub Station	Ada	2016		Baik	
+599			Ruangan Bedah Minor/endoscopy	-	2016		Baik	
+165			Ruangan Recovery/Pemulihan	Ada	2016		Baik	
+1000			Ruangan Ganti Pakaian/loker	Ada	2016		Baik	
+846			Ruangan Dokter/Staf	Ada	2016		Baik	
+992			Ruangan Perawat	Ada	2016		Baik	
+858			Toilet Petugas	Ada	2016		Baik	
+999			Gudang Steril (Clean Utility)	Ada	2018		Baik	
+609			Ruangan Bedah Umum	Ada	2016		Baik	
+850			Ruangan Janitor	Ada	2016		Baik	
+848			Ruangan Spoel Hoek	Ada	2016		Baik	
+996			Depo Farmasi (Satelit)	Ada	2022		Baik	"{""nama"":""Depo IGD"",""ket"":""""}"
+153			Operasi Kateterisasi Jantung (Cathlab)	-			Baik	
+188			Sterilisasi	-			Baik	
+199			Bedah Central	-			Baik	
+208			Endoscopy	-			Baik	
+844			Ruangan Tunggu Pengantar/Keluarga	Ada	2016		Baik	
+845			Ruangan Ganti Pakaian Petugas	Ada	2016		Baik	
+849			Ruangan Linen/Alat Steril	Ada	2016		Baik	
+851			Ruangan Administrasi	Ada	2016		Baik	
+1411			Ruangan Kepala	-			Baik	
+1412			Ruangan Kepala Instalasi	-			Baik	
+1413			Pantry	-			Baik	
+1414			Ruang Penjelasan	-			Baik	
+1415			Gudang 1	-			Baik	
+1416			Gudang 2	-			Baik	
+1417			Gudang 3	-			Baik	
+1418			Ruangan Diskusi	-			Baik	
+1419			Ruangan Monitor	Ada	2016		Baik	
+91316			Ruangan Operasi Hybrid					
+**		Pelayanan Perawatan Intensif  Bayi (NICU)						
+1258			Ruangan Perawat NICU	-			Baik	
+1257			Loker (Ruang Ganti)	-			Baik	
+1259			Ruangan Dokter NICU	-			Baik	
+1260			Ruang Rawat Pasien/ NICU	-			Baik	
+1261			Sentral Monitoring/Nurse Station NICU	-			Baik	
+1262			Gudang Alat Medik	-			Baik	
+1263			Gudang Bersih (Clean Utility)	-			Baik	
+1264			Gudang Kotor (Ruangan Spoel Hoek/ Dirty Utility)	-			Baik	
+1265			Ruangan Tunggu Keluarga Pasien	-			Baik	
+1266			Ruangan Administrasi	-			Baik	
+1267			Janitor / Ruang Cleaning Service	-			Baik	
+1268			Toilet Pengunjung	-			Baik	
+1269			Toilet Petugas	-			Baik	
+1270			Ruangan Kepala Perawat	-			Baik	
+**		Pelayanan Deteksi Dini Kanker dan PKRS						
+1488			Ruang Periksa 4	-			Baik	
+1485			Ruangan Periksa 1	-			Baik	
+1486			Ruangan Periksa 2	-			Baik	
+1487			Ruangan Periksa 3	-			Baik	
+1489			Ruangan Dokter	-			Baik	
+1492			Ruangan Konsultasi	-			Baik	
+1490			Ruangan Kepala Instalasi	-			Baik	
+1491			Ruangan Pendaftaran	-			Baik	
+1493			Ruang Tunggu	-			Baik	
+1494			Ruang Ganti Pasien	-			Baik	
+**		Pelayanan Rawat Inap Khusus						
+1536			Ruang HCU	-			Baik	
+1537			Ruang Perawatan VIP	Ada	2016		Baik	
+**		Pelayanan Perawatan Intensif Anak (PICU)						
+1272			Loker (Ruang Ganti)	-			Baik	
+1274			Ruangan Perawat PICU	-			Baik	
+1275			Ruangan Kepala Perawat	-			Baik	
+1276			Ruangan Dokter	-			Baik	
+1277			Ruangan Perawatan Pasien PICU	-			Baik	
+1278			Sentral Monitoring/Nurse Station PICU	-			Baik	
+1280			Gudang Alat Medik	-			Baik	
+1281			Gudang Bersih (Clean Utility)	-			Baik	
+1282			Gudang Kotor (Ruangan Spoel Hoek/ Dirty Utility)	-			Baik	
+1283			Ruangan Tunggu Keluarga Pasien	-			Baik	
+1284			Ruangan Administrasi	-			Baik	
+1285			Janitor / Ruang Cleaning Service	-			Baik	
+1286			Toilet Pengunjung	-			Baik	
+1287			Toilet Petugas	-			Baik	
+**		Pelayanan Perawatan Tingkat Tinggi (HCU)						
+1392			Ruangan Perawatan HCU	Ada	2022		Baik	
+1393			Ruangan Kepala HCU	-			Baik	
+1394			Ruangan Tindakan HCU	-			Baik	
+1395			Ruangan Perawat HCU	-			Baik	
+1396			Ruangan Cuci Spoel Hok HCU	Ada	2022		Baik	
+1397			Gudang HCU	-			Baik	
+1398			Ruangan Tunggu HCU	-			Baik	
+**		Pelayanan Cathlab						
+1526			Diagnostik Invasif, INB	-			Baik	
+**		Pelayanan Teknologi Reproduksi Berbantu						
+1533			Ruang Periksa	-			Baik	
+1534			Lab IVF	-			Baik	
+*	Penunjang Medik RS							
+**		Instalasi Radioterapi						
+1473			Ruangan Microselectron	-			Baik	
+1468			Ruangan Petugas Radiografer	Ada	2017		Baik	
+1471			Ruang Periksa 2	-			Baik	
+984			Ruangan Moulding	-			Baik	
+970			Ruangan Penerimaan, Pendaftaran, Pembayaran dan Pengambilan Hasil	-			Baik	
+971			Ruangan Administrasi	Ada	2017		Baik	
+972			Ruangan Arsip dan Rekam Medik	-			Baik	
+973			Ruangan Pemeriksaan dan Konsultasi	Ada	2017		Baik	
+975			Ruangan Tunggu Pasien	Ada	2017		Baik	
+979			Ruangan Tunggu Pasien Tirah Baring	-			Baik	
+985			Ruangan Kemoterapi	-			Baik	
+986			Ruangan Simulator	-			Baik	
+987			Ruangan Terapi Penyinaran (Treatment Room)/Theraphy	-			Baik	
+988			Ruangan Kontrol Kualitas (Quality Control)	-			Baik	
+989			Ruangan Fisikawan Medik	-			Baik	
+990			Ruangan Petugas	-			Baik	
+991			Pantri	-			Baik	
+993			Ruangan Ganti Petugas	-			Baik	
+994			Ruangan Ganti Pasien	-			Baik	
+995			Ruangan Diskusi	-			Baik	
+997			Toilet Petugas/Pasien	-			Baik	
+1466			Ruangan Dokter	-			Baik	
+1467			Ruangan Kepala Instalasi	-			Baik	
+1469			Ruangan Sekretariat	-			Baik	
+1470			Ruang Periksa 1	-			Baik	
+1472			Ruang Periksa 3	-			Baik	
+1474			Ruang Aplikasi	-			Baik	
+1475			Ruangan Scrup up	-			Baik	
+1476			Nurse Station	-			Baik	
+1477			Ruang Bilas	-			Baik	
+1478			Ruangan Isotop	-			Baik	
+1479			Ruang Gelap	-			Baik	
+1480			Ruangan Blood Iradiator	-			Baik	
+1481			Ruang CT Planning	-			Baik	
+1482			Ruangan Masker	-			Baik	
+**		Instalasi Radiodiagnostik						
+1240			Ruangan Ahli Fisika Medik	-			Baik	
+1242			Ruangan Fluoroskopi (Ruang Pemeriksaan/ Diagnostik)	-			Baik	
+1243			Ruangan Mammografi (Ruang Pemeriksaan/ Diagnostik)	-			Baik	
+1255			KM/WC Petugas	-			Baik	
+1247			Ruangan Dental X-Ray + Panoramic (Ruang Pemeriksaan/ Diagnostik)	-			Baik	
+1248			Ruangan Pemeriksaan/ Diagnostik Sp. Jantung & Pembuluh Darah (Tindakan)/ Kamar Cath Lab	-			Baik	
+1249			Ruangan MRI (Ruang Pemeriksaan/ Diagnostik)	-			Baik	
+1236			Ruangan Tunggu Pasien & Pengantar Pasien	Ada	2016		Baik	
+1237			Ruangan Administrasi dan Rekam Medik	Ada	2016		Baik	
+1238			Loket Pendaftaran, pembayaran dan pengambilan hasil	Ada	2016		Baik	
+1244			Ruangan Ultra Sonografi/ USG (Ruang Pemeriksaan/ Diagnostik)	Ada	2016		Baik	
+1252			Ruangan Jaga Radiografer	Ada	2016		Baik	
+1253			Gudang penyimpanan berkas	Ada	2016		Baik	
+1239			Ruangan Konsultasi Dokter	Ada	2018		Baik	
+1246			Ruangan Mobil X-Ray (Ruang Pemeriksaan/ Diagnostik)	Ada	2016		Baik	
+1251			Kamar Processing Film (digital ataupun AFP Kering)	Ada	2015		Baik	
+1254			Gudang penyimpanan Film dan Non Film	Ada	2015		Baik	
+1250			KM/ WC Pasien	Ada	2016		Baik	
+1241			Ruangan General X-ray (Ruang Pemeriksaan/ Diagnostik) 	Ada	2016		Baik	
+1245			"Ruangan CT-Scan (R.Operator, R.Mesin, R.Ganti) ; Ruang Pemeriksaan/ Diagnostik"	-			Baik	
+**		Instalasi Laboratorium						
+1084			Ruangan Tunggu Pasien dan Pengantar Pasien	Ada	2016		Baik	
+1087			Ruangan Administrasi dan Rekam Medis	Ada	2016		Baik	
+1090			Ruangan Pengambilan/Penerimaan Bahan/Sampel	Ada	2016		Baik	
+1093			Ruangan Flebotomi	Ada	2016		Baik	
+1097			Ruangan Sputum/Dahak	Ada	2016		Baik	
+1099			Ruangan Urin/Tinja	Ada	2016		Baik	
+1101			Ruangan Spesimen Lain (Pus, Kerokan Kulit, dll)	Ada	2016		Baik	
+1103			Ruangan Spesimen Genital	Ada	2016		Baik	
+1109			Ruangan Imunologi (Ruang Pemeriksaan)	Ada	2016		Baik	
+1111			Ruangan Kimia Klinik (Ruang Pemeriksaan)	Ada	2016		Baik	
+1112			Ruangan Urin/Tinja (Ruang Pemeriksaan)	Ada	2016		Baik	
+1113			Ruangan Hematologi (Ruang Pemeriksaan)	Ada	2016		Baik	
+1119			Ruangan Penyimpanan Bahan Habis Pakai dan Reagen (Ruang Pemeriksaan)	Ada	2016		Baik	
+1121			Ruangan Arsip (Ruang Pemeriksaan)	Ada	2016		Baik	
+1122			Ruangan Administrasi Hasil (Ruang Pemeriksaan)	Ada	2016		Baik	
+1158			Ruangan Kepala Laboratorium Medik 	Ada	2016		Baik	
+1169			Toilet Staf	Ada	2016		Baik	
+1157			Ruangan Cuci Peralatan 	Ada	2015	2018	Baik	
+1106			Ruangan Bank Darah	-			Baik	
+1167			Ruangan Musholla	Ada	2016	2018	Baik	
+1171			Toilet Pasien	Ada	2016		Baik	
+1104			Ruangan Pengolahan Sampel	Ada	2016		Baik	
+1152			Ruangan Penyimpanan  dan Ganti Pakaian Staf 	Ada	2016		Baik	
+1155			Ruangan Makan/Pantry Staf	Ada	2016		Baik	
+1161			Ruangan Diskusi/Rapat	Ada	2016		Baik	
+1164			Ruangan Koordinator Laboratorium	Ada	2016		Baik	
+1165			Ruangan Petugas Laboratorium	Ada	2016		Baik	
+1107			Ruangan Konsultasi	-			Baik	
+1114			Ruangan Mikrobiologi (Ruang Pemeriksaan)	-			Baik	
+1117			Ruangan Patologi Anatomi (Ruang Pemeriksaan)	-			Baik	
+1118			Ruangan Biologi Molekuler (Ruang Pemeriksaan)	-			Baik	
+1120			Ruangan IT, Server (Ruang Pemeriksaan)	-			Baik	
+1123			Ruangan Kerja Dokter (Ruang Pemeriksa Hasil)	-			Baik	
+1134			Ruangan Produksi (Ruang Khusus)	-			Baik	
+1137			Ruangan Penanaman Kuman TB (Ruang Khusus)	-			Baik	
+1140			Ruangan Potong Jaringan Patologi Anatomik (Ruang Khusus)	-			Baik	
+1142			Ruangan Penyimpanan Jaringan Patologi Anatomik (Ruang Khusus)	-			Baik	
+1144			Ruangan Mikrotom (Ruang Khusus)	-			Baik	
+1145			Ruangan Histologi (Ruang Khusus)	-			Baik	
+1150			Ruangan Imuno Histokimia (Ruang Khusus)	-			Baik	
+155			Laboratorium	-			Baik	
+**		Instalasi Rehabilitasi Medik						
+1291			Ruangan Pemeriksaan/ Penilaian Dokter	Ada	2016		Baik	
+1294			Loket Pendaftaran dan Pendataan	Ada	2016		Baik	
+1298			Ruangan Tunggu Pasien & Pengantar Pasien	Ada	2016		Baik	
+1299			Ruangan Diagnostik Dokter	Ada	2016		Baik	
+1300			Ruangan Terapi Psikologi	Ada	2016		Baik	
+1301			Ruangan Fisioterapi Pasif	Ada	2016		Baik	
+1303			Ruangan Fisioterapi Aktif	Ada	2016		Baik	
+1295			Ruangan Administrasi, Keuangan dan Personalia	Ada	2015		Baik	
+1306			Ruangan Senam (Gymnasium)	-			Baik	
+1307			Ruangan Hidroterapi (Incl R. Ganti, Toilet)	-			Baik	
+1309			Ruangan Terapi Okupasi	Ada	2012		Baik	
+1313			Ruangan Sensori Intergrasi (SI) Anak	Ada	2016		Baik	
+1316			Ruangan Relaksasi/ Perangsangan Audio-Visual	-			Baik	
+1318			Ruangan Terapi Wicara Vokasional	-			Baik	
+1319			Ruangan Terapi Wicara Audiometer	-			Baik	
+1320			Ruangan GIP (OP)	-			Baik	
+1321			Loker Petugas Bengkel OP	-			Baik	
+1322			Ruangan Bengkel Halus/ Kerja Kayu	-			Baik	
+1323			Ruangan Bengkel Kasar/ kerja pembuatan	-			Baik	
+1324			Ruangan Jahit/ Kulit (OP)	-			Baik	
+1325			Ruangan Penyimpanan Barang Jadi (OP)	-			Baik	
+1327			"Ruangan Penyetelan/ Fitting Room; (OP)"	-			Baik	
+1330			Ruangan PSM	-			Baik	
+1333			Gudang Peralatan Rehab Medik	-			Baik	
+1335			Gudang Linen dan Farmasi	Ada	2018		Baik	
+1338			Gudang Kotor	-			Baik	
+1339			Ruangan Kepala IRM	-			Baik	
+1340			Ruangan Petugas RM	-	2016		Baik	
+1341			Dapur Kecil (Pantry)	-			Baik	
+1342			KM/WC Petugas	-			Baik	
+1343			KM/WC Pasien	-	2016		Baik	
+1708			Gudang Bahan Baku	-			Baik	
+156			Ruang Tindakan (Rehabilitasi Medik)	-			Baik	
+1356			Ruangan Fisioterapi Rawat Inap	-			Baik	
+1357			Ruangan Fisioterapi Rawat Jalan	-			Baik	
+1358			Ruangan Psikiatri	-			Baik	
+1359			Ruangan Rohaniawan	-			Baik	
+1360			Ruangan Dokter	-			Baik	
+1361			Ruangan Diskusi	-			Baik	
+1566			Ruangan Rehabilitasi Mental & Sosial	-			Baik	
+90209			Ruangan Akupuntur	-			Baik	
+**		Instalasi Farmasi						
+1034			Ruangan Peracikan Obat	Ada	2016	2018	Baik	
+1035			Depo/ ruang bahan baku obat	Ada	2016		Baik	
+1037			Depo/ ruang obat jadi	Ada	2016		Baik	
+1038			Ruangan Administrasi (Penerimaan dan Distribusi Obat)	Ada	2016		Baik	
+1041			Konter Apotik Utama (Loket Penerimaan Resep, Loket Pembayaran, dan Loket Pengambilan Obat)	Ada	2016		Baik	
+1044			Ruangan Arsip Dokumen dan Perpustakaan)	Ada	2016		Baik	
+1046			Ruangan Kepala Instalasi Farmasi	Ada	2016		Baik	
+1047			Ruangan Petugas	Ada	2016		Baik	
+1055			Ruangan Apoteker	Ada	2016		Baik	
+1115			Gudang Perbekalan dan Alat Kesehatan	Ada	2016		Baik	
+1116			Depo/ Ruang Obat Khusus	Ada	2016	2018	Baik	
+1048			Ruangan Tunggu	Ada	2015		Baik	
+1052			KM/WC Petugas	-			Baik	
+1054			Unit Apotik Satelit	-			Baik	
+1042			Ruangan Loker Petugas (Pria dan Wanita dipisah)	-			Baik	
+1050			Dapur Kecil (Pantry)	-			Baik	
+1380			Ruangan Administrasi	-			Baik	
+1381			Ruangan Rapat	-			Baik	
+1382			Gudang Obat 1	-			Baik	
+1383			Gudang Obat 2	-			Baik	
+1384			Gudang Obat 3	-			Baik	
+1385			Gudang Infus	Ada	2021		Baik	
+1386			Gudang Bahan B3	-			Baik	
+1387			Gudang Penyimpanan Cetakan	-			Baik	
+1388			Apotik Rawat Inap	Ada	2022		Baik	
+1389			Apotik Rawat Jalan	Ada	2018		Baik	
+1390			Apotik Obat Tradisional	-			Baik	
+**		Instalasi Pemulasaraan Jenazah						
+1073			Ruangan Administrasi	-			Baik	
+1074			Ruangan Tunggu Keluarga Jenazah	-			Baik	
+1076			Ruangan Duka (Dilengkapi Toilet)	-			Baik	
+1078			Gudang Perlengkapan Ruang Duka	-			Baik	
+1079			Ruangan Dekontaminasi dan Pemulasaraan Jenazah	-			Baik	
+1083			Ruangan Pendingin Jenazah (pengawetan jenazah)	-			Baik	
+1086			Ruangan Ganti Pakaian APD (Dilengkapi Toilet)	-			Baik	
+1089			Ruangan Kepala Instalasi Pemulasaraan Jenazah	-			Baik	
+1096			KM/WC (Toilet Petugas)	-			Baik	
+1098			KM/WC (Toilet Pengunjung)	-			Baik	
+1082			Laboratorium Otopsi	-			Baik	
+1094			Gudang Instalasi Forensik	-			Baik	
+1092			Ruangan Jemur Alat	-			Baik	
+**		Laboratorium Kedokteran Forensik dan Medikolegal						
+1180			Ruangan Pemeriksaan/Penilaian Dokter	-			Baik	
+1185			Ruangan Administrasi, Keuangan dan Personalia	-			Baik	
+1183			Ruang Pendaftaran dan Pendataan	-			Baik	
+1197			Ruangan Tunggu Pasien dan Pengantar Pasien	-			Baik	
+**		Bank Darah/ Unit Transfusi Darah (BDRS/UTDRS)						
+1136			Ruang Administrasi	-			Baik	
+1138			Loket Permintaan Darah	-			Baik	
+1139			Loket Pengambilan Darah	-			Baik	
+1141			Loket Pembayaran	-			Baik	
+1143			Ruangan Tunggu	-			Baik	
+1146			Ruangan Penyimpanan Darah (Blood Bank Room)	-			Baik	
+1149			Laboratorium Skrining Darah (Blood Screening Lab.)/Pemeriksaan Pra Transfusi	-			Baik	
+1154			Ruangan Donor Darah	-			Baik	
+1156			Ruangan Pemberian Makanan Pasca Donor	-			Baik	
+1159			Ruangan Kepala dan Staf BDRS/UTDRS	-			Baik	
+1160			Ruangan Distribusi	-			Baik	
+1162			KM/WC Petugas	-			Baik	
+1163			KM/WC Pendonor	-			Baik	
+1420			Ruangan Cross Matching	-			Baik	
+1421			Laboratorium Cryogenic	-			Baik	
+1422			Gudang	-			Baik	
+**		Unit Hemodialisa						
+1212			Ruangan Administrasi	-			Baik	
+1214			Ruangan Tunggu	-			Baik	
+1215			Ruangan Cuci Darah	-			Baik	
+1216			Ruangan Isolasi Cuci Darah	-			Baik	
+1221			Ruangan Pencucian Filter (Reuse Filter Cleaning)	-			Baik	
+1217			Ruangan Stasi Perawat (Nurse Station)	-			Baik	
+1219			Ruangan Reverse Osmosis (RO) dan Sterilisasi UV	-			Baik	
+1218			Ruangan Konsultasi/ Pemeriksaan	-			Baik	
+1220			Ruangan Tangki Harian (Ready to Use Tank)	-			Baik	
+**		Instalasi Kedokteran Nuklir						
+1010			Ruangan Konsultasi Dokter	-			Baik	
+1002			Ruangan Resepsionis/Pendaftaran/Kasir/Pengambilan Hasil	-			Baik	
+1003			Ruangan Administrasi	-			Baik	
+1004			Ruangan Tunggu Pasien dan Pengantar Pasien	-			Baik	
+1005			Ruangan Preparasi	-			Baik	
+1007			Ruangan Isolasi Radioaktif	-			Baik	
+1008			Ruangan Hot Lab	-			Baik	
+1009			Ruangan Arsip dan Rekam Medis	-			Baik	
+1011			Ruangan Pemberian Dosis/Radiofarmaka	-			Baik	
+1012			Ruangan Tunggu Pasien setelah pemberian Radiofarmaka	-			Baik	
+1015			Ruangan Radioassay	-			Baik	
+1013			Toilet Pasien yang sudah mendapat Radiofarmaka	-			Baik	
+1016			Ruangan Thyroid Uptake/Gamma Probe	-			Baik	
+1017			Ruangan Gamma Kamera (dilengkapi Ruang Operator)	-			Baik	
+1018			Ruangan Pembacaan Hasil	-			Baik	
+1019			Gudang Umum	-			Baik	
+1021			Ruangan Dekontaminasi	-			Baik	
+1023			Ruangan Istirahat Dokter dan Petugas	-			Baik	
+1026			Toilet Pasien (umum)	-			Baik	
+1028			Toilet Pimpinan dan Staf	-			Baik	
+1110			Ruangan Penyimpanan Sementara Limbah Radioaktif Padat	-			Baik	
+**		Bagian Litbang						
+1513			Ruangan Cold Room	-			Baik	
+1503			Ruangan Kepala	-			Baik	
+1504			Ruangan Administrasi	-			Baik	
+1506			Ruangan Registrasi	-			Baik	
+1505			Ruangan Rapat	-			Baik	
+1507			Ruang Penyimpanan Dokumen	-			Baik	
+1508			Ruang Penyimpanan Obat	-			Baik	
+1509			Ruangan Lab Kultur	-			Baik	
+1510			Ruangan Kultur Sel	-			Baik	
+1511			Ruangan Lab RNA	-			Baik	
+1512			Ruangan Analisis	-			Baik	
+1514			Ruangan AHU	-			Baik	
+1515			Ruangan Lab Mikrobiologi	-			Baik	
+1516			Ruangan Biologi Molekuler	-			Baik	
+1517			Ruangan Bank Sample	-			Baik	
+1518			Gudang Alkes dan Reagent	-			Baik	
+1519			Ruangan Pembuatan Air Aquadest	-			Baik	
+1520			Ruangan Elektroforesis	-			Baik	
+1521			Gudang ATK	-			Baik	
+1522			Gudang 1	-			Baik	
+**		Instalasi Patologi Klinik						
+1364			Ruangan Administrasi Pendaftaran	-			Baik	
+1365			Ruangan Pengambilan Hasil	-			Baik	
+1366			Ruangan Persiapan Sampel	-			Baik	
+1367			Ruangan Mikrobiologi	-			Baik	
+1369			Ruangan Kimia Klinik	-			Baik	
+1368			Ruangan Hematologi	-			Baik	
+1371			Ruangan Flowcytometri	-			Baik	
+1370			Ruangan Diagnostik Molekuler	-			Baik	
+1372			Gudang Alkes Reagensia	-			Baik	
+1373			Ruangan Cuci Alkes Habis Pakai	-			Baik	
+1374			Ruangan Kepala Instalasi	-			Baik	
+1375			Ruangan Staf Dokter	-			Baik	
+1377			Ruangan Arsip	-			Baik	
+1376			Ruang Rapat Instalasi	-			Baik	
+1378			Pantry	-			Baik	
+1379			Toilet Petugas	-			Baik	
+**		Instalasi Patologi Anatomi						
+1399			Ruangan Kepala Instalasi	-			Baik	
+1400			Gudang Alkes Reagensia	-			Baik	
+1402			Ruangan Histopatologi	-			Baik	
+1401			Ruangan Citologi	-			Baik	
+**		Instalasi Radiologi						
+121			Ruangan Radiodiagnostik	-			Baik	
+608			Ruang Kedokteran Nuklir	-			Baik	
+607			Ruang Radioterapi	-			Baik	
+931			Ruangan Administrasi	-			Baik	
+932			Ruangan Tunggu	-			Baik	
+1344			Loket Pendaftaran, Pembayaran dan Pengambilan Hasil	-			Baik	
+*	Penunjang Non Medik RS							
+**		Sentra Oksigen Cair						
+180			Sentra Oksigen Cair	-			Baik	
+**		Instalasi Dapur Utama dan Gizi Klinik						
+1064			Ruangan Penerimaan dan Penimbangan Bahan Makanan	Ada	2017		Baik	
+1065			Ruangan Penyimpanan bahan makanan basah	Ada	2017		Baik	
+1067			Ruangan penyimpanan bahan makanan kering	Ada	2017		Baik	
+1068			Ruang / Area Persiapan	Ada	2017		Baik	
+1069			Ruangan Pengolahan/ Memasak dan Penghangatan Makanan	Ada	2017		Baik	
+1070			Ruangan Cuci	Ada	2017		Baik	
+1071			Ruangan Penyimpanan Troli Gizi	Ada	2017		Baik	
+1072			Ruangan Penyimpanan Peralatan Dapur	Ada	2017		Baik	
+1077			Ruangan Administrasi	Ada	2017		Baik	
+1080			Ruangan Kepala Instalasi Gizi	Ada	2017		Baik	
+1081			Janitor	Ada	2017		Baik	
+1095			Ruangan Petugas Jaga Dapur	Ada	2017		Baik	
+1127			Ruangan Pembagian/ Penyajian Makanan	Ada	2017		Baik	
+1102			KM/WC petugas	Ada	2015		Baik	
+1088			Gudang Alat	Ada	2017		Baik	
+1075			Ruangan Ganti Alat Pelindung Diri (APD) dan Loker	-			Baik	
+1085			Ruangan Pengaturan dan Penyimpanan Tabung Gas Elpiji	-			Baik	
+1100			Ruangan Nutrisionis	Ada	2017		Baik	
+**		Instalasi Sanitasi						
+1168			Ruang Kerja dan Arsip	Ada	2017	2018	Baik	
+1231			Area Pengolahan Air Limbah	Ada	2017		Baik	
+1232			Area Pengelolaan Limbah Padat	Ada	2017		Baik	
+1233			Area TPS	Ada	2017		Baik	
+1234			KM/WC Petugas	Ada	2017		Baik	
+**		Instalasi Pencucian Linen/ Laundri						
+1124			Ruangan Administrasi dan Pencatatan	Ada	2016		Baik	
+1126			Ruangan Penerimaan dan Sortir	Ada	2016		Baik	
+1128			Ruangan Setrika dan Pengeringan Laundri	Ada	2016		Baik	
+1130			Ruangan Penyimpanan Linen	Ada	2016		Baik	
+1132			Ruangan Cuci Linen	Ada	2016		Baik	
+1133			Ruangan Pengeringan Linen	Ada	2016		Baik	
+1153			KM/WC Petugas	Ada	2016		Baik	
+1125			Ruangan Kepala Laundri	Ada	2016		Baik	
+1129			Ruangan Perbaikan Linen / Jahit	-			Baik	
+1135			Ruangan Dekontaminasi Troli	Ada	2022		Baik	
+1148			Ruangan Penyimpanan Troli	Ada	2016		Baik	
+1151			Gudang Bahan Kimia	-			Baik	
+**		Instalasi Pemeliharaan Sarana (Workshop)						
+1170			Ruangan Kepala IPSRS	Ada	2016	2018	Baik	
+1173			Ruangan Administrasi (Pencatatan) dan Ruang Kerja Staf	Ada	2016	2018	Baik	
+1194			Gudang Spare Part	Ada	2016		Baik	
+1196			KM/WC Petugas	Ada	2016		Baik	
+1174			Ruangan Rapat/ Pertemuan Teknis	Ada	2018		Baik	
+1177			Bengkel/ Work Shop	Ada	2018		Baik	
+1195			Gudang Alat Rusak	Ada	2016		Baik	
+1175			Ruangan Studio Gambar dan Arsip Teknis	-			Baik	
+1184			Bengkel/ Worshop Bangunan/ Kayu	-			Baik	
+1186			Bengkel/ Workshop metal/logam	-			Baik	
+1187			Bengkel/ Workshop Peralatan Medik (Optik, Elektromedik, Mekanik)	Ada	2018		Baik	
+1188			Bengkel/ Workshop penunjang medik	Ada	2020		Baik	
+1189			Ruang Panel Listrik	Ada	2022		Baik	
+1190			Ruang Trafo	-			Baik	
+1191			Ruangan Genset	Ada	2016		Baik	
+1192			Ruang Pompa	-			Baik	
+1193			Ruang Boiler	-			Baik	
+**		Sentra Gas LPG						
+185			Sentra Gas LPG	-			Baik	
+**		Asrama / Wisma						
+182			Wisma	-			Baik	
+181			Asrama	-			Baik	
+**		Sentra Air Bersih						
+177			Sentra Air Bersih	Ada	2016		Baik	
+**		Instalasi Sterilisasi Pusat / CSSD						
+1203			Ruangan Penerimaan Linen Bersih Siap Sterilisasi	Ada	2018		Baik	
+1202			Gudang Steril	Ada	2018		Baik	
+1204			Ruangan Kepala Instalasi CSSD	Ada	2018		Baik	
+1205			Ruangan Ganti Petugas (Loker)	Ada	2018		Baik	
+1206			Ruangan Staf/ Petugas	Ada	2018		Baik	
+1207			KM/WC Petugas	Ada	2018		Baik	
+1198			Ruangan Penerimaan	Ada	2018		Baik	
+1199			Ruangan Dekontaminasi	Ada	2018		Baik	
+1200			Ruangan Mesin Sterilisasi	Ada	2018		Baik	
+1201			Ruangan Pengemasan/ Persiapan Alat	Ada	2018		Baik	
+1483			Ruangan Kepala	Ada	2017		Baik	
+**		Sentra Gas Medis						
+178			Sentra Gas Medis	Ada	2018		Baik	
+**		Sentra Hidran						
+179			Sentra Hidran	Ada	2016		Baik	
+**		Tempat Ibadah						
+1346			Mushola	Ada	2015		Baik	
+**		Kantin						
+189			Kantin	Ada	2018		Baik	
+**		Listrik						
+173			Genset	Ada	2016		Baik	
+174			UPS	Ada	2018		Baik	
+**		Boiler						
+172			Boiler	-			Baik	
+**		Instalasi Pemeliharaan Sarana Medis						
+1547			Ruangan Kepala Instalasi	-			Baik	
+1549			Ruangan Administrasi/Kantor	-			Baik	
+1550			Ruangan Istirahat	-			Baik	
+1551			Toilet Petugas	-			Baik	
+1548			Ruangan Workshop	-			Baik	
+**		Instalasi Pemeliharaan Sarana Non Medis						
+1542			Ruangan Kepala Instalasi	Ada	2023		Baik	Ruangan workshop
+1543			Ruangan Workshop	Ada	2018		Baik	
+1544			Ruangan Administrasi/Kantor	-			Baik	
+1545			Toilet Petugas	-			Baik	
+1546			Ruangan Istirahat	-			Baik	
+*	Area Penunjang Umum dan Administrasi RS							
+**		Ruangan Bagian Pendidikan dan Pelatihan beserta Seksi-seksinya						
+1297			Ruangan Bagian Pendidikan dan Pelatihan	Ada	2022		Baik	
+1292			Ruangan Kepala Bagian Pendidikan dan Pelatihan	Ada	2016		Baik	
+**		Dapur Kecil (pantry)						
+1336			Dapur Kecil (pantry)	-			Baik	
+**		Ruangan Rapat dan Diskusi						
+1328			Ruangan Rapat dan Diskusi	Ada	2016		Baik	
+**		Ruangan bagian SDM						
+1304			Ruangan Kepala Bagian SDM	Ada	2016	2018	Baik	
+1305			Ruangan Bagian SDM	Ada	2016	2018	Baik	
+**		Ruangan Arsip/file						
+1331			Ruangan Arsip/file	Ada	2016	2018	Baik	
+**		Ruangan Tunggu						
+1332			Ruangan Tunggu	Ada	2016		Baik	
+**		Toilet						
+1337			Toilet	Ada	2016		Baik	
+**		Ruangan bagian Keuangan dan Program						
+119			Ruangan Bagian Keuangan dan Program beserta Sub Bagian-bagiannya	Ada	2016		Baik	
+1288			Ruangan Kepala Bagian Keuangan dan Program	Ada	2016		Baik	
+**		Ruangan bidang pelayanan medis beserta seksi-seksinya						
+1211			Ruangan Kepala Bidang Pelayanan	Ada	2016		Baik	
+1279			Ruangan Bidang Pelayanan	-			Baik	
+**		Ruangan Bidang Keperawatan beserta Seksi-seksinya						
+1208			Ruangan Kepala Bidang Keperawatan	Ada	2016		Baik	
+1209			Ruangan Bidang Keperawatan	-			Baik	
+**		Ruangan Komite Medis						
+1213			Ruangan Kepala Komite Medis	Ada	2016		Baik	
+196			Ruangan Komite Medis	-			Baik	
+**		Ruangan Bidang Pelayanan Penunjang Medik dan Seksinya						
+1289			Ruangan Kepala Bidang Pelayanan Penunjang Medik 	Ada	2016		Baik	
+1290			Ruangan Bidang Pelayanan Penunjang Medik	-			Baik	
+**		Ruangan bagian Kesekretariatan dan Rekam Medis beserta Sub Bagian-bagiannya						
+1308			Ruangan Kepala Bagian Kesekretariatan beserta seksi-seksinya	-			Baik	
+120			Ruangan Bagian Rekam Medis 	Ada	2016		Baik	
+**		Ruangan Sekretaris Direktur						
+1326			Ruangan Sekretaris Direktur	Ada	2021		Baik	
+**		Ruangan Direksi						
+152			Direksi	Ada	2018		Baik	
+**		Janitor						
+1334			Janitor	-			Baik	
+::end::								
