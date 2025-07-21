@@ -51,7 +51,7 @@
                 $text .= "%0a*".$this->input->post("dataorgnamemarketing")."*%0a";
                 $text .= "%0aSaran dan masukan";
                 $text .= "%0a%0aAtasnama%09%: ".$this->input->post("datanamapasien")."";
-                $text .= "%0aKode Laporan%09: ".$this->input->post("datacodelaporan")."";
+                $text .= "%0aKode Laporan%09: `".$this->input->post("datacodelaporan")."`";
                 $text .= "%0aSudah Disetujui Manager, mohon ditindaklanjuti";
                 $text .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 

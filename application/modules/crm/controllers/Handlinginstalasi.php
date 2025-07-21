@@ -58,7 +58,7 @@
                 $text .= "%0a*".$this->input->post("datanamapic")."*%0a";
                 $text .= "%0aMohon konfirmasi tindaklanjuti jawaban dari instalasi";
                 $text .= "%0a%0aAtasnama%09%09%09: ".$this->input->post("datanamapasien")."";
-                $text .= "%0aKode Laporan%09%09: ".$this->input->post("datacodelaporan")."";
+                $text .= "%0aKode Laporan%09%09: `".$this->input->post("datacodelaporan")."`";
                 $text .= "%0aSaran dan Masukan%09: ";
                 $text .= "%0a_".$this->input->post("datasaran")."_";
                 $text .= "%0aTindaklanjut%09%09%09: ";
