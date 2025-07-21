@@ -213,7 +213,7 @@
                 $textUser .= "%0aTerima Kasih atas Masukan Anda";
                 $textUser .= "%0aSaran dan masukan Anda telah berhasil dikirim.";
                 $textUser .= "%0aKami menghargai kontribusi Anda dalam meningkatkan layanan kami.";
-                $textUser .= "%0aSilakan Simpan Kode Laporan Anda : *{$datasaran[0]->code}*";
+                $textUser .= "%0aSilakan Simpan Kode Laporan Anda : `{$datasaran[0]->code}`";
                 $textUser .= "%0a%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
                 
                 $this->md->simpanboardcast([
@@ -235,7 +235,7 @@
                 $textMarketing .= "%0a*{$datasaran[0]->namamarketing}*%0a";
                 $textMarketing .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textMarketing .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
-                $textMarketing .= "%0aKode Laporan%09: {$datasaran[0]->code}";
+                $textMarketing .= "%0aKode Laporan%09: `{$datasaran[0]->code}`";
                 $textMarketing .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
@@ -257,7 +257,7 @@
                 $textDirektur .= "%0a*{$datasaran[0]->namadirektur}*%0a";
                 $textDirektur .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textDirektur .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
-                $textDirektur .= "%0aKode Laporan%09: {$datasaran[0]->code}";
+                $textDirektur .= "%0aKode Laporan%09: `{$datasaran[0]->code}`";
                 $textDirektur .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
@@ -279,7 +279,7 @@
                 $textDirekturPT .= "%0a*{$datasaran[0]->namadireakturpt}*%0a";
                 $textDirekturPT .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textDirekturPT .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
-                $textDirekturPT .= "%0aKode Laporan%09: {$datasaran[0]->code}";
+                $textDirekturPT .= "%0aKode Laporan%09: `{$datasaran[0]->code}`";
                 $textDirekturPT .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
