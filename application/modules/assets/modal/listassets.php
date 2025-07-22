@@ -930,3 +930,28 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_view_rumus" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+			<div class="modal-body">
+				<div class="text-center mb-13">
+					<h1 class="mb-3">Rumus Perhitungan Aset</h1>
+					<div class="text-muted fw-bold fs-5">Silakan periksa dan pahami rumus perhitungan aset yang digunakan</div>
+				</div>
+				<div class="table-responsive" id="perhitungan"></div>
+				<div class="table-responsive" id="rumus"></div>
+			</div>
+			<div class="modal-footer p-1">
+                <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

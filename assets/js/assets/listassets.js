@@ -1,3 +1,5 @@
+let result = [];
+
 masterassets();
 
 $('#modal_assets_add').on('shown.bs.modal', function () {
@@ -64,6 +66,19 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $('input[name="categoryedit"][value="' + datajenisid + '"]').prop("checked", true);
 });
 
+$(document).on("click", ".btn-view-rumus", function (e) {
+    e.preventDefault();
+    const index = $(this).data("index");
+    if(typeof result[index] === "undefined"){
+        console.error("Data tidak ditemukan untuk index:", index);
+        toastr["error"]("Data rumus tidak ditemukan.");
+        return;
+    }
+
+    const data      = result[index];
+    generateRumusTable(data);
+});
+
 function masterassets() {
     $.ajax({
         url: url + "index.php/assets/listassets/masterassets",
@@ -85,7 +100,8 @@ function masterassets() {
             let tableRumahTangga = "";
 
             if (data.responCode === "00") {
-                let result = data.responResult;
+                result = data.responResult;
+                generateRumusTable(result);
 
                 for (let i in result) {
                     var getvariabel =  " datatransid='" + result[i].trans_id + "'"+
@@ -129,256 +145,18 @@ function masterassets() {
                                                                                                     )
                                                                                                 ) + "</span></td>";
                         row += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + result[i].tgldibuat + "</div></td>";
-                        
+                
+
                         row += "<td class='text-end pe-4'>";
-                        row += "<div class='btn-group' role='group'>";
-
-                        row += "<button type='button' class='btn btn-sm btn-light-primary' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' "+getvariabel+">Edit</button>";
-
-                        row += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
-                        row += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
-                        row += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
-                        row += "</button>";
-
-                        row += "</div>";
+                            row += "<div class='btn-group' role='group'>";
+                                row += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                                row += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
+                                    row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";
+                                    row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='"+i+"' ><i class='bi bi-eye me-2 text-info'></i>View Rumus</a></li>";
+                                row += "</ul>";
+                            row += "</div>";
                         row += "</td>";
                     row += "</tr>";
-
-                    // Buat baris detail (expandable)
-                    row += "<tr class='d-none'>";
-                        row += "<td colspan='13'>";
-                            row +="<div class='row'>";
-
-                                row +="<div class='col-xl-12'>";
-                                    row +="<table class='table align-middle table-row-dashed fs-8 gy-2'>";
-
-                                        if(result[i].jenis_id==="2"){
-                                            row +="<thead>";
-                                                row +="<tr class='fw-bolder bg-info align-middle text-white'>";
-                                                    row +="<th class='ps-4 rounded-start rounded-end' colspan='9'>Rincian Asset @ "+result[i].name+"</th>";
-                                                row +="</tr>";
-                                                row +="<tr class='fw-bolder bg-info align-middle text-white'>";
-                                                    row +="<th class='ps-4 rounded-start'>No Assets</th>";
-                                                    row +="<th>Nama Asset</th>";
-                                                    row +="<th>Kategori</th>";
-                                                    row +="<th class='text-end'>Qty</th>";
-                                                    row +="<th class='text-center'>Tahun Perolehan</th>";
-                                                    row +="<th class='text-end'>Nilai Asset</th>";
-                                                    row +="<th class='text-end'>Bunga Pinjaman</th>";
-                                                    row +="<th class='text-end'>Pemeliharaan</th>";
-                                                    row +="<th class='text-end rounded-end pe-4'>Depresiasi</th>";
-                                                row +="</tr>";
-                                            row +="</thead>";
-                                        }else{
-                                            row +="<thead class='text-center'>";
-                                                row +="<tr class='fw-bolder align-middle text-white'>";
-                                                    row +="<th class='bg-danger' colspan='4'>Depresiasi</th>";
-                                                    row +="<th class='bg-success'colspan='4'>Pinjaman</th>";
-                                                    row +="<th class='bg-primary' colspan='4'>Pemeliharaan</th>";
-                                                    row +="<th class='bg-info' rowspan='2'>Cost Per Pasien</th>";
-                                                row +="</tr>";
-                                                row +="<tr class='fw-bolder align-middle text-white'>";
-                                                    row +="<th class='bg-danger'>Tahunan</th>";
-                                                    row +="<th class='bg-danger'>Bulanan</th>";
-                                                    row +="<th class='bg-danger'>Harian</th>";
-                                                    row +="<th class='bg-danger'>Per Pasien</th>";
-                                                    row +="<th class='bg-success'>Tahunan</th>";
-                                                    row +="<th class='bg-success'>Bulanan</th>";
-                                                    row +="<th class='bg-success'>Harian</th>";
-                                                    row +="<th class='bg-success'>Per Pasien</th>";
-                                                    row +="<th class='bg-primary'>Tahunan</th>";
-                                                    row +="<th class='bg-primary'>Bulanan</th>";
-                                                    row +="<th class='bg-primary'>Harian</th>";
-                                                    row +="<th class='bg-primary'>Per Pasien</th>";
-                                                row +="</tr>";
-                                            row +="</thead>";
-                                        }
-                                        
-
-                                        // Parsing rincianasset dan isi tbody
-                                        let rincianRows = "";
-                                        if (result[i].jenis_id === "2" && result[i].rincianasset !=null) {
-                                            let rincianArray = result[i].rincianasset.split(";");
-                                            rincianArray.forEach(function(item) {
-                                                let parts = item.split(":");
-
-                                                if(parts.length === 11){
-                                                    let trans_id          = parts[0];
-                                                    let no_assets         = parts[1];
-                                                    let name              = parts[2];
-                                                    let volume            = parts[3];
-                                                    let tahun             = parts[4];
-                                                    let nilaiasset        = parts[5];
-                                                    let nilaibunga        = parts[6];
-                                                    let nilaipemeliharaan = parts[7];
-                                                    let depreasi          = parts[8];
-                                                    let kategori          = parts[9];
-                                                    let color             = parts[10];
-
-                                                    rincianRows += "<tr>";
-                                                        rincianRows += "<td class='ps-4'>" + no_assets + "</td>";
-                                                        rincianRows += "<td>" + name + "</td>";
-                                                        rincianRows += "<td><span class='badge badge-light-"+color+"'>" + kategori + "</span></td>";
-                                                        rincianRows += "<td class='text-end'>"+volume+"</td>";
-                                                        rincianRows += "<td class='text-center'>"+tahun+"</td>";
-                                                        rincianRows += "<td class='text-end'>"+todesimal(nilaiasset)+"</td>";
-                                                        rincianRows += "<td class='text-end'>"+todesimal(nilaibunga)+"</td>";
-                                                        rincianRows += "<td class='text-end'>"+todesimal(nilaipemeliharaan)+"</td>";
-                                                        rincianRows += "<td class='text-end pe-4'>"+depreasi+" Tahun</td>";
-                                                    rincianRows += "</tr>";
-                                                }
-                                            });
-                                        }else{
-                                            if (result[i].jenis_id === "1" || result[i].jenis_id === "3" || result[i].jenis_id === "4"){
-                                                rincianRows += "<tr>";
-
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehantahunan) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehanbulanan) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehanharian) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehanpasien) + "</td>";
-
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamantahunan) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamanbulanan) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamanharian) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamanpasien) + "</td>";
-
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaantahunan) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanbulanan) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanharian) + "</td>";
-                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanpasien) + "</td>";
-
-                                                
-                                                rincianRows += "<td class='text-end pe-4'>" + todesimal(
-                                                                    Math.round(
-                                                                        parseFloat(result[i].perolehanpasien) +
-                                                                        parseFloat(result[i].pinjamanpasien) +
-                                                                        parseFloat(result[i].pemeliharaanpasien)
-                                                                    )
-                                                                ) + "</td>";
-
-
-                                                rincianRows += "</tr>";
-                                            }
-                                        }
-                                        row += "<tbody class='text-gray-600 fw-bold'>" + rincianRows + "</tbody>";
-                                    row +="</table>";
-                                row +="</div>";
-
-                                // 📌 A. Perolehan Aset
-                                let rumusPerolehanTahunan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai aset}}{\\text{depresiasi}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPerolehanTahunanTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_perolehan) + "}}{\\text{" + result[i].waktu_depresiasi + " Tahun}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].perolehantahunan) + "} \\)";
-
-                                let rumusPerolehanBulanan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai aset}}{\\text{depresiasi} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPerolehanBulananTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_perolehan) + "}}{\\text{" + result[i].waktu_depresiasi + " Tahun} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].perolehanbulanan) + "} \\)";
-
-                                let rumusPerolehanHarian = "\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPerolehanHarianTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].perolehanbulanan) + "}}{\\text{30 hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].perolehanharian) + "} \\)";
-
-                                let rumusPerolehanPasien = "\\( \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPerolehanPasienTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].perolehanharian) + "}}{\\text{" + result[i].estimasi_penggunaan_day + " pasien/hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].perolehanpasien) + "} \\)";
-
-                                // 📌 B. Bunga Pinjaman
-                                let rumusPinjamanTahunan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPinjamanTahunanTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_bunga_pinjaman) + "}}{\\text{" + result[i].waktu_bunga + " Tahun}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamantahunan) + "} \\)";
-
-                                let rumusPinjamanBulanan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPinjamanBulananTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_bunga_pinjaman) + "}}{\\text{" + result[i].waktu_bunga + " Tahun} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamanbulanan) + "} \\)";
-
-                                let rumusPinjamanHarian = "\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPinjamanHarianTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].pinjamanbulanan) + "}}{\\text{30 hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamanharian) + "} \\)";
-
-                                let rumusPinjamanPasien = "\\( \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPinjamanPasienTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].pinjamanharian) + "}}{\\text{" + result[i].estimasi_penggunaan_day + " pasien/hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamanpasien) + "} \\)";
-
-                                // 📌 C. Pemeliharaan
-                                let rumusPemeliharaanTahunan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPemeliharaanTahunanTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_pemeliharaan) + "}}{\\text{" + result[i].waktu_depresiasi + " Tahun}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaantahunan) + "} \\)";
-
-                                let rumusPemeliharaanBulanan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPemeliharaanBulananTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_pemeliharaan) + "}}{\\text{" + result[i].waktu_depresiasi + " Tahun} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaanbulanan) + "} \\)";
-
-                                let rumusPemeliharaanHarian = "\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPemeliharaanHarianTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].pemeliharaanbulanan) + "}}{\\text{30 hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaanharian) + "} \\)";
-
-                                let rumusPemeliharaanPasien = "\\( \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPemeliharaanPasienTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].pemeliharaanharian) + "}}{\\text{" + result[i].estimasi_penggunaan_day + " pasien/hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaanpasien) + "} \\)";
-
-                                row += "<div class='col-xl-12'>";
-                                    row += "<table class='table align-middle table-row-dashed fs-8 gy-2'>";
-                                        row += "<thead>";
-                                            row += "<tr class='fw-bolder align-middle text-white text-center'>";
-                                                row += "<th class='bg-dark' colspan='4'>Rumus</th>";
-                                            row += "</tr>";
-                                            row += "<tr class='fw-bolder align-middle text-white'>";
-                                                row += "<th class='bg-dark ps-4' style='width:20%'>Rumus</th>";
-                                                row += "<th class='bg-dark' style='width:20%'>Depresiasi</th>";
-                                                row += "<th class='bg-dark' style='width:20%'>Pinjaman</th>";
-                                                row += "<th class='bg-dark' style='width:20%'>Pemeliharaan</th>";
-                                            row += "</tr>";
-                                        row += "</thead>";
-                                        row += "<tbody class='text-gray-600 fw-bold'>";
-                                            //Tahunan
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='ps-4' rowspan='2'>Tahunan</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanTahunan+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanTahunan+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanTahunan+"</td>";
-                                            row += "</tr>";
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanTahunanTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanTahunanTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanTahunanTxt+"</td>";
-                                            row += "</tr>";
-
-                                            //Bulanan
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='ps-4' rowspan='2'>Bulanan</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanBulanan+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanBulanan+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanBulanan+"</td>";
-                                            row += "</tr>";
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanBulananTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanBulananTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanBulananTxt+"</td>";
-                                            row += "</tr>";
-
-                                            //Harian
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='ps-4' rowspan='2'>Harian</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanHarian+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanHarian+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanHarian+"</td>";
-                                            row += "</tr>";
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanHarianTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanHarianTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanHarianTxt+"</td>";
-                                            row += "</tr>";
-
-
-                                            //Pasien
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='ps-4' rowspan='2'>Per Pasien</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanPasien+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanPasien+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanPasien+"</td>";
-                                            row += "</tr>";
-                                            row += "<tr class='fw-bolder align-middle'>";
-                                                row += "<td class='text-start ps-4'>"+rumusPerolehanPasienTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPinjamanPasienTxt+"</td>";
-                                                row += "<td class='text-start ps-4'>"+rumusPemeliharaanPasienTxt+"</td>";
-                                            row += "</tr>";
-
-                                        row += "</tbody>";
-                                    row += "</table>";
-                                row += "</div>";
-
-
-                            row +="</div>";
-                        row += "</td>";
-                    row += "</tr>";
-                    // End Buat baris detail (expandable)
 
                     if (result[i].jenis_id === "1") {
                         tableAlkes += row;
@@ -466,6 +244,190 @@ function masterassets() {
     });
     return false;
 }
+
+function generateRumusTable(resultItem) {
+    // Clear isi sebelum render ulang
+    $("#rumus").empty();
+    $("#perhitungan").empty();
+
+    const rp = (val) => "Rp. " + todesimal(val);
+
+    const rumus = {
+        perolehan: {
+            tahunan: `\\( \\mathrm{round}\\left( \\frac{\\text{nilai aset}}{\\text{depresiasi}},\\ 0 \\right) = \\text{hasil} \\)`,
+            bulanan: `\\( \\mathrm{round}\\left( \\frac{\\text{nilai aset}}{\\text{depresiasi} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)`,
+            harian: `\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)`,
+            pasien: `\\( \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right) = \\text{hasil} \\)`,
+        },
+        pinjaman: {
+            tahunan: `\\( \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu}},\\ 0 \\right) = \\text{hasil} \\)`,
+            bulanan: `\\( \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)`,
+            harian: `\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)`,
+            pasien: `\\( \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right) = \\text{hasil} \\)`,
+        },
+        pemeliharaan: {
+            tahunan: `\\( \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi}},\\ 0 \\right) = \\text{hasil} \\)`,
+            bulanan: `\\( \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)`,
+            harian: `\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)`,
+            pasien: `\\( \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right) = \\text{hasil} \\)`,
+        },
+    };
+
+    const rumusTxt = {
+        perolehan: {
+            tahunan: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.nilai_perolehan)}}{${resultItem.waktu_depresiasi} \\text{ Tahun}},\\ 0 \\right) = ${rp(resultItem.perolehantahunan)} \\)`,
+            bulanan: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.nilai_perolehan)}}{${resultItem.waktu_depresiasi} \\text{ Tahun} \\times 12 \\text{ bulan}},\\ 0 \\right) = ${rp(resultItem.perolehanbulanan)} \\)`,
+            harian: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.perolehanbulanan)}}{30 \\text{ hari}},\\ 0 \\right) = ${rp(resultItem.perolehanharian)} \\)`,
+            pasien: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.perolehanharian)}}{${resultItem.estimasi_penggunaan_day} \\text{ pasien/hari}},\\ 0 \\right) = ${rp(resultItem.perolehanpasien)} \\)`,
+        },
+        pinjaman: {
+            tahunan: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.nilai_bunga_pinjaman)}}{${resultItem.waktu_bunga} \\text{ Tahun}},\\ 0 \\right) = ${rp(resultItem.pinjamantahunan)} \\)`,
+            bulanan: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.nilai_bunga_pinjaman)}}{${resultItem.waktu_bunga} \\text{ Tahun} \\times 12 \\text{ bulan}},\\ 0 \\right) = ${rp(resultItem.pinjamanbulanan)} \\)`,
+            harian: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.pinjamanbulanan)}}{30 \\text{ hari}},\\ 0 \\right) = ${rp(resultItem.pinjamanharian)} \\)`,
+            pasien: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.pinjamanharian)}}{${resultItem.estimasi_penggunaan_day} \\text{ pasien/hari}},\\ 0 \\right) = ${rp(resultItem.pinjamanpasien)} \\)`,
+        },
+        pemeliharaan: {
+            tahunan: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.nilai_pemeliharaan)}}{${resultItem.waktu_depresiasi} \\text{ Tahun}},\\ 0 \\right) = ${rp(resultItem.pemeliharaantahunan)} \\)`,
+            bulanan: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.nilai_pemeliharaan)}}{${resultItem.waktu_depresiasi} \\text{ Tahun} \\times 12 \\text{ bulan}},\\ 0 \\right) = ${rp(resultItem.pemeliharaanbulanan)} \\)`,
+            harian: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.pemeliharaanbulanan)}}{30 \\text{ hari}},\\ 0 \\right) = ${rp(resultItem.pemeliharaanharian)} \\)`,
+            pasien: `\\( \\mathrm{round}\\left( \\frac{${rp(resultItem.pemeliharaanharian)}}{${resultItem.estimasi_penggunaan_day} \\text{ pasien/hari}},\\ 0 \\right) = ${rp(resultItem.pemeliharaanpasien)} \\)`,
+        },
+    };
+
+    const kategori = ["tahunan", "bulanan", "harian", "pasien"];
+    let row = `<table class='table align-middle table-row-dashed fs-8 gy-2'>
+        <thead>
+            <tr class='fw-bolder align-middle text-white text-center'>
+                <th class='bg-dark' colspan='4'>Rumus</th>
+            </tr>
+            <tr class='fw-bolder align-middle text-white'>
+                <th class='bg-dark ps-4' style='width:20%'>Jenis</th>
+                <th class='bg-dark' style='width:20%'>Depresiasi</th>
+                <th class='bg-dark' style='width:20%'>Pinjaman</th>
+                <th class='bg-dark' style='width:20%'>Pemeliharaan</th>
+            </tr>
+        </thead>
+        <tbody class='text-gray-600 fw-bold'>`;
+
+    kategori.forEach(k => {
+        row += `<tr>
+                    <td class='ps-4' rowspan='2'>${k.charAt(0).toUpperCase() + k.slice(1)}</td>
+                    <td class='text-start ps-4'>${rumus.perolehan[k]}</td>
+                    <td class='text-start ps-4'>${rumus.pinjaman[k]}</td>
+                    <td class='text-start ps-4'>${rumus.pemeliharaan[k]}</td>
+                </tr>
+                <tr>
+                    <td class='text-start ps-4'>${rumusTxt.perolehan[k]}</td>
+                    <td class='text-start ps-4'>${rumusTxt.pinjaman[k]}</td>
+                    <td class='text-start ps-4'>${rumusTxt.pemeliharaan[k]}</td>
+                </tr>`;
+    });
+
+    row += `</tbody></table>`;
+    $("#rumus").html(row);
+
+    let perhitungan = "";
+    perhitungan += `<table class='table align-middle table-row-dashed fs-8 gy-2'>`;
+
+    // Logic header tabel dan isi
+    if(resultItem.jenis_id === "2") {
+        perhitungan += `
+        <thead>
+            <tr class='fw-bolder bg-info text-white'>
+                <th class='ps-4 rounded-start rounded-end' colspan='9'>Rincian Asset @ ${resultItem.name}</th>
+            </tr>
+            <tr class='fw-bolder bg-info text-white'>
+                <th class='ps-4'>No Assets</th>
+                <th>Nama Asset</th>
+                <th>Kategori</th>
+                <th class='text-end'>Qty</th>
+                <th class='text-center'>Tahun Perolehan</th>
+                <th class='text-end'>Nilai Asset</th>
+                <th class='text-end'>Bunga Pinjaman</th>
+                <th class='text-end'>Pemeliharaan</th>
+                <th class='text-end pe-4'>Depresiasi</th>
+            </tr>
+        </thead>`;
+    } else {
+        perhitungan += `
+        <thead class='text-center'>
+            <tr class='fw-bolder text-white'>
+                <th class='bg-danger' colspan='4'>Depresiasi</th>
+                <th class='bg-success' colspan='4'>Pinjaman</th>
+                <th class='bg-primary' colspan='4'>Pemeliharaan</th>
+                <th class='bg-info' rowspan='2'>Cost Per Pasien</th>
+            </tr>
+            <tr class='fw-bolder text-white'>
+                <th class='bg-danger'>Tahunan</th>
+                <th class='bg-danger'>Bulanan</th>
+                <th class='bg-danger'>Harian</th>
+                <th class='bg-danger'>Per Pasien</th>
+                <th class='bg-success'>Tahunan</th>
+                <th class='bg-success'>Bulanan</th>
+                <th class='bg-success'>Harian</th>
+                <th class='bg-success'>Per Pasien</th>
+                <th class='bg-primary'>Tahunan</th>
+                <th class='bg-primary'>Bulanan</th>
+                <th class='bg-primary'>Harian</th>
+                <th class='bg-primary'>Per Pasien</th>
+            </tr>
+        </thead>`;
+    }
+
+    // Isi body tabel
+    let rincianRows = "";
+    if (resultItem.jenis_id === "2" && resultItem.rincianasset) {
+        let rincianArray = resultItem.rincianasset.split(";");
+        rincianArray.forEach(function(item) {
+            let parts = item.split(":");
+            if (parts.length === 11) {
+                rincianRows += `
+                <tr>
+                    <td class='ps-4'>${parts[1]}</td>
+                    <td>${parts[2]}</td>
+                    <td><span class='badge badge-light-${parts[10]}'>${parts[9]}</span></td>
+                    <td class='text-end'>${parts[3]}</td>
+                    <td class='text-center'>${parts[4]}</td>
+                    <td class='text-end'>${todesimal(parts[5])}</td>
+                    <td class='text-end'>${todesimal(parts[6])}</td>
+                    <td class='text-end'>${todesimal(parts[7])}</td>
+                    <td class='text-end pe-4'>${parts[8]} Tahun</td>
+                </tr>`;
+            }
+        });
+    } else {
+        if (["1", "3", "4"].includes(resultItem.jenis_id)) {
+            rincianRows += `
+            <tr>
+                <td class='text-end'>${todesimal(resultItem.perolehantahunan)}</td>
+                <td class='text-end'>${todesimal(resultItem.perolehanbulanan)}</td>
+                <td class='text-end'>${todesimal(resultItem.perolehanharian)}</td>
+                <td class='text-end'>${todesimal(resultItem.perolehanpasien)}</td>
+                <td class='text-end'>${todesimal(resultItem.pinjamantahunan)}</td>
+                <td class='text-end'>${todesimal(resultItem.pinjamanbulanan)}</td>
+                <td class='text-end'>${todesimal(resultItem.pinjamanharian)}</td>
+                <td class='text-end'>${todesimal(resultItem.pinjamanpasien)}</td>
+                <td class='text-end'>${todesimal(resultItem.pemeliharaantahunan)}</td>
+                <td class='text-end'>${todesimal(resultItem.pemeliharaanbulanan)}</td>
+                <td class='text-end'>${todesimal(resultItem.pemeliharaanharian)}</td>
+                <td class='text-end'>${todesimal(resultItem.pemeliharaanpasien)}</td>
+                <td class='text-end pe-4'>${todesimal(
+                    Math.round(
+                        parseFloat(resultItem.perolehanpasien) +
+                        parseFloat(resultItem.pinjamanpasien) +
+                        parseFloat(resultItem.pemeliharaanpasien)
+                    )
+                )}</td>
+            </tr>`;
+        }
+    }
+
+    perhitungan += `<tbody class='text-gray-600 fw-bold'>${rincianRows}</tbody></table>`;
+    $("#perhitungan").html(perhitungan);
+
+    MathJax.typeset(); // Ensure LaTeX is rendered
+}
+
 
 var KTCreateApp = (function () {
     var stepper, form, nextBtn, prevBtn, stepperInstance;
