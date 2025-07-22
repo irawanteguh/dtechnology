@@ -412,7 +412,7 @@
 													<span class="required">Lokasi Penempatan Asset</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis sertifikat seperti SHM, HGB, dsb."></i>
 												</label>
-												<select data-control="select2" data-dropdown-parent="#modal_assets_add" data-placeholder="Please Select Location" class="form-select form-select-solid" name="location_id" required>
+												<select data-control="select2" data-dropdown-parent="#modal_assets_add" data-placeholder="Please Select Location" class="form-select form-select-solid" name="location_id" id="location_id" required>
 													<?php echo $location;?>
 												</select>
 											</div>

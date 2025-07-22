@@ -5,6 +5,15 @@ $('#modal_assets_add').on('shown.bs.modal', function () {
     $(this).find('select').prop('selectedIndex', 0).trigger('change');
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    $.ajax({
+		url    : url + "index.php/assets/listassets/masterlocation",
+		method : "POST",
+		cache  : false,
+		success: function (data) {
+			$("select[name='location_id']").html(data);
+		}
+	});
 });
 
 $('#modal_assets_edit').on('shown.bs.modal', function (event) {
@@ -12,6 +21,15 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $(this).find('select').prop('selectedIndex', 0).trigger('change');
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    $.ajax({
+		url    : url + "index.php/assets/listassets/masterlocation",
+		method : "POST",
+		cache  : false,
+		success: function (data) {
+			$("select[name='modal_assets_edit_location']").html(data);
+		}
+	});
 
     var button                = $(event.relatedTarget);
     var datatransid           = button.attr("datatransid");
@@ -39,6 +57,7 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $("#modal_assets_edit_waktubunga").val(datawaktubunga);
     $("#modal_assets_edit_depresiasi").val(datadepresiasi);
     $("#modal_assets_edit_laporanasset").val(datanolaporanasset);
+
     var $datalokasi = $('#modal_assets_edit_location').select2();
         $datalokasi.val(datalokasi).trigger('change');
 
@@ -510,7 +529,6 @@ var KTCreateApp = (function () {
                 });
             });
         }
-
     };
 })();
 
@@ -518,50 +536,3 @@ document.addEventListener("DOMContentLoaded", function () {
     KTCreateApp.insertform();
     KTCreateApp.editform();
 });
-
-// $(document).on("submit", "#forminsertassets", function (e) {
-// 	e.preventDefault();
-// 	var form = $(this);
-//     var url  = $(this).attr("action");
-
-// 	$.ajax({
-//         url       : url,
-//         data      : form.serialize(),
-//         method    : "POST",
-//         dataType  : "JSON",
-//         cache     : false,
-//         beforeSend: function () {
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-// 			$("#btn_assets_add").addClass("disabled");
-//         },
-// 		success: function (data) {
-//             if(data.responCode == "00"){
-//                 masterassets();
-//                 $('#modal_assets_add').modal('hide');
-// 			}
-
-//             toastr.clear();
-// 			toastr[data.responHead](data.responDesc, "INFORMATION");
-// 		},
-//         complete: function () {
-//             toastr.clear();
-//             $("#btn_assets_add").removeClass("disabled");
-// 		},
-//         error: function(xhr, status, error) {
-//             Swal.fire({
-//                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-//                 html             : "<b>"+error+"</b>",
-//                 icon             : "error",
-//                 confirmButtonText: "Please Try Again",
-//                 buttonsStyling   : false,
-//                 timerProgressBar : true,
-//                 timer            : 5000,
-//                 customClass      : {confirmButton: "btn btn-danger"},
-//                 showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-//                 hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
-//             });
-// 		}		
-// 	});
-//     return false;
-// });

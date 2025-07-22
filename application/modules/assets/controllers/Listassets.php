@@ -15,7 +15,6 @@
 
         public function loadcombobox(){
             $resultkategoriasset  = $this->md->kategoriasset();
-            $resultmasterlocation = $this->md->masterlocation($_SESSION['orgid']);
 
             $kategoriassets = "";
             foreach($resultkategoriasset as $a){
@@ -77,17 +76,10 @@
                 $kategoriassetsedit .= "</label>";
             }
 
-            $location="";
-            foreach($resultmasterlocation as $a ){
-                $location.="<option value='".$a->sarana_id_aspak."'>".$a->keterangan."</option>";
-            }
-
             $data['kategoriassets']     = $kategoriassets;
             $data['kategoriassetsedit'] = $kategoriassetsedit;
-            $data['location']           = $location;
             return $data;
         }
-
 
         public function insertassets(){
             $data['org_id']                      = $_SESSION['orgid'];
@@ -166,6 +158,17 @@
             }
 
             echo json_encode($json);
+        }
+
+        public function masterlocation(){
+            $resultmasterlocation = $this->md->masterlocation($_SESSION['orgid']);
+
+            $location="";
+            foreach($resultmasterlocation as $a ){
+                $location.="<option value='".$a->sarana_id_aspak."'>".$a->keterangan."</option>";
+            }
+
+            echo $location;
         }
 
 	}
