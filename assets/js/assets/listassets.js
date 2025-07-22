@@ -281,8 +281,8 @@ function masterassets() {
                                 let rumusPinjamanTahunan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu}},\\ 0 \\right) = \\text{hasil} \\)";
                                 let rumusPinjamanTahunanTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_bunga_pinjaman) + "}}{\\text{" + result[i].waktu_bunga + " Tahun}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamantahunan) + "} \\)";
 
-                                let rumusPinjamanBulanan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu} \\times 12},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPinjamanBulananTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_bunga_pinjaman) + "}}{\\text{" + result[i].waktu_bunga + " Tahun} \\times 12},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamanbulanan) + "} \\)";
+                                let rumusPinjamanBulanan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)";
+                                let rumusPinjamanBulananTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_bunga_pinjaman) + "}}{\\text{" + result[i].waktu_bunga + " Tahun} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamanbulanan) + "} \\)";
 
                                 let rumusPinjamanHarian = "\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)";
                                 let rumusPinjamanHarianTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].pinjamanbulanan) + "}}{\\text{30 hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pinjamanharian) + "} \\)";
@@ -294,8 +294,8 @@ function masterassets() {
                                 let rumusPemeliharaanTahunan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi}},\\ 0 \\right) = \\text{hasil} \\)";
                                 let rumusPemeliharaanTahunanTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_pemeliharaan) + "}}{\\text{" + result[i].waktu_depresiasi + " Tahun}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaantahunan) + "} \\)";
 
-                                let rumusPemeliharaanBulanan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi} \\times 12},\\ 0 \\right) = \\text{hasil} \\)";
-                                let rumusPemeliharaanBulananTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_pemeliharaan) + "}}{\\text{" + result[i].waktu_depresiasi + " Tahun} \\times 12},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaanbulanan) + "} \\)";
+                                let rumusPemeliharaanBulanan = "\\( \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{hasil} \\)";
+                                let rumusPemeliharaanBulananTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].nilai_pemeliharaan) + "}}{\\text{" + result[i].waktu_depresiasi + " Tahun} \\times \\text{12 bulan}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaanbulanan) + "} \\)";
 
                                 let rumusPemeliharaanHarian = "\\( \\mathrm{round}\\left( \\frac{\\text{bulanan}}{\\text{30 hari}},\\ 0 \\right) = \\text{hasil} \\)";
                                 let rumusPemeliharaanHarianTxt = "\\( \\mathrm{round}\\left( \\frac{\\text{Rp. " + todesimal(result[i].pemeliharaanbulanan) + "}}{\\text{30 hari}},\\ 0 \\right) = \\text{Rp. " + todesimal(result[i].pemeliharaanharian) + "} \\)";
