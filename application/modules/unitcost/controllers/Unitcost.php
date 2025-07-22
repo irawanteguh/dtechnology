@@ -45,7 +45,7 @@
         }
 
         public function detailcomponent(){
-            $result = $this->md->detailcomponent($_SESSION['orgid']);
+            $result = $this->md->detailcomponent($_SESSION['orgid'],$this->input->post("layanid"));
             
 			if(!empty($result)){
                 $json["responCode"]="00";

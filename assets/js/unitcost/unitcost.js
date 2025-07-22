@@ -50,6 +50,15 @@ $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
         $datajenisid.val(datajenisid).trigger('change');
 });
 
+function getdata(btn){
+    var datalayanid = btn.attr("datalayanid");
+    var dataname    = btn.attr("dataname");
+
+    $("#namapelayanan").html(dataname);
+
+    detailcomponent(datalayanid)
+};
+
 function masterlayanan(){
     $.ajax({
         url       : url+"index.php/unitcost/unitcost/masterlayanan",
@@ -89,7 +98,19 @@ function masterlayanan(){
                     tableresult +="<td class='text-end'>"+(result[i].com_2 ? todesimal(result[i].com_2) : "")+"</td>";
                     tableresult +="<td class='text-end'>"+(result[i].com_3 ? todesimal(result[i].com_3) : "")+"</td>";
                     tableresult +="<td class='text-end'>" + todesimal(Math.round(((parseFloat(result[i].com_1) || 0) + (parseFloat(result[i].com_2) || 0) + (parseFloat(result[i].com_3) || 0)) / 3)) + "</td>";
-                    tableresult +="<td class='text-end'><a class='btn btn-sm btn-light-primary' data-bs-toggle='modal' data-bs-target='#modal_unit_cost_edit' "+getvariabel+"><i class='bi bi-pencil-square'></i> Edit</a></td>";
+                    tableresult +="<td class='text-end'>";
+                            tableresult +="<div class='btn-group' role='group'>";
+                                tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                                tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                    tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_unit_cost_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";  
+                                    if(result[i].type==="2"){
+                                        tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-database-add me-2 text-primary'></i>Add Component</a></li>"; 
+                                    }  
+                                    tableresult += "<a class='dropdown-item btn btn-sm' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_employee_registrationposition_add' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Positioning</a>";
+                                tableresult +="</div>";
+                            tableresult +="</div>";
+                        tableresult +="</td>";
+
                     tableresult +="</tr>";
 
                     filterkategori.settings.whitelist = Array.from(kategori);
@@ -122,12 +143,13 @@ function masterlayanan(){
     return false;
 };
 
-function detailcomponent() {
+function detailcomponent(layanid) {
     $.ajax({
-        url: url + "index.php/unitcost/unitcost/detailcomponent",
-        method: "POST",
-        dataType: "JSON",
-        cache: false,
+        url       : url + "index.php/unitcost/unitcost/detailcomponent",
+        data      : {layanid:layanid},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
@@ -155,7 +177,7 @@ function detailcomponent() {
 
                     // Header kategori
                     tableresult += `<tr class="table-primary fw-bold">
-                                        <td colspan="3" class="ps-3">${kategori}</td>
+                                        <td colspan="2" class="ps-3">${kategori}</td>
                                         <td></td>
                                     </tr>`;
 
@@ -167,8 +189,7 @@ function detailcomponent() {
                         grandtotal     += biaya;
 
                         tableresult += `<tr>
-                                            <td class='ps-4'>${row.namecomponent || ""}</td>
-                                            <td>${row.description ? row.description : ""}</td>
+                                            <td class='ps-4'><div>${row.namecomponent || ""}</div><div class='fs-9 fst-italic'>${row.description || ""}</div></td>
                                             <td class='text-end'>${biaya ? todesimal(biaya) : "0"}</td>
                                             <td class='text-end'>
                                                 <a class='btn btn-sm btn-light-primary'>Detail</a>
@@ -178,7 +199,7 @@ function detailcomponent() {
 
                     // 4. Subtotal kategori
                     tableresult += `<tr class="table-warning fw-semibold">
-                                        <td class="text-end pe-2" colspan='2'>Subtotal</td>
+                                        <td class="text-end pe-2" colspan='1'>Subtotal</td>
                                         <td class="text-end fw-bold pe-3">${todesimal(subtotal)}</td>
                                         <td></td>
                                     </tr>`;
@@ -186,7 +207,7 @@ function detailcomponent() {
 
                 // 5. Grand total di akhir semua kategori
                 tableresult += `<tr class="table-success fw-bold">
-                                    <td class="text-end pe-2" colspan='2'>Grand Total</td>
+                                    <td class="text-end pe-2" colspan='1'>Grand Total</td>
                                     <td class="text-end pe-3">${todesimal(grandtotal)}</td>
                                     <td></td>
                                 </tr>`;
@@ -194,7 +215,7 @@ function detailcomponent() {
                 // 6. Tambahan: Total Unit Cost x 30%
                 const totalUnitCost30 = Math.round(grandtotal * 1.3);
                 tableresult += `<tr class="table-info fw-bold">
-                                    <td class="text-end pe-2" colspan='2'>Total Unit Cost x 30%</td>
+                                    <td class="text-end pe-2" colspan='1'>Total Unit Cost x 30%</td>
                                     <td class="text-end pe-3">${todesimal(totalUnitCost30)}</td>
                                     <td></td>
                                 </tr>`;
