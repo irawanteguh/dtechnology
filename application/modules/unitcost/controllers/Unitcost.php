@@ -44,6 +44,23 @@
             echo json_encode($json);
         }
 
+        public function mastersdm(){
+            $result = $this->md->mastersdm($_SESSION['orgid']);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Tidak Di Temukan";
+            }
+
+            echo json_encode($json);
+        }
+
         public function detailcomponent(){
             $result = $this->md->detailcomponent($_SESSION['orgid'],$this->input->post("layanid"));
             

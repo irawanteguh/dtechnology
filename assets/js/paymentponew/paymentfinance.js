@@ -565,7 +565,7 @@ function validasi(btn) {
             var datavalidator   = btn.attr("datavalidator");
 
             $.ajax({
-                url       : url+"index.php/paymentponew/paymentmanager/updateheader",
+                url       : url+"index.php/paymentponew/paymentfinance/updateheader",
                 data      : {datanopemesanan:datanopemesanan,datastatus:datastatus,datavalidator:datavalidator},
                 method    : "POST",
                 dataType  : "JSON",

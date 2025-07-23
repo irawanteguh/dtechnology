@@ -28,10 +28,9 @@
                                 0 com_2,
                                 0 com_3
                             from jns_perawatan_radiologi a
-                            where a.status='1'
+                            where a.status='x'
                             and   a.kd_jenis_prw not in (select layan_id_rs from dt01_keu_layan_ms where active='1' and org_id='".$orgid."' and layan_id_rs=a.kd_jenis_prw)
                             union
-
                             select '2'type, a.layan_id, nama_layan,
                                    a.jenis_id,
                                    durasi,
@@ -39,10 +38,28 @@
                                    com_2,
                                    com_3
                             from dt01_keu_layan_ms a
-                            WHERE a.active = '1'
-                            AND a.org_id = '".$orgid."'
+                            where a.active = '1'
+                            and   a.org_id = '".$orgid."'
+                            and   a.layan_id='51275806-126f-4085-b5e2-43efe21f879d'
                         )x
                         order by kategori asc, nama_layan asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function mastersdm($orgid){
+            $query =
+                    "
+                        select a.transaksi_id, nilai, remunerasi,
+                            (select concat(b.position,' ',coalesce((select level from dt01_gen_level_fungsional_ms where level_id=b.level_fungsional),'')) from dt01_hrd_position_ms b where b.position_id=a.position_id)posisi,
+                            (select level from dt01_hrd_position_ms where position_id=a.position_id)level
+                        from dt01_hrd_gaji_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        order by level desc
                     ";
 
             $recordset = $this->db->query($query);
@@ -182,7 +199,25 @@
                                     when a.jenis_id='2' then (select round(((nilai/(25*8*60))*(select durasi from dt01_keu_layan_ms where layan_id='".$layanid."')*a.jml)+((remunerasi/(25*8*60))*(select durasi from dt01_keu_layan_ms where layan_id='".$layanid."')*a.jml),0) from dt01_hrd_gaji_ms where transaksi_id=a.position_id)
                                     when a.jenis_id='3' then 0
                                     else 'Unknown'
-                                end cost
+                                end cost,
+                                case
+                                    when a.jenis_id='1' then 0
+                                    when a.jenis_id='2' then (select nilai from dt01_hrd_gaji_ms where transaksi_id=a.position_id)
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end gaji,
+                                case
+                                    when a.jenis_id='1' then 0
+                                    when a.jenis_id='2' then (select remunerasi from dt01_hrd_gaji_ms where transaksi_id=a.position_id)
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end remun,
+                                case
+                                    when a.jenis_id='1' then 0
+                                    when a.jenis_id='2' then a.jml
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end jmlsdm
                         from dt01_keu_unit_cost_dt a
                         where a.active='1'
                         and   a.org_id='".$orgid."'

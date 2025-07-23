@@ -1,8 +1,25 @@
+let result = [];
+
+
 masterlayanan();
-// detailcomponent();
 
 const filterkategori      = new Tagify(document.querySelector("#filterkategori"), { enforceWhitelist: true });
 const filternamapelayanan = new Tagify(document.querySelector("#filternamapelayanan"), { enforceWhitelist: true });
+const filterjabatan       = new Tagify(document.querySelector("#filterjabatan"), { enforceWhitelist: true });
+
+function filterTablesdm() {
+    const jabatanfilter = filterjabatan.value.map(tag => tag.value);
+
+    const tbody = document.getElementById("resultmasterdm");
+    const rows = tbody.rows;
+
+    for (const row of rows) {
+        const jabatan = row.getElementsByTagName("td")[0].textContent;
+        const showRow = jabatanfilter.length === 0 || jabatanfilter.includes(jabatan);
+        row.style.display = showRow ? "" : "none";
+    }
+}
+
 
 function filterTable() {
     const kategorifilter      = filterkategori.value.map(tag => tag.value);
@@ -25,6 +42,7 @@ function filterTable() {
 
 filterkategori.on('change', filterTable);
 filternamapelayanan.on('change', filterTable);
+filterjabatan.on('change', filterTablesdm);
 
 $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
     var button      = $(event.relatedTarget);
@@ -50,12 +68,28 @@ $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
         $datajenisid.val(datajenisid).trigger('change');
 });
 
+$("#modal_unit_cost_add_sdm").on('show.bs.modal', function(event){
+    var button           = $(event.relatedTarget);
+    mastersdm();
+});
+
+$(document).on("click", ".btn-view-rumus", function (e) {
+   const index = $(this).data("index");
+    if(typeof result[index] === "undefined"){
+        console.error("Data tidak ditemukan untuk index:", index);
+        toastr["error"]("Data rumus tidak ditemukan.");
+        return;
+    }
+
+    const data = result[index];
+    generateRumusTable(data);
+});
+
 function getdata(btn){
     var datalayanid = btn.attr("datalayanid");
     var dataname    = btn.attr("dataname");
 
     $("#namapelayanan").html(dataname);
-
     detailcomponent(datalayanid)
 };
 
@@ -99,17 +133,17 @@ function masterlayanan(){
                     tableresult +="<td class='text-end'>"+(result[i].com_3 ? todesimal(result[i].com_3) : "")+"</td>";
                     tableresult +="<td class='text-end'>" + todesimal(Math.round(((parseFloat(result[i].com_1) || 0) + (parseFloat(result[i].com_2) || 0) + (parseFloat(result[i].com_3) || 0)) / 3)) + "</td>";
                     tableresult +="<td class='text-end'>";
-                            tableresult +="<div class='btn-group' role='group'>";
-                                tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                                tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                    tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_unit_cost_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";  
-                                    if(result[i].type==="2"){
-                                        tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' " + getvariabel + " onclick='getdata($(this));'><i class='bi bi-database-add me-2 text-primary'></i>Add Component</a></li>"; 
-                                    }  
-                                    tableresult += "<a class='dropdown-item btn btn-sm' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_employee_registrationposition_add' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-person-add'></i> Positioning</a>";
-                                tableresult +="</div>";
+                        tableresult +="<div class='btn-group' role='group'>";
+                            tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                                tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_unit_cost_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a>";  
+                                if(result[i].type==="2"){
+                                    tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' " + getvariabel + " onclick='getdata($(this));' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_unitcost_detailcomponent'><i class='bi bi-database-add me-2 text-primary'></i>Add Component</a>";
+                                }  
+                                
                             tableresult +="</div>";
-                        tableresult +="</td>";
+                        tableresult +="</div>";
+                    tableresult +="</td>";
 
                     tableresult +="</tr>";
 
@@ -123,7 +157,7 @@ function masterlayanan(){
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-			//
+			toastr.clear();
 		},
         error: function(xhr, status, error) {
             Swal.fire({
@@ -159,7 +193,7 @@ function detailcomponent(layanid) {
             let tableresult = "";
 
             if (data.responCode === "00") {
-                const result = data.responResult;
+                result = data.responResult;
                 const grouped = {};
                 let grandtotal = 0;
 
@@ -188,13 +222,28 @@ function detailcomponent(layanid) {
                         subtotal       += biaya;
                         grandtotal     += biaya;
 
-                        tableresult += `<tr>
-                                            <td class='ps-4'><div>${row.namecomponent || ""}</div><div class='fs-9 fst-italic'>${row.description || ""}</div></td>
+                        tableresult += `
+                                        <tr>
+                                            <td class='ps-4'>
+                                                <div>${row.namecomponent || ""}</div>
+                                                <div class='fs-9 fst-italic'>${row.description || ""}</div>
+                                            </td>
                                             <td class='text-end'>${biaya ? todesimal(biaya) : "0"}</td>
                                             <td class='text-end'>
-                                                <a class='btn btn-sm btn-light-primary'>Detail</a>
+                                                <div class='btn-group' role='group'>
+                                                    <button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>
+                                                    <div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>
+                                                        <a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_unit_cost_edit'>
+                                                            <i class='bi bi-pencil-square me-2 text-primary'></i>Edit
+                                                        </a>
+                                                        <a class='dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='${i}'>
+                                                            <i class='bi bi-eye me-2 text-info'></i>View Rumus
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>`;
+
                     }
 
                     // 4. Subtotal kategori
@@ -240,6 +289,107 @@ function detailcomponent(layanid) {
         }
     });
     return false;
+}
+
+function mastersdm(){
+    $.ajax({
+        url       : url+"index.php/unitcost/unitcost/mastersdm",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultmasterdm").html("");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result  = data.responResult;
+                var jabatan = new Set();
+
+                for(var i in result){
+                    jabatan.add(result[i].posisi);
+
+                    tableresult +="<tr>";
+                    tableresult +="<td class='ps-4'>"+result[i].posisi+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].nilai)+"</td>";
+                    tableresult +="<td class='text-end'>"+todesimal(result[i].remunerasi)+"</td>";
+                    tableresult += `<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='jml_${result[i].transaksi_id}' value='${result[i].transaksi_id}' onchange='simpandata(this)'></td>`;
+                    tableresult +="</tr>";
+                }
+
+                
+            }
+
+            filterjabatan.settings.whitelist = Array.from(jabatan);
+            $("#resultmasterdm").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function generateRumusTable(resultItem) {
+    $("#rumus").empty();
+    let rumussdm = `
+                    \\[
+                    \\text{Cost per Pasien} = \\mathrm{round}\\left(
+                        \\left(
+                            \\left( \\frac{\\text{Gaji per bulan}}{\\text{jumlah hari kerja} \\times \\text{jam per shift} \\times 60\\ \\text{menit}} \\right)
+                            \\times \\text{jumlah SDM}
+                        \\right)
+                        +
+                        \\left(
+                            \\left( \\frac{\\text{Remunerasi per bulan}}{\\text{jumlah hari kerja} \\times \\text{jam per shift} \\times 60\\ \\text{menit}} \\right)
+                            \\times \\text{jumlah SDM}
+                        \\right)
+                    ,\\ 0 \\right)
+                    \\]
+                    `;
+
+    
+    let rumussdmTxt = `
+                        \\[
+                        \\text{${formatCurrency(resultItem.cost)}} = \\mathrm{round}\\left(
+                            \\left(
+                                \\left( \\frac{${formatCurrency(resultItem.gaji)}}{\\text{25 hari kerja} \\times \\text{8 Jam} \\times 60\\ \\text{menit}} \\right)
+                                \\times \\text{${resultItem.jmlsdm} Orang}
+                            \\right)
+                            +
+                            \\left(
+                                \\left( \\frac{${formatCurrency(resultItem.remun)}}{\\text{25 hari kerja} \\times \\text{8 Jam} \\times 60\\ \\text{menit}} \\right)
+                                \\times \\text{${resultItem.jmlsdm} Orang}
+                            \\right)
+                        ,\\ 0 \\right)
+                        \\]
+                        `;
+
+
+
+
+
+
+
+   
+    $("#rumus").html(rumussdm+rumussdmTxt);
+
+    MathJax.typeset(); // Ensure LaTeX is rendered
 }
 
 $(document).on("submit", "#formaddsimulation", function (e) {
