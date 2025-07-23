@@ -137,13 +137,7 @@ function masterassets() {
 
                         row += "<td class='text-end'>" + (result[i].waktu_depresiasi ? result[i].waktu_depresiasi + " Tahun" : "") + "</td>";
                         row += "<td class='text-end'>" + (result[i].estimasi_penggunaan_day ? result[i].estimasi_penggunaan_day + " / Hari" : "") + "</td>";
-                        row += "<td class='text-end'><span title='Cost Per Pasien'>" + todesimal(
-                                                                                                    Math.round(
-                                                                                                        parseFloat(result[i].perolehanpasien) +
-                                                                                                        parseFloat(result[i].pinjamanpasien) +
-                                                                                                        parseFloat(result[i].pemeliharaanpasien)
-                                                                                                    )
-                                                                                                ) + "</span></td>";
+                        row += "<td class='text-end'><span title='Cost Per Pasien'>" + (result[i].costperpasien ? todesimal(result[i].costperpasien) : "0") + "</span></td>";
                         row += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + result[i].tgldibuat + "</div></td>";
                 
 
@@ -276,7 +270,7 @@ function generateRumusTable(resultItem) {
             tahunan: `\\( \\mathrm{round}\\left( \\frac{${formatCurrency(resultItem.nilai_perolehan)}}{${resultItem.waktu_depresiasi} \\text{ Tahun}},\\ 0 \\right) = ${formatCurrency(resultItem.perolehantahunan)} \\)`,
             bulanan: `\\( \\mathrm{round}\\left( \\frac{${formatCurrency(resultItem.nilai_perolehan)}}{${resultItem.waktu_depresiasi} \\text{ Tahun} \\times 12 \\text{ bulan}},\\ 0 \\right) = ${formatCurrency(resultItem.perolehanbulanan)} \\)`,
             harian: `\\( \\mathrm{round}\\left( \\frac{${formatCurrency(resultItem.perolehanbulanan)}}{30 \\text{ hari}},\\ 0 \\right) = ${formatCurrency(resultItem.perolehanharian)} \\)`,
-            pasien: `\\( \\mathrm{round}\\left( \\frac{${formatCurrency(resultItem.perolehanharian)}}{${resultItem.estimasi_penggunaan_day} \\text{ pasien/hari}},\\ 0 \\right) = ${rp(resultItem.perolehanpasien)} \\)`,
+            pasien: `\\( \\mathrm{round}\\left( \\frac{${formatCurrency(resultItem.perolehanharian)}}{${resultItem.estimasi_penggunaan_day} \\text{ pasien/hari}},\\ 0 \\right) = ${formatCurrency(resultItem.perolehanpasien)} \\)`,
         },
         pinjaman: {
             tahunan: `\\( \\mathrm{round}\\left( \\frac{${formatCurrency(resultItem.nilai_bunga_pinjaman)}}{${resultItem.waktu_bunga} \\text{ Tahun}},\\ 0 \\right) = ${formatCurrency(resultItem.pinjamantahunan)} \\)`,

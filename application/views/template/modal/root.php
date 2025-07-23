@@ -167,7 +167,8 @@
 				</div>
                 <div class="text-center mb-13">
                     <div class="table-responsive" id="perhitungan"></div>
-                    <div class="table-responsive" id="rumus"></div>
+                    <div class="mb-10 border-info border-3 border-dashed" id="rumus"></div>
+                    <div class="mb-10 border-danger border-3 border-dashed" id="rumusactual"></div>
                 </div>
 			</div>
 			<div class="modal-footer p-1">

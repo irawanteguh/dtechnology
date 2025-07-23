@@ -3,14 +3,17 @@ function todesimal(value) {
 };
 
 function formatCurrency(value) {
-    const number = parseInt(value.replace(/[^0-9]/g, ''));
+    if (typeof value !== "string" && typeof value !== "number") return '';
+
+    const cleaned = String(value).replace(/[^0-9]/g, '');
+    const number = parseInt(cleaned);
     if (isNaN(number)) return '';
+
     return 'Rp. ' + new Intl.NumberFormat('id-ID', {
         maximumFractionDigits: 0,
         minimumFractionDigits: 0
     }).format(number);
 }
-
 
 if (window.location.href !== url+'index.php/auth/sign') {
     var sessiontimeout = function() {

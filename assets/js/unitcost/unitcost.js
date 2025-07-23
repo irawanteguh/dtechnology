@@ -69,12 +69,14 @@ $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
 });
 
 $("#modal_unit_cost_add_sdm").on('show.bs.modal', function(event){
-    var button           = $(event.relatedTarget);
-    mastersdm();
+    $layanid = $("#modal_unit_cost_add_sdm_layanid").val();
+    mastersdm($layanid);
 });
 
 $(document).on("click", ".btn-view-rumus", function (e) {
    const index = $(this).data("index");
+   
+
     if(typeof result[index] === "undefined"){
         console.error("Data tidak ditemukan untuk index:", index);
         toastr["error"]("Data rumus tidak ditemukan.");
@@ -90,7 +92,9 @@ function getdata(btn){
     var dataname    = btn.attr("dataname");
 
     $("#namapelayanan").html(dataname);
-    detailcomponent(datalayanid)
+    $("#modal_unit_cost_add_sdm_layanid").val(datalayanid);
+
+    detailcomponent(datalayanid);
 };
 
 function masterlayanan(){
@@ -194,12 +198,13 @@ function detailcomponent(layanid) {
 
             if (data.responCode === "00") {
                 result = data.responResult;
+                generateRumusTable(result);
                 const grouped = {};
                 let grandtotal = 0;
 
                 // 1. Kelompokkan data berdasarkan kategori
                 for (const i in result) {
-                    const kategori = result[i].kategori || "Tanpa Kategori";
+                    const kategori = result[i].kategori || "Unknown";
                     if (!grouped[kategori]) grouped[kategori] = [];
                     grouped[kategori].push(result[i]);
                 }
@@ -233,10 +238,7 @@ function detailcomponent(layanid) {
                                                 <div class='btn-group' role='group'>
                                                     <button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>
                                                     <div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>
-                                                        <a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_unit_cost_edit'>
-                                                            <i class='bi bi-pencil-square me-2 text-primary'></i>Edit
-                                                        </a>
-                                                        <a class='dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='${i}'>
+                                                        <a class='dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='${result.indexOf(row)}'>
                                                             <i class='bi bi-eye me-2 text-info'></i>View Rumus
                                                         </a>
                                                     </div>
@@ -291,9 +293,10 @@ function detailcomponent(layanid) {
     return false;
 }
 
-function mastersdm(){
+function mastersdm(layanid){
     $.ajax({
         url       : url+"index.php/unitcost/unitcost/mastersdm",
+        data      : {layanid:layanid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -316,11 +319,9 @@ function mastersdm(){
                     tableresult +="<td class='ps-4'>"+result[i].posisi+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].nilai)+"</td>";
                     tableresult +="<td class='text-end'>"+todesimal(result[i].remunerasi)+"</td>";
-                    tableresult += `<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='jml_${result[i].transaksi_id}' value='${result[i].transaksi_id}' onchange='simpandata(this)'></td>`;
+                    tableresult +="<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='jml_"+result[i].transaksi_id+"' value='"+result[i].jml+"' onchange='updatesdm(this)'></td>";
                     tableresult +="</tr>";
                 }
-
-                
             }
 
             filterjabatan.settings.whitelist = Array.from(jabatan);
@@ -347,6 +348,8 @@ function mastersdm(){
 
 function generateRumusTable(resultItem) {
     $("#rumus").empty();
+    $("#rumusactual").empty();
+    
     let rumussdm = `
                     \\[
                     \\text{Cost per Pasien} = \\mathrm{round}\\left(
@@ -380,14 +383,119 @@ function generateRumusTable(resultItem) {
                         \\]
                         `;
 
+    const rumusasset = {
+                    perolehan: `\\[
+                    \\begin{aligned}
+                    \\text{Perolehan} =\\ 
+                    \\mathrm{round}\\left(
+                        \\mathrm{round}\\left( \\frac{\\text{nilai aset}}{\\text{depresiasi}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{tahunan}}{12 \\text{ bulan}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{bulanan}}{30 \\text{ hari}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right)
+                    ,\\ 0 \\right)
+                    \\end{aligned}
+                    \\]`,
+
+                    pinjaman: `\\[
+                    \\begin{aligned}
+                    \\text{Pinjaman} =\\ 
+                    \\mathrm{round}\\left(
+                        \\mathrm{round}\\left( \\frac{\\text{nilai bunga}}{\\text{jangka waktu}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{tahunan}}{12 \\text{ bulan}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{bulanan}}{30 \\text{ hari}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right)
+                    ,\\ 0 \\right)
+                    \\end{aligned}
+                    \\]`,
+
+                    pemeliharaan: `\\[
+                    \\begin{aligned}
+                    \\text{Pemeliharaan} =\\ 
+                    \\mathrm{round}\\left(
+                        \\mathrm{round}\\left( \\frac{\\text{nilai pemeliharaan}}{\\text{depresiasi}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{tahunan}}{12 \\text{ bulan}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{bulanan}}{30 \\text{ hari}},\\ 0 \\right)
+                        \\rightarrow
+                        \\mathrm{round}\\left( \\frac{\\text{harian}}{\\text{estimasi penggunaan per hari}},\\ 0 \\right)
+                    ,\\ 0 \\right)
+                    \\end{aligned}
+                    \\]`,
+
+                    total: `\\[
+                    \\text{Cost per Pasien} = \\mathrm{round}\\left(
+                        \\text{Perolehan} + \\text{Pinjaman} + \\text{Pemeliharaan}
+                    ,\\ 0 \\right)
+                    \\]`
+                };
 
 
+    const rumusassetTxt = {
+                        perolehan: `\\[
+                        \\begin{aligned}
+                        \\text{${formatCurrency(resultItem.perolehanpasien)}} =\\ 
+                        \\mathrm{round}\\left(
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.nilaiasset)}}}{\\text{${resultItem.depresiasi} Tahun}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.perolehantahunan)}}}{12 \\text{ bulan}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.perolehanbulanan)}}}{30 \\text{ hari}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.perolehanharian)}}}{\\text{${resultItem.estimasi_penggunaan_day} per hari}},\\ 0 \\right)
+                        ,\\ 0 \\right)
+                        \\end{aligned}
+                        \\]`,
 
+                        pinjaman: `\\[
+                        \\begin{aligned}
+                        \\text{${formatCurrency(resultItem.pinjamanpasien)}} =\\ 
+                        \\mathrm{round}\\left(
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.nilaipinjaman)}}}{\\text{${resultItem.waktupinjaman} Tahun}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.pinjamantahunan)}}}{12 \\text{ bulan}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.pinjamanbulanan)}}}{30 \\text{ hari}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.pinjamanharian)}}}{\\text{${resultItem.estimasi_penggunaan_day}per hari}},\\ 0 \\right)
+                        ,\\ 0 \\right)
+                        \\end{aligned}
+                        \\]`,
 
+                        pemeliharaan: `\\[
+                        \\begin{aligned}
+                        \\text{${formatCurrency(resultItem.pemeliharaanpasien)}} =\\ 
+                        \\mathrm{round}\\left(
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.nilaipemeliharaan)}}}{\\text{${resultItem.depresiasi} Tahun}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.pemeliharaantahunan)}}}{12 \\text{ bulan}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.pemeliharaanbulanan)}}}{30 \\text{ hari}},\\ 0 \\right)
+                            \\rightarrow
+                            \\mathrm{round}\\left( \\frac{\\text{${formatCurrency(resultItem.pemeliharaanharian)}}}{\\text{${resultItem.estimasi_penggunaan_day} per hari}},\\ 0 \\right)
+                        ,\\ 0 \\right)
+                        \\end{aligned}
+                        \\]`,
 
+                        total: `\\[
+                        \\text{${formatCurrency(resultItem.costperpasien)}} = \\mathrm{round}\\left(
+                            \\text{${formatCurrency(resultItem.perolehanpasien)}} + \\text{${formatCurrency(resultItem.pinjamanpasien)}} + \\text{${formatCurrency(resultItem.pemeliharaanpasien)}}
+                        ,\\ 0 \\right)
+                        \\]`
+                          };
 
-   
-    $("#rumus").html(rumussdm+rumussdmTxt);
+    if(resultItem.jenis_id==="1"){
+        $("#rumus").html( rumusasset.perolehan+rumusasset.pinjaman+rumusasset.pemeliharaan+rumusasset.total);
+        $("#rumusactual").html(rumusassetTxt.perolehan+rumusassetTxt.pinjaman+rumusassetTxt.pemeliharaan+rumusassetTxt.total);
+    }else{
+        $("#rumus").html(rumussdm+rumussdmTxt);
+    }
 
     MathJax.typeset(); // Ensure LaTeX is rendered
 }
@@ -485,3 +593,38 @@ $(document).on("submit", "#formeditsimulation", function (e) {
 	});
     return false;
 });
+
+function updatesdm(input) {
+    const positionid = input.id.split("_")[1];
+    const jmlInput   = document.getElementById(`jml_${positionid}`);
+    const jml        = parseFloat(jmlInput.value);
+    const layanid    = $("#modal_unit_cost_add_sdm_layanid").val();
+
+    $.ajax({
+        url       : url + "index.php/unitcost/unitcost/updatesdm",
+        method    : "POST",
+        dataType  : "JSON",
+        data      : {layanid:layanid,jml:jml,positionid:positionid},
+        beforeSend: function () {
+            toastr.clear();
+            toastr.info("Updating data...", "Please wait");
+        },
+        success: function (data) {
+            if(data.responCode == "00"){
+                detailcomponent(layanid);
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        error: function (xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+        }
+    });
+};

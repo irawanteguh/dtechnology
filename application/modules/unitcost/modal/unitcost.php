@@ -132,36 +132,31 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/crm/handling/updatedepartment" id="formupdatedepartment">
-                <input type="hidden" id="modal_handling_update_department_transid" name="modal_handling_update_department_transid">
-                <div class="modal-body">
-                    <div class="text-center mb-13">
-                        <h1 class="mb-3">Penambahan SDM</h1>
-                        <div class="text-muted fw-bold fs-5">Sebagai komponen perhitungan unit cost</div>
-                    </div>
-                    <div class="row">
-                        <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-8 gy-2">
-                                <thead>
-                                    <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">Jabatan</th>
-                                        <th class="text-end">Gaji</th>
-                                        <th class="text-end">Remunerasi</th>
-                                        <th class="pe-4 text-end rounded-end">Jumlah</th>
-                                    </tr>
-                                    <tr>
-                                        <th><input id="filterjabatan" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Jabatan"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-gray-600" id="resultmasterdm"></tbody>
-                            </table>
-                        </div>
+            <input type="hidden" id="modal_unit_cost_add_sdm_layanid" name="modal_unit_cost_add_sdm_layanid">
+            <div class="modal-body">
+                <div class="text-center mb-13">
+                    <h1 class="mb-3">Penambahan SDM</h1>
+                    <div class="text-muted fw-bold fs-5">Sebagai komponen perhitungan unit cost</div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light align-middle">
+                                    <th class="ps-4 rounded-start">Jabatan</th>
+                                    <th class="text-end">Gaji</th>
+                                    <th class="text-end">Remunerasi</th>
+                                    <th class="pe-4 text-end rounded-end" style="10px;">Jumlah</th>
+                                </tr>
+                                <tr>
+                                    <th><input id="filterjabatan" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Jabatan"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600" id="resultmasterdm"></tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="modal-footer p-1">				
-                    <input class="btn btn-light-primary" id="modal_handling_update_department_btn" type="submit" value="UPDATE" name="simpan" >
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

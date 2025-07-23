@@ -45,7 +45,7 @@
         }
 
         public function mastersdm(){
-            $result = $this->md->mastersdm($_SESSION['orgid']);
+            $result = $this->md->mastersdm($_SESSION['orgid'],$this->input->post("layanid"));
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -150,6 +150,70 @@
             }
             
 
+            echo json_encode($json);
+        }
+
+        public function updatesdm(){
+            $layanid    = $this->input->post('layanid');
+            $positionid = $this->input->post('positionid');
+            $jml        = $this->input->post('jml');
+
+            if(empty($this->md->cekdatasdm($_SESSION['orgid'],$layanid,$positionid))){
+                if($jml != 0){
+                    $data['org_id']       = $_SESSION['orgid'];
+                    $data['transaksi_id'] = generateuuid();
+                    $data['layan_id']     = $layanid;
+                    $data['position_id']  = $positionid;
+                    $data['jml']          = $jml;
+                    $data['jenis_id']     = "2";
+                    $data['created_by']   = $_SESSION['userid'];
+
+                    if($this->md->insertcomponent($data)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Added Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Add";
+                    }
+                }else{
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }else{
+                if($jml != 0){
+                    $data['jml']            = $jml;
+                    $data['active']         = "1";
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->updatecomponent($data,$_SESSION['orgid'],$layanid,$positionid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Update Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Update";
+                    }
+                }else{
+                    $data['jml']            = $jml;
+                    $data['active']         = "0";
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->updatecomponent($data,$_SESSION['orgid'],$layanid,$positionid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Update Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Update";
+                    }
+                }
+            }
+            
             echo json_encode($json);
         }
 

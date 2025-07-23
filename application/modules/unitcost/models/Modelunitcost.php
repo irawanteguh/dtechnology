@@ -50,16 +50,33 @@
             return $recordset;
         }
 
-        function mastersdm($orgid){
+        function mastersdm($orgid,$layanid){
             $query =
                     "
                         select a.transaksi_id, nilai, remunerasi,
                             (select concat(b.position,' ',coalesce((select level from dt01_gen_level_fungsional_ms where level_id=b.level_fungsional),'')) from dt01_hrd_position_ms b where b.position_id=a.position_id)posisi,
-                            (select level from dt01_hrd_position_ms where position_id=a.position_id)level
+                            (select level from dt01_hrd_position_ms where position_id=a.position_id)level,
+                            coalesce((select jml from dt01_keu_unit_cost_dt where active='1' and org_id=a.org_id and jenis_id='2' and layan_id='".$layanid."' and position_id=a.transaksi_id),0)jml
                         from dt01_hrd_gaji_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         order by level desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function cekdatasdm($orgid,$layanid,$positionid){
+            $query =
+                    "
+                        select a.transaksi_id, position_id
+                        from dt01_keu_unit_cost_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.layan_id='".$layanid."'
+                        and   a.position_id='".$positionid."'
+                        and   a.jenis_id='2'
                     ";
 
             $recordset = $this->db->query($query);
@@ -169,33 +186,33 @@
         function detailcomponent($orgid,$layanid){
             $query =
                     "
-                        select a.transaksi_id,
+                        select a.transaksi_id, a.jenis_id,
                                 case
-                                    when a.jenis_id='1' then ''
+                                    when a.jenis_id='1' then (select master_name from dt01_gen_master_ms where jenis_id = 'Asset_1' and code=(select jenis_id from dt01_lgu_assets_ms where trans_id=a.assets_id))
                                     when a.jenis_id='2' then 'Gaji dan Remunerasi Pegawai'
                                     when a.jenis_id='3' then ''
                                     else 'Unknown'
                                 end kategori,
                                 case
-                                    when a.jenis_id='1' then ''
+                                    when a.jenis_id='1' then a.assets_id
                                     when a.jenis_id='2' then a.position_id
                                     when a.jenis_id='3' then ''
                                     else 'Unknown'
                                 end namecomponentid,
                                 case
-                                    when a.jenis_id='1' then ''
+                                    when a.jenis_id='1' then (select name from dt01_lgu_assets_ms where trans_id=a.assets_id)
                                     when a.jenis_id='2' then (select concat(x.position,' ',coalesce((select level from dt01_gen_level_fungsional_ms where level_id=x.level_fungsional),''))  from dt01_hrd_position_ms x where x.position_id=(select position_id from dt01_hrd_gaji_ms where transaksi_id=a.position_id))
                                     when a.jenis_id='3' then ''
                                     else 'Unknown'
                                 end namecomponent,
                                 case
-                                    when a.jenis_id='1' then ''
+                                    when a.jenis_id='1' then (select concat('Estimasi Penggunaan : ',estimasi_penggunaan_day,' x / Hari') from dt01_lgu_assets_ms where trans_id=a.assets_id)
                                     when a.jenis_id='2' then concat(a.jml,' Orang, Durasi Kegiatan : ',(select durasi from dt01_keu_layan_ms where layan_id='".$layanid."'),' Menit',' / 1 Pasien')
                                     when a.jenis_id='3' then ''
                                     else 'Unknown'
                                 end description,
                                 case
-                                    when a.jenis_id='1' then 0
+                                    when a.jenis_id='1' then (select costperpasien from view_assets_detail where trans_id=a.assets_id)
                                     when a.jenis_id='2' then (select round(((nilai/(25*8*60))*(select durasi from dt01_keu_layan_ms where layan_id='".$layanid."')*a.jml)+((remunerasi/(25*8*60))*(select durasi from dt01_keu_layan_ms where layan_id='".$layanid."')*a.jml),0) from dt01_hrd_gaji_ms where transaksi_id=a.position_id)
                                     when a.jenis_id='3' then 0
                                     else 'Unknown'
@@ -217,7 +234,124 @@
                                     when a.jenis_id='2' then a.jml
                                     when a.jenis_id='3' then 0
                                     else 'Unknown'
-                                end jmlsdm
+                                end jmlsdm,
+                                case
+                                    when a.jenis_id='1' then (select nilai_perolehan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end nilaiasset,
+                                case
+                                    when a.jenis_id='1' then (select nilai_bunga_pinjaman from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end nilaipinjaman,
+                                case
+                                    when a.jenis_id='1' then (select nilai_pemeliharaan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end nilaipemeliharaan,
+                                case
+                                    when a.jenis_id='1' then (select waktu_depresiasi from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end depresiasi,
+                                case
+                                    when a.jenis_id='1' then (select waktu_bunga from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end waktupinjaman,
+                                case
+                                    when a.jenis_id='1' then (select perolehantahunan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end perolehantahunan,
+                                case
+                                    when a.jenis_id='1' then (select perolehanbulanan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end perolehanbulanan,
+                                case
+                                    when a.jenis_id='1' then (select perolehanharian from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end perolehanharian,
+                                case
+                                    when a.jenis_id='1' then (select perolehanpasien from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end perolehanpasien,
+
+                                case
+                                    when a.jenis_id='1' then (select pinjamantahunan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pinjamantahunan,
+                                case
+                                    when a.jenis_id='1' then (select pinjamanbulanan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pinjamanbulanan,
+                                case
+                                    when a.jenis_id='1' then (select pinjamanharian from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pinjamanharian,
+                                case
+                                    when a.jenis_id='1' then (select pinjamanpasien from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pinjamanpasien,
+
+                                case
+                                    when a.jenis_id='1' then (select pemeliharaantahunan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pemeliharaantahunan,
+                                case
+                                    when a.jenis_id='1' then (select pemeliharaanbulanan from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pemeliharaanbulanan,
+                                case
+                                    when a.jenis_id='1' then (select pemeliharaanharian from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pemeliharaanharian,
+                                case
+                                    when a.jenis_id='1' then (select pemeliharaanpasien from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end pemeliharaanpasien,
+
+                                case
+                                    when a.jenis_id='1' then (select estimasi_penggunaan_day from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end estimasi_penggunaan_day,
+                                case
+                                    when a.jenis_id='1' then (select costperpasien from view_assets_detail where trans_id=a.assets_id)
+                                    when a.jenis_id='2' then 0
+                                    when a.jenis_id='3' then 0
+                                    else 'Unknown'
+                                end costperpasien
                         from dt01_keu_unit_cost_dt a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
@@ -227,6 +361,16 @@
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
+        }
+
+        function insertcomponent($data){           
+            $sql =   $this->db->insert("dt01_keu_unit_cost_dt",$data);
+            return $sql;
+        }
+
+        function updatecomponent($data,$orgid,$layanid,$positionid){           
+            $sql =   $this->db->update("dt01_keu_unit_cost_dt",$data,array("org_id"=>$orgid,"layan_id"=>$layanid, "position_id"=>$positionid, "jenis_id"=>"2"));
+            return $sql;
         }
 
         function insertsimulation($data){           
