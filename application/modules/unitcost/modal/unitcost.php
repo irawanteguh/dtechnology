@@ -160,3 +160,42 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_unit_cost_add_rumahtangga" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <input type="hidden" id="modal_unit_cost_add_sdm_layanid" name="modal_unit_cost_add_sdm_layanid">
+            <div class="modal-body">
+                <div class="text-center mb-13">
+                    <h1 class="mb-3">Penambahan ATK dan Rumah Tangga</h1>
+                    <div class="text-muted fw-bold fs-5">Sebagai komponen perhitungan unit cost</div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light align-middle">
+                                    <th class="ps-4 rounded-start">Component</th>
+                                    <th class="text-end">Satuan</th>
+                                    <th class="text-end">Harga</th>
+                                    <th class="pe-4 text-end rounded-end" style="10px;">Jumlah</th>
+                                </tr>
+                                <tr>
+                                    <th><input id="filtercomponent" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Nama Component"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600" id="resultmasterrumahtangga"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,14 +24,7 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-    $.ajax({
-		url    : url + "index.php/assets/listassets/masterlocation",
-		method : "POST",
-		cache  : false,
-		success: function (data) {
-			$("select[name='modal_assets_edit_location']").html(data);
-		}
-	});
+    
 
     var button                = $(event.relatedTarget);
     var datatransid           = button.attr("datatransid");
@@ -59,11 +52,19 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $("#modal_assets_edit_waktubunga").val(datawaktubunga);
     $("#modal_assets_edit_depresiasi").val(datadepresiasi);
     $("#modal_assets_edit_laporanasset").val(datanolaporanasset);
-
-    var $datalokasi = $('#modal_assets_edit_location').select2();
-        $datalokasi.val(datalokasi).trigger('change');
-
     $('input[name="categoryedit"][value="' + datajenisid + '"]').prop("checked", true);
+
+    $.ajax({
+		url    : url + "index.php/assets/listassets/masterlocation",
+		method : "POST",
+		cache  : false,
+		success: function (data) {
+			$("select[name='modal_assets_edit_location']").html(data);
+
+            var $datalokasi = $('#modal_assets_edit_location').select2();
+            $datalokasi.val(datalokasi).trigger('change');
+		}
+	});
 });
 
 $(document).on("click", ".btn-view-rumus", function (e) {
@@ -92,12 +93,14 @@ function masterassets() {
             $("#resultdatamasterassets_2").html("");
             $("#resultdatamasterassets_3").html("");
             $("#resultdatamasterassets_4").html("");
+            $("#resultdatamasterassets_5").html("");
         },
         success: function (data) {
             let tableAlkes       = "";
             let tableBangunan    = "";
             let tableNonAlkes    = "";
             let tableRumahTangga = "";
+            let tableSoftware    = "";
 
             if (data.responCode === "00") {
                 result = data.responResult;
@@ -161,7 +164,11 @@ function masterassets() {
                             if (result[i].jenis_id === "3") {
                                 tableNonAlkes += row;
                             }else{
-                                tableRumahTangga += row;
+                                if (result[i].jenis_id === "4") {
+                                    tableRumahTangga += row;
+                                }else{
+                                    tableSoftware += row;
+                                }
                             }
                         }
                     }
@@ -172,49 +179,46 @@ function masterassets() {
             $("#resultdatamasterassets_2").html(tableBangunan);
             $("#resultdatamasterassets_3").html(tableNonAlkes);
             $("#resultdatamasterassets_4").html(tableRumahTangga);
+            $("#resultdatamasterassets_5").html(tableSoftware);
 
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
-
-            document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
-                button.addEventListener('click', function() {
-                    const tr = this.closest('tr');
-                    const nextTr = tr.nextElementSibling;
+            // document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
+            //     button.addEventListener('click', function() {
+            //         const tr = this.closest('tr');
+            //         const nextTr = tr.nextElementSibling;
             
-                    // Check if the next row is expanded
-                    const isExpanded = !nextTr.classList.contains('d-none');
+            //         // Check if the next row is expanded
+            //         const isExpanded = !nextTr.classList.contains('d-none');
             
-                    // Close any previously expanded rows if it's not the same row that is clicked
-                    if (!isExpanded) {
-                        document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
-                            openRow.classList.add('d-none');
-                            openRow.removeAttribute('data-kt-table-widget-4');
+            //         // Close any previously expanded rows if it's not the same row that is clicked
+            //         if (!isExpanded) {
+            //             document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
+            //                 openRow.classList.add('d-none');
+            //                 openRow.removeAttribute('data-kt-table-widget-4');
             
-                            const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
-                            if (openButton) {
-                                openButton.classList.remove('active');
-                                openButton.closest('tr').setAttribute('aria-expanded', 'false');
-                            }
-                        });
-                    }
+            //                 const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
+            //                 if (openButton) {
+            //                     openButton.classList.remove('active');
+            //                     openButton.closest('tr').setAttribute('aria-expanded', 'false');
+            //                 }
+            //             });
+            //         }
             
-                    // Toggle the clicked row
-                    if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
-                        if (isExpanded) {
-                            nextTr.classList.add('d-none');
-                            tr.setAttribute('aria-expanded', 'false');
-                            nextTr.removeAttribute('data-kt-table-widget-4');
-                            this.classList.remove('active');
-                        } else {
-                            nextTr.classList.remove('d-none');
-                            tr.setAttribute('aria-expanded', 'true');
-                            nextTr.setAttribute('data-kt-table-widget-4', 'subtable_template');
-                            this.classList.add('active');
-                        }
-                    }
-                });
-            });
+            //         // Toggle the clicked row
+            //         if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
+            //             if (isExpanded) {
+            //                 nextTr.classList.add('d-none');
+            //                 tr.setAttribute('aria-expanded', 'false');
+            //                 nextTr.removeAttribute('data-kt-table-widget-4');
+            //                 this.classList.remove('active');
+            //             } else {
+            //                 nextTr.classList.remove('d-none');
+            //                 tr.setAttribute('aria-expanded', 'true');
+            //                 nextTr.setAttribute('data-kt-table-widget-4', 'subtable_template');
+            //                 this.classList.add('active');
+            //             }
+            //         }
+            //     });
+            // });
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },

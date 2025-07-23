@@ -12,9 +12,10 @@
 					<div class="btn-group mb-15" role="group" aria-label="Add Component Group">
 						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_sdm" href="#" class="btn btn-sm btn-warning"><i class="bi bi-person-badge-fill me-2"></i>SDM</a>
 						<a href="#" class="btn btn-sm btn-success"><i class="bi bi-building me-2"></i>Sarana</a>
-						<a href="#" class="btn btn-sm btn-danger"><i class="bi bi-hospital me-2"></i>Alat Kesehatan</a>
-						<a href="#" class="btn btn-sm btn-secondary"><i class="bi bi-tools me-2"></i>Alat Non Kesehatan</a>
-						<a href="#" class="btn btn-sm btn-info"><i class="bi bi-house-gear me-2"></i>Rumah Tangga</a>
+						<a href="#" class="btn btn-sm btn-danger"><i class="bi bi-hospital me-2"></i>Alkes</a>
+						<a href="#" class="btn btn-sm btn-secondary"><i class="bi bi-tools me-2"></i>Non Alkes</a>
+						<a href="#" class="btn btn-sm btn-secondary"><i class="bi bi-tools me-2"></i>Rumah Tangga</a>
+						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_rumahtangga" href="#" class="btn btn-sm btn-info"><i class="bi bi-house-gear me-2"></i>ATK</a>
 						<a href="#" class="btn btn-sm btn-dark"><i class="bi bi-pc-display-horizontal me-2"></i>Software</a>
 					</div>
 
