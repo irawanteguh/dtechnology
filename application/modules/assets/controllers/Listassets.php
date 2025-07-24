@@ -165,7 +165,7 @@
 
             $location="";
             foreach($resultmasterlocation as $a ){
-                $location.="<option value='".$a->sarana_id_aspak."'>".$a->keterangan."</option>";
+                $location.="<option value='".$a->locationid."'>".$a->keterangan."</option>";
             }
 
             echo $location;

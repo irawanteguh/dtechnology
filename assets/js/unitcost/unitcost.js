@@ -454,7 +454,7 @@ function mastersarana(){
                 var sarana = new Set();
 
                 for(var i in result){
-                    component.add(result[i].component);
+                    sarana.add(result[i].name);
 
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>"+result[i].name+"</td>";
@@ -464,7 +464,7 @@ function mastersarana(){
             }
 
             filtersarana.settings.whitelist = Array.from(sarana);
-            $("#resultmastersarana").html(sarana);
+            $("#resultmastersarana").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");

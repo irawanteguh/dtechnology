@@ -35,8 +35,8 @@
         function masterlocation($orgid){
             $query =
                     "
-                        select 'x'sarana_id_aspak, ':: Lokasi Penempatan Tidak Dapat Di Tentukan ::'keterangan union
-                        select a.sarana_id_aspak, concat(no_assets,' | ',name)keterangan
+                        select 'x' locationid, ':: Lokasi Penempatan Tidak Dapat Di Tentukan ::'keterangan union
+                        select ifnull(a.sarana_id_aspak,trans_id) locationid, concat(no_assets,' | ',name)keterangan
                         from dt01_lgu_assets_ms a
                         where a.org_id='".$orgid."'
                         and   a.jenis_id='2'
