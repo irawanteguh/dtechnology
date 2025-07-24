@@ -24,8 +24,6 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-    
-
     var button                = $(event.relatedTarget);
     var datatransid           = button.attr("datatransid");
     var dataname              = button.attr("dataname");
@@ -144,14 +142,155 @@ function masterassets() {
                         row += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + result[i].tgldibuat + "</div></td>";
                 
 
-                        row += "<td class='text-end pe-4'>";
-                            row += "<div class='btn-group' role='group'>";
-                                row += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                                row += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
-                                    row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";
-                                    row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='"+i+"' ><i class='bi bi-eye me-2 text-info'></i>View Rumus</a></li>";
-                                row += "</ul>";
-                            row += "</div>";
+                        if (result[i].jenis_id === "2") {
+                            row += "<td class='text-end pe-4'>";
+                                row += "<div class='btn-group' role='group'>";
+                                    row += "<div class='btn-group' role='group'>";
+                                        row += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                                        row += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
+                                            row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";
+                                            row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='"+i+"' ><i class='bi bi-eye me-2 text-info'></i>View Rumus</a></li>";
+                                        row += "</ul>";
+                                    row += "</div>";
+                                    row += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
+                                        row += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
+                                        row += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
+                                    row += "</button>";
+                                row += "</div>";
+                            row += "</td>";
+                        }else{
+                            row += "<td class='text-end pe-4'>";
+                                row += "<div class='btn-group' role='group'>";
+                                    row += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                                    row += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
+                                        row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";
+                                        row += "<li><a class='dropdown-item dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='"+i+"' ><i class='bi bi-eye me-2 text-info'></i>View Rumus</a></li>";
+                                    row += "</ul>";
+                                row += "</div>";
+                            row += "</td>";
+                        }
+                        
+                    row += "</tr>";
+
+
+                    row += "<tr class='d-none'>";
+                        row += "<td colspan='13'>";
+                            row +="<div class='row'>";
+                                row +="<div class='col-xl-12'>";
+                                    row +="<table class='table align-middle table-row-dashed fs-8 gy-2'>";
+
+                                        if(result[i].jenis_id==="2"){
+                                            row +="<thead>";
+                                                row +="<tr class='fw-bolder bg-info align-middle text-white'>";
+                                                    row +="<th class='ps-4 rounded-start rounded-end' colspan='9'>Rincian Asset @ "+result[i].name+"</th>";
+                                                row +="</tr>";
+                                                row +="<tr class='fw-bolder bg-info align-middle text-white'>";
+                                                    row +="<th class='ps-4 rounded-start'>No Assets</th>";
+                                                    row +="<th>Nama Asset</th>";
+                                                    row +="<th>Kategori</th>";
+                                                    row +="<th class='text-end'>Qty</th>";
+                                                    row +="<th class='text-center'>Tahun Perolehan</th>";
+                                                    row +="<th class='text-end'>Nilai Asset</th>";
+                                                    row +="<th class='text-end'>Bunga Pinjaman</th>";
+                                                    row +="<th class='text-end'>Pemeliharaan</th>";
+                                                    row +="<th class='text-end rounded-end pe-4'>Depresiasi</th>";
+                                                row +="</tr>";
+                                            row +="</thead>";
+                                        }else{
+                                            row +="<thead class='text-center'>";
+                                                row +="<tr class='fw-bolder align-middle text-white'>";
+                                                    row +="<th class='bg-danger' colspan='4'>Depresiasi</th>";
+                                                    row +="<th class='bg-success'colspan='4'>Pinjaman</th>";
+                                                    row +="<th class='bg-primary' colspan='4'>Pemeliharaan</th>";
+                                                    row +="<th class='bg-info' rowspan='2'>Cost Per Pasien</th>";
+                                                row +="</tr>";
+                                                row +="<tr class='fw-bolder align-middle text-white'>";
+                                                    row +="<th class='bg-danger'>Tahunan</th>";
+                                                    row +="<th class='bg-danger'>Bulanan</th>";
+                                                    row +="<th class='bg-danger'>Harian</th>";
+                                                    row +="<th class='bg-danger'>Per Pasien</th>";
+                                                    row +="<th class='bg-success'>Tahunan</th>";
+                                                    row +="<th class='bg-success'>Bulanan</th>";
+                                                    row +="<th class='bg-success'>Harian</th>";
+                                                    row +="<th class='bg-success'>Per Pasien</th>";
+                                                    row +="<th class='bg-primary'>Tahunan</th>";
+                                                    row +="<th class='bg-primary'>Bulanan</th>";
+                                                    row +="<th class='bg-primary'>Harian</th>";
+                                                    row +="<th class='bg-primary'>Per Pasien</th>";
+                                                row +="</tr>";
+                                            row +="</thead>";
+                                        }
+                                        
+
+                                        // Parsing rincianasset dan isi tbody
+                                        let rincianRows = "";
+                                        if (result[i].jenis_id === "2" && result[i].rincianasset !=null) {
+                                            let rincianArray = result[i].rincianasset.split(";");
+                                            rincianArray.forEach(function(item) {
+                                                let parts = item.split(":");
+
+                                                if(parts.length === 11){
+                                                    let trans_id          = parts[0];
+                                                    let no_assets         = parts[1];
+                                                    let name              = parts[2];
+                                                    let volume            = parts[3];
+                                                    let tahun             = parts[4];
+                                                    let nilaiasset        = parts[5];
+                                                    let nilaibunga        = parts[6];
+                                                    let nilaipemeliharaan = parts[7];
+                                                    let depreasi          = parts[8];
+                                                    let kategori          = parts[9];
+                                                    let color             = parts[10];
+
+                                                    rincianRows += "<tr>";
+                                                        rincianRows += "<td class='ps-4'>" + no_assets + "</td>";
+                                                        rincianRows += "<td>" + name + "</td>";
+                                                        rincianRows += "<td><span class='badge badge-light-"+color+"'>" + kategori + "</span></td>";
+                                                        rincianRows += "<td class='text-end'>"+volume+"</td>";
+                                                        rincianRows += "<td class='text-center'>"+tahun+"</td>";
+                                                        rincianRows += "<td class='text-end'>"+todesimal(nilaiasset)+"</td>";
+                                                        rincianRows += "<td class='text-end'>"+todesimal(nilaibunga)+"</td>";
+                                                        rincianRows += "<td class='text-end'>"+todesimal(nilaipemeliharaan)+"</td>";
+                                                        rincianRows += "<td class='text-end pe-4'>"+depreasi+" Tahun</td>";
+                                                    rincianRows += "</tr>";
+                                                }
+                                            });
+                                        }else{
+                                            if (result[i].jenis_id === "1" || result[i].jenis_id === "3" || result[i].jenis_id === "4"){
+                                                rincianRows += "<tr>";
+
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehantahunan) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehanbulanan) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehanharian) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].perolehanpasien) + "</td>";
+
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamantahunan) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamanbulanan) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamanharian) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pinjamanpasien) + "</td>";
+
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaantahunan) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanbulanan) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanharian) + "</td>";
+                                                rincianRows += "<td class='text-end'>" + todesimal(result[i].pemeliharaanpasien) + "</td>";
+
+                                                
+                                                rincianRows += "<td class='text-end pe-4'>" + todesimal(
+                                                                    Math.round(
+                                                                        parseFloat(result[i].perolehanpasien) +
+                                                                        parseFloat(result[i].pinjamanpasien) +
+                                                                        parseFloat(result[i].pemeliharaanpasien)
+                                                                    )
+                                                                ) + "</td>";
+
+
+                                                rincianRows += "</tr>";
+                                            }
+                                        }
+                                        row += "<tbody class='text-gray-600 fw-bold'>" + rincianRows + "</tbody>";
+                                    row +="</table>";
+                                row +="</div>";
+                            row +="</div>";
                         row += "</td>";
                     row += "</tr>";
 
@@ -181,44 +320,44 @@ function masterassets() {
             $("#resultdatamasterassets_4").html(tableRumahTangga);
             $("#resultdatamasterassets_5").html(tableSoftware);
 
-            // document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
-            //     button.addEventListener('click', function() {
-            //         const tr = this.closest('tr');
-            //         const nextTr = tr.nextElementSibling;
+            document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
+                button.addEventListener('click', function() {
+                    const tr = this.closest('tr');
+                    const nextTr = tr.nextElementSibling;
             
-            //         // Check if the next row is expanded
-            //         const isExpanded = !nextTr.classList.contains('d-none');
+                    // Check if the next row is expanded
+                    const isExpanded = !nextTr.classList.contains('d-none');
             
-            //         // Close any previously expanded rows if it's not the same row that is clicked
-            //         if (!isExpanded) {
-            //             document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
-            //                 openRow.classList.add('d-none');
-            //                 openRow.removeAttribute('data-kt-table-widget-4');
+                    // Close any previously expanded rows if it's not the same row that is clicked
+                    if (!isExpanded) {
+                        document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
+                            openRow.classList.add('d-none');
+                            openRow.removeAttribute('data-kt-table-widget-4');
             
-            //                 const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
-            //                 if (openButton) {
-            //                     openButton.classList.remove('active');
-            //                     openButton.closest('tr').setAttribute('aria-expanded', 'false');
-            //                 }
-            //             });
-            //         }
+                            const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
+                            if (openButton) {
+                                openButton.classList.remove('active');
+                                openButton.closest('tr').setAttribute('aria-expanded', 'false');
+                            }
+                        });
+                    }
             
-            //         // Toggle the clicked row
-            //         if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
-            //             if (isExpanded) {
-            //                 nextTr.classList.add('d-none');
-            //                 tr.setAttribute('aria-expanded', 'false');
-            //                 nextTr.removeAttribute('data-kt-table-widget-4');
-            //                 this.classList.remove('active');
-            //             } else {
-            //                 nextTr.classList.remove('d-none');
-            //                 tr.setAttribute('aria-expanded', 'true');
-            //                 nextTr.setAttribute('data-kt-table-widget-4', 'subtable_template');
-            //                 this.classList.add('active');
-            //             }
-            //         }
-            //     });
-            // });
+                    // Toggle the clicked row
+                    if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
+                        if (isExpanded) {
+                            nextTr.classList.add('d-none');
+                            tr.setAttribute('aria-expanded', 'false');
+                            nextTr.removeAttribute('data-kt-table-widget-4');
+                            this.classList.remove('active');
+                        } else {
+                            nextTr.classList.remove('d-none');
+                            tr.setAttribute('aria-expanded', 'true');
+                            nextTr.setAttribute('data-kt-table-widget-4', 'subtable_template');
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
 
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },

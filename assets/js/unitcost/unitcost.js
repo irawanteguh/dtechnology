@@ -3,6 +3,7 @@ const filterkategori      = new Tagify(document.querySelector("#filterkategori")
 const filternamapelayanan = new Tagify(document.querySelector("#filternamapelayanan"), { enforceWhitelist: true });
 const filterjabatan       = new Tagify(document.querySelector("#filterjabatan"), { enforceWhitelist: true });
 const filtercomponent     = new Tagify(document.querySelector("#filtercomponent"), { enforceWhitelist: true });
+const filtersarana        = new Tagify(document.querySelector("#filtersarana"), { enforceWhitelist: true });
 
 masterlayanan();
 
@@ -32,6 +33,19 @@ function filterTablerumahtangga() {
     }
 }
 
+function filterTablesarana() {
+    const saranafilter = filtersarana.value.map(tag => tag.value);
+
+    const tbody = document.getElementById("resultmastersarana");
+    const rows  = tbody.rows;
+
+    for (const row of rows) {
+        const sarana           = row.getElementsByTagName("td")[0].textContent;
+        const showRow           = saranafilter.length === 0 || saranafilter.includes(sarana);
+        row.style.display = showRow ? "" : "none";
+    }
+}
+
 function filterTable() {
     const kategorifilter      = filterkategori.value.map(tag => tag.value);
     const namapelayananfilter = filternamapelayanan.value.map(tag => tag.value);
@@ -55,6 +69,7 @@ filterkategori.on('change', filterTable);
 filternamapelayanan.on('change', filterTable);
 filterjabatan.on('change', filterTablesdm);
 filtercomponent.on('change', filterTablerumahtangga);
+filtersarana.on('change', filterTablesarana);
 
 $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
     var button      = $(event.relatedTarget);
@@ -88,6 +103,11 @@ $("#modal_unit_cost_add_sdm").on('show.bs.modal', function(event){
 $("#modal_unit_cost_add_rumahtangga").on('show.bs.modal', function(event){
     $layanid = $("#modal_unit_cost_add_sdm_layanid").val();
     masterrumahtangga($layanid);
+});
+
+$("#modal_unit_cost_add_sarana").on('show.bs.modal', function(event){
+    // $layanid = $("#modal_unit_cost_add_sdm_layanid").val();
+    mastersarana();
 });
 
 $(document).on("click", ".btn-view-rumus", function (e) {
@@ -158,14 +178,12 @@ function masterlayanan(){
                     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                     tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                     tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_unit_cost_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a>";
-                                if(result[i].type==="2"){
-                                    tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' " + getvariabel + " onclick='getdata($(this));' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_unitcost_detailcomponent'><i class='bi bi-database-add me-2 text-primary'></i>Add Component</a>";
-                                }  
-                                
+                        if(result[i].type==="2"){
+                            tableresult += "<a class='dropdown-item dropdown-item btn btn-sm text-primary' " + getvariabel + " onclick='getdata($(this));' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_unitcost_detailcomponent'><i class='bi bi-database-add me-2 text-primary'></i>Add Component</a>";
+                        }  
                     tableresult += "</div>";
                     tableresult += "</div>";
                     tableresult += "</td>";
-
                     tableresult += "</tr>";
 
                     filterkategori.settings.whitelist      = Array.from(kategori);
@@ -396,6 +414,57 @@ function masterrumahtangga(layanid){
 
             filtercomponent.settings.whitelist = Array.from(component);
             $("#resultmasterrumahtangga").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function mastersarana(){
+    $.ajax({
+        url       : url+"index.php/unitcost/unitcost/mastersarana",
+        // data      : {layanid:layanid},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultmastersarana").html("");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result  = data.responResult;
+                var sarana = new Set();
+
+                for(var i in result){
+                    component.add(result[i].component);
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>"+result[i].name+"</td>";
+                    tableresult += "<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='component_"+result[i].component_id+"' value='"+result[i].jml+"' onchange='updaterumahtangga(this)'></td>";
+                    tableresult += "</tr>";
+                }
+            }
+
+            filtersarana.settings.whitelist = Array.from(sarana);
+            $("#resultmastersarana").html(sarana);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");

@@ -85,6 +85,22 @@
             return $recordset;
         }
 
+        function mastersarana($orgid){
+            $query =
+                    "
+                        select a.trans_id, concat(' [ ',(select name from dt01_lgu_assets_ms where active='1' and org_id=a.org_id and trans_id=a.header_sarana_id_aspak),' ] ', name)name
+                        from dt01_lgu_assets_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.jenis_id='2'
+                        order by name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function cekdatasdm($orgid,$layanid,$positionid){
             $query =
                     "
