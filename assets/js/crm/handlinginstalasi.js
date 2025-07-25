@@ -168,7 +168,7 @@ function datahandling(){
                     }
 
                     if(result[i].bukti_tl === "1"){
-                        tableresult += "<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' " + getvariabel + " data-dirfile='" + url + "assets/buktitl/" + result[i].filename + "' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Bukti Tindaklanjut</a>";
+                        tableresult += "<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' " + getvariabel + " data-dirfile='" + url + "assets/buktitl/" + result[i].filename_buktitl + "' onclick='viewdoc(this)'><i class='bi bi-eye text-primary'></i> View Bukti Tindaklanjut</a>";
                     }
 
                     tableresult += "</div></div></td>";
