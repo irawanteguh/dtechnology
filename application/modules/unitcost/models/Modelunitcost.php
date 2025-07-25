@@ -783,7 +783,7 @@
                         a.assets_id AS namecomponentid,
                         CONCAT('Listrik ', lam.name) AS namecomponent,
                         CONCAT('Estimasi Penggunaan Listrik : ', lam.vol_listrik, ' kW Selama : ', l.durasi, ' Menit') AS description,
-                        lam.vol_listrik * (l.durasi / 60) * dkc2.nilai AS cost,
+                        round((lam.vol_listrik * (l.durasi / 60) * dkc2.nilai),0) AS cost,
                         0 AS gaji, 0 AS remun, 0 AS jmlsdm,
                         0 AS nilaiasset, 0 AS nilaipinjaman, 0 AS nilaipemeliharaan,
                         '' AS depresiasi, '' AS waktupinjaman,
