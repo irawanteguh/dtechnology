@@ -40,7 +40,6 @@
                             from dt01_keu_layan_ms a
                             where a.active = '1'
                             and   a.org_id = '".$orgid."'
-                            and   a.layan_id='51275806-126f-4085-b5e2-43efe21f879d'
                         )x
                         order by kategori asc, nama_layan asc
                     ";
