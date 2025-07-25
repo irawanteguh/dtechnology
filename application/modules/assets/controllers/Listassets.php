@@ -143,6 +143,25 @@
             echo json_encode($json);
         }
 
+        public function hapusdata(){
+            $data['active']           = "0";
+            $data['last_update_by']   = $_SESSION['userid'];
+            $data['last_update_date'] = date("Y-m-d H:i:s");
+
+
+            if($this->md->updateassets($this->input->post("datatransid"),$data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Updated";
+            }
+
+            echo json_encode($json);
+        }
+
         public function masterassets(){
             $result = $this->md->masterassets($_SESSION['orgid']);
             

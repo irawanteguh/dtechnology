@@ -68,7 +68,7 @@
             return $recordset;
         }
 
-        function masterrumahtangga($orgid,$layanid){
+        function masteratk($orgid,$layanid){
             $query =
                     "
                         select '3'jenis_id, a.component_id, component, satuan, nilai,
@@ -85,14 +85,49 @@
             return $recordset;
         }
 
-        function mastersarana($orgid){
+        function mastersarana($orgid,$layanid){
             $query =
                     "
-                        select a.trans_id, name
+                        select a.trans_id, name,
+                            (select trans_id from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)transid,
+                            (select active from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)active
                         from dt01_lgu_assets_ms a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
                         and   a.jenis_id='2'
+                        order by name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masteralkes($orgid,$layanid){
+            $query =
+                    "
+                        select a.trans_id, name,
+                            (select trans_id from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)transid,
+                            (select active from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)active
+                        from dt01_lgu_assets_ms a
+                        where a.active='1'
+                        and   a.jenis_id='1'
+                        order by name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masternonalkes($orgid,$layanid){
+            $query =
+                    "
+                        select a.trans_id, name,
+                            (select trans_id from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)transid,
+                            (select active from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)active
+                        from dt01_lgu_assets_ms a
+                        where a.active='1'
+                        and   a.jenis_id='3'
                         order by name asc
                     ";
 
@@ -117,7 +152,23 @@
             return $recordset;
         }
 
-        function cekdatarumahtangga($orgid,$layanid,$componentid){
+        function cekdataassets($orgid,$layanid,$assetsid){
+            $query =
+                    "
+                        select a.transaksi_id
+                        from dt01_keu_unit_cost_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.layan_id='".$layanid."'
+                        and   a.assets_id='".$assetsid."'
+                        and   a.jenis_id='1'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function cekdatacomponent($orgid,$layanid,$componentid){
             $query =
                     "
                         select a.transaksi_id, position_id
@@ -523,6 +574,11 @@
 
         function insertcomponent($data){           
             $sql =   $this->db->insert("dt01_keu_unit_cost_dt",$data);
+            return $sql;
+        }
+
+        function updatecomponentassets($data,$orgid,$layanid,$assetsid){           
+            $sql =   $this->db->update("dt01_keu_unit_cost_dt",$data,array("org_id"=>$orgid,"layan_id"=>$layanid, "assets_id"=>$assetsid, "jenis_id"=>"1"));
             return $sql;
         }
 

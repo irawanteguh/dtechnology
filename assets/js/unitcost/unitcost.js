@@ -4,6 +4,7 @@ const filternamapelayanan = new Tagify(document.querySelector("#filternamapelaya
 const filterjabatan       = new Tagify(document.querySelector("#filterjabatan"), { enforceWhitelist: true });
 const filtercomponent     = new Tagify(document.querySelector("#filtercomponent"), { enforceWhitelist: true });
 const filtersarana        = new Tagify(document.querySelector("#filtersarana"), { enforceWhitelist: true });
+const filteralkes         = new Tagify(document.querySelector("#filteralkes"), { enforceWhitelist: true });
 
 masterlayanan();
 
@@ -46,6 +47,19 @@ function filterTablesarana() {
     }
 }
 
+function filterTablealkes() {
+    const alkesfilter = filteralkes.value.map(tag => tag.value);
+
+    const tbody = document.getElementById("resultmasteralkes");
+    const rows  = tbody.rows;
+
+    for (const row of rows) {
+        const alkes           = row.getElementsByTagName("td")[0].textContent;
+        const showRow           = alkesfilter.length === 0 || alkesfilter.includes(alkes);
+        row.style.display = showRow ? "" : "none";
+    }
+}
+
 function filterTable() {
     const kategorifilter      = filterkategori.value.map(tag => tag.value);
     const namapelayananfilter = filternamapelayanan.value.map(tag => tag.value);
@@ -70,6 +84,7 @@ filternamapelayanan.on('change', filterTable);
 filterjabatan.on('change', filterTablesdm);
 filtercomponent.on('change', filterTablerumahtangga);
 filtersarana.on('change', filterTablesarana);
+filteralkes.on('change', filterTablealkes);
 
 $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
     var button      = $(event.relatedTarget);
@@ -100,14 +115,24 @@ $("#modal_unit_cost_add_sdm").on('show.bs.modal', function(event){
     mastersdm($layanid);
 });
 
-$("#modal_unit_cost_add_rumahtangga").on('show.bs.modal', function(event){
-    $layanid = $("#modal_unit_cost_add_sdm_layanid").val();
-    masterrumahtangga($layanid);
+$("#modal_unit_cost_add_atk").on('show.bs.modal', function(event){
+    $layanid = $("#modal_unit_cost_add_atk_layanid").val();
+    masteratk($layanid);
 });
 
 $("#modal_unit_cost_add_sarana").on('show.bs.modal', function(event){
-    // $layanid = $("#modal_unit_cost_add_sdm_layanid").val();
-    mastersarana();
+    $layanid = $("#modal_unit_cost_add_sarana_layanid").val();
+    mastersarana($layanid);
+});
+
+$("#modal_unit_cost_add_alkes").on('show.bs.modal', function(event){
+    $layanid = $("#modal_unit_cost_add_alkes_layanid").val();
+    masteralkes($layanid);
+});
+
+$("#modal_unit_cost_add_nonalkes").on('show.bs.modal', function(event){
+    $layanid = $("#modal_unit_cost_add_nonalkes_layanid").val();
+    masternonalkes($layanid);
 });
 
 $(document).on("click", ".btn-view-rumus", function (e) {
@@ -130,6 +155,10 @@ function getdata(btn){
 
     $("#namapelayanan").html(dataname);
     $("#modal_unit_cost_add_sdm_layanid").val(datalayanid);
+    $("#modal_unit_cost_add_sarana_layanid").val(datalayanid);
+    $("#modal_unit_cost_add_alkes_layanid").val(datalayanid);
+    $("#modal_unit_cost_add_nonalkes_layanid").val(datalayanid);
+    $("#modal_unit_cost_add_atk_layanid").val(datalayanid);
 
     detailcomponent(datalayanid);
 };
@@ -381,9 +410,9 @@ function mastersdm(layanid){
     return false;
 };
 
-function masterrumahtangga(layanid){
+function masteratk(layanid){
     $.ajax({
-        url       : url+"index.php/unitcost/unitcost/masterrumahtangga",
+        url       : url+"index.php/unitcost/unitcost/masteratk",
         data      : {layanid:layanid},
         method    : "POST",
         dataType  : "JSON",
@@ -407,7 +436,7 @@ function masterrumahtangga(layanid){
                     tableresult += "<td class='ps-4'>"+result[i].component+"</td>";
                     tableresult += "<td class='text-end'>"+result[i].satuan+"</td>";
                     tableresult += "<td>"+todesimal(result[i].nilai)+"</td>";
-                    tableresult += "<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='component_"+result[i].component_id+"' value='"+result[i].jml+"' onchange='updaterumahtangga(this)'></td>";
+                    tableresult += "<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='component_"+result[i].component_id+"' value='"+result[i].jml+"' onchange='updatecomponent(this)'></td>";
                     tableresult += "</tr>";
                 }
             }
@@ -434,10 +463,10 @@ function masterrumahtangga(layanid){
     return false;
 };
 
-function mastersarana(){
+function mastersarana(layanid){
     $.ajax({
         url       : url+"index.php/unitcost/unitcost/mastersarana",
-        // data      : {layanid:layanid},
+        data      : {layanid:layanid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -458,13 +487,130 @@ function mastersarana(){
 
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'>"+result[i].name+"</td>";
-                    tableresult += "<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='component_"+result[i].component_id+"' value='"+result[i].jml+"' onchange='updaterumahtangga(this)'></td>";
+                    if(result[i].transid===null || result[i].active==="0"){
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-primary' datastatus='1' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatasarana($(this));'><i class='bi bi-check2-circle me-2'></i>Pilih</a></td>";
+                    }else{
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-danger' datastatus='0' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatasarana($(this));'><i class='bi bi-trash3 me-2'></i>Hapus</a></td>";
+                    }
+                    
                     tableresult += "</tr>";
                 }
             }
 
             filtersarana.settings.whitelist = Array.from(sarana);
             $("#resultmastersarana").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function masteralkes(layanid){
+    $.ajax({
+        url       : url+"index.php/unitcost/unitcost/masteralkes",
+        data      : {layanid:layanid},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultmasteralkes").html("");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result  = data.responResult;
+                var alkes = new Set();
+
+                for(var i in result){
+                    alkes.add(result[i].name);
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>"+result[i].name+"</td>";
+                    if(result[i].transid===null || result[i].active==="0"){
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-primary' datastatus='1' and dataassetsid='"+result[i].trans_id+"' onclick='updatedataalkes($(this));'><i class='bi bi-check2-circle me-2'></i>Pilih</a></td>";
+                    }else{
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-danger' datastatus='0' and dataassetsid='"+result[i].trans_id+"' onclick='updatedataalkes($(this));'><i class='bi bi-trash3 me-2'></i>Hapus</a></td>";
+                    }
+                    
+                    tableresult += "</tr>";
+                }
+            }
+
+            filteralkes.settings.whitelist = Array.from(alkes);
+            $("#resultmasteralkes").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function masternonalkes(layanid){
+    $.ajax({
+        url       : url+"index.php/unitcost/unitcost/masternonalkes",
+        data      : {layanid:layanid},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultmasternonalkes").html("");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result  = data.responResult;
+                var alkes = new Set();
+
+                for(var i in result){
+                    alkes.add(result[i].name);
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>"+result[i].name+"</td>";
+                    if(result[i].transid===null || result[i].active==="0"){
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-primary' datastatus='1' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatanonalkes($(this));'><i class='bi bi-check2-circle me-2'></i>Pilih</a></td>";
+                    }else{
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-danger' datastatus='0' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatanonalkes($(this));'><i class='bi bi-trash3 me-2'></i>Hapus</a></td>";
+                    }
+                    
+                    tableresult += "</tr>";
+                }
+            }
+
+            filteralkes.settings.whitelist = Array.from(alkes);
+            $("#resultmasternonalkes").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -752,16 +898,16 @@ function updatesdm(input) {
         dataType  : "JSON",
         data      : {layanid:layanid,jml:jml,positionid:positionid},
         beforeSend: function () {
-            toastr.clear();
-            toastr.info("Updating data...", "Please wait");
+            // toastr.clear();
+            // toastr.info("Updating data...", "Please wait");
         },
         success: function (data) {
             if(data.responCode == "00"){
                 detailcomponent(layanid);
 			}
 
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
+            // toastr.clear();
+            // toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         error: function (xhr, status, error) {
             showAlert(
@@ -775,14 +921,14 @@ function updatesdm(input) {
     });
 };
 
-function updaterumahtangga(input) {
+function updatecomponent(input) {
     const componentid = input.id.split("_")[1];
     const jmlInput    = document.getElementById(`component_${componentid}`);
     const jml         = parseFloat(jmlInput.value);
-    const layanid     = $("#modal_unit_cost_add_sdm_layanid").val();
+    const layanid     = $("#modal_unit_cost_add_atk_layanid").val();
 
     $.ajax({
-        url       : url + "index.php/unitcost/unitcost/updaterumahtangga",
+        url       : url + "index.php/unitcost/unitcost/updatecomponent",
         method    : "POST",
         dataType  : "JSON",
         data      : {layanid:layanid,jml:jml,componentid:componentid},
@@ -808,4 +954,151 @@ function updaterumahtangga(input) {
             );
         }
     });
+};
+
+function updatedatasarana(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var   datastatus   = btn.attr("datastatus");
+            var   dataassetsid = btn.attr("dataassetsid");
+            const layanid      = $("#modal_unit_cost_add_sarana_layanid").val();
+
+            $.ajax({
+                url       : url+"index.php/unitcost/unitcost/updatedataassets",
+                data      : {datastatus:datastatus,dataassetsid:dataassetsid,layanid:layanid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    // toastr.clear();
+                    // toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    // toastr.clear();
+                    // toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    mastersarana(layanid);
+                    detailcomponent(layanid);
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
+};
+
+function updatedataalkes(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var   datastatus   = btn.attr("datastatus");
+            var   dataassetsid = btn.attr("dataassetsid");
+            const layanid      = $("#modal_unit_cost_add_alkes_layanid").val();
+
+            $.ajax({
+                url       : url+"index.php/unitcost/unitcost/updatedataassets",
+                data      : {datastatus:datastatus,dataassetsid:dataassetsid,layanid:layanid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    // toastr.clear();
+                    // toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    // toastr.clear();
+                    // toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    masteralkes(layanid);
+                    detailcomponent(layanid);
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
+};
+
+function updatedatanonalkes(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var   datastatus   = btn.attr("datastatus");
+            var   dataassetsid = btn.attr("dataassetsid");
+            const layanid      = $("#modal_unit_cost_add_nonalkes_layanid").val();
+
+            $.ajax({
+                url       : url+"index.php/unitcost/unitcost/updatedataassets",
+                data      : {datastatus:datastatus,dataassetsid:dataassetsid,layanid:layanid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    // toastr.clear();
+                    // toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    // toastr.clear();
+                    // toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    masternonalkes(layanid);
+                    detailcomponent(layanid);
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
 };

@@ -14,7 +14,7 @@
 
         public function datahandling(){
             $status    = "and a.status='2'
-                          and   a.department_id in (
+                          and a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
                                                     where header_id in (

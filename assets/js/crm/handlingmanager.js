@@ -69,7 +69,7 @@ function datahandling(){
                     tableresult += "<td>" + result[i].nama + "</td>";
                     tableresult += "<td>" + result[i].no_identitas + "</td>";
                     tableresult += "<td>" + result[i].no_hp + "</td>";
-                    tableresult += "<td><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_handling_update_department' " + getvariabel + ">" + result[i].department + "</a></div><div>" + (result[i].namapic || "") + "</div></td>";
+                    tableresult += "<td><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_handling_update_department' " + getvariabel + ">" + result[i].department + "</a></div><div>" + (result[i].namapicunit || "") + "</div></td>";
                     tableresult += "<td>" + result[i].lantai + "</td>";
                     tableresult += "<td>" + result[i].nama_petugas + "</td>";
                     tableresult += "<td>" + result[i].saran + "</td>";

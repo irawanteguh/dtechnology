@@ -61,8 +61,8 @@
             echo json_encode($json);
         }
 
-        public function masterrumahtangga(){
-            $result = $this->md->masterrumahtangga($_SESSION['orgid'],$this->input->post("layanid"));
+        public function masteratk(){
+            $result = $this->md->masteratk($_SESSION['orgid'],$this->input->post("layanid"));
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -79,7 +79,41 @@
         }
 
         public function mastersarana(){
-            $result = $this->md->mastersarana($_SESSION['orgid']);
+            $result = $this->md->mastersarana($_SESSION['orgid'],$this->input->post("layanid"));
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Tidak Di Temukan";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function masteralkes(){
+            $result = $this->md->masteralkes($_SESSION['orgid'],$this->input->post("layanid"));
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Tidak Di Temukan";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function masternonalkes(){
+            $result = $this->md->masternonalkes($_SESSION['orgid'],$this->input->post("layanid"));
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -194,13 +228,14 @@
 
             if(empty($this->md->cekdatasdm($_SESSION['orgid'],$layanid,$positionid))){
                 if($jml != 0){
-                    $data['org_id']       = $_SESSION['orgid'];
-                    $data['transaksi_id'] = generateuuid();
-                    $data['layan_id']     = $layanid;
-                    $data['position_id']  = $positionid;
-                    $data['jml']          = $jml;
-                    $data['jenis_id']     = "2";
-                    $data['created_by']   = $_SESSION['userid'];
+                    $data['org_id']         = $_SESSION['orgid'];
+                    $data['transaksi_id']   = generateuuid();
+                    $data['layan_id']       = $layanid;
+                    $data['position_id']    = $positionid;
+                    $data['jml']            = $jml;
+                    $data['jenis_id']       = "2";
+                    $data['created_by']     = $_SESSION['userid'];
+                    $data['last_update_by'] = $_SESSION['userid'];
 
                     if($this->md->insertcomponent($data)){
                         $json['responCode']="00";
@@ -251,12 +286,75 @@
             echo json_encode($json);
         }
 
-        public function updaterumahtangga(){
+        public function updatedataassets(){
+            $layanid      = $this->input->post('layanid');
+            $dataassetsid = $this->input->post('dataassetsid');
+            $datastatus   = $this->input->post('datastatus');
+
+            if(empty($this->md->cekdataassets($_SESSION['orgid'],$layanid,$dataassetsid))){
+                if($datastatus === "1"){
+                    $data['org_id']         = $_SESSION['orgid'];
+                    $data['transaksi_id']   = generateuuid();
+                    $data['layan_id']       = $layanid;
+                    $data['assets_id']      = $dataassetsid;
+                    $data['jenis_id']       = "1";
+                    $data['active']         = $datastatus;
+                    $data['created_by']     = $_SESSION['userid'];
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->insertcomponent($data)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Added Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Add";
+                    }
+                }else{
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }else{
+                if($datastatus === "1"){
+                    $data['active']         = $datastatus;
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->updatecomponentassets($data,$_SESSION['orgid'],$layanid,$dataassetsid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Update Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Update";
+                    }
+                }else{
+                    $data['active']         = $datastatus;
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->updatecomponentassets($data,$_SESSION['orgid'],$layanid,$dataassetsid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Update Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Update";
+                    }
+                }
+            }
+            
+            echo json_encode($json);
+        }
+
+        public function updatecomponent(){
             $layanid     = $this->input->post('layanid');
             $componentid = $this->input->post('componentid');
             $jml         = $this->input->post('jml');
 
-            if(empty($this->md->cekdatarumahtangga($_SESSION['orgid'],$layanid,$componentid))){
+            if(empty($this->md->cekdatacomponent($_SESSION['orgid'],$layanid,$componentid))){
                 if($jml != 0){
                     $data['org_id']       = $_SESSION['orgid'];
                     $data['transaksi_id'] = generateuuid();

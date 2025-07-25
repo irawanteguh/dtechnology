@@ -12,10 +12,10 @@
 					<div class="btn-group mb-15" role="group" aria-label="Add Component Group">
 						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_sdm" href="#" class="btn btn-sm btn-primary"><i class="bi bi-people-fill me-2"></i>SDM</a>
 						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_sarana" href="#" class="btn btn-sm btn-success"><i class="bi bi-building me-2"></i>Sarana</a>
-						<a href="#" class="btn btn-sm btn-danger"><i class="bi bi-activity me-2"></i>Alkes</a>
-						<a href="#" class="btn btn-sm btn-warning"><i class="bi bi-wrench-adjustable-circle me-2"></i>Non Alkes</a>
+						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_alkes" href="#" class="btn btn-sm btn-danger"><i class="bi bi-activity me-2"></i>Alkes</a>
+						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_nonalkes" href="#" class="btn btn-sm btn-warning"><i class="bi bi-wrench-adjustable-circle me-2"></i>Non Alkes</a>
 						<a href="#" class="btn btn-sm btn-secondary"><i class="bi bi-house-door me-2"></i>Rumah Tangga</a>
-						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_rumahtangga" href="#" class="btn btn-sm btn-info"><i class="bi bi-pen me-2"></i>ATK</a>
+						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_atk" href="#" class="btn btn-sm btn-info"><i class="bi bi-pen me-2"></i>ATK</a>
 						<a href="#" class="btn btn-sm btn-dark"><i class="bi bi-cpu me-2"></i>Software</a>
 					</div>
 

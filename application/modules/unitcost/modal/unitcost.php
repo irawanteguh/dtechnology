@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal_unit_cost_add" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_unit_cost_add" tabindex="-1" aria-hidden="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -59,7 +59,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_unit_cost_edit" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_unit_cost_edit" tabindex="-1" aria-hidden="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -122,7 +122,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_unit_cost_add_sdm" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_unit_cost_add_sdm" tabindex="-1" aria-hidden="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -161,7 +161,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_unit_cost_add_rumahtangga" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_unit_cost_add_sarana" tabindex="-1" aria-hidden="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -171,7 +171,118 @@
                     </span>
                 </div>
             </div>
-            <input type="hidden" id="modal_unit_cost_add_sdm_layanid" name="modal_unit_cost_add_sdm_layanid">
+            <input type="hidden" id="modal_unit_cost_add_sarana_layanid" name="modal_unit_cost_add_sarana_layanid">
+            <div class="modal-body">
+                <div class="text-center mb-13">
+                    <h1 class="mb-3">Penambahan Sarana / Bangunan</h1>
+                    <div class="text-muted fw-bold fs-5">Sebagai komponen perhitungan unit cost</div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light align-middle">
+                                    <th class="ps-4 rounded-start">Nama Sarana</th>
+                                    <th class="pe-4 text-end rounded-end" style="10px;">Pilih</th>
+                                </tr>
+                                <tr>
+                                    <th><input id="filtersarana" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Nama Sarana"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600" id="resultmastersarana"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_unit_cost_add_alkes" tabindex="-1" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <input type="hidden" id="modal_unit_cost_add_alkes_layanid" name="modal_unit_cost_add_alkes_layanid">
+            <div class="modal-body">
+                <div class="text-center mb-13">
+                    <h1 class="mb-3">Penambahan Alat Kesehatan</h1>
+                    <div class="text-muted fw-bold fs-5">Sebagai komponen perhitungan unit cost</div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light align-middle">
+                                    <th class="ps-4 rounded-start">Nama Alat Kesehatan</th>
+                                    <th class="pe-4 text-end rounded-end" style="10px;">Pilih</th>
+                                </tr>
+                                <tr>
+                                    <th><input id="filteralkes" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Nama Alkes"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600" id="resultmasteralkes"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_unit_cost_add_nonalkes" tabindex="-1" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <input type="hidden" id="modal_unit_cost_add_nonalkes_layanid" name="modal_unit_cost_add_nonalkes_layanid">
+            <div class="modal-body">
+                <div class="text-center mb-13">
+                    <h1 class="mb-3">Penambahan Non Alat Kesehatan</h1>
+                    <div class="text-muted fw-bold fs-5">Sebagai komponen perhitungan unit cost</div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light align-middle">
+                                    <th class="ps-4 rounded-start">Nama Non Alat Kesehatan</th>
+                                    <th class="pe-4 text-end rounded-end" style="10px;">Pilih</th>
+                                </tr>
+                                <tr>
+                                    <th><input id="filternonalkes" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Nama Non Alkes"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600" id="resultmasternonalkes"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_unit_cost_add_atk" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <input type="hidden" id="modal_unit_cost_add_atk_layanid" name="modal_unit_cost_add_atk_layanid">
             <div class="modal-body">
                 <div class="text-center mb-13">
                     <h1 class="mb-3">Penambahan Alat Tulis Kantor</h1>
@@ -200,39 +311,3 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_unit_cost_add_sarana" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header pb-0 border-0 justify-content-end">
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                    <span class="svg-icon svg-icon-1">
-                        <i class="bi bi-x-lg"></i>
-                    </span>
-                </div>
-            </div>
-            <input type="hidden" id="modal_unit_cost_add_sdm_layanid" name="modal_unit_cost_add_sdm_layanid">
-            <div class="modal-body">
-                <div class="text-center mb-13">
-                    <h1 class="mb-3">Penambahan Sarana / Bangunan</h1>
-                    <div class="text-muted fw-bold fs-5">Sebagai komponen perhitungan unit cost</div>
-                </div>
-                <div class="row">
-                    <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-8 gy-2">
-                            <thead>
-                                <tr class="fw-bolder text-muted bg-light align-middle">
-                                    <th class="ps-4 rounded-start">Nama Sarana</th>
-                                    <th class="pe-4 text-end rounded-end" style="10px;">Jumlah</th>
-                                </tr>
-                                <tr>
-                                    <th><input id="filtersarana" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Nama Sarana"></th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-600" id="resultmastersarana"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
