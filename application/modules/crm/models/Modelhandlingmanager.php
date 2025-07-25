@@ -2,7 +2,7 @@
     class Modelhandlingmanager extends CI_Model{
         
         function datahandling($orgid,$status){
-            echo $query =
+            $query =
                     "
                         select a.trans_id, code, nama, no_identitas, no_hp, lantai, nama_petugas, saran, department_id, status, attachment, filename, filename_buktitl, answer_instalasi, bukti_tl,
                                date_format(a.created_date, '%d.%m.%Y %H:%i:%s') tgldibuat,
