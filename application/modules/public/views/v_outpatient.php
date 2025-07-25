@@ -963,12 +963,12 @@
                                 <div data-kt-stepper-element="content">
                                     <div class="w-100 row">
                                         <div class="fv-row mb-10 col-md-12">
-                                            <label class="form-label required">Nama Petugas</label>
-                                            <input id="namapetugassaran" name="namapetugassaran" class="form-control form-control-lg form-control-solid"/>
+                                            <label class="form-label">Nama Petugas</label>
+                                            <input id="namapetugassaran" name="namapetugassaran" placeholder="Silakan masukan jika anda mengetahuinya" class="form-control form-control-lg form-control-solid"/>
                                         </div>
                                         <div class="fv-row mb-10 col-md-12">
                                             <label class="form-label required">Ruangan / Lantai</label>
-                                            <input id="ruangansaran" name="ruangansaran" class="form-control form-control-lg form-control-solid"/>
+                                            <input id="ruangansaran" name="ruangansaran" placeholder="Silakan masukan jika anda mengetahuinya" class="form-control form-control-lg form-control-solid"/>
                                         </div>
                                         <div class="fv-row col-md-12 pb-10">
                                             <label class="fs-6 fw-bold mb-2 required">Rumah Sakit</label>
@@ -991,6 +991,7 @@
 
                                 <div data-kt-stepper-element="content">
                                     <div class="w-100 row">
+                                        <h1>Silakan Upload Jika Anda Mempunyai Bukti</h1>
                                         <input type="hidden" id="saranmasukanid" name="saranmasukanid">
                                         <div class="form-group col-md-12">
                                             <div class="dropzone" id="file_bukti">
