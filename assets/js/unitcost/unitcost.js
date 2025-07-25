@@ -5,6 +5,8 @@ const filterjabatan       = new Tagify(document.querySelector("#filterjabatan"),
 const filtercomponent     = new Tagify(document.querySelector("#filtercomponent"), { enforceWhitelist: true });
 const filtersarana        = new Tagify(document.querySelector("#filtersarana"), { enforceWhitelist: true });
 const filteralkes         = new Tagify(document.querySelector("#filteralkes"), { enforceWhitelist: true });
+const filterbarang        = new Tagify(document.querySelector("#filterbarang"), { enforceWhitelist: true });
+const filtersoftware      = new Tagify(document.querySelector("#filtersoftware"), { enforceWhitelist: true });
 
 masterlayanan();
 
@@ -21,10 +23,10 @@ function filterTablesdm() {
     }
 }
 
-function filterTablerumahtangga() {
+function filterTableatk() {
     const componentfilter = filtercomponent.value.map(tag => tag.value);
 
-    const tbody = document.getElementById("resultmasterrumahtangga");
+    const tbody = document.getElementById("resultmasteratk");
     const rows  = tbody.rows;
 
     for (const row of rows) {
@@ -60,6 +62,33 @@ function filterTablealkes() {
     }
 }
 
+function filterTablerumahtangga() {
+    const barangfilter = filterbarang.value.map(tag => tag.value);
+
+    const tbody = document.getElementById("resultmasterrumahtangga");
+    const rows  = tbody.rows;
+
+    for (const row of rows) {
+        const barang           = row.getElementsByTagName("td")[0].textContent;
+        const showRow           = barangfilter.length === 0 || barangfilter.includes(barang);
+        row.style.display = showRow ? "" : "none";
+    }
+}
+
+function filterTablesoftware() {
+    const softwarefilter = filtersoftware.value.map(tag => tag.value);
+
+    const tbody = document.getElementById("resultmastersoftware");
+    const rows  = tbody.rows;
+
+    for (const row of rows) {
+        const software           = row.getElementsByTagName("td")[0].textContent;
+        const showRow           = softwarefilter.length === 0 || softwarefilter.includes(software);
+        row.style.display = showRow ? "" : "none";
+    }
+}
+
+
 function filterTable() {
     const kategorifilter      = filterkategori.value.map(tag => tag.value);
     const namapelayananfilter = filternamapelayanan.value.map(tag => tag.value);
@@ -82,9 +111,12 @@ function filterTable() {
 filterkategori.on('change', filterTable);
 filternamapelayanan.on('change', filterTable);
 filterjabatan.on('change', filterTablesdm);
-filtercomponent.on('change', filterTablerumahtangga);
+filtercomponent.on('change', filterTableatk);
 filtersarana.on('change', filterTablesarana);
 filteralkes.on('change', filterTablealkes);
+filterbarang.on('change', filterTablerumahtangga);
+filtersoftware.on('change', filterTablesoftware);
+
 
 $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
     var button      = $(event.relatedTarget);
@@ -135,6 +167,16 @@ $("#modal_unit_cost_add_nonalkes").on('show.bs.modal', function(event){
     masternonalkes($layanid);
 });
 
+$("#modal_unit_cost_add_rumahtangga").on('show.bs.modal', function(event){
+    $layanid = $("#modal_unit_cost_add_rumahtangga_layanid").val();
+    masterrumahtangga($layanid);
+});
+
+$("#modal_unit_cost_add_software").on('show.bs.modal', function(event){
+    $layanid = $("#modal_unit_cost_add_software_layanid").val();
+    mastersoftware($layanid);
+});
+
 $(document).on("click", ".btn-view-rumus", function (e) {
    const index = $(this).data("index");
    
@@ -159,6 +201,8 @@ function getdata(btn){
     $("#modal_unit_cost_add_alkes_layanid").val(datalayanid);
     $("#modal_unit_cost_add_nonalkes_layanid").val(datalayanid);
     $("#modal_unit_cost_add_atk_layanid").val(datalayanid);
+    $("#modal_unit_cost_add_rumahtangga_layanid").val(datalayanid);
+    $("#modal_unit_cost_add_software_layanid").val(datalayanid);
 
     detailcomponent(datalayanid);
 };
@@ -339,6 +383,9 @@ function detailcomponent(layanid) {
             $("#resultdatadetailcomponent").html(tableresult);
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
+        complete: function () {
+			toastr.clear();
+		},
         error: function (xhr, status, error) {
             Swal.fire({
                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
@@ -420,7 +467,7 @@ function masteratk(layanid){
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-            $("#resultmasterrumahtangga").html("");
+            $("#resultmasteratk").html("");
         },
         success:function(data){
             var tableresult = "";
@@ -442,7 +489,7 @@ function masteratk(layanid){
             }
 
             filtercomponent.settings.whitelist = Array.from(component);
-            $("#resultmasterrumahtangga").html(tableresult);
+            $("#resultmasteratk").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -611,6 +658,118 @@ function masternonalkes(layanid){
 
             filteralkes.settings.whitelist = Array.from(alkes);
             $("#resultmasternonalkes").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function masterrumahtangga(layanid){
+    $.ajax({
+        url       : url+"index.php/unitcost/unitcost/masterrumahtangga",
+        data      : {layanid:layanid},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultmasterrumahtangga").html("");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result  = data.responResult;
+                var barang = new Set();
+
+                for(var i in result){
+                    barang.add(result[i].name);
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>"+result[i].name+"</td>";
+                    if(result[i].transid===null || result[i].active==="0"){
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-primary' datastatus='1' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatarumahtangga($(this));'><i class='bi bi-check2-circle me-2'></i>Pilih</a></td>";
+                    }else{
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-danger' datastatus='0' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatarumahtangga($(this));'><i class='bi bi-trash3 me-2'></i>Hapus</a></td>";
+                    }
+                    
+                    tableresult += "</tr>";
+                }
+            }
+
+            filterbarang.settings.whitelist = Array.from(barang);
+            $("#resultmasterrumahtangga").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function mastersoftware(layanid){
+    $.ajax({
+        url       : url+"index.php/unitcost/unitcost/mastersoftware",
+        data      : {layanid:layanid},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultmastersoftware").html("");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result  = data.responResult;
+                var software = new Set();
+
+                for(var i in result){
+                    software.add(result[i].name);
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>"+result[i].name+"</td>";
+                    if(result[i].transid===null || result[i].active==="0"){
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-primary' datastatus='1' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatasoftware($(this));'><i class='bi bi-check2-circle me-2'></i>Pilih</a></td>";
+                    }else{
+                        tableresult += "<td class='text-end pe-4'><a class='btn btn-sm btn-danger' datastatus='0' and dataassetsid='"+result[i].trans_id+"' onclick='updatedatasoftware($(this));'><i class='bi bi-trash3 me-2'></i>Hapus</a></td>";
+                    }
+                    
+                    tableresult += "</tr>";
+                }
+            }
+
+            filtersoftware.settings.whitelist = Array.from(software);
+            $("#resultmastersoftware").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -1086,6 +1245,104 @@ function updatedatanonalkes(btn) {
                 },
                 complete: function () {
                     masternonalkes(layanid);
+                    detailcomponent(layanid);
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
+};
+
+function updatedatarumahtangga(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var   datastatus   = btn.attr("datastatus");
+            var   dataassetsid = btn.attr("dataassetsid");
+            const layanid      = $("#modal_unit_cost_add_rumahtangga_layanid").val();
+
+            $.ajax({
+                url       : url+"index.php/unitcost/unitcost/updatedataassets",
+                data      : {datastatus:datastatus,dataassetsid:dataassetsid,layanid:layanid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    // toastr.clear();
+                    // toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    // toastr.clear();
+                    // toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    masterrumahtangga(layanid);
+                    detailcomponent(layanid);
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
+};
+
+function updatedatasoftware(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var   datastatus   = btn.attr("datastatus");
+            var   dataassetsid = btn.attr("dataassetsid");
+            const layanid      = $("#modal_unit_cost_add_software_layanid").val();
+
+            $.ajax({
+                url       : url+"index.php/unitcost/unitcost/updatedataassets",
+                data      : {datastatus:datastatus,dataassetsid:dataassetsid,layanid:layanid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    // toastr.clear();
+                    // toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    // toastr.clear();
+                    // toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    mastersoftware(layanid);
                     detailcomponent(layanid);
                 },
                 error: function (xhr, status, error) {

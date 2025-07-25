@@ -136,6 +136,40 @@
             return $recordset;
         }
 
+        function masterrumahtangga($orgid,$layanid){
+            $query =
+                    "
+                        select a.trans_id, name,
+                            (select trans_id from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)transid,
+                            (select active from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)active
+                        from dt01_lgu_assets_ms a
+                        where a.active='1'
+                        and   a.jenis_id='4'
+                        order by name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function mastersoftware($orgid,$layanid){
+            $query =
+                    "
+                        select a.trans_id, name,
+                            (select trans_id from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)transid,
+                            (select active from dt01_keu_unit_cost_dt where org_id=a.org_id and jenis_id='1' and layan_id='".$layanid."' and assets_id=a.trans_id)active
+                        from dt01_lgu_assets_ms a
+                        where a.active='1'
+                        and   a.jenis_id='5'
+                        order by name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function cekdatasdm($orgid,$layanid,$positionid){
             $query =
                     "
