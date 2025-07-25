@@ -577,10 +577,17 @@
 										<div class="w-100 row">
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Tahun Perolehan</span>
+													<span>Tahun Perolehan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tahun Perolehan"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_tahun" name="modal_assets_edit_tahun" placeholder="Contoh: ± 2013" required>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Tanggal Pembelian</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tanggal Pembelian"></i>
+												</label>
+												<input class="form-control form-control-solid flatpickr-input" name="modal_assets_edit_tanggal" placeholder="Pilih Tanggal Pembelian" id="modal_assets_edit_tanggal" type="text">
 											</div>
 
 											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
@@ -694,6 +701,91 @@
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_penggunaan" name="modal_assets_edit_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>
 											</div>
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Operasional 24 Jam</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Apakah Assets Beroperasional 24 Jam"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Operasional 24 Jam</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_operasional" name="modal_assets_edit_operasional">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Menggunakan Air</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Menggunakan Air</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_air" name="modal_assets_edit_air">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Menggunakan Internet</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Menggunakan Internet</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" ID="modal_assets_edit_internet" name="modal_assets_edit_internet">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Menggunakan listrik</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Menggunakan Listrik</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_listrik" name="modal_assets_edit_listrik">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span class="required">Beban Listrik (kW)</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Masukkan estimasi beban listrik per hari dalam satuan kilowatt (kW)."></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_vollistrik" name="modal_assets_edit_vollistrik" placeholder="Contoh: 5 kW" required>
+											</div>
+
+
+											
+
+											
 
 										</div>
 									</div>
@@ -875,8 +967,8 @@
 										<div class="w-100 row">
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Lokasi Penempatan Asset</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis sertifikat seperti SHM, HGB, dsb."></i>
+													<span>Lokasi Penempatan Asset</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Lokasi Penempatan Barang"></i>
 												</label>
 												<select data-control="select2" data-dropdown-parent="#modal_assets_edit" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_edit_location" name="modal_assets_edit_location" required>
 													<?php echo $location;?>

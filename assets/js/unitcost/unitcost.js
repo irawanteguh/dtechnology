@@ -402,7 +402,7 @@ function detailcomponent(layanid) {
         }
     });
     return false;
-}
+};
 
 function mastersdm(layanid){
     $.ajax({

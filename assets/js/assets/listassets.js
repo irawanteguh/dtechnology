@@ -29,6 +29,7 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     var dataname              = button.attr("dataname");
     var datajenisid           = button.attr("datajenisid");
     var datatahunperolehan    = button.attr("datatahunperolehan");
+    var datatanggalbeli       = button.attr("datatanggalbeli");
     var datavolume            = button.attr("datavolume");
     var datapenggunaan        = button.attr("datapenggunaan");
     var datanilaiasset        = button.attr("datanilaiasset");
@@ -38,10 +39,18 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     var datadepresiasi        = button.attr("datadepresiasi");
     var datanolaporanasset    = button.attr("datanolaporanasset");
     var datalokasi            = button.attr("datalokasi");
+    var datavollistrik        = button.attr("datavollistrik");
+    var dataoperasional       = button.attr("dataoperasional");
+
+    var dataair      = button.attr("dataair");
+    var datalistrik  = button.attr("datalistrik");
+    var datainternet = button.attr("datainternet");
+
 
     $("#modal_assets_edit_transid").val(datatransid);
     $("#modal_assets_edit_name").val(dataname);
     $("#modal_assets_edit_tahun").val(datatahunperolehan);
+    $("#modal_assets_edit_tanggal").val(datatanggalbeli == null || datatanggalbeli === "null" ? "" : datatanggalbeli);
     $("#modal_assets_edit_volume").val(datavolume);
     $("#modal_assets_edit_penggunaan").val(datapenggunaan);
     $("#modal_assets_edit_nilaiasset").val(formatCurrency(datanilaiasset));
@@ -50,6 +59,14 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $("#modal_assets_edit_waktubunga").val(datawaktubunga);
     $("#modal_assets_edit_depresiasi").val(datadepresiasi);
     $("#modal_assets_edit_laporanasset").val(datanolaporanasset);
+    $("#modal_assets_edit_vollistrik").val(datavollistrik);
+
+    $("#modal_assets_edit_air").prop("checked", dataair === "Y");
+    $("#modal_assets_edit_listrik").prop("checked", datalistrik === "Y");
+    $("#modal_assets_edit_internet").prop("checked", datainternet === "Y");
+    $("#modal_assets_edit_operasional").prop("checked", dataoperasional === "Y");
+
+
     $('input[name="categoryedit"][value="' + datajenisid + '"]').prop("checked", true);
 
     $.ajax({
@@ -63,6 +80,15 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
             $datalokasi.val(datalokasi).trigger('change');
 		}
 	});
+});
+
+flatpickr('[name="modal_assets_edit_tanggal"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
 });
 
 $(document).on("click", ".btn-view-rumus", function (e) {
@@ -109,6 +135,7 @@ function masterassets() {
                                        " dataname='" + result[i].name + "'"+
                                        " datajenisid='" + result[i].jenis_id + "'"+
                                        " datatahunperolehan='" + result[i].tahun_perolehan + "'"+
+                                       " datatanggalbeli='" + result[i].tglbeli + "'"+
                                        " datavolume='" + (result[i].volume || "0") + "'"+
                                        " datapenggunaan='" + result[i].estimasi_penggunaan_day + "'"+
                                        " datanilaiasset='" + result[i].nilai_perolehan + "'"+
@@ -116,12 +143,17 @@ function masterassets() {
                                        " datanilaibunga='" + result[i].nilai_bunga_pinjaman + "'"+
                                        " datawaktubunga='" + result[i].waktu_bunga + "'"+
                                        " datadepresiasi='" + result[i].waktu_depresiasi + "'"+
+                                       " dataair='" + result[i].air + "'"+
+                                       " datalistrik='" + result[i].listrik + "'"+
+                                       " datainternet='" + result[i].internet + "'"+
+                                       " datavollistrik='" + result[i].vollistrik + "'"+
+                                       " dataoperasional='" + result[i].operasional + "'"+
                                        " datanolaporanasset='" + (result[i].no_laporan_penilaian_assets || "") + "'"+
                                        " datalokasi='" + result[i].location_id + "'";
                     
                     let row = "<tr>";
                         row += "<td class='ps-4'><div>" + (result[i].no_assets || "") + "</div><div>" + (result[i].no_laporan_penilaian_assets || "") + "</div></td>";
-                        row += "<td><div>" + result[i].name + "</div><div class='fst-italic fs-9'>" + (result[i].spesifikasi || "") + "</div></td>";
+                        row += "<td><div>" + result[i].name + "</div><div class='fst-italic fs-9'>" + (result[i].spesifikasi || "") + "</div>" + (result[i].operasional === "Y" ? "<i class='bi-clock-history text-danger me-1'></i>" : "") + (result[i].air === "Y" ? "<i class='bi bi-droplet-fill text-primary me-1'></i>" : "") + (result[i].listrik === "Y" ? "<i class='bi bi-lightning-charge-fill text-warning me-1'></i>" : "") + (result[i].internet === "Y" ? "<i class='bi bi-wifi text-info'></i>" : "") + "</td>";
                         if (result[i].jenis_id != "2") {
                             row += "<td>" + (result[i].rincianasset || "") + "</td>";
                         }
@@ -510,7 +542,7 @@ var KTCreateApp = (function () {
             stepperInstance.on("kt.stepper.changed", function () {
                 const current = stepperInstance.getCurrentStepIndex(); // pakai stepperInstance
 
-                if (current === 5) {
+                if(current === 5){
                     btnSubmit.classList.remove("d-none");
                     btnSubmit.classList.add("d-inline-block");
                     btnNext.classList.add("d-none");

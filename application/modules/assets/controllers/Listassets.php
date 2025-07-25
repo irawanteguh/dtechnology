@@ -117,9 +117,15 @@
             $data['no_laporan_penilaian_assets'] = $this->input->post("modal_assets_edit_laporanasset");
             $data['name']                        = $this->input->post("modal_assets_edit_name");
             $data['jenis_id']                    = $this->input->post("categoryedit");
+            $data['air']                         = $this->input->post("modal_assets_edit_air")      == 'on' ? 'Y' : 'N';
+            $data['listrik']                     = $this->input->post("modal_assets_edit_listrik")  == 'on' ? 'Y' : 'N';
+            $data['internet']                    = $this->input->post("modal_assets_edit_internet") == 'on' ? 'Y' : 'N';
             $data['tahun_perolehan']             = $this->input->post("modal_assets_edit_tahun");
+            $data['tanggal_pembelian']           = ($dt = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_assets_edit_tanggal"))) ? $dt->format("Y-m-d") : null;
             $data['volume']                      = $this->input->post("modal_assets_edit_volume");
+            $data['vol_listrik']                 = $this->input->post("modal_assets_edit_vollistrik");
             $data['estimasi_penggunaan_day']     = $this->input->post("modal_assets_edit_penggunaan");
+            $data['24_jam']                      = $this->input->post("modal_assets_edit_operasional") == 'on' ? 'Y' : 'N';
             $data['nilai_perolehan']             = preg_replace('/[^0-9]/', '', $this->input->post("modal_assets_edit_nilaiasset"));
             $data['nilai_pemeliharaan']          = preg_replace('/[^0-9]/', '', $this->input->post("modal_assets_edit_nilaipemeliharaan"));
             $data['waktu_bunga']                 = $this->input->post("modal_assets_edit_waktubunga");
