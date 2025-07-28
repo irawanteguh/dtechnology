@@ -40,13 +40,12 @@
             return $recordset;
         }
 
-        function cekklinisactivity($orgid,$groupid,$activityid){
+        function cekklinisactivity($activityid){
             $query =
                     "
                         select a.pk
                         from dt01_hrd_activity_ms a
                         where a.active='1'
-                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
                         and   a.activity_id='".$activityid."'
                     ";
 
@@ -70,7 +69,7 @@
             return $recordset;
         }
 
-        function cekatasanid($orgid,$userid){
+        function cekatasanid($orgid,$userid,$paramater){
             $query =
                     "
                         select a.atasan_id
@@ -78,24 +77,8 @@
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         and   a.user_id='".$userid."'
-                        and   a.position_primary='Y'
-                    ";
-
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->row();
-            return $recordset;
-        }
-
-        function cekatasan($orgid,$userid,$activityid){
-            $query =
-                    "
-                        select a.atasan_id, position_primary
-                        from dt01_hrd_position_dt a
-                        where a.org_id='".$orgid."'
-                        and   a.active='1'
-                        and   a.user_id='".$userid."'
-                        and   a.position_id in (select position_id from dt01_hrd_mapping_activity where org_id=a.org_id and active='1' and activity_id='".$activityid."')
-                        order by position_primary desc
+                        ".$paramater."
+                        
                     ";
 
             $recordset = $this->db->query($query);

@@ -89,14 +89,15 @@ class Activity extends CI_Controller{
 		$activityid       = $this->input->post("data_activity_primaryactivity_add");
 		$activityIdsArray = explode(":", $activityid);
 	
-		$resultcekklinisactivity = $this->md->cekklinisactivity($_SESSION['orgid'],$_SESSION['groupid'],$activityIdsArray[0]);
+		$resultcekklinisactivity = $this->md->cekklinisactivity($activityIdsArray[0]);
 		if($resultcekklinisactivity->pk === ""){
-			$resultcekatasan = $this->md->cekatasan($_SESSION['orgid'],$_SESSION['userid'], $activityIdsArray[0]);
-			$atasanid        = $resultcekatasan->atasan_id;
+			$paramater         = "and   a.position_primary='Y'";
 		}else{
-			$resultcekatasanid = $this->md->cekatasanid($_SESSION['orgid'],$_SESSION['userid']);
-			$atasanid = $resultcekatasanid->atasan_id;            
+			$paramater         = "and   a.position_id in (select position_id from dt01_hrd_mapping_activity where org_id=a.org_id and active='1' and activity_id='".$activityIdsArray[0]."')";
 		}
+
+		$resultcekatasanid = $this->md->cekatasanid($_SESSION['orgid'],$_SESSION['userid'],$paramater);
+		$atasanid = $resultcekatasanid->atasan_id;      
 		
 		$start_date     = DateTime::createFromFormat("d.m.Y", $this->input->post("data_activity_date_add"))->format("Y-m-d");
 		$start_time_in  = $this->input->post("data_activity_time_start_add");
@@ -130,11 +131,11 @@ class Activity extends CI_Controller{
 				$data['user_id']        = $_SESSION['userid'];
 				$data['atasan_id']      = $atasanid;
 		
-				if ($this->md->insertactivity($data)) {
+				if($this->md->insertactivity($data)){
 					$json['responCode'] = "00";
 					$json['responHead'] = "success";
 					$json['responDesc'] = "Tambah Activity Berhasil";
-				} else {
+				}else{
 					$json['responCode'] = "01";
 					$json['responHead'] = "info";
 					$json['responDesc'] = "Tambah Activity Gagal";
