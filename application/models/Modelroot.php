@@ -15,13 +15,13 @@
             return $recordset;
         }
 
-        function menu($userid){
+        function menu($parameter){
             $query =
                     "
                         select a.*
                         from dt01_gen_modules_ms a
                         where a.active='1'
-                        and   a.modules_id in (select modules_id from dt01_gen_role_dt where active='1' and role_id in(select role_id from dt01_gen_role_access where active='1' and user_id='".$userid."'))
+                        ".$parameter."
                         order by urut asc
                     ";
 

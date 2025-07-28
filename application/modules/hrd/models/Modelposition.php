@@ -6,15 +6,15 @@
                     "
                         SELECT a.org_id, a.position_id, a.position, a.rvu, a.level_fungsional, a.department_id, a.bagian_id, a.unit_id,
                                 date_format(last_update_date,'%d.%m.%Y %H:%i:%s')last_update_date,
-                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.department_id)department,
-                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.bagian_id)bagian,
-                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.unit_id)unit,
+                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and department_id=a.department_id)department,
+                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and department_id=a.bagian_id)bagian,
+                                (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and department_id=a.unit_id)unit,
                                 (select ifnull(name, 'Unknown')  from dt01_gen_user_data where active='1' and user_id=a.last_update_by) lastupdateby,
                                 (select level                    from dt01_gen_level_fungsional_ms where active = '1' and level_id = a.level_fungsional) functional,
 
                                 (select org_name   from dt01_gen_organization_ms where org_id=a.org_id)orgname,
-                                (select nilai      from dt01_hrd_gaji_ms where org_id=a.org_id and active='1' and position_id=a.position_id)gaji,
-                                (select remunerasi from dt01_hrd_gaji_ms where org_id=a.org_id and active='1' and position_id=a.position_id)remun,
+                                (select b.nilai      from dt01_hrd_gaji_ms b where b.active='1' ".$parameter2." and b.position_id=a.position_id)gaji,
+                                (select b.remunerasi from dt01_hrd_gaji_ms b where b.active='1' ".$parameter2." and b.position_id=a.position_id)remun,
 
                                 (
                                     SELECT GROUP_CONCAT(
@@ -22,18 +22,18 @@
                                             (SELECT image_profile 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = b.org_id
-                                                AND user_id = b.user_id), ':',
+                                                AND   org_id = b.org_id
+                                                AND   user_id = b.user_id), ':',
                                             (SELECT name 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = b.org_id
-                                                AND user_id = b.user_id), ':',
+                                                AND   org_id = b.org_id
+                                                AND   user_id = b.user_id), ':',
                                             (SELECT UPPER(LEFT(name, 1)) 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = b.org_id
-                                                AND user_id = b.user_id)
+                                                AND   org_id = b.org_id
+                                                AND   user_id = b.user_id)
                                         SEPARATOR '; ')
                                     FROM dt01_hrd_position_dt b
                                     WHERE b.active = '1'
@@ -47,18 +47,18 @@
                                             (SELECT image_profile 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = b.org_id
-                                                AND user_id = b.user_id), ':',
+                                                AND   org_id = b.org_id
+                                                AND   user_id = b.user_id), ':',
                                             (SELECT name 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = b.org_id
-                                                AND user_id = b.user_id), ':',
+                                                AND   org_id = b.org_id
+                                                AND   user_id = b.user_id), ':',
                                             (SELECT UPPER(LEFT(name, 1)) 
                                                 FROM dt01_gen_user_data 
                                                 WHERE active = '1' 
-                                                AND org_id = b.org_id
-                                                AND user_id = b.user_id)
+                                                AND   org_id = b.org_id
+                                                AND   user_id = b.user_id)
                                         SEPARATOR '; ')
                                     FROM dt01_hrd_position_dt b
                                     WHERE b.active = '1'

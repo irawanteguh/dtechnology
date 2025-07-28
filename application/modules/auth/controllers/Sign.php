@@ -31,6 +31,7 @@
                     "trial"               => $datasession->trial,
                     "holding"             => $datasession->holding,
                     "userid"              => $datasession->user_id,
+                    "leveluser"           => $datasession->level_user,
                     "name"                => $datasession->name,
                     "initial"             => $datasession->initial,
                     "username"            => $datasession->username,
