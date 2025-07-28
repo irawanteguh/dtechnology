@@ -24,7 +24,7 @@
                         from dt01_gen_master_ms a
                         where a.active='1'
                         and   a.jenis_id='Asset_1'
-                        order by master_name asc
+                        order by code asc
                     ";
 
             $recordset = $this->db->query($query);

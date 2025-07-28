@@ -99,6 +99,7 @@
             $data['waktu_depresiasi']            = $this->input->post("depresiasi");
             $data['location_id']                 = ($this->input->post("location_id") === 'x') ? null : $this->input->post("location_id");
             $data['created_by']                  = $_SESSION['userid'];
+            $data['last_update_by']              = $_SESSION['userid'];
 
             if($this->md->insertassets($data)){
                 $json['responCode']="00";
