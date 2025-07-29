@@ -238,14 +238,57 @@ function masterlayanan(){
                                        " datacom3='" + result[i].com_3 + "'" +
                                        " datatype='" + result[i].type + "'" ;
 
+                    let com1 = parseFloat(result[i].com_1) || 0;
+                    let com2 = parseFloat(result[i].com_2) || 0;
+                    let com3 = parseFloat(result[i].com_3) || 0;
+                    let cost = parseFloat(result[i].cost) || 0;
+
+                    let competitors = [
+                        { label: "Cost", value: cost },
+                        { label: "Kompetitor 1", value: com1 },
+                        { label: "Kompetitor 2", value: com2 },
+                        { label: "Kompetitor 3", value: com3 }
+                    ];
+
+                    // Urutkan nilai cost dan kompetitor
+                    let sorted = competitors.slice().sort((a, b) => a.value - b.value);
+                    let rank = sorted.findIndex(item => item.label === "Cost") + 1;
+
+                    let rata2 = (com1 + com2 + com3) / 3;
+                    let selisih = cost - rata2;
+                    let selisihPersen = (rata2 !== 0) ? ((selisih) / rata2 * 100) : 0;
+
+                    let kesimpulan = "";
+                    if (rata2 === 0) {
+                        kesimpulan = "N/A";
+                    } else if (selisihPersen <= -5) {
+                        kesimpulan = "<span class='badge badge-light-success'>Lebih Murah</span>";
+                    } else if (selisihPersen >= 5) {
+                        kesimpulan = "<span class='badge badge-light-danger'>Lebih Mahal</span>";
+                    } else {
+                        kesimpulan = "<span class='badge badge-light-warning'>Setara</span>";
+                    }
+
+                    // Format analisa lengkap
+                    let analisa = `
+                        ${kesimpulan}<br/>
+                        <small>
+                            Urutan: <strong>ke-${rank} dari 4</strong><br/>
+                            Selisih: <strong>${todesimal(Math.abs(selisih))}</strong> 
+                            (${selisihPersen.toFixed(1)}%)
+                        </small>
+                    `;
+
                     tableresult += "<tr>";
                     tableresult += "<td class='ps-4'><div class='badge badge-light-info'>"+(result[i].kategori ? result[i].kategori : "")+"</div></td>";
                     tableresult += "<td>"+(result[i].nama_layan ? result[i].nama_layan : "")+"</td>";
                     tableresult += "<td class='text-end'>"+(result[i].durasi ? result[i].durasi : "")+" Menit</td>";
+                    tableresult += "<td class='text-end'>"+(result[i].cost ? todesimal(result[i].cost) : "")+"</td>";
                     tableresult += "<td class='text-end'>"+(result[i].com_1 ? todesimal(result[i].com_1) : "")+"</td>";
                     tableresult += "<td class='text-end'>"+(result[i].com_2 ? todesimal(result[i].com_2) : "")+"</td>";
                     tableresult += "<td class='text-end'>"+(result[i].com_3 ? todesimal(result[i].com_3) : "")+"</td>";
                     tableresult += "<td class='text-end'>" + todesimal(Math.round(((parseFloat(result[i].com_1) || 0) + (parseFloat(result[i].com_2) || 0) + (parseFloat(result[i].com_3) || 0)) / 3)) + "</td>";
+                    tableresult += "<td>" + analisa + "</td>";
                     tableresult += "<td class='text-end'>";
                     tableresult += "<div class='btn-group' role='group'>";
                     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";

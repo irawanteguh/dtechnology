@@ -711,6 +711,22 @@
 											</div>
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Sumber Asset</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Lokasi Penempatan Barang"></i>
+												</label>
+												<select data-control="select2" data-dropdown-parent="#modal_assets_edit" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_edit_sumber" name="modal_assets_edit_sumber" required>
+													<?php echo $sumberasset;?>
+												</select>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Depresiasi</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Waktu penyusutan aset"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_depresiasi" name="modal_assets_edit_depresiasi" placeholder="Contoh: 20 Tahun" required>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span>Biaya Pemeliharaan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Biaya pemeliharaan"></i>
 												</label>
@@ -729,13 +745,6 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jika pembangunan dibiayai kredit/pinjaman"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" id="modal_assets_edit_nilaibunga" name="modal_assets_edit_nilaibunga" placeholder="Contoh: 100.000.000" required>
-											</div>
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span>Depresiasi</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Waktu penyusutan aset"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_depresiasi" name="modal_assets_edit_depresiasi" placeholder="Contoh: 20 Tahun" required>
 											</div>
 										</div>
 									</div>

@@ -45,6 +45,7 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     var datanoinventaris      = button.attr("datanoinventaris");
     var datastatusid          = button.attr("datastatusid");
     var dataserialnumber      = button.attr("dataserialnumber");
+    var datasumberid          = button.attr("datasumberid");
 
     var dataair      = button.attr("dataair");
     var datalistrik  = button.attr("datalistrik");
@@ -78,6 +79,9 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
 
     var $datastatusid = $('#modal_assets_edit_status').select2();
         $datastatusid.val(datastatusid).trigger('change');
+
+    var $datasumberid = $('#modal_assets_edit_sumber').select2();
+        $datasumberid.val(datasumberid).trigger('change');
 
     $.ajax({
 		url    : url + "index.php/assets/listassets/masterlocation",
@@ -123,6 +127,7 @@ function masterassets() {
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
+
             $("#resultdatamasterassets_1").html("");
             $("#resultdatamasterassets_2").html("");
             $("#resultdatamasterassets_3").html("");
@@ -156,6 +161,7 @@ function masterassets() {
                                        " datawaktubunga='" + result[i].waktu_bunga + "'"+
                                        " datadepresiasi='" + result[i].waktu_depresiasi + "'"+
                                        " datastatusid='" + result[i].status_id + "'"+
+                                       " datasumberid='" + result[i].sumber_id + "'"+
                                        " dataair='" + result[i].air + "'"+
                                        " datalistrik='" + result[i].listrik + "'"+
                                        " datainternet='" + result[i].internet + "'"+
@@ -172,7 +178,7 @@ function masterassets() {
                             row += "<td><div>"+(result[i].rincianasset || "")+"</div><div class='badge badge-light-info badge-sm'>"+(result[i].statusassets || "")+"</div></td>";
                         }
                         row += "<td class='text-end'>" + (result[i].volume ? todesimal(result[i].volume) : "") + "</td>";
-                        row += "<td class='text-center'>" + (result[i].tahun_perolehan || "") + "</td>";
+                        row += "<td class='text-center'><div>"+(result[i].tahun_perolehan || "")+"</div><div class='badge badge-light-info badge-sm'>"+(result[i].sumber || "")+"</div></td>";
                         row += "<td class='text-end'><span title='Nilai Perolehan'>" + (result[i].nilai_perolehan ? todesimal(result[i].nilai_perolehan) : "") + "</span></td>";
                         row += "<td class='text-end'><div><span title='Bunga Pinjaman'>" + (result[i].nilai_bunga_pinjaman ? todesimal(result[i].nilai_bunga_pinjaman)+"</span></div><div><span title='Bunga Pinjaman'>"+ (result[i].waktu_bunga || "") + " Tahun" : "") + "</span></div></td>";
                         row += "<td class='text-end'><span title='Biaya Pemeliharaan'>" + (result[i].nilai_pemeliharaan ? todesimal(result[i].nilai_pemeliharaan) + " / Bulan" : "") + "</span></td>";
@@ -216,7 +222,7 @@ function masterassets() {
                                         row +="<table class='table align-middle table-row-dashed fs-8 gy-2'>";
                                             row +="<thead>";
                                                 row +="<tr class='fw-bolder bg-info align-middle text-white'>";
-                                                    row +="<th class='ps-4 rounded-start rounded-end' colspan='9'>Rincian Asset @ "+result[i].name+"</th>";
+                                                    row +="<th class='ps-4 rounded-start rounded-end' colspan='10'>Rincian Asset @ "+result[i].name+"</th>";
                                                 row +="</tr>";
                                                 row +="<tr class='fw-bolder bg-info align-middle text-white'>";
                                                     row +="<th class='ps-4 rounded-start'>No Assets</th>";
@@ -227,7 +233,8 @@ function masterassets() {
                                                     row +="<th class='text-end'>Nilai Asset</th>";
                                                     row +="<th class='text-end'>Bunga Pinjaman</th>";
                                                     row +="<th class='text-end'>Pemeliharaan</th>";
-                                                    row +="<th class='text-end rounded-end pe-4'>Depresiasi</th>";
+                                                    row +="<th class='text-end'>Depresiasi</th>";
+                                                    row +="<th class='text-end rounded-end pe-4'>Action</th>";
                                                 row +="</tr>";
                                             row +="</thead>";
                                             
@@ -250,6 +257,19 @@ function masterassets() {
                                                     let kategori          = parts[10];
                                                     let color             = parts[11];
 
+                                                    let datarincian = 
+                                                                        " datatransid='" + trans_id + "'" +
+                                                                        " dataname='" + name + "'" +
+                                                                        " datajenisid='1'" +
+                                                                        " datatahunperolehan='" + tahun + "'" +
+                                                                        " datavolume='" + volume + "'" +
+                                                                        " datanilaiasset='" + nilaiasset + "'" +
+                                                                        " datanilaibunga='" + nilaibunga + "'" +
+                                                                        " datanilaipemeliharaan='" + nilaipemeliharaan + "'" +
+                                                                        " datadepresiasi='" + depreasi + "'" +
+                                                                        " datanoinventaris='" + noiventaris + "'" +
+                                                                        " datalokasi='" + result[i].trans_id + "'";
+
                                                     rincianRows += "<tr>";
                                                         rincianRows += "<td class='ps-4'><div>"+no_assets+"</div><div>"+noiventaris+"</div></td>";
                                                         rincianRows += "<td>" + name + "</td>";
@@ -259,7 +279,8 @@ function masterassets() {
                                                         rincianRows += "<td class='text-end'>"+todesimal(nilaiasset)+"</td>";
                                                         rincianRows += "<td class='text-end'>"+todesimal(nilaibunga)+"</td>";
                                                         rincianRows += "<td class='text-end'>"+todesimal(nilaipemeliharaan)+"</td>";
-                                                        rincianRows += "<td class='text-end pe-4'>"+depreasi+" Tahun</td>";
+                                                        rincianRows += "<td class='text-end'>"+depreasi+" Tahun</td>";
+                                                        rincianRows += "<td class='text-end pe-4'><a class='btn btn-sm btn-light-info' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + datarincian + "><i class='bi bi-pencil-square me-2'></i>Edit</a></td>";
                                                     rincianRows += "</tr>";
                                                 }
                                             });

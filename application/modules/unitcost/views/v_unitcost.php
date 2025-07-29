@@ -37,10 +37,12 @@
                                 <th class="ps-4 rounded-start">Kategori</th>
                                 <th>Nama Pelayanan</th>
                                 <th class="text-end">Estimasi Lama Pengerjaan</th>
+                                <th class="text-end">Cost</th>
                                 <th class="text-end">Kompetitor 1</th>
                                 <th class="text-end">Kompetitor 2</th>
                                 <th class="text-end">Kompetitor 3</th>
                                 <th class="text-end">Rata-rata</th>
+                                <th>Analisa</th>
                                 <th class="pe-4 text-end rounded-end">Action</th>
                             </tr>
                             <tr>
