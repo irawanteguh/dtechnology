@@ -744,6 +744,14 @@
 										<div class="w-100 row">
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Serial Number</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nomor atau referensi serial number"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_sn" name="modal_assets_edit_sn" placeholder="Contoh: XXXXXX">
+											</div>
+
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span>No Inventaris</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nomor atau referensi no iventaris"></i>
 												</label>

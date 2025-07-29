@@ -43,7 +43,8 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     var dataoperasional       = button.attr("dataoperasional");
     var dataspesifikasi       = button.attr("dataspesifikasi");
     var datanoinventaris      = button.attr("datanoinventaris");
-    var datastatusid      = button.attr("datastatusid");
+    var datastatusid          = button.attr("datastatusid");
+    var dataserialnumber      = button.attr("dataserialnumber");
 
     var dataair      = button.attr("dataair");
     var datalistrik  = button.attr("datalistrik");
@@ -65,6 +66,7 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $("#modal_assets_edit_noinventaris").val(datanoinventaris);
     $("#modal_assets_edit_spesifikasi").val(dataspesifikasi == null || dataspesifikasi === "null" ? "" : dataspesifikasi);
     $("#modal_assets_edit_vollistrik").val(datavollistrik == null || datavollistrik === "null" ? "" : datavollistrik);
+    $("#modal_assets_edit_sn").val(dataserialnumber == null || dataserialnumber === "null" ? "" : dataserialnumber);
 
     $("#modal_assets_edit_air").prop("checked", dataair === "Y");
     $("#modal_assets_edit_listrik").prop("checked", datalistrik === "Y");
@@ -144,6 +146,7 @@ function masterassets() {
                                        " datajenisid='" + result[i].jenis_id + "'"+
                                        " datatahunperolehan='" + result[i].tahun_perolehan + "'"+
                                        " datatanggalbeli='" + result[i].tglbeli + "'"+
+                                       " dataserialnumber='" + result[i].serialnumber + "'"+
                                        " datavolume='" + (result[i].volume || "0") + "'"+
                                        " datapenggunaan='" + result[i].estimasi_penggunaan_day + "'"+
                                        " dataspesifikasi='" + result[i].spesifikasi + "'"+
