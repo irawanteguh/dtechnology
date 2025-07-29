@@ -122,8 +122,8 @@
         }
 
         public function editassets(){
-            $data['no_inventaris']               = $this->input->post("modal_assets_edit_noinventaris");
-            $data['no_laporan_penilaian_assets'] = $this->input->post("modal_assets_edit_laporanasset");
+            $data['no_inventaris'] = $this->input->post("modal_assets_edit_noinventaris") ?: null;
+            $data['no_laporan_penilaian_assets'] = $this->input->post("modal_assets_edit_laporanasset") ?: null;
             $data['name']                        = $this->input->post("modal_assets_edit_name");
             $data['jenis_id']                    = $this->input->post("categoryedit");
             $data['spesifikasi']                 = $this->input->post("modal_assets_edit_spesifikasi");

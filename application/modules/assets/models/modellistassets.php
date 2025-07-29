@@ -67,7 +67,6 @@
                 SELECT *
                 FROM view_assets_detail
                 WHERE org_id = '".$orgid."'
-                AND   jenis_id ='1'
                 ORDER BY kategori ASC, created_date DESC
             ";
 
