@@ -14,7 +14,8 @@
 		}
 
         public function loadcombobox(){
-            $resultkategoriasset  = $this->md->kategoriasset();
+            $resultkategoriasset = $this->md->kategoriasset();
+            $resultstatusasset   = $this->md->statusasset();
 
             $kategoriassets = "";
             foreach($resultkategoriasset as $a){
@@ -76,8 +77,14 @@
                 $kategoriassetsedit .= "</label>";
             }
 
+            $statusasset="";
+            foreach($resultstatusasset as $a ){
+                $statusasset.="<option value='".$a->code."'>".$a->master_name."</option>";
+            }
+
             $data['kategoriassets']     = $kategoriassets;
             $data['kategoriassetsedit'] = $kategoriassetsedit;
+            $data['statusasset']        = $statusasset;
             return $data;
         }
 
@@ -115,12 +122,14 @@
         }
 
         public function editassets(){
+            $data['no_inventaris']               = $this->input->post("modal_assets_edit_noinventaris");
             $data['no_laporan_penilaian_assets'] = $this->input->post("modal_assets_edit_laporanasset");
             $data['name']                        = $this->input->post("modal_assets_edit_name");
             $data['jenis_id']                    = $this->input->post("categoryedit");
-            $data['air']                         = $this->input->post("modal_assets_edit_air")      == 'on' ? 'Y' : 'N';
-            $data['listrik']                     = $this->input->post("modal_assets_edit_listrik")  == 'on' ? 'Y' : 'N';
-            $data['internet']                    = $this->input->post("modal_assets_edit_internet") == 'on' ? 'Y' : 'N';
+            $data['spesifikasi']                 = $this->input->post("modal_assets_edit_spesifikasi");
+            $data['air']                         = $this->input->post("modal_assets_edit_air")         == 'on' ? 'Y' : 'N';
+            $data['listrik']                     = $this->input->post("modal_assets_edit_listrik")     == 'on' ? 'Y' : 'N';
+            $data['internet']                    = $this->input->post("modal_assets_edit_internet")    == 'on' ? 'Y' : 'N';
             $data['tahun_perolehan']             = $this->input->post("modal_assets_edit_tahun");
             $data['tanggal_pembelian']           = ($dt = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_assets_edit_tanggal"))) ? $dt->format("Y-m-d") : null;
             $data['volume']                      = $this->input->post("modal_assets_edit_volume");
@@ -133,6 +142,7 @@
             $data['nilai_bunga_pinjaman']        = preg_replace('/[^0-9]/', '', $this->input->post("modal_assets_edit_nilaibunga"));
             $data['waktu_depresiasi']            = $this->input->post("modal_assets_edit_depresiasi");
             $data['location_id']                 = ($this->input->post("modal_assets_edit_location") === 'x') ? null : $this->input->post("modal_assets_edit_location");
+            $data['status_id']                   = $this->input->post("modal_assets_edit_status");
             $data['last_update_by']              = $_SESSION['userid'];
             $data['last_update_date']            = date("Y-m-d H:i:s");
 
@@ -196,6 +206,8 @@
 
             echo $location;
         }
+
+
 
 	}
 ?>

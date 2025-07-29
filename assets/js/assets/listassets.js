@@ -41,6 +41,9 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     var datalokasi            = button.attr("datalokasi");
     var datavollistrik        = button.attr("datavollistrik");
     var dataoperasional       = button.attr("dataoperasional");
+    var dataspesifikasi       = button.attr("dataspesifikasi");
+    var datanoinventaris      = button.attr("datanoinventaris");
+    var datastatusid      = button.attr("datastatusid");
 
     var dataair      = button.attr("dataair");
     var datalistrik  = button.attr("datalistrik");
@@ -49,7 +52,7 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
 
     $("#modal_assets_edit_transid").val(datatransid);
     $("#modal_assets_edit_name").val(dataname);
-    $("#modal_assets_edit_tahun").val(datatahunperolehan);
+    $("#modal_assets_edit_tahun").val(datatahunperolehan == null || datatahunperolehan === "null" ? "" : datatahunperolehan);
     $("#modal_assets_edit_tanggal").val(datatanggalbeli == null || datatanggalbeli === "null" ? "" : datatanggalbeli);
     $("#modal_assets_edit_volume").val(datavolume);
     $("#modal_assets_edit_penggunaan").val(datapenggunaan);
@@ -59,7 +62,9 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
     $("#modal_assets_edit_waktubunga").val(datawaktubunga);
     $("#modal_assets_edit_depresiasi").val(datadepresiasi);
     $("#modal_assets_edit_laporanasset").val(datanolaporanasset);
-    $("#modal_assets_edit_vollistrik").val(datavollistrik);
+    $("#modal_assets_edit_noinventaris").val(datanoinventaris);
+    $("#modal_assets_edit_spesifikasi").val(dataspesifikasi == null || dataspesifikasi === "null" ? "" : dataspesifikasi);
+    $("#modal_assets_edit_vollistrik").val(datavollistrik == null || datavollistrik === "null" ? "" : datavollistrik);
 
     $("#modal_assets_edit_air").prop("checked", dataair === "Y");
     $("#modal_assets_edit_listrik").prop("checked", datalistrik === "Y");
@@ -68,6 +73,9 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
 
 
     $('input[name="categoryedit"][value="' + datajenisid + '"]').prop("checked", true);
+
+    var $datastatusid = $('#modal_assets_edit_status').select2();
+        $datastatusid.val(datastatusid).trigger('change');
 
     $.ajax({
 		url    : url + "index.php/assets/listassets/masterlocation",
@@ -138,24 +146,27 @@ function masterassets() {
                                        " datatanggalbeli='" + result[i].tglbeli + "'"+
                                        " datavolume='" + (result[i].volume || "0") + "'"+
                                        " datapenggunaan='" + result[i].estimasi_penggunaan_day + "'"+
+                                       " dataspesifikasi='" + result[i].spesifikasi + "'"+
                                        " datanilaiasset='" + result[i].nilai_perolehan + "'"+
                                        " datanilaipemeliharaan='" + result[i].nilai_pemeliharaan + "'"+
                                        " datanilaibunga='" + result[i].nilai_bunga_pinjaman + "'"+
                                        " datawaktubunga='" + result[i].waktu_bunga + "'"+
                                        " datadepresiasi='" + result[i].waktu_depresiasi + "'"+
+                                       " datastatusid='" + result[i].status_id + "'"+
                                        " dataair='" + result[i].air + "'"+
                                        " datalistrik='" + result[i].listrik + "'"+
                                        " datainternet='" + result[i].internet + "'"+
                                        " datavollistrik='" + result[i].vollistrik + "'"+
                                        " dataoperasional='" + result[i].operasional + "'"+
                                        " datanolaporanasset='" + (result[i].no_laporan_penilaian_assets || "") + "'"+
+                                       " datanoinventaris='" + (result[i].noiventaris || "") + "'"+
                                        " datalokasi='" + result[i].location_id + "'";
                     
                     let row = "<tr>";
-                        row += "<td class='ps-4'><div>" + (result[i].no_assets || "") + "</div><div>" + (result[i].no_laporan_penilaian_assets || "") + "</div></td>";
+                        row += "<td class='ps-4'><div>" + (result[i].no_assets || "") + "</div><div>" + (result[i].noiventaris || "") + "</div><div>" + (result[i].no_laporan_penilaian_assets || "") + "</div></td>";
                         row += "<td><div>" + result[i].name + "</div><div class='fst-italic fs-9'>" + (result[i].spesifikasi || "") + "</div>" + (result[i].operasional === "Y" ? "<i class='bi-clock-history text-danger me-1'></i>" : "") + (result[i].air === "Y" ? "<i class='bi bi-droplet-fill text-primary me-1'></i>" : "") + (result[i].listrik === "Y" ? "<i class='bi bi-lightning-charge-fill text-warning me-1'></i>" : "") + (result[i].internet === "Y" ? "<i class='bi bi-wifi text-info'></i>" : "") + "</td>";
                         if (result[i].jenis_id != "2") {
-                            row += "<td>" + (result[i].rincianasset || "") + "</td>";
+                            row += "<td><div>"+(result[i].rincianasset || "")+"</div><div class='badge badge-light-info badge-sm'>"+(result[i].statusassets || "")+"</div></td>";
                         }
                         row += "<td class='text-end'>" + (result[i].volume ? todesimal(result[i].volume) : "") + "</td>";
                         row += "<td class='text-center'>" + (result[i].tahun_perolehan || "") + "</td>";
@@ -194,7 +205,7 @@ function masterassets() {
                         row += "</td>";
                     row += "</tr>";
 
-                    if(result[i].jenis_id === "2" && result[i].rincianasset !=null){
+                    if(result[i].jenis_id === "2" && result[i].rincianasset != null){
                         row += "<tr class='d-none'>";
                             row += "<td colspan='13'>";
                                 row +="<div class='row'>";
@@ -222,21 +233,22 @@ function masterassets() {
                                             rincianArray.forEach(function(item) {
                                                 let parts = item.split(":");
 
-                                                if(parts.length === 11){
+                                                if(parts.length === 12){
                                                     let trans_id          = parts[0];
                                                     let no_assets         = parts[1];
-                                                    let name              = parts[2];
-                                                    let volume            = parts[3];
-                                                    let tahun             = parts[4];
-                                                    let nilaiasset        = parts[5];
-                                                    let nilaibunga        = parts[6];
-                                                    let nilaipemeliharaan = parts[7];
-                                                    let depreasi          = parts[8];
-                                                    let kategori          = parts[9];
-                                                    let color             = parts[10];
+                                                    let noiventaris       = parts[2];
+                                                    let name              = parts[3];
+                                                    let volume            = parts[4];
+                                                    let tahun             = parts[5];
+                                                    let nilaiasset        = parts[6];
+                                                    let nilaibunga        = parts[7];
+                                                    let nilaipemeliharaan = parts[8];
+                                                    let depreasi          = parts[9];
+                                                    let kategori          = parts[10];
+                                                    let color             = parts[11];
 
                                                     rincianRows += "<tr>";
-                                                        rincianRows += "<td class='ps-4'>" + no_assets + "</td>";
+                                                        rincianRows += "<td class='ps-4'><div>"+no_assets+"</div><div>"+noiventaris+"</div></td>";
                                                         rincianRows += "<td>" + name + "</td>";
                                                         rincianRows += "<td><span class='badge badge-light-"+color+"'>" + kategori + "</span></td>";
                                                         rincianRows += "<td class='text-end'>"+volume+"</td>";
@@ -627,7 +639,7 @@ var KTCreateApp = (function () {
             stepper.on("kt.stepper.changed", function () {
                 const current = stepper.getCurrentStepIndex();
 
-                if (current === 5) {
+                if (current === 6) {
                     btnSubmit.classList.remove("d-none");
                     btnSubmit.classList.add("d-inline-block");
                     btnNext?.classList.add("d-none");

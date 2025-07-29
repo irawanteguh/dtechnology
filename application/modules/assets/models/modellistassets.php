@@ -32,6 +32,21 @@
             return $recordset;
         }
 
+        function statusasset(){
+            $query =
+                    "
+                        select a.code, master_name, icon, color
+                        from dt01_gen_master_ms a
+                        where a.active='1'
+                        and   a.jenis_id='Asset_2'
+                        order by code asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function masterlocation($orgid){
             $query =
                     "
@@ -52,13 +67,15 @@
                 SELECT *
                 FROM view_assets_detail
                 WHERE org_id = '".$orgid."'
-                AND   jenis_id not in ('8','9')
+                AND   jenis_id ='1'
                 ORDER BY kategori ASC, created_date DESC
             ";
 
             $recordset = $this->db->query($query, array($orgid));
             return $recordset->result();
         }
+
+        
 
 
         // function masterassets($orgid){
