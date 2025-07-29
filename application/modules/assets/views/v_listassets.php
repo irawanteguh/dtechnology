@@ -117,12 +117,14 @@
                                         <th class="text-center">Tahun Perolehan</th>
                                         <th class="text-end">Nilai Asset</th>
                                         <th class="text-end">Bunga Pinjaman</th>
-                                        <th class="text-end">Pemeliharaan</th>
+                                        <th class="text-end">Pemeliharaan Per (bulan)</th>
                                         <th class="text-end">Harga Per (m²)</th>
-                                        <th class="text-end">Depresiasi</th>
-                                        <th class="text-end">Volume</th>
-                                        <th class="text-end">Cost</th>
-                                        <th>Created By</th>
+                                        <th class="text-end">Depresiasi (tahun)</th>
+                                        <th class="text-end">Volume Per (hari)</th>
+                                        <th class="text-end">Cost Per (pasien)</th>
+                                        <th>Sumber</th>
+                                        <th>Status</th>
+                                        <th>Update By</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -143,11 +145,13 @@
                                         <th class="text-center">Tahun Perolehan</th>
                                         <th class="text-end">Nilai Asset</th>
                                         <th class="text-end">Bunga Pinjaman</th>
-                                        <th class="text-end">Pemeliharaan</th>
-                                        <th class="text-end">Depresiasi</th>
-                                        <th class="text-end">Volume</th>
-                                        <th class="text-end">Cost</th>
-                                        <th>Created By</th>
+                                        <th class="text-end">Pemeliharaan Per (bulan)</th>
+                                        <th class="text-end">Depresiasi (tahun)</th>
+                                        <th class="text-end">Volume Per (hari)</th>
+                                        <th class="text-end">Cost Per (pasien)</th>
+                                        <th>Sumber</th>
+                                        <th>Status</th>
+                                        <th>Update By</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -168,10 +172,12 @@
                                         <th class="text-end">Nilai Asset</th>
                                         <th class="text-end">Bunga Pinjaman</th>
                                         <th class="text-end">Pemeliharaan</th>
-                                        <th class="text-end">Depresiasi</th>
-                                        <th class="text-end">Volume</th>
-                                        <th class="text-end">Cost</th>
-                                        <th>Created By</th>
+                                        <th class="text-end">Depresiasi (tahun)</th>
+                                        <th class="text-end">Volume Per (hari)</th>
+                                        <th class="text-end">Cost Per (pasien)</th>
+                                        <th>Sumber</th>
+                                        <th>Status</th>
+                                        <th>Update By</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -192,10 +198,12 @@
                                         <th class="text-end">Nilai Asset</th>
                                         <th class="text-end">Bunga Pinjaman</th>
                                         <th class="text-end">Pemeliharaan</th>
-                                        <th class="text-end">Depresiasi</th>
-                                        <th class="text-end">Volume</th>
-                                        <th class="text-end">Cost</th>
-                                        <th>Created By</th>
+                                        <th class="text-end">Depresiasi (tahun)</th>
+                                        <th class="text-end">Volume Per (hari)</th>
+                                        <th class="text-end">Cost Per (pasien)</th>
+                                        <th>Sumber</th>
+                                        <th>Status</th>
+                                        <th>Update By</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -215,10 +223,12 @@
                                     <th class="text-end">Nilai Asset</th>
                                     <th class="text-end">Bunga Pinjaman</th>
                                     <th class="text-end">Pemeliharaan</th>
-                                    <th class="text-end">Depresiasi</th>
-                                    <th class="text-end">Volume</th>
-                                    <th class="text-end">Cost</th>
-                                    <th>Created By</th>
+                                    <th class="text-end">Depresiasi (tahun)</th>
+                                    <th class="text-end">Volume Per (hari)</th>
+                                    <th class="text-end">Cost Per (pasien)</th>
+                                    <th>Sumber</th>
+                                    <th>Status</th>
+                                    <th>Update By</th>
                                     <th class="pe-4 text-end rounded-end">Action</th>
                                 </tr>
                             </thead>

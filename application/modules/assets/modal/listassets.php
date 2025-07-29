@@ -90,7 +90,7 @@
 													<span class="required">Nama Asset</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Specify your unique app name" aria-label="Specify your unique app name"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="name" placeholder="" value="" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" name="name" id="name" placeholder="" value="" required>
 											</div>
 
 											<div class="fv-row">
@@ -200,7 +200,7 @@
 													<span class="required">Qty / Luas (m²)</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Total QTY / luas bangunan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="volume" placeholder="Contoh: ± 3.241,00 m² / 1 Unit" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" name="volume" id="volume" placeholder="Contoh: ± 3.241,00 m² / 1 Unit">
 											</div>
 
 											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
@@ -224,7 +224,7 @@
 													<span class="required">Estimasi Penggunaan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="estimasi_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" name="estimasi_penggunaan" id="estimasi_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>
 											</div>
 
 										</div>
@@ -237,7 +237,7 @@
 													<span class="required">Nilai Perolehan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Harga awal perolehan aset/bangunan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="nilai_perolehan" placeholder="Contoh: 12.500.000.000" required>
+												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="nilai_perolehan" id="nilai_perolehan" placeholder="Contoh: 12.500.000.000" required>
 											</div>
 
 											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
@@ -303,7 +303,7 @@
 													<span class="required">Depresiasi</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Waktu penyusutan aset"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="depresiasi" placeholder="Contoh: 20 Tahun" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" name="depresiasi" id="depresiasi" placeholder="Contoh: 20 Tahun" required>
 											</div>
 
 
@@ -564,7 +564,7 @@
 													<span class="required">Nama Asset</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Silakan masukan nama asset" aria-label="Silakan masukan nama asset"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_name" name="modal_assets_edit_name" placeholder="" value="" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_name" name="modal_assets_edit_name" placeholder="Silakan masukan nama asset">
 											</div>
 											<div class="fv-row">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-4">
@@ -592,7 +592,7 @@
 													<span>Tahun Perolehan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tahun Perolehan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_tahun" name="modal_assets_edit_tahun" placeholder="Contoh: ± 2013" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_tahun" name="modal_assets_edit_tahun" placeholder="Contoh: ± 2013">
 											</div>
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
@@ -604,15 +604,15 @@
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span>Qty / Luas (m²)</span>
+													<span class="required">Qty / Luas (m²)</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Total QTY / luas bangunan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_volume" name="modal_assets_edit_volume" placeholder="Contoh: ± 3.241,00 m² / 1 Unit" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_volume" name="modal_assets_edit_volume" placeholder="Contoh: ± 3.241,00 m² / 1 Unit">
 											</div>
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span>Estimasi Penggunaan</span>
+													<span class="required">Estimasi Penggunaan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
 												</label>
 												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_penggunaan" name="modal_assets_edit_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>

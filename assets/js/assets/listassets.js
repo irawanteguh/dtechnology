@@ -175,23 +175,25 @@ function masterassets() {
                         row += "<td class='ps-4'><div>" + (result[i].no_assets || "") + "</div><div>" + (result[i].noiventaris || "") + "</div><div>" + (result[i].no_laporan_penilaian_assets || "") + "</div></td>";
                         row += "<td><div>" + result[i].name + "</div><div class='fst-italic fs-9'>" + (result[i].spesifikasi || "") + "</div>" + (result[i].operasional === "Y" ? "<i class='bi-clock-history text-danger me-1'></i>" : "") + (result[i].air === "Y" ? "<i class='bi bi-droplet-fill text-primary me-1'></i>" : "") + (result[i].listrik === "Y" ? "<i class='bi bi-lightning-charge-fill text-warning me-1'></i>" : "") + (result[i].internet === "Y" ? "<i class='bi bi-wifi text-info'></i>" : "") + "</td>";
                         if (result[i].jenis_id != "2") {
-                            row += "<td><div>"+(result[i].rincianasset || "")+"</div><div class='badge badge-light-info badge-sm'>"+(result[i].statusassets || "")+"</div></td>";
+                            row += "<td><div>"+(result[i].rincianasset || "")+"</div></td>";
                         }
                         row += "<td class='text-end'>" + (result[i].volume ? todesimal(result[i].volume) : "") + "</td>";
-                        row += "<td class='text-center'><div>"+(result[i].tahun_perolehan || "")+"</div><div class='badge badge-light-info badge-sm'>"+(result[i].sumber || "")+"</div></td>";
+                        row += "<td class='text-center'><div>"+(result[i].tahun_perolehan || "")+"</div></td>";
                         row += "<td class='text-end'><span title='Nilai Perolehan'>" + (result[i].nilai_perolehan ? todesimal(result[i].nilai_perolehan) : "") + "</span></td>";
                         row += "<td class='text-end'><div><span title='Bunga Pinjaman'>" + (result[i].nilai_bunga_pinjaman ? todesimal(result[i].nilai_bunga_pinjaman)+"</span></div><div><span title='Bunga Pinjaman'>"+ (result[i].waktu_bunga || "") + " Tahun" : "") + "</span></div></td>";
-                        row += "<td class='text-end'><span title='Biaya Pemeliharaan'>" + (result[i].nilai_pemeliharaan ? todesimal(result[i].nilai_pemeliharaan) + " / Bulan" : "") + "</span></td>";
+                        row += "<td class='text-end'><span title='Biaya Pemeliharaan'>" + (result[i].nilai_pemeliharaan ? todesimal(result[i].nilai_pemeliharaan) : "") + "</span></td>";
 
                         // Tampilkan kolom harga per m² hanya jika jenis_id bukan 1 (bukan alkes)
                         if (result[i].jenis_id === "2") {
                             row += "<td class='text-end'>" + (result[i].nilaibangunanpermeter ? todesimal(result[i].nilaibangunanpermeter) : "0") + "</td>";
                         }
 
-                        row += "<td class='text-end'>" + (result[i].waktu_depresiasi ? result[i].waktu_depresiasi + " Tahun" : "") + "</td>";
-                        row += "<td class='text-end'>" + (result[i].estimasi_penggunaan_day ? result[i].estimasi_penggunaan_day + " / Hari" : "") + "</td>";
+                        row += "<td class='text-end'>" + (result[i].waktu_depresiasi ? result[i].waktu_depresiasi : "") + "</td>";
+                        row += "<td class='text-end'>" + (result[i].estimasi_penggunaan_day ? result[i].estimasi_penggunaan_day : "") + "</td>";
                         row += "<td class='text-end'><span title='Cost Per Pasien'>" + (result[i].costperpasien ? todesimal(result[i].costperpasien) : "0") + "</span></td>";
-                        row += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + result[i].tgldibuat + "</div></td>";
+                        row += "<td><div class='badge badge-light-info badge-sm'>"+(result[i].sumber || "")+"</div></td>";
+                        row += "<td><div class='badge badge-light-info badge-sm'>"+(result[i].statusassets || "")+"</div></td>";
+                        row += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + (result[i].lastupdatedate || "" ) + "</div></td>";
                 
 
                         row += "<td class='text-end pe-4'>";
@@ -562,43 +564,125 @@ function generateRumusTable(resultItem) {
 }
 
 var KTCreateApp = (function () {
-    var stepper, form, nextBtn, prevBtn, stepperInstance;
+
     return {
         insertform: function () {
-            const stepperElement  = document.querySelector("#modal_assets_add_stepper");
-            const form            = document.querySelector("#forminsertassets");
-            const btnNext         = stepperElement.querySelector('[data-kt-stepper-action="next"]');
-            const btnPrev         = stepperElement.querySelector('[data-kt-stepper-action="previous"]');
-            const btnSubmit       = document.querySelector("#btn_submit_assets");
+            const stepperElement = document.querySelector("#modal_assets_add_stepper");
+            const form           = document.querySelector("#forminsertassets");
+            const btnSubmit      = document.querySelector("#btn_submit_assets");
+            const btnNext        = stepperElement.querySelector('[data-kt-stepper-action="next"]');
+            const btnPrev        = stepperElement.querySelector('[data-kt-stepper-action="previous"]');
+        
+            // Init Stepper
+            const stepper = new KTStepper(stepperElement);
 
-            // Inisialisasi stepper
-            const stepperInstance = new KTStepper(stepperElement);
+            stepper.on("kt.stepper.next", function (e) {
+                const current = stepper.getCurrentStepIndex();
+            
+                if(current === 1){
+                    const nama        = $("#name").val().trim();
+                    const kategori    = $("input[name='category']:checked").val();
+                    const inputVolume = $("#volume");
+                    const depresiasi  = $("#depresiasi");
+            
+                    if (nama === "" || typeof kategori === "undefined") {
+                        Swal.fire({
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html             : "<b>Silakan lengkapi Nama atau kategori asset.</b>",
+                            icon             : "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling   : false,
+                            timerProgressBar : true,
+                            timer            : 5000,
+                            customClass      : { confirmButton: "btn btn-danger" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }else{
+                        if(kategori === "2"){
+                            inputVolume.prop("readonly", false);     // Aktifkan input
+                            inputVolume.val("");                     // Kosongkan jika perlu
+
+                            depresiasi.prop("readonly", true);      // Disable input
+                            depresiasi.val("20"); 
+                        } else {
+                            inputVolume.prop("readonly", true);      // Disable input
+                            inputVolume.val("1");                    // Isi dengan 1
+                        }
+                    }
+                }
+
+                if(current === 2){
+                    const estimasi = $("#estimasi_penggunaan").val();
+
+                    if (estimasi === "" || estimasi === "0") {
+                        Swal.fire({
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html             : "<b>Silakan lengkapi Estimasi Penggunaan Asset Dalam Sehari.</b>",
+                            icon             : "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling   : false,
+                            timerProgressBar : true,
+                            timer            : 5000,
+                            customClass      : { confirmButton: "btn btn-danger" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }
+                }
+
+                if(current === 3){
+
+                    const nilaiasset = $("#nilai_perolehan").val().trim();
+                    const depresiasi = $("#depresiasi").val().trim();
+            
+                    if (nilaiasset === "" || nilaiasset === "Rp. 0" || depresiasi === "" || depresiasi === "0") {
+                        Swal.fire({
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html             : "<b>Silakan lengkapi Nilai Perolehan dan Depresiasi.</b>",
+                            icon             : "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling   : false,
+                            timerProgressBar : true,
+                            timer            : 5000,
+                            customClass      : { confirmButton: "btn btn-danger" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }
+                }
+
+
+                e.goNext();
+            });
 
             // Saat step berubah
-            stepperInstance.on("kt.stepper.changed", function () {
-                const current = stepperInstance.getCurrentStepIndex(); // pakai stepperInstance
-
-                if(current === 5){
+            stepper.on("kt.stepper.changed", function () {
+                const current = stepper.getCurrentStepIndex();
+                if (current === 5) {
                     btnSubmit.classList.remove("d-none");
                     btnSubmit.classList.add("d-inline-block");
-                    btnNext.classList.add("d-none");
+                    btnNext?.classList.add("d-none");
                 } else {
                     btnSubmit.classList.add("d-none");
-                    btnNext.classList.remove("d-none");
+                    btnNext?.classList.remove("d-none");
                 }
             });
 
-            // Tombol Next
-            btnNext.addEventListener("click", function (e) {
+            // Tombol Next — jangan panggil goNext lagi!
+            btnNext?.addEventListener("click", function (e) {
                 e.preventDefault();
-                stepperInstance.goNext(); // pakai stepperInstance
+                // Tidak perlu stepper.goNext() lagi di sini
                 KTUtil.scrollTop();
             });
-
+        
             // Tombol Previous
-            btnPrev.addEventListener("click", function (e) {
+            btnPrev?.addEventListener("click", function (e) {
                 e.preventDefault();
-                stepperInstance.goPrevious();
+                stepper.goPrevious();
                 KTUtil.scrollTop();
             });
 
@@ -655,14 +739,99 @@ var KTCreateApp = (function () {
             const btnSubmit      = document.querySelector("#btn_edit_assets");
             const btnNext        = stepperElement.querySelector('[data-kt-stepper-action="next"]');
             const btnPrev        = stepperElement.querySelector('[data-kt-stepper-action="previous"]');
-
+        
             // Init Stepper
             const stepper = new KTStepper(stepperElement);
+        
+            // Validasi sebelum next step
+            stepper.on("kt.stepper.next", function (e) {
+                const current = stepper.getCurrentStepIndex();
+            
+                if(current === 1){
+                    const nama        = $("#modal_assets_edit_name").val().trim();
+                    const kategori    = $("input[name='categoryedit']:checked").val();
+                    const inputVolume = $("#modal_assets_edit_volume");
+                    const depresiasi  = $("#modal_assets_edit_depresiasi");
+            
+                    if (nama === "" || typeof kategori === "undefined") {
+                        Swal.fire({
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html             : "<b>Silakan lengkapi Nama atau kategori asset.</b>",
+                            icon             : "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling   : false,
+                            timerProgressBar : true,
+                            timer            : 5000,
+                            customClass      : { confirmButton: "btn btn-danger" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }else{
+                        if(kategori === "2"){
+                            inputVolume.prop("readonly", false);     // Aktifkan input
+                            inputVolume.val("");                     // Kosongkan jika perlu
 
-            // Saat step berubah
+                            depresiasi.prop("readonly", true);      // Disable input
+                            depresiasi.val("20"); 
+                        } else {
+                            inputVolume.prop("readonly", true);      // Disable input
+                            inputVolume.val("1");                    // Isi dengan 1
+                        }
+                    }
+                }
+
+                if(current === 2){
+                    const estimasi = $("#modal_assets_edit_penggunaan").val().trim();
+            
+                    if (estimasi === "" || estimasi === "0") {
+                        Swal.fire({
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html             : "<b>Silakan lengkapi Estimasi Penggunaan Asset Dalam Sehari.</b>",
+                            icon             : "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling   : false,
+                            timerProgressBar : true,
+                            timer            : 5000,
+                            customClass      : { confirmButton: "btn btn-danger" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }
+                }
+
+                if(current === 4){
+
+                    const nilaiasset = $("#modal_assets_edit_nilaiasset").val().trim();
+                    const depresiasi = $("#modal_assets_edit_depresiasi").val().trim();
+            
+                    if (nilaiasset === "" || nilaiasset === "Rp. 0" || depresiasi === "" || depresiasi === "0") {
+                        Swal.fire({
+                            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                            html             : "<b>Silakan lengkapi Nilai Perolehan dan Depresiasi.</b>",
+                            icon             : "error",
+                            confirmButtonText: "Please Try Again",
+                            buttonsStyling   : false,
+                            timerProgressBar : true,
+                            timer            : 5000,
+                            customClass      : { confirmButton: "btn btn-danger" },
+                            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        });
+                        return;
+                    }
+                }
+
+
+                e.goNext();
+            });
+            
+        
+            // Update tampilan tombol saat step berubah
             stepper.on("kt.stepper.changed", function () {
                 const current = stepper.getCurrentStepIndex();
-
+        
                 if (current === 6) {
                     btnSubmit.classList.remove("d-none");
                     btnSubmit.classList.add("d-inline-block");
@@ -672,29 +841,29 @@ var KTCreateApp = (function () {
                     btnNext?.classList.remove("d-none");
                 }
             });
-
-            // Tombol Next
+        
+            // Tombol Next — jangan panggil goNext lagi!
             btnNext?.addEventListener("click", function (e) {
                 e.preventDefault();
-                stepper.goNext();
+                // Tidak perlu stepper.goNext() lagi di sini
                 KTUtil.scrollTop();
             });
-
+        
             // Tombol Previous
             btnPrev?.addEventListener("click", function (e) {
                 e.preventDefault();
                 stepper.goPrevious();
                 KTUtil.scrollTop();
             });
-
-            // Tombol Submit AJAX
+        
+            // Tombol Submit
             btnSubmit.addEventListener("click", function (e) {
                 e.preventDefault();
                 btnSubmit.setAttribute("data-kt-indicator", "on");
                 btnSubmit.disabled = true;
-
+        
                 const formData = new FormData(form);
-
+        
                 $.ajax({
                     url: url + "index.php/assets/listassets/editassets",
                     method: "POST",
@@ -709,13 +878,13 @@ var KTCreateApp = (function () {
                     success: function (data) {
                         btnSubmit.removeAttribute("data-kt-indicator");
                         btnSubmit.disabled = false;
-
+        
                         if (data.responCode === "00") {
                             masterassets();
                             $('#modal_assets_edit').modal('hide');
-                            stepper.goTo(1); // Reset ke step awal
+                            stepper.goTo(1); // Reset ke awal
                         }
-
+        
                         toastr[data.responHead](data.responDesc, "INFORMATION");
                     },
                     complete: function () {
@@ -724,7 +893,7 @@ var KTCreateApp = (function () {
                     error: function () {
                         btnSubmit.removeAttribute("data-kt-indicator");
                         btnSubmit.disabled = false;
-
+        
                         Swal.fire({
                             text: "Terjadi kesalahan sistem. Coba lagi nanti.",
                             icon: "error",
