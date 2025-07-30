@@ -107,6 +107,7 @@
 				</svg>
 			</span>
 		</div>
+
 		<?php      
 			include_once(APPPATH."views/template/script.php");
 		?>
