@@ -1,6 +1,22 @@
 <?php
     class Modelunitcost extends CI_Model{
 
+        function masterorganization($parameter){
+            $query =
+                    "
+                        select a.org_id, org_name
+                        from dt01_gen_organization_ms a
+                        where a.active='1'
+                        and   a.holding='N'
+                        ".$parameter."
+                        order by org_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+        
         function masterkategori(){
             $query =
                     "

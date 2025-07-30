@@ -18,6 +18,13 @@
             $resultstatusasset   = $this->md->statusasset();
             $resultsumberasset   = $this->md->sumberasset();
 
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
+
             $kategoriassets = "";
             foreach($resultkategoriasset as $a){
                 $kategoriassets .= "<label class='d-flex flex-stack mb-5 cursor-pointer'>";
@@ -88,10 +95,16 @@
                 $sumberasset.="<option value='".$a->code."'>".$a->master_name."</option>";
             }
 
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
             $data['kategoriassets']     = $kategoriassets;
             $data['kategoriassetsedit'] = $kategoriassetsedit;
             $data['statusasset']        = $statusasset;
             $data['sumberasset']        = $sumberasset;
+            $data['masterorganization'] = $masterorganization;
             return $data;
         }
 
@@ -129,8 +142,6 @@
         }
 
         public function editassets(){
-            
-            
             $data['name']                        = $this->input->post("modal_assets_edit_name");
             $data['jenis_id']                    = $this->input->post("categoryedit");
             
@@ -198,7 +209,8 @@
         }
 
         public function masterassets(){
-            $result = $this->md->masterassets($_SESSION['orgid']);
+            $orgid = $this->input->post("orgid");
+            $result = $this->md->masterassets($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

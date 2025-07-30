@@ -7,4 +7,4 @@
 	</div>
 </div>
 
-<a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_assets_add"><i class="bi bi-database-fill-add"></i> Add Assets</a>
+<a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add"><i class="bi bi-database-fill-add"></i> Add Simulation</a>

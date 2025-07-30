@@ -118,6 +118,11 @@ filterbarang.on('change', filterTablerumahtangga);
 filtersoftware.on('change', filterTablesoftware);
 
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    masterlayanan();
+});
+
 $("#modal_unit_cost_edit").on('show.bs.modal', function(event){
     var button      = $(event.relatedTarget);
     var datalayanid = button.attr("datalayanid");
@@ -208,8 +213,10 @@ function getdata(btn){
 };
 
 function masterlayanan(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url       : url+"index.php/unitcost/unitcost/masterlayanan",
+        data      : {orgid:orgid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,

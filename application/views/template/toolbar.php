@@ -1,8 +1,8 @@
 <div class="toolbar" id="kt_toolbar">
 	<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
 		
-		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
-			<!-- <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Dashboard</h1>
+		<!-- <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Dashboard</h1>
 			<span class="h-20px border-gray-200 border-start mx-4"></span>
 			<ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
 				<li class="breadcrumb-item text-muted">
@@ -12,10 +12,61 @@
 					<span class="bullet bg-gray-200 w-5px h-2px"></span>
 				</li>
 				<li class="breadcrumb-item text-dark">Light Aside</li>
-			</ul> -->
+			</ul>
+		</div> -->
+
+		<div class="d-flex align-items-center me-5 mb-3 mb-md-0">
+			<!-- <div class="d-flex align-items-center flex-shrink-0">
+				<span class="fs-7 text-gray-700 fw-bolder pe-3">Actions:</span>
+				<div class="d-flex flex-shrink-0">
+					<div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Add a team member">
+						<a href="#" class="btn btn-sm btn-icon btn-active-color-success" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+							<span class="svg-icon svg-icon-2x">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="black" />
+									<rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="black" />
+									<rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
+								</svg>
+							</span>
+						</a>
+					</div>
+					<div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Create new account">
+						<a href="#" class="btn btn-sm btn-icon btn-active-color-success" data-bs-toggle="modal" data-bs-target="#kt_modal_create_account">
+							<span class="svg-icon svg-icon-2x">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<path opacity="0.3" d="M22 5V19C22 19.6 21.6 20 21 20H19.5L11.9 12.4C11.5 12 10.9 12 10.5 12.4L3 20C2.5 20 2 19.5 2 19V5C2 4.4 2.4 4 3 4H21C21.6 4 22 4.4 22 5ZM7.5 7C6.7 7 6 7.7 6 8.5C6 9.3 6.7 10 7.5 10C8.3 10 9 9.3 9 8.5C9 7.7 8.3 7 7.5 7Z" fill="black" />
+									<path d="M19.1 10C18.7 9.60001 18.1 9.60001 17.7 10L10.7 17H2V19C2 19.6 2.4 20 3 20H21C21.6 20 22 19.6 22 19V12.9L19.1 10Z" fill="black" />
+								</svg>
+							</span>
+						</a>
+					</div>
+					<div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Invite friends">
+						<a href="#" class="btn btn-sm btn-icon btn-active-color-success" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+							<span class="svg-icon svg-icon-2x">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.3" x="2" y="2" width="20" height="20" rx="4" fill="black" />
+									<rect x="11" y="11" width="2.6" height="2.6" rx="1.3" fill="black" />
+									<rect x="15" y="11" width="2.6" height="2.6" rx="1.3" fill="black" />
+									<rect x="7" y="11" width="2.6" height="2.6" rx="1.3" fill="black" />
+								</svg>
+							</span>
+						</a>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="d-flex align-items-center flex-shrink-0">
+				<!-- <div class="bullet bg-secondary h-35px w-1px mx-5"></div> -->
+				<?php
+					$fileprogress = APPPATH . 'modules/' . $this->uri->segment(1) . '/progress/' . $this->uri->segment(2) . ".php";
+					if(file_exists($fileprogress)){
+						include_once($fileprogress);
+					}
+				?>
+			</div>
 		</div>
 
-		<div class="d-flex align-items-center py-1">
+		<div class="d-flex align-items-center">
 			<?php
 				$filetoolbar = APPPATH . 'modules/' . $this->uri->segment(1) . '/toolbar/' . $this->uri->segment(2) . ".php";
 				$filefilter = APPPATH . 'modules/' . $this->uri->segment(1) . '/filter/' . $this->uri->segment(2) . ".php";

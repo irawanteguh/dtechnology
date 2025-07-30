@@ -15,20 +15,32 @@
 
         public function loadcombobox(){
             $resultmasterkategori = $this->md->masterkategori();
-            
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
             
             $masterkategori="";
             foreach($resultmasterkategori as $a ){
                 $masterkategori.="<option value='".$a->code."'>".$a->master_name."</option>";
             }
 
-            $data['masterkategori'] = $masterkategori;
-            
+
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
+            $data['masterkategori']     = $masterkategori;
+            $data['masterorganization'] = $masterorganization;
             return $data;
 		}
 
         public function masterlayanan(){
-            $result = $this->md->masterlayanan($_SESSION['orgid']);
+            $orgid  = $this->input->post("orgid");
+            $result = $this->md->masterlayanan($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

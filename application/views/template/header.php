@@ -1,6 +1,5 @@
 <div id="kt_header" style="" class="header align-items-stretch">
 	<div class="container-fluid d-flex align-items-stretch justify-content-between">
-
 		<div class="d-flex align-items-center d-lg-none ms-n3 me-1" title="Show aside menu">
 			<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_aside_mobile_toggle">
 				<span class="svg-icon svg-icon-2x mt-1">
@@ -11,13 +10,11 @@
 				</span>
 			</div>
 		</div>
-
 		<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
 			<a href='../dashboard/dashboard' class="d-lg-none">
 				<img alt="Logo" src="<?php echo base_url();?>assets/images/logo/dtechnology.png" class="h-50px" />
 			</a>
 		</div>
-
 		<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
 
 			<div class="d-flex align-items-stretch" id="kt_header_nav">
@@ -41,9 +38,7 @@
 
 			<div class="d-flex align-items-stretch flex-shrink-0">
 				<div class="d-flex align-items-stretch flex-shrink-0">
-
 					<div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
-
 						<div class="btn btn-active-light d-flex align-items-center bg-hover-light py-2 px-2 px-md-3 show menu-dropdown" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
 							<div class="d-none d-md-flex flex-column align-items-end justify-content-center me-2">
 								<span class="text-muted fs-7 fw-bold lh-1 mb-2">Hello</span>
@@ -51,7 +46,7 @@
 							</div>
 							<div class="symbol symbol-30px symbol-md-40px">
 								<?php
-									$colors = ['danger', 'warning', 'success', 'primary'];
+									$colors      = ['danger', 'warning', 'success', 'primary'];
 									$randomIndex = array_rand($colors);
 									$randomColor = $colors[$randomIndex];
 									
@@ -99,7 +94,6 @@
 								<a data-bs-toggle="modal" data-bs-target="#modal_root_change_password" class="menu-link px-5">Change Password</a>
 							</div>
 							<div class="menu-item px-5">
-							
 								<a data-bs-toggle="modal" data-bs-target="#modal-logout" class="menu-link px-5">Sign Out</a>
 							</div>
 						</div>
@@ -115,7 +109,6 @@
 							</span>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
