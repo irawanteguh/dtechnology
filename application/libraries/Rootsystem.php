@@ -48,6 +48,7 @@
             $menuprofile         = "";
             $menuprofileshortcut = "";
             $menusupport         = "";
+            $quicklink           = "";
 
             foreach (self::$resultmenu as $cat) {
                 if($cat["PARENT"] === "C"){
@@ -91,6 +92,16 @@
                         }
                     }
                 }
+
+                if($cat["QUICK"] === "Y"){
+                    $quicklink .="<div class='col-6'>";
+                        $quicklink .="<a href='".base_url()."index.php/".$cat['PACKAGE']."/".$cat['DEF_CONTROLLER']."' class='d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom'>";
+                            $quicklink .="<i class='".$cat['ICON']." text-primary fa-2x mb-3'></i>";
+                            $quicklink .= "<span class='fs-5 fw-bold text-gray-800 mb-0 text-center d-block text-truncate' style='max-width: 100%;'>".$cat['MODULES_NAME']."</span>";
+                            $quicklink .="<span class='fs-7 text-gray-400'>".$cat['MODULES_NAME']."</span>";
+                        $quicklink .="</a>";
+                    $quicklink .="</div>";
+                }
             }
 
             $data["menu"]                = !empty($category) ? $category    : "";
@@ -98,6 +109,7 @@
             $data["menuprofile"]         = !empty($menuprofile) ? $menuprofile: "";
             $data["menusupport"]         = !empty($menusupport) ? $menusupport: "";
             $data["menuprofileshortcut"] = !empty($menuprofileshortcut) ? $menuprofileshortcut: "";
+            $data["quicklink"]           = !empty($quicklink) ? $quicklink    : "";
 
             self::$app->load->vars($data);
         }
@@ -133,7 +145,6 @@
             return $menu_html;
         }
         
-
         public static function generate_submenuheader($parent_id){
             $submenu_html = "";
         
@@ -167,7 +178,7 @@
         public static function generate_menu($parent_id){
             $menu_html = "";
             $classbtn  = "";
-            $classhead  = "";
+            $classhead = "";
 
             foreach(self::$resultmenu as $menu){
                 if($menu["MODULES_HEADER_ID"] === $parent_id){
@@ -210,7 +221,7 @@
         }
 
         public static function generate_submenu($parent_id){
-            $submenu_html     = "";
+            $submenu_html = "";
         
             foreach (self::$resultmenu as $submenu) {
                 if ($submenu['MODULES_HEADER_ID'] === $parent_id) {
@@ -286,6 +297,5 @@
             self::$app->load->vars($data);
         }
         
-    
     }
 ?>

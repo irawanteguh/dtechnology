@@ -595,88 +595,88 @@ var KTCreateApp = (function () {
             // Init Stepper
             const stepper = new KTStepper(stepperElement);
 
-            // stepper.on("kt.stepper.next", function (e) {
-            //     const current = stepper.getCurrentStepIndex();
+            stepper.on("kt.stepper.next", function (e) {
+                const current = stepper.getCurrentStepIndex();
             
-            //     if(current === 1){
-            //         const nama        = $("#name").val().trim();
-            //         const kategori    = $("input[name='category']:checked").val();
-            //         const inputVolume = $("#volume");
-            //         const depresiasi  = $("#depresiasi");
+                // if(current === 1){
+                //     const nama        = $("#name").val().trim();
+                //     const kategori    = $("input[name='category']:checked").val();
+                //     const inputVolume = $("#volume");
+                //     const depresiasi  = $("#depresiasi");
             
-            //         if (nama === "" || typeof kategori === "undefined") {
-            //             Swal.fire({
-            //                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-            //                 html             : "<b>Silakan lengkapi Nama atau kategori asset.</b>",
-            //                 icon             : "error",
-            //                 confirmButtonText: "Please Try Again",
-            //                 buttonsStyling   : false,
-            //                 timerProgressBar : true,
-            //                 timer            : 5000,
-            //                 customClass      : { confirmButton: "btn btn-danger" },
-            //                 showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-            //                 hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
-            //             });
-            //             return;
-            //         }else{
-            //             if(kategori === "2"){
-            //                 inputVolume.prop("readonly", false);     // Aktifkan input
-            //                 inputVolume.val("");                     // Kosongkan jika perlu
+                //     if (nama === "" || typeof kategori === "undefined") {
+                //         Swal.fire({
+                //             title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                //             html             : "<b>Silakan lengkapi Nama atau kategori asset.</b>",
+                //             icon             : "error",
+                //             confirmButtonText: "Please Try Again",
+                //             buttonsStyling   : false,
+                //             timerProgressBar : true,
+                //             timer            : 5000,
+                //             customClass      : { confirmButton: "btn btn-danger" },
+                //             showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                //             hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                //         });
+                //         return;
+                //     }else{
+                //         if(kategori === "2"){
+                //             inputVolume.prop("readonly", false);     // Aktifkan input
+                //             inputVolume.val("");                     // Kosongkan jika perlu
 
-            //                 depresiasi.prop("readonly", true);      // Disable input
-            //                 depresiasi.val("20"); 
-            //             } else {
-            //                 inputVolume.prop("readonly", true);      // Disable input
-            //                 inputVolume.val("1");                    // Isi dengan 1
-            //             }
-            //         }
-            //     }
+                //             depresiasi.prop("readonly", true);      // Disable input
+                //             depresiasi.val("20"); 
+                //         } else {
+                //             inputVolume.prop("readonly", true);      // Disable input
+                //             inputVolume.val("1");                    // Isi dengan 1
+                //         }
+                //     }
+                // }
 
-            //     if(current === 2){
-            //         const estimasi = $("#estimasi_penggunaan").val();
+                // if(current === 2){
+                //     const estimasi = $("#estimasi_penggunaan").val();
 
-            //         if (estimasi === "" || estimasi === "0") {
-            //             Swal.fire({
-            //                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-            //                 html             : "<b>Silakan lengkapi Estimasi Penggunaan Asset Dalam Sehari.</b>",
-            //                 icon             : "error",
-            //                 confirmButtonText: "Please Try Again",
-            //                 buttonsStyling   : false,
-            //                 timerProgressBar : true,
-            //                 timer            : 5000,
-            //                 customClass      : { confirmButton: "btn btn-danger" },
-            //                 showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-            //                 hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
-            //             });
-            //             return;
-            //         }
-            //     }
+                //     if (estimasi === "" || estimasi === "0") {
+                //         Swal.fire({
+                //             title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                //             html             : "<b>Silakan lengkapi Estimasi Penggunaan Asset Dalam Sehari.</b>",
+                //             icon             : "error",
+                //             confirmButtonText: "Please Try Again",
+                //             buttonsStyling   : false,
+                //             timerProgressBar : true,
+                //             timer            : 5000,
+                //             customClass      : { confirmButton: "btn btn-danger" },
+                //             showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                //             hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                //         });
+                //         return;
+                //     }
+                // }
 
-            //     if(current === 3){
+                // if(current === 3){
 
-            //         const nilaiasset = $("#nilai_perolehan").val().trim();
-            //         const depresiasi = $("#depresiasi").val().trim();
+                //     const nilaiasset = $("#nilai_perolehan").val().trim();
+                //     const depresiasi = $("#depresiasi").val().trim();
             
-            //         if (nilaiasset === "" || nilaiasset === "Rp. 0" || depresiasi === "" || depresiasi === "0") {
-            //             Swal.fire({
-            //                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-            //                 html             : "<b>Silakan lengkapi Nilai Perolehan dan Depresiasi.</b>",
-            //                 icon             : "error",
-            //                 confirmButtonText: "Please Try Again",
-            //                 buttonsStyling   : false,
-            //                 timerProgressBar : true,
-            //                 timer            : 5000,
-            //                 customClass      : { confirmButton: "btn btn-danger" },
-            //                 showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-            //                 hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
-            //             });
-            //             return;
-            //         }
-            //     }
+                //     if (nilaiasset === "" || nilaiasset === "Rp. 0" || depresiasi === "" || depresiasi === "0") {
+                //         Swal.fire({
+                //             title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                //             html             : "<b>Silakan lengkapi Nilai Perolehan dan Depresiasi.</b>",
+                //             icon             : "error",
+                //             confirmButtonText: "Please Try Again",
+                //             buttonsStyling   : false,
+                //             timerProgressBar : true,
+                //             timer            : 5000,
+                //             customClass      : { confirmButton: "btn btn-danger" },
+                //             showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                //             hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                //         });
+                //         return;
+                //     }
+                // }
 
 
-            //     e.goNext();
-            // });
+                e.goNext();
+            });
 
 
 
@@ -766,88 +766,88 @@ var KTCreateApp = (function () {
             const stepper = new KTStepper(stepperElement);
         
             // Validasi sebelum next step
-            // stepper.on("kt.stepper.next", function (e) {
-            //     const current = stepper.getCurrentStepIndex();
+            stepper.on("kt.stepper.next", function (e) {
+                const current = stepper.getCurrentStepIndex();
             
-            //     if(current === 1){
-            //         const nama        = $("#modal_assets_edit_name").val().trim();
-            //         const kategori    = $("input[name='categoryedit']:checked").val();
-            //         const inputVolume = $("#modal_assets_edit_volume");
-            //         const depresiasi  = $("#modal_assets_edit_depresiasi");
+                // if(current === 1){
+                //     const nama        = $("#modal_assets_edit_name").val().trim();
+                //     const kategori    = $("input[name='categoryedit']:checked").val();
+                //     const inputVolume = $("#modal_assets_edit_volume");
+                //     const depresiasi  = $("#modal_assets_edit_depresiasi");
             
-            //         if (nama === "" || typeof kategori === "undefined") {
-            //             Swal.fire({
-            //                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-            //                 html             : "<b>Silakan lengkapi Nama atau kategori asset.</b>",
-            //                 icon             : "error",
-            //                 confirmButtonText: "Please Try Again",
-            //                 buttonsStyling   : false,
-            //                 timerProgressBar : true,
-            //                 timer            : 5000,
-            //                 customClass      : { confirmButton: "btn btn-danger" },
-            //                 showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-            //                 hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
-            //             });
-            //             return;
-            //         }else{
-            //             if(kategori === "2"){
-            //                 inputVolume.prop("readonly", false);     // Aktifkan input
-            //                 inputVolume.val("");                     // Kosongkan jika perlu
+                //     if (nama === "" || typeof kategori === "undefined") {
+                //         Swal.fire({
+                //             title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                //             html             : "<b>Silakan lengkapi Nama atau kategori asset.</b>",
+                //             icon             : "error",
+                //             confirmButtonText: "Please Try Again",
+                //             buttonsStyling   : false,
+                //             timerProgressBar : true,
+                //             timer            : 5000,
+                //             customClass      : { confirmButton: "btn btn-danger" },
+                //             showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                //             hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                //         });
+                //         return;
+                //     }else{
+                //         if(kategori === "2"){
+                //             inputVolume.prop("readonly", false);     // Aktifkan input
+                //             inputVolume.val("");                     // Kosongkan jika perlu
 
-            //                 depresiasi.prop("readonly", true);      // Disable input
-            //                 depresiasi.val("20"); 
-            //             } else {
-            //                 inputVolume.prop("readonly", true);      // Disable input
-            //                 inputVolume.val("1");                    // Isi dengan 1
-            //             }
-            //         }
-            //     }
+                //             depresiasi.prop("readonly", true);      // Disable input
+                //             depresiasi.val("20"); 
+                //         } else {
+                //             inputVolume.prop("readonly", true);      // Disable input
+                //             inputVolume.val("1");                    // Isi dengan 1
+                //         }
+                //     }
+                // }
 
-            //     if(current === 2){
-            //         const estimasi = $("#modal_assets_edit_penggunaan").val().trim();
+                // if(current === 2){
+                //     const estimasi = $("#modal_assets_edit_penggunaan").val().trim();
             
-            //         if (estimasi === "" || estimasi === "0") {
-            //             Swal.fire({
-            //                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-            //                 html             : "<b>Silakan lengkapi Estimasi Penggunaan Asset Dalam Sehari.</b>",
-            //                 icon             : "error",
-            //                 confirmButtonText: "Please Try Again",
-            //                 buttonsStyling   : false,
-            //                 timerProgressBar : true,
-            //                 timer            : 5000,
-            //                 customClass      : { confirmButton: "btn btn-danger" },
-            //                 showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-            //                 hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
-            //             });
-            //             return;
-            //         }
-            //     }
+                //     if (estimasi === "" || estimasi === "0") {
+                //         Swal.fire({
+                //             title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                //             html             : "<b>Silakan lengkapi Estimasi Penggunaan Asset Dalam Sehari.</b>",
+                //             icon             : "error",
+                //             confirmButtonText: "Please Try Again",
+                //             buttonsStyling   : false,
+                //             timerProgressBar : true,
+                //             timer            : 5000,
+                //             customClass      : { confirmButton: "btn btn-danger" },
+                //             showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                //             hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                //         });
+                //         return;
+                //     }
+                // }
 
-            //     if(current === 4){
+                // if(current === 4){
 
-            //         const nilaiasset = $("#modal_assets_edit_nilaiasset").val().trim();
-            //         const depresiasi = $("#modal_assets_edit_depresiasi").val().trim();
+                //     const nilaiasset = $("#modal_assets_edit_nilaiasset").val().trim();
+                //     const depresiasi = $("#modal_assets_edit_depresiasi").val().trim();
             
-            //         if (nilaiasset === "" || nilaiasset === "Rp. 0" || depresiasi === "" || depresiasi === "0") {
-            //             Swal.fire({
-            //                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-            //                 html             : "<b>Silakan lengkapi Nilai Perolehan dan Depresiasi.</b>",
-            //                 icon             : "error",
-            //                 confirmButtonText: "Please Try Again",
-            //                 buttonsStyling   : false,
-            //                 timerProgressBar : true,
-            //                 timer            : 5000,
-            //                 customClass      : { confirmButton: "btn btn-danger" },
-            //                 showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-            //                 hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
-            //             });
-            //             return;
-            //         }
-            //     }
+                //     if (nilaiasset === "" || nilaiasset === "Rp. 0" || depresiasi === "" || depresiasi === "0") {
+                //         Swal.fire({
+                //             title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                //             html             : "<b>Silakan lengkapi Nilai Perolehan dan Depresiasi.</b>",
+                //             icon             : "error",
+                //             confirmButtonText: "Please Try Again",
+                //             buttonsStyling   : false,
+                //             timerProgressBar : true,
+                //             timer            : 5000,
+                //             customClass      : { confirmButton: "btn btn-danger" },
+                //             showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                //             hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                //         });
+                //         return;
+                //     }
+                // }
 
 
-            //     e.goNext();
-            // });
+                e.goNext();
+            });
             
         
             // Update tampilan tombol saat step berubah

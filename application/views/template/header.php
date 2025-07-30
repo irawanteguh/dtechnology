@@ -38,6 +38,40 @@
 
 			<div class="d-flex align-items-stretch flex-shrink-0">
 				<div class="d-flex align-items-stretch flex-shrink-0">
+
+					<div class="d-flex align-items-center ms-1 ms-lg-3">
+						<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+							<span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
+									<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
+									<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
+									<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
+								</svg>
+							</span>
+						</div>
+
+						<div class="menu menu-sub menu-sub-dropdown menu-column w-250px w-lg-325px" data-kt-menu="true">
+							<div class="d-flex flex-column flex-center bgi-no-repeat rounded-top px-9 py-10" style="background-image:url('<?php echo base_url('assets/images/misc/pattern-1.jpg'); ?>')">
+								<h3 class="text-white fw-bold mb-3">Quick Links</h3>
+								<span class="badge bg-primary py-2 px-3">0 pending tasks</span>
+							</div>
+							<div class="row g-0">
+								<?php echo $quicklink; ?>
+							</div>
+							<div class="py-2 text-center border-top">
+								<a href="#" class="btn btn-color-gray-600 btn-active-color-primary">View All
+									<span class="svg-icon svg-icon-5">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+											<rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="black" />
+											<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="black" />
+										</svg>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+
 					<div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
 						<div class="btn btn-active-light d-flex align-items-center bg-hover-light py-2 px-2 px-md-3 show menu-dropdown" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
 							<div class="d-none d-md-flex flex-column align-items-end justify-content-center me-2">
@@ -99,7 +133,7 @@
 						</div>
 					</div>
 
-					<div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="Show header menu">
+					<!-- <div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="Show header menu">
 						<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_header_menu_mobile_toggle">
 							<span class="svg-icon svg-icon-1">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -108,7 +142,7 @@
 								</svg>
 							</span>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
