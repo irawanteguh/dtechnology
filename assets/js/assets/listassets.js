@@ -331,6 +331,8 @@ function masterassets() {
                 let persenValid = Math.round((dataValid / totalData) * 100);
                 console.log("Valid: " + dataValid + " dari total: " + totalData + " (" + persenValid + "%)");
                 $("#progressbar").css("width", persenValid + "%").attr("aria-valuenow", persenValid).text(persenValid + "%");
+            }else{
+                $("#progressbar").css("width", "0%").attr("aria-valuenow", 0).text("0%");
             }
 
             $("#resultdatamasterassets_1").html(tableAlkes);

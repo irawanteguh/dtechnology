@@ -231,7 +231,10 @@ function masterlayanan(){
             var namapelayanan = new Set();
 
             if(data.responCode==="00"){
-                let result = data.responResult;
+                let result    = data.responResult;
+                let totalData = result.length;
+                let dataValid = 0;
+
                 for(var i in result){
                     kategori.add(result[i].kategori);
                     namapelayanan.add(result[i].nama_layan);
@@ -244,6 +247,11 @@ function masterlayanan(){
                                        " datacom2='" + result[i].com_2 + "'" +
                                        " datacom3='" + result[i].com_3 + "'" +
                                        " datatype='" + result[i].type + "'" ;
+
+                    let isValid =   result[i].cost && result[i].cost !== '0';
+                    if (isValid) {
+                        dataValid++;
+                    }
 
                     let com1 = parseFloat(result[i].com_1) || 0;
                     let com2 = parseFloat(result[i].com_2) || 0;
@@ -312,6 +320,12 @@ function masterlayanan(){
                     filterkategori.settings.whitelist      = Array.from(kategori);
                     filternamapelayanan.settings.whitelist = Array.from(namapelayanan);
                 }
+
+                let persenValid = Math.round((dataValid / totalData) * 100);
+                console.log("Valid: " + dataValid + " dari total: " + totalData + " (" + persenValid + "%)");
+                $("#progressbar").css("width", persenValid + "%").attr("aria-valuenow", persenValid).text(persenValid + "%");
+            }else{
+                $("#progressbar").css("width", "0%").attr("aria-valuenow", 0).text("0%");
             }
 
 
