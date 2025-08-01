@@ -100,10 +100,14 @@
                 $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
             }
 
-            $data['kategoriassets']     = $kategoriassets;
+            $data['kategoriassetsadd']  = $kategoriassets;
             $data['kategoriassetsedit'] = $kategoriassetsedit;
-            $data['statusasset']        = $statusasset;
-            $data['sumberasset']        = $sumberasset;
+
+            $data['statusassetadd']     = $statusasset;
+            $data['statusassetedit']    = $statusasset;
+
+            $data['sumberassetadd']        = $sumberasset;
+            $data['sumberassetedit']        = $sumberasset;
             $data['masterorganization'] = $masterorganization;
             return $data;
         }
@@ -112,19 +116,31 @@
             $data['org_id']                      = $_SESSION['orgid'];
             $data['trans_id']                    = generateuuid();
             $data['no_assets']                   = generateUniqueCode();
-            $data['no_laporan_penilaian_assets'] = $this->input->post("laporan_penilaian");
-            $data['name']                        = $this->input->post("name");
+
+            
+            $data['name']                        = $this->input->post("modal_assets_add_name");
             $data['jenis_id']                    = $this->input->post("category");
-            $data['tahun_perolehan']             = $this->input->post("tahun_dibangun");
-            $data['dinding']                     = $this->input->post("dinding_pelapis");
-            $data['volume']                      = $this->input->post("volume");
-            $data['estimasi_penggunaan_day']     = $this->input->post("estimasi_penggunaan");
-            $data['nilai_perolehan']             = preg_replace('/[^0-9]/', '', $this->input->post("nilai_perolehan"));
-            $data['nilai_pemeliharaan']          = preg_replace('/[^0-9]/', '', $this->input->post("biaya_pemeliharaan"));
-            $data['waktu_bunga']                 = $this->input->post("waktu_pinjaman");
-            $data['nilai_bunga_pinjaman']        = preg_replace('/[^0-9]/', '', $this->input->post("bunga_pinjaman"));
-            $data['waktu_depresiasi']            = $this->input->post("depresiasi");
-            $data['location_id']                 = ($this->input->post("location_id") === 'x') ? null : $this->input->post("location_id");
+            $data['spesifikasi']                 = $this->input->post("modal_assets_add_spesifikasi");
+            $data['tahun_perolehan']             = $this->input->post("modal_assets_add_tahun");
+            $data['tanggal_pembelian']           = ($dt = DateTime::createFromFormat("d.m.Y", $this->input->post("modal_assets_add_tanggal"))) ? $dt->format("Y-m-d") : null;
+            $data['volume']                      = $this->input->post("modal_assets_add_volume");
+            $data['vol_listrik']                 = $this->input->post("modal_assets_add_vollistrik");
+            $data['estimasi_penggunaan_day']     = $this->input->post("modal_assets_add_penggunaan");
+            $data['sumber_id']                   = $this->input->post("modal_assets_add_sumber");
+            $data['nilai_perolehan']             = preg_replace('/[^0-9]/', '', $this->input->post("modal_assets_add_nilaiasset"));
+            $data['nilai_pemeliharaan']          = preg_replace('/[^0-9]/', '', $this->input->post("modal_assets_add_nilaipemeliharaan"));
+            $data['nilai_bunga_pinjaman']        = preg_replace('/[^0-9]/', '', $this->input->post("modal_assets_add_nilaibunga"));
+            $data['waktu_bunga']                 = $this->input->post("modal_assets_add_waktubunga");
+            $data['waktu_depresiasi']            = $this->input->post("modal_assets_add_depresiasi");
+            $data['air']                         = $this->input->post("modal_assets_add_air")         == 'on' ? 'Y' : 'N';
+            $data['listrik']                     = $this->input->post("modal_assets_add_listrik")     == 'on' ? 'Y' : 'N';
+            $data['internet']                    = $this->input->post("modal_assets_add_internet")    == 'on' ? 'Y' : 'N';
+            $data['24_jam']                      = $this->input->post("modal_assets_add_operasional") == 'on' ? 'Y' : 'N';
+            $data['serial_number']               = $this->input->post("modal_assets_add_sn") ?: null;
+            $data['no_inventaris']               = $this->input->post("modal_assets_add_noinventaris") ?: null;
+            $data['no_laporan_penilaian_assets'] = $this->input->post("modal_assets_add_laporanasset") ?: null;
+            $data['location_id']                 = ($this->input->post("modal_assets_add_location") === 'x') ? null : $this->input->post("modal_assets_add_location");
+            $data['status_id']                   = $this->input->post("modal_assets_add_status");
             $data['created_by']                  = $_SESSION['userid'];
             $data['last_update_by']              = $_SESSION['userid'];
 

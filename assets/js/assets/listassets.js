@@ -18,7 +18,7 @@ $('#modal_assets_add').on('shown.bs.modal', function () {
 		method : "POST",
 		cache  : false,
 		success: function (data) {
-			$("select[name='location_id']").html(data);
+			$("select[name='modal_assets_add_location']").html(data);
 		}
 	});
 });
@@ -102,6 +102,15 @@ $('#modal_assets_edit').on('shown.bs.modal', function (event) {
 });
 
 flatpickr('[name="modal_assets_edit_tanggal"]', {
+    enableTime: false,
+    dateFormat: "d.m.Y",
+    maxDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
+        instance.close();
+    }
+});
+
+flatpickr('[name="modal_assets_add_tanggal"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
     maxDate   : "today",
@@ -600,15 +609,15 @@ var KTCreateApp = (function () {
                 const current = stepper.getCurrentStepIndex();
             
                 if(current === 1){
-                    const nama        = $("#name").val().trim();
+                    const nama        = $("#modal_assets_add_name").val().trim();
                     const kategori    = $("input[name='category']:checked").val();
-                    const inputVolume = $("#volume");
-                    const depresiasi  = $("#depresiasi");
+                    const inputVolume = $("#modal_assets_add_volume");
+                    const depresiasi  = $("#modal_assets_add_depresiasi");
             
                     if (nama === "" || typeof kategori === "undefined") {
                         Swal.fire({
                             title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                            html             : "<b>Silakan lengkapi Nama atau kategori asset.</b>",
+                            html             : "<b>Silakan lengkapi nama atau kategori asset.</b>",
                             icon             : "error",
                             confirmButtonText: "Please Try Again",
                             buttonsStyling   : false,

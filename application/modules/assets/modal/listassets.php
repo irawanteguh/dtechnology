@@ -96,18 +96,17 @@
 											<div class="fv-row mb-10 fv-plugins-icon-container">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Nama Asset</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Specify your unique app name" aria-label="Specify your unique app name"></i>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Silakan masukan nama asset" aria-label="Silakan masukan nama asset"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="name" id="name" placeholder="" value="" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_name" name="modal_assets_add_name" placeholder="Silakan masukan nama asset">
 											</div>
-
 											<div class="fv-row">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-4">
 													<span class="required">Kategori Asset</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Select your app category" aria-label="Select your app category"></i>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Silakan masukan kategori asset" aria-label="Silakan masukan kategori asset"></i>
 												</label>
 												<div class="fv-row fv-plugins-icon-container fv-plugins-bootstrap5-row-valid">
-													<?php echo $kategoriassets;?>
+													<?php echo $kategoriassetsadd;?>
                                                 </div>
 											</div>
 										</div>
@@ -115,126 +114,43 @@
 
 									<div data-kt-stepper-element="content">
 										<div class="w-100 row">
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Spesifikasi</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Silakan masukan spesifikasi asset" aria-label="Silakan masukan spesifikasi asset"></i>
+												</label>
+												<textarea class="form-control form-control-lg form-control-solid" name="modal_assets_add_spesifikasi" id="modal_assets_add_spesifikasi"></textarea>
+											</div>
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Tahun Perolehan</span>
+													<span>Tahun Perolehan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tahun Perolehan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="tahun_dibangun" placeholder="Contoh: ± 2013" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_tahun" name="modal_assets_add_tahun" placeholder="Contoh: ± 2013">
 											</div>
-
-											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Jumlah Lantai</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jumlah total lantai bangunan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="jumlah_lantai" placeholder="Contoh: 6 (enam) lantai">
-											</div>
-
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Pondasi</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis pondasi bangunan"></i>
+													<span>Tanggal Pembelian</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tanggal Pembelian"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="pondasi" placeholder="Contoh: Tiang pancang / Bor pile">
+												<input class="form-control form-control-solid flatpickr-input" name="modal_assets_add_tanggal" placeholder="Pilih Tanggal Pembelian" id="modal_assets_add_tanggal" type="text">
 											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Struktur</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Struktur utama bangunan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="struktur" placeholder="Contoh: Beton bertulang">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Rangka Atap</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis rangka atap"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="rangka_atap" placeholder="Contoh: Dak beton">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Penutup Atap</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Bahan penutup atap"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="penutup_atap" placeholder="Contoh: Dak beton">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Plafon</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis plafon yang digunakan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="plafon" placeholder="Contoh: Gypsum">
-											</div> -->
-
-											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Dinding & Pelapis</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis material dan pelapis dinding"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="dinding_pelapis" placeholder="Contoh: Bata ringan dilapis cat" required>
-											</div> -->
-
-											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Pintu</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis bahan dan rangka pintu"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="pintu" placeholder="Contoh: Kaca rangka aluminium">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Jendela</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis bahan dan rangka jendela"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="jendela" placeholder="Contoh: Kaca rangka aluminium">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Lantai</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Material lantai utama"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="lantai" placeholder="Contoh: Keramik">
-											</div> -->
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Qty / Luas (m²)</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Total QTY / luas bangunan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="volume" id="volume" placeholder="Contoh: ± 3.241,00 m² / 1 Unit">
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_volume" name="modal_assets_add_volume" placeholder="Contoh: ± 3.241,00 m² / 1 Unit">
 											</div>
-
-											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Kualitas Bangunan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Kualitas konstruksi secara umum"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="kualitas_bangunan" placeholder="Contoh: Baik">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Kondisi Bangunan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Kondisi terkini bangunan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="kondisi_bangunan" placeholder="Contoh: Terawat">
-											</div> -->
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 													<span class="required">Estimasi Penggunaan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="estimasi_penggunaan" id="estimasi_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>
-											</div>
-
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_penggunaan" name="modal_assets_add_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>
+											</div>						
 										</div>
 									</div>
 
@@ -251,7 +167,7 @@
 													</div>
 													<div class="d-flex">
 														<label class="form-check form-check-custom form-check-solid">
-															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_operasional" name="modal_assets_edit_operasional">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_add_operasional" name="modal_assets_add_operasional">
 															<span class="form-check-label fw-bold">Klik Jika Iya</span>
 														</label>
 													</div>
@@ -268,7 +184,7 @@
 													</div>
 													<div class="d-flex">
 														<label class="form-check form-check-custom form-check-solid">
-															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_air" name="modal_assets_edit_air">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_add_air" name="modal_assets_add_air">
 															<span class="form-check-label fw-bold">Klik Jika Iya</span>
 														</label>
 													</div>
@@ -285,7 +201,7 @@
 													</div>
 													<div class="d-flex">
 														<label class="form-check form-check-custom form-check-solid">
-															<input class="form-check-input h-20px w-20px" type="checkbox" ID="modal_assets_edit_internet" name="modal_assets_edit_internet">
+															<input class="form-check-input h-20px w-20px" type="checkbox" ID="modal_assets_add_internet" name="modal_assets_add_internet">
 															<span class="form-check-label fw-bold">Klik Jika Iya</span>
 														</label>
 													</div>
@@ -302,7 +218,7 @@
 													</div>
 													<div class="d-flex">
 														<label class="form-check form-check-custom form-check-solid">
-															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_listrik" name="modal_assets_edit_listrik">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_add_listrik" name="modal_assets_add_listrik">
 															<span class="form-check-label fw-bold">Klik Jika Iya</span>
 														</label>
 													</div>
@@ -313,7 +229,7 @@
 													<span>Beban Listrik (kW)</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Masukkan estimasi beban listrik per hari dalam satuan kilowatt (kW)."></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_vollistrik" name="modal_assets_edit_vollistrik" placeholder="Contoh: 5 kW" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_vollistrik" name="modal_assets_add_vollistrik" placeholder="Contoh: 5 kW" required>
 											</div>
 										</div>
 									</div>
@@ -322,174 +238,76 @@
 										<div class="w-100 row">
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Nilai Perolehan</span>
+													<span>Nilai Perolehan</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Harga awal perolehan aset/bangunan"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="nilai_perolehan" id="nilai_perolehan" placeholder="Contoh: 12.500.000.000" required>
+												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" id="modal_assets_add_nilaiasset" name="modal_assets_add_nilaiasset" placeholder="Contoh: 12.500.000.000" required>
 											</div>
-
-											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Biaya Perijinan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="IMB, SLF, PBG, amdal, dll."></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="biaya_perijinan" placeholder="Contoh: 150.000.000">
-											</div>
-
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Biaya Konsultan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Biaya arsitek, struktur, MEP, manajemen proyek"></i>
+													<span>Sumber Asset</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Lokasi Penempatan Barang"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="biaya_konsultan" placeholder="Contoh: 250.000.000">
+												<select data-control="select2" data-dropdown-parent="#modal_assets_add" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_add_sumber" name="modal_assets_add_sumber" required>
+													<?php echo $sumberassetadd;?>
+												</select>
 											</div>
-
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Biaya Konstruksi</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nilai pekerjaan fisik bangunan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="biaya_konstruksi" placeholder="Contoh: 10.000.000.000">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Biaya Pengawasan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Pengawasan pekerjaan, audit teknis, supervisi"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="biaya_pengawasan" placeholder="Contoh: 200.000.000">
-											</div> -->
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Biaya Pemeliharaan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Perawatan setelah serah terima konstruksi"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="biaya_pemeliharaan" placeholder="Contoh: 50.000.000 / Bulan">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Jangka Waktu Pinjaman</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jangka Waktu Pinjaman Jika pembangunan dibiayai kredit/pinjaman"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="waktu_pinjaman" placeholder="Contoh: 20 Tahun" required>
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Bunga Pinjaman</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jika pembangunan dibiayai kredit/pinjaman"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" name="bunga_pinjaman" placeholder="Contoh: 100.000.000" required>
-											</div>
-
-											
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Depresiasi</span>
+													<span>Depresiasi</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Waktu penyusutan aset"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="depresiasi" id="depresiasi" placeholder="Contoh: 20 Tahun" required>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_depresiasi" name="modal_assets_add_depresiasi" placeholder="Contoh: 20 Tahun" required>
 											</div>
-
-
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Biaya Pemeliharaan</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Biaya pemeliharaan"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" id="modal_assets_add_nilaipemeliharaan" name="modal_assets_add_nilaipemeliharaan" placeholder="Contoh: 50.000.000 / Bulan">
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Jangka Waktu Pinjaman</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jangka Waktu Pinjaman Jika pembangunan dibiayai kredit/pinjaman"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_waktubunga" name="modal_assets_add_waktubunga" placeholder="Contoh: 20 Tahun" required>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Bunga Pinjaman</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jika pembangunan dibiayai kredit/pinjaman"></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid currency-rp" id="modal_assets_add_nilaibunga" name="modal_assets_add_nilaibunga" placeholder="Contoh: 100.000.000" required>
+											</div>
 										</div>
 									</div>
 
 									<div data-kt-stepper-element="content">
 										<div class="w-100 row">
-											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Sertifikat Kepemilikan</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis sertifikat seperti SHM, HGB, dsb."></i>
+													<span>Serial Number</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nomor atau referensi serial number"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="sertifikat_kepemilikan" placeholder="Contoh: SHM No. 12345/2020">
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_sn" name="modal_assets_add_sn" placeholder="Contoh: XXXXXX">
 											</div>
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Izin Mendirikan Bangunan (IMB)</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nomor dan tanggal IMB atau PBG"></i>
+													<span>No Inventaris</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nomor atau referensi no iventaris"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="imb" placeholder="Contoh: IMB No. 123/IMB/2020">
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_noinventaris" name="modal_assets_add_noinventaris" placeholder="Contoh: 0001/JANGMED/2025">
 											</div>
 
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Gambar / Blueprint</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nama file atau link ke dokumen gambar bangunan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="blueprint" placeholder="Contoh: blueprint_rsu_2020.pdf">
-											</div> -->
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Laporan Penilaian Aset</span>
+													<span>Laporan Penilaian Aset</span>
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nomor atau referensi appraisal / penilaian aset"></i>
 												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="laporan_penilaian" placeholder="Contoh: LAP/Penilaian/2023/001">
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_add_laporanasset" name="modal_assets_add_laporanasset" placeholder="Contoh: LAP/Penilaian/2023/001">
 											</div>
-
-											<!-- <div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Status Hukum</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Milik sendiri / sewa / pinjam pakai, dll."></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="status_hukum" placeholder="Contoh: Milik sendiri">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Nama Pemilik / Instansi</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nama pemilik bangunan atau lembaga terkait"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="nama_pemilik" placeholder="Contoh: PT Rumah Sehat Indonesia">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Nomor Dokumen Legal</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Nomor dokumen hukum terkait kepemilikan / hak guna"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="nomor_dokumen" placeholder="Contoh: 0123/SHM/2022">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Alamat Lengkap</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Alamat lokasi bangunan secara lengkap"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="alamat_lengkap" placeholder="Contoh: Jl. Kesehatan No.12, Jakarta Selatan, DKI Jakarta">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-3">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Latitude</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Koordinat latitude lokasi bangunan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="latitude" placeholder="Contoh: -6.231234">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-3">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Longitude</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Koordinat longitude lokasi bangunan"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="longitude" placeholder="Contoh: 106.812345">
-											</div>
-
-											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
-												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span>Link Google Maps (opsional)</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Link lokasi di Google Maps (bila tersedia)"></i>
-												</label>
-												<input type="text" class="form-control form-control-lg form-control-solid" name="link_maps" placeholder="Contoh: https://maps.google.com/?q=-6.23,106.81">
-											</div> -->
-
-
-
 										</div>
 									</div>
 
@@ -497,15 +315,25 @@
 										<div class="w-100 row">
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
 												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-													<span class="required">Lokasi Penempatan Asset</span>
-													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis sertifikat seperti SHM, HGB, dsb."></i>
+													<span>Lokasi Penempatan Asset</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Lokasi Penempatan Barang"></i>
 												</label>
-												<select data-control="select2" data-dropdown-parent="#modal_assets_add" data-placeholder="Please Select Location" class="form-select form-select-solid" name="location_id" id="location_id" required>
-													<?php echo $location;?>
+												<select data-control="select2" data-dropdown-parent="#modal_assets_add" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_add_location" name="modal_assets_add_location" required>
+													<?php echo $locationadd;?>
+												</select>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Status Asset</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Status Asset"></i>
+												</label>
+												<select data-control="select2" data-dropdown-parent="#modal_assets_add" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_add_status" name="modal_assets_add_status" required>
+													<?php echo $statusassetadd;?>
 												</select>
 											</div>
 										</div>
 									</div>
+									
 									
 									<div class="d-flex flex-stack pt-10">
 										<div class="me-2">
@@ -803,7 +631,7 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Lokasi Penempatan Barang"></i>
 												</label>
 												<select data-control="select2" data-dropdown-parent="#modal_assets_edit" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_edit_sumber" name="modal_assets_edit_sumber" required>
-													<?php echo $sumberasset;?>
+													<?php echo $sumberassetedit;?>
 												</select>
 											</div>
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
@@ -873,7 +701,7 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Lokasi Penempatan Barang"></i>
 												</label>
 												<select data-control="select2" data-dropdown-parent="#modal_assets_edit" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_edit_location" name="modal_assets_edit_location" required>
-													<?php echo $location;?>
+													<?php echo $locationedit;?>
 												</select>
 											</div>
 											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
@@ -882,7 +710,7 @@
 													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Status Asset"></i>
 												</label>
 												<select data-control="select2" data-dropdown-parent="#modal_assets_edit" data-placeholder="Please Select Location" class="form-select form-select-solid" id="modal_assets_edit_status" name="modal_assets_edit_status" required>
-													<?php echo $statusasset;?>
+													<?php echo $statusassetedit;?>
 												</select>
 											</div>
 										</div>
