@@ -42,7 +42,6 @@
 											<div class="stepper-desc">Masukkan spesifikasi asset</div>
 										</div>
 									</div>
-
 									<div class="stepper-item" data-kt-stepper-element="nav">
 										<div class="stepper-line w-40px"></div>
 										<div class="stepper-icon w-40px h-40px">
@@ -50,11 +49,10 @@
 											<span class="stepper-number">3</span>
 										</div>
 										<div class="stepper-label">
-											<h3 class="stepper-title">Nilai Asset</h3>
-											<div class="stepper-desc">Masukkan nilai asset</div>
+											<h3 class="stepper-title">Utilisasi</h3>
+											<div class="stepper-desc">Masukkan utilisasi</div>
 										</div>
 									</div>
-
 									<div class="stepper-item" data-kt-stepper-element="nav">
 										<div class="stepper-line w-40px"></div>
 										<div class="stepper-icon w-40px h-40px">
@@ -62,16 +60,26 @@
 											<span class="stepper-number">4</span>
 										</div>
 										<div class="stepper-label">
-											<h3 class="stepper-title">Dokumen Aset</h3>
-											<div class="stepper-desc">Unggah dokumen pendukung</div>
+											<h3 class="stepper-title">Nilai Asset</h3>
+											<div class="stepper-desc">Masukkan nilai asset</div>
 										</div>
 									</div>
-
 									<div class="stepper-item" data-kt-stepper-element="nav">
 										<div class="stepper-line w-40px"></div>
 										<div class="stepper-icon w-40px h-40px">
 											<i class="stepper-check fas fa-check"></i>
 											<span class="stepper-number">5</span>
+										</div>
+										<div class="stepper-label">
+											<h3 class="stepper-title">Dokumen Aset</h3>
+											<div class="stepper-desc">Unggah dokumen pendukung</div>
+										</div>
+									</div>
+									<div class="stepper-item" data-kt-stepper-element="nav">
+										<div class="stepper-line w-40px"></div>
+										<div class="stepper-icon w-40px h-40px">
+											<i class="stepper-check fas fa-check"></i>
+											<span class="stepper-number">6</span>
 										</div>
 										<div class="stepper-label">
 											<h3 class="stepper-title">Lokasi</h3>
@@ -227,6 +235,86 @@
 												<input type="text" class="form-control form-control-lg form-control-solid" name="estimasi_penggunaan" id="estimasi_penggunaan" placeholder="Contoh: 5 Tindakan / Hari" required>
 											</div>
 
+										</div>
+									</div>
+
+									<div data-kt-stepper-element="content">
+										<div class="w-100 row">
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Operasional 24 Jam</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Apakah Assets Beroperasional 24 Jam"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Operasional 24 Jam</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_operasional" name="modal_assets_edit_operasional">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Menggunakan Air</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Menggunakan Air</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_air" name="modal_assets_edit_air">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Menggunakan Internet</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Menggunakan Internet</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" ID="modal_assets_edit_internet" name="modal_assets_edit_internet">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-12">
+												<div class="d-flex flex-stack">
+													<div class="me-5">
+														<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+															<span>Menggunakan listrik</span>
+															<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Estimasi Penggunaan Dalam Sehari"></i>
+														</label>
+														<div class="fs-7 fw-bold text-muted">Assets Menggunakan Listrik</div>
+													</div>
+													<div class="d-flex">
+														<label class="form-check form-check-custom form-check-solid">
+															<input class="form-check-input h-20px w-20px" type="checkbox" id="modal_assets_edit_listrik" name="modal_assets_edit_listrik">
+															<span class="form-check-label fw-bold">Klik Jika Iya</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="fv-row mb-10 fv-plugins-icon-container col-xl-6">
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span>Beban Listrik (kW)</span>
+													<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Masukkan estimasi beban listrik per hari dalam satuan kilowatt (kW)."></i>
+												</label>
+												<input type="text" class="form-control form-control-lg form-control-solid" id="modal_assets_edit_vollistrik" name="modal_assets_edit_vollistrik" placeholder="Contoh: 5 kW" required>
+											</div>
 										</div>
 									</div>
 

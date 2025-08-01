@@ -4,13 +4,8 @@
         <div class="mb-3">
             <label for="txt_file" class="form-label fw-bold">Upload File Claim</label>
             <div class="input-group">
-                <!-- Input File -->
                 <input type="file" class="form-control" name="txt_file" id="txt_file" accept=".txt" required>
-
-                <!-- Tombol Gabungan -->
-                <button class="btn btn-primary btn-sm" type="submit" id="actionBtn">
-                    <i class="bi bi-upload"></i> Upload
-                </button>
+                <button class="btn btn-primary btn-sm" type="submit" id="actionBtn"><i class="bi bi-upload"></i> Upload</button>
             </div>
         </div>
     </form>
