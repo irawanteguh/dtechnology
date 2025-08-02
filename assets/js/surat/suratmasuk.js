@@ -154,6 +154,33 @@ function suratmasuk(){
 
                     tableresult +="<td>"+(result[i].perihal || "")+"</td>";
                     tableresult +="<td>"+(result[i].ringkasan || "")+"</td>";
+
+                    if(result[i].disposisi != null){
+                    
+                        let rincianArray = result[i].disposisi.split(";");
+                        tableresult +="<td>";
+                        rincianArray.forEach(function(item) {
+                            let parts = item.split(":");
+
+                            let trans_id         = parts[0];
+                            let response         = parts[1];
+                            let responsedatetime = parts[2];
+                            let orgname          = parts[3];
+                            let name             = parts[4];
+
+                            tableresult += "<table class='table'>";
+                                tableresult += "<tbody class='text-gray-600 fw-bold'>";
+                                    tableresult += "<tr><td style='width: 40%;'>Status</td><td style='width: 5%;'>:</td><td style='width: 55%;'><span class='badge " + (response === 'N' ? "badge-light-danger'>Waiting Read" : response === 'Y' ? "badge-light-success'>Read" : "badge-light-secondary'>" + response) + "</span></td></tr>";
+                                    tableresult +="<tr><td>Rumah Sakit</td><td>:</td><td>"+orgname+"</td></tr>";
+                                    tableresult +="<tr><td>Nama</td><td>:</td><td>"+name+"</td></tr>";
+                                tableresult += "</tbody>";
+                            tableresult += "</table>";
+                        })
+                        tableresult +="</td>";
+                    }else{
+                        tableresult +="<td></td>";
+                    }
+
                     tableresult += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + (result[i].tgldibuat || "" ) + "</div></td>";
                     tableresult += "</tr>";
                 }

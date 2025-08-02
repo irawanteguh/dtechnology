@@ -12,9 +12,16 @@ $('#modal_sessionwhatsapp_viewbarcode').on('hidden.bs.modal', function () {
 
 masterdevice();
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    masterdevice();
+});
+
 function masterdevice() {
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url: url + "index.php/whatsapp/sessionwhatsapp/masterdevice",
+        data : {orgid:orgid},
         method: "POST",
         dataType: "JSON",
         cache: false,

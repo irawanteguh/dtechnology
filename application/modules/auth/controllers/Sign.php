@@ -32,6 +32,7 @@
                     "holding"             => $datasession->holding,
                     "userid"              => $datasession->user_id,
                     "leveluser"           => $datasession->level_user,
+                    "departmentid"        => $datasession->departmentid,
                     "name"                => $datasession->name,
                     "initial"             => $datasession->initial,
                     "username"            => $datasession->username,

@@ -10,11 +10,30 @@
         }
 
 		public function index(){
-            $this->template->load("template/template-sidebar","v_sessionwhatsapp");
+			$data = $this->loadcombobox();
+            $this->template->load("template/template-sidebar","v_sessionwhatsapp",$data);
 		}
+		public function loadcombobox(){
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
+
+
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
+            $data['masterorganization'] = $masterorganization;
+            return $data;
+        }
 
 		public function masterdevice(){
-            $result = $this->md->masterdevice($_SESSION['orgid']);
+			$orgid = $this->input->post("orgid");
+            $result = $this->md->masterdevice($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

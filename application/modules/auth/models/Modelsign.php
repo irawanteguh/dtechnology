@@ -23,7 +23,8 @@
                                (select org_name from dt01_gen_organization_ms where active='1' and org_id=a.org_id)hospitalname,
                                (select website  from dt01_gen_organization_ms where active='1' and org_id=a.org_id)website,
                                (select trial    from dt01_gen_organization_ms where active='1' and org_id=a.org_id)trial,
-                               (select holding  from dt01_gen_organization_ms where active='1' and org_id=a.org_id)holding                                
+                               (select holding  from dt01_gen_organization_ms where active='1' and org_id=a.org_id)holding,
+                               (select department_id from dt01_hrd_position_ms where active='1' and org_id=a.org_id and position_id=(select position_id from dt01_hrd_position_dt where active='1' and org_id=a.org_id and user_id=a.user_id and position_primary='Y'))departmentid                                
 
                         from dt01_gen_user_data a
                         where a.active='1'

@@ -84,6 +84,7 @@
         }
 
         public function addposition(){
+            $data['group_id']         = $_SESSION['groupid'];
             $data['org_id']           = $_SESSION['orgid'];
             $data['position_id']      = generateuuid();
             $data['position']         = $this->input->post("data_position_name_add");

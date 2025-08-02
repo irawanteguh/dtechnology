@@ -13,6 +13,21 @@
             return $recordset;
         }
 
+        function disposisi($parameter){
+            $query =
+                    "
+                        select a.org_id, department_id, user_id
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.level_id in ('1','2')
+                        ".$parameter."
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
 
         function pengirimsurat($orgid){
             $query =
@@ -73,7 +88,26 @@
                                 (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=(select user_id from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.dari_id))
                                 else
                                 ''
-                            end namapengirimsurat
+                            end namapengirimsurat,
+                            (
+                                SELECT GROUP_CONCAT(
+                                    concat_ws(
+                                        ':',
+                                        b.transaksi_id,
+                                        b.response,
+                                        ifnull(b.to_datetime,''),
+                                        (select org_name from dt01_gen_organization_ms where org_id=b.to_org_id),
+                                        (select name from dt01_gen_user_data where user_id=b.to_user_id)
+                                    )
+                                    ORDER BY b.from_datetime ASC
+                                    separator ';'
+                                    
+                                )
+                                
+                                FROM dt01_sek_surat_it b
+                                WHERE b.active = '1'
+                                and   b.surat_id=a.trans_id
+                            ) disposisi
                         from dt01_sek_surat_hd a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
@@ -87,6 +121,11 @@
 
         function insertsuratmasuk($data){           
             $sql =   $this->db->insert("dt01_sek_surat_hd",$data);
+            return $sql;
+        }
+
+        function insertdisposisi($data){           
+            $sql =   $this->db->insert("dt01_sek_surat_it",$data);
             return $sql;
         }
 

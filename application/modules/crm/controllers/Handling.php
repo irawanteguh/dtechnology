@@ -16,22 +16,34 @@
         public function loadcombobox(){
             $resultmasterdepartment   = $this->md->masterdepartment();
     
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
+
             $department   = "";
-            $organization = "";
-            $poliklinik   = "";
-            $masterdoctor = "";
+            $masterorganization = "";
+
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
 
             foreach ($resultmasterdepartment as $a) {
                 $department .= "<option value='" . $a->department_id . "'>" . $a->department . "</option>";
             }
 
            
-            $data['department']   = $department;
+            $data['department']         = $department;
+            $data['masterorganization'] = $masterorganization;
             return $data;
         }
 
         public function datahandling(){
-            $result = $this->md->datahandling($_SESSION['orgid']);
+            $orgid = $this->input->post("orgid");
+            $result = $this->md->datahandling($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

@@ -47,9 +47,17 @@ function viewdoc(btn) {
     }
 };
 
+
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    datahandling();
+});
+
 function datahandling(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url       : url + "index.php/crm/handling/datahandling",
+        data :{orgid:orgid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,

@@ -68,11 +68,29 @@
                     $data['dari_id'] = $this->input->post("modal_suratmasuk_add_pengirimsurat_id") ?: null;
                 }
 
-                $data['perihal']   = $this->input->post("modal_suratmasuk_add_perihal") ?: null;
-                $data['ringkasan'] = $this->input->post("modal_suratmasuk_add_ringkasan") ?: null;
-                
-                
-                $data['created_by']          = $_SESSION['userid'];
+                $data['perihal']    = $this->input->post("modal_suratmasuk_add_perihal") ?: null;
+                $data['ringkasan']  = $this->input->post("modal_suratmasuk_add_ringkasan") ?: null;
+                $data['created_by'] = $_SESSION['userid'];
+
+
+                $parameter = "and a.org_id in ('d843b43e-158e-45ce-8f68-795ae1e218d0','".$_SESSION['orgid']."')";
+                $resultdisposisi = $this->md->disposisi($parameter);
+
+                foreach ($resultdisposisi as $a) {
+                    $datadisposisi['group_id']           = $_SESSION['groupid'];
+                    $datadisposisi['org_id']             = $_SESSION['orgid'];
+                    $datadisposisi['transaksi_id']       = generateuuid();
+                    $datadisposisi['surat_id']           = $transid;
+                    $datadisposisi['from_org_id']        = $_SESSION['orgid'];
+                    $datadisposisi['from_department_id'] = $_SESSION['departmentid'];
+                    $datadisposisi['from_user_id']       = $_SESSION['userid'];
+                    $datadisposisi['from_datetime']      = date("Y-m-d H:i:s");
+                    $datadisposisi['to_org_id']          = $a->org_id;
+                    $datadisposisi['to_department_id']   = $a->department_id;
+                    $datadisposisi['to_user_id']         = $a->user_id;
+
+                    $this->md->insertdisposisi($datadisposisi);
+                }
 
                 if($this->md->insertsuratmasuk($data)){
                     $json['responCode']="00";
