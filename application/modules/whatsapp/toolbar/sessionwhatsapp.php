@@ -1,1 +1,1 @@
-<a class="btn btn-light-success btn-sm" onclick="startSession()"><i class="fa-solid fa-database"></i> Session</a>
+<a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_whatsapp_add"><i class="bi bi-database-fill-add"></i>Add Device Mobile</a>

@@ -235,3 +235,50 @@ function deleteSession(sessionId) {
         }
     });
 }
+
+$(document).on("submit", "#formadddevice", function (e) {
+	e.preventDefault();
+    var form = $(this);
+    var url  = $(this).attr("action");
+
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_whatsapp_add_btn").addClass("disabled");
+        },
+		success: function (data) {
+            if(data.responCode == "00"){
+                masterdevice();
+                $('#modal_whatsapp_add').modal('hide');
+			}
+
+            toastr.clear();
+			toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            toastr.clear();
+            $("#modal_whatsapp_add").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}		
+	});
+    return false;
+});

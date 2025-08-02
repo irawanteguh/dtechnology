@@ -68,8 +68,8 @@
 
 		<div class="d-flex align-items-center">
 			<?php
-				$filetoolbar = APPPATH . 'modules/' . $this->uri->segment(1) . '/toolbar/' . $this->uri->segment(2) . ".php";
-				$filefilter = APPPATH . 'modules/' . $this->uri->segment(1) . '/filter/' . $this->uri->segment(2) . ".php";
+				$filetoolbar        = APPPATH . 'modules/' . $this->uri->segment(1) . '/toolbar/' . $this->uri->segment(2) . ".php";
+				$filefilter         = APPPATH . 'modules/' . $this->uri->segment(1) . '/filter/' . $this->uri->segment(2) . ".php";
 
 				if(file_exists($filetoolbar)){
 					echo '<div class="me-4">';
@@ -101,6 +101,26 @@
 						';
 					}
 					echo '</div>';
+					if ($_SESSION['leveluser'] === "83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding'] === "Y") {
+						?>
+							<div class="d-flex align-items-center overflow-auto pt-3 pt-md-0 me-4">
+								<div class="d-flex align-items-center">
+									<span class="fs-7 fw-bolder text-gray-700 pe-4 text-nowrap">Rumah Sakit :</span>
+									<select 
+										data-control="select2" 
+										data-placeholder="Please select" 
+										class="form-select form-select-sm form-select-solid select2-hidden-accessible" 
+										data-hide-search="true" 
+										name="selectorganization" 
+										id="selectorganization"
+									>
+										<?php echo $masterorganization; ?>
+									</select>
+								</div>
+							</div>
+						<?php
+					}
+
 					include_once($filetoolbar);
 				} else {
 					if(file_exists($filefilter)){

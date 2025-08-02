@@ -64,6 +64,24 @@
 			}
 		}
         
+		public function adddevice(){
+			$data['org_id']       = $_SESSION['orgid'];
+			$data['transaksi_id'] = generateuuid();
+			$data['device_id']    = generateUniqueNumber();
+			$data['device_name']  = $this->input->post("modal_whatsapp_add_name");
+
+            if($this->md->insertdevice($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
 	}
 
 ?>
