@@ -43,7 +43,7 @@
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         and   a.level_id='5'
-                        and   a.department_id in ('294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c','e47a3989-52c2-4827-a62f-967a8cc05438')
+                        and   a.department_id in ('294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c','e47a3989-52c2-4827-a62f-967a8cc05438','4a6bbe8d-da22-4024-b898-ed2b18f717c2')
                         order by department asc
                     ";
 

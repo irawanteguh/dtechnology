@@ -202,4 +202,54 @@ function showAlert(title, htmlContent, icon, confirmButtonText, buttonClass, tim
         showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
         hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
     });
-}
+};
+
+function parseCustomDate(dateStr) {
+    const parts = dateStr.split(" ");
+    if (parts.length !== 2) return new Date("Invalid");
+
+    const dateParts = parts[0].split(".");
+    const timePart = parts[1];
+
+    if (dateParts.length !== 3) return new Date("Invalid");
+
+    return new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timePart}`);
+};
+
+function setCountdownSLA(createdAtString, elementId, SLA_HOURS) {
+    if (!createdAtString) return;
+
+    const parts = createdAtString.split(" ");
+    const dateParts = parts[0].split(".");
+    const timePart = parts[1];
+    const isoDateString = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timePart}`;
+
+    const createdAt = new Date(isoDateString);
+    if (isNaN(createdAt)) return;
+
+    const deadline = new Date(createdAt.getTime() + SLA_HOURS * 60 * 60 * 1000);
+
+    const interval = setInterval(() => {
+        const now = new Date();
+        const diff = deadline - now;
+
+        const el = document.getElementById(elementId);
+        if (!el) {
+            clearInterval(interval);
+            return;
+        }
+
+        if (diff <= 0) {
+            el.innerHTML = "Melewati SLA";
+            el.className = "badge badge-light-danger fw-bold";
+            clearInterval(interval);
+        } else {
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            el.innerHTML = `${hours.toString().padStart(2, '0')} Jam : ${minutes.toString().padStart(2, '0')} Menit : ${seconds.toString().padStart(2, '0')} Detik`;
+            el.className = "badge badge-light-success fw-bold";
+        }
+    }, 1000);
+};

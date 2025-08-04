@@ -201,11 +201,98 @@ function suratmasuk(){
                         tableresult += "</div>";
                     tableresult += "</td>";
                     tableresult += "</tr>";
+
+                    if(result[i].disposisi != null){
+                        tableresult +="<tr class='d-none'>";
+                        tableresult +="<td colspan='6'>";
+                        tableresult +="<table class='table'>";
+                        tableresult +="<thead>";
+                        tableresult +="<tr class='fw-bolder text-white bg-info'><th class='rounded-top ps-4' colspan='6'>Penerima Disposisi Surat No : "+result[i].nomor_surat+"</th></tr>";
+                        tableresult +="<tr class='fw-bolder text-white bg-info'>";
+                            tableresult +="<th class='ps-4'>Status</th>";
+                            tableresult +="<th>Instansi / Department</th>";
+                            tableresult +="<th>Nama</th>";
+                            tableresult +="<th>Tanggal dan Jam</th>";
+                            tableresult +="<th>Waiting Time</th>";
+                        tableresult +="</tr>";
+                        tableresult +="</thead>";
+                        tableresult +="<tbody class='text-gray-600 fw-bold'>";
+                        
+                        let rincianArray = result[i].disposisi.split(";");
+
+                        rincianArray.forEach(function(item, index) {
+                            if (!item.trim()) return;  // skip jika kosong
+                            
+                            let parts = item.split("::");
+
+                            let trans_id          = parts[0] || '';
+                            let response          = parts[1] || '';
+                            let disposisidatetime = parts[2] || '';
+                            let responsedatetime  = parts[3] || '';
+                            let orgname           = parts[4] || '';
+                            let name              = parts[5] || '';
+
+                            const timerId = "sla_timer_" + i + "_" + index;  // supaya unik
+
+                            tableresult += "<tr>";
+                            tableresult += "<td class='ps-4'><span class='badge " + 
+                                (response === 'N' ? "badge-light-danger'>Waiting Read" : 
+                                response === 'Y' ? "badge-light-success'>Read" : 
+                                "badge-light-secondary'>" + response) + 
+                                "</span></td>";
+                            tableresult += "<td>" + orgname + "</td>";
+                            tableresult += "<td>" + name + "</td>";
+                            tableresult += "<td>" + disposisidatetime + "</td>";
+                            tableresult += "<td><span id='" + timerId + "'>" + setCountdownSLA(disposisidatetime, timerId, 24) + "</span></td>";
+                            tableresult += "</tr>";
+                        });
+
+                    }
                 }
             }
 
             $("#resultdatasuratmasuk").html(tableresult);
             toastr[data.responHead](data.responDesc, "INFORMATION");
+
+
+            document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
+                button.addEventListener('click', function() {
+                    const tr = this.closest('tr');
+                    const nextTr = tr.nextElementSibling;
+            
+                    // Check if the next row is expanded
+                    const isExpanded = !nextTr.classList.contains('d-none');
+            
+                    // Close any previously expanded rows if it's not the same row that is clicked
+                    if (!isExpanded) {
+                        document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
+                            openRow.classList.add('d-none');
+                            openRow.removeAttribute('data-kt-table-widget-4');
+            
+                            const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
+                            if (openButton) {
+                                openButton.classList.remove('active');
+                                openButton.closest('tr').setAttribute('aria-expanded', 'false');
+                            }
+                        });
+                    }
+            
+                    // Toggle the clicked row
+                    if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
+                        if (isExpanded) {
+                            nextTr.classList.add('d-none');
+                            tr.setAttribute('aria-expanded', 'false');
+                            nextTr.removeAttribute('data-kt-table-widget-4');
+                            this.classList.remove('active');
+                        } else {
+                            nextTr.classList.remove('d-none');
+                            tr.setAttribute('aria-expanded', 'true');
+                            nextTr.setAttribute('data-kt-table-widget-4', 'subtable_template');
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
         },
         complete: function () {
             toastr.clear();

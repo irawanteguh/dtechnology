@@ -92,10 +92,11 @@
                             (
                                 SELECT GROUP_CONCAT(
                                     concat_ws(
-                                        ':',
+                                        '::',
                                         b.transaksi_id,
                                         b.response,
-                                        ifnull(b.to_datetime,''),
+                                        ifnull(date_format(b.from_datetime,'%d.%m.%Y %H:%i:%s'),''),
+                                        ifnull(date_format(b.to_datetime,'%d.%m.%Y %H:%i:%s'),''),
                                         (select org_name from dt01_gen_organization_ms where org_id=b.to_org_id),
                                         (select name from dt01_gen_user_data where user_id=b.to_user_id)
                                     )

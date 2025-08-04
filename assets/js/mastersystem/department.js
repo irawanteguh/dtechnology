@@ -92,9 +92,16 @@ function adduser(btn){
 	return false;
 };
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    masterdepartment();
+});
+
 function masterdepartment(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url       : url + "index.php/mastersystem/department/masterdepartment",
+        data      : {orgid,orgid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
