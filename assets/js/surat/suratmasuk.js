@@ -116,6 +116,8 @@ function suratmasuk(){
                 let result = data.responResult;
 
                 for (let i in result){
+                    var getvariabel =  " datatransid='" + result[i].trans_id + "'";
+
                     tableresult += "<tr>";
 
                     tableresult += "<td class='ps-4'>";
@@ -155,33 +157,49 @@ function suratmasuk(){
                     tableresult +="<td>"+(result[i].perihal || "")+"</td>";
                     tableresult +="<td>"+(result[i].ringkasan || "")+"</td>";
 
-                    if(result[i].disposisi != null){
+                    // if(result[i].disposisi != null){
                     
-                        let rincianArray = result[i].disposisi.split(";");
-                        tableresult +="<td>";
-                        rincianArray.forEach(function(item) {
-                            let parts = item.split(":");
+                    //     let rincianArray = result[i].disposisi.split(";");
+                    //     tableresult +="<td>";
+                    //     rincianArray.forEach(function(item) {
+                    //         let parts = item.split(":");
 
-                            let trans_id         = parts[0];
-                            let response         = parts[1];
-                            let responsedatetime = parts[2];
-                            let orgname          = parts[3];
-                            let name             = parts[4];
+                    //         let trans_id         = parts[0];
+                    //         let response         = parts[1];
+                    //         let responsedatetime = parts[2];
+                    //         let orgname          = parts[3];
+                    //         let name             = parts[4];
 
-                            tableresult += "<table class='table'>";
-                                tableresult += "<tbody class='text-gray-600 fw-bold'>";
-                                    tableresult += "<tr><td style='width: 40%;'>Status</td><td style='width: 5%;'>:</td><td style='width: 55%;'><span class='badge " + (response === 'N' ? "badge-light-danger'>Waiting Read" : response === 'Y' ? "badge-light-success'>Read" : "badge-light-secondary'>" + response) + "</span></td></tr>";
-                                    tableresult +="<tr><td>Rumah Sakit</td><td>:</td><td>"+orgname+"</td></tr>";
-                                    tableresult +="<tr><td>Nama</td><td>:</td><td>"+name+"</td></tr>";
-                                tableresult += "</tbody>";
-                            tableresult += "</table>";
-                        })
-                        tableresult +="</td>";
-                    }else{
-                        tableresult +="<td></td>";
-                    }
+                    //         tableresult += "<table class='table'>";
+                    //             tableresult += "<tbody class='text-gray-600 fw-bold'>";
+                    //                 tableresult += "<tr><td style='width: 40%;'>Status</td><td style='width: 5%;'>:</td><td style='width: 55%;'><span class='badge " + (response === 'N' ? "badge-light-danger'>Waiting Read" : response === 'Y' ? "badge-light-success'>Read" : "badge-light-secondary'>" + response) + "</span></td></tr>";
+                    //                 tableresult +="<tr><td>Rumah Sakit</td><td>:</td><td>"+orgname+"</td></tr>";
+                    //                 tableresult +="<tr><td>Nama</td><td>:</td><td>"+name+"</td></tr>";
+                    //             tableresult += "</tbody>";
+                    //         tableresult += "</table>";
+                    //     })
+                    //     tableresult +="</td>";
+                    // }else{
+                    //     tableresult +="<td></td>";
+                    // }
 
                     tableresult += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + (result[i].tgldibuat || "" ) + "</div></td>";
+                    tableresult += "<td class='text-end'>";
+                    tableresult += "<div class='btn-group' role='group'>";
+                    tableresult += "<div class='btn-group' role='group'>";
+                    tableresult += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                    tableresult += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
+                    tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";
+                    tableresult += "<li><a class='dropdown-item btn btn-sm text-danger'" + getvariabel + " onclick='hapusdata($(this));'><i class='bi bi-trash3 me-2 text-danger'></i>Delete</a></li>";
+                    tableresult += "<li><a class='dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='"+i+"' ><i class='bi bi-eye me-2 text-info'></i>View Rumus</a></li>";
+                    tableresult += "</ul>";
+                    tableresult += "</div>";
+                    tableresult += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
+                    tableresult += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
+                    tableresult += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
+                    tableresult += "</button>";
+                    tableresult += "</div>";
+                    tableresult += "</td>";
                     tableresult += "</tr>";
                 }
             }

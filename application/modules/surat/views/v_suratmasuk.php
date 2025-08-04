@@ -15,9 +15,8 @@
                             <th style="width: 25%;">Informasi Surat</th>
                             <th>Perihal</th>
                             <th>Ringkasan</th>
-                            <th>Disposisi</th>
-                            <th>Di Buat Oleh</th>
-                            <th class="pe-4 text-end rounded-end">Action</th>
+                            <th style="width: 10%;">Di Buat Oleh</th>
+                            <th class="pe-4 text-end rounded-end" style="width: 10%;">Action</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 fw-bold" id="resultdatasuratmasuk"></tbody>
