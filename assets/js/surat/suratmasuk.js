@@ -184,21 +184,21 @@ function suratmasuk(){
                     // }
 
                     tableresult += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + (result[i].tgldibuat || "" ) + "</div></td>";
-                    tableresult += "<td class='text-end'>";
-                    tableresult += "<div class='btn-group' role='group'>";
-                    tableresult += "<div class='btn-group' role='group'>";
-                    tableresult += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                    tableresult += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
-                    tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";
-                    tableresult += "<li><a class='dropdown-item btn btn-sm text-danger'" + getvariabel + " onclick='hapusdata($(this));'><i class='bi bi-trash3 me-2 text-danger'></i>Delete</a></li>";
-                    tableresult += "<li><a class='dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='"+i+"' ><i class='bi bi-eye me-2 text-info'></i>View Rumus</a></li>";
-                    tableresult += "</ul>";
-                    tableresult += "</div>";
-                    tableresult += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
-                    tableresult += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
-                    tableresult += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
-                    tableresult += "</button>";
-                    tableresult += "</div>";
+                        tableresult += "<td class='text-end'>";
+                        tableresult += "<div class='btn-group' role='group'>";
+                            tableresult += "<div class='btn-group' role='group'>";
+                                tableresult += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                                tableresult += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
+                                    tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_assets_edit' " + getvariabel + "><i class='bi bi-pencil-square me-2 text-primary'></i>Edit</a></li>";
+                                    tableresult += "<li><a class='dropdown-item btn btn-sm text-danger'" + getvariabel + " onclick='hapusdata($(this));'><i class='bi bi-trash3 me-2 text-danger'></i>Delete</a></li>";
+                                    tableresult += "<li><a class='dropdown-item btn btn-sm text-info btn-view-rumus' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_rumus' data-index='"+i+"' ><i class='bi bi-eye me-2 text-info'></i>View Rumus</a></li>";
+                                tableresult += "</ul>";
+                            tableresult += "</div>";
+                            tableresult += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
+                                tableresult += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
+                                tableresult += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
+                            tableresult += "</button>";
+                        tableresult += "</div>";
                     tableresult += "</td>";
                     tableresult += "</tr>";
                 }
