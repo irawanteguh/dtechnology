@@ -236,6 +236,7 @@
                 $textMarketing .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textMarketing .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
                 $textMarketing .= "%0aKode Laporan%09: `{$datasaran[0]->code}`";
+                $textMarketing .= "%0a%0aSaran dan Masukan%09:0a_{$datasaran[0]->saran}_";
                 $textMarketing .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
@@ -258,6 +259,7 @@
                 $textDirektur .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textDirektur .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
                 $textDirektur .= "%0aKode Laporan%09: `{$datasaran[0]->code}`";
+                $textDirektur .= "%0a%0aSaran dan Masukan%09:0a_{$datasaran[0]->saran}_";
                 $textDirektur .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
@@ -280,6 +282,7 @@
                 $textDirekturPT .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textDirekturPT .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
                 $textDirekturPT .= "%0aKode Laporan%09: `{$datasaran[0]->code}`";
+                $textDirekturPT .= "%0a%0aSaran dan Masukan%09:0a_{$datasaran[0]->saran}_";
                 $textDirekturPT .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
