@@ -1,7 +1,7 @@
 let qrPollingLoop         = null;
 let pollingConnectionLoop = null;
 let qrTimeout             = null;
-let ipgateway             = "http://localhost:5001";
+let ipgateway             = "http://192.168.102.13:5001";
 
 $('#modal_sessionwhatsapp_viewbarcode').on('hidden.bs.modal', function () {
     if (qrPollingLoop) clearInterval(qrPollingLoop);
