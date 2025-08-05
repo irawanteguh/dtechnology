@@ -31,7 +31,7 @@
 
         public function masterrole(){
             $userid = $this->input->post("userid");
-            $result = $this->md->masterrole($_SESSION['orgid'],$userid);
+            $result = $this->md->masterrole($userid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

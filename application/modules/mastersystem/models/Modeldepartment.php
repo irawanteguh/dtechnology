@@ -23,13 +23,15 @@
                         select a.department_id, header_id, department, level_id, code,
                                (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj
                         from dt01_gen_department_ms a
-                        where a.org_id='".$groupid."'
+                        where a.active='1'
+                        and   a.org_id='".$groupid."'
                         and   a.level_id='1'
                         union
                         select a.department_id, header_id, department, level_id, code,
                                (select name from dt01_gen_user_data where org_id=a.org_id and active=a.active and user_id=a.user_id)namapj
                         from dt01_gen_department_ms a
-                        where a.org_id='".$orgid."'
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
                         and   a.level_id<>'1'
                         order by level_id asc, department asc
                     ";

@@ -39,6 +39,7 @@
 			<div class="d-flex align-items-stretch flex-shrink-0">
 				<div class="d-flex align-items-stretch flex-shrink-0">
 
+
 					<div class="d-flex align-items-center ms-1 ms-lg-3">
 						<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
 							<span class="svg-icon svg-icon-1">

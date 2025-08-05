@@ -1,52 +1,26 @@
 <?php
-    class Modelsuratmasuk extends CI_Model{
+    class Modeldisposisi extends CI_Model{
 
-        function asalsurat(){
+        function lembardisposisi($orgid,$suratid){
             $query =
                     "
-                        select 'E'kode, 'Surat External' keterangan union
-                        select 'I'kode, 'Surat Internal' keterangan
-                    ";
-
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
-
-        function disposisi($parameter){
-            $query =
-                    "
-                        select a.org_id, department_id, user_id
+                        select a.org_id, department_id, header_id, department, level_id, user_id,
+                            (select name from dt01_gen_user_data where active='1' and user_id=a.user_id)name,
+                            (select transaksi_id from dt01_sek_surat_it where active='1' and surat_id='".$suratid."' and to_department_id=a.department_id)transaksiid,
+                            (select response     from dt01_sek_surat_it where active='1' and surat_id='".$suratid."' and to_department_id=a.department_id)response
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.level_id in ('1','2')
-                        ".$parameter."
-
-                    ";
-
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
-
-        function pengirimsurat($orgid){
-            $query =
-                    "
-                        select '1'jenisid, a.department_id pengirimid, concat('[',(select replace(replace(department, 'Manajer ', ''),'Direktur ','') from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.header_id),'] ',department)keterangan
+                        union
+                        select a.org_id, department_id, header_id,  department, level_id, user_id,
+                            (select name from dt01_gen_user_data where active='1' and user_id=a.user_id)name,
+                            (select transaksi_id from dt01_sek_surat_it where active='1' and surat_id='".$suratid."'and to_department_id=a.department_id)transaksiid,
+                            (select response     from dt01_sek_surat_it where active='1' and surat_id='".$suratid."' and to_department_id=a.department_id)response
                         from dt01_gen_department_ms a
                         where a.active='1'
-                        and   a.level_id='5'
+                        and   a.level_id not in ('1','2')
                         and   a.org_id='".$orgid."'
-
-                        union
-
-                        select '2'jenisid, a.user_id pengirimid, name keterangan
-                        from dt01_gen_user_data a
-                        where a.active='1'
-                        and   a.suspended='N'
-                        and   a.org_id='".$orgid."'
-
-                        order by jenisid asc, keterangan asc
+                        order by level_id asc, header_id asc, department asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -54,7 +28,7 @@
             return $recordset;
         }
 
-        function suratmasuk($orgid){
+        function suratmasuk($userid){
             $query =
                     "
                         select a.trans_id, no_urut, no_agenda, kode_surat, nomor_surat, asal_surat, dari_text, perihal, ringkasan,
@@ -102,15 +76,17 @@
                                     )
                                     ORDER BY b.from_datetime ASC
                                     separator ';'
+                                    
                                 )
                                 
                                 FROM dt01_sek_surat_it b
                                 WHERE b.active = '1'
                                 and   b.surat_id=a.trans_id
                             ) disposisi
+
                         from dt01_sek_surat_hd a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        and   a.trans_id in (select surat_id from dt01_sek_surat_it where active='1' and to_user_id='".$userid."')
                         order by created_date desc
                     ";
 
@@ -119,13 +95,29 @@
             return $recordset;
         }
 
-        function insertsuratmasuk($data){           
-            $sql =   $this->db->insert("dt01_sek_surat_hd",$data);
-            return $sql;
+        function cekresponse($suratid,$userid){
+            $query =
+                    "
+                        select a.response
+                        from dt01_sek_surat_it a
+                        where a.active='1'
+                        and   a.response='Y'
+                        and   a.surat_id='".$suratid."'
+                        and   a.to_user_id='".$userid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
         }
 
         function insertdisposisi($data){           
             $sql =   $this->db->insert("dt01_sek_surat_it",$data);
+            return $sql;
+        }
+
+        function updatedisposisi($suratid,$userid,$data){           
+            $sql =   $this->db->update("dt01_sek_surat_it",$data,array("surat_id"=>$suratid,"to_user_id"=>$userid));
             return $sql;
         }
 

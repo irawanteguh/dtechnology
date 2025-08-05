@@ -137,7 +137,7 @@ function masterdepartment(){
                                         childElements += "<a class='dropdown-item btn btn-sm text-primary'  data-bs-toggle='modal' data-bs-target='#modal_department_adduser' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-primary'></i> Update User</a>";
                                         childElements += "<a class='dropdown-item btn btn-sm text-success' data-bs-toggle='modal' data-bs-target='#modal_department_addsubdepartment' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-check2-circle text-success'></i> Add Sub Department</a>";
                                         childElements += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_department_editsubdepartment' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-primary'></i> Edit Department</a>";
-                                        childElements += "<a class='dropdown-item btn btn-sm text-danger'  data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Delete Department</a>";
+                                        childElements += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" onclick='hapusdata($(this));''><i class='bi bi-trash-fill text-danger'></i> Delete Department</a>";
                                     childElements +="</div>";
                                 childElements +="</div>";
                             childElements += "</div>";
@@ -170,7 +170,7 @@ function masterdepartment(){
                         tableresult += "<a class='dropdown-item btn btn-sm text-primary'  data-bs-toggle='modal' data-bs-target='#modal_department_adduser' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-primary'></i> Update User</a>";
                         tableresult += "<a class='dropdown-item btn btn-sm text-success' data-bs-toggle='modal' data-bs-target='#modal_department_addsubdepartment' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-check2-circle text-success'></i> Add Sub Department</a>";
                         tableresult += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_department_editsubdepartment' "+getvariabel+" onclick='getdata($(this));'><i class='bi bi-pencil-square text-primary'></i> Edit Department</a>";
-                        tableresult += "<a class='dropdown-item btn btn-sm text-danger'  data_validasi='1' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Delete Department</a>";
+                        tableresult += "<a class='dropdown-item btn btn-sm text-danger'  "+getvariabel+" onclick='hapusdata($(this));'><i class='bi bi-trash-fill text-danger'></i> Delete Department</a>";
                         tableresult +="</div>";
                         tableresult +="</div>";
                         tableresult += "</div>";
@@ -263,6 +263,52 @@ function masteruser(){
                 hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
             });
 		}		
+    });
+    return false;
+};
+
+function hapusdata(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var datatransid = btn.attr("data_departmentid");
+
+            $.ajax({
+                url       : url+"index.php/mastersystem/department/hapusdata",
+                data      : {datatransid:datatransid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    toastr.clear();
+                    toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    toastr.clear();
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    masterdepartment();
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
     });
     return false;
 };

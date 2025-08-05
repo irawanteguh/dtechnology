@@ -47,7 +47,6 @@ function viewdoc(btn) {
     }
 };
 
-
 $(document).on("change", "select[name='selectorganization']", function (e) {
     e.preventDefault();
     datahandling();

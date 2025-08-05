@@ -1,106 +1,34 @@
-$('#modal_suratmasuk_add_asalsurat').on('change', function () {
-    const value = $(this).val();
-    if (value === 'E') {
-        $('#input_pengirim_wrapper').removeClass('d-none');
-        $('#select_pengirim_wrapper').addClass('d-none');
-        $('#modal_suratmasuk_add_pengirimsurat_txt').prop('required', true);
-        $('#modal_suratmasuk_add_pengirimsurat_id').prop('required', false);
-    } else if (value === 'I') {
-        $('#input_pengirim_wrapper').addClass('d-none');
-        $('#select_pengirim_wrapper').removeClass('d-none');
-        $('#modal_suratmasuk_add_pengirimsurat_txt').prop('required', false);
-        $('#modal_suratmasuk_add_pengirimsurat_id').prop('required', true);
-    } else {
-        // default: sembunyikan keduanya
-        $('#input_pengirim_wrapper').addClass('d-none');
-        $('#select_pengirim_wrapper').addClass('d-none');
-        $('#modal_suratmasuk_add_pengirimsurat_txt').prop('required', false);
-        $('#modal_suratmasuk_add_pengirimsurat_id').prop('required', false);
-    }
-});
+suratmasuk();
 
-$('#modal_suratmasuk_add_asalsurat').trigger('change');
-
-$('#modal_suratmasuk_add').on('shown.bs.modal', function () {
+$('#modal_disposisi_add').on('shown.bs.modal', function (event) {
     $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
     $(this).find('select').prop('selectedIndex', 0).trigger('change');
-});
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-flatpickr('[name="modal_suratmasuk_add_tglmasuk"]', {
-    enableTime: false,
-    dateFormat: "d.m.Y",
-    maxDate   : "today",
-    onChange  : function(selectedDates, dateStr, instance) {
-        instance.close();
-    }
-});
-
-flatpickr('[name="modal_suratmasuk_add_tglsurat"]', {
-    enableTime: false,
-    dateFormat: "d.m.Y",
-    maxDate   : "today",
-    onChange  : function(selectedDates, dateStr, instance) {
-        instance.close();
-    }
-});
-
-$(document).on("submit", "#forminsertsuratmasuk", function (e) {
-    e.preventDefault();
-
-    var form = $(this);
-    var url  = form.attr("action");
-    var formData = new FormData(this); // penting!
-
+    var button                = $(event.relatedTarget);
+    var datatransid           = button.attr("datatransid");
+    
+    
     $.ajax({
-        url       : url,
-        data      : formData,
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        contentType: false, // WAJIB untuk FormData
-        processData: false, // WAJIB untuk FormData
+		url    : url + "index.php/surat/disposisi/lembardisposisi",
+		data   : {datatransid:datatransid},
+		method : "POST",
+		cache  : false,
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-            $("#modal_suratmasuk_add_btn").addClass("disabled");
+            $("#modal_disposisi_lembardisposisi").html("");
         },
-        success: function (data) {
-            if (data.responCode == "00") {
-                suratmasuk();
-                $('#modal_suratmasuk_add').modal('hide');
-            }
-
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
-        },
-        complete: function () {
-            toastr.clear();
-            $("#modal_suratmasuk_add_btn").removeClass("disabled");
-        },
-        error: function (xhr, status, error) {
-            Swal.fire({
-                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html             : "<b>" + error + "</b>",
-                icon             : "error",
-                confirmButtonText: "Please Try Again",
-                buttonsStyling   : false,
-                timerProgressBar : true,
-                timer            : 5000,
-                customClass      : { confirmButton: "btn btn-danger" },
-                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
-            });
-        }
-    });
-
-    return false;
+		success: function (data) {
+            $("#modal_disposisi_lembardisposisi").html(data);
+		}
+	});
 });
-
-suratmasuk();
 
 function suratmasuk(){
     $.ajax({
-        url       : url + "index.php/surat/suratmasuk/suratmasuk",
+        url       : url + "index.php/surat/disposisi/suratmasuk",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -163,6 +91,7 @@ function suratmasuk(){
                             tableresult += "<div class='btn-group' role='group'>";
                                 tableresult += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
+                                    tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_disposisi_add' "+getvariabel+"><i class='bi bi-eye text-primary'></i> Disposisi</a></li>";
                                     tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/suratmasuk/"+result[i].trans_id+".pdf' onclick='viewdocwithoutnote(this)'><i class='bi bi-eye text-primary'></i> View Lampiran</a></li>";
                                 tableresult += "</ul>";
                             tableresult += "</div>";
@@ -215,7 +144,6 @@ function suratmasuk(){
                             tableresult += "<td>" + orgname + "</td>";
                             tableresult += "<td>" + name + "</td>";
                             tableresult += "<td>" + disposisidatetime + "</td>";
-
                             if(response==="N"){
                                 tableresult += "<td><span id='" + timerId + "'>" + setCountdownSLA(disposisidatetime, timerId, 24) + "</span></td>";
                             }else{
@@ -233,7 +161,7 @@ function suratmasuk(){
                                 const diffDisplay = diffMs > 0 ? `${diffHours} Jam : ${diffMinutes} Menit : ${diffSeconds} Detik` : "-";
                                 tableresult += "<td><span class='badge badge-light-info'>" + diffDisplay+ "</span></td>";
                             }
-
+                            
                             tableresult += "</tr>";
                         });
 
@@ -243,7 +171,6 @@ function suratmasuk(){
 
             $("#resultdatasuratmasuk").html(tableresult);
             toastr[data.responHead](data.responDesc, "INFORMATION");
-
 
             document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
                 button.addEventListener('click', function() {
@@ -304,3 +231,73 @@ function suratmasuk(){
     });
     return false;
 }
+
+$(document).on('change', '.form-check-input', function() {
+        let isChecked    = $(this).is(':checked');
+        let departmentId = $(this).attr('data-departmentid');
+        let orgId        = $(this).attr('data-orgid');
+        let userId       = $(this).attr('data-userid');
+        let suratId      = $(this).attr('data-suratid');
+
+        if (isChecked) {
+            $.ajax({
+                url     : url + "index.php/surat/disposisi/disposisisurat_insert",
+                method  : "POST",
+                dataType: "JSON",
+                cache   : false,
+                data    : {department_id: departmentId,org_id: orgId,user_id: userId,surat_id: suratId},
+                success : function(data) {
+                    $.ajax({
+                        url    : url + "index.php/surat/disposisi/lembardisposisi",
+                        data   : {datatransid:suratId},
+                        method : "POST",
+                        cache  : false,
+                        beforeSend: function () {
+                            toastr.clear();
+                            toastr["info"]("Sending request...", "Please wait");
+                            $("#modal_disposisi_lembardisposisi").html("");
+                        },
+                        success: function (data) {
+                            $("#modal_disposisi_lembardisposisi").html(data);
+                        }
+                    });
+                    
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Gagal mengirim disposisi.');
+                }
+            });
+        } else {
+            // Jika uncheck dan perlu delete:
+            $.ajax({
+                url     : url + "index.php/surat/disposisi/disposisisurat_delete",
+                method  : "POST",
+                dataType: "JSON",
+                cache   : false,
+                data    : {department_id:departmentId,surat_id:suratId,user_id:userId},
+                success: function(data) {
+                   $.ajax({
+                        url    : url + "index.php/surat/disposisi/lembardisposisi",
+                        data   : {datatransid:suratId},
+                        method : "POST",
+                        cache  : false,
+                        beforeSend: function () {
+                            toastr.clear();
+                            toastr["info"]("Sending request...", "Please wait");
+                            $("#modal_disposisi_lembardisposisi").html("");
+                        },
+                        success: function (data) {
+                            $("#modal_disposisi_lembardisposisi").html(data);
+                        }
+                    });
+                    
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error saat delete:', error);
+                }
+            });
+        }
+    });

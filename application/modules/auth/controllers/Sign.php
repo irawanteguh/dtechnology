@@ -47,7 +47,7 @@
         
                 $this->session->set_userdata($sessiondata);
         
-                if (empty($datasession->no_hp)) {
+                if (empty($datasession->no_hp) || $datasession->no_hp==="-") {
                     $json["responCode"] = "03";
                     $json["responHead"] = "warning";
                     $json["responDesc"] = "Please update your mobile phone number.";
