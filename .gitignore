@@ -10,6 +10,9 @@ application/sessions/*
 !application/sessions/index.html
 
 ######Folder##########
+assets/buktitl/*
+!assets/buktitl/index.html
+
 assets/buktitransfer/*
 !assets/buktitransfer/index.html
 
@@ -28,6 +31,12 @@ assets/documenttemp/*
 
 assets/invoice/*
 !assets/invoice/index.html
+
+assets/suratmasuk/*
+!assets/suratmasuk/index.html
+
+assets/whatsapp/*
+!assets/whatsapp/index.html
 
 service/*
 !service/index.html
