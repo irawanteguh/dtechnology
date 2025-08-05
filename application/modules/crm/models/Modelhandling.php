@@ -45,13 +45,14 @@
         }
 
 
-        function masterdepartment(){
+        function masterdepartment($orgid){
             $query =
                     "
                         select a.department_id, department
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.level_id='5'
+                        and   a.org_id='".$orgid."'
                         order by department asc
                     ";
 
