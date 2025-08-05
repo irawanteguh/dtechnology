@@ -109,102 +109,81 @@ function suratmasuk(){
             toastr["info"]("Sending request...", "Please wait");
             $("#resultdatasuratmasuk").html("");
         },
-        success:function(data){
+        success: function(data) {
             let tableresult = "";
 
-            if(data.responCode === "00"){
+            if (data.responCode === "00") {
                 let result = data.responResult;
 
-                for (let i in result){
-                    var getvariabel =  " datatransid='" + result[i].trans_id + "'";
+                // ? Set jumlah notifikasi
+                $("#jumlahnotification").html(result.length);
+
+                for (let i in result) {
+                    var getvariabel = " datatransid='" + result[i].trans_id + "'";
 
                     tableresult += "<tr>";
-
                     tableresult += "<td class='ps-4'>";
-                        tableresult += "<table class='table'>";
-                            tableresult += "<tbody class='text-gray-600 fw-bold'>";
-                                tableresult += `<tr><td style='width: 40%;'>Asal Surat</td><td style='width: 5%;'>:</td><td style='width: 55%;'><span class="badge ${result[i].asal_surat === 'I' ? 'badge-light-primary">Surat Internal' : result[i].asal_surat === 'E' ? 'badge-light-success">Surat External' : 'badge-light-secondary">Tidak Diketahui'}</span></td></tr>`;
-                                tableresult +="<tr><td>No Urut</td><td>:</td><td>"+result[i].no_urut+"</td></tr>";
-                                tableresult +="<tr><td>No Agenda</td><td>:</td><td>"+result[i].no_agenda+"</td></tr>";
-                                tableresult +="<tr><td>Kode Surat</td><td>:</td><td>"+result[i].kode_surat+"</td></tr>";
-                                tableresult +="<tr><td>Tanggal Masuk</td><td>:</td><td>"+result[i].tglmasuksurat+"</td></tr>";
-                            tableresult += "</tbody>";
-                        tableresult += "</table>";
-                    tableresult +=  "</td>";
+                    tableresult += "<table class='table'>";
+                    tableresult += "<tbody class='text-gray-600 fw-bold'>";
+                    tableresult += `<tr><td style='width: 40%;'>Asal Surat</td><td style='width: 5%;'>:</td><td style='width: 55%;'><span class="badge ${result[i].asal_surat === 'I' ? 'badge-light-primary">Surat Internal' : result[i].asal_surat === 'E' ? 'badge-light-success">Surat External' : 'badge-light-secondary">Tidak Diketahui'}</span></td></tr>`;
+                    tableresult += "<tr><td>No Urut</td><td>:</td><td>" + result[i].no_urut + "</td></tr>";
+                    tableresult += "<tr><td>No Agenda</td><td>:</td><td>" + result[i].no_agenda + "</td></tr>";
+                    tableresult += "<tr><td>Kode Surat</td><td>:</td><td>" + result[i].kode_surat + "</td></tr>";
+                    tableresult += "<tr><td>Tanggal Masuk</td><td>:</td><td>" + result[i].tglmasuksurat + "</td></tr>";
+                    tableresult += "</tbody></table></td>";
 
-                    tableresult += "<td>";
-                        tableresult += "<table class='table'>";
-                            tableresult += "<tbody class='text-gray-600 fw-bold'>";
-                                tableresult +="<tr><td style='width: 40%;'>No Surat</td><td style='width: 5%;'>:</td><td style='width: 55%;'>"+result[i].nomor_surat+"</td></tr>";
-                                if(result[i].namapengirimsurat===null){
-                                    tableresult +="<tr><td>Instansi / Department</td><td>:</td><td>Staff</td></tr>";
-                                }else{
-                                    tableresult +="<tr><td>Instansi / Department</td><td>:</td><td>"+result[i].pengirimsurat+"</td></tr>";
-                                }
+                    tableresult += "<td><table class='table'><tbody class='text-gray-600 fw-bold'>";
+                    tableresult += "<tr><td style='width: 40%;'>No Surat</td><td style='width: 5%;'>:</td><td style='width: 55%;'>" + result[i].nomor_surat + "</td></tr>";
 
-                                
-                                if(result[i].namapengirimsurat===null){
-                                    tableresult +="<tr><td>Pengirim Surat</td><td>:</td><td>"+(result[i].pengirimsurat || "-")+"</td></tr>";
-                                }else{
-                                    tableresult +="<tr><td>Pengirim Surat</td><td>:</td><td>"+(result[i].namapengirimsurat || "-")+"</td></tr>";
-                                }
-                                
-                                tableresult +="<tr><td>Tanggal Surat</td><td>:</td><td>"+result[i].tglsurat+"</td></tr>";
-                            tableresult += "</tbody>";
-                        tableresult += "</table>";
-                    tableresult +=  "</td>";
+                    if (result[i].namapengirimsurat === null) {
+                        tableresult += "<tr><td>Instansi / Department</td><td>:</td><td>Staff</td></tr>";
+                    } else {
+                        tableresult += "<tr><td>Instansi / Department</td><td>:</td><td>" + result[i].pengirimsurat + "</td></tr>";
+                    }
 
-                    tableresult +="<td>"+(result[i].perihal || "")+"</td>";
-                    tableresult +="<td>"+(result[i].ringkasan || "")+"</td>";
+                    tableresult += "<tr><td>Pengirim Surat</td><td>:</td><td>" + (result[i].namapengirimsurat || result[i].pengirimsurat || "-") + "</td></tr>";
+                    tableresult += "<tr><td>Tanggal Surat</td><td>:</td><td>" + result[i].tglsurat + "</td></tr>";
+                    tableresult += "</tbody></table></td>";
 
-                    tableresult += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + (result[i].tgldibuat || "" ) + "</div></td>";
-                        tableresult += "<td class='text-end'>";
-                        tableresult += "<div class='btn-group' role='group'>";
-                            tableresult += "<div class='btn-group' role='group'>";
-                                tableresult += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                                tableresult += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
-                                    tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/suratmasuk/"+result[i].trans_id+".pdf' onclick='viewdocwithoutnote(this)'><i class='bi bi-eye text-primary'></i> View Lampiran</a></li>";
-                                tableresult += "</ul>";
-                            tableresult += "</div>";
-                            tableresult += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
-                                tableresult += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
-                                tableresult += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
-                            tableresult += "</button>";
-                        tableresult += "</div>";
-                    tableresult += "</td>";
+                    tableresult += "<td>" + (result[i].perihal || "") + "</td>";
+                    tableresult += "<td>" + (result[i].ringkasan || "") + "</td>";
+                    tableresult += "<td><div>" + (result[i].dibuatoleh || "") + "<div>" + (result[i].tgldibuat || "") + "</div></td>";
+
+                    tableresult += "<td class='text-end'><div class='btn-group' role='group'>";
+                    tableresult += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown'>Action</button>";
+                    tableresult += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
+                    tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='" + url + "assets/suratmasuk/" + result[i].trans_id + ".pdf' onclick='viewdocwithoutnote(this)'><i class='bi bi-eye text-primary'></i> View Lampiran</a></li>";
+                    tableresult += "</ul>";
+                    tableresult += "<button type='button' class='btn btn-sm btn-light btn-icon toggle' data-kt-table-widget-4='expand_row'>";
+                    tableresult += "<i class='bi bi-chevron-double-up fs-4 m-0 toggle-off'></i>";
+                    tableresult += "<i class='bi bi-chevron-double-down fs-4 m-0 toggle-on'></i>";
+                    tableresult += "</button></div></td>";
                     tableresult += "</tr>";
 
-                    if(result[i].disposisi != null){
-                        tableresult +="<tr class='d-none'>";
-                        tableresult +="<td colspan='6'>";
-                        tableresult +="<table class='table'>";
-                        tableresult +="<thead>";
-                        tableresult +="<tr class='fw-bolder text-white bg-info'><th class='rounded-top ps-4' colspan='6'>Penerima Disposisi Surat No : "+result[i].nomor_surat+"</th></tr>";
-                        tableresult +="<tr class='fw-bolder text-white bg-info'>";
-                            tableresult +="<th class='ps-4'>Status</th>";
-                            tableresult +="<th>Instansi / Department</th>";
-                            tableresult +="<th>Nama</th>";
-                            tableresult +="<th>Tanggal dan Jam</th>";
-                            tableresult +="<th>Waiting Time</th>";
-                        tableresult +="</tr>";
-                        tableresult +="</thead>";
-                        tableresult +="<tbody class='text-gray-600 fw-bold'>";
-                        
+                    // ? Tambahan Disposisi jika ada
+                    if (result[i].disposisi != null) {
+                        tableresult += "<tr class='d-none'>";
+                        tableresult += "<td colspan='6'>";
+                        tableresult += "<table class='table'>";
+                        tableresult += "<thead>";
+                        tableresult += "<tr class='fw-bolder text-white bg-info'><th class='rounded-top ps-4' colspan='6'>Penerima Disposisi Surat No : " + result[i].nomor_surat + "</th></tr>";
+                        tableresult += "<tr class='fw-bolder text-white bg-info'>";
+                        tableresult += "<th class='ps-4'>Status</th><th>Instansi / Department</th><th>Nama</th><th>Tanggal dan Jam</th><th>Waiting Time</th>";
+                        tableresult += "</tr></thead><tbody class='text-gray-600 fw-bold'>";
+
                         let rincianArray = result[i].disposisi.split(";");
 
                         rincianArray.forEach(function(item, index) {
-                            if (!item.trim()) return;  // skip jika kosong
-                            
+                            if (!item.trim()) return;
+
                             let parts = item.split("::");
-
-                            let trans_id          = parts[0] || '';
-                            let response          = parts[1] || '';
+                            let trans_id = parts[0] || '';
+                            let response = parts[1] || '';
                             let disposisidatetime = parts[2] || '';
-                            let responsedatetime  = parts[3] || '';
-                            let orgname           = parts[4] || '';
-                            let name              = parts[5] || '';
-
-                            const timerId = "sla_timer_" + i + "_" + index;  // supaya unik
+                            let responsedatetime = parts[3] || '';
+                            let orgname = parts[4] || '';
+                            let name = parts[5] || '';
+                            const timerId = "sla_timer_" + i + "_" + index;
 
                             tableresult += "<tr>";
                             tableresult += "<td class='ps-4'><span class='badge " + 
@@ -216,27 +195,28 @@ function suratmasuk(){
                             tableresult += "<td>" + name + "</td>";
                             tableresult += "<td>" + disposisidatetime + "</td>";
 
-                            if(response==="N"){
+                            if (response === "N") {
                                 tableresult += "<td><span id='" + timerId + "'>" + setCountdownSLA(disposisidatetime, timerId, 24) + "</span></td>";
-                            }else{
+                            } else {
                                 const startParts = disposisidatetime.split(" ");
-                                const endParts   = responsedatetime.split(" ");
+                                const endParts = responsedatetime.split(" ");
 
                                 const startDate = new Date(startParts[0].split(".").reverse().join("-") + "T" + startParts[1]);
-                                const endDate   = new Date(endParts[0].split(".").reverse().join("-") + "T" + endParts[1]);
+                                const endDate = new Date(endParts[0].split(".").reverse().join("-") + "T" + endParts[1]);
 
-                                const diffMs      = endDate - startDate;
-                                const diffHours   = Math.floor(diffMs / (1000 * 60 * 60));
+                                const diffMs = endDate - startDate;
+                                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
                                 const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                                 const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
-
                                 const diffDisplay = diffMs > 0 ? `${diffHours} Jam : ${diffMinutes} Menit : ${diffSeconds} Detik` : "-";
-                                tableresult += "<td><span class='badge badge-light-info'>" + diffDisplay+ "</span></td>";
+
+                                tableresult += "<td><span class='badge badge-light-info'>" + diffDisplay + "</span></td>";
                             }
 
                             tableresult += "</tr>";
                         });
 
+                        tableresult += "</tbody></table></td></tr>"; // ? Tutup semua elemen
                     }
                 }
             }
@@ -244,21 +224,18 @@ function suratmasuk(){
             $("#resultdatasuratmasuk").html(tableresult);
             toastr[data.responHead](data.responDesc, "INFORMATION");
 
-
+            // Ekspansi toggle baris disposisi
             document.querySelectorAll("[data-kt-table-widget-4='expand_row']").forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const tr = this.closest('tr');
                     const nextTr = tr.nextElementSibling;
-            
-                    // Check if the next row is expanded
                     const isExpanded = !nextTr.classList.contains('d-none');
-            
-                    // Close any previously expanded rows if it's not the same row that is clicked
+
                     if (!isExpanded) {
                         document.querySelectorAll("[data-kt-table-widget-4='subtable_template']").forEach(openRow => {
                             openRow.classList.add('d-none');
                             openRow.removeAttribute('data-kt-table-widget-4');
-            
+
                             const openButton = openRow.previousElementSibling.querySelector("[data-kt-table-widget-4='expand_row']");
                             if (openButton) {
                                 openButton.classList.remove('active');
@@ -266,8 +243,7 @@ function suratmasuk(){
                             }
                         });
                     }
-            
-                    // Toggle the clicked row
+
                     if (!isExpanded || (isExpanded && tr.getAttribute('aria-expanded') === 'true')) {
                         if (isExpanded) {
                             nextTr.classList.add('d-none');

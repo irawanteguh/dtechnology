@@ -1,6 +1,44 @@
 <?php
     class Modelnotification extends CI_Model{
 
+        function disposisi($userid){
+            $query =
+                    "
+                        SELECT 
+                            'bi bi-envelope-arrow-down' AS icon,
+                            'info' AS color,
+                            a.perihal,
+                            a.ringkasan,
+                            CASE 
+                                WHEN TIMESTAMPDIFF(HOUR, b.from_datetime, NOW()) < 24 THEN 
+                                    CONCAT(TIMESTAMPDIFF(HOUR, b.from_datetime, NOW()), ' hr', 
+                                        IF(TIMESTAMPDIFF(HOUR, b.from_datetime, NOW()) > 1, 's', ''))
+                                WHEN TIMESTAMPDIFF(DAY, b.from_datetime, NOW()) < 7 THEN 
+                                    CONCAT(TIMESTAMPDIFF(DAY, b.from_datetime, NOW()), ' day', 
+                                        IF(TIMESTAMPDIFF(DAY, b.from_datetime, NOW()) > 1, 's', ''))
+                                ELSE 
+                                    DATE_FORMAT(b.from_datetime, '%e %b')
+                            END AS fromdatetime
+                        FROM dt01_sek_surat_hd a
+                        JOIN (
+                            SELECT surat_id, MIN(from_datetime) AS from_datetime
+                            FROM dt01_sek_surat_it
+                            WHERE active = '1'
+                            AND response = 'N'
+                            AND to_user_id = '".$userid."'
+                            GROUP BY surat_id
+                        ) b ON b.surat_id = a.trans_id
+                        WHERE a.active = '1';
+
+
+               
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function informationkpi($orgid){
             $query =
                     "

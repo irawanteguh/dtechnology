@@ -1,5 +1,67 @@
 information();
-// selfreportkpi();
+disposisi();
+
+function disposisi(){
+    $.ajax({
+        url        : url+"index.php/root/notification/disposisi",
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function () {
+            $("#notificationdisposisi").html("");
+            $("#jumlahnotification").html("");
+        },
+        success:function(data){
+            let notification = "";
+
+            if(data.responCode === "00"){
+                let result       = data.responResult;
+
+                for (let i in result){
+                    notification+="<div class='d-flex flex-stack py-4'>";
+                        notification+="<div class='d-flex align-items-center'>";
+
+                            notification+="<div class='symbol symbol-35px me-4'>";
+                                notification+="<div class='symbol-label bg-light-"+result[i].color+"'>";
+                                notification+="<i class='"+result[i].icon+" text-"+result[i].color+" fa-2x'></i>"; 
+                                notification+="</div>"; 
+                            notification+="</div>";
+
+                            notification+="<div class='mb-0 me-2'>";
+                            notification+="<a href='../../index.php/surat/disposisi' class='fs-6 text-gray-800 text-hover-primary fw-bolder'>"+result[i].perihal+"</a>";
+                            notification+="<div class='text-gray-400 fs-7'>"+result[i].ringkasan+"</div>";
+                            notification+="</div>";
+
+                        notification+="</div>";
+                        notification+="<span class='badge badge-light fs-8'>"+result[i].fromdatetime+"</span>";
+                    notification+="</div>";
+                }
+
+                $("#notificationdisposisi").html(notification);
+                $("#jumlahnotification").html(result.length+" Reports");
+            }
+        },
+        complete: function () {
+
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
 
 function information(){
     $.ajax({
