@@ -115,9 +115,7 @@ function suratmasuk(){
                             tableresult +="<th>Nama</th>";
                             tableresult +="<th>Tanggal dan Jam</th>";
                             tableresult +="<th>Waiting Time</th>";
-                        tableresult +="</tr>";
-                        tableresult +="</thead>";
-                        tableresult +="<tbody class='text-gray-600 fw-bold'>";
+                        tableresult += "</tr></thead><tbody class='text-gray-600 fw-bold'>";
                         
                         let rincianArray = result[i].disposisi.split(";");
 
@@ -164,6 +162,8 @@ function suratmasuk(){
                             
                             tableresult += "</tr>";
                         });
+
+                        tableresult += "</tbody></table></td></tr>";
 
                     }
                 }

@@ -115,9 +115,6 @@ function suratmasuk(){
             if (data.responCode === "00") {
                 let result = data.responResult;
 
-                // ? Set jumlah notifikasi
-                $("#jumlahnotification").html(result.length);
-
                 for (let i in result) {
                     var getvariabel = " datatransid='" + result[i].trans_id + "'";
 
