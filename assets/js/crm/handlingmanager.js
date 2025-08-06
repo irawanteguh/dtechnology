@@ -60,8 +60,10 @@ function datahandling(){
                                         " dataorgnamemarketing='" + result[i].namamarketing + "'"+
                                         " dataorghpmarketing='" + result[i].nohpmarketing + "'";
 
-                    const timerId = "sla_timer_" + i;
-                    const createdAt = result[i].tgldibuat;
+                    const timerId      = "sla_timer_" + i;
+                    const createdAt    = result[i].tgldibuat;
+                    const tglUnit      = result[i].tgldepartment;
+                    const tglmanager   = result[i].tglmanager;
                     const tglMarketing = result[i].tglmarketing;
 
                     tableresult += "<tr>";
@@ -78,9 +80,9 @@ function datahandling(){
                     if(result[i].status === "0"){
                         tableresult += "<td><div>" + createdAt + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "1"){
-                        tableresult += "<td>" + result[i].tgldepartment + "</td>";
+                        tableresult += "<td><div>" + tglUnit + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "2"){
-                        tableresult += "<td>" + result[i].tglmanager + "</td>";
+                        tableresult += "<td><div>" + tglmanager + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "3"){
                         tableresult += "<td><div>" + tglMarketing + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "4") {
@@ -122,8 +124,15 @@ function datahandling(){
                     tableresult += "</div></div></td>";
                     tableresult += "</tr>";
 
-                    // Jalankan Countdown Timer SLA
-                    setCountdownSLA(result[i].tglmanager, timerId);
+                    if(result[i].status === "0") {
+                        setCountdownSLA(createdAt, timerId, 24);
+                    } else if(result[i].status === "1") {
+                        setCountdownSLA(tglUnit, timerId, 24);
+                    }else if(result[i].status === "2") {
+                        setCountdownSLA(tglmanager, timerId, 24);
+                    }else if(result[i].status === "3") {
+                        setCountdownSLA(tglMarketing, timerId, 24);
+                    }
                 }
             }
 

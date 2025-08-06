@@ -12,10 +12,12 @@ $("#modal_handling_update_department").on('show.bs.modal', function(event){
 });
 
 $("#modal_handling_response").on('show.bs.modal', function(event){
-    var button           = $(event.relatedTarget);
-    var datatransid      = button.attr("datatransid");
+    var button       = $(event.relatedTarget);
+    var datatransid  = button.attr("datatransid");
+    var datadeviceid = button.attr("datadeviceid");
 
     $("#modal_handling_response_transid").val(datatransid);
+    $("#modal_handling_response_deviceid").val(datadeviceid);
 });
 
 function viewdoc(btn) {
@@ -74,16 +76,22 @@ function datahandling(){
                 for (let i in result){
                     const getvariabel = " datatransid='" + result[i].trans_id + "'" +
                                         " datadepartmentid='" + result[i].department_id + "'" +
-                                        " datanamapic='" + (result[i].namapic || "") + "'" +
-                                        " datanohppic='" + result[i].nohppic + "'" +
+
+                                        " datanamapicunit='" + (result[i].namapicunit || "") + "'" +
+                                        " datanohppicunit='" + result[i].nohppicunit + "'" +
+                                        " datanamapicmanager='" + (result[i].namapicmanager || "") + "'" +
+                                        " datannohppicmanager='" + result[i].nohppicmanager + "'" +
+
                                         " datanamapasien='" + result[i].nama + "'" +
                                         " datacodelaporan='" + result[i].code + "'" +
                                         " datadeviceid='" + result[i].deviceid + "'" +
                                         " datasaran='" + result[i].saran + "'" +
                                         " dataorgname='" + result[i].nameorg + "'";
 
-                    const timerId = "sla_timer_" + i;
-                    const createdAt = result[i].tgldibuat;
+                    const timerId      = "sla_timer_" + i;
+                    const createdAt    = result[i].tgldibuat;
+                    const tglUnit      = result[i].tgldepartment;
+                    const tglmanager   = result[i].tglmanager;
                     const tglMarketing = result[i].tglmarketing;
 
                     tableresult += "<tr>";
@@ -102,9 +110,9 @@ function datahandling(){
                     if(result[i].status === "0"){
                         tableresult += "<td><div>" + createdAt + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "1"){
-                        tableresult += "<td>" + result[i].tgldepartment + "</td>";
+                        tableresult += "<td><div>" + tglUnit + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "2"){
-                        tableresult += "<td>" + result[i].tglmanager + "</td>";
+                        tableresult += "<td><div>" + tglmanager + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "3"){
                         tableresult += "<td><div>" + tglMarketing + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "4") {
@@ -114,8 +122,8 @@ function datahandling(){
                         const startDate = new Date(startParts[0].split(".").reverse().join("-") + "T" + startParts[1]);
                         const endDate   = new Date(endParts[0].split(".").reverse().join("-") + "T" + endParts[1]);
 
-                        const diffMs = endDate - startDate;
-                        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                        const diffMs      = endDate - startDate;
+                        const diffHours   = Math.floor(diffMs / (1000 * 60 * 60));
                         const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                         const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
 
@@ -149,8 +157,12 @@ function datahandling(){
 
                     if(result[i].status === "0") {
                         setCountdownSLA(createdAt, timerId, 24);
+                    } else if(result[i].status === "1") {
+                        setCountdownSLA(tglUnit, timerId, 24);
+                    } else if(result[i].status === "2") {
+                        setCountdownSLA(tglmanager, timerId, 24);
                     } else if(result[i].status === "3") {
-                        setCountdownSLA(tglMarketing, timerId, 2);
+                        setCountdownSLA(tglMarketing, timerId, 24);
                     }
                 }
             }
@@ -177,56 +189,6 @@ function datahandling(){
         }
     });
     return false;
-}
-
-function parseCustomDate(dateStr) {
-    const parts = dateStr.split(" ");
-    if (parts.length !== 2) return new Date("Invalid");
-
-    const dateParts = parts[0].split(".");
-    const timePart = parts[1];
-
-    if (dateParts.length !== 3) return new Date("Invalid");
-
-    return new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timePart}`);
-}
-
-function setCountdownSLA(createdAtString, elementId, SLA_HOURS) {
-    if (!createdAtString) return;
-
-    const parts = createdAtString.split(" ");
-    const dateParts = parts[0].split(".");
-    const timePart = parts[1];
-    const isoDateString = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timePart}`;
-
-    const createdAt = new Date(isoDateString);
-    if (isNaN(createdAt)) return;
-
-    const deadline = new Date(createdAt.getTime() + SLA_HOURS * 60 * 60 * 1000);
-
-    const interval = setInterval(() => {
-        const now = new Date();
-        const diff = deadline - now;
-
-        const el = document.getElementById(elementId);
-        if (!el) {
-            clearInterval(interval);
-            return;
-        }
-
-        if (diff <= 0) {
-            el.innerHTML = "Melewati SLA";
-            el.className = "badge badge-light-danger fw-bold";
-            clearInterval(interval);
-        } else {
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            el.innerHTML = `${hours.toString().padStart(2, '0')} Jam : ${minutes.toString().padStart(2, '0')} Menit : ${seconds.toString().padStart(2, '0')} Detik`;
-            el.className = "badge badge-light-success fw-bold";
-        }
-    }, 1000);
 }
 
 $(document).on("submit", "#formupdatedepartment", function (e) {
@@ -284,8 +246,12 @@ function updatestatus(btn) {
     }).then((result) => {
         if (result.isConfirmed) {
             var datatransid     = btn.attr("datatransid");
-            var datanamapic     = btn.attr("datanamapic");
-            var datanohppic     = btn.attr("datanohppic");
+
+            var datanamapicunit     = btn.attr("datanamapicunit");
+            var datanohppicunit     = btn.attr("datanohppicunit");
+            var datanamapicmanager  = btn.attr("datanamapicmanager");
+            var datannohppicmanager = btn.attr("datannohppicmanager");
+
             var datanamapasien  = btn.attr("datanamapasien");
             var datacodelaporan = btn.attr("datacodelaporan");
             var datasaran       = btn.attr("datasaran");
@@ -296,15 +262,17 @@ function updatestatus(btn) {
             $.ajax({
                 url       : url+"index.php/crm/handling/updatesaran",
                 data      : {
-                                datatransid    : datatransid,
-                                datastatus     : datastatus,
-                                datanamapic    : datanamapic,
-                                datanohppic    : datanohppic,
-                                datanamapasien : datanamapasien,
-                                datacodelaporan: datacodelaporan,
-                                datasaran      : datasaran,
-                                datadeviceid   : datadeviceid,
-                                dataorgname    : dataorgname
+                                datatransid        : datatransid,
+                                datastatus         : datastatus,
+                                datanamapicunit    : datanamapicunit,
+                                datanohppicunit    : datanohppicunit,
+                                datanamapicmanager : datanamapicmanager,
+                                datannohppicmanager: datannohppicmanager,
+                                datanamapasien     : datanamapasien,
+                                datacodelaporan    : datacodelaporan,
+                                datasaran          : datasaran,
+                                datadeviceid       : datadeviceid,
+                                dataorgname        : dataorgname
                             },
                 method    : "POST",
                 dataType  : "JSON",

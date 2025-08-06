@@ -13,7 +13,7 @@
 		}
 
         public function datahandling(){
-            $status    = "and a.status='1' and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')";
+            $status    = "and a.status<>'0' and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')";
             $result = $this->md->datahandling($_SESSION['orgid'],$status);
             
 			if(!empty($result)){
@@ -55,13 +55,13 @@
                 $text .= "%0a*RMB Hospital Group*";
                 $text .= "%0a%0aKepada Yth,.";
                 $text .= "%0aManager";
-                $text .= "%0a*".$this->input->post("datanamapic")."*%0a";
+                $text .= "%0a*".$this->input->post("datanamapicmanager")."*%0a";
                 $text .= "%0aMohon konfirmasi tindaklanjuti jawaban dari instalasi";
-                $text .= "%0a%0aAtasnama%09%09%09: ".$this->input->post("datanamapasien")."";
+                $text .= "%0a%0aAtasnama%09%09: ".$this->input->post("datanamapasien")."";
                 $text .= "%0aKode Laporan%09%09: `".$this->input->post("datacodelaporan")."`";
                 $text .= "%0aSaran dan Masukan%09: ";
                 $text .= "%0a_".$this->input->post("datasaran")."_";
-                $text .= "%0aTindaklanjut%09%09%09: ";
+                $text .= "%0a%0aTindaklanjut Unit%09%09: ";
                 $text .= "%0a_".$this->input->post("datajawaban")."_";
                 $text .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
@@ -70,7 +70,7 @@
                     'transaksi_id' => generateuuid(),
                     'body_1'       => $text,
                     'device_id'    => $this->input->post("datadeviceid"),
-                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datanohppic"))),
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datannohppicmanager"))),
                     'ref_id'       => $this->input->post("datatransid"),
                     'type_file'    => '0',
                     'catatan'      => 'CRM [INSTALASI]',

@@ -178,11 +178,11 @@
                         select a.trans_id, code, nama, saran,
                                (select org_name from dt01_gen_organization_ms where org_id=a.org_id)nameorg,
                                (select device_id from dt01_whatsapp_device_ms where org_id='".$orgid."' and device_id in ('2221','2222','2223'))deviceid,
-                               (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('e47a3989-52c2-4827-a62f-967a8cc05438','294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c')))nohpmarketing,
-                               (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('e47a3989-52c2-4827-a62f-967a8cc05438','294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c')))namamarketing,
+                               (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('e47a3989-52c2-4827-a62f-967a8cc05438','294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c','4a6bbe8d-da22-4024-b898-ed2b18f717c2')))nohpmarketing,
+                               (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('e47a3989-52c2-4827-a62f-967a8cc05438','294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c','4a6bbe8d-da22-4024-b898-ed2b18f717c2')))namamarketing,
 
-                               (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('83ab25eb-16bc-4228-83bc-6d2e52c93e12','ea687072-8a0b-4458-99ce-ba9f2fa9aa19')))nohpdirektur,
-                               (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('83ab25eb-16bc-4228-83bc-6d2e52c93e12','ea687072-8a0b-4458-99ce-ba9f2fa9aa19')))namadirektur,
+                               (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('83ab25eb-16bc-4228-83bc-6d2e52c93e12','ea687072-8a0b-4458-99ce-ba9f2fa9aa19','00e909ac-2eb7-4149-a9ee-8cc8a096b9d9')))nohpdirektur,
+                               (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('83ab25eb-16bc-4228-83bc-6d2e52c93e12','ea687072-8a0b-4458-99ce-ba9f2fa9aa19','00e909ac-2eb7-4149-a9ee-8cc8a096b9d9')))namadirektur,
 
                                (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where department_id='50e25656-cdaa-40a7-8c2c-585e2b42c505'))nohpdirekturpt,
                                (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where department_id='50e25656-cdaa-40a7-8c2c-585e2b42c505'))namadireakturpt

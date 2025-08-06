@@ -43,6 +43,7 @@
                 </div>
             </div>
             <form action="<?php echo base_url();?>index.php/crm/handling/response" id="formresponse">
+                <input type="hidden" id="modal_handling_response_deviceid" name="modal_handling_response_deviceid">
                 <input type="hidden" id="modal_handling_response_transid" name="modal_handling_response_transid">
                 <div class="modal-body">
                     <div class="text-center mb-13">

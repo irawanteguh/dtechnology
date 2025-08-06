@@ -99,8 +99,12 @@ function datahandling(){
                 for (let i in result){
                     const getvariabel = " datatransid='" + result[i].trans_id + "'" +
                                         " datadepartmentid='" + result[i].department_id + "'" +
-                                        " datanamapic='" + (result[i].namapic || "") + "'" +
-                                        " datanohppic='" + result[i].nohppic + "'" +
+
+                                        " datanamapicunit='" + (result[i].namapicunit || "") + "'" +
+                                        " datanohppicunit='" + result[i].nohppicunit + "'" +
+                                        " datanamapicmanager='" + (result[i].namapicmanager || "") + "'" +
+                                        " datannohppicmanager='" + result[i].nohppicmanager + "'" +
+
                                         " datanamapasien='" + result[i].nama + "'" +
                                         " datacodelaporan='" + result[i].code + "'" +
                                         " datadeviceid='" + result[i].deviceid + "'" +
@@ -108,8 +112,10 @@ function datahandling(){
                                         " datajawaban='" + result[i].answer_instalasi + "'" +
                                         " dataorgname='" + result[i].nameorg + "'";
 
-                    const timerId = "sla_timer_" + i;
-                    const createdAt = result[i].tgldibuat;
+                    const timerId      = "sla_timer_" + i;
+                    const createdAt    = result[i].tgldibuat;
+                    const tglUnit      = result[i].tgldepartment;
+                    const tglmanager   = result[i].tglmanager;
                     const tglMarketing = result[i].tglmarketing;
 
                     tableresult += "<tr>";
@@ -126,9 +132,9 @@ function datahandling(){
                     if(result[i].status === "0"){
                         tableresult += "<td><div>" + createdAt + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "1"){
-                        tableresult += "<td>" + result[i].tgldepartment + "</td>";
+                        tableresult += "<td><div>" + tglUnit + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "2"){
-                        tableresult += "<td>" + result[i].tglmanager + "</td>";
+                        tableresult += "<td><div>" + tglmanager + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "3"){
                         tableresult += "<td><div>" + tglMarketing + "</div><div><span class='badge fw-bold' id='" + timerId + "'>Loading...</span></div></td>";
                     } else if(result[i].status === "4") {
@@ -148,7 +154,6 @@ function datahandling(){
                     }
                     
 
-                    // Kolom Action
                     tableresult += "<td class='text-end'>";
                     tableresult += "<div class='btn-group' role='group'>";
                     tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
@@ -174,8 +179,15 @@ function datahandling(){
                     tableresult += "</div></div></td>";
                     tableresult += "</tr>";
 
-                    // Jalankan Countdown Timer SLA
-                    setCountdownSLA(result[i].tgldepartment, timerId);
+                    if(result[i].status === "0") {
+                        setCountdownSLA(createdAt, timerId, 24);
+                    } else if(result[i].status === "1") {
+                        setCountdownSLA(tglUnit, timerId, 24);
+                    }else if(result[i].status === "2") {
+                        setCountdownSLA(tglmanager, timerId, 24);
+                    }else if(result[i].status === "3") {
+                        setCountdownSLA(tglMarketing, timerId, 24);
+                    }
                 }
             }
 
@@ -201,43 +213,6 @@ function datahandling(){
         }
     });
     return false;
-}
-
-function setCountdownSLA(createdAtString, elementId) {
-    const SLA_HOURS = 24;
-
-    // Ubah format "15.07.2025 11:25:00" menjadi "2025-07-15T11:25:00"
-    const parts = createdAtString.split(" ");
-    const dateParts = parts[0].split(".");
-    const timePart = parts[1];
-    const isoDateString = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timePart}`;
-
-    const createdAt = new Date(isoDateString);
-    const deadline = new Date(createdAt.getTime() + SLA_HOURS * 60 * 60 * 1000);
-
-    const interval = setInterval(() => {
-        const now = new Date();
-        const diff = deadline - now;
-
-        const el = document.getElementById(elementId);
-        if (!el) {
-            clearInterval(interval);
-            return;
-        }
-
-        if (diff <= 0) {
-            el.innerHTML = "Melewati SLA";
-            el.className = "badge badge-light-danger fw-bold";
-            clearInterval(interval);
-        } else {
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            el.innerHTML = `${hours.toString().padStart(2, '0')} Jam : ${minutes.toString().padStart(2, '0')} Menit : ${seconds.toString().padStart(2, '0')} Detik`;
-            el.className = "badge badge-light-success fw-bold";
-        }
-    }, 1000);
 }
 
 $(document).on("submit", "#formanswer", function (e) {
@@ -295,29 +270,37 @@ function updatestatus(btn) {
     }).then((result) => {
         if (result.isConfirmed) {
             var datatransid     = btn.attr("datatransid");
-            var datanamapic     = btn.attr("datanamapic");
-            var datanohppic     = btn.attr("datanohppic");
+
+            var datanamapicunit     = btn.attr("datanamapicunit");
+            var datanohppicunit     = btn.attr("datanohppicunit");
+            var datanamapicmanager  = btn.attr("datanamapicmanager");
+            var datannohppicmanager = btn.attr("datannohppicmanager");
+
             var datanamapasien  = btn.attr("datanamapasien");
             var datacodelaporan = btn.attr("datacodelaporan");
             var datasaran       = btn.attr("datasaran");
+            var datajawaban     = btn.attr("datajawaban");
             var datastatus      = btn.attr("datastatus");
             var datadeviceid    = btn.attr("datadeviceid");
-            var datajawaban     = btn.attr("datajawaban");
             var dataorgname     = btn.attr("dataorgname");
+            
+
 
             $.ajax({
                 url       : url+"index.php/crm/handlinginstalasi/updatesaran",
                 data      : {
-                                datatransid    : datatransid,
-                                datastatus     : datastatus,
-                                datanamapic    : datanamapic,
-                                datanohppic    : datanohppic,
-                                datanamapasien : datanamapasien,
-                                datacodelaporan: datacodelaporan,
-                                datasaran      : datasaran,
-                                datajawaban    : datajawaban,
-                                datadeviceid   : datadeviceid,
-                                dataorgname    : dataorgname
+                                datatransid        : datatransid,
+                                datastatus         : datastatus,
+                                datanamapicunit    : datanamapicunit,
+                                datanohppicunit    : datanohppicunit,
+                                datanamapicmanager : datanamapicmanager,
+                                datannohppicmanager: datannohppicmanager,
+                                datanamapasien     : datanamapasien,
+                                datacodelaporan    : datacodelaporan,
+                                datasaran          : datasaran,
+                                datajawaban        : datajawaban,
+                                datadeviceid       : datadeviceid,
+                                dataorgname        : dataorgname
                             },
                 method    : "POST",
                 dataType  : "JSON",

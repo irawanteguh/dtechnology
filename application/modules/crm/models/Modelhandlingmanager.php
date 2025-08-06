@@ -19,8 +19,8 @@
                                (select no_hp from dt01_gen_user_data where active='1' and user_id=(select user_id from dt01_gen_department_ms where active='1' and department_id=(select header_id from dt01_gen_department_ms where active='1' and department_id=a.department_id)))nohppic,
                                (select master_name from dt01_gen_master_ms where jenis_id='CRM_1' and code=a.status)statusname,
                                (select color from dt01_gen_master_ms where jenis_id='CRM_1' and code=a.status)statuscolor,
-                               (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id=a.org_id and department_id='e47a3989-52c2-4827-a62f-967a8cc05438'))nohpmarketing,
-                               (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id=a.org_id and department_id='e47a3989-52c2-4827-a62f-967a8cc05438'))namamarketing
+                               (select no_hp from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('e47a3989-52c2-4827-a62f-967a8cc05438','294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c','4a6bbe8d-da22-4024-b898-ed2b18f717c2')))nohpmarketing,
+                               (select name from dt01_gen_user_data where user_id=(select user_id from dt01_gen_department_ms where org_id='".$orgid."' and department_id in ('e47a3989-52c2-4827-a62f-967a8cc05438','294b0ec7-2b8c-4c4a-bfa1-4941d2b9d69c','4a6bbe8d-da22-4024-b898-ed2b18f717c2')))namamarketing
                                
                         from dt01_crm_saran_hd a
                         where a.org_id='".$orgid."'

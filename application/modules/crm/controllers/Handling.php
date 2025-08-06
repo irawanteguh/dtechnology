@@ -42,7 +42,7 @@
         }
 
         public function datahandling(){
-            $orgid = $this->input->post("orgid");
+            $orgid  = $this->input->post("orgid");
             $result = $this->md->datahandling($orgid);
             
 			if(!empty($result)){
@@ -80,24 +80,48 @@
 
             if($this->input->post("datastatus")==="1"){
 
-                $text  = "*".$this->input->post("dataorgname")."*";
-                $text .= "%0a*RMB Hospital Group*";
-                $text .= "%0a%0aKepada Yth,.";
-                $text .= "%0aKepala Unit / Department";
-                $text .= "%0a*".$this->input->post("datanamapic")."*%0a";
-                $text .= "%0aMohon tindaklanjuti saran dan masukan";
-                $text .= "%0a%0aAtasnama%09%09: ".$this->input->post("datanamapasien")."";
-                $text .= "%0aKode Laporan%09%09: `".$this->input->post("datacodelaporan")."`";
-                $text .= "%0aSaran dan Masukan%09: ";
-                $text .= "%0a_".$this->input->post("datasaran")."_";
-                $text .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+                $textunit  = "*".$this->input->post("dataorgname")."*";
+                $textunit .= "%0a*RMB Hospital Group*";
+                $textunit .= "%0a%0aKepada Yth,.";
+                $textunit .= "%0aKepala Unit / Department";
+                $textunit .= "%0a*".$this->input->post("datanamapicunit")."*%0a";
+                $textunit .= "%0aMohon tindaklanjuti saran dan masukan";
+                $textunit .= "%0a%0aAtasnama%09%09: ".$this->input->post("datanamapasien")."";
+                $textunit .= "%0aKode Laporan%09%09: `".$this->input->post("datacodelaporan")."`";
+                $textunit .= "%0aSaran dan Masukan%09: ";
+                $textunit .= "%0a_".$this->input->post("datasaran")."_";
+                $textunit .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
 
                 $this->md->simpanboardcast([
                     'org_id'       => $_SESSION['orgid'],
                     'transaksi_id' => generateuuid(),
-                    'body_1'       => $text,
+                    'body_1'       => $textunit,
                     'device_id'    => $this->input->post("datadeviceid"),
-                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datanohppic"))),
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datanohppicunit"))),
+                    'ref_id'       => $this->input->post("datatransid"),
+                    'type_file'    => '0',
+                    'catatan'      => 'CRM [MARKETING]',
+                    'created_by'   => $_SESSION['userid']
+                ]);
+
+                $textmanager  = "*".$this->input->post("dataorgname")."*";
+                $textmanager .= "%0a*RMB Hospital Group*";
+                $textmanager .= "%0a%0aKepada Yth,.";
+                $textmanager .= "%0aManager";
+                $textmanager .= "%0a*".$this->input->post("datanamapicmanager")."*%0a";
+                $textmanager .= "%0aMohon tindaklanjuti saran dan masukan";
+                $textmanager .= "%0a%0aAtasnama%09%09: ".$this->input->post("datanamapasien")."";
+                $textmanager .= "%0aKode Laporan%09%09: `".$this->input->post("datacodelaporan")."`";
+                $textmanager .= "%0aSaran dan Masukan%09: ";
+                $textmanager .= "%0a_".$this->input->post("datasaran")."_";
+                $textmanager .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
+
+                $this->md->simpanboardcast([
+                    'org_id'       => $_SESSION['orgid'],
+                    'transaksi_id' => generateuuid(),
+                    'body_1'       => $textmanager,
+                    'device_id'    => $this->input->post("datadeviceid"),
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datannohppicmanager"))),
                     'ref_id'       => $this->input->post("datatransid"),
                     'type_file'    => '0',
                     'catatan'      => 'CRM [MARKETING]',
@@ -141,7 +165,7 @@
                 'org_id'       => $datasaran[0]->org_id,
                 'transaksi_id' => generateuuid(),
                 'body_1'       => $textUser,
-                'device_id'    => '1234',
+                'device_id'    => $this->input->post("modal_handling_response_deviceid"),
                 'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $datasaran[0]->no_hp)),
                 'ref_id'       => $this->input->post("modal_handling_response_transid"),
                 'type_file'    => '0'

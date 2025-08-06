@@ -13,7 +13,7 @@
 		}
 
         public function datahandling(){
-            $status    = "and a.status='2'
+            $status    = "and a.status in ('2','3','4')
                           and a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -50,7 +50,7 @@
                 $text .= "%0aKepala Unit / Department Marketing";
                 $text .= "%0a*".$this->input->post("dataorgnamemarketing")."*%0a";
                 $text .= "%0aSaran dan masukan";
-                $text .= "%0a%0aAtasnama%09%09: ".$this->input->post("datanamapasien")."";
+                $text .= "%0a%0aAtasnama%09: ".$this->input->post("datanamapasien")."";
                 $text .= "%0aKode Laporan%09: `".$this->input->post("datacodelaporan")."`";
                 $text .= "%0aSudah Disetujui Manager, mohon ditindaklanjuti";
                 $text .= "%0a%0a_Mohon untuk tidak membalas pesan ini_%0a_Pesan ini dibuat secara otomatis oleh_%0a*Smart Assistant RMB Hospital Group*";
@@ -60,7 +60,7 @@
                     'transaksi_id' => generateuuid(),
                     'body_1'       => $text,
                     'device_id'    => $this->input->post("datadeviceid"),
-                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("datanohppic"))),
+                    'no_hp'        => preg_replace('/^0/', '62', preg_replace('/\D/', '', $this->input->post("dataorghpmarketing"))),
                     'ref_id'       => $this->input->post("datatransid"),
                     'type_file'    => '0',
                     'catatan'      => 'CRM [MANAGER]',
