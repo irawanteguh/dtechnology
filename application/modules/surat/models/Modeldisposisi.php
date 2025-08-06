@@ -111,6 +111,39 @@
             return $recordset;
         }
 
+        function chat($userid,$refid){
+            $query =
+                    "
+                        select x.*,
+                            (select name from dt01_gen_user_data where active='1' and user_id=x.created_by)name,
+                            (select upper(LEFT(name, 1))  from dt01_gen_user_data where active='1' and user_id=x.created_by)initial,
+                            (select image_profile from dt01_gen_user_data where active='1' and user_id=x.created_by)image_profile,
+                            case 
+                                    when '".$userid."' = x.created_by then
+                                    'out'
+                                    else
+                                    'in'
+                            end type
+                        from(
+                            select a.chat, date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat, created_date, created_by
+                            from dt01_gen_chat_dt a
+                            where a.active='1'
+                            and   a.ref_id='".$refid."'
+                        )x
+                        order by created_date asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function insertchat($data){           
+            $sql =   $this->db->insert("dt01_gen_chat_dt",$data);
+            return $sql;
+        }
+
+
         function insertdisposisi($data){           
             $sql =   $this->db->insert("dt01_sek_surat_it",$data);
             return $sql;

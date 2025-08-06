@@ -174,5 +174,55 @@
 
 		}
 
+		public function chat(){
+            $refid = $this->input->post("refid");
+            $result = $this->md->chat($_SESSION['userid'],$refid);
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+		public function sendchat() {
+            $chatText = $this->input->post('chat');
+            $refid    = $this->input->post('refid');
+            $status   = $this->input->post('status');
+
+            $data['org_id']     = $_SESSION['orgid'];
+            $data['chat_id']    = generateuuid();
+            $data['ref_id']     = $refid;
+            $data['chat']       = $chatText;
+            $data['created_by'] = $_SESSION['userid'];
+
+            if($this->md->insertchat($data)){
+
+                if(empty($this->md->cekresponse($refid,$_SESSION['userid']))){
+					$updatereponse['to_datetime'] = date("Y-m-d H:i:s");
+					$updatereponse['response']    = "Y";
+
+					$this->md->updatedisposisi($refid,$_SESSION['userid'],$updatereponse);
+				};
+
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
 	}
 ?>

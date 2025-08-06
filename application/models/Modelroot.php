@@ -21,6 +21,13 @@
                         select a.*
                         from dt01_gen_modules_ms a
                         where a.active='1'
+                        and   a.parent='C'
+
+                        union
+
+                        select a.*
+                        from dt01_gen_modules_ms a
+                        where a.active='1'
                         ".$parameter."
                         order by urut asc
                     ";

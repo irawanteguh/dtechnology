@@ -6,10 +6,13 @@ $('#modal_disposisi_add').on('shown.bs.modal', function (event) {
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-    var button                = $(event.relatedTarget);
-    var datatransid           = button.attr("datatransid");
-    
-    
+    var button      = $(event.relatedTarget);
+    var datatransid = button.attr("datatransid");
+
+    $("#modal_disposisi_add_suratid").val(datatransid);
+    // $('textarea[data-kt-element="input"]').focus();
+    chat(datatransid);
+
     $.ajax({
 		url    : url + "index.php/surat/disposisi/lembardisposisi",
 		data   : {datatransid:datatransid},
@@ -91,7 +94,7 @@ function suratmasuk(){
                             tableresult += "<div class='btn-group' role='group'>";
                                 tableresult += "<button id='btnGroupDropAction' type='button' class='btn btn-sm btn-light-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult += "<ul class='dropdown-menu' aria-labelledby='btnGroupDropAction'>";
-                                    tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_disposisi_add' "+getvariabel+"><i class='bi bi-eye text-primary'></i> Disposisi</a></li>";
+                                    tableresult += "<li><a class='dropdown-item btn btn-sm text-info' href='#' data-bs-toggle='modal' data-bs-target='#modal_disposisi_add' "+getvariabel+" data-dirfile='"+url+"assets/suratmasuk/"+result[i].trans_id+".pdf' onclick='viewdocdisposisiwithoutnote(this)'><i class='bi bi-send-check text-info'></i> Disposisi</a></li>";
                                     tableresult += "<li><a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/suratmasuk/"+result[i].trans_id+".pdf' onclick='viewdocwithoutnote(this)'><i class='bi bi-eye text-primary'></i> View Lampiran</a></li>";
                                 tableresult += "</ul>";
                             tableresult += "</div>";
@@ -232,72 +235,203 @@ function suratmasuk(){
     return false;
 }
 
-$(document).on('change', '.form-check-input', function() {
-        let isChecked    = $(this).is(':checked');
-        let departmentId = $(this).attr('data-departmentid');
-        let orgId        = $(this).attr('data-orgid');
-        let userId       = $(this).attr('data-userid');
-        let suratId      = $(this).attr('data-suratid');
+function chat(refid) {
+    $.ajax({
+        url: url + "index.php/surat/disposisi/chat",
+        data: { refid: refid },
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            toastr.clear();
+            $("#chatfollowup").html("");
+        },
+        success: function (data) {
+            var tableresult = "";
+            var lastName = "";
 
-        if (isChecked) {
-            $.ajax({
-                url     : url + "index.php/surat/disposisi/disposisisurat_insert",
-                method  : "POST",
-                dataType: "JSON",
-                cache   : false,
-                data    : {department_id: departmentId,org_id: orgId,user_id: userId,surat_id: suratId},
-                success : function(data) {
-                    $.ajax({
-                        url    : url + "index.php/surat/disposisi/lembardisposisi",
-                        data   : {datatransid:suratId},
-                        method : "POST",
-                        cache  : false,
-                        beforeSend: function () {
-                            toastr.clear();
-                            toastr["info"]("Sending request...", "Please wait");
-                            $("#modal_disposisi_lembardisposisi").html("");
-                        },
-                        success: function (data) {
-                            $("#modal_disposisi_lembardisposisi").html(data);
+            if (data.responCode === "00") {
+                var result = data.responResult;
+                for (var i in result) {
+                    var chatType   = result[i].type === "in" ? "info" : "primary";
+                    var isSameUser = lastName       === result[i].name;
+                        lastName   = result[i].name;
+
+                    tableresult += `<div class='d-flex justify-content-${result[i].type === "in" ? "start" : "end"}'>`;
+                    tableresult += `<div class='d-flex flex-column align-items-${result[i].type === "in" ? "start" : "end"}'>`;
+
+                    if (!isSameUser) {
+                        tableresult += `<div class='d-flex align-items-center mb-2'>`;
+                        if (result[i].type === "out") {
+                            tableresult += `<div class='d-flex align-items-center'>`;
+                            tableresult += `<div class='d-flex flex-column me-3 text-end'>`;
+                            tableresult += `<a href='#' class='fs-5 fw-bolder text-gray-900 text-hover-primary'>${result[i].name}</a>`;
+                            tableresult += `</div>`;
+                            tableresult += `<div class='symbol symbol-circle symbol-35px overflow-hidden me-3'>`;
+                            tableresult += `<div class='symbol-label fs-3 bg-light-${chatType} text-${chatType}'>${result[i].initial}</div>`;
+                            tableresult += `</div>`;
+                            tableresult += `</div>`;
+                        } else {
+                            tableresult += `<div class='d-flex align-items-center'>`;
+                            tableresult += `<div class='symbol symbol-circle symbol-35px overflow-hidden me-3'>`;
+                            tableresult += `<div class='symbol-label fs-3 bg-light-${chatType} text-${chatType}'>${result[i].initial}</div>`;
+                            tableresult += `</div>`;
+                            tableresult += `<div class='d-flex flex-column'>`;
+                            tableresult += `<a href='#' class='fs-5 fw-bolder text-gray-900 text-hover-primary'>${result[i].name}</a>`;
+                            tableresult += `</div>`;
+                            tableresult += `</div>`;
                         }
-                    });
+                        tableresult += `</div>`;
+                    }
+
+                    tableresult += `<div class='p-5 rounded bg-light-${chatType} text-dark fw-bold mw-lg-400px text-${result[i].type === "in" ? "start" : "end"} mb-3' data-kt-element='message-text'>`;
+                    tableresult += `${result[i].chat}`;
+                    tableresult += `<div class='text-muted small mt-2'>${result[i].jambuat}</div>`;
+                    tableresult += `</div>`;
                     
-                    toastr[data.responHead](data.responDesc, "INFORMATION");
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    alert('Gagal mengirim disposisi.');
+                    tableresult += `</div>`;
+                    tableresult += `</div>`;
                 }
-            });
-        } else {
-            // Jika uncheck dan perlu delete:
-            $.ajax({
-                url     : url + "index.php/surat/disposisi/disposisisurat_delete",
-                method  : "POST",
-                dataType: "JSON",
-                cache   : false,
-                data    : {department_id:departmentId,surat_id:suratId,user_id:userId},
-                success: function(data) {
-                   $.ajax({
-                        url    : url + "index.php/surat/disposisi/lembardisposisi",
-                        data   : {datatransid:suratId},
-                        method : "POST",
-                        cache  : false,
-                        beforeSend: function () {
-                            toastr.clear();
-                            toastr["info"]("Sending request...", "Please wait");
-                            $("#modal_disposisi_lembardisposisi").html("");
-                        },
-                        success: function (data) {
-                            $("#modal_disposisi_lembardisposisi").html(data);
-                        }
-                    });
-                    
-                    toastr[data.responHead](data.responDesc, "INFORMATION");
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error saat delete:', error);
-                }
+            }
+
+            $("#chatfollowup").html(tableresult);
+        },
+        complete: function () {
+            //
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title: "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html: "<b>" + error + "</b>",
+                icon: "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling: false,
+                timerProgressBar: true,
+                timer: 5000,
+                customClass: { confirmButton: "btn btn-danger" },
+                showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
             });
         }
     });
+    return false;
+};
+
+$(document).on('change', '.form-check-input', function() {
+    let isChecked    = $(this).is(':checked');
+    let departmentId = $(this).attr('data-departmentid');
+    let orgId        = $(this).attr('data-orgid');
+    let userId       = $(this).attr('data-userid');
+    let suratId      = $(this).attr('data-suratid');
+
+    if (isChecked) {
+        $.ajax({
+            url     : url + "index.php/surat/disposisi/disposisisurat_insert",
+            method  : "POST",
+            dataType: "JSON",
+            cache   : false,
+            data    : {department_id: departmentId,org_id: orgId,user_id: userId,surat_id: suratId},
+            success : function(data) {
+                $.ajax({
+                    url    : url + "index.php/surat/disposisi/lembardisposisi",
+                    data   : {datatransid:suratId},
+                    method : "POST",
+                    cache  : false,
+                    beforeSend: function () {
+                        toastr.clear();
+                        toastr["info"]("Sending request...", "Please wait");
+                        $("#modal_disposisi_lembardisposisi").html("");
+                    },
+                    success: function (data) {
+                        $("#modal_disposisi_lembardisposisi").html(data);
+                    }
+                });
+                
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('Gagal mengirim disposisi.');
+            }
+        });
+    } else {
+        // Jika uncheck dan perlu delete:
+        $.ajax({
+            url     : url + "index.php/surat/disposisi/disposisisurat_delete",
+            method  : "POST",
+            dataType: "JSON",
+            cache   : false,
+            data    : {department_id:departmentId,surat_id:suratId,user_id:userId},
+            success: function(data) {
+                $.ajax({
+                    url    : url + "index.php/surat/disposisi/lembardisposisi",
+                    data   : {datatransid:suratId},
+                    method : "POST",
+                    cache  : false,
+                    beforeSend: function () {
+                        toastr.clear();
+                        toastr["info"]("Sending request...", "Please wait");
+                        $("#modal_disposisi_lembardisposisi").html("");
+                    },
+                    success: function (data) {
+                        $("#modal_disposisi_lembardisposisi").html(data);
+                    }
+                });
+                
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+            },
+            error: function(xhr, status, error) {
+                console.error('Error saat delete:', error);
+            }
+        });
+    }
+});
+
+$(document).on("click", "[data-kt-element='send']", function () {
+    var refid   = $("#modal_disposisi_add_suratid").val();
+    var message = $("textarea[data-kt-element='input']").val();
+
+    if (message.trim() === "") {
+        Swal.fire({
+            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+            html             : "<b>Pesan tidak boleh kosong</b>",
+            icon             : "error",
+            confirmButtonText: "Please Try Again",
+            buttonsStyling   : false,
+            timerProgressBar : true,
+            timer            : 5000,
+            customClass      : {confirmButton: "btn btn-danger"},
+            showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+            hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+        });
+
+        return;
+    }
+
+    $.ajax({
+        url     : url + "index.php/surat/disposisi/sendchat",
+        method  : "POST",
+        data    : {chat:message,refid:refid},
+        dataType: "JSON",
+        success : function (data) {
+            if(data.responCode === "00"){
+                $("textarea[data-kt-element='input']").val("");
+                $('textarea[data-kt-element="input"]').focus();
+                chat(refid);
+            }else{
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                    html             : "<b>Gagal mengirim pesan!</b>",
+                    icon             : "error",
+                    confirmButtonText: "Please Try Again",
+                    buttonsStyling   : false,
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    customClass      : {confirmButton: "btn btn-danger"},
+                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                });
+            }
+        }
+    });
+});

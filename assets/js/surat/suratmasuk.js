@@ -201,8 +201,8 @@ function suratmasuk(){
                                 const startDate = new Date(startParts[0].split(".").reverse().join("-") + "T" + startParts[1]);
                                 const endDate = new Date(endParts[0].split(".").reverse().join("-") + "T" + endParts[1]);
 
-                                const diffMs = endDate - startDate;
-                                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                                const diffMs      = endDate - startDate;
+                                const diffHours   = Math.floor(diffMs / (1000 * 60 * 60));
                                 const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                                 const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
                                 const diffDisplay = diffMs > 0 ? `${diffHours} Jam : ${diffMinutes} Menit : ${diffSeconds} Detik` : "-";

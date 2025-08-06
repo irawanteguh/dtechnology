@@ -34,9 +34,9 @@
             self::$segment1        = self::$app->uri->segment(1);
             self::$segment2        = self::$app->uri->segment(2);
             if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340"){
-                $parameter="";
+                $parameter="and a.parent<>'C'";
             }else{
-                $parameter="and   a.modules_id in (select modules_id from dt01_gen_role_dt where active='1' and role_id in(select role_id from dt01_gen_role_access where active='1' and user_id='".$_SESSION['userid']."'))";
+                $parameter="and a.parent<>'C' and   a.modules_id in (select modules_id from dt01_gen_role_dt where active='1' and role_id in(select role_id from dt01_gen_role_access where active='1' and user_id='".$_SESSION['userid']."'))";
             }
             self::$resultmenu      = self::$app->Modelroot->menu($parameter);
             self::$resultreferensi = self::$app->Modelroot->referensi();
