@@ -1,5 +1,11 @@
 masteruser();
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    masteruser();
+});
+
+
 function getdata(btn) {
     var $btn       = $(btn);
     var userid = $btn.attr("data_userid");
@@ -11,8 +17,10 @@ function getdata(btn) {
 };
 
 function masteruser(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url       : url+"index.php/operation/useraccess/masteruser",
+        data      : {orgid:orgid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
