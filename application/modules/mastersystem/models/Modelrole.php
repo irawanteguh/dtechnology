@@ -1,10 +1,11 @@
 <?php
     class Modelrole extends CI_Model{
 
-        function masterrole($orgid){
+        function masterrole(){
             $query =
                     "
-                        select a.role_id, role, DATE_FORMAT(CREATED_DATE,'%d.%m.%Y %H:%i:%s')createddate,
+                        select a.role_id, role, DATE_FORMAT(created_date,'%d.%m.%Y %H:%i:%s')createddate,
+                            (select org_name from dt01_gen_organization_ms where active='1' and org_id=a.org_id)orgname,
                             (select count(trans_id) from dt01_gen_role_access where org_id=a.org_id and active='1' and role_id=a.role_id)jmluser,
                             (select name from dt01_gen_user_data where user_id=a.created_by and active='1')createdby,
                             (
@@ -17,8 +18,7 @@
                                 and   b.role_id=a.role_id
                             )  modules
                         from dt01_gen_role_ms a
-                        where a.org_id='".$orgid."'
-                        and   a.active='1'
+                        where a.active='1'
                         order by role asc
                     ";
 
@@ -44,6 +44,21 @@
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
+        }
+
+        function updaterole($roleid,$data){           
+            $sql =   $this->db->update("dt01_gen_role_ms",$data,array("role_id"=>$roleid));
+            return $sql;
+        }
+
+        function updaterolemapping($roleid,$data){           
+            $sql =   $this->db->update("dt01_gen_role_dt",$data,array("role_id"=>$roleid));
+            return $sql;
+        }
+
+        function updateroleaccess($roleid,$data){           
+            $sql =   $this->db->update("dt01_gen_role_access",$data,array("role_id"=>$roleid));
+            return $sql;
         }
 
         function insertrole($data){           

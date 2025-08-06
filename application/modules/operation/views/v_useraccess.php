@@ -6,13 +6,13 @@
             <div class="card-header pt-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label fw-bolder fs-3 mb-1">Master user</span>
-                    <span class="text-muted mt-1 fw-bold fs-7">Over 300 user</span>
+                    <span class="text-muted mt-1 fw-bold fs-7" id="jumlahuser"></span>
                 </h3>
                 <div class="card-toolbar">
                 </div>
             </div>
             <div class="card-body">
-                <div id="kt_docs_search_handler_position" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="true" data-kt-search-layout="inline" data-kt-search="true" class="">
+                <div id="searchuser" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="true" data-kt-search-layout="inline" data-kt-search="true" class="">
                     <form data-kt-search-element="form" class="w-100 position-relative mb-5" autocomplete="off">
                         <input type="hidden" />
                         <span class="svg-icon svg-icon-2 svg-icon-lg-1 svg-icon-gray-500 position-absolute top-50 ms-5 translate-middle-y">
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div id="kt_docs_search_handler_activity" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="true" data-kt-search-layout="inline" data-kt-search="true" class="">
+                <div id="searchrole" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="true" data-kt-search-layout="inline" data-kt-search="true" class="">
                     <form data-kt-search-element="form" class="w-100 position-relative mb-5" autocomplete="off">
                         <input type="hidden" />
 
@@ -81,7 +81,7 @@
 
                     </form>
                     <div data-kt-search-element="results">
-                        <div class="mh-450px scroll-y me-n5 pe-5" id="listrole"></div>
+                        <div class="mh-450px scroll-y me-n5 pe-5" id="listrole" data-kt-search-element="results"></div>
                     </div>
                 </div>
             </div>

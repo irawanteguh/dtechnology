@@ -42,10 +42,15 @@ function masterrole(){
 
                     tableresult +="<div class='col-md-4 col-sm-6'>";
                         tableresult +="<div class='card card-flush h-md-100'>";
+
                             tableresult +="<div class='card-header'>";
-                                tableresult +="<div class='card-title'>";
-                                    tableresult +="<h2>"+result[i].role+"</h2>";
-                                tableresult +="</div>";
+                                tableresult += "<h2 class='card-title align-items-start flex-column mt-5'>";
+                                    tableresult += "<span class='card-label fw-bolder fs-3 mb-1'>" + result[i].role + "</span>";
+                                    tableresult += "<span class='text-muted mt-1 fw-bold fs-7 me-4'>" + result[i].createdby + " <span class='badge badge-secondary'>" + result[i].createddate + "</span></span>";
+                                tableresult += "</h2>";
+                                 tableresult += "<div class='card-toolbar'>";
+                                    tableresult += "<span class='badge badge-light-info fs-7'>" + result[i].orgname + "</span>";
+                                tableresult += "</div>";
                             tableresult +="</div>";
                             tableresult +="<div class='card-body pt-1'>";
                                 tableresult +="<div class='fw-bolder text-gray-600 mb-5'>Total users with this role: "+result[i].jmluser+"</div>";
@@ -64,9 +69,14 @@ function masterrole(){
                                 }
                                 tableresult +="</div>";
                             tableresult +="</div>";
-                            tableresult +="<div class='card-footer flex-wrap pt-0'>";
-                            tableresult +="<button type='button' class='btn btn-light btn-active-light-primary my-1' data-bs-toggle='modal' data-bs-target='#modal_role_list' "+getvariabel+" onclick='getdata($(this));'>Edit Role</button>";
-                            tableresult +="</div>";
+
+                            tableresult += "<div class='card-footer pt-0'>";
+                                tableresult += "<div class='btn-group' role='group'>";
+                                    tableresult += "<a type='button' class='btn btn-light-primary' data-bs-toggle='modal' data-bs-target='#modal_role_list' " + getvariabel + " onclick='getdata($(this));'>Edit</a>";
+                                    tableresult += "<a type='button' class='btn btn-light-danger' " + getvariabel + " onclick='hapusdata($(this));'>Delete</a>";
+                                tableresult += "</div>";
+                            tableresult += "</div>";
+
                         tableresult +="</div>";
                     tableresult +="</div>";
                 }
@@ -77,7 +87,7 @@ function masterrole(){
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-			//
+			toastr.clear();
 		},
         error: function(xhr, status, error) {
             Swal.fire({
@@ -96,7 +106,6 @@ function masterrole(){
     });
     return false;
 };
-
 
 function mastermodules(roleid) {
     $.ajax({
@@ -291,3 +300,49 @@ $(document).on("submit", "#formaddrole", function (e) {
 	});
     return false;
 });
+
+function hapusdata(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var dataroleid = btn.attr("data_roleid");
+
+            $.ajax({
+                url       : url+"index.php/mastersystem/role/hapusdata",
+                data      : {dataroleid:dataroleid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    toastr.clear();
+                    toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    toastr.clear();
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    masterrole();
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
+};

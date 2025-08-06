@@ -13,7 +13,7 @@
 		}
 
         public function masterrole(){
-            $result = $this->md->masterrole($_SESSION['orgid']);
+            $result = $this->md->masterrole();
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -118,7 +118,33 @@
             echo json_encode($json);
         }
 
+        public function hapusdata(){
+            $data['active']            = "0";
+            $data['last_updated_by']   = $_SESSION['userid'];
+            $data['last_updated_date'] = date("Y-m-d H:i:s");
 
+            if($this->md->updaterole($this->input->post("dataroleid"),$data)){
+                $datarolemapping['active']           = "0";
+                $datarolemapping['last_update_by']   = $_SESSION['userid'];
+                $datarolemapping['last_update_date'] = date("Y-m-d H:i:s");
+                $this->md->updaterolemapping($this->input->post("dataroleid"),$datarolemapping);
+
+                $dataroleaccess['active']           = "0";
+                $dataroleaccess['last_update_by']   = $_SESSION['userid'];
+                $dataroleaccess['last_update_date'] = date("Y-m-d H:i:s");
+                $this->md->updateroleaccess($this->input->post("dataroleid"),$dataroleaccess);
+
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Updated";
+            }
+
+            echo json_encode($json);
+        }
         
         
 	}

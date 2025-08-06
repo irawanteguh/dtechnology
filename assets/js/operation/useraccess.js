@@ -35,11 +35,14 @@ function masteruser(){
                     tableresult += "<div class='fw-bold'><span class='fs-6 text-gray-800 me-2'>"+result[i].name+"</span></div>";
                     tableresult += "</div>";
                 }
+
+                $("#jumlahuser").html(result.length+" Users");
             }
 
+            
 
             $("#listuser").html(tableresult);
-
+            
             $("#listuser div").on('click', function () {
                 getdata(this);
             });
@@ -178,8 +181,9 @@ $(document).on("change", ".form-check-input", function (e) {
     });
 });
 
-var processs = function (search) {
-    var timeout = setTimeout(function () {
+var processssearchuser = function (search) {
+    setTimeout(function () {
+        const element = search.element; // ✅ Fix: ambil elemen dari objek search
         const inputField = element.querySelector("[data-kt-search-element='input']");
         const val = $.trim(inputField.value).replace(/ +/g, ' ').toLowerCase();
 
@@ -192,13 +196,41 @@ var processs = function (search) {
     }, 300);
 };
 
-var clear = function (search) {
+var processsssearchrole = function (search) {
+    setTimeout(function () {
+        const element = search.element; // ✅ Fix: ambil elemen dari objek search
+        const inputField = element.querySelector("[data-kt-search-element='input']");
+        const val = $.trim(inputField.value).replace(/ +/g, ' ').toLowerCase();
+
+        $("#listrole > div").removeClass('d-none').filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !text.includes(val);
+        }).addClass('d-none');
+
+        search.complete();
+    }, 300);
+};
+
+var clearsearchuser = function (search) {
     $("#listuser > div").removeClass('d-none');
 };
 
-const element = document.querySelector('#kt_docs_search_handler_position');
-if (element) {
-    const searchObject = new KTSearch(element);
-    searchObject.on("kt.search.process", processs);
-    searchObject.on("kt.search.clear", clear);
+var clearsearchrole = function (search) {
+    $("#listrole > div").removeClass('d-none');
+};
+
+// Inisialisasi Search Object
+const searchuser = document.querySelector('#searchuser');
+const searchrole = document.querySelector('#searchrole');
+
+if (searchuser) {
+    const searchObjectUser = new KTSearch(searchuser);
+    searchObjectUser.on("kt.search.process", processssearchuser);
+    searchObjectUser.on("kt.search.clear", clearsearchuser);
+}
+
+if (searchrole) {
+    const searchObjectRole = new KTSearch(searchrole);
+    searchObjectRole.on("kt.search.process", processsssearchrole);
+    searchObjectRole.on("kt.search.clear", clearsearchrole);
 }
