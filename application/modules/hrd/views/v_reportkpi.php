@@ -43,7 +43,7 @@
 			</div>
 			<div class="card-body py-3">
 				<div class="table-responsive mh-600px scroll-y me-n5 pe-5">
-					<table class="table align-middle table-row-dashed fs-6 gy-2" id="tablemasterkaryawan">
+					<table class="table align-middle table-row-dashed fs-8 gy-2" id="tablemasterkaryawan">
 						<thead>
 							<tr class="fw-bolder text-muted bg-light">
 								<th class="ps-4 rounded-start">Identity</th>
