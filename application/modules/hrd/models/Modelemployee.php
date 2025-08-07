@@ -1,6 +1,22 @@
 <?php
     class Modelemployee extends CI_Model{
 
+        function masterorganization($parameter){
+            $query =
+                    "
+                        select a.org_id, org_name
+                        from dt01_gen_organization_ms a
+                        where a.active='1'
+                        and   a.holding='N'
+                        ".$parameter."
+                        order by org_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function cekdataprimary($orgid,$userid){
             $query =
                     "
@@ -331,6 +347,7 @@
 
                                 FROM dt01_gen_user_data a
                                 WHERE a.org_id = '".$orgid."'
+                                and   a.active='1'
                             ) x
                         ) y
 

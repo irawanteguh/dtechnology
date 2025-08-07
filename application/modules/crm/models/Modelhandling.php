@@ -57,8 +57,8 @@
                         select a.department_id, department
                         from dt01_gen_department_ms a
                         where a.active='1'
-                        and   a.level_id='5'
                         and   a.org_id='".$orgid."'
+                        and   a.level_id='5'
                         order by department asc
                     ";
 

@@ -1,19 +1,19 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Rkk extends CI_Controller {
+	class Details extends CI_Controller {
 
 		public function __construct(){
             parent:: __construct();
 			rootsystem::system();
-            $this->load->model("Modelrkk","md");
+            $this->load->model("Modeldetails","md");
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_rkk");
+			$this->template->load("template/template-sidebar","v_details");
 		}
 
-        public function listrkk(){
-            $result = $this->md->listrkk($_SESSION['userid']);
+        public function masterrkk(){
+            $result = $this->md->masterrkk();
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -28,6 +28,7 @@
 
             echo json_encode($json);
         }
+        
         
 
 	}

@@ -1,5 +1,10 @@
 masteremployee();
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    masteremployee();
+});
+
 function getdata(btn){
     toastr.clear();
 
@@ -23,8 +28,10 @@ function getdata(btn){
 };
 
 function masteremployee(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
-        url        : url+"index.php/komiteperawat/rkk/masteremployee",
+        url        : url+"index.php/komiteperawat/clinicalauth/masteremployee",
+        data       : {orgid:orgid},
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -134,7 +141,7 @@ $(document).on("submit", "#formupdaterkk", function (e) {
 	e.preventDefault();
 	var data = new  FormData(this);
 	$.ajax({
-        url        : url+'index.php/komiteperawat/rkk/updaterkk',
+        url        : url+'index.php/komiteperawat/clinicalauth/updaterkk',
         data       : data,
         method     : "POST",
         dataType   : "JSON",

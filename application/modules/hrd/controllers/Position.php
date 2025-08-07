@@ -17,6 +17,13 @@
             $resultmasterdepartment      = $this->md->masterdepartment($_SESSION['orgid']);
             $resultmasterlevelfungsional = $this->md->masterlevelfungsional($_SESSION['groupid']);
 
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
+
             $masterdepartment="";
             foreach($resultmasterdepartment as $a ){
                 $masterdepartment.="<option value='".$a->department_id."'>".$a->department."</option>";
@@ -27,9 +34,15 @@
                 $masterlevelfungsional.="<option value='".$a->level_id."'>".$a->level."</option>";
             }
 
-            $data['masterdepartmentadd'] = $masterdepartment;
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
+            $data['masterdepartmentadd']  = $masterdepartment;
             $data['masterdepartmentedit'] = $masterdepartment;
             $data['masterfungsionaledit'] = $masterlevelfungsional;
+            $data['masterorganization']   = $masterorganization;
             
             return $data;
 		}
@@ -59,15 +72,8 @@
         }
 
 		public function daftarjabatan(){
-            $parameter1 ="and a.group_id='".$_SESSION['groupid']."'";
-
-            if($_SESSION['holding']==="Y"){
-                $parameter2 ="and b.group_id='".$_SESSION['groupid']."'";
-            }else{
-                $parameter2 ="and b.org_id='".$_SESSION['orgid']."'";
-            }
-
-            $result = $this->md->daftarjabatan($parameter1,$parameter2);
+            $orgid  = $this->input->post("orgid");
+            $result = $this->md->daftarjabatan($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

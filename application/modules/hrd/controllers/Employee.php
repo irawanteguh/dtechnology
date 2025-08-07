@@ -19,6 +19,13 @@
             $resultdutydays             = $this->md->dutydays();
             $resultdutyhours            = $this->md->dutyhours();
 
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
+
             $type="";
             foreach($resulttype as $a ){
                 $type.="<option value='".$a->id."'>".$a->type."</option>";
@@ -39,10 +46,16 @@
                 $hours.="<option value='".$a->id."'>".$a->keterangan."</option>";
             }
 
-            $data['type']           = $type;
-            $data['classification'] = $classification;
-            $data['days']           = $days;
-            $data['hours']          = $hours;
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
+            $data['type']               = $type;
+            $data['classification']     = $classification;
+            $data['days']               = $days;
+            $data['hours']              = $hours;
+            $data['masterorganization'] = $masterorganization;
             
             return $data;
 		}
@@ -72,7 +85,8 @@
         }
 
         public function masteremployee(){
-            $result = $this->md->masteremployee($_SESSION['orgid']);
+            $orgid  = $this->input->post("orgid");
+            $result = $this->md->masteremployee($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

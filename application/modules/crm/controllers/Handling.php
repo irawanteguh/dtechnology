@@ -23,7 +23,7 @@
             }
             $resultmasterorganization   = $this->md->masterorganization($parameter);
 
-            $department   = "";
+            $department         = "";
             $masterorganization = "";
 
             $masterorganization="";

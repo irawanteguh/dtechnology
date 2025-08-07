@@ -1,7 +1,23 @@
 <?php
     class Modelposition extends CI_Model{
 
-        function daftarjabatan($parameter1,$parameter2){
+        function masterorganization($parameter){
+            $query =
+                    "
+                        select a.org_id, org_name
+                        from dt01_gen_organization_ms a
+                        where a.active='1'
+                        and   a.holding='N'
+                        ".$parameter."
+                        order by org_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function daftarjabatan($orgid){
             $query =
                     "
                         SELECT a.org_id, a.position_id, a.position, a.rvu, a.level_fungsional, a.department_id, a.bagian_id, a.unit_id,
@@ -13,8 +29,8 @@
                                 (select level                    from dt01_gen_level_fungsional_ms where active = '1' and level_id = a.level_fungsional) functional,
 
                                 (select org_name   from dt01_gen_organization_ms where org_id=a.org_id)orgname,
-                                (select b.nilai      from dt01_hrd_gaji_ms b where b.active='1' ".$parameter2." and b.position_id=a.position_id)gaji,
-                                (select b.remunerasi from dt01_hrd_gaji_ms b where b.active='1' ".$parameter2." and b.position_id=a.position_id)remun,
+                                (select b.nilai      from dt01_hrd_gaji_ms b where b.active='1' and b.org_id='".$orgid."' and b.position_id=a.position_id)gaji,
+                                (select b.remunerasi from dt01_hrd_gaji_ms b where b.active='1' and b.org_id='".$orgid."' and b.position_id=a.position_id)remun,
 
                                 (
                                     SELECT GROUP_CONCAT(
@@ -37,7 +53,7 @@
                                         SEPARATOR '; ')
                                     FROM dt01_hrd_position_dt b
                                     WHERE b.active = '1'
-                                    ".$parameter2."
+                                    and b.org_id='".$orgid."'
                                     AND b.position_primary = 'Y'
                                     AND b.position_id = a.position_id
                                 ) memberprimary,
@@ -62,13 +78,12 @@
                                         SEPARATOR '; ')
                                     FROM dt01_hrd_position_dt b
                                     WHERE b.active = '1'
-                                    ".$parameter2."
+                                    and b.org_id='".$orgid."'
                                     AND b.position_primary = 'N'
                                     AND b.position_id = a.position_id
                                 ) membersecondry
                         FROM dt01_hrd_position_ms a
                         WHERE a.active = '1'
-                        ".$parameter1."
                         ORDER BY LEVEL DESC, POSITION ASC, RVU DESC, POSITION ASC
                 
                     ";

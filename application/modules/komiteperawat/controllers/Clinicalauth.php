@@ -1,33 +1,47 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Rkk extends CI_Controller {
+	class Clinicalauth extends CI_Controller {
 
 		public function __construct(){
             parent:: __construct();
 			rootsystem::system();
-            $this->load->model("Modelrkk","md");
+            $this->load->model("Modelclinicalauth","md");
         }
 
 		public function index(){
             $data = $this->loadcombobox();
-			$this->template->load("template/template-sidebar","v_rkk",$data);
+			$this->template->load("template/template-sidebar","v_clinicalauth",$data);
 		}
         
         public function loadcombobox(){
             $resultmasterrkk = $this->md->masterrkk();
+
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
 
             $rkk="";
             foreach($resultmasterrkk as $a ){
                 $rkk.="<option value='".$a->klinis_id."'>".$a->keterangan."</option>";
             }
 
-            $data['rkk'] = $rkk;
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
+            $data['rkk']                = $rkk;
+            $data['masterorganization'] = $masterorganization;
             return $data;
 		}
 
 
 		public function masteremployee(){
-            $result = $this->md->masteremployee($_SESSION['orgid']);
+            $orgid =$this->input->post("orgid");
+            $result = $this->md->masteremployee($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

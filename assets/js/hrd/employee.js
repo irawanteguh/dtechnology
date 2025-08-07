@@ -1,3 +1,8 @@
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    masteremployee();
+});
+
 $(document).on("change", "select[name='drawer_data_employee_registrationkategoritenaga_days_add'], select[name='drawer_data_employee_registrationkategoritenaga_hours_add']", function (e) {
     e.preventDefault();
     calculateTotalHours();
@@ -131,8 +136,10 @@ function position(positioidprimary){
 };
 
 function masteremployee(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url        : url+"index.php/hrd/employee/masteremployee",
+        data       : {orgid:orgid},
         method     : "POST",
         dataType   : "JSON",
         cache      : false,

@@ -1,5 +1,10 @@
 daftarjabatan();
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    daftarjabatan();
+});
+
 function getdata(btn){
     var data_positionid   = btn.attr("data_positionid");
     var data_position     = btn.attr("data_position");
@@ -25,8 +30,10 @@ function getdata(btn){
 };
 
 function daftarjabatan(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url       : url+"index.php/hrd/position/daftarjabatan",
+        data      : {orgid:orgid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
