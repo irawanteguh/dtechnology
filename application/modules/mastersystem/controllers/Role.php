@@ -31,7 +31,7 @@
 
         public function mastermodules(){
             $roleid = $this->input->post("roleid");
-            $result = $this->md->mastermodules($_SESSION['orgid'],$roleid);
+            $result = $this->md->mastermodules($roleid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";

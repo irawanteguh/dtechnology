@@ -17,7 +17,7 @@
             return $recordset;
         }
         
-        function masterdepartment($groupid,$orgid){
+        function masterdatadepartment($groupid,$orgid){
             $query =
                     "
                         select a.department_id, header_id, department, level_id, code,

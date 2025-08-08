@@ -1,4 +1,4 @@
-masterdepartment();
+masterdatadepartment();
 
 const filterusername = new Tagify(document.querySelector("#filterusername"), { enforceWhitelist: true });
 const filtername     = new Tagify(document.querySelector("#filtername"), { enforceWhitelist: true });
@@ -38,10 +38,12 @@ function filterTable() {
 }
 
 function getdata(btn) {
-    var departmentid        = btn.attr("data_departmentid");
-    var data_department     = btn.attr("data_department");
-    var data_departmentcode = btn.attr("data_departmentcode");
-    var levelid             = btn.attr("data_levelid");
+    var departmentid            = btn.attr("data_departmentid");
+    var data_department         = btn.attr("data_department");
+    var data_departmentcode     = btn.attr("data_departmentcode");
+    var data_departmentidheader = btn.attr("data_departmentidheader");
+    var levelid                 = btn.attr("data_levelid");
+     
 
     $(":hidden[name='headerid']").val(departmentid);
     $(":hidden[name='departmentid']").val(departmentid);
@@ -94,13 +96,13 @@ function adduser(btn){
 
 $(document).on("change", "select[name='selectorganization']", function (e) {
     e.preventDefault();
-    masterdepartment();
+    masterdatadepartment();
 });
 
-function masterdepartment(){
+function masterdatadepartment(){
     var orgid = $("#selectorganization").val();
     $.ajax({
-        url       : url + "index.php/mastersystem/department/masterdepartment",
+        url       : url + "index.php/mastersystem/department/masterdatadepartment",
         data      : {orgid,orgid},
         method    : "POST",
         dataType  : "JSON",
@@ -127,7 +129,7 @@ function masterdepartment(){
 
                             childElements += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' style='margin-left:" + indent + "px;' data-kt-search-element='customer'>";
                             childElements += "<div class='fw-bold'>";
-                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].code ? "["+result[j].code+"] " : "")+ result[j].department + "</span><br>";
+                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].code ? "<span class='badge badge-light-info'>"+result[j].code+"</span> " : "")+ result[j].department + "</span><br>";
                             childElements += "<span class='fs-6 text-muted me-2'>"+ (result[j].namapj ? result[j].namapj : "") + " </span>";
                             childElements += "</div>";
                             childElements += "<div class='fw-bold d-flex justify-content-end'>";
@@ -296,7 +298,7 @@ function hapusdata(btn) {
                     toastr[data.responHead](data.responDesc, "INFORMATION");
                 },
                 complete: function () {
-                    masterdepartment();
+                    masterdatadepartment();
                 },
                 error: function (xhr, status, error) {
                     showAlert(
@@ -331,7 +333,7 @@ $(document).on("submit", "#forminsertdepartment", function (e) {
         },
 		success: function (data) {
             if(data.responCode == "00"){
-                masterdepartment();
+                masterdatadepartment();
                 $('#modal_department_addsubdepartment').modal('hide');
 			}
 
@@ -380,7 +382,7 @@ $(document).on("submit", "#formeditdepartment", function (e) {
             toastr.clear();
 
             if(data.responCode == "00"){
-                masterdepartment();
+                masterdatadepartment();
                 $('#modal_department_editsubdepartment').modal('hide');
 			}
 
@@ -405,4 +407,32 @@ $(document).on("submit", "#formeditdepartment", function (e) {
 		}		
 	});
     return false;
+});
+
+$(document).on("change","select[name='modal_department_editsubdepartment_departmentid']",function(e){
+	e.preventDefault();
+	var departmentid = $(this).val();
+	$.ajax({
+		method : "POST",
+		url    : url+"index.php/mastersystem/department/masterbagian",
+		data   : {departmentid:departmentid},
+		cache  : false,
+		success: function (data) {
+			$("select[name='modal_department_editsubdepartment_bagianid']").html(data);
+		}
+	});
+});
+
+$(document).on("change","select[name='modal_department_editsubdepartment_bagianid']",function(e){
+	e.preventDefault();
+	var unitid = $(this).val();
+	$.ajax({
+		method : "POST",
+		url    : url+"index.php/mastersystem/department/masterunit",
+		data   : {unitid:unitid},
+		cache  : false,
+		success: function (data) {
+			$("select[name='modal_department_editsubdepartment_unitid']").html(data);
+		}
+	});
 });

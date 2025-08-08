@@ -18,11 +18,7 @@ function listrkk() {
             if (data.responCode === "00") {
                 result = data.responResult;
                 for (var i in result) {
-                    // tableresult +="<tr>";
-                    // tableresult +="<td class='ps-4'>"+result[i].activity+"</td>";
-                    // tableresult +="<td class='pe-4 text-end'>"+result[i].jenjangklinis+"</td>";
-                    // tableresult +="</tr>";
-
+                    
                     if(result[i].jenis_id==="H"){
                         tableresult +="<tr class='bg-info text-white'>";
                         tableresult +="<td class='ps-4' colspan='5'>"+result[i].activity+"</td>";

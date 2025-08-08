@@ -27,13 +27,13 @@
             return $recordset;
         }
 
-        function mastermodules($orgid,$roleid){
+        function mastermodules($roleid){
             $query =
                     "
                         select x.*
                         from(
                             select a.modules_id, modules_name, icon, modules_header_id, package, def_controller, parent, urut,
-                                (select trans_id from dt01_gen_role_dt where org_id='".$orgid."' and active='1' and modules_id=a.modules_id and role_id='".$roleid."')transid
+                                (select trans_id from dt01_gen_role_dt where active='1' and modules_id=a.modules_id and role_id='".$roleid."')transid
                             from dt01_gen_modules_ms a
                             where a.active='1'
                             order by urut asc

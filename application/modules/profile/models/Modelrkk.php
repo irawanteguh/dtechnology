@@ -13,7 +13,6 @@
 
                         from dt01_hrd_activity_ms a
                         where a.active='9'
-                        and   a.jenis_id='N'
                         and   a.klinis_id in (
                                                 select sub_klinis_id
                                                 from dt01_hrd_mapping_klinis

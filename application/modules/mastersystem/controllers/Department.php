@@ -26,13 +26,13 @@
                 $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
             }
 
-            $data['masterorganization'] = $masterorganization;
+            $data['masterorganization']   = $masterorganization;
             return $data;
         }
 
-		public function masterdepartment(){
+		public function masterdatadepartment(){
             $orgid = $this->input->post("orgid");
-            $result = $this->md->masterdepartment($_SESSION['groupid'],$orgid);
+            $result = $this->md->masterdatadepartment($_SESSION['groupid'],$orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
