@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
     table thead th {
         position: sticky;
         top: 0;
@@ -7,7 +7,7 @@
         box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1); /* Biar ada garis bawah */
     }
 
-</style>
+</style> -->
 <div class="row gy-5 g-xl-8 mb-xl-8">
     <div class="col-xl-12">
         <div class="card card-flush h-100">

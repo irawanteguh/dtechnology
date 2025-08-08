@@ -17,7 +17,6 @@
             return $recordset;
         }
 
-
         function masterbarang($orgid){
             $query =
                     "

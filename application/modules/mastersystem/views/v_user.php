@@ -30,7 +30,7 @@
             </div>
             <div class="card-body py-3">
                 <div class="table-responsive">
-                    <table class="table align-middle gs-0 gy-4 table-bordered" id="tablemastermodules">
+                    <table class="table align-middle table-row-dashed fs-8 gy-2" id="tablemastermodules">
                         <thead>
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="ps-4 rounded-start">Username</th>

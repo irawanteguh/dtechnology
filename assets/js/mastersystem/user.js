@@ -1,5 +1,10 @@
 masteruser();
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    masteruser();
+});
+
 const filterusername = new Tagify(document.querySelector("#filterusername"), { enforceWhitelist: true });
 const filtername     = new Tagify(document.querySelector("#filtername"), { enforceWhitelist: true });
 
@@ -32,8 +37,10 @@ function filterTable() {
 };
 
 function masteruser(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url       : url+"index.php/mastersystem/user/masteruser",
+        data      : {orgid:orgid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
