@@ -37,7 +37,7 @@
             $query =
                     "
                         select a.role_id, role,
-                            (select trans_id from dt01_gen_role_access where org_id=a.org_id and role_id=a.role_id and active='1' and user_id='".$userid."')transidmapping
+                            (select trans_id from dt01_gen_role_access where role_id=a.role_id and active='1' and user_id='".$userid."')transidmapping
                         from dt01_gen_role_ms a
                         where a.active='1'
                         order by role asc
