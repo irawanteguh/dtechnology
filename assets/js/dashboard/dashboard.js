@@ -50,13 +50,13 @@ function todolist() {
             var waiting          = 0;
             var done             = 0;
 
-            if (data.responCode === "00") {
+            if(data.responCode === "00"){
                 result = data.responResult;
 
                 for (var i in result) {
 
                     if(result[i].statusshow === "1"){
-                        if(result[i].USER_ID === result[i].CREATED_BY){
+                        if(result[i].user_id === result[i].created_by){
                             assignby ="";
                         }else{
                             assignby ="Assign By <a href='#'>"+result[i].dibuatoleh+"</a>"
@@ -64,59 +64,59 @@ function todolist() {
     
                         var tableresult = "<div class='d-flex align-items-center mb-8'>";
     
-                        if (result[i].PRIORITY === "0") {
+                        if (result[i].priority === "0") {
                             tableresult += "<span class='bullet bullet-vertical h-40px bg-success'></span>";
-                        } else if (result[i].PRIORITY === "1") {
+                        } else if (result[i].priority === "1") {
                             tableresult += "<span class='bullet bullet-vertical h-40px bg-primary'></span>";
-                        } else if (result[i].PRIORITY === "2") {
+                        } else if (result[i].priority === "2") {
                             tableresult += "<span class='bullet bullet-vertical h-40px bg-warning'></span>";
                         } else {
                             tableresult += "<span class='bullet bullet-vertical h-40px bg-danger'></span>";
                         }
     
                         tableresult += "<div class='form-check form-check-custom form-check-solid mx-5'>";
-                        tableresult += "<input class='form-check-input' type='checkbox' value='"+result[i].TODO_ID+"' onclick='toggleStrikeThrough(this)' " + (result[i].STATUS === "1" ? "checked" : "") + ">";
+                        tableresult += "<input class='form-check-input' type='checkbox' value='"+result[i].todo_id+"' onclick='toggleStrikeThrough(this)' " + (result[i].status === "1" ? "checked" : "") + ">";
                         tableresult += "</div>";
     
     
                         tableresult += "<div class='flex-grow-1'>";
     
-                        if(result[i].STATUS === "0" ){
-                            tableresult += "<a href='#' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item'>" + result[i].TODO + "</a>";
+                        if(result[i].status === "0" ){
+                            tableresult += "<a href='#' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item'>" + result[i].todo + "</a>";
                         }else{
-                            tableresult += "<a href='#' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item text-decoration-line-through'>" + result[i].TODO + "</a>";
+                            tableresult += "<a href='#' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item text-decoration-line-through'>" + result[i].todo + "</a>";
                         }
                         
-                        if(result[i].DAYS_DIFF < 0){
-                            tableresult += "<span class='text-muted fw-bold d-block'>Late "+result[i].DAYS_DIFF+" Days</span>";
+                        if(result[i].days_diff < 0){
+                            tableresult += "<span class='text-muted fw-bold d-block'>Late "+result[i].days_diff+" Days</span>";
                         }else{
-                            tableresult += "<span class='text-muted fw-bold d-block'>"+result[i].KETERANGAN+"</span>";
+                            tableresult += "<span class='text-muted fw-bold d-block'>"+result[i].keterangan+"</span>";
                         }
     
                         tableresult += "<span class='text-muted fw-bold d-block'>"+assignby+"</span>";
                         tableresult += "</div>";
     
-                        if (result[i].PRIORITY === "0") {
+                        if (result[i].priority === "0") {
                             tableresult += "<span class='badge badge-light-success fs-8 fw-bolder'>Low</span>";
-                        } else if (result[i].PRIORITY === "1") {
+                        } else if (result[i].priority === "1") {
                             tableresult += "<span class='badge badge-light-primary fs-8 fw-bolder'>Medium Low</span>";
-                        } else if (result[i].PRIORITY === "2") {
+                        } else if (result[i].priority === "2") {
                             tableresult += "<span class='badge badge-light-warning fs-8 fw-bolder'>Medium High</span>";
                         } else {
                             tableresult += "<span class='badge badge-light-danger fs-8 fw-bolder'>High</span>";
                         }
     
                         
-                        tableresult += "<a class='btn btn-icon btn-active-color-danger btn-sm' data-id='"+result[i].TODO_ID+"'  onclick='deletetodolist(this)'><i class='bi bi-trash-fill'></i></a>";
+                        tableresult += "<a class='btn btn-icon btn-active-color-danger btn-sm' data-id='"+result[i].todo_id+"'  onclick='deletetodolist(this)'><i class='bi bi-trash-fill'></i></a>";
                         tableresult += "</div>";
     
-                        if (result[i].DUEDATE === "1") {
+                        if (result[i].duedate === "1") {
                             tableresultToday += tableresult;
-                        } else if (result[i].DUEDATE === "2") {
+                        } else if (result[i].duedate === "2") {
                             tableresultWeek += tableresult;
-                        } else if (result[i].DUEDATE === "3") {
+                        } else if (result[i].duedate === "3") {
                             tableresultMonth += tableresult;
-                        } else if (result[i].DUEDATE === "4") {
+                        } else if (result[i].duedate === "4") {
                             tableresultYear += tableresult;
                         }
                     }
@@ -132,19 +132,6 @@ function todolist() {
                         }
                     }
                 }
-            }else{
-                // Swal.fire({
-                //     title: "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                //     html: "<b>" + data.responDesc + "</b>",
-                //     icon: data.responHead,
-                //     confirmButtonText: "Please Try Again",
-                //     buttonsStyling: false,
-                //     timerProgressBar: true,
-                //     timer: 5000,
-                //     customClass: { confirmButton: "btn btn-danger" },
-                //     showClass: { popup: "animate__animated animate__fadeInUp animate__faster" },
-                //     hideClass: { popup: "animate__animated animate__fadeOutDown animate__faster" }
-                // });
             }
 
             $("#kt_activity_today").html(tableresultToday);

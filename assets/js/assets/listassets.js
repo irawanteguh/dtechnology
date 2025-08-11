@@ -1,4 +1,5 @@
 let result = [];
+let modalAddStepper;
 
 masterassets();
 
@@ -12,6 +13,27 @@ $('#modal_assets_add').on('shown.bs.modal', function () {
     $(this).find('select').prop('selectedIndex', 0).trigger('change');
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    const stepperElement = document.querySelector("#modal_assets_add_stepper");
+    if (!stepperElement) {
+        console.error("Elemen stepper tidak ditemukan.");
+        return;
+    }
+
+    let stepper;
+    if (KTStepper && typeof KTStepper === "function") {
+        stepper = KTStepper.getInstance(stepperElement);
+        if (!stepper) {
+            stepper = new KTStepper(stepperElement);
+        }
+        if (typeof stepper.goTo === "function") {
+            stepper.goTo(1);
+        } else {
+            console.error("Instance KTStepper tidak punya fungsi goTo().");
+        }
+    } else {
+        console.error("KTStepper belum didefinisikan.");
+    }
 
     $.ajax({
 		url    : url + "index.php/assets/listassets/masterlocation",

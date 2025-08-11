@@ -4,52 +4,54 @@
         function todolist($orgid,$userid){
             $query =
                     "
-                        SELECT X.*,
+                        SELECT 
+                            X.*,
                             CASE 
-                                WHEN X.DUEDATE = '1' THEN 'Today'
-                                WHEN X.DUEDATE = '2' THEN CONCAT('Due in ', X.DAYS_DIFF, ' Days')
-                                WHEN X.DUEDATE = '3' THEN CONCAT('Due in ', X.DAYS_DIFF, ' Days')
-                                ELSE CONCAT('Due in ', X.WEEKS_DIFF, ' Weeks')
-                            END KETERANGAN,
+                                WHEN X.duedate = 1 THEN 'Today'
+                                WHEN X.duedate IN (2, 3) THEN CONCAT('Due in ', X.days_diff, ' Days')
+                                ELSE CONCAT('Due in ', X.weeks_diff, ' Weeks')
+                            END AS keterangan,
                             CASE 
-                                WHEN X.status = '1' AND X.DAYS_DIFF < 1 THEN '0'
+                                WHEN X.status = '1' AND X.days_diff < 1 THEN '0'
                                 ELSE '1'
-                            END statusshow,
+                            END AS statusshow,
                             CASE
                                 WHEN X.status = '0' AND X.due_date < CURRENT_DATE THEN '1'
                                 WHEN X.status = '0' AND X.due_date >= CURRENT_DATE THEN '2'
                                 WHEN X.status = '1' THEN '3'
                                 ELSE '0'
-                            END countstatus
+                            END AS countstatus
                         FROM (
                             SELECT 
                                 a.user_id, 
-                                todo_id, 
-                                todo, 
-                                priority, 
-                                a.status AS status, 
-                                due_date, 
-                                active,
+                                a.todo_id, 
+                                a.todo, 
+                                a.priority, 
+                                a.status, 
+                                a.due_date, 
+                                a.active,
                                 CASE
-                                    WHEN DATE(a.DUE_DATE) <= CURDATE() THEN 1
-                                    WHEN YEAR(a.DUE_DATE) = YEAR(CURDATE()) AND WEEK(a.DUE_DATE) = WEEK(CURDATE()) THEN 2
-                                    WHEN MONTH(a.DUE_DATE) = MONTH(CURDATE()) THEN 3
-                                    WHEN YEAR(a.DUE_DATE) = YEAR(CURDATE()) THEN 4
+                                    WHEN DATE(a.due_date) <= CURDATE() THEN 1
+                                    WHEN YEAR(a.due_date) = YEAR(CURDATE()) AND WEEK(a.due_date) = WEEK(CURDATE()) THEN 2
+                                    WHEN MONTH(a.due_date) = MONTH(CURDATE()) THEN 3
+                                    WHEN YEAR(a.due_date) = YEAR(CURDATE()) THEN 4
                                     ELSE 0
-                                END DUEDATE,
-                                DATEDIFF(a.DUE_DATE, CURDATE()) AS DAYS_DIFF,
-                                TIMESTAMPDIFF(WEEK, CURDATE(), a.DUE_DATE) AS WEEKS_DIFF,
-                                (SELECT name 
-                                FROM dt01_gen_user_data 
-                                WHERE active = '1' 
-                                AND org_id = '".$orgid."' 
-                                AND user_id = a.created_by) AS dibuatoleh
+                                END AS duedate,
+                                DATEDIFF(a.due_date, CURDATE()) AS days_diff,
+                                TIMESTAMPDIFF(WEEK, CURDATE(), a.due_date) AS weeks_diff,
+                                u.name AS dibuatoleh
                             FROM dt01_hrd_todo_dt a
-                            WHERE a.active = '1'
-                            AND a.org_id = '".$orgid."'
-                            AND a.user_id = '".$userid."'
+                            LEFT JOIN dt01_gen_user_data u 
+                                ON u.user_id = a.created_by 
+                                AND u.active = '1'
+                                AND u.org_id = a.org_id
+                            WHERE 
+                                a.active = '1'
+                                AND a.org_id = '".$orgid."'
+                                AND a.user_id = '".$userid."'
                         ) X
-                        ORDER BY DUEDATE ASC, DUE_DATE ASC;
+                        ORDER BY X.duedate ASC, X.due_date ASC;
+
 
                 
                     ";
