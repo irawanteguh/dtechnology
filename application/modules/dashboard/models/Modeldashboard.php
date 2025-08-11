@@ -23,6 +23,7 @@
                             END AS countstatus
                         FROM (
                             SELECT 
+                                '1'jenis_id,
                                 a.user_id, 
                                 a.todo_id, 
                                 a.todo, 
@@ -49,11 +50,44 @@
                                 a.active = '1'
                                 AND a.org_id = '".$orgid."'
                                 AND a.user_id = '".$userid."'
+
+                            UNION ALL
+
+                            SELECT 
+                                '2'jenis_id,
+                                a.created_by AS user_id, 
+                                a.trans_id AS todo_id, 
+                                CONCAT('Melengkapi Pengisian Asset ', a.name) AS todo, 
+                                '2' AS priority, 
+                                case
+                                    when (a.tahun_perolehan is not null ) and (nilai_perolehan <> 0) and (waktu_depresiasi <> 0) and (estimasi_penggunaan_day <> 0) then
+                                    '1'
+                                    else
+                                    '0'
+                                end status,
+                                a.created_date AS due_date, 
+                                a.active,
+                                CASE
+                                    WHEN DATE(a.created_date) <= CURDATE() THEN 1
+                                    WHEN YEAR(a.created_date) = YEAR(CURDATE()) AND WEEK(a.created_date) = WEEK(CURDATE()) THEN 2
+                                    WHEN MONTH(a.created_date) = MONTH(CURDATE()) THEN 3
+                                    WHEN YEAR(a.created_date) = YEAR(CURDATE()) THEN 4
+                                    ELSE 0
+                                END AS duedate,
+                                DATEDIFF(a.created_date, CURDATE()) AS days_diff,
+                                TIMESTAMPDIFF(WEEK, CURDATE(), a.created_date) AS weeks_diff,
+                                u.name AS dibuatoleh
+                            FROM dt01_lgu_assets_ms a
+                            LEFT JOIN dt01_gen_user_data u 
+                                ON u.user_id = a.created_by 
+                                AND u.active = '1'
+                                AND u.org_id = a.org_id
+                            WHERE 
+                                a.active = '1'
+                                AND a.org_id = '".$orgid."'
+                                AND a.created_by = '".$userid."'
                         ) X
-                        ORDER BY X.duedate ASC, X.due_date ASC;
-
-
-                
+                        ORDER BY X.duedate ASC, X.due_date ASC;                
                     ";
 
             $recordset = $this->db->query($query);

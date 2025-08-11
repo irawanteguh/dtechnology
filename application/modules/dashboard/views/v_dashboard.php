@@ -106,7 +106,7 @@
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div id="kt_activity_today" class="card-body p-0 tab-pane fade show active" role="tabpanel" aria-labelledby="kt_activity_today_tab"></div>
+                    <div id="kt_activity_today" class="card-body p-0 tab-pane fade show active mh-500px scroll-y me-n5 pe-5" role="tabpanel" aria-labelledby="kt_activity_today_tab"></div>
                     <div id="kt_activity_week" class="card-body p-0 tab-pane" role="tabpanel" aria-labelledby="kt_activity_week_tab"></div>
                     <div id="kt_activity_month" class="card-body p-0 tab-pane" role="tabpanel" aria-labelledby="kt_activity_month_tab"></div>
                     <div id="kt_activity_year" class="card-body p-0 tab-pane" role="tabpanel" aria-labelledby="kt_activity_year_tab"></div>

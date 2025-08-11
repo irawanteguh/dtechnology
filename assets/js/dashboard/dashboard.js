@@ -13,8 +13,8 @@ $('#modal-todolist').on('shown.bs.modal', function (e) {
 flatpickr('[name="todolist-duedate-tambah"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
-    minDate: "today", // Mencegah pemilihan tanggal sebelum hari ini
-    onChange: function(selectedDates, dateStr, instance) {
+    minDate   : "today",
+    onChange  : function(selectedDates, dateStr, instance) {
         instance.close();
     }
 });
@@ -74,15 +74,27 @@ function todolist() {
                             tableresult += "<span class='bullet bullet-vertical h-40px bg-danger'></span>";
                         }
     
-                        tableresult += "<div class='form-check form-check-custom form-check-solid mx-5'>";
-                        tableresult += "<input class='form-check-input' type='checkbox' value='"+result[i].todo_id+"' onclick='toggleStrikeThrough(this)' " + (result[i].status === "1" ? "checked" : "") + ">";
-                        tableresult += "</div>";
+                        if(result[i].jenis_id==="1"){
+                            tableresult += "<div class='form-check form-check-custom form-check-solid mx-5'>";
+                            tableresult += "<input class='form-check-input' type='checkbox' value='"+result[i].todo_id+"' onclick='toggleStrikeThrough(this)' " + (result[i].status === "1" ? "checked" : "") + ">";
+                            tableresult += "</div>";
+                        }else{
+                            tableresult += "<div class='form-check form-check-custom form-check-solid mx-5'>";
+                            tableresult += "<input class='form-check-input' type='checkbox' value='"+result[i].todo_id+"' onclick='toggleStrikeThrough(this)' " + (result[i].status === "1" ? "checked" : "") + " disabled>";
+                            tableresult += "</div>";
+                        }
+                        
     
     
                         tableresult += "<div class='flex-grow-1'>";
     
                         if(result[i].status === "0" ){
-                            tableresult += "<a href='#' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item'>" + result[i].todo + "</a>";
+                            if(result[i].jenis_id==="1"){
+                                tableresult += "<a href='#' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item'>" + result[i].todo + "</a>";
+                            }else{
+                                tableresult += "<a href='../../index.php/assets/listassets' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item'>" + result[i].todo + "</a>";
+                            }
+                            
                         }else{
                             tableresult += "<a href='#' class='text-gray-800 text-hover-primary fw-bolder fs-6 todo-item text-decoration-line-through'>" + result[i].todo + "</a>";
                         }
@@ -106,8 +118,10 @@ function todolist() {
                             tableresult += "<span class='badge badge-light-danger fs-8 fw-bolder'>High</span>";
                         }
     
+                        if(result[i].jenis_id==="1"){
+                            tableresult += "<a class='btn btn-icon btn-active-color-danger btn-sm' data-id='"+result[i].todo_id+"'  onclick='deletetodolist(this)'><i class='bi bi-trash-fill'></i></a>";
+                        }
                         
-                        tableresult += "<a class='btn btn-icon btn-active-color-danger btn-sm' data-id='"+result[i].todo_id+"'  onclick='deletetodolist(this)'><i class='bi bi-trash-fill'></i></a>";
                         tableresult += "</div>";
     
                         if (result[i].duedate === "1") {
@@ -171,10 +185,10 @@ function todolist() {
 
 function charttodolist() {
     $.ajax({
-        url: url + "index.php/dashboard/dashboard/charttodolist",
-        method: "POST",
-        dataType: "JSON",
-        cache: false,
+        url       : url + "index.php/dashboard/dashboard/charttodolist",
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
         beforeSend: function() {
         },
         success: function(data) {
@@ -193,7 +207,7 @@ function charttodolist() {
                 var context = chartElement.getContext("2d");
 
                 if (todolistChart) {
-                    todolistChart.destroy(); // Destroy the previous chart instance if it exists
+                    todolistChart.destroy();
                 }
 
                 todolistChart = new Chart(context, {
@@ -221,19 +235,19 @@ function charttodolist() {
                             animateRotate: true
                         },
                         tooltips: {
-                            enabled: true,
-                            intersect: false,
-                            mode: "nearest",
-                            bodySpacing: 5,
-                            yPadding: 10,
-                            xPadding: 10,
-                            caretPadding: 0,
-                            displayColors: false,
+                            enabled        : true,
+                            intersect      : false,
+                            mode           : "nearest",
+                            bodySpacing    : 5,
+                            yPadding       : 10,
+                            xPadding       : 10,
+                            caretPadding   : 0,
+                            displayColors  : false,
                             backgroundColor: "#20D489",
-                            titleFontColor: "#ffffff",
-                            cornerRadius: 4,
-                            footerSpacing: 0,
-                            titleSpacing: 0
+                            titleFontColor : "#ffffff",
+                            cornerRadius   : 4,
+                            footerSpacing  : 0,
+                            titleSpacing   : 0
                         },
                         plugins: {
                             legend: {
