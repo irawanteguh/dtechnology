@@ -1,8 +1,8 @@
 
-<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-size: auto 100%; background-image: url('<?php echo base_url();?>assets/images/svg/misc/taieri.svg')">
+<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-size: auto 125%; background-image: url('<?php echo base_url();?>assets/images/stock/background_2.png')">
 	<div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
 		<a href="" class="mb-12">
-			<img alt="Logo" src="<?php echo base_url();?>assets/images/logo/dtechnology.png" class="h-70px" />
+			<img alt="Logo" src="<?php echo base_url();?>assets/images/logo/dtechnology_2.png" class="h-70px" />
 			<img alt="Logo" src="<?php echo base_url('assets/images/clients/'.ORG_ID.'.png'); ?>" class="h-60px" />
 		</a>
 		<div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto shadow-lg">
