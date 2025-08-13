@@ -30,7 +30,7 @@
             </div>
             <div class="card-body pt-0">
                 <div class="table-responsive">
-                    <table class="table table-row-dashed align-middle fs-6 gy-2">
+                    <table class="table table-row-dashed align-middle fs-8 gy-2">
                         <thead>
                             <tr class="fw-bolder text-muted">
                                 <th>Periode</th>

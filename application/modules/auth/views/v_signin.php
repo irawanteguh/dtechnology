@@ -1,5 +1,5 @@
 
-<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-size: auto 125%; background-image: url('<?php echo base_url();?>assets/images/stock/background_2.png')">
+<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-size: auto 150%; background-image: url('<?php echo base_url();?>assets/images/stock/background_2.png')">
 	<div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
 		<a href="" class="mb-12">
 			<img alt="Logo" src="<?php echo base_url();?>assets/images/logo/dtechnology_2.png" class="h-70px" />
