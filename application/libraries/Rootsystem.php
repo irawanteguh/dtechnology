@@ -97,7 +97,7 @@
                     $quicklink .="<div class='col-6'>";
                         $quicklink .="<a href='".base_url()."index.php/".$cat['PACKAGE']."/".$cat['DEF_CONTROLLER']."' class='d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom'>";
                             $quicklink .="<i class='".$cat['ICON']." text-primary fa-2x mb-3'></i>";
-                            $quicklink .= "<span class='fs-5 fw-bold text-gray-800 mb-0 text-center d-block text-truncate' style='max-width: 100%;'>".$cat['MODULES_NAME']."</span>";
+                            $quicklink .="<span class='fs-5 fw-bold text-gray-800 mb-0 text-center d-block text-truncate' style='max-width: 100%;'>".$cat['MODULES_NAME']."</span>";
                             $quicklink .="<span class='fs-7 text-gray-400'>".$cat['MODULES_NAME']."</span>";
                         $quicklink .="</a>";
                     $quicklink .="</div>";
