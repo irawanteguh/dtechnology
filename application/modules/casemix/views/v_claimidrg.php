@@ -480,7 +480,48 @@
                         <input type="text" class="form-control form-control-sm form-control-solid" id="coder_nik" placeholder="123123123123">
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row gy-5 g-xl-8 mb-xl-8">
+    <div class="col-xl-12">
+        <div class="card card-flush h-100" id="diagnosisicd10im">
+            <div class="card-header pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">Diagnosis ICD-10 IM</span>
+                    <span class="text-muted mt-1 fw-bold fs-7">Klasifikasi diagnosis pasien berdasarkan standar iDRG.</span>
+                </h3>
+            </div>
+            <div class="card-body mh-500px scroll-y">
+                <div class="row">
+                    <div class="fv-row mb-10 col-xl-12">
+                        <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                            <span>Diagnosis</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Pilih diagnosis pasien sesuai kode ICD-10"></i>
+                        </label>
+                        <div class="d-flex align-items-center">
+                            <select data-control="select2" data-dropdown-parent="#diagnosisicd10im" data-placeholder="Please Select Diagnosis" class="form-select form-select-solid" id="grouping_icd10" name="grouping_icd10">
+                                <?php echo $mastericd10;?>
+                            </select>
+                            <a href="#" class="btn btn-primary">Add</a>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="card card-flush h-100">
+            <div class="card-header pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">Procedure ICD-9 IM</span>
+                    <span class="text-muted mt-1 fw-bold fs-7">Klasifikasi prosedur medis untuk mendukung penentuan biaya dan laporan klaim pasien.</span>
+                </h3>
+            </div>
+            <div class="card-body mh-500px scroll-y me-n5 pe-5">
+                
             </div>
         </div>
     </div>
