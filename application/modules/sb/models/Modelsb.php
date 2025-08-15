@@ -119,8 +119,8 @@
                     (select coalesce(k_mcu_cash,0) from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kmcucashcompare,
                     (select coalesce(k_mcu_inv,0)  from dt01_report_income_dt_compare where active='1' and org_id='".$orgid."' and date=tanggal) kmcuinvcompare,
 
-                    (select sum(tarif_inacbg) from dt01_casemix_claim where kode_rs='1408055' and ptd='2' and admission_date=tanggal)claimbpjsrj,
-                    (select sum(tarif_inacbg) from dt01_casemix_claim where kode_rs='1408055' and ptd='1' and admission_date=tanggal)claimbpjsri 
+                    (select sum(tarif_inacbg) from dt01_casemix_claim_feedback where kode_rs='1408055' and ptd='2' and admission_date=tanggal)claimbpjsrj,
+                    (select sum(tarif_inacbg) from dt01_casemix_claim_feedback where kode_rs='1408055' and ptd='1' and admission_date=tanggal)claimbpjsri 
                     
                 FROM calendar;
             ";
