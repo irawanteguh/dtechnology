@@ -152,6 +152,11 @@ $("#modal_unit_cost_add_sdm").on('show.bs.modal', function(event){
     mastersdm($layanid);
 });
 
+$("#modal_unit_cost_add_farmasi").on('show.bs.modal', function(event){
+    $layanid = $("#modal_unit_cost_add_farmasi_layanid").val();
+    masterobat($layanid);
+});
+
 $("#modal_unit_cost_add_atk").on('show.bs.modal', function(event){
     $layanid = $("#modal_unit_cost_add_atk_layanid").val();
     masteratk($layanid);
@@ -208,6 +213,7 @@ function getdata(btn){
     $("#modal_unit_cost_add_atk_layanid").val(datalayanid);
     $("#modal_unit_cost_add_rumahtangga_layanid").val(datalayanid);
     $("#modal_unit_cost_add_software_layanid").val(datalayanid);
+    $("#modal_unit_cost_add_farmasi_layanid").val(datalayanid);
 
     detailcomponent(datalayanid);
 };
@@ -501,6 +507,58 @@ function mastersdm(layanid){
 
             filterjabatan.settings.whitelist = Array.from(jabatan);
             $("#resultmasterdm").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function masterobat(layanid){
+    $.ajax({
+        url       : url+"index.php/unitcost/unitcost/masterobat",
+        data      : {layanid:layanid},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultmasterobat").html("");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                var result  = data.responResult;
+                var jabatan = new Set();
+
+                for(var i in result){
+                    jabatan.add(result[i].posisi);
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>"+result[i].nama_barang+" <span class='badge badge-light-info'>"+(result[i].satuan || "")+"</span></td>";
+                    tableresult += "<td class='text-end'>"+todesimal(result[i].hargabeli)+"</td>";
+                    tableresult += "<td class='text-end pe-4'><input class='form-control form-control-sm text-end' id='jml_"+result[i].barang_id+"' value='"+result[i].jml+"' onchange='updatefarmasi(this)'></td>";
+                    tableresult += "</tr>";
+                }
+            }
+
+            filterjabatan.settings.whitelist = Array.from(jabatan);
+            $("#resultmasterobat").html(tableresult);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -1120,6 +1178,41 @@ function updatesdm(input) {
         method    : "POST",
         dataType  : "JSON",
         data      : {layanid:layanid,jml:jml,positionid:positionid},
+        beforeSend: function () {
+            // toastr.clear();
+            // toastr.info("Updating data...", "Please wait");
+        },
+        success: function (data) {
+            if(data.responCode == "00"){
+                detailcomponent(layanid);
+			}
+
+            // toastr.clear();
+            // toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        error: function (xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+        }
+    });
+};
+
+function updatefarmasi(input) {
+    const barangid = input.id.split("_")[1];
+    const jmlInput   = document.getElementById(`jml_${barangid}`);
+    const jml        = parseFloat(jmlInput.value);
+    const layanid    = $("#modal_unit_cost_add_farmasi_layanid").val();
+
+    $.ajax({
+        url       : url + "index.php/unitcost/unitcost/updatefarmasi",
+        method    : "POST",
+        dataType  : "JSON",
+        data      : {layanid:layanid,jml:jml,barangid:barangid},
         beforeSend: function () {
             // toastr.clear();
             // toastr.info("Updating data...", "Please wait");

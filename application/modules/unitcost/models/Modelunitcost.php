@@ -9,7 +9,7 @@
                         where a.active='1'
                         and   a.holding='N'
                         ".$parameter."
-                        order by org_name asc
+                        order by org_name desc
                     ";
 
             $recordset = $this->db->query($query);
@@ -82,6 +82,23 @@
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         order by level desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function masterobat($orgid,$layanid){
+            $query =
+                    "
+                        select a.barang_id, nama_barang, coalesce(h_beli,0)hargabeli,
+                            (select satuan from dt01_lgu_satuan_ms where satuan_id=a.satuan_pakai_id)satuan,
+                            coalesce((select jml from dt01_keu_unit_cost_dt where active='1' and org_id='".$orgid."' and jenis_id='4' and layan_id='".$layanid."' and barang_id=a.barang_id),0)jml
+                        from dt01_lgu_barang_ms a
+                        where a.active='1'
+                        and   a.jenis_id='b3a2e1a0-0001-4a00-9001-000000000001'
+                        order by nama_barang asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -207,6 +224,22 @@
             return $recordset;
         }
 
+        function cekdatafarmasi($orgid,$layanid,$barangid){
+            $query =
+                    "
+                        select a.transaksi_id, position_id
+                        from dt01_keu_unit_cost_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.layan_id='".$layanid."'
+                        and   a.barang_id='".$barangid."'
+                        and   a.jenis_id='4'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function cekdataassets($orgid,$layanid,$assetsid){
             $query =
                     "
@@ -238,136 +271,6 @@
             $recordset = $recordset->result();
             return $recordset;
         }
-
-        // function detailcomponent($orgid, $layanid) {
-        //     $query = "
-        //     WITH internet_user_count AS (
-        //         SELECT org_id, COUNT(*) AS jml
-        //         FROM dt01_lgu_assets_ms
-        //         WHERE internet = 'Y'
-        //         GROUP BY org_id
-        //     )
-        
-        //     SELECT 
-        //         a.transaksi_id,
-        //         a.jenis_id,
-        //         CASE
-        //             WHEN a.jenis_id = '1' THEN gm.master_name
-        //             WHEN a.jenis_id = '2' THEN 'Gaji dan Remunerasi Pegawai'
-        //             WHEN a.jenis_id = '3' THEN 'Alat Tulis Kantor'
-        //             ELSE 'Unknown'
-        //         END AS kategori,
-        //         CASE
-        //             WHEN a.jenis_id = '1' THEN a.assets_id
-        //             WHEN a.jenis_id = '2' THEN a.position_id
-        //             WHEN a.jenis_id = '3' THEN a.component_id
-        //             ELSE 'Unknown'
-        //         END AS namecomponentid,
-        //         CASE
-        //             WHEN a.jenis_id = '1' THEN lam.name
-        //             WHEN a.jenis_id = '2' THEN CONCAT(p.position, ' ', COALESCE(lf.level, ''))
-        //             WHEN a.jenis_id = '3' THEN dkc.component
-        //             ELSE 'Unknown'
-        //         END AS namecomponent,
-        //         CASE
-        //             WHEN a.jenis_id = '1' THEN CONCAT('Estimasi Penggunaan : ', v.estimasi_penggunaan_day, ' x / Hari')
-        //             WHEN a.jenis_id = '2' THEN CONCAT(a.jml, ' Orang, Durasi Kegiatan : ', l.durasi, ' Menit / 1 Pasien')
-        //             WHEN a.jenis_id = '3' THEN CONCAT(a.jml, ' ', dkc.satuan, ' Per Pasien')
-        //             ELSE 'Unknown'
-        //         END AS description,
-        //         CASE
-        //             WHEN a.jenis_id = '1' THEN v.costperpasien
-        //             WHEN a.jenis_id = '2' THEN ROUND(((g.nilai + g.remunerasi) / (25*8*60)) * l.durasi * a.jml, 0)
-        //             WHEN a.jenis_id = '3' THEN dkc.nilai * a.jml
-        //             ELSE 'Unknown'
-        //         END AS cost,
-        //         IF(a.jenis_id = '2', g.nilai, 0) AS gaji,
-        //         IF(a.jenis_id = '2', g.remunerasi, 0) AS remun,
-        //         IF(a.jenis_id = '2', a.jml, 0) AS jmlsdm,
-        //         IF(a.jenis_id = '1', v.nilai_perolehan, 0) AS nilaiasset,
-        //         IF(a.jenis_id = '1', v.nilai_bunga_pinjaman, 0) AS nilaipinjaman,
-        //         IF(a.jenis_id = '1', v.nilai_pemeliharaan, 0) AS nilaipemeliharaan,
-        //         IF(a.jenis_id = '1', v.waktu_depresiasi, '') AS depresiasi,
-        //         IF(a.jenis_id = '1', v.waktu_bunga, '') AS waktupinjaman,
-        //         IF(a.jenis_id = '1', v.perolehantahunan, 0) AS perolehantahunan,
-        //         IF(a.jenis_id = '1', v.perolehanbulanan, 0) AS perolehanbulanan,
-        //         IF(a.jenis_id = '1', v.perolehanharian, 0) AS perolehanharian,
-        //         IF(a.jenis_id = '1', v.perolehanpasien, 0) AS perolehanpasien,
-        //         IF(a.jenis_id = '1', v.pinjamantahunan, 0) AS pinjamantahunan,
-        //         IF(a.jenis_id = '1', v.pinjamanbulanan, 0) AS pinjamanbulanan,
-        //         IF(a.jenis_id = '1', v.pinjamanharian, 0) AS pinjamanharian,
-        //         IF(a.jenis_id = '1', v.pinjamanpasien, 0) AS pinjamanpasien,
-        //         IF(a.jenis_id = '1', v.pemeliharaantahunan, 0) AS pemeliharaantahunan,
-        //         IF(a.jenis_id = '1', v.pemeliharaanbulanan, 0) AS pemeliharaanbulanan,
-        //         IF(a.jenis_id = '1', v.pemeliharaanharian, 0) AS pemeliharaanharian,
-        //         IF(a.jenis_id = '1', v.pemeliharaanpasien, 0) AS pemeliharaanpasien,
-        //         IF(a.jenis_id = '1', v.estimasi_penggunaan_day, 0) AS estimasi_penggunaan_day,
-        //         IF(a.jenis_id = '1', v.costperpasien, 0) AS costperpasien
-        
-        //     FROM dt01_keu_unit_cost_dt a
-        //     LEFT JOIN dt01_lgu_assets_ms lam ON lam.trans_id = a.assets_id AND a.jenis_id = '1'
-        //     LEFT JOIN view_assets_detail v ON v.trans_id = a.assets_id AND a.jenis_id = '1'
-        //     LEFT JOIN dt01_gen_master_ms gm ON gm.code = lam.jenis_id AND gm.jenis_id = 'Asset_1'
-        //     LEFT JOIN dt01_hrd_gaji_ms g ON g.transaksi_id = a.position_id AND a.jenis_id = '2'
-        //     LEFT JOIN dt01_hrd_position_ms p ON p.position_id = g.position_id
-        //     LEFT JOIN dt01_gen_level_fungsional_ms lf ON lf.level_id = p.level_fungsional
-        //     LEFT JOIN dt01_keu_layan_ms l ON l.layan_id = a.layan_id
-        //     LEFT JOIN dt01_keu_unit_cost_component_ms dkc ON dkc.component_id = a.component_id
-        //     WHERE a.active = '1'
-        //     AND a.org_id = '$orgid'
-        //     AND a.layan_id = '$layanid'
-        
-        //     UNION ALL
-        
-        //     SELECT 
-        //         a.transaksi_id, 'V' AS jenis_id, 'Tagihan Listrik', a.assets_id,
-        //         CONCAT('Listrik ', lam.name),
-        //         CONCAT('Estimasi Penggunaan Listrik : ', lam.vol_listrik, ' kW Selama : ', l.durasi, ' Menit'),
-        //         ROUND((lam.vol_listrik * (l.durasi / 60) * dkc2.nilai), 0),
-        //         0, 0, 0,
-        //         0, 0, 0,
-        //         '', '',
-        //         0, 0, 0, 0,
-        //         0, 0, 0, 0,
-        //         0, 0, 0, 0,
-        //         0, 0
-        //     FROM dt01_keu_unit_cost_dt a
-        //     JOIN dt01_lgu_assets_ms lam ON lam.trans_id = a.assets_id AND lam.listrik = 'Y'
-        //     JOIN dt01_keu_layan_ms l ON l.layan_id = a.layan_id
-        //     JOIN dt01_keu_unit_cost_component_ms dkc2 ON dkc2.org_id = a.org_id AND dkc2.active = '1' AND dkc2.jenis_id = '1'
-        //     WHERE a.active = '1'
-        //     AND a.org_id = '$orgid'
-        //     AND a.layan_id = '$layanid'
-        
-        //     UNION ALL
-        
-        //     SELECT 
-        //         a.transaksi_id, 'V' AS jenis_id, 'Tagihan Internet', a.assets_id,
-        //         CONCAT('Internet ', lam.name),
-        //         CONCAT('Estimasi Penggunaan Internet : ', l.durasi, ' Menit'),
-        //         ROUND(((dkc2.nilai / 43200) * l.durasi) / iuc.jml, 0),
-        //         0, 0, 0,
-        //         0, 0, 0,
-        //         '', '',
-        //         0, 0, 0, 0,
-        //         0, 0, 0, 0,
-        //         0, 0, 0, 0,
-        //         0, 0
-        //     FROM dt01_keu_unit_cost_dt a
-        //     JOIN dt01_lgu_assets_ms lam ON lam.trans_id = a.assets_id AND lam.internet = 'Y'
-        //     JOIN dt01_keu_layan_ms l ON l.layan_id = a.layan_id
-        //     JOIN dt01_keu_unit_cost_component_ms dkc2 ON dkc2.org_id = a.org_id AND dkc2.active = '1' AND dkc2.jenis_id = '4'
-        //     JOIN internet_user_count iuc ON iuc.org_id = a.org_id
-        //     WHERE a.active = '1'
-        //     AND a.org_id = '$orgid'
-        //     AND a.layan_id = '$layanid'
-        
-        //     ORDER BY jenis_id ASC, kategori ASC, namecomponent ASC
-        //     ";
-        
-        //     $recordset = $this->db->query($query);
-        //     return $recordset->result();
-        // }
         
         function detailcomponent($orgid, $layanid) {
             $query = "
@@ -382,6 +285,140 @@
             return $recordset->result();
         }
 
+        // CREATE OR REPLACE VIEW view_unit_cost_detail_all AS
+        // WITH internet_user_count AS (
+        //     SELECT
+        //         sikms.dt01_lgu_assets_ms.ORG_ID AS org_id,
+        //         COUNT(0) AS jml
+        //     FROM
+        //         sikms.dt01_lgu_assets_ms
+        //     WHERE
+        //         sikms.dt01_lgu_assets_ms.INTERNET = 'Y'
+        //     GROUP BY
+        //         sikms.dt01_lgu_assets_ms.ORG_ID
+        // )
+        // SELECT
+        //     a.ORG_ID AS org_id,
+        //     a.LAYAN_ID AS layan_id,
+        //     a.TRANSAKSI_ID AS transaksi_id,
+        //     a.JENIS_ID AS jenis_id,
+        //     CASE
+        //         WHEN a.JENIS_ID = '1' THEN gm.MASTER_NAME
+        //         WHEN a.JENIS_ID = '2' THEN 'Gaji dan Remunerasi Pegawai'
+        //         WHEN a.JENIS_ID = '3' THEN 'Alat Tulis Kantor'
+        //         WHEN a.JENIS_ID = '4' THEN 'Obat dan BMHP'
+        //         ELSE 'Unknown'
+        //     END AS kategori,
+        //     CASE
+        //         WHEN a.JENIS_ID = '1' THEN a.ASSETS_ID
+        //         WHEN a.JENIS_ID = '2' THEN a.POSITION_ID
+        //         WHEN a.JENIS_ID = '3' THEN a.COMPONENT_ID
+        //         WHEN a.JENIS_ID = '4' THEN a.BARANG_ID
+        //         ELSE 'Unknown'
+        //     END AS namecomponentid,
+        //     CASE
+        //         WHEN a.JENIS_ID = '1' THEN lam.NAME
+        //         WHEN a.JENIS_ID = '2' THEN CONCAT(p.POSITION, ' ', COALESCE(lf.LEVEL, ''))
+        //         WHEN a.JENIS_ID = '3' THEN dkc.COMPONENT
+        //         WHEN a.JENIS_ID = '4' THEN frm.NAMA_BARANG
+        //         ELSE 'Unknown'
+        //     END AS namecomponent,
+        //     CASE
+        //         WHEN a.JENIS_ID = '1' THEN CONCAT('Estimasi Penggunaan : ', v.estimasi_penggunaan_day, ' x / Hari')
+        //         WHEN a.JENIS_ID = '2' THEN CONCAT(a.JML, ' Orang, Durasi Kegiatan : ', l.DURASI, ' Menit / 1 Pasien')
+        //         WHEN a.JENIS_ID = '3' THEN CONCAT(a.JML, ' ', dkc.SATUAN, ' Per Pasien')
+        //         WHEN a.JENIS_ID = '4' THEN CONCAT('Penggunaan Obat / BMHP Sebanyak : ',a.JML, ' ',coalesce(frmsatuan.SATUAN,''), ' Per Pasien')
+        //         ELSE 'Unknown'
+        //     END AS description,
+        //     CASE
+        //         WHEN a.JENIS_ID = '1' THEN v.costperpasien
+        //         WHEN a.JENIS_ID = '2' THEN ROUND((g.NILAI + g.REMUNERASI) / (25 * 8 * 60) * l.DURASI * a.JML, 0)
+        //         WHEN a.JENIS_ID = '3' THEN dkc.NILAI * a.JML
+        //         WHEN a.JENIS_ID = '4' THEN coalesce(frm.H_BELI * a.JML,0)
+        //         ELSE 'Unknown'
+        //     END AS cost,
+        //     IF(a.JENIS_ID = '2', g.NILAI, 0) AS gaji,
+        //     IF(a.JENIS_ID = '2', g.REMUNERASI, 0) AS remun,
+        //     IF(a.JENIS_ID = '2', a.JML, 0) AS jmlsdm,
+        //     IF(a.JENIS_ID = '1', v.nilai_perolehan, 0) AS nilaiasset,
+        //     IF(a.JENIS_ID = '1', v.nilai_bunga_pinjaman, 0) AS nilaipinjaman,
+        //     IF(a.JENIS_ID = '1', v.nilai_pemeliharaan, 0) AS nilaipemeliharaan,
+        //     IF(a.JENIS_ID = '1', v.waktu_depresiasi, '') AS depresiasi,
+        //     IF(a.JENIS_ID = '1', v.waktu_bunga, '') AS waktupinjaman,
+        //     IF(a.JENIS_ID = '1', v.perolehantahunan, 0) AS perolehantahunan,
+        //     IF(a.JENIS_ID = '1', v.perolehanbulanan, 0) AS perolehanbulanan,
+        //     IF(a.JENIS_ID = '1', v.perolehanharian, 0) AS perolehanharian,
+        //     IF(a.JENIS_ID = '1', v.perolehanpasien, 0) AS perolehanpasien,
+        //     IF(a.JENIS_ID = '1', v.pinjamantahunan, 0) AS pinjamantahunan,
+        //     IF(a.JENIS_ID = '1', v.pinjamanbulanan, 0) AS pinjamanbulanan,
+        //     IF(a.JENIS_ID = '1', v.pinjamanharian, 0) AS pinjamanharian,
+        //     IF(a.JENIS_ID = '1', v.pinjamanpasien, 0) AS pinjamanpasien,
+        //     IF(a.JENIS_ID = '1', v.pemeliharaantahunan, 0) AS pemeliharaantahunan,
+        //     IF(a.JENIS_ID = '1', v.pemeliharaanbulanan, 0) AS pemeliharaanbulanan,
+        //     IF(a.JENIS_ID = '1', v.pemeliharaanharian, 0) AS pemeliharaanharian,
+        //     IF(a.JENIS_ID = '1', v.pemeliharaanpasien, 0) AS pemeliharaanpasien,
+        //     IF(a.JENIS_ID = '1', v.estimasi_penggunaan_day, 0) AS estimasi_penggunaan_day,
+        //     IF(a.JENIS_ID = '1', v.costperpasien, 0) AS costperpasien
+        // FROM
+        //     sikms.dt01_keu_unit_cost_dt a
+        //     LEFT JOIN sikms.dt01_lgu_assets_ms lam ON lam.TRANS_ID = a.ASSETS_ID AND a.JENIS_ID = '1'
+        //     LEFT JOIN sikms.view_assets_detail v ON v.trans_id = a.ASSETS_ID AND a.JENIS_ID = '1'
+        //     LEFT JOIN sikms.dt01_gen_master_ms gm ON gm.CODE = lam.JENIS_ID AND gm.JENIS_ID = 'Asset_1'
+        //     LEFT JOIN sikms.dt01_hrd_gaji_ms g ON g.TRANSAKSI_ID = a.POSITION_ID AND a.JENIS_ID = '2'
+        //     LEFT JOIN sikms.dt01_hrd_position_ms p ON p.POSITION_ID = g.POSITION_ID
+        //     LEFT JOIN sikms.dt01_gen_level_fungsional_ms lf ON lf.LEVEL_ID = p.LEVEL_FUNGSIONAL
+        //     LEFT JOIN sikms.dt01_keu_layan_ms l ON l.LAYAN_ID = a.LAYAN_ID
+        //     LEFT JOIN sikms.dt01_keu_unit_cost_component_ms dkc ON dkc.COMPONENT_ID = a.COMPONENT_ID
+        //     LEFT JOIN sikms.dt01_lgu_barang_ms frm ON frm.BARANG_ID = a.BARANG_ID
+        //     LEFT JOIN sikms.dt01_lgu_satuan_ms frmsatuan ON frmsatuan.SATUAN_ID = frm.SATUAN_PAKAI_ID
+        // WHERE
+        //     a.ACTIVE = '1'
+            
+        // union all
+
+        // SELECT
+        //     a.ORG_ID,
+        //     a.LAYAN_ID,
+        //     a.TRANSAKSI_ID,
+        //     'V',
+        //     'Tagihan Listrik',
+        //     a.ASSETS_ID,
+        //     CONCAT('Listrik ', lam.NAME),
+        //     CONCAT('Estimasi Penggunaan Listrik : ', lam.VOL_LISTRIK, ' kW Selama : ', l.DURASI, ' Menit'),
+        //     ROUND(lam.VOL_LISTRIK * (l.DURASI / 60) * dkc2.NILAI, 0),
+        //     0,0,0,0,0,0,'','',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        // FROM
+        //     sikms.dt01_keu_unit_cost_dt a
+        //     JOIN sikms.dt01_lgu_assets_ms lam ON lam.TRANS_ID = a.ASSETS_ID AND lam.LISTRIK = 'Y'
+        //     JOIN sikms.dt01_keu_layan_ms l ON l.LAYAN_ID = a.LAYAN_ID
+        //     JOIN sikms.dt01_keu_unit_cost_component_ms dkc2 ON dkc2.ORG_ID = a.ORG_ID AND dkc2.ACTIVE = '1' AND dkc2.JENIS_ID = '1'
+        // WHERE
+        //     a.ACTIVE = '1'
+            
+        // union all
+        
+        // SELECT
+        //     a.ORG_ID,
+        //     a.LAYAN_ID,
+        //     a.TRANSAKSI_ID,
+        //     'V',
+        //     'Tagihan Internet',
+        //     a.ASSETS_ID,
+        //     CONCAT('Internet ', lam.NAME),
+        //     CONCAT('Estimasi Penggunaan Internet : ', l.DURASI, ' Menit'),
+        //     ROUND(dkc2.NILAI / 43200 * l.DURASI / iuc.jml, 0),
+        //     0,0,0,0,0,0,'','',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        // FROM
+        //     sikms.dt01_keu_unit_cost_dt a
+        //     JOIN sikms.dt01_lgu_assets_ms lam ON lam.TRANS_ID = a.ASSETS_ID AND lam.INTERNET = 'Y'
+        //     JOIN sikms.dt01_keu_layan_ms l ON l.LAYAN_ID = a.LAYAN_ID
+        //     JOIN sikms.dt01_keu_unit_cost_component_ms dkc2 ON dkc2.ORG_ID = a.ORG_ID AND dkc2.ACTIVE = '1' AND dkc2.JENIS_ID = '4'
+        //     JOIN internet_user_count iuc ON iuc.org_id = a.ORG_ID
+        // WHERE
+        //     a.ACTIVE = '1';
+            
+
+
         function insertcomponent($data){           
             $sql =   $this->db->insert("dt01_keu_unit_cost_dt",$data);
             return $sql;
@@ -394,6 +431,11 @@
 
         function updatecomponentsdm($data,$orgid,$layanid,$positionid){           
             $sql =   $this->db->update("dt01_keu_unit_cost_dt",$data,array("org_id"=>$orgid,"layan_id"=>$layanid, "position_id"=>$positionid, "jenis_id"=>"2"));
+            return $sql;
+        }
+
+        function updatecomponentfarmasi($data,$orgid,$layanid,$barangid){           
+            $sql =   $this->db->update("dt01_keu_unit_cost_dt",$data,array("org_id"=>$orgid,"layan_id"=>$layanid, "barang_id"=>$barangid, "jenis_id"=>"4"));
             return $sql;
         }
 

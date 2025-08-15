@@ -73,6 +73,23 @@
             echo json_encode($json);
         }
 
+        public function masterobat(){
+            $result = $this->md->masterobat($_SESSION['orgid'],$this->input->post("layanid"));
+            
+			if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Di Temukan";
+				$json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Tidak Di Temukan";
+            }
+
+            echo json_encode($json);
+        }
+
         public function masteratk(){
             $result = $this->md->masteratk($_SESSION['orgid'],$this->input->post("layanid"));
             
@@ -318,6 +335,71 @@
                     $data['last_update_by'] = $_SESSION['userid'];
 
                     if($this->md->updatecomponentsdm($data,$_SESSION['orgid'],$layanid,$positionid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Update Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Update";
+                    }
+                }
+            }
+            
+            echo json_encode($json);
+        }
+
+        public function updatefarmasi(){
+            $layanid  = $this->input->post('layanid');
+            $barangid = $this->input->post('barangid');
+            $jml      = $this->input->post('jml');
+
+            if(empty($this->md->cekdatafarmasi($_SESSION['orgid'],$layanid,$barangid))){
+                if($jml != 0){
+                    $data['org_id']         = $_SESSION['orgid'];
+                    $data['transaksi_id']   = generateuuid();
+                    $data['layan_id']       = $layanid;
+                    $data['barang_id']      = $barangid;
+                    $data['jml']            = $jml;
+                    $data['jenis_id']       = "4";
+                    $data['created_by']     = $_SESSION['userid'];
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->insertcomponent($data)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Added Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Add";
+                    }
+                }else{
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }else{
+                if($jml != 0){
+                    $data['jml']            = $jml;
+                    $data['active']         = "1";
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->updatecomponentfarmasi($data,$_SESSION['orgid'],$layanid,$barangid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Update Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Update";
+                    }
+                }else{
+                    $data['jml']            = $jml;
+                    $data['active']         = "0";
+                    $data['last_update_by'] = $_SESSION['userid'];
+
+                    if($this->md->updatecomponentfarmasi($data,$_SESSION['orgid'],$layanid,$barangid)){
                         $json['responCode']="00";
                         $json['responHead']="success";
                         $json['responDesc']="Data Update Successfully";

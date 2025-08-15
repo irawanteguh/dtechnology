@@ -17,6 +17,7 @@
 						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_software" href="#" class="btn btn-sm btn-dark"><i class="bi bi-cpu me-2"></i>Software</a>
 						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_sdm" href="#" class="btn btn-sm btn-primary"><i class="bi bi-people-fill me-2"></i>SDM</a>
 						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_atk" href="#" class="btn btn-sm btn-info"><i class="bi bi-pen me-2"></i>ATK</a>
+						<a data-bs-toggle="modal" data-bs-target="#modal_unit_cost_add_farmasi" href="#" class="btn btn-sm btn-danger"><i class="bi bi-capsule-pill me-2"></i>Obat dan BMHP</a>
 					</div>
 
 					<div class="table-responsive">
