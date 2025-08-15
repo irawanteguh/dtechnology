@@ -6,13 +6,14 @@ $(document).on("change", "select[name='selectorganization']", function (e) {
 });
 
 function getdata(btn){
-    var data_positionid   = btn.attr("data_positionid");
-    var data_position     = btn.attr("data_position");
-    var data_departmentid = btn.attr("data_departmentid");
-    var data_bagianid     = btn.attr("data_bagianid");
-    var data_unitid       = btn.attr("data_unitid");
-    var data_gaji         = btn.attr("data_gaji");
-    var data_remun        = btn.attr("data_remun");
+    var data_positionid      = btn.attr("data_positionid");
+    var data_position        = btn.attr("data_position");
+    var data_levelfungsional = btn.attr("data_levelfungsional");
+    var data_departmentid    = btn.attr("data_departmentid");
+    var data_bagianid        = btn.attr("data_bagianid");
+    var data_unitid          = btn.attr("data_unitid");
+    var data_gaji            = btn.attr("data_gaji");
+    var data_remun           = btn.attr("data_remun");
 
     $(":hidden[name='data_positiion_id_edit']").val(data_positionid);
     $(":text[name='data_position_name_edit']").val(data_position);
@@ -27,6 +28,9 @@ function getdata(btn){
 
     var $data_unitid = $('#modal_position_edit_unitid_edit').select2();
     $data_unitid.val(data_unitid).trigger('change');
+
+    var $data_levelfungsional = $('#modal_position_edit_fungsional_edit').select2();
+    $data_levelfungsional.val(data_levelfungsional).trigger('change');
 };
 
 function daftarjabatan(){
@@ -56,6 +60,7 @@ function daftarjabatan(){
 
                     getvariabel =   "data_positionid='"+result[i].position_id+"'"+
                                     "data_position='"+result[i].position+"'"+
+                                    "data_levelfungsional='"+result[i].level_fungsional+"'"+
                                     "data_departmentid='"+result[i].department_id+"'"+
                                     "data_bagianid='"+result[i].bagian_id+"'"+
                                     "data_unitid='"+result[i].unit_id+"'"+
