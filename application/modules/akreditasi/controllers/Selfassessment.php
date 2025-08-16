@@ -9,8 +9,69 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_selfassessment");
-		}
+            $xids = $this->input->get("xids");
+            $xide = $this->input->get("xide");
+
+            if($xids && $xide){
+                // kalau ada xids & xide
+                $data = $this->loadcombobox(); 
+                $this->template->load("template/template-sidebar","v_selfassessmentelement",$data);
+
+            }elseif($xids){
+                // kalau hanya ada xids
+                $data = $this->loadcombobox();
+                $this->template->load("template/template-sidebar","v_selfassessmentstandart",$data);
+
+            }else{
+                // default
+                $this->template->load("template/template-sidebar","v_selfassessmentbab");
+            }
+        }
+
+
+        public function loadcombobox(){
+            $resultjudulbab      = $this->md->judulbab($this->input->get("xids"));
+            $resultjudulstandart = $this->md->judulstandart($this->input->get("xide"));
+
+            $resultstandart = $this->md->standart($this->input->get("xids"));
+            $resultelement  = $this->md->element($this->input->get("xide"));
+
+            $judulbab        = ($resultjudulbab) ? $resultjudulbab->penilaian : "-";
+            $judulstandart   = ($resultjudulstandart) ? $resultjudulstandart->penilaian : "-";
+            $juduldostandart = ($resultjudulstandart) ? $resultjudulstandart->do : "-";
+
+            $liststandart="";
+            foreach($resultstandart as $a ){
+                $liststandart.="<tr>";
+                $liststandart.="<td class='ps-4'>".$a->urut."</td>";
+                $liststandart.="<td><div class='fw-bolder'>".$a->penilaian."</div><div class='fst-italic fs-9'>".$a->do."</div></td>";
+                $liststandart.="<td class='text-end'><span class='badge badge-light-info'>".$a->jmlelemen." Element</span></td>";
+                $liststandart.="<td></td>";
+                $liststandart.="<td><a href='../../index.php/akreditasi/selfassessment?xids=".$a->bab_id."&xide=".$a->penilaian_id."' class='btn btn-sm btn-light-primary'>Buka Element Penilaian</a></td>";
+                $liststandart.="</tr>";
+            }
+
+            $listelement="";
+            foreach($resultelement as $a ){
+                $listelement.="<tr>";
+                $listelement.="<td class='ps-4'>".$a->urut."</td>";
+                $listelement.="<td><div class='fw-bolder'>".$a->penilaian."</div><div class='fst-italic fs-9'>".$a->do."</div></td>";
+                $listelement.="<td></td>";
+                $listelement.="<td></td>";
+                $listelement.="</tr>";
+            }
+
+            $jumlahstandart = is_array($resultstandart) ? count($resultstandart) : 0;
+
+            $data['liststandart'] = $liststandart;
+            $data['listelement']  = $listelement;
+
+            $data['jumlahstandart']  = $jumlahstandart." Standart Penilaian";
+            $data['judulbab']        = $judulbab;
+            $data['judulstandart']   = $judulstandart;
+            $data['juduldostandart'] = $juduldostandart;
+            return $data;
+        }
 
         public function bab(){
             $result = $this->md->bab();

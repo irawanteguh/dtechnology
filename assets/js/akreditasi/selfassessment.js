@@ -24,7 +24,7 @@ function bab() {
 
                             tableresult += "<div class='card-header border-0 pt-5'>";
                                 tableresult += "<h3 class='card-title align-items-start flex-column'>";
-                                    tableresult += "<span class='card-label fw-bolder fs-3 mb-1'>" + result[i].standart + "</span>";
+                                    tableresult += "<span class='card-label fw-bolder fs-3 mb-1'>" + result[i].penilaian + "</span>";
                                     tableresult += "<span class='text-muted mt-1 fw-bold fs-7'>" + (result[i].do || '') + "</span>";
                                 tableresult += "</h3>";
 
@@ -47,7 +47,7 @@ function bab() {
                                             tableresult += "<div class='menu-content text-muted pb-2 px-3 fs-7 text-uppercase'>ACTIONS</div>";
                                         tableresult += "</div>";
                                         tableresult += "<div class='menu-item px-3'>";
-                                            tableresult += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-todolist' class='menu-link px-3'>Buka Standart</a>";
+                                            tableresult += "<a href='../../index.php/akreditasi/selfassessment?xids="+result[i].penilaian_id+"' class='menu-link px-3'>Buka Standart Penilaian</a>";
                                         tableresult += "</div>";
                                     tableresult += "</div>";
                                 tableresult += "</div>"; // end card-toolbar
@@ -67,9 +67,9 @@ function bab() {
 
                                             tableresult += "<div class='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>";
                                                 tableresult += "<div class='d-flex align-items-center'>";
-                                                    tableresult += "<div class='fs-2 fw-bolder' data-kt-countup='true' data-kt-countup-value='50' data-kt-countup-suffix='%'>50</div>";
+                                                    tableresult += "<div class='fs-2 fw-bolder' data-kt-countup='true' data-kt-countup-value='"+result[i].jmlelemen+"'>"+result[i].jmlelemen+" Element</div>";
                                                 tableresult += "</div>";
-                                                tableresult += "<div class='fw-bold fs-6 text-gray-400'>Total Elemen Penilaian</div>";
+                                                tableresult += "<div class='fw-bold fs-6 text-gray-400'>Total Element Penilaian</div>";
                                             tableresult += "</div>";
 
                                             tableresult += "<div class='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>";
