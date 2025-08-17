@@ -1,4 +1,27 @@
+const urlParams = new URLSearchParams(window.location.search);
+const xids = urlParams.get('xids');
+const xide = urlParams.get('xide');
+
 bab();
+
+$('#modal_standart_add').on('shown.bs.modal', function (event) {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    $('#modal_standart_babid').val(xids);
+});
+
+$('#modal_element_add').on('shown.bs.modal', function (event) {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    $('#modal_element_babid').val(xids);
+    $('#modal_element_standartid').val(xide);
+});
 
 function bab() {
     $.ajax({
@@ -137,3 +160,98 @@ function bab() {
     });
     return false;
 }
+
+$(document).on("submit", "#formaddstandart", function (e) {
+	e.preventDefault();
+    var form = $(this);
+    var url  = $(this).attr("action");
+
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_standart_add_btn").addClass("disabled");
+        },
+		success: function (data) {
+            if(data.responCode == "00"){
+                location.reload();
+                $('#modal_standart_add').modal('hide');
+			}
+
+            toastr.clear();
+			toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            toastr.clear();
+            $("#modal_standart_add_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}		
+	});
+    return false;
+});
+
+
+$(document).on("submit", "#formaddelement", function (e) {
+	e.preventDefault();
+    var form = $(this);
+    var url  = $(this).attr("action");
+
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_element_add_btn").addClass("disabled");
+        },
+		success: function (data) {
+            if(data.responCode == "00"){
+                location.reload();
+                $('#modal_element_add').modal('hide');
+			}
+
+            toastr.clear();
+			toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            toastr.clear();
+            $("#modal_element_add_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}		
+	});
+    return false;
+});

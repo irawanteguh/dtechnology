@@ -81,6 +81,42 @@
             $recordset = $recordset->result();
             return $recordset;
         }
+
+        function urutstandart($standartid){
+            $query =
+                    "
+                        select count(a.penilaian_id)+1 as jml
+                        from dt01_akre_standart_ms a
+                        where a.active='1'
+                        and   a.jenis_id='S'
+                        and   a.bab_id='".$standartid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function urutelement($standartid){
+            $query =
+                    "
+                        select count(a.penilaian_id)+1 as jml
+                        from dt01_akre_standart_ms a
+                        where a.active='1'
+                        and   a.jenis_id='E'
+                        and   a.standart_id='".$standartid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function insertpenilian($data){           
+            $sql =   $this->db->insert("dt01_akre_standart_ms",$data);
+            return $sql;
+        }
+
         
     }
 ?>

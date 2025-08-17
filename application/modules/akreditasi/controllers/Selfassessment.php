@@ -45,9 +45,9 @@
                 $liststandart.="<tr>";
                 $liststandart.="<td class='ps-4'>".$a->urut."</td>";
                 $liststandart.="<td><div class='fw-bolder'>".$a->penilaian."</div><div class='fst-italic fs-9'>".$a->do."</div></td>";
-                $liststandart.="<td class='text-end'><span class='badge badge-light-info'>".$a->jmlelemen." Element</span></td>";
+                $liststandart.="<td class='text-center'><span class='badge badge-light-info'>".$a->jmlelemen." Elemen</span></td>";
                 $liststandart.="<td></td>";
-                $liststandart.="<td><a href='../../index.php/akreditasi/selfassessment?xids=".$a->bab_id."&xide=".$a->penilaian_id."' class='btn btn-sm btn-light-primary'>Buka Element Penilaian</a></td>";
+                $liststandart.="<td class='text-end'><a href='../../index.php/akreditasi/selfassessment?xids=".$a->bab_id."&xide=".$a->penilaian_id."' class='btn btn-sm btn-light-primary'>Buka Elemen Penilaian</a></td>";
                 $liststandart.="</tr>";
             }
 
@@ -85,6 +85,50 @@
                 $json["responCode"]="01";
                 $json["responHead"]="info";
                 $json["responDesc"]="Data Tidak Di Temukan";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function addstandart(){
+            $data['penilaian_id'] = generateuuid();
+            $data['penilaian']    = $this->input->post("modal_standart_add_penilaian");
+            $data['do']           = $this->input->post("modal_standart_add_do");
+            $data['bab_id']       = $this->input->post("modal_standart_babid");
+            $data['jenis_id']     = "S";
+            $data['urut']         = $this->md->urutstandart($this->input->post("modal_standart_babid"))->jml;
+            $data['created_by']   = $_SESSION['userid'];
+
+            if($this->md->insertpenilian($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function addelement(){
+            $data['penilaian_id'] = generateuuid();
+            $data['penilaian']    = $this->input->post("modal_element_add_penilian");
+            $data['bab_id']       = $this->input->post("modal_element_babid");
+            $data['standart_id']  = $this->input->post("modal_element_standartid");
+            $data['jenis_id']     = "E";
+            $data['urut']         = $this->md->urutelement($this->input->post("modal_element_standartid"))->jml;
+            $data['created_by']   = $_SESSION['userid'];
+
+            if($this->md->insertpenilian($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
             }
 
             echo json_encode($json);

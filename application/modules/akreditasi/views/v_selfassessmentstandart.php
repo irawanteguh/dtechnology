@@ -13,9 +13,9 @@
                         <tr class="fw-bolder text-muted bg-light align-middle">
                             <th class="ps-4 rounded-start">No</th>
                             <th>Standart</th>
-                            <th>Jumlah Elemen Penilaian</th>
+                            <th class="text-center">Jumlah Elemen Penilaian</th>
                             <th>Progress Element</th>
-                            <th class="pe-4 text-end rounded-end">Action</th>
+                            <th class="pe-4 text-end rounded-end min-w-200px">Action</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 fw-bold"><?php echo $liststandart;?></tbody>
