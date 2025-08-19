@@ -30,7 +30,7 @@
             </div>
             <div class="card-body py-3">
                 <div class="table-responsive">
-                    <table class="table align-middle gs-0 gy-4 table-bordered" id="tablemastermodules">
+                    <table class="table align-middle table-row-dashed fs-8 gy-2" id="tablemastermodules">
                         <thead>
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="ps-4 rounded-start">Code</th>
@@ -38,7 +38,7 @@
                                 <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="align-middle" id="resultmasterdocumentd"></tbody>
+                        <tbody class="text-gray-600 fw-bold" id="resultmasterdocumentd"></tbody>
                     </table>
                 </div>
             </div>

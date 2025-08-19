@@ -9,11 +9,24 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_document");
+            $data = $this->loadcombobox();
+			$this->template->load("template/template-sidebar","v_document",$data);
 		}
 
+        public function loadcombobox(){
+            $resultmastertypedocument   = $this->md->mastertypedocument();
+
+            $mastertypedocument="";
+            foreach($resultmastertypedocument as $a ){
+                $mastertypedocument.="<option value='".$a->jenis_id."'>".$a->keterangan."</option>";
+            }
+
+            $data['mastertypedocument']   = $mastertypedocument;
+            return $data;
+        }
+
 		public function masterdocument(){
-            $result = $this->md->masterdocument($_SESSION['orgid']);
+            $result = $this->md->masterdocument();
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -32,8 +45,9 @@
         public function documentadd(){
 
             $data['org_id']        = $_SESSION['orgid'];
-            $data['jenis_doc']     = $this->input->post("modal_document_add_code");
+            $data['jenis_doc']     = $this->input->post("modal_document_add_code") ?: generateUniqueNumber();
             $data['document_name'] = $this->input->post("modal_document_add_name");
+            $data['jenis_id']      = $this->input->post("modal_document_add_type");
             $data['created_by']    = $_SESSION['userid'];
             $data['created_date']  = date("Y-m-d H:i:s");
 

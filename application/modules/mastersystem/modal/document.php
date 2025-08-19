@@ -17,9 +17,18 @@
                     <div class="row">
                         <div class="col-xl-3 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Code</label>
-                            <input type="text" class="form-control form-control-solid" id="modal_document_add_code" name="modal_document_add_code" placeholder="Please enter your code" required>
+                            <input type="text" class="form-control form-control-solid" id="modal_document_add_code" name="modal_document_add_code" placeholder="Please enter your code">
                         </div>
                         <div class="col-xl-9 mb-5">
+							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+								<span class="required">Type Document</span>
+								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Type Document"></i>
+							</label>
+							<select data-control="select2" data-dropdown-parent="#modal_document_add" data-placeholder="Type Document" class="form-select form-select-solid" name="modal_document_add_type" id="modal_document_add_type" required>
+								<?php echo $mastertypedocument;?>
+							</select>
+						</div>
+                        <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Type Document</label>
                             <input type="text" class="form-control form-control-solid" id="modal_document_add_name" name="modal_document_add_name" placeholder="Please enter your type" required>
                         </div>

@@ -1,5 +1,12 @@
 masterdocument();
 
+$('#modal_document_add').on('shown.bs.modal', function () {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+});
+
 function masterdocument(){
     $.ajax({
         url       : url+"index.php/mastersystem/document/masterdocument",

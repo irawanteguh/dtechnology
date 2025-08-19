@@ -15,7 +15,7 @@
 		}
 
 		public function loadcombobox(){
-            $resultmasterdocument = $this->md->masterdocument($_SESSION['orgid']);
+            $resultmasterdocument = $this->md->masterdocument();
             $resultmasterposition = $this->md->masterposition();
 
             $document="";

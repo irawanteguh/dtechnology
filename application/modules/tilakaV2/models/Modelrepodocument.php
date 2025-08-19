@@ -24,13 +24,12 @@
             return $recordset;
         }
 
-        function masterdocument($orgid){
+        function masterdocument(){
             $query =
                     "
                         select a.jenis_doc, document_name
                         from dt01_gen_document_ms a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
                         order by document_name asc
                     ";
 
