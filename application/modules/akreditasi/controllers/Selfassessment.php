@@ -77,7 +77,7 @@
                         $listelement .="<div class='btn-group' role='group'>";
                             $listelement .="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             $listelement .="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            $listelement .="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_sub_element_add' dataelementid='".$a->penilaian_id."'><i class='bi bi-plus-lg text-primary'></i> Tambah Sub Elemen</a>";
+                            $listelement .="<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_sub_element_add' dataelementid='".$a->penilaian_id."'><i class='bi bi-plus-lg text-primary'></i> Tambah Sub Elemen</a>";
                             $listelement .="</div>";
                         $listelement .="</div>";
                     $listelement .="</td>";
