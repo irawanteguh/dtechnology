@@ -45,13 +45,12 @@
             return $recordset;
         }
 
-        function checkdata($orgid,$positionid,$activityid){
+        function checkdata($positionid,$activityid){
             $query =
                     "
                         select a.transaksi_id
                         from dt01_hrd_mapping_activity a
-                        where a.org_id='".$orgid."'
-                        and   a.position_id='".$positionid."'
+                        where a.position_id='".$positionid."'
                         and   a.activity_id='".$activityid."'
                     ";
 

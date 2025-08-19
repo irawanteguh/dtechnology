@@ -60,7 +60,7 @@
             }
 
             
-            $resultcheckdata =  $this->md->checkdata($_SESSION['orgid'],$positionid,$switchId);
+            $resultcheckdata =  $this->md->checkdata($positionid,$switchId);
 
             if(!empty($resultcheckdata)){
                 $data['last_update_date']=date("Y-m-d H:i:s");
