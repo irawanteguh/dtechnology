@@ -3,7 +3,7 @@
 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
 
     <li class="breadcrumb-item text-muted">
-        <a href="../../index.php/akreditasi/selfassessment" 
+        <a href="../../index.php/document/documentlegal" 
            class="text-muted text-hover-primary">
            Calendar
         </a>
@@ -12,7 +12,7 @@
         <span class="bullet bg-gray-200 w-5px h-2px"></span>
     </li>
     <li class="breadcrumb-item text-muted">
-        <a href="../../index.php/akreditasi/selfassessment?xids=" class="text-muted text-hover-primary">
+        <a href="../../index.php/document/documentlegal?xids=dt" class="text-muted text-hover-primary">
             Repository Document
         </a>
     </li>

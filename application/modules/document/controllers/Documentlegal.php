@@ -9,8 +9,16 @@
         }
 
 		public function index(){
-            $data = $this->loadcombobox();
-            $this->template->load("template/template-sidebar","v_documentlegalcalendar",$data);
+            $xids = $this->input->get("xids");
+
+            if($xids){
+                $this->template->load("template/template-sidebar","v_documentlegal");
+
+            }else{
+                $data = $this->loadcombobox();
+                $this->template->load("template/template-sidebar","v_documentlegalcalendar",$data);
+            }
+           
         }
 
         public function loadcombobox(){
