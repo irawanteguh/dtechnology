@@ -1,4 +1,5 @@
 const urlParams = new URLSearchParams(window.location.search);
+const xidb = urlParams.get('xidb');
 const xids = urlParams.get('xids');
 const xide = urlParams.get('xide');
 
@@ -10,7 +11,7 @@ $('#modal_standart_add').on('shown.bs.modal', function (event) {
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-    $('#modal_standart_babid').val(xids);
+    $('#modal_standart_babid').val(xidb);
 });
 
 $('#modal_element_add').on('shown.bs.modal', function (event) {
@@ -19,8 +20,8 @@ $('#modal_element_add').on('shown.bs.modal', function (event) {
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-    $('#modal_element_babid').val(xids);
-    $('#modal_element_standartid').val(xide);
+    $('#modal_element_babid').val(xidb);
+    $('#modal_element_standartid').val(xids);
 });
 
 
@@ -33,9 +34,24 @@ $('#modal_sub_element_add').on('shown.bs.modal', function (event) {
     var button                = $(event.relatedTarget);
     var dataelementid           = button.attr("dataelementid");
 
-    $('#modal_sub_element_babid').val(xids);
-    $('#modal_sub_element_standartid').val(xide);
+    $('#modal_sub_element_babid').val(xidb);
+    $('#modal_sub_element_standartid').val(xids);
     $("#modal_sub_element_elementid").val(dataelementid);
+    
+});
+
+$('#modal_upload_document').on('shown.bs.modal', function (event) {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    var button                = $(event.relatedTarget);
+    var dataelementid           = button.attr("dataelementid");
+
+    $('#modal_upload_document_babid').val(xidb);
+    $('#modal_upload_document_standartid').val(xids);
+    $("#modal_upload_document_elementid").val(xide);
     
 });
 
@@ -86,7 +102,7 @@ function bab() {
                                             tableresult += "<div class='menu-content text-muted pb-2 px-3 fs-7 text-uppercase'>ACTIONS</div>";
                                         tableresult += "</div>";
                                         tableresult += "<div class='menu-item px-3'>";
-                                            tableresult += "<a href='../../index.php/akreditasi/selfassessment?xids="+result[i].penilaian_id+"' class='menu-link px-3'>Buka Standart Penilaian</a>";
+                                            tableresult += "<a href='../../index.php/akreditasi/selfassessment?xidb="+result[i].penilaian_id+"' class='menu-link px-3'>Buka Standart Penilaian</a>";
                                         tableresult += "</div>";
                                     tableresult += "</div>";
                                 tableresult += "</div>"; // end card-toolbar
@@ -106,21 +122,33 @@ function bab() {
 
                                             tableresult += "<div class='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>";
                                                 tableresult += "<div class='d-flex align-items-center'>";
-                                                    tableresult += "<div class='fs-2 fw-bolder' data-kt-countup='true' data-kt-countup-value='"+result[i].jmlelemen+"'>"+result[i].jmlelemen+" Element</div>";
+                                                    tableresult += "<div class='fs-2 fw-bolder text-primary' data-kt-countup='true' data-kt-countup-value='"+result[i].jmlelemen+"' data-kt-countup-suffix=' Elemen'>"+result[i].jmlelemen+" Elemen</div>";
                                                 tableresult += "</div>";
-                                                tableresult += "<div class='fw-bold fs-6 text-gray-400'>Total Element Penilaian</div>";
+                                                tableresult += "<div class='fw-bold fs-6 text-gray-400'>Total Elemen Penilaian</div>";
                                             tableresult += "</div>";
+
+                                            var jmlelemen     = parseInt(result[i].jmlelemen) || 0;
+                                            var elementterisi = parseInt(result[i].elementterisi) || 0;
+                                            var presentasi    = jmlelemen > 0 ? (elementterisi / jmlelemen) * 100 : 0;
+
+                                            // tentukan warna text
+                                            var textColor = "text-success"; // default hijau
+                                            if (presentasi < 50) {
+                                            textColor = "text-danger"; // merah
+                                            } else if (presentasi < 100) {
+                                            textColor = "text-warning"; // kuning
+                                            }
 
                                             tableresult += "<div class='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>";
                                                 tableresult += "<div class='d-flex align-items-center'>";
-                                                    tableresult += "<div class='fs-2 fw-bolder' data-kt-countup='true' data-kt-countup-value='60' data-kt-countup-suffix='%'>60</div>";
+                                                    tableresult += "<div class='fs-2 fw-bolder "+textColor+"' data-kt-countup='true' data-kt-countup-value='"+result[i].elementterisi+"' data-kt-countup-suffix=' Elemen'>"+result[i].elementterisi+" Elemen</div>";
                                                 tableresult += "</div>";
                                                 tableresult += "<div class='fw-bold fs-6 text-gray-400'>Total Elemen Penilaian Terisi</div>";
                                             tableresult += "</div>";
 
                                             tableresult += "<div class='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>";
                                                 tableresult += "<div class='d-flex align-items-center'>";
-                                                    tableresult += "<div class='fs-2 fw-bolder' data-kt-countup='true' data-kt-countup-value='60' data-kt-countup-suffix='%'>60</div>";
+                                                    tableresult += "<div class='fs-2 fw-bolder text-info' data-kt-countup='true' data-kt-countup-value='"+result[i].jmldocument+"' data-kt-countup-suffix=' Dokumen'>"+result[i].jmldocument+" Dokumen</div>";
                                                 tableresult += "</div>";
                                                 tableresult += "<div class='fw-bold fs-6 text-gray-400'>Jumlah Dokumen</div>";
                                             tableresult += "</div>";
@@ -128,13 +156,23 @@ function bab() {
                                         tableresult += "</div>";
                                     tableresult += "</div>";
 
+                                    var presentasi = result[i].presentasi
+
+                                    // tentukan warna text
+                                    var textColor = "bg-success"; // default hijau
+                                    if (presentasi < 50) {
+                                    textColor = "bg-danger"; // merah
+                                    } else if (presentasi < 100) {
+                                    textColor = "bg-warning"; // kuning
+                                    }
+
                                     tableresult += "<div class='d-flex align-items-center w-200px w-sm-300px flex-column mt-3'>";
                                         tableresult += "<div class='d-flex justify-content-between w-100 mt-auto mb-2'>";
                                             tableresult += "<span class='fw-bold fs-6 text-gray-400'>Progress Pengisian</span>";
-                                            tableresult += "<span class='fw-bolder fs-6'>60%</span>";
+                                            tableresult += "<span class='fw-bolder fs-6'>"+result[i].presentasi+"%</span>";
                                         tableresult += "</div>";
                                         tableresult += "<div class='h-15px mx-3 w-100 bg-light mb-3'>";
-                                            tableresult += "<div class='bg-success rounded h-15px' role='progressbar' style='width: 70%;' aria-valuenow='70' aria-valuemin='0' aria-valuemax='100'></div>";
+                                            tableresult += "<div class='"+textColor+" rounded h-15px' role='progressbar' style='width: "+result[i].presentasi+"%;' aria-valuenow='"+result[i].presentasi+"' aria-valuemin='0' aria-valuemax='100'></div>";
                                         tableresult += "</div>";
                                     tableresult += "</div>";
 
@@ -224,7 +262,6 @@ $(document).on("submit", "#formaddstandart", function (e) {
     return false;
 });
 
-
 $(document).on("submit", "#formaddelement", function (e) {
 	e.preventDefault();
     var form = $(this);
@@ -300,6 +337,53 @@ $(document).on("submit", "#formaddsubelement", function (e) {
         complete: function () {
             toastr.clear();
             $("#modal_sub_element_add_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}		
+	});
+    return false;
+});
+
+$(document).on("submit", "#formadddocument", function (e) {
+	e.preventDefault();
+    var form = $(this);
+    var url  = $(this).attr("action");
+
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_upload_document_btn").addClass("disabled");
+        },
+		success: function (data) {
+            if(data.responCode == "00"){
+                location.reload();
+                $('#modal_upload_document').modal('hide');
+			}
+
+            toastr.clear();
+			toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            toastr.clear();
+            $("#modal_upload_document_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             Swal.fire({

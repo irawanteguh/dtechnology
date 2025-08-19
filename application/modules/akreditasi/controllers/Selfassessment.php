@@ -9,35 +9,38 @@
         }
 
 		public function index(){
+            $xidb = $this->input->get("xidb");
             $xids = $this->input->get("xids");
             $xide = $this->input->get("xide");
 
-            if($xids && $xide){
-                // kalau ada xids & xide
+            if($xidb && $xids && $xide){
+                $data = $this->loadcombobox(); 
+                $this->template->load("template/template-sidebar","v_selfassessmentdocument",$data);
+            }elseif($xidb && $xids){
                 $data = $this->loadcombobox(); 
                 $this->template->load("template/template-sidebar","v_selfassessmentelement",$data);
-
-            }elseif($xids){
-                // kalau hanya ada xids
+            }elseif($xidb){
                 $data = $this->loadcombobox();
                 $this->template->load("template/template-sidebar","v_selfassessmentstandart",$data);
-
             }else{
-                // default
                 $this->template->load("template/template-sidebar","v_selfassessmentbab");
             }
         }
 
 
         public function loadcombobox(){
-            $resultjudulbab      = $this->md->judulbab($this->input->get("xids"));
-            $resultjudulstandart = $this->md->judulstandart($this->input->get("xide"));
+            $resultjudulbab      = $this->md->judulbab($this->input->get("xidb"));
+            $resultjudulstandart = $this->md->judulstandart($this->input->get("xids"));
+            $resultjudulelement  = $this->md->judulelement($this->input->get("xide"));
 
-            $resultstandart = $this->md->standart($this->input->get("xids"));
-            $resultelement  = $this->md->element($this->input->get("xide"));
+            $resultstandart     = $this->md->standart($_SESSION['orgid'],$this->input->get("xidb"));
+            $resultelement      = $this->md->element($_SESSION['orgid'],$this->input->get("xids"));
+            $resultlistdokument = $this->md->listdokument($_SESSION['orgid'],$this->input->get("xide"));
 
-            $judulbab        = ($resultjudulbab) ? $resultjudulbab->penilaian : "-";
-            $judulstandart   = ($resultjudulstandart) ? $resultjudulstandart->penilaian : "-";
+            $judulbab      = ($resultjudulbab) ? $resultjudulbab->penilaian : "-";
+            $judulstandart = ($resultjudulstandart) ? $resultjudulstandart->penilaian : "-";
+            $judulelement  = ($resultjudulelement) ? $resultjudulelement->penilaian : "-";
+
             $juduldostandart = ($resultjudulstandart) ? $resultjudulstandart->do : "-";
 
             $liststandart="";
@@ -46,59 +49,74 @@
                 $liststandart.="<td class='ps-4'>".$a->urut."</td>";
                 $liststandart.="<td><div class='fw-bolder'>".$a->penilaian."</div><div class='fst-italic fs-9'>".$a->do."</div></td>";
                 $liststandart.="<td class='text-center'><span class='badge badge-light-info'>".$a->jmlelemen." Elemen</span></td>";
-                $liststandart.="<td></td>";
-                $liststandart.="<td class='text-end'><a href='../../index.php/akreditasi/selfassessment?xids=".$a->bab_id."&xide=".$a->penilaian_id."' class='btn btn-sm btn-light-primary'>Buka Elemen Penilaian</a></td>";
+                $liststandart.= "<td class='text-center'><div class='mb-2'><span class='badge ".($a->elementterisi==0?"badge-light-danger":"badge-light-warning")."'>".$a->elementterisi." Elemen Terisi</span></div><div><span class='badge ".($a->jmldocument==0?"badge-light-danger":"badge-light-success")."'>".$a->jmldocument." Dokumen</span></div></td>";
+                $liststandart.="<td class='text-end'><a href='../../index.php/akreditasi/selfassessment?xidb=".$a->bab_id."&xids=".$a->penilaian_id."' class='btn btn-sm btn-light-primary'>Buka Elemen Penilaian</a></td>";
                 $liststandart.="</tr>";
             }
 
             $listelement="";
-                foreach($resultelement as $a ){
-                    $listelement.="<tr>";
-                    $listelement.="<td class='ps-4'>".$a->urut."</td>";
-                    $listelement.="<td>";
-                        $listelement.="<div>";
-                            $listelement.="<div class='fw-bolder'>".$a->penilaian."</div>";
-                            $listelement.="<div class='fst-italic fs-9'>".$a->do."</div>";
+            foreach($resultelement as $a ){
+                $listelement.="<tr>";
+                $listelement.="<td class='ps-4'>".$a->urut."</td>";
+                $listelement.="<td>";
+                    $listelement.="<div>";
+                        $listelement.="<div class='fw-bolder'>".$a->penilaian."</div>";
+                        $listelement.="<div class='fst-italic fs-9'>".$a->do."</div>";
 
-                            if (!empty($a->subelement)) {
-                                $subelements = explode(";", $a->subelement);
-                                $listelement .= "<ul class='mt-1 ps-4' style='list-style-type: lower-alpha;'>"; 
-                                foreach($subelements as $sub){
-                                    $listelement .= "<li class='fs-8 text-muted'>".$sub."</li>";
-                                }
-                                $listelement .= "</ul>";
+                        if (!empty($a->subelement)) {
+                            $subelements = explode(";", $a->subelement);
+                            $listelement .= "<ul class='mt-1 ps-4' style='list-style-type: lower-alpha;'>"; 
+                            foreach($subelements as $sub){
+                                $listelement .= "<li class='fs-8 text-muted'>".$sub."</li>";
                             }
+                            $listelement .= "</ul>";
+                        }
 
-                        $listelement.="</div>";
-                    $listelement.="</td>";
+                    $listelement.="</div>";
+                $listelement.="</td>";
 
-                    $listelement.="<td></td>";
-                    $listelement .= "<td class='text-end'>";
-                        $listelement .="<div class='btn-group' role='group'>";
-                            $listelement .="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                            $listelement .="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            $listelement .="<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_sub_element_add' dataelementid='".$a->penilaian_id."'><i class='bi bi-plus-lg text-primary'></i> Tambah Sub Elemen</a>";
-                            $listelement .="</div>";
+                $listelement .= "<td class='text-center'><div class='mb-2'><span class='badge ".($a->elementterisi==0?"badge-light-danger":"badge-light-warning")."'>".$a->elementterisi." Elemen Terisi</span></div><div><span class='badge ".($a->jmldocument==0?"badge-light-danger":"badge-light-success")."'>".$a->jmldocument." Dokumen</span></div></td>";
+                $listelement .= "<td class='text-end'>";
+                    $listelement .="<div class='btn-group' role='group'>";
+                        $listelement .="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                        $listelement .="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                        $listelement .="<a class='dropdown-item btn btn-sm text-primary' href='../../index.php/akreditasi/selfassessment?xidb=".$a->bab_id."&xids=".$a->standart_id."&xide=".$a->penilaian_id."'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Dokumen</a>";
+                        $listelement .="<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_sub_element_add' dataelementid='".$a->penilaian_id."'><i class='bi bi-plus-lg text-primary'></i> Tambah Sub Elemen</a>";
                         $listelement .="</div>";
-                    $listelement .="</td>";
-                    $listelement.="</tr>";
-                }
+                    $listelement .="</div>";
+                $listelement .="</td>";
+                $listelement.="</tr>";
+            }
+
+            $listdokument="";
+            foreach($resultlistdokument as $i => $a){
+                $listdokument.="<tr>";
+                $listdokument .= "<td class='ps-4'>".($i+1)."</td>";
+                $listdokument.="<td>".$a->judul."</td>";
+                $listdokument.="<td>".$a->catatan."</td>";
+                $listdokument.="<td class='text-end'><div>".$a->dibuatoleh."</div><div>".$a->tgldibuat."</div></td>";
+                $listdokument.="</tr>";
+            }
 
 
             $jumlahstandart = is_array($resultstandart) ? count($resultstandart) : 0;
 
             $data['liststandart'] = $liststandart;
             $data['listelement']  = $listelement;
+            $data['listdokument'] = $listdokument;
 
             $data['jumlahstandart']  = $jumlahstandart." Standart Penilaian";
-            $data['judulbab']        = $judulbab;
-            $data['judulstandart']   = $judulstandart;
+
+            $data['judulbab']      = $judulbab;
+            $data['judulstandart'] = $judulstandart;
+            $data['judulelement']  = $judulelement;
+
             $data['juduldostandart'] = $juduldostandart;
             return $data;
         }
 
         public function bab(){
-            $result = $this->md->bab();
+            $result = $this->md->bab($_SESSION['orgid']);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -177,6 +195,49 @@
                 $json['responHead']="info";
                 $json['responDesc']="Data Failed to Add";
             }
+
+            echo json_encode($json);
+        }
+
+        public function adddocument(){
+            $transid = generateuuid();
+
+            // $config['upload_path']   = './assets/akrediasi/';
+            // $config['allowed_types'] = 'pdf';
+            // $config['file_name']     = $transid;
+            // $config['overwrite']     = true;
+
+            // $this->load->library('upload', $config);
+
+            // if (!$this->upload->do_upload('modal_repository_add_file')) {
+            //     $error_message = strip_tags($this->upload->display_errors());
+
+            //     log_message('error', 'File upload error: ' . $error_message);
+
+            //     $json['responCode'] = "01";
+            //     $json['responHead'] = "info";
+            //     $json['responDesc'] = $error_message;
+            // } else {
+                $data['org_id']       = $_SESSION['orgid'];
+                $data['transaksi_id'] = $transid;
+                $data['simulasi_id']  = "07c99f2f-761e-47b3-b488-41d9f41935fb";
+                $data['bab_id']       = $this->input->post("modal_upload_document_babid") ?: null;
+                $data['standart_id']  = $this->input->post("modal_upload_document_standartid") ?: null;
+                $data['element_id']   = $this->input->post("modal_upload_document_elementid") ?: null;
+                $data['judul']        = $this->input->post("modal_upload_document_name") ?: null;
+                $data['catatan']      = $this->input->post("modal_upload_document_note") ?: null;
+                $data['created_by']   = $_SESSION['userid'];
+
+                if($this->md->insertdocument($data)){
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Added Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            // }
 
             echo json_encode($json);
         }
