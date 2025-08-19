@@ -69,7 +69,16 @@
         function element($standartid){
             $query =
                     "
-                        select a.penilaian_id, bab_id, penilaian, do, urut
+                         select a.penilaian_id, bab_id, penilaian, do, urut,
+                                (
+                                    SELECT GROUP_CONCAT(b.penilaian SEPARATOR ';') 
+                                    FROM dt01_akre_standart_ms b
+                                    WHERE b.jenis_id = 'SE'
+                                    AND b.element_id = a.penilaian_id
+                                    AND b.active = '1'
+                                    order by urut asc
+                                ) AS subelement
+                            
                         from dt01_akre_standart_ms a
                         where a.active='1'
                         and   a.jenis_id='E'
@@ -105,6 +114,21 @@
                         where a.active='1'
                         and   a.jenis_id='E'
                         and   a.standart_id='".$standartid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function urutsubelement($standartid){
+            $query =
+                    "
+                        select count(a.penilaian_id)+1 as jml
+                        from dt01_akre_standart_ms a
+                        where a.active='1'
+                        and   a.jenis_id='SE'
+                        and   a.element_id='".$standartid."'
                     ";
 
             $recordset = $this->db->query($query);

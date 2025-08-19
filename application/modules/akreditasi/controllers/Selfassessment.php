@@ -52,14 +52,38 @@
             }
 
             $listelement="";
-            foreach($resultelement as $a ){
-                $listelement.="<tr>";
-                $listelement.="<td class='ps-4'>".$a->urut."</td>";
-                $listelement.="<td><div class='fw-bolder'>".$a->penilaian."</div><div class='fst-italic fs-9'>".$a->do."</div></td>";
-                $listelement.="<td></td>";
-                $listelement.="<td></td>";
-                $listelement.="</tr>";
-            }
+                foreach($resultelement as $a ){
+                    $listelement.="<tr>";
+                    $listelement.="<td class='ps-4'>".$a->urut."</td>";
+                    $listelement.="<td>";
+                        $listelement.="<div>";
+                            $listelement.="<div class='fw-bolder'>".$a->penilaian."</div>";
+                            $listelement.="<div class='fst-italic fs-9'>".$a->do."</div>";
+
+                            if (!empty($a->subelement)) {
+                                $subelements = explode(";", $a->subelement);
+                                $listelement .= "<ul class='mt-1 ps-4' style='list-style-type: lower-alpha;'>"; 
+                                foreach($subelements as $sub){
+                                    $listelement .= "<li class='fs-8 text-muted'>".$sub."</li>";
+                                }
+                                $listelement .= "</ul>";
+                            }
+
+                        $listelement.="</div>";
+                    $listelement.="</td>";
+
+                    $listelement.="<td></td>";
+                    $listelement .= "<td class='text-end'>";
+                        $listelement .="<div class='btn-group' role='group'>";
+                            $listelement .="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            $listelement .="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                            $listelement .="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_sub_element_add' dataelementid='".$a->penilaian_id."'><i class='bi bi-plus-lg text-primary'></i> Tambah Sub Elemen</a>";
+                            $listelement .="</div>";
+                        $listelement .="</div>";
+                    $listelement .="</td>";
+                    $listelement.="</tr>";
+                }
+
 
             $jumlahstandart = is_array($resultstandart) ? count($resultstandart) : 0;
 
@@ -119,6 +143,29 @@
             $data['standart_id']  = $this->input->post("modal_element_standartid");
             $data['jenis_id']     = "E";
             $data['urut']         = $this->md->urutelement($this->input->post("modal_element_standartid"))->jml;
+            $data['created_by']   = $_SESSION['userid'];
+
+            if($this->md->insertpenilian($data)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function addsubelement(){
+            $data['penilaian_id'] = generateuuid();
+            $data['penilaian']    = $this->input->post("modal_sub_element_add_penilian");
+            $data['bab_id']       = $this->input->post("modal_sub_element_babid");
+            $data['standart_id']  = $this->input->post("modal_sub_element_standartid");
+            $data['element_id']   = $this->input->post("modal_sub_element_elementid");
+            $data['jenis_id']     = "SE";
+            $data['urut']         = $this->md->urutelement($this->input->post("modal_sub_element_elementid"))->jml;
             $data['created_by']   = $_SESSION['userid'];
 
             if($this->md->insertpenilian($data)){

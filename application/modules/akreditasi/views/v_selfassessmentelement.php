@@ -12,8 +12,8 @@
                     <thead>
                         <tr class="fw-bolder text-muted bg-light align-middle">
                             <th class="ps-4 rounded-start">No</th>
-                            <th>Element Penilaian</th>
-                            <th>Progress Element</th>
+                            <th>Elemen Penilaian</th>
+                            <th>Progress Elemen</th>
                             <th class="pe-4 text-end rounded-end">Action</th>
                         </tr>
                     </thead>
