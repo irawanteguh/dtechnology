@@ -108,7 +108,7 @@
 </div>
 
 <div class="modal fade" id="modal_penilaian" tabindex="-1" aria-hidden="false">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -125,7 +125,7 @@
                     <div class="text-center mb-5">
                         <h1 class="mb-3">Penilaian Elemen</h1>
                         <div class="text-muted fw-bold fs-5">
-                            Kelola dan tambahkan elemen penilaian untuk pemantauan serta peningkatan mutu layanan.
+                            Please fill in this form
                         </div>
                     </div>
                     <div class="row">
