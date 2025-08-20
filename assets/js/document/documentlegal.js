@@ -9,7 +9,7 @@ flatpickr('[name="modal_repository_add_datestart"]', {
 flatpickr('[name="modal_repository_add_dateend"]', {
     enableTime: false,
     dateFormat: "d.m.Y",
-    maxDate   : "today",
+    minDate   : "today",
     onChange  : function(selectedDates, dateStr, instance) {
         instance.close();
     }
