@@ -46,12 +46,33 @@ $('#modal_upload_document').on('shown.bs.modal', function (event) {
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-    var button                = $(event.relatedTarget);
-    var dataelementid           = button.attr("dataelementid");
-
     $('#modal_upload_document_babid').val(xidb);
     $('#modal_upload_document_standartid').val(xids);
     $("#modal_upload_document_elementid").val(xide);
+    
+});
+
+$('#modal_penilaian').on('shown.bs.modal', function (event) {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+
+    $('#modal_penilaian_babid').val(xidb);
+    $('#modal_penilaian_standartid').val(xids);
+    $("#modal_penilaian_elementid").val(xide);
+
+
+    $.ajax({
+        url     : url + "index.php/akreditasi/selfassessment/masternilai",
+        data    : {xide:xide},
+        method  : "POST",
+        cache   : false,
+        success : function (data) {
+            $("select[name='modal_penilaian_nilaiid']").html(data);
+        }
+    });
     
 });
 
@@ -357,48 +378,53 @@ $(document).on("submit", "#formaddsubelement", function (e) {
 });
 
 $(document).on("submit", "#formadddocument", function (e) {
-	e.preventDefault();
-    var form = $(this);
-    var url  = $(this).attr("action");
+    e.preventDefault();
 
-	$.ajax({
+    var form = $(this);
+    var url  = form.attr("action");
+    var formData = new FormData(this); // penting!
+
+    $.ajax({
         url       : url,
-        data      : form.serialize(),
+        data      : formData,
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
+        contentType: false, // WAJIB untuk FormData
+        processData: false, // WAJIB untuk FormData
         beforeSend: function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-			$("#modal_upload_document_btn").addClass("disabled");
+            $("#modal_upload_document_btn").addClass("disabled");
         },
-		success: function (data) {
-            if(data.responCode == "00"){
+        success: function (data) {
+            if (data.responCode == "00") {
                 location.reload();
                 $('#modal_upload_document').modal('hide');
-			}
+            }
 
             toastr.clear();
-			toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
         complete: function () {
             toastr.clear();
             $("#modal_upload_document_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
+        },
+        error: function (xhr, status, error) {
             Swal.fire({
                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-                html             : "<b>"+error+"</b>",
+                html             : "<b>" + error + "</b>",
                 icon             : "error",
                 confirmButtonText: "Please Try Again",
                 buttonsStyling   : false,
                 timerProgressBar : true,
                 timer            : 5000,
-                customClass      : {confirmButton: "btn btn-danger"},
-                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
-                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
             });
-		}		
-	});
+        }
+    });
+
     return false;
 });

@@ -80,7 +80,7 @@
                     $listelement .="<div class='btn-group' role='group'>";
                         $listelement .="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                         $listelement .="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                        $listelement .="<a class='dropdown-item btn btn-sm text-primary' href='../../index.php/akreditasi/selfassessment?xidb=".$a->bab_id."&xids=".$a->standart_id."&xide=".$a->penilaian_id."'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Dokumen</a>";
+                        $listelement .="<a class='dropdown-item btn btn-sm text-primary' href='../../index.php/akreditasi/selfassessment?xidb=".$a->bab_id."&xids=".$a->standart_id."&xide=".$a->penilaian_id."'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload dan Penilaian Dokumen</a>";
                         $listelement .="<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_sub_element_add' dataelementid='".$a->penilaian_id."'><i class='bi bi-plus-lg text-primary'></i> Tambah Sub Elemen</a>";
                         $listelement .="</div>";
                     $listelement .="</div>";
@@ -95,6 +95,14 @@
                 $listdokument.="<td>".$a->judul."</td>";
                 $listdokument.="<td>".$a->catatan."</td>";
                 $listdokument.="<td class='text-end'><div>".$a->dibuatoleh."</div><div>".$a->tgldibuat."</div></td>";
+                $listdokument .= "<td class='text-end'>";
+                    $listdokument .="<div class='btn-group' role='group'>";
+                        $listdokument .="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                        $listdokument .="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                        $listdokument.="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='".base_url("assets/akreditasi/".$a->transaksi_id.".pdf")."' onclick='viewdocwithoutnote(this)'><i class='bi bi-eye text-primary'></i> View Dokumen</a>";
+                        $listdokument .="</div>";
+                    $listdokument .="</div>";
+                $listdokument .="</td>";
                 $listdokument.="</tr>";
             }
 
@@ -202,22 +210,22 @@
         public function adddocument(){
             $transid = generateuuid();
 
-            // $config['upload_path']   = './assets/akrediasi/';
-            // $config['allowed_types'] = 'pdf';
-            // $config['file_name']     = $transid;
-            // $config['overwrite']     = true;
+            $config['upload_path']   = './assets/akreditasi/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $transid;
+            $config['overwrite']     = true;
 
-            // $this->load->library('upload', $config);
+            $this->load->library('upload', $config);
 
-            // if (!$this->upload->do_upload('modal_repository_add_file')) {
-            //     $error_message = strip_tags($this->upload->display_errors());
+            if (!$this->upload->do_upload('modal_upload_document_file')) {
+                $error_message = strip_tags($this->upload->display_errors());
 
-            //     log_message('error', 'File upload error: ' . $error_message);
+                log_message('error', 'File upload error: ' . $error_message);
 
-            //     $json['responCode'] = "01";
-            //     $json['responHead'] = "info";
-            //     $json['responDesc'] = $error_message;
-            // } else {
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = $error_message;
+            } else {
                 $data['org_id']       = $_SESSION['orgid'];
                 $data['transaksi_id'] = $transid;
                 $data['simulasi_id']  = "07c99f2f-761e-47b3-b488-41d9f41935fb";
@@ -237,9 +245,31 @@
                     $json['responHead']="info";
                     $json['responDesc']="Data Failed to Add";
                 }
-            // }
+            }
 
             echo json_encode($json);
+        }
+
+        public function masternilai(){
+            $xide   = $this->input->post("xide");
+
+            $resultjenisnilai = $this->md->judulelement($xide)->jenis_penilaian;
+
+            if($resultjenisnilai ==="1"){
+                $parameter ="where x.nilaiid<>'2'";
+            }else{
+                $parameter ="";
+            }
+
+            $resultmasternilai = $this->md->masternilai($parameter);
+            
+			$json="";
+            foreach($resultmasternilai as $a ){
+                $json.="<option value='".$a->nilaiid."'>".$a->keterangan."</option>";
+            }
+
+            echo $json;
+
         }
 
 

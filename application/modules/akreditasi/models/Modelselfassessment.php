@@ -36,7 +36,7 @@
         function judulelement($standartid){
             $query =
                     "
-                        select a.penilaian_id, penilaian, do
+                        select a.penilaian_id, penilaian, do, jenis_penilaian
                         from dt01_akre_standart_ms a
                         where a.active='1'
                         and   a.penilaian_id='".$standartid."'
@@ -46,6 +46,25 @@
 
             $recordset = $this->db->query($query);
             $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function masternilai($parameter){
+            $query =
+                    "
+                        select x.*
+                            from(
+                                select '1'nilaiid, 'Terpenuhi (10)'keterangan union
+                                select '2'nilaiid, 'Tercapai Sebagian (5)'keterangan union
+                                select '3'nilaiid, 'Tidak Terpenuhi / Tidak Tercapai (0)'keterangan union
+                                select '4'nilaiid, 'Tidak Dapat Di Terapkan'keterangan
+                            )x
+                            ".$parameter."
+                            order by nilaiid
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
             return $recordset;
         }
 

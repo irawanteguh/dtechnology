@@ -107,7 +107,45 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_upload_document" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_penilaian" tabindex="-1" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/akreditasi/selfassessment/addsubelement" id="formaddsubelement">
+                <input type="hidden" id="modal_penilaian_babid" name="modal_penilaian_babid">
+                <input type="hidden" id="modal_penilaian_standartid" name="modal_penilaian_standartid">
+                <input type="hidden" id="modal_penilaian_elementid" name="modal_penilaian_elementid">
+                <div class="modal-body">
+                    <div class="text-center mb-5">
+                        <h1 class="mb-3">Penilaian Elemen</h1>
+                        <div class="text-muted fw-bold fs-5">
+                            Kelola dan tambahkan elemen penilaian untuk pemantauan serta peningkatan mutu layanan.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Nilai :</label>
+                            <select data-control="select2" data-dropdown-parent="#modal_penilaian" data-placeholder="Silakan Pilih Nilai" class="form-select form-select-solid" id="modal_penilaian_nilaiid" name="modal_penilaian_nilaiid" required>
+                                <?php echo $masternilai;?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-1">				
+                    <input class="btn btn-light-primary" id="modal_sub_element_add_btn" type="submit" value="SUBMIT" name="simpan" >
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_upload_document" tabindex="-1" aria-hidden="true" enctype="multipart/form-data">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
