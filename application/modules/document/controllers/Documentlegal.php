@@ -12,11 +12,10 @@
             $xids = $this->input->get("xids");
 
             if($xids){
-                $this->template->load("template/template-sidebar","v_documentlegal");
-
-            }else{
                 $data = $this->loadcombobox();
-                $this->template->load("template/template-sidebar","v_documentlegalcalendar",$data);
+                $this->template->load("template/template-sidebar","v_documentlegal",$data);
+            }else{
+                $this->template->load("template/template-sidebar","v_documentlegalcalendar");
             }
            
         }
