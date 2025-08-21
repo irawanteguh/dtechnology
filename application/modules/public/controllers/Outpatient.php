@@ -277,7 +277,7 @@
                 $textDirekturPT  = "*{$datasaran[0]->nameorg}*";
                 $textDirekturPT .= "%0a*RMB Hospital Group*";
                 $textDirekturPT .= "%0a%0aKepada Yth,.";
-                $textDirekturPT .= "%0aDirektur RMB Group";
+                $textDirekturPT .= "%0aCMO RMB Hospital Group";
                 $textDirekturPT .= "%0a*{$datasaran[0]->namadireakturpt}*%0a";
                 $textDirekturPT .= "%0aMohon tindaklanjuti saran dan masukan";
                 $textDirekturPT .= "%0a%0aAtasnama%09: {$datasaran[0]->nama}";
