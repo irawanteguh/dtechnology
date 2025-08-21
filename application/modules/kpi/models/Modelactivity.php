@@ -60,8 +60,9 @@
                         select a.klinis_id
                         from dt01_gen_user_data a
                         where a.active='1'
-                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
                         and   a.user_id='".$userid."'
+                        and   a.org_id='".$orgid."' or group_id='".$groupid."'
+                        limit 1;
                     ";
 
             $recordset = $this->db->query($query);

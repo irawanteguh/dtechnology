@@ -52,6 +52,7 @@
             $resultcekusername = $this->md->cekusername($this->input->post("data_user_username_add"));
 
             if(empty($resultcekusername)){
+                $datausser['group_id']    = $_SESSION['groupid'];
                 $datausser['org_id']      = $_SESSION['orgid'];
                 $datausser['user_id']     = generateuuid();
                 $datausser['username']    = $this->input->post("data_user_username_add");

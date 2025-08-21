@@ -75,7 +75,7 @@ function adduser(btn){
         },
 		success : function (data) {
 			if(data.responCode === "00"){
-				masterdepartment();
+				masterdatadepartment();
                 $('#modal_department_adduser').modal('hide');
 			};
 
