@@ -44,8 +44,8 @@
         }
 
         public function broadcastwhatsapp_post() {
-            $limit                   = "limit ".rand(1, 2).";";
-            $resultbroadcastwhatsapp = $this->md->broadcastwhatsapp(ORG_ID,$limit);
+            $limit                   = "limit ".rand(1, 5).";";
+            $resultbroadcastwhatsapp = $this->md->broadcastwhatsapp($limit);
 
             if(!empty($resultbroadcastwhatsapp)){
                 foreach($resultbroadcastwhatsapp as $a){
