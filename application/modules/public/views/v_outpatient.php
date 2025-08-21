@@ -967,7 +967,7 @@
                                             <input id="namapetugassaran" name="namapetugassaran" placeholder="Silakan masukan jika anda mengetahuinya" class="form-control form-control-lg form-control-solid"/>
                                         </div>
                                         <div class="fv-row mb-10 col-md-12">
-                                            <label class="form-label required">Ruangan / Lantai</label>
+                                            <label class="form-label">Ruangan / Lantai</label>
                                             <input id="ruangansaran" name="ruangansaran" placeholder="Silakan masukan jika anda mengetahuinya" class="form-control form-control-lg form-control-solid"/>
                                         </div>
                                         <div class="fv-row col-md-12 pb-10">
