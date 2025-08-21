@@ -16,12 +16,21 @@
                     </div>
                     <div class="row">
                         <div class="col-xl-6 mb-5">
-                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Procurement Name :</label>
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Nama Pengadaan :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_new_request_nama" name="modal_new_request_nama" required>
                         </div>
                         <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                <span class="required">Suppliers</span>
+                                <span class="required">Unit Pelaksana</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#modal_new_po" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_new_request_department" id="modal_new_request_department" required>
+                                <?php echo $department;?>
+                            </select>
+                        </div>
+                        <div class="col-xl-6 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span class="required">Supplier</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Suppliers"></i>
                             </label>
                             <select data-control="select2" data-dropdown-parent="#modal_new_po" data-placeholder="Please Select Suppliers" class="form-select form-select-solid" name="modal_new_request_supplier" id="modal_new_request_supplier" required>
@@ -30,20 +39,11 @@
                         </div>
                         <div class="col-xl-6 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                <span class="required">Payment Method</span>
-                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Payment Method"></i>
+                                <span class="required">Jenis Pengadaan</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Method"></i>
                             </label>
-                            <select data-control="select2" data-dropdown-parent="#modal_new_po" data-placeholder="Please Select Payment Method" class="form-select form-select-solid" name="modal_new_request_method" id="modal_new_request_method" required>
-                                <?php echo $paymentmethod;?>
-                            </select>
-                        </div>
-                        <div class="col-xl-6 mb-5">
-                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                <span class="required">Department</span>
-                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department"></i>
-                            </label>
-                            <select data-control="select2" data-dropdown-parent="#modal_new_po" data-placeholder="Please Select Department" class="form-select form-select-solid" name="modal_new_request_department" id="modal_new_request_department" required>
-                                <?php echo $department;?>
+                            <select data-control="select2" data-dropdown-parent="#modal_new_po" data-placeholder="Please Select Method" class="form-select form-select-solid" name="modal_new_request_method" id="modal_new_request_method" required>
+                                <?php echo $jenispengadaan;?>
                             </select>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_new_invoice" tabindex="-1" aria-hidden="true">
+<!-- <div class="modal fade" id="modal_new_invoice" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -134,9 +134,9 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="modal fade" id="modal_upload_lampiran" tabindex="-1" aria-hidden="false">
+<!-- <div class="modal fade" id="modal_upload_lampiran" tabindex="-1" aria-hidden="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0">
@@ -181,9 +181,9 @@
             </form> 
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="modal fade" id="modal_upload_invoice" tabindex="-1" aria-hidden="true">
+<!-- <div class="modal fade" id="modal_upload_invoice" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0">
@@ -228,7 +228,7 @@
             </form> 
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="modal fade" id="modal_add_item" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
@@ -265,7 +265,7 @@
                             <tr>
                                 <th><input id="filteritemname" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Item Name"></th>
                                 <th><input id="filtercategory" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Category"></th>
-                                <th><input id="filterunit" class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Purchase Unit"></th>
+                                <th><input id="filterunit"     class="tagify form-control form-control-solid form-control-sm" placeholder="Filter Purchase Unit"></th>
                                 <th></th>
                             </tr>
                         </thead>
