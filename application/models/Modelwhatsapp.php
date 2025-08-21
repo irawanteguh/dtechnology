@@ -9,6 +9,7 @@
                         from dt01_whatsapp_broadcast_hd a
                         where a.active='1'
                         and   a.status='0'
+                        and   a.no_hp<>''
                         ".$limit."                     
                     ";
 
