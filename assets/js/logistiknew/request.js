@@ -1,8 +1,12 @@
-dataonprocess();
+
+Dropzone.autoDiscover = false;
+let myDropzone;
 
 const filteritemname = new Tagify(document.querySelector("#filteritemname"), { enforceWhitelist: true });
 const filtercategory = new Tagify(document.querySelector("#filtercategory"), { enforceWhitelist: true });
 const filterunit     = new Tagify(document.querySelector("#filterunit"), { enforceWhitelist: true });
+
+datapemesanan();
 
 filteritemname.on('change', filterTable);
 filtercategory.on('change', filterTable);
@@ -56,13 +60,57 @@ $('#modal_add_item').on('shown.bs.modal', function (event) {
     
 });
 
-$('#modal_add_item').on('hidden.bs.modal', function (e) {
-    dataonprocess();
+$("#modal_upload_lampiran").on('show.bs.modal', function (event) {
+    var button             = $(event.relatedTarget);
+    var datanopemesanan    = button.attr("datanopemesanan");
+    var dataattachmentnote = button.attr("dataattachmentnote");
+
+    $("input[name='modal_upload_lampiran_nopemesanan']").val(datanopemesanan);
+    $("textarea[name='modal_upload_lampiran_note']").val(dataattachmentnote === 'null' ? '' : dataattachmentnote);
+
+    if (myDropzone) {
+        myDropzone.destroy();
+    }
+
+    myDropzone = new Dropzone("#file_doc", {
+        url               : url + "index.php/logistiknew/request/uploaddocument?datanopemesanan="+datanopemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept            : function (file, done) {
+            done();
+        }
+    });
 });
 
-function dataonprocess(){
+$("#modal_upload_invoice").on('show.bs.modal', function (event) {
+    var button          = $(event.relatedTarget);
+    var datanopemesanan = button.attr("datanopemesanan");
+    var datainvoiceno   = button.attr("datainvoiceno");
+
+    $("input[name='modal_upload_invoice_nopemesanan']").val(datanopemesanan);
+    $("input[name='modal_upload_invoice_invoiceno']").val(datainvoiceno === 'null' ? '' : datainvoiceno);
+});
+
+$('#modal_add_item').on('hidden.bs.modal', function (e) {
+    datapemesanan();
+});
+
+$('#modal_upload_lampiran').on('hidden.bs.modal', function (e) {
+    datapemesanan();
+});
+
+$('#modal_upload_invoice').on('hidden.bs.modal', function (e) {
+    datapemesanan();
+});
+
+function datapemesanan(){
     $.ajax({
-        url       : url+"index.php/logistiknew/request/dataonprocess",
+        url       : url+"index.php/logistiknew/request/datapemesanan",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -70,10 +118,14 @@ function dataonprocess(){
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
             $("#resultdataonprocess").html("");
+            $("#resultdataapprove").html("");
+            $("#resultdatadecline").html("");
         },
         success:function(data){
-            var result      = "";
-            var tableresult = "";
+            var result              = "";
+            var resultdataonprocess = "";
+            var resultdataapprove   = "";
+            var resultdatadecline   = "";
 
             if(data.responCode==="00"){
                 result = data.responResult;
@@ -82,40 +134,84 @@ function dataonprocess(){
                     cito   = result[i].cito === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
 
                     var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
+                                        " datanopemesananunit='"+result[i].no_pemesanan_unit+"'"+
+                                        " datajudulpemesanan='"+result[i].judul_pemesanan+"'"+
                                         " dataattachmentnote='"+result[i].attachment_note+"'"+
                                         " datainvoiceno='"+result[i].invoice_no+"'"+
                                         " datadepartmentid='"+result[i].department_id+"'";
 
-                    tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
-                    tableresult +="<td><div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
-                    tableresult +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+cito+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>"; 
-                    tableresult +="<td>"+result[i].unitpelaksana+"</td>";
-                    tableresult +="<td>"+result[i].namasupplier+"</td>";
-                    tableresult +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
-                    tableresult +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
-                    tableresult +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    tableresult +="<td class='text-end'><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                let rows  ="<tr>";
+                    rows +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
+                    rows +="<td><div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
+                    rows +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+cito+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>"; 
+                    rows +="<td>"+result[i].unitpelaksana+"</td>";
+                    rows +="<td>"+result[i].namasupplier+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    rows +="<td class='text-end'><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
+                    rows +="<td class='text-end'><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
-                    tableresult += "<td class='text-end'>";
-                        tableresult +="<div class='btn-group' role='group'>";
-                            tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
-                            tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" datastatus='insertharga' data-bs-toggle='modal' data-bs-target='#modal_add_item'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
-                            if(result[i].jmlitem!="0"){
-                                if(result[i].itemhargakosong==="0"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                    rows += "<td class='text-end'>";
+                        rows +="<div class='btn-group' role='group'>";
+                            rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
+                            rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
+                            
+                            if(result[i].status==="0"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" datastatus='insertharga' data-bs-toggle='modal' data-bs-target='#modal_add_item'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+                                if(result[i].jmlitem!="0"){
+                                    if(result[i].methodid==="4"){ // On The Spot (BBM / Snack / Etc)
+                                        if(result[i].itemhargakosong==="0"){
+                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                        }
+                                    }
                                 }
+                                rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='1' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Deleted</a>";
                             }
-                            tableresult +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
-                            tableresult +="</div>";
-                        tableresult +="</div>";
-                    tableresult +="</td>";
-                    tableresult +="</tr>";
+                            
+                            if(result[i].status==="0" || result[i].status==="2"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
+                            }
+                            
+                            
+                            if(result[i].attachment==="1"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                            }
+
+                            if(result[i].invoice==="1"){
+                                if(result[i].status==="0"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                }else{
+                                    if(result[i].status==="2"){
+                                        rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='1' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Deleted</a>";
+                                        rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                                    }
+                                }
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
+                            }
+                            rows += "<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_chat' "+getvariabel+" onclick='getdatachat($(this));'><i class='bi bi-send text-primary'></i> Pesan Singkat</a>";
+                            rows +="</div>";
+                        rows +="</div>";
+                    rows +="</td>";
+                    rows +="</tr>";
+
+                    if(result[i].status === "0"){
+                        resultdataonprocess += rows;
+                    }else{
+                        if(result[i].status === "1" || result[i].status === "3"){
+                            resultdatadecline += rows;
+                        }else{
+                            if(result[i].status === "2" || result[i].status === "4"){
+                                resultdataapprove += rows;
+                            }
+                        }
+                    }
                 }
             }
 
-            $("#resultdataonprocess").html(tableresult);
+            $("#resultdataonprocess").html(resultdataonprocess);
+            $("#resultdatadecline").html(resultdatadecline);
+            $("#resultdataapprove").html(resultdataapprove);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -376,7 +472,6 @@ $(document).on("submit", "#formnewpurchaseorder", function (e) {
 
             if(data.responCode == "00"){
                 $("#modal_new_po").modal("hide");
-                dataonprocess();
 			}
 
             toastr.clear();
@@ -396,5 +491,98 @@ $(document).on("submit", "#formnewpurchaseorder", function (e) {
             );
 		}
 	});
+    return false;
+});
+
+$(document).on("submit", "#formnotelampiran", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_upload_lampiran_btn").addClass("disabled");
+        },
+		success: function (data) {
+            if(data.responCode == "00"){
+                $("#modal_upload_lampiran").modal("hide");
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            toastr.clear();
+            $("#modal_upload_lampiran_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formnoinvoice", function (e) {
+    e.preventDefault();
+
+    var form = $(this);
+    var url  = form.attr("action");
+    var formData = new FormData(this); // penting!
+
+    $.ajax({
+        url        : url,
+        data       : formData,
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        contentType: false,
+        processData: false,
+        beforeSend : function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#modal_upload_invoice_btn").addClass("disabled");
+        },
+        success: function (data) {
+            if (data.responCode == "00") {
+                $('#modal_upload_invoice').modal('hide');
+            }
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+            $("#modal_upload_invoice_btn").removeClass("disabled");
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+
     return false;
 });

@@ -180,7 +180,7 @@ function masterassets() {
             let tableSoftware    = "";
 
             if (data.responCode === "00") {
-                    result    = data.responResult;
+                result    = data.responResult;
                 let totalData = result.length;
                 let dataValid = 0;
                 generateRumusTable(result);

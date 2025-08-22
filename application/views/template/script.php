@@ -69,6 +69,11 @@
                     if ($this->uri->segment(1) != 'logistik' && $this->uri->segment(1) != 'paymentpo' && $jsFilename === 'po.js') {
                         continue;
                     }
+
+                    if ($this->uri->segment(1) != 'logistiknew' && $jsFilename === 'procurement.js') {
+                        continue;
+                    }
+
                     echo "\t\t<script type='text/javascript' src='".base_url('assets/js/root/'.$jsFilename)."'></script>".PHP_EOL;
                 }
             }
