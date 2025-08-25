@@ -9,7 +9,6 @@
                 </div>
             </div>
             <form action="<?php echo base_url();?>index.php/mastersystem/department/insertdepartment" id="forminsertdepartment">
-                <input type="hidden" id="headerid" name="headerid">
                 <input type="hidden" id="levelid" name="levelid">
                 <div class="modal-body">
                     <div class="text-center mb-13">
@@ -17,13 +16,26 @@
                         <div class="text-muted fw-bold fs-5">Please Add Sub Department</div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-9 mb-5">
+                        <div class="col-xl-6 mb-5">
+							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+								<span class="required">Department Header</span>
+								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department Header"></i>
+							</label>
+							<select data-control="select2" data-dropdown-parent="#modal_department_addsubdepartment" data-placeholder="Department Header" class="form-select form-select-solid" name="department_departmentheader" id="department_departmentheader" required>
+								<?php echo $masterdepartment;?>
+							</select>
+						</div>
+                        <div class="col-xl-6 mb-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Department Name</label>
-                            <input type="text" class="form-control form-control-solid" id="department_name" name="department_name" required>
+                            <input type="text" class="form-control form-control-solid" id="department_name" name="department_name">
                         </div>
-                        <div class="col-xl-3 mb-5">
+                        <div class="col-xl-3 mb-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Department Code</label>
-                            <input type="text" class="form-control form-control-solid" id="department_code" name="department_code" required>
+                            <input type="text" class="form-control form-control-solid" id="department_code" name="department_code">
+                        </div>
+                        <div class="col-xl-9 mb-2">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Position Name</label>
+                            <input type="text" class="form-control form-control-solid" id="department_position" name="department_position">
                         </div>
                     </div>
                 </div>
@@ -53,13 +65,26 @@
                         <div class="text-muted fw-bold fs-5">Please Edit Sub Department</div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-9 mb-5">
+                        <div class="col-xl-6 mb-5">
+							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+								<span class="required">Department Header</span>
+								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department Header"></i>
+							</label>
+							<select data-control="select2" data-dropdown-parent="#modal_department_editsubdepartment" data-placeholder="Department Header" class="form-select form-select-solid" name="department_departmentheader_edit" id="department_departmentheader_edit" required>
+								<?php echo $masterdepartment;?>
+							</select>
+						</div>
+                        <div class="col-xl-6 mb-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Department Name</label>
                             <input type="text" class="form-control form-control-solid" id="department_name_edit" name="department_name_edit" required>
                         </div>
-                        <div class="col-xl-3 mb-5">
+                        <div class="col-xl-3 mb-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Department Code</label>
-                            <input type="text" class="form-control form-control-solid" id="department_code_edit" name="department_code_edit" required>
+                            <input type="text" class="form-control form-control-solid" id="department_code_edit" name="department_code_edit">
+                        </div>
+                        <div class="col-xl-9 mb-2">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Position Name</label>
+                            <input type="text" class="form-control form-control-solid" id="department_position_edit" name="department_position_edit" required>
                         </div>
                     </div>
                 </div>

@@ -19,20 +19,27 @@
             }else{
                 $parameter="and a.org_id='".$_SESSION['orgid']."'";
             }
-            $resultmasterorganization   = $this->md->masterorganization($parameter);
+
+            $resultmasterorganization = $this->md->masterorganization($parameter);
+            $resultmasterdepartment   = $this->md->masterdepartment();
 
             $masterorganization="";
             foreach($resultmasterorganization as $a ){
                 $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
             }
 
+            $masterdepartment="";
+            foreach($resultmasterdepartment as $a ){
+                $masterdepartment.="<option value='".$a->department_id."'>".$a->keterangan."</option>";
+            }
+
             $data['masterorganization']   = $masterorganization;
+            $data['masterdepartment']   = $masterdepartment;
             return $data;
         }
 
 		public function masterdatadepartment(){
-            $orgid = $this->input->post("orgid");
-            $result = $this->md->masterdatadepartment($_SESSION['groupid'],$orgid);
+            $result = $this->md->masterdatadepartment();
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -66,13 +73,12 @@
         }
 
         public function insertdepartment(){
-
-            $data['org_id']        = $_SESSION['orgid'];
             $data['department_id'] = generateuuid();
-            $data['header_id']     = $this->input->post("headerid");
+            $data['header_id']     = $this->input->post("department_departmentheader");
             $data['level_id']      = $this->input->post("levelid");
             $data['department']    = $this->input->post("department_name");
             $data['code']          = $this->input->post("department_code");
+            $data['jabatan']       = $this->input->post("department_position");
             $data['created_by']    = $_SESSION['userid'];
             $data['created_date']  = date("Y-m-d H:i:s");
 
@@ -90,7 +96,9 @@
         }
 
         public function editdepartment(){
+            $data['header_id']  = $this->input->post("department_departmentheader_edit");
             $data['department'] = $this->input->post("department_name_edit");
+            $data['jabatan']    = $this->input->post("department_position_edit");
             $data['code']       = $this->input->post("department_code_edit");
 
             if($this->md->updatedepartment($data,$this->input->post("departmentidedit"))){

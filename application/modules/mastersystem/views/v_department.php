@@ -1,38 +1,30 @@
-<div class="col-md-12" >    
-    <div class="row g-5 g-xl-8">
-        <div class="col-md-12">
-            <div class="card card-flush">
-                <div class="card-header pt-5">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder fs-3 mb-1">List Of Department</span>
-                        <span class="text-muted mt-1 fw-bold fs-7" id="info_list_activity"></span>
-                    </h3>
-                    <!-- <div class="card-toolbar">
-                        <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="5" y="5" width="5" height="5" rx="1" fill="#000000"></rect>
-                                        <rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3"></rect>
-                                        <rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"></rect>
-                                        <rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"></rect>
-                                    </g>
-                                </svg>
-                            </span>
-                        </button>
-                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
-                            <div class="menu-item px-3">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#modal_activity_add" class="menu-link flex-stack px-3">Add Activity
-                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Add Activity" aria-label="Specify a target name for future usage and reference"></i></a>
-                            </div>
-                        </div>
-                    </div> -->
+<div class="row gy-5 g-xl-8 mb-xl-8">
+    <div class="col-xl-12">
+        <div class="card card-flush h-100">
+            <div class="card-header pt-5">
+                <div class="card-title flex-column">
+                    <h3 class="fw-bolder mb-1">Struktur Organisasi</h3>
+                    <div class="fs-6 fw-bold text-gray-400" id="info_list_todo"></div>
                 </div>
-                <div class="card-body py-3">
-                    <div id="listdepartment"></div>
+                <div class="card-toolbar">
+                    <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 fw-bolder m-5" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a id="kt_activity_today_tab" class="nav-link justify-content-center text-active-gray-800 text-hover-gray-800 active" data-bs-toggle="tab" role="tab" href="#kt_activity_today" aria-selected="true">Version 1</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a id="kt_activity_week_tab" class="nav-link justify-content-center text-active-gray-800" data-bs-toggle="tab" role="tab" href="#kt_activity_week" aria-selected="false">Version 2</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div id="kt_activity_today" class="card-body p-0 tab-pane fade show active mh-500px scroll-y me-n5 pe-5" role="tabpanel" aria-labelledby="kt_activity_today_tab">
+                        <div id="listdepartment"></div>
+                    </div>
+                    <div id="kt_activity_week" class="card-body p-0 tab-pane" role="tabpanel" aria-labelledby="kt_activity_week_tab"><div id="tree" style="width:100%; height:700px;"></div></div>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>

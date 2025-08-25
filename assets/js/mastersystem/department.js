@@ -1,4 +1,5 @@
 masterdatadepartment();
+chart();
 
 const filterusername = new Tagify(document.querySelector("#filterusername"), { enforceWhitelist: true });
 const filtername     = new Tagify(document.querySelector("#filtername"), { enforceWhitelist: true });
@@ -10,12 +11,14 @@ $("#modal_department_addsubdepartment").on('show.bs.modal', function(){
     $(":hidden[name='headerid']").val("");
     $("hidden[name='levelid']").val("");
     $("input[name='department_name']").val("");
+    $("input[name='department_position']").val("");
 });
 
 $("#modal_department_addsubdepartment").on('hide.bs.modal', function(){
     $(":hidden[name='headerid']").val("");
     $("hidden[name='levelid']").val("");
     $("input[name='department_name']").val("");
+    $("input[name='department_position']").val("");
 });
 
 function filterTable() {
@@ -40,6 +43,7 @@ function filterTable() {
 function getdata(btn) {
     var departmentid            = btn.attr("data_departmentid");
     var data_department         = btn.attr("data_department");
+    var data_jabatan            = btn.attr("data_jabatan");
     var data_departmentcode     = btn.attr("data_departmentcode");
     var data_departmentidheader = btn.attr("data_departmentidheader");
     var levelid                 = btn.attr("data_levelid");
@@ -51,6 +55,8 @@ function getdata(btn) {
     $(":hidden[name='levelid']").val(parseFloat(levelid)+1);
 
     $("input[name='department_name_edit']").val(data_department);
+    $("input[name='department_position_edit']").val(data_jabatan);
+
     if(data_departmentcode==="null"){
         $("input[name='department_code_edit']").val('');
     }else{
@@ -97,6 +103,7 @@ function adduser(btn){
 $(document).on("change", "select[name='selectorganization']", function (e) {
     e.preventDefault();
     masterdatadepartment();
+    chart();
 });
 
 function masterdatadepartment(){
@@ -124,13 +131,15 @@ function masterdatadepartment(){
 
                             getvariabel =   "data_departmentid='" + result[j].department_id + "'"+
                                             "data_department='" + result[j].department + "'"+
+                                            "data_jabatan='" + result[j].jabatan + "'"+
                                             "data_departmentcode='" + result[j].code + "'"+
                                             "data_levelid='" + result[j].level_id + "'";
 
                             childElements += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' style='margin-left:" + indent + "px;' data-kt-search-element='customer'>";
                             childElements += "<div class='fw-bold'>";
-                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].code ? "<span class='badge badge-light-info'>"+result[j].code+"</span> " : "")+ result[j].department + "</span><br>";
-                            childElements += "<span class='fs-6 text-muted me-2'>"+ (result[j].namapj ? result[j].namapj : "") + " </span>";
+                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+result[j].department + "</span><br>";
+                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].code ? "<span class='badge badge-light-info'>"+result[j].code+"</span> " : "")+(result[j].jabatan ? result[j].jabatan : "")+"</span><br>";
+                            childElements += "<span class='fs-6 text-muted me-2'>"+(result[j].namapj ? result[j].namapj : "")+" </span>";
                             childElements += "</div>";
                             childElements += "<div class='fw-bold d-flex justify-content-end'>";
                                 childElements += "<div class='btn-group' role='group'>";
@@ -152,7 +161,6 @@ function masterdatadepartment(){
                     return childElements;
                 }
 
-                // Generate top-level elements
                 for(var i in result) {
                     if(result[i].level_id==="1"){
                         getvariabel =   "data_departmentid='" + result[i].department_id + "'"+
@@ -163,6 +171,7 @@ function masterdatadepartment(){
                         tableresult += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' data-kt-search-element='customer'>";
                         tableresult += "<div class='fw-bold'>";
                         tableresult += "<span class='fs-6 text-gray-800 me-2'>"+ result[i].department + "</span><br>";
+                        tableresult += "<span class='fs-6 text-gray-800 me-2'>"+ (result[i].jabatan ? result[i].jabatan : "") + "</span><br>";
                         tableresult += "<span class='fs-6 text-muted me-2'>"+ (result[i].namapj ? result[i].namapj : "") + " </span>";
                         tableresult += "</div>";
                         tableresult += "<div class='fw-bold d-flex justify-content-end'>";
@@ -207,6 +216,86 @@ function masterdatadepartment(){
     });
     return false;
 };
+
+function chart(){
+    var orgid = $("#selectorganization").val();
+
+    $.ajax({
+        url: url + "index.php/mastersystem/department/masterdatadepartment",
+        data: { orgid: orgid },
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            $("#tree").html(""); // kosongkan wadah org chart
+        },
+        success: function (data) {
+            if (data.responCode === "00") {
+                var result = data.responResult;
+
+                let nodes = [];
+
+                nodes.push({ id: "top-management", tags: ["top-management"] });
+
+                $.each(result, function (i, row) {
+                    nodes.push({
+                        id: "dept-" + row.department_id,
+                        pid: row.header_id ? "dept-" + row.header_id : "top-management",
+                        tags: ["department"],
+                        name: row.department
+                    });
+
+                    nodes.push({
+                        id   : "emp-" + row.department_id + "-" + i,
+                        stpid: "dept-" + row.department_id,
+                        name : row.namapj || "",
+                        title: row.jabatan || "",
+                        img  : url+"assets/images/svg/avatars/001-boy.svg"
+                    });
+                });
+
+                // buat orgchart
+                let chart = new OrgChart(document.getElementById("tree"), {
+                    template: "ana",
+                    enableDragDrop: false,
+                    nodeBinding: {
+                        field_0: "name",
+                        field_1: "title",
+                        img_0: "img"
+                    },
+                    tags: {
+                        "top-management": {
+                            template: "invisibleGroup",
+                            subTreeConfig: {
+                                orientation: OrgChart.orientation.bottom,
+                                collapse: { level: 1 }
+                            }
+                        },
+                        "department": {
+                            template: "group",
+                            nodeMenu: {
+                                addManager: { text: "Add Manager" },
+                                remove: { text: "Remove Department" }
+                            }
+                        }
+                    },
+                    toolbar: {
+                        fullScreen: true,
+                        zoom: true,
+                        fit: true,
+                        expandAll: true
+                    },
+                    nodes: nodes
+                });
+            } else {
+                Swal.fire("Info", "Data department tidak ditemukan", "warning");
+            }
+        },
+        error: function (xhr, status, error) {
+            Swal.fire("Error", error, "error");
+        }
+    });
+}
 
 function masteruser(){
     $.ajax({
@@ -334,6 +423,7 @@ $(document).on("submit", "#forminsertdepartment", function (e) {
 		success: function (data) {
             if(data.responCode == "00"){
                 masterdatadepartment();
+                chart();
                 $('#modal_department_addsubdepartment').modal('hide');
 			}
 
@@ -383,6 +473,7 @@ $(document).on("submit", "#formeditdepartment", function (e) {
 
             if(data.responCode == "00"){
                 masterdatadepartment();
+                chart();
                 $('#modal_department_editsubdepartment').modal('hide');
 			}
 
