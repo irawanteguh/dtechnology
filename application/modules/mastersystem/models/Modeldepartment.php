@@ -8,7 +8,6 @@
                         from dt01_gen_organization_ms a
                         where a.active='1'
                         and   a.holding='N'
-                        and   a.org_id='10c84edd-500b-49e3-93a5-a2c8cd2c8524'
                         ".$parameter."
                         order by org_name asc
                     ";

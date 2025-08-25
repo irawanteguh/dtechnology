@@ -143,11 +143,10 @@
         function masterbagian($orgid,$headerid){
             $query =
                     "
-                        select a.department_id, replace(replace(department,'Wakil Direktur ',''),'Manajer ','')department
+                        select a.department_id, department
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
-                        and   a.level_id=4
                         and   a.header_id='".$headerid."'
                         order by department asc
                     ";
@@ -165,7 +164,6 @@
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
-                        and   a.level_id=5
                         and   a.header_id='".$headerid."'
                         order by department asc
                     ";
