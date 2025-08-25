@@ -14,6 +14,32 @@ $("#modal_department_addsubdepartment").on('show.bs.modal', function(){
     $("input[name='department_position']").val("");
 });
 
+
+$("#modal_department_editsubdepartment").on('show.bs.modal', function(event){
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    var button              = $(event.relatedTarget);
+    var departmentid        = button.attr("data_departmentid");
+    var data_department     = button.attr("data_department");
+    var data_jabatan        = button.attr("data_jabatan");
+    var data_departmentcode = button.attr("data_departmentcode");
+    var data_headerid       = button.attr("data_headerid");
+    var levelid             = button.attr("data_levelid");
+     
+    $(":hidden[name='departmentidedit']").val(departmentid);
+    $(":hidden[name='levelid']").val(parseFloat(levelid)+1);
+
+    $("input[name='department_name_edit']").val((!data_department || data_department === "null") ? "" : data_department);
+    $("input[name='department_position_edit']").val((!data_jabatan || data_jabatan === "null") ? "" : data_jabatan);
+    $("input[name='department_code_edit']").val((!data_departmentcode || data_departmentcode === "null") ? "" : data_departmentcode);
+
+    var $data_headerid = $('#department_departmentheader_edit').select2();
+        $data_headerid.val(data_headerid).trigger('change');
+});
+
 $("#modal_department_addsubdepartment").on('hide.bs.modal', function(){
     $(":hidden[name='headerid']").val("");
     $("hidden[name='levelid']").val("");
@@ -41,27 +67,7 @@ function filterTable() {
 }
 
 function getdata(btn) {
-    var departmentid            = btn.attr("data_departmentid");
-    var data_department         = btn.attr("data_department");
-    var data_jabatan            = btn.attr("data_jabatan");
-    var data_departmentcode     = btn.attr("data_departmentcode");
-    var data_departmentidheader = btn.attr("data_departmentidheader");
-    var levelid                 = btn.attr("data_levelid");
-     
-
-    $(":hidden[name='headerid']").val(departmentid);
-    $(":hidden[name='departmentid']").val(departmentid);
-    $(":hidden[name='departmentidedit']").val(departmentid);
-    $(":hidden[name='levelid']").val(parseFloat(levelid)+1);
-
-    $("input[name='department_name_edit']").val(data_department);
-    $("input[name='department_position_edit']").val(data_jabatan);
-
-    if(data_departmentcode==="null"){
-        $("input[name='department_code_edit']").val('');
-    }else{
-        $("input[name='department_code_edit']").val(data_departmentcode);
-    }
+    
    
     masteruser();
 };
@@ -130,6 +136,7 @@ function masterdatadepartment(){
                             var indent = level * 20;
 
                             getvariabel =   "data_departmentid='" + result[j].department_id + "'"+
+                                            "data_headerid='" + result[j].header_id + "'"+
                                             "data_department='" + result[j].department + "'"+
                                             "data_jabatan='" + result[j].jabatan + "'"+
                                             "data_departmentcode='" + result[j].code + "'"+
@@ -137,7 +144,7 @@ function masterdatadepartment(){
 
                             childElements += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' style='margin-left:" + indent + "px;' data-kt-search-element='customer'>";
                             childElements += "<div class='fw-bold'>";
-                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+result[j].department + "</span><br>";
+                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].department ? result[j].department : "") + "</span><br>";
                             childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].code ? "<span class='badge badge-light-info'>"+result[j].code+"</span> " : "")+(result[j].jabatan ? result[j].jabatan : "")+"</span><br>";
                             childElements += "<span class='fs-6 text-muted me-2'>"+(result[j].namapj ? result[j].namapj : "")+" </span>";
                             childElements += "</div>";

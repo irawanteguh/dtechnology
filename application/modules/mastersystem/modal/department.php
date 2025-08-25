@@ -16,7 +16,7 @@
                         <div class="text-muted fw-bold fs-5">Please Add Sub Department</div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-6 mb-5">
+                        <div class="col-xl-12 mb-5">
 							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 								<span class="required">Department Header</span>
 								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department Header"></i>
@@ -65,7 +65,7 @@
                         <div class="text-muted fw-bold fs-5">Please Edit Sub Department</div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-6 mb-5">
+                        <div class="col-xl-12 mb-2">
 							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 								<span class="required">Department Header</span>
 								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Department Header"></i>
@@ -74,9 +74,9 @@
 								<?php echo $masterdepartment;?>
 							</select>
 						</div>
-                        <div class="col-xl-6 mb-2">
+                        <div class="col-xl-9 mb-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Department Name</label>
-                            <input type="text" class="form-control form-control-solid" id="department_name_edit" name="department_name_edit" required>
+                            <input type="text" class="form-control form-control-solid" id="department_name_edit" name="department_name_edit">
                         </div>
                         <div class="col-xl-3 mb-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Department Code</label>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="col-xl-9 mb-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Position Name</label>
-                            <input type="text" class="form-control form-control-solid" id="department_position_edit" name="department_position_edit" required>
+                            <input type="text" class="form-control form-control-solid" id="department_position_edit" name="department_position_edit">
                         </div>
                     </div>
                 </div>

@@ -18,13 +18,20 @@
             return $recordset;
         }
 
-        function masterdepartment(){
+        function masterdepartment($orgid){
             $query =
                     "
-                        select a.department_id, concat(department,'-',ifnull(jabatan,''))keterangan
-                        from dt01_hrd_department_ms a
+                        select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id
+                        from dt01_gen_department_ms a
                         where a.active='1'
-                        order by department asc
+                        and   a.holding='Y'
+                        union
+                        select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.holding='N'
+                        order by level_id asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -32,13 +39,20 @@
             return $recordset;
         }
         
-        function masterdatadepartment(){
+        function masterdatadepartment($orgid){
             $query =
                     "
                         select a.department_id, header_id, department, jabatan, level_id, code,
                                (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj
-                        from dt01_hrd_department_ms a
+                        from dt01_gen_department_ms a
                         where a.active='1'
+                        and   a.holding='Y'
+                        union
+                        select a.department_id, header_id, department, jabatan, level_id, code,
+                               (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
                     ";
 
             $recordset = $this->db->query($query);
@@ -61,12 +75,12 @@
         }
 
         function insertdepartment($data){           
-            $sql =   $this->db->insert("dt01_hrd_department_ms",$data);
+            $sql =   $this->db->insert("dt01_gen_department_ms",$data);
             return $sql;
         }
 
         function updatedepartment($data,$departmentid){           
-            $sql =   $this->db->update("dt01_hrd_department_ms",$data,array("department_id"=>$departmentid));
+            $sql =   $this->db->update("dt01_gen_department_ms",$data,array("department_id"=>$departmentid));
             return $sql;
         }
 

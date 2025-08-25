@@ -21,25 +21,37 @@
             }
 
             $resultmasterorganization = $this->md->masterorganization($parameter);
-            $resultmasterdepartment   = $this->md->masterdepartment();
+            $resultmasterdepartment   = $this->md->masterdepartment($_SESSION['orgid']);
 
             $masterorganization="";
             foreach($resultmasterorganization as $a ){
                 $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
             }
 
-            $masterdepartment="";
-            foreach($resultmasterdepartment as $a ){
-                $masterdepartment.="<option value='".$a->department_id."'>".$a->keterangan."</option>";
-            }
+            $masterdepartment = $this->buildOptions($resultmasterdepartment);
 
             $data['masterorganization']   = $masterorganization;
             $data['masterdepartment']   = $masterdepartment;
             return $data;
         }
 
+        private function buildOptions($items, $parent_id = null, $level = 0){
+            $html = "";
+            foreach ($items as $item) {
+                if ($item->header_id == $parent_id) {
+                    $indent = str_repeat("&nbsp;&nbsp;&nbsp;", $level);
+                    $html .= "<option value='".$item->department_id."'>".$indent.$item->keterangan."</option>";
+                    // Rekursif untuk anak
+                    $html .= $this->buildOptions($items, $item->department_id, $level+1);
+                }
+            }
+
+            return $html;
+        }
+
 		public function masterdatadepartment(){
-            $result = $this->md->masterdatadepartment();
+            $orgid = $this->input->post("orgid");
+            $result = $this->md->masterdatadepartment($orgid);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -97,9 +109,11 @@
 
         public function editdepartment(){
             $data['header_id']  = $this->input->post("department_departmentheader_edit");
-            $data['department'] = $this->input->post("department_name_edit");
-            $data['jabatan']    = $this->input->post("department_position_edit");
-            $data['code']       = $this->input->post("department_code_edit");
+            $data['department'] = $this->input->post("department_name_edit") !== "" ? $this->input->post("department_name_edit") : null;
+            $data['jabatan']    = $this->input->post("department_position_edit") !== "" ? $this->input->post("department_position_edit") : null;
+            $data['code']       = $this->input->post("department_code_edit") !== "" ? $this->input->post("department_code_edit") : null;
+
+
 
             if($this->md->updatedepartment($data,$this->input->post("departmentidedit"))){
                 $json['responCode']="00";
