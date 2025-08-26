@@ -5,7 +5,7 @@ $("#modal_master_detail_spu").on('shown.bs.modal', function(event){
     var datanopemesanan  = button.attr("datanopemesanan");
     
     $(":hidden[name='nopemesanan_item']").val(datanopemesanan);
-    detailbarangspu(datanopemesanan,"MANAGER");
+    detailbarangspu(datanopemesanan,"FINANCE");
 });
 
 $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
@@ -14,7 +14,7 @@ $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
 
 function datapemesanan(){
     $.ajax({
-        url       : url+"index.php/logistiknew/approvalmanager/datapemesanan",
+        url       : url+"index.php/logistiknew/approvalfinance/datapemesanan",
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -60,11 +60,13 @@ function datapemesanan(){
                         rows +="<div class='btn-group' role='group'>";
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                            
-                            if(result[i].status==="2" || result[i].status==="19"){
+
+                            if(result[i].status==="4"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
-                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='4' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='3' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                                if(result[i].methodid==="4"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='6' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='5' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                                }
                             }
 
                             if(result[i].attachment==="1"){
@@ -81,15 +83,15 @@ function datapemesanan(){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "2" || result[i].status === "19"){
+                    if(result[i].status === "4"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "3" || result[i].status === "5"){
+                        if(result[i].status === "5"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "4"){
-                                resultdataapprove += rows;
-                            }
+                            // if(result[i].status === "4" || result[i].status === "19"){
+                            //     resultdataapprove += rows;
+                            // }
                         }
                     }
                 }

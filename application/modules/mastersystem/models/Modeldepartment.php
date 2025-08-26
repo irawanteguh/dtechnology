@@ -41,17 +41,20 @@
         function masterdatadepartment($orgid){
             $query =
                     "
-                        select a.department_id, header_id, department, jabatan, level_id, code,
-                               (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj
+                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator,
+                               (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj,
+                               (select level_id from dt01_gen_department_ms where department_id=a.header_id)levelidhead
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.holding='Y'
                         union
-                        select a.department_id, header_id, department, jabatan, level_id, code,
-                               (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj
+                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator,
+                               (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj,
+                               (select level_id from dt01_gen_department_ms where department_id=a.header_id)levelidhead
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
+                        order by department asc
                     ";
 
             $recordset = $this->db->query($query);

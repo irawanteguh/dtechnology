@@ -30,6 +30,7 @@
                                     </svg>
                                 </span>
                             </a>
+                            <a href="#" class="btn btn-sm btn-light-success fw-bold ms-2 fs-8 py-1 px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan"><?php echo $_SESSION['hospitalname']?></a>
                         </div>
                         <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
                             <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">

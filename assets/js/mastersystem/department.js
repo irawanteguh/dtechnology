@@ -7,13 +7,24 @@ const filtername     = new Tagify(document.querySelector("#filtername"), { enfor
 filterusername.on('change', filterTable);
 filtername.on('change', filterTable);
 
-$("#modal_department_addsubdepartment").on('show.bs.modal', function(){
-    $(":hidden[name='headerid']").val("");
-    $("hidden[name='levelid']").val("");
-    $("input[name='department_name']").val("");
-    $("input[name='department_position']").val("");
+$("#modal_department_addsubdepartment").on('show.bs.modal', function(event){
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    var button               = $(event.relatedTarget);
+    var levelid              = button.attr("data_levelid");
+
+    $(":hidden[name='levelid']").val(parseFloat(levelid)+1);
 });
 
+$("#modal_department_addsubdepartment").on('hide.bs.modal', function(){
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+});
 
 $("#modal_department_editsubdepartment").on('show.bs.modal', function(event){
     $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
@@ -21,30 +32,39 @@ $("#modal_department_editsubdepartment").on('show.bs.modal', function(event){
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
 
-    var button              = $(event.relatedTarget);
-    var departmentid        = button.attr("data_departmentid");
-    var data_department     = button.attr("data_department");
-    var data_jabatan        = button.attr("data_jabatan");
-    var data_departmentcode = button.attr("data_departmentcode");
-    var data_headerid       = button.attr("data_headerid");
-    var levelid             = button.attr("data_levelid");
+    var button               = $(event.relatedTarget);
+    var departmentid         = button.attr("data_departmentid");
+    var data_department      = button.attr("data_department");
+    var data_jabatan         = button.attr("data_jabatan");
+    var data_departmentcode  = button.attr("data_departmentcode");
+    var data_headerid        = button.attr("data_headerid");
+    var data_headkoordinator = button.attr("data_headkoordinator");
+    var levelid              = button.attr("data_levelid");
+    var data_levelidhead     = button.attr("data_levelidhead");
      
     $(":hidden[name='departmentidedit']").val(departmentid);
-    $(":hidden[name='levelid']").val(parseFloat(levelid)+1);
+    $(":hidden[name='levelidedit']").val(parseFloat(data_levelidhead)+1);
 
     $("input[name='department_name_edit']").val((!data_department || data_department === "null") ? "" : data_department);
     $("input[name='department_position_edit']").val((!data_jabatan || data_jabatan === "null") ? "" : data_jabatan);
     $("input[name='department_code_edit']").val((!data_departmentcode || data_departmentcode === "null") ? "" : data_departmentcode);
+    $("#department_koordinator_edit").prop("checked", data_headkoordinator === "Y");
 
     var $data_headerid = $('#department_departmentheader_edit').select2();
         $data_headerid.val(data_headerid).trigger('change');
 });
 
-$("#modal_department_addsubdepartment").on('hide.bs.modal', function(){
-    $(":hidden[name='headerid']").val("");
-    $("hidden[name='levelid']").val("");
-    $("input[name='department_name']").val("");
-    $("input[name='department_position']").val("");
+$("#modal_department_adduser").on('show.bs.modal', function(event){
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+
+    var button              = $(event.relatedTarget);
+    var departmentid        = button.attr("data_departmentid");
+     
+    $(":hidden[name='departmentidadduser']").val(departmentid);
+    
 });
 
 function filterTable() {
@@ -67,17 +87,15 @@ function filterTable() {
 }
 
 function getdata(btn) {
-    
-   
     masteruser();
 };
 
 function adduser(btn){
-    var userid       = btn.attr("data-userid");
-    var departmentid = $("[name='departmentid']").val();
+    var userid              = btn.attr("data-userid");
+    var departmentidadduser = $("[name='departmentidadduser']").val();
 	$.ajax({
         url        : url+"index.php/mastersystem/department/adduser",
-        data       : {userid:userid,departmentid:departmentid},
+        data       : {userid:userid,departmentidadduser:departmentidadduser},
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -140,7 +158,9 @@ function masterdatadepartment(){
                                             "data_department='" + result[j].department + "'"+
                                             "data_jabatan='" + result[j].jabatan + "'"+
                                             "data_departmentcode='" + result[j].code + "'"+
-                                            "data_levelid='" + result[j].level_id + "'";
+                                            "data_headkoordinator='" + result[j].head_koordinator + "'"+
+                                            "data_levelid='" + result[j].level_id + "'"+
+                                            "data_levelidhead='" + result[j].levelidhead + "'";
 
                             childElements += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' style='margin-left:" + indent + "px;' data-kt-search-element='customer'>";
                             childElements += "<div class='fw-bold'>";

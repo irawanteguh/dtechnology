@@ -346,7 +346,7 @@ function chat(refid) {
     return false;
 };
 
-function detailbarangspu(nopemesanan){
+function detailbarangspu(nopemesanan,validator){
     $.ajax({
         url       : url+"index.php/logistiknew/request/detailbarangspu",
         data      : {nopemesanan:nopemesanan},
@@ -381,16 +381,16 @@ function detailbarangspu(nopemesanan){
                     tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
 
                     tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='stock_${result[i].item_id}' name='stock_${result[i].item_id}' value='${todesimal(stock)}' disabled></td>`;
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data_validator='MANAGER' onchange='updatedetail(this)'></td>`;
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data_validator='MANAGER' onchange='updatedetail(this)'></td>`;
-                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data_validator='MANAGER' onchange='updatedetail(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_${result[i].item_id}' name='qty_${result[i].item_id}' value='${todesimal(qty)}' data_validator='${validator}' onchange='updatedetail(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].item_id}' name='harga_${result[i].item_id}' value='${todesimal(result[i].harga)}' data_validator='${validator}' onchange='updatedetail(this)'></td>`;
+                    tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].item_id}' name='vat_${result[i].item_id}' value='${todesimal(vatPercent)}' data_validator='${validator}' onchange='updatedetail(this)'></td>`;
 
                     tableresult += `<td class='text-end' id='vat_amount_${result[i].item_id}'>${todesimal(vatAmount)}</td>`;
                     tableresult += `<td class='text-end pe-4' id='subtotal_${result[i].item_id}'>${todesimal(subtotal)}</td>`;
                     if(result[i].note!=null){
                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' value='${result[i].note}' data_validator='MANAGER' onchange='updatedetail(this)'></td>`;
                     }else{
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' data_validator='MANAGER' onchange='updatedetail(this)'></td>`;
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='note_${result[i].item_id}' data_validator='${validator}' onchange='updatedetail(this)'></td>`;
                     }
                     tableresult += "</tr>";
 

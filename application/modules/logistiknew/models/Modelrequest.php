@@ -75,6 +75,7 @@
                         where a.active='1'
                         and   a.org_id='".$orgid."'
                         and   a.user_id='".$userid."'
+                        and   a.level_id='5'
                         order by department asc
                     ";
 
@@ -232,6 +233,23 @@
                         'No Pemesanan : ', a.no_pemesanan_unit,
                         ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
                         ', ', a.judul_pemesanan,
+                        ', <span class=''badge badge-light-info''>Disetujui Koordinator</span>'
+                    ) as chat,
+                    date_format(a.koordinator_date,'%d.%m.%Y %H.%i.%s') jambuat,
+                    a.koordinator_date createddate,
+                    a.created_by
+                    from dt01_lgu_pemesanan_hd a
+                    where a.active='1'
+                    and   a.status in ('4','19')
+                    and   a.no_pemesanan='".$refid."'
+
+                    union
+
+                    -- pemesanan info
+                    select concat(
+                        'No Pemesanan : ', a.no_pemesanan_unit,
+                        ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
+                        ', ', a.judul_pemesanan,
                         ', <span class=''badge badge-light-info''>Disetujui Manager</span>'
                     ) as chat,
                     date_format(a.manager_date,'%d.%m.%Y %H.%i.%s') jambuat,
@@ -350,6 +368,24 @@
                         where a.org_id='".$orgid."'
                         and   a.no_pemesanan='".$nopemesanan."'
                         and   a.barang_id='".$barangid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function cekkoordinator($orgid,$nopemesanan){
+            $query =
+                    "
+                        select head_koordinator
+                        from dt01_gen_department_ms
+                        where department_id=(
+                                                select a.department_id
+                                                from dt01_lgu_pemesanan_hd a
+                                                where a.org_id='".$orgid."'
+                                                and   a.no_pemesanan='".$nopemesanan."'
+                                            )
                     ";
 
             $recordset = $this->db->query($query);

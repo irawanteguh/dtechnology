@@ -85,6 +85,7 @@
         }
 
         public function insertdepartment(){
+            $data['org_id']        = $_SESSION['orgid'];
             $data['department_id'] = generateuuid();
             $data['header_id']     = $this->input->post("department_departmentheader");
             $data['level_id']      = $this->input->post("levelid");
@@ -108,12 +109,14 @@
         }
 
         public function editdepartment(){
-            $data['header_id']  = $this->input->post("department_departmentheader_edit");
-            $data['department'] = $this->input->post("department_name_edit") !== "" ? $this->input->post("department_name_edit") : null;
-            $data['jabatan']    = $this->input->post("department_position_edit") !== "" ? $this->input->post("department_position_edit") : null;
-            $data['code']       = $this->input->post("department_code_edit") !== "" ? $this->input->post("department_code_edit") : null;
-
-
+            $data['level_id']         = $this->input->post("levelidedit");
+            $data['header_id']        = $this->input->post("department_departmentheader_edit");
+            $data['department']       = $this->input->post("department_name_edit")     !== "" ? $this->input->post("department_name_edit") : null;
+            $data['jabatan']          = $this->input->post("department_position_edit") !== "" ? $this->input->post("department_position_edit") : null;
+            $data['code']             = $this->input->post("department_code_edit")     !== "" ? $this->input->post("department_code_edit") : null;
+            $data['head_koordinator'] = $this->input->post("department_koordinator_edit") === "Y" ? "Y" : "N";
+            $data['last_update_by']   = $_SESSION['userid'];
+            $data['last_update_date'] = date("Y-m-d H:i:s");
 
             if($this->md->updatedepartment($data,$this->input->post("departmentidedit"))){
                 $json['responCode']="00";
@@ -131,7 +134,7 @@
         public function adduser(){
             $data['user_id']     = $this->input->post("userid");
 
-            if($this->md->updatedepartment($data,$this->input->post("departmentid"))){
+            if($this->md->updatedepartment($data,$this->input->post("departmentidadduser"))){
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Added Successfully";

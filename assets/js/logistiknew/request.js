@@ -172,6 +172,10 @@ function datapemesanan(){
                             if(result[i].status==="0" || result[i].status==="2"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
                             }
+
+                            if(result[i].status==="6"){
+                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                            }
                             
                             
                             if(result[i].attachment==="1"){
@@ -198,10 +202,10 @@ function datapemesanan(){
                     if(result[i].status === "0"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "1" || result[i].status === "3"){
+                        if(result[i].status === "1" || result[i].status === "3" || result[i].status === "5" || result[i].status === "18"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "2" || result[i].status === "4"){
+                            if(result[i].status === "2" || result[i].status === "4" || result[i].status === "6" || result[i].status === "19"){
                                 resultdataapprove += rows;
                             }
                         }
@@ -471,6 +475,7 @@ $(document).on("submit", "#formnewpurchaseorder", function (e) {
 		success: function (data) {
 
             if(data.responCode == "00"){
+                datapemesanan();
                 $("#modal_new_po").modal("hide");
 			}
 

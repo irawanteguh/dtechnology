@@ -69,7 +69,7 @@
         public function datapemesanan(){
             $status  = "
                             and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                            and   a.status in ('0','1','2','3','4')
+                            and   a.status in ('0','1','2','3','4','5','6','18','19')
                         ";
             $orderby = "order by created_date desc;";
 
@@ -127,21 +127,29 @@
             $note         = $this->input->post('note');
             $itemid       = generateuuid();
 
+            $resultcekkoordinator = $this->md->cekkoordinator($_SESSION['orgid'],$no_pemesanan)->head_koordinator;
+
+            $data['org_id']          = $_SESSION['orgid'];
+            $data['no_pemesanan']    = $no_pemesanan;
+            $data['barang_id']       = $barangid;
+            $data['stock']           = $stock;
+            $data['qty_minta']       = $qty;
+
+            if($resultcekkoordinator==="Y"){
+                $data['qty_koordinator'] = $qty;
+            }else{
+                $data['qty_koordinator'] = $qty;
+                $data['qty_manager']     = $qty;
+            }
             
-            $data['org_id']       = $_SESSION['orgid'];
-            $data['no_pemesanan'] = $no_pemesanan;
-            $data['barang_id']    = $barangid;
-            $data['stock']        = $stock;
-            $data['qty_minta']    = $qty;
-            $data['qty_manager']  = $qty;
-            $data['kains_id']     = $_SESSION['userid'];
-            $data['kains_date']   = date('Y-m-d H:i:s');
-            $data['harga']        = $harga;
-            $data['ppn']          = $ppn*100;
-            $data['harga_ppn']    = $vat_amount;
-            $data['total']        = $subtotal;
-            $data['note']         = $note;
-            $data['created_by']   = $_SESSION['userid'];
+            $data['kains_id']        = $_SESSION['userid'];
+            $data['kains_date']      = date('Y-m-d H:i:s');
+            $data['harga']           = $harga;
+            $data['ppn']             = $ppn*100;
+            $data['harga_ppn']       = $vat_amount;
+            $data['total']           = $subtotal;
+            $data['note']            = $note;
+            $data['created_by']      = $_SESSION['userid'];
             if($qty==="0"){
                 $data['active']   = "0";
             }else{
@@ -212,6 +220,117 @@
             echo json_encode($json);
         }
 
+        public function updatedetailitem(){
+            $no_pemesanan     = $this->input->post('no_pemesanan');
+            $validator        = $this->input->post('validator');
+            $item_id          = $this->input->post('item_id');
+            $qty              = $this->input->post('qty');
+            $stock            = $this->input->post('stock');
+            $harga            = $this->input->post('harga');
+            $ppn              = $this->input->post('ppn');
+            $subtotal         = $this->input->post('subtotal');
+            $vat_amount       = $this->input->post('vat_amount');
+            $note             = $this->input->post('note');
+
+            if($validator==="REQMANAGER"){
+                $data['qty_req_manager']  = $qty;
+                $data['qty_minta']        = $qty;
+                $data['req_manager_id']   = $_SESSION['userid'];
+                $data['req_manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="KAINS"){
+                $data['qty_minta']       = $qty;
+                $data['qty_koordinator'] = $qty;
+                $data['kains_id']        = $_SESSION['userid'];
+                $data['kains_date']      = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="KOORDINATOR"){
+                $data['qty_koordinator']  = $qty;
+                $data['qty_manager']      = $qty;
+                $data['koordinator_id']   = $_SESSION['userid'];
+                $data['koordinator_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="MANAGER"){
+                $data['qty_manager']  = $qty;
+                $data['qty_keu']      = $qty;
+                $data['manager_id']   = $_SESSION['userid'];
+                $data['manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="FINANCE"){
+                $data['qty_keu']        = $qty;
+                $data['qty_wadir']      = $qty;
+                $data['qty_dir']        = $qty;
+                $data['qty_com']        = $qty;
+                $data['pt_qty_atem']    = $qty;
+                $data['pt_qty_farmasi'] = $qty;
+                $data['pt_qty_it']      = $qty;
+                $data['pt_qty_cfo']     = $qty;
+                $data['pt_qty_cmo']     = $qty;
+                $data['keu_id']         = $_SESSION['userid'];
+                $data['keu_date']       = date('Y-m-d H:i:s');
+            }
+
+            // if($validator==="VICE"){
+            //     $data['qty_wadir']  = $qty;
+            //     $data['qty_dir']    = $qty;
+            //     $data['qty_com']    = $qty;
+            //     $data['wadir_id']   = $_SESSION['userid'];
+            //     $data['wadir_date'] = date('Y-m-d H:i:s');
+            // }
+
+            // if($validator==="DIR"){
+            //     $data['qty_wadir'] = $qty;
+            //     $data['qty_dir']   = $qty;
+            //     $data['qty_com']   = $qty;
+            //     $data['dir_id']    = $_SESSION['userid'];
+            //     $data['dir_date']  = date('Y-m-d H:i:s');
+            // }
+
+            // if($validator==="COM"){
+            //     $data['qty_wadir'] = $qty;
+            //     $data['qty_dir']   = $qty;
+            //     $data['qty_com']   = $qty;
+            //     $data['com_id']    = $_SESSION['userid'];
+            //     $data['com_date']  = date('Y-m-d H:i:s');
+            // }
+            
+            $data['stock']     = $stock;
+            $data['harga']     = $harga;
+            $data['ppn']       = $ppn*100;
+            $data['harga_ppn'] = $vat_amount;
+            $data['total']     = $subtotal;
+            $data['note']      = $note;
+
+            if($qty==="0"){
+                $data['active'] = "0";
+            }else{
+                $data['active'] = "1";
+            }
+
+            if($this->md->updatedetailitem($item_id,$data)){
+                $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
+
+                $dataheader['subtotal']  = $resulthitungdetail->harga;
+                $dataheader['harga_ppn'] = $resulthitungdetail->harga_ppn;
+                $dataheader['total']     = $resulthitungdetail->total;
+                $this->md->updateheader($no_pemesanan,$dataheader);
+
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
+            }
+
+            echo json_encode($json);
+        }
+
         public function uploaddocument(){
             $datanopemesanan= $_GET['datanopemesanan'];
 
@@ -254,6 +373,18 @@
                 $data['status']     = $datastatus;
                 $data['manager_id']   = $_SESSION['userid'];
                 $data['manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="KOORDINATOR"){
+                $data['status']           = $datastatus;
+                $data['koordinator_id']   = $_SESSION['userid'];
+                $data['koordinator_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="FINANCE"){
+                $data['status']   = $datastatus;
+                $data['keu_id']   = $_SESSION['userid'];
+                $data['keu_date'] = date('Y-m-d H:i:s');
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){
@@ -384,103 +515,6 @@
             echo json_encode($json);
         }
 
-        public function updatedetailitem(){
-            $no_pemesanan     = $this->input->post('no_pemesanan');
-            $validator        = $this->input->post('validator');
-            $item_id          = $this->input->post('item_id');
-            $qty              = $this->input->post('qty');
-            $stock            = $this->input->post('stock');
-            $harga            = $this->input->post('harga');
-            $ppn              = $this->input->post('ppn');
-            $subtotal         = $this->input->post('subtotal');
-            $vat_amount       = $this->input->post('vat_amount');
-            $note             = $this->input->post('note');
-
-            if($validator==="REQMANAGER"){
-                $data['qty_req_manager']  = $qty;
-                $data['qty_minta']        = $qty;
-                $data['req_manager_id']   = $_SESSION['userid'];
-                $data['req_manager_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($validator==="KAINS"){
-                $data['qty_minta']   = $qty;
-                $data['qty_manager'] = $qty;
-                $data['kains_id']    = $_SESSION['userid'];
-                $data['kains_date']  = date('Y-m-d H:i:s');
-            }
-
-            if($validator==="MANAGER"){
-                $data['qty_manager']  = $qty;
-                $data['qty_keu']      = $qty;
-                $data['manager_id']   = $_SESSION['userid'];
-                $data['manager_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($validator==="FINANCE"){
-                $data['qty_keu']   = $qty;
-                $data['qty_wadir'] = $qty;
-                $data['qty_dir']   = $qty;
-                $data['qty_com']   = $qty;
-                $data['keu_id']    = $_SESSION['userid'];
-                $data['keu_date']  = date('Y-m-d H:i:s');
-            }
-
-            if($validator==="VICE"){
-                $data['qty_wadir']  = $qty;
-                $data['qty_dir']    = $qty;
-                $data['qty_com']    = $qty;
-                $data['wadir_id']   = $_SESSION['userid'];
-                $data['wadir_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($validator==="DIR"){
-                $data['qty_wadir'] = $qty;
-                $data['qty_dir']   = $qty;
-                $data['qty_com']   = $qty;
-                $data['dir_id']    = $_SESSION['userid'];
-                $data['dir_date']  = date('Y-m-d H:i:s');
-            }
-
-            if($validator==="COM"){
-                $data['qty_wadir'] = $qty;
-                $data['qty_dir']   = $qty;
-                $data['qty_com']   = $qty;
-                $data['com_id']    = $_SESSION['userid'];
-                $data['com_date']  = date('Y-m-d H:i:s');
-            }
-            
-            $data['stock']     = $stock;
-            $data['harga']     = $harga;
-            $data['ppn']       = $ppn*100;
-            $data['harga_ppn'] = $vat_amount;
-            $data['total']     = $subtotal;
-            $data['note']      = $note;
-
-            if($qty==="0"){
-                $data['active'] = "0";
-            }else{
-                $data['active'] = "1";
-            }
-
-            if($this->md->updatedetailitem($item_id,$data)){
-                $resulthitungdetail = $this->md->hitungdetail($_SESSION['orgid'],$no_pemesanan);
-
-                $dataheader['subtotal']  = $resulthitungdetail->harga;
-                $dataheader['harga_ppn'] = $resulthitungdetail->harga_ppn;
-                $dataheader['total']     = $resulthitungdetail->total;
-                $this->md->updateheader($no_pemesanan,$dataheader);
-
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Update successful";
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Failed to update database";
-            }
-
-            echo json_encode($json);
-        }
+        
     }
 ?>

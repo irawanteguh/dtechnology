@@ -59,6 +59,7 @@
             </div>
             <form action="<?php echo base_url();?>index.php/mastersystem/department/editdepartment" id="formeditdepartment">
                 <input type="hidden" id="departmentidedit" name="departmentidedit">
+                <input type="hidden" id="levelidedit" name="levelidedit">
                 <div class="modal-body">
                     <div class="text-center mb-13">
                         <h1 class="mb-3">Edit Sub Department</h1>
@@ -86,6 +87,13 @@
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Position Name</label>
                             <input type="text" class="form-control form-control-solid" id="department_position_edit" name="department_position_edit">
                         </div>
+                        <div class="col-xl-12 mb-2">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">Report to the Coordinator :</label>
+                            <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="Y" name="department_koordinator_edit" id="department_koordinator_edit" />
+                                <label class="form-check-label">Yes</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer p-1">				
@@ -107,7 +115,7 @@
                     </span>
                 </div>
             </div>
-            <input type="hidden" id="departmentid" name="departmentid">
+            <input type="hidden" id="departmentidadduser" name="departmentidadduser">
             <div class="modal-body">
                 <div class="text-center mb-13">
                     <h1 class="mb-3">Add User Department</h1>
