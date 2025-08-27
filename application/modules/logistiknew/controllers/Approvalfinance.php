@@ -13,8 +13,12 @@
         }
 
         public function datapemesanan(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
+
             $status  = " 
-                            and   a.status in ('4','5')
+                            and   a.status in ('4','5','6')
+                            and   date(a.created_date) between '".$startDate."' and '".$endDate."'
                         ";
             $orderby = "order by created_date desc;";
 

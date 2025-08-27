@@ -26,7 +26,6 @@
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Pemesanan</th>
-                                        <th>Jenis</th>
                                         <th>Pengadaan</th>
                                         <th>Department</th>
                                         <th>Supplier</th>
@@ -48,7 +47,6 @@
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Pemesanan</th>
-                                        <th>Jenis</th>
                                         <th>Pengadaan</th>
                                         <th>Department</th>
                                         <th>Supplier</th>
@@ -70,7 +68,6 @@
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="ps-4 rounded-start">No Pemesanan</th>
-                                        <th>Jenis</th>
                                         <th>Pengadaan</th>
                                         <th>Department</th>
                                         <th>Supplier</th>

@@ -34,9 +34,6 @@ function datapemesanan(){
             if(data.responCode==="00"){
                 result = data.responResult;
                 for(var i in result){
-
-                    cito   = result[i].cito === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
-
                     var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
                                         " datanopemesananunit='"+result[i].no_pemesanan_unit+"'"+
                                         " datajudulpemesanan='"+result[i].judul_pemesanan+"'"+
@@ -46,8 +43,7 @@ function datapemesanan(){
 
                 let rows  ="<tr>";
                     rows +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
-                    rows +="<td><div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
-                    rows +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+cito+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>"; 
+                    rows += "<td>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
                     rows +="<td>"+result[i].unitpelaksana+"</td>";
                     rows +="<td>"+result[i].namasupplier+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -87,7 +83,7 @@ function datapemesanan(){
                         if(result[i].status === "3" || result[i].status === "5"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "4"){
+                            if(result[i].status === "4" || result[i].status === "6"){
                                 resultdataapprove += rows;
                             }
                         }

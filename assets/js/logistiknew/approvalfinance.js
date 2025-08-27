@@ -1,4 +1,20 @@
-datapemesanan();
+let today     = new Date();
+let startDate = today.toISOString().split('T')[0];
+let endDate   = today.toISOString().split('T')[0];
+
+flatpickr('[name="dateperiode"]', {
+    mode       : "range",
+    enableTime : false,
+    dateFormat : "d.m.Y",
+    maxDate    : "today",
+    defaultDate: [today, today],
+    onChange   : function (selectedDates) {
+        startDate = selectedDates[0] ? formatDate(selectedDates[0]) : null;
+        endDate   = selectedDates[1] ? formatDate(selectedDates[1]) : null;
+    }
+});
+
+datapemesanan(startDate,endDate);
 
 $("#modal_master_detail_spu").on('shown.bs.modal', function(event){
     var button           = $(event.relatedTarget);
@@ -12,9 +28,10 @@ $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
     datapemesanan();
 });
 
-function datapemesanan(){
+function datapemesanan(startDate,endDate){
     $.ajax({
         url       : url+"index.php/logistiknew/approvalfinance/datapemesanan",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -34,9 +51,6 @@ function datapemesanan(){
             if(data.responCode==="00"){
                 result = data.responResult;
                 for(var i in result){
-
-                    cito   = result[i].cito === "Y" ? " <div class='badge badge-light-danger fw-bolder fa-fade'>CITO</div>" : "";
-
                     var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
                                         " datanopemesananunit='"+result[i].no_pemesanan_unit+"'"+
                                         " datajudulpemesanan='"+result[i].judul_pemesanan+"'"+
@@ -46,8 +60,7 @@ function datapemesanan(){
 
                 let rows  ="<tr>";
                     rows +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
-                    rows +="<td><div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
-                    rows +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+cito+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>"; 
+                    rows += "<td>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
                     rows +="<td>"+result[i].unitpelaksana+"</td>";
                     rows +="<td>"+result[i].namasupplier+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
@@ -63,7 +76,7 @@ function datapemesanan(){
 
                             if(result[i].status==="4"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
-                                if(result[i].methodid==="4"){
+                                if(result[i].methodid==="4" || result[i].methodid==="11"){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='6' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='5' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }
@@ -89,9 +102,9 @@ function datapemesanan(){
                         if(result[i].status === "5"){
                             resultdatadecline += rows;
                         }else{
-                            // if(result[i].status === "4" || result[i].status === "19"){
-                            //     resultdataapprove += rows;
-                            // }
+                            if(result[i].status === "6"){
+                                resultdataapprove += rows;
+                            }
                         }
                     }
                 }

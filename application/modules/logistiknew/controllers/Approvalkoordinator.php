@@ -26,7 +26,7 @@
                                                                             and   user_id='".$_SESSION['userid']."'
                                                                         )
                                                 )
-                            and   a.status in ('2','3','4','5','18','19')
+                            and   a.status in ('2','3','4','5','6','18','19')
                         ";
             $orderby = "order by created_date desc;";
 
