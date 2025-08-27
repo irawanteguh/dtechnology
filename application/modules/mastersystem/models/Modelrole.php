@@ -66,13 +66,12 @@
             return $sql;
         }
 
-        function checkdata($orgid,$roleid,$modulesid){
+        function checkdata($roleid,$modulesid){
             $query =
                     "
                         select a.trans_id
                         from dt01_gen_role_dt a
-                        where a.org_id='".$orgid."'
-                        and   a.role_id='".$roleid."'
+                        where a.role_id='".$roleid."'
                         and   a.modules_id='".$modulesid."'
                     ";
 

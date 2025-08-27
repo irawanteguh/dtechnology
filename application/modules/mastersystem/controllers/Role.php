@@ -80,7 +80,7 @@
                 $data['active'] = "0";
             }
     
-            $resultcheckdata = $this->md->checkdata($_SESSION['orgid'], $roleid, $switchId);
+            $resultcheckdata = $this->md->checkdata($roleid,$switchId);
     
             if (!empty($resultcheckdata)) {
                 $data['last_update_date'] = date("Y-m-d H:i:s");
