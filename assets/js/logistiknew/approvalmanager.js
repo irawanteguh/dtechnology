@@ -66,6 +66,10 @@ function datapemesanan(){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='4' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='3' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }
+
+                                if(result[i].status==="4"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='19' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                                }
                             }
 
                             if(result[i].attachment==="1"){

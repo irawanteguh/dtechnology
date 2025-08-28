@@ -13,8 +13,8 @@
         }
 
         public function datapemesanan(){
-            $startDate = $this->input->post("startDate");
-            $endDate   = $this->input->post("endDate");
+            $startDate = $this->input->post("startDate") ?: date("Y-m-d");
+            $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
             $status  = " 
                             and   a.status in ('4','5','6')

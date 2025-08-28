@@ -102,22 +102,23 @@
         function buatnopemesanan($orgid, $departmentid, $parameter){
             $query = "
                 SELECT CONCAT(
-                        LPAD(COUNT(hd.no_pemesanan) + 1, 3, '0'),
-                        '/',
-                        COALESCE(dm.code, 'XXX'),
-                        '/',
-                        DATE_FORMAT(CURDATE(), '%m'),
-                        '/',
-                        DATE_FORMAT(CURDATE(), '%Y')
-                    ) AS nomor_pemesanan
-                FROM dt01_lgu_pemesanan_hd hd
-                LEFT JOIN dt01_gen_department_ms dm 
-                    ON dm.org_id = hd.org_id 
+                    LPAD(COALESCE(COUNT(hd.no_pemesanan), 0) + 1, 3, '0'),
+                    '/',
+                    COALESCE(dm.code,'XXX'),
+                    '/',
+                    DATE_FORMAT(CURDATE(), '%m'),
+                    '/',
+                    DATE_FORMAT(CURDATE(), '%Y')
+                ) AS nomor_pemesanan
+                FROM dt01_gen_department_ms dm
+                LEFT JOIN dt01_lgu_pemesanan_hd hd
+                    ON dm.org_id = hd.org_id
                     AND dm.department_id = hd.department_id
-                WHERE hd.org_id = ".$this->db->escape($orgid)."
-                AND hd.department_id = ".$this->db->escape($departmentid)."
-                ".$parameter."
-                AND YEAR(hd.created_date) = YEAR(CURDATE())
+                    ".$parameter."
+                    AND YEAR(hd.created_date) = YEAR(CURDATE())
+                WHERE dm.org_id = ".$this->db->escape($orgid)."
+                AND dm.department_id =".$this->db->escape($departmentid).";
+
             ";
 
             $recordset = $this->db->query($query)->row();
