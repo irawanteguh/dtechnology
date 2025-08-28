@@ -232,63 +232,82 @@
             $vat_amount       = $this->input->post('vat_amount');
             $note             = $this->input->post('note');
 
-            if($validator==="REQMANAGER"){
-                $data['qty_req_manager']  = $qty;
-                $data['qty_minta']        = $qty;
-                $data['req_manager_id']   = $_SESSION['userid'];
-                $data['req_manager_date'] = date('Y-m-d H:i:s');
-            }
+            // if($validator==="REQMANAGER"){
+            //     $data['qty_req_manager']  = $qty;
+            //     $data['qty_minta']        = $qty;
+            //     $data['req_manager_id']   = $_SESSION['userid'];
+            //     $data['req_manager_date'] = date('Y-m-d H:i:s');
+            // }
 
             if($validator==="KAINS"){
                 $data['qty_minta']       = $qty;
                 $data['qty_koordinator'] = $qty;
+                $data['qty_manager']     = $qty;
+                $data['qty_keu']         = $qty;
+                $data['qty_dir']         = $qty;
+                $data['qty_com']         = $qty;
+                $data['pt_qty_atem']     = $qty;
+                $data['pt_qty_farmasi']  = $qty;
+                $data['pt_qty_it']       = $qty;
+                $data['pt_qty_cfo']      = $qty;
+                $data['pt_qty_cmo']      = $qty;
                 $data['kains_id']        = $_SESSION['userid'];
                 $data['kains_date']      = date('Y-m-d H:i:s');
             }
 
             if($validator==="KOORDINATOR"){
-                $data['qty_koordinator']  = $qty;
-                $data['qty_manager']      = $qty;
+                $data['qty_koordinator'] = $qty;
+                $data['qty_manager']     = $qty;
+                $data['qty_keu']         = $qty;
+                $data['qty_dir']         = $qty;
+                $data['qty_com']         = $qty;
+                $data['pt_qty_atem']     = $qty;
+                $data['pt_qty_farmasi']  = $qty;
+                $data['pt_qty_it']       = $qty;
+                $data['pt_qty_cfo']      = $qty;
+                $data['pt_qty_cmo']      = $qty;
                 $data['koordinator_id']   = $_SESSION['userid'];
                 $data['koordinator_date'] = date('Y-m-d H:i:s');
             }
 
             if($validator==="MANAGER"){
-                $data['qty_manager']  = $qty;
-                $data['qty_keu']      = $qty;
+                $data['qty_manager']     = $qty;
+                $data['qty_keu']         = $qty;
+                $data['qty_dir']         = $qty;
+                $data['qty_com']         = $qty;
+                $data['pt_qty_atem']     = $qty;
+                $data['pt_qty_farmasi']  = $qty;
+                $data['pt_qty_it']       = $qty;
+                $data['pt_qty_cfo']      = $qty;
+                $data['pt_qty_cmo']      = $qty;
                 $data['manager_id']   = $_SESSION['userid'];
                 $data['manager_date'] = date('Y-m-d H:i:s');
             }
 
             if($validator==="FINANCE"){
-                $data['qty_keu']        = $qty;
-                $data['qty_wadir']      = $qty;
-                $data['qty_dir']        = $qty;
-                $data['qty_com']        = $qty;
-                $data['pt_qty_atem']    = $qty;
-                $data['pt_qty_farmasi'] = $qty;
-                $data['pt_qty_it']      = $qty;
-                $data['pt_qty_cfo']     = $qty;
-                $data['pt_qty_cmo']     = $qty;
+                $data['qty_keu']         = $qty;
+                $data['qty_dir']         = $qty;
+                $data['qty_com']         = $qty;
+                $data['pt_qty_atem']     = $qty;
+                $data['pt_qty_farmasi']  = $qty;
+                $data['pt_qty_it']       = $qty;
+                $data['pt_qty_cfo']      = $qty;
+                $data['pt_qty_cmo']      = $qty;
                 $data['keu_id']         = $_SESSION['userid'];
                 $data['keu_date']       = date('Y-m-d H:i:s');
             }
 
-            // if($validator==="VICE"){
-            //     $data['qty_wadir']  = $qty;
-            //     $data['qty_dir']    = $qty;
-            //     $data['qty_com']    = $qty;
-            //     $data['wadir_id']   = $_SESSION['userid'];
-            //     $data['wadir_date'] = date('Y-m-d H:i:s');
-            // }
-
-            // if($validator==="DIR"){
-            //     $data['qty_wadir'] = $qty;
-            //     $data['qty_dir']   = $qty;
-            //     $data['qty_com']   = $qty;
-            //     $data['dir_id']    = $_SESSION['userid'];
-            //     $data['dir_date']  = date('Y-m-d H:i:s');
-            // }
+            if($validator==="DIRECTOR"){
+                $data['qty_dir']         = $qty;
+                $data['qty_com']         = $qty;
+                $data['pt_qty_atem']     = $qty;
+                $data['pt_qty_farmasi']  = $qty;
+                $data['pt_qty_it']       = $qty;
+                $data['pt_qty_cfo']      = $qty;
+                $data['pt_qty_cmo']      = $qty;
+                $data['dir_id']         = $_SESSION['userid'];
+                $data['dir_date']       = date('Y-m-d H:i:s');
+            }
 
             // if($validator==="COM"){
             //     $data['qty_wadir'] = $qty;

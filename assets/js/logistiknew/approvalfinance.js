@@ -25,7 +25,7 @@ $("#modal_master_detail_spu").on('shown.bs.modal', function(event){
 });
 
 $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
-    datapemesanan();
+    datapemesanan(startDate,endDate);
 });
 
 function datapemesanan(startDate,endDate){
@@ -75,8 +75,11 @@ function datapemesanan(startDate,endDate){
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
                             if(result[i].status==="4"){
-                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu' onclick='getdetail($(this));'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
-                                if(result[i].methodid==="4" || result[i].methodid==="11"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
+                            }
+
+                            if(result[i].methodid==="4"){
+                                if(result[i].status==="4"){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='6' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='5' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }

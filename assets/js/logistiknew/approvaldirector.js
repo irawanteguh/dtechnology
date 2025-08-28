@@ -1,20 +1,37 @@
-datapemesanan();
+let today     = new Date();
+let startDate = today.toISOString().split('T')[0];
+let endDate   = today.toISOString().split('T')[0];
+
+flatpickr('[name="dateperiode"]', {
+    mode       : "range",
+    enableTime : false,
+    dateFormat : "d.m.Y",
+    maxDate    : "today",
+    defaultDate: [today, today],
+    onChange   : function (selectedDates) {
+        startDate = selectedDates[0] ? formatDate(selectedDates[0]) : null;
+        endDate   = selectedDates[1] ? formatDate(selectedDates[1]) : null;
+    }
+});
+
+datapemesanan(startDate,endDate);
 
 $("#modal_master_detail_spu").on('shown.bs.modal', function(event){
     var button           = $(event.relatedTarget);
     var datanopemesanan  = button.attr("datanopemesanan");
     
     $(":hidden[name='nopemesanan_item']").val(datanopemesanan);
-    detailbarangspu(datanopemesanan,"KOORDINATOR");
+    detailbarangspu(datanopemesanan,"DIRECTOR");
 });
 
 $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
     datapemesanan();
 });
 
-function datapemesanan(){
+function datapemesanan(startDate,endDate){
     $.ajax({
-        url       : url+"index.php/logistiknew/approvalkoordinator/datapemesanan",
+        url       : url+"index.php/logistiknew/approvaldirector/datapemesanan",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -57,14 +74,12 @@ function datapemesanan(){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
-                            if(result[i].status==="2"){
+                            if(result[i].status==="6"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";
-                            }
 
-                            if(result[i].methodid==="4"){
-                                if(result[i].status==="2"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='19' datavalidator='KOORDINATOR' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='18' datavalidator='KOORDINATOR' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                                if(result[i].methodid==="11"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='21' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='20' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }
                             }
 
@@ -82,16 +97,16 @@ function datapemesanan(){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "2"){
+                    if(result[i].status === "6"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "3" || result[i].status === "5" || result[i].status === "18"){
-                            resultdatadecline += rows;
-                        }else{
-                            if(result[i].status === "4" || result[i].status === "6" ||result[i].status === "19"){
-                                resultdataapprove += rows;
-                            }
-                        }
+                        // if(result[i].status === "5"){
+                        //     resultdatadecline += rows;
+                        // }else{
+                        //     if(result[i].status === "6"){
+                        //         resultdataapprove += rows;
+                        //     }
+                        // }
                     }
                 }
             }

@@ -153,10 +153,10 @@ function datapemesanan(){
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
                             if(result[i].status==="0"){
-                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" datastatus='insertharga' data-bs-toggle='modal' data-bs-target='#modal_add_item'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_add_item'><i class='bi bi-pencil-square text-primary'></i> Add Item</a>";
                             }
 
-                            if(result[i].methodid==="4"){ // On The Spot (BBM / Snack / Etc)
+                            if(result[i].methodid==="4"){
                                 if(result[i].status==="0"){
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].itemhargakosong==="0"){
@@ -177,21 +177,22 @@ function datapemesanan(){
                                 }
                             }
 
-                            if(result[i].methodid==="11"){ // Dana Binaan
-                                if(result[i].status==="0"){
-                                    if(result[i].jmlitem!="0"){
-                                        if(result[i].itemhargakosong==="0"){
-                                            rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                        }
-                                    }
-                                }
+                            // if(result[i].methodid==="11"){ // Dana Binaan
+                            //     if(result[i].status==="0"){
+                            //         if(result[i].jmlitem!="0"){
+                            //             if(result[i].itemhargakosong==="0"){
+                            //                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                            //             }
+                            //         }
+                            //     }
 
-                                if(result[i].status==="2"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
-                                }
-                            }
+                            //     if(result[i].status==="2"){
+                            //         rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                            //     }
+                            // }
                             
                             rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
+                            
                             if(result[i].attachment==="1"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
