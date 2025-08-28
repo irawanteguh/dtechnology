@@ -173,7 +173,7 @@ function datapemesanan(){
                                 }
 
                                 if(result[i].status==="6"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
                                 }
                             }
 
