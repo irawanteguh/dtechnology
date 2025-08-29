@@ -69,7 +69,7 @@
         public function datapemesanan(){
             $status  = "
                             and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                            and   a.status in ('0','1','2','3','4','5','6','18','19')
+                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','28','29','30','31')
                         ";
             $orderby = "order by created_date desc;";
 
@@ -99,6 +99,7 @@
             $data['supplier_id']       = $this->input->post("modal_new_request_supplier");
             $data['method']            = $this->input->post("modal_new_request_method");
             $data['cito']              = $this->input->post("modal_new_request_cito");
+            $data['version']           = "2.0.0.0";
             $data['created_by']        = $_SESSION['userid'];
 
             if($this->md->insertheader($data)){
@@ -127,21 +128,21 @@
             $note         = $this->input->post('note');
             $itemid       = generateuuid();
 
-            $resultcekkoordinator = $this->md->cekkoordinator($_SESSION['orgid'],$no_pemesanan)->head_koordinator;
-
             $data['org_id']          = $_SESSION['orgid'];
             $data['no_pemesanan']    = $no_pemesanan;
             $data['barang_id']       = $barangid;
             $data['stock']           = $stock;
             $data['qty_minta']       = $qty;
-
-            if($resultcekkoordinator==="Y"){
-                $data['qty_koordinator'] = $qty;
-            }else{
-                $data['qty_koordinator'] = $qty;
-                $data['qty_manager']     = $qty;
-            }
-            
+            $data['qty_koordinator'] = $qty;
+            $data['qty_manager']     = $qty;
+            $data['qty_keu']         = $qty;
+            $data['qty_dir']         = $qty;
+            $data['qty_com']         = $qty;
+            $data['pt_qty_atem']     = $qty;
+            $data['pt_qty_farmasi']  = $qty;
+            $data['pt_qty_it']       = $qty;
+            $data['pt_qty_cfo']      = $qty;
+            $data['pt_qty_cmo']      = $qty;
             $data['kains_id']        = $_SESSION['userid'];
             $data['kains_date']      = date('Y-m-d H:i:s');
             $data['harga']           = $harga;
@@ -232,13 +233,6 @@
             $vat_amount       = $this->input->post('vat_amount');
             $note             = $this->input->post('note');
 
-            // if($validator==="REQMANAGER"){
-            //     $data['qty_req_manager']  = $qty;
-            //     $data['qty_minta']        = $qty;
-            //     $data['req_manager_id']   = $_SESSION['userid'];
-            //     $data['req_manager_date'] = date('Y-m-d H:i:s');
-            // }
-
             if($validator==="KAINS"){
                 $data['qty_minta']       = $qty;
                 $data['qty_koordinator'] = $qty;
@@ -309,13 +303,18 @@
                 $data['dir_date']       = date('Y-m-d H:i:s');
             }
 
-            // if($validator==="COM"){
-            //     $data['qty_wadir'] = $qty;
-            //     $data['qty_dir']   = $qty;
-            //     $data['qty_com']   = $qty;
-            //     $data['com_id']    = $_SESSION['userid'];
-            //     $data['com_date']  = date('Y-m-d H:i:s');
-            // }
+            if($validator==="CFO"){
+                $data['pt_qty_cfo'] = $qty;
+                $data['pt_qty_cmo'] = $qty;
+                $data['cfo_id']     = $_SESSION['userid'];
+                $data['cfo_date']   = date('Y-m-d H:i:s');
+            }
+
+            if($validator==="CMO"){
+                $data['pt_qty_cmo'] = $qty;
+                $data['cmo_id']     = $_SESSION['userid'];
+                $data['cmo_date']   = date('Y-m-d H:i:s');
+            }
             
             $data['stock']     = $stock;
             $data['harga']     = $harga;
@@ -395,8 +394,6 @@
             }
 
 
-            
-
             if($datavalidator==="MANAGER"){
                 $data['status']     = $datastatus;
                 $data['manager_id']   = $_SESSION['userid'];
@@ -413,6 +410,24 @@
                 $data['status']   = $datastatus;
                 $data['keu_id']   = $_SESSION['userid'];
                 $data['keu_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="DIRECTOR"){
+                $data['status']   = $datastatus;
+                $data['dir_id']   = $_SESSION['userid'];
+                $data['dir_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CFO"){
+                $data['status']   = $datastatus;
+                $data['cfo_id']   = $_SESSION['userid'];
+                $data['cfo_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CMO"){
+                $data['status']   = $datastatus;
+                $data['cmo_id']   = $_SESSION['userid'];
+                $data['cmo_date'] = date('Y-m-d H:i:s');
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){

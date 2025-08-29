@@ -1,3 +1,10 @@
+$("#modal_print_po").on('shown.bs.modal', function(event){
+    var button       = $(event.relatedTarget);
+    var no_pemesanan = button.attr("datanopemesanan");
+
+    printpo(no_pemesanan);
+});
+
 function updatedetail(input) {
     const itemId = input.id.split("_")[1];
     const value = input.value;
@@ -181,6 +188,85 @@ function validasi(btn) {
                     );
                 }
             });
+        }
+    });
+    return false;
+};
+
+function printpo(nopemesanan){
+    $.ajax({
+        url       : url+"index.php/logistiknew/request/detailbarangspu",
+        data      : {nopemesanan:nopemesanan},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdetailpo").html("");
+        },
+        success: function (data) {
+            let result      = "";
+            let tableresult = "";
+
+            let ttddirector    = "";
+            let ttdfinance     = "";
+            let ttdmanager     = "";
+            let ttdcoordinator = "";
+            let ttdkains       = "";
+            let ttdcmo         = "";
+            let ttdcfo         = "";
+
+            let totalvat    = 0;
+            let grandtotal  = 0;
+
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (let i in result) {
+                    const stock      = parseFloat(result[i].stock) || 0;
+                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) ||parseFloat(result[i].qty_minta) || 0;
+                    const harga      = parseFloat(result[i].harga) || 0;
+                    const vatPercent = parseFloat(result[i].ppn) || 0;
+                    const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));
+                    const subtotal   = parseFloat(((qty * harga) + vatAmount).toFixed(0));
+
+                    tableresult += "<tr>";
+                    tableresult += "<td class='ps-4'>" + result[i].namabarang + "</td>";
+                    tableresult += `<td class='text-end'>${todesimal(qty)}</td>`;
+                    tableresult += `<td class='text-end pe-4'>${result[i].note ? result[i].note : ""}</td>`;
+                    tableresult += "</tr>";
+
+                    totalvat   += vatAmount;
+                    grandtotal += subtotal;
+
+                    ttddirector    = result[i].director;
+                    ttdfinance     = result[i].finance;
+                    ttdmanager     = result[i].manager;
+                    ttdcoordinator = result[i].koordinator;
+                    ttdkains       = result[i].createdby;
+                    ttdcmo         = result[i].cmo;
+                    ttdcfo         = result[i].cfo;
+                }
+            }
+
+            $("#resultdetailpo").html(tableresult);
+
+            $("#ttddirector").html(ttddirector);
+            $("#ttdfinance").html(ttdfinance);
+            $("#ttdmanager").html(ttdmanager);
+            $("#ttdcoordinator").html(ttdcoordinator);
+            $("#ttdkains").html(ttdkains);
+            $("#ttdcmo").html(ttdcmo);
+            $("#ttdcfo").html(ttdcfo);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            toastr.clear();
+        },
+        error: function (xhr, status, error) {
+            toastr["error"]("Terjadi kesalahan : " + error, "Opps !");
         }
     });
     return false;
@@ -371,7 +457,7 @@ function detailbarangspu(nopemesanan,validator){
                 for (let i in result) {
 
                     const stock      = parseFloat(result[i].stock) || 0;
-                    const qty        = parseFloat(result[i].qty_dir) || parseFloat(result[i].qty_wadir) || parseFloat(result[i].qty_keu) || parseFloat(result[i].qty_manager) || parseFloat(result[i].qty_minta) || parseFloat(result[i].qty_req_manager) || parseFloat(result[i].qty_req) || 0;
+                    const qty        = parseFloat(result[i].pt_qty_cmo)|| 0;
                     const harga      = parseFloat(result[i].harga) || 0;
                     const vatPercent = parseFloat(result[i].ppn) || 0;
                     const vatAmount  = parseFloat((qty * (harga * vatPercent / 100)).toFixed(0));

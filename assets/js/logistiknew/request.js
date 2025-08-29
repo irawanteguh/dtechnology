@@ -174,22 +174,27 @@ function datapemesanan(){
 
                                 if(result[i].status==="6"){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 }
                             }
 
-                            // if(result[i].methodid==="11"){ // Dana Binaan
-                            //     if(result[i].status==="0"){
-                            //         if(result[i].jmlitem!="0"){
-                            //             if(result[i].itemhargakosong==="0"){
-                            //                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                            //             }
-                            //         }
-                            //     }
+                            if(result[i].methodid==="11"){ // Dana Binaan
+                                if(result[i].status==="0"){
+                                    if(result[i].jmlitem!="0"){
+                                        if(result[i].itemhargakosong==="0"){
+                                            rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        }
+                                    }
+                                }
 
-                            //     if(result[i].status==="2"){
-                            //         rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
-                            //     }
-                            // }
+                                if(result[i].status==="2"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                                }
+
+                                if(result[i].status==="31"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                }
+                            }
                             
                             rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
                             
@@ -201,7 +206,7 @@ function datapemesanan(){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
                             }
 
-                            rows += "<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_chat' "+getvariabel+" onclick='getdatachat($(this));'><i class='bi bi-send text-primary'></i> Pesan Singkat</a>";
+                            rows +="<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_chat' "+getvariabel+" onclick='getdatachat($(this));'><i class='bi bi-send text-primary'></i> Pesan Singkat</a>";
                             rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='1' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Deleted</a>";
                             
                             rows +="</div>";
@@ -212,10 +217,10 @@ function datapemesanan(){
                     if(result[i].status === "0"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "1" || result[i].status === "3" || result[i].status === "5" || result[i].status === "18"){
+                        if(result[i].status === "1" || result[i].status === "3" || result[i].status === "5" || result[i].status === "18" || result[i].status === "20" || result[i].status === "28" || result[i].status === "30"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "2" || result[i].status === "4" || result[i].status === "6" || result[i].status === "19"){
+                            if(result[i].status === "2" || result[i].status === "4" || result[i].status === "6" || result[i].status === "19" || result[i].status === "21" || result[i].status === "29" || result[i].status === "31"){
                                 resultdataapprove += rows;
                             }
                         }

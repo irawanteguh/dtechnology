@@ -17,7 +17,7 @@
             $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
             $status  = " 
-                            and   a.status in ('4','5','6')
+                            and   a.status in ('4','5','6','20','21','28','29','30','31')
                             and   date(a.created_date) between '".$startDate."' and '".$endDate."'
                         ";
             $orderby = "order by created_date desc;";

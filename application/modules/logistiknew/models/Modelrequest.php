@@ -19,6 +19,7 @@
 
                         from dt01_lgu_pemesanan_hd a
                         where a.active='1'
+                        and   a.version='2.0.0.0'
                         and   a.org_id='".$orgid."'
                         ".$status."
                         ".$orderby."
@@ -32,14 +33,19 @@
         function detailbarangspu($orgid,$nopemesanan){
             $query =
                     "
-                        select a.item_id, barang_id, note, stock, qty_req, qty_req_manager, qty_minta, qty_manager, qty_keu, qty_wadir, qty_dir, harga, harga_ppn, ppn, total,
+                        select a.item_id, barang_id, note, stock, qty_req, qty_req_manager, qty_minta, qty_manager, qty_keu, qty_wadir, qty_dir, qty_com, pt_qty_atem, pt_qty_farmasi, pt_qty_it, pt_qty_cfo, pt_qty_cmo, harga, harga_ppn, ppn, total,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_beli_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanbeli,
                             (select satuan from dt01_lgu_satuan_ms where active='1' and org_id=a.org_id and satuan_id=(select satuan_pakai_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))satuanpakai,
                             (select jenis from dt01_lgu_jenis_barang_ms where active='1' and org_id=a.org_id and jenis_id=(select jenis_id from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id))jenis,
                             (select nama_barang from dt01_lgu_barang_ms where org_id=a.org_id and barang_id=a.barang_id)namabarang,
                             (select coalesce(sum(masuk),0) from dt01_lgu_mutasi_barang where org_id=a.org_id and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id)jmlmasuk,
                             (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select created_by from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))createdby,
-                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select manager_id from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))manager
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select koordinator_id from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))koordinator,
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select manager_id from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))manager,
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select keu_id from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))finance,
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select dir_id from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))director,
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select cfo_id from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))cfo,
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=(select cmo_id from dt01_lgu_pemesanan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan))cmo
 
                         from dt01_lgu_pemesanan_dt a
                         where a.org_id='".$orgid."'

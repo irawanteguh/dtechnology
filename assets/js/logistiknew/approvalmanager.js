@@ -72,6 +72,17 @@ function datapemesanan(){
                                 }
                             }
 
+                            if(result[i].methodid==="11"){
+                                if(result[i].status==="19"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='4' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='3' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                                }
+
+                                if(result[i].status==="4"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='19' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                                }
+                            }
+
                             if(result[i].attachment==="1"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
@@ -89,10 +100,10 @@ function datapemesanan(){
                     if(result[i].status === "2" || result[i].status === "19"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "3" || result[i].status === "5"){
+                        if(result[i].status === "3" || result[i].status === "5" || result[i].status === "20" || result[i].status === "28" || result[i].status === "30"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "4" || result[i].status === "6"){
+                            if(result[i].status === "4" || result[i].status === "6" || result[i].status === "21" || result[i].status === "29" || result[i].status === "31"){
                                 resultdataapprove += rows;
                             }
                         }
