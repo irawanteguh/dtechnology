@@ -209,6 +209,10 @@ function printpo(nopemesanan){
             let result      = "";
             let tableresult = "";
 
+            let orgname        = "";
+            let pono           = "";
+            let orderdate      = "";
+            let suppliers      = "";
             let ttddirector    = "";
             let ttdfinance     = "";
             let ttdmanager     = "";
@@ -239,6 +243,10 @@ function printpo(nopemesanan){
                     totalvat   += vatAmount;
                     grandtotal += subtotal;
 
+                    orgname        = result[i].orgname;
+                    pono           = result[i].nopesananunit;
+                    orderdate      = result[i].tglpemesanan;
+                    suppliers      = result[i].namasupplier;
                     ttddirector    = result[i].director;
                     ttdfinance     = result[i].finance;
                     ttdmanager     = result[i].manager;
@@ -251,13 +259,50 @@ function printpo(nopemesanan){
 
             $("#resultdetailpo").html(tableresult);
 
-            $("#ttddirector").html(ttddirector);
-            $("#ttdfinance").html(ttdfinance);
-            $("#ttdmanager").html(ttdmanager);
-            $("#ttdcoordinator").html(ttdcoordinator);
-            $("#ttdkains").html(ttdkains);
-            $("#ttdcmo").html(ttdcmo);
-            $("#ttdcfo").html(ttdcfo);
+            $("#orgname").html(orgname);
+            $("#pono").html(pono);
+            $("#orderdate").html(orderdate);
+            $("#suppliers").html(suppliers);
+
+            // alert(ttdfinance);
+            
+            function setTtd(id, value) {
+                let td = $("#" + id).closest("td");     
+                let colIndex = td.index();              
+                let table = td.closest("table");        
+
+                // debug
+                console.log(id, "raw:", value);
+
+                let val = (value !== null && value !== undefined) ? String(value).trim() : "";
+
+                console.log(id, "processed:", val);
+
+                if (val !== "") {
+                    $("#" + id).html(val);
+                } else {
+                    td.hide();
+                    table.find("tr").each(function(){
+                        $(this).find("td").eq(colIndex).hide();
+                    });
+                }
+            }
+
+
+
+            // panggil semua
+            setTtd("ttdcmo", ttdcmo);
+            setTtd("ttdcfo", ttdcfo);
+            setTtd("ttddirector", ttddirector);
+            setTtd("ttdfinance", ttdfinance);
+            setTtd("ttdmanager", ttdmanager);
+            setTtd("ttdcoordinator", ttdcoordinator);
+            setTtd("ttdkains", ttdkains);
+
+
+            
+
+
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");

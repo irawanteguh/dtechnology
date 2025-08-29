@@ -213,7 +213,7 @@
                         </div>
                         <div class="col-6">
                             <h2 class="fw-bolder mb-1">PURCHASE REQUEST</h2>
-                            <div class="text-muted fs-6">Rumah Sakit Mutiasari</div>
+                            <div class="text-muted fs-6" id="orgname"></div>
                         </div>
                         <div class="col-3"></div>
                     </div>
@@ -254,24 +254,20 @@
                         <tr>
                             <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/director.png'); ?>" class="h-60px"/></td>
                             <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/vice.png'); ?>" class="h-60px"/></td>
+                            <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/director.png'); ?>" class="h-60px"/></td>
+                            <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/vice.png'); ?>" class="h-60px"/></td>
                             <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/finance.png'); ?>" class="h-60px"/></td>
                             <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/manager.png'); ?>" class="h-60px"/></td>
                             <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/kains.png'); ?>" class="h-60px"/></td>
                         </tr>
                         <tr class="fw-bold">
+                            <td><span id="ttdcmo"></span><br><small>Chief Medical Officer</small></td>
+                            <td><span id="ttdcfo"></span><br><small>Chief Financial Officer</small></td>
                             <td><span id="ttddirector"></span><br><small>Director</small></td>
                             <td><span id="ttdfinance"></span><br><small>Finance</small></td>
                             <td><span id="ttdmanager"></span><br><small>Manager</small></td>
                             <td><span id="ttdcoordinator"></span><br><small>Coordinator</small></td>
                             <td><span id="ttdkains"></span><br><small>Head Division</small></td>
-                        </tr>
-                        <tr>
-                            <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/director.png'); ?>" class="h-60px"/></td>
-                            <td><div style="height:70px"></div><img src="<?php echo base_url('assets/speciment/vice.png'); ?>" class="h-60px"/></td>
-                        </tr>
-                        <tr class="fw-bold">
-                            <td><span id="ttdcmo"></span><br><small>Chief Medical Officer</small></td>
-                            <td><span id="ttdcfo"></span><br><small>Chief Financial Officer</small></td>
                         </tr>
                     </tbody>
                 </table>
