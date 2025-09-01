@@ -71,7 +71,7 @@
                         continue;
                     }
 
-                    if ($this->uri->segment(1) != 'logistiknew' && $jsFilename === 'procurement.js') {
+                    if ($this->uri->segment(1) != 'logistiknew' && $this->uri->segment(1) != 'paymentponew' && $jsFilename === 'procurement.js') {
                         continue;
                     }
 

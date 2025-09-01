@@ -14,6 +14,17 @@ flatpickr('[name="dateperiode"]', {
     }
 });
 
+$(document).on("click", ".btn-apply", function (e) {
+    e.preventDefault();
+
+    if (!startDate || !endDate) {
+        toastr["warning"]("Please select a valid date range", "Warning");
+        return;
+    }
+
+    datapemesanan(startDate,endDate);
+});
+
 datapemesanan(startDate,endDate);
 
 $("#modal_master_detail_spu").on('shown.bs.modal', function(event){
