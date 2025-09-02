@@ -17,6 +17,7 @@
             $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
             $status="
+                        and   a.method<>'4'
                         and   a.status in ('13','15','16','17')
                         and   date(a.created_date) between '".$startDate."' and '".$endDate."'
                     ";

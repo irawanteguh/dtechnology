@@ -74,28 +74,28 @@ function datapemesanan(startDate,endDate){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
-                            if(result[i].status==="6"){
-                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";                                
-                            }
+                            // if(result[i].status==="6"){
+                            //     rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";                                
+                            // }
 
-                            if(result[i].methodid==="11"){
-                                if(result[i].status==="6"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='21' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='20' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
-                                }
+                            // if(result[i].methodid==="11"){
+                            //     if(result[i].status==="6"){
+                            //         rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='21' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                            //         rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='20' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                            //     }
 
-                                if(result[i].status==="21"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='6' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
-                                }
-                            }
+                            //     if(result[i].status==="21"){
+                            //         rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='6' datavalidator='DIRECTOR' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                            //     }
+                            // }
 
-                            if(result[i].attachment==="1"){
-                                rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
-                            }
+                            // if(result[i].attachment==="1"){
+                            //     rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
+                            // }
 
-                            if(result[i].invoice==="1"){
-                                rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
-                            }
+                            // if(result[i].invoice==="1"){
+                            //     rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
+                            // }
 
                             rows += "<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_chat' "+getvariabel+" onclick='getdatachat($(this));'><i class='bi bi-send text-primary'></i> Pesan Singkat</a>";
                             rows +="</div>";

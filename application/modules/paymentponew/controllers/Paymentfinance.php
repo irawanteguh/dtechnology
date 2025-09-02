@@ -29,27 +29,32 @@
             $startDate = $this->input->post("startDate") ?: date("Y-m-d");
             $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
-            $status="
-                        and   a.status in ('13','14','15','16','17')
-                        and   date(a.created_date) between '".$startDate."' and '".$endDate."'
-                    ";
-            $orderby = "order by created_date desc;";
+            $status = "
+                AND (
+                    (a.status in ('16','17') AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."')
+                    OR (a.status IN ('13','14','15'))
+                )
+            ";
 
-            $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
+            $orderby = "order by a.inv_keu_date desc";
+
+            $result = $this->md->datapemesanan($_SESSION['orgid'], $status, $orderby);
             
             if(!empty($result)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Successfully Found";
-                $json['responResult']=$result;
+                $json["responCode"]   = "00";
+                $json["responHead"]   = "success";
+                $json["responDesc"]   = "Data Successfully Found";
+                $json["responResult"] = $result;
             }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Data Failed to Find";
+                $json["responCode"] = "01";
+                $json["responHead"] = "info";
+                $json["responDesc"] = "Data Failed to Find";
             }
 
             echo json_encode($json);
         }
+
+
 
         // public function dataonprocess(){
             

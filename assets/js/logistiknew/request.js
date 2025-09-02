@@ -561,7 +561,7 @@ $(document).on("submit", "#formnotelampiran", function (e) {
     return false;
 });
 
-$(document).on("submit", "#formnoinvoice", function (e) {
+$(document).on("submit", "#formuploadinvoice", function (e) {
     e.preventDefault();
 
     var form = $(this);
@@ -610,4 +610,11 @@ $(document).on("submit", "#formnoinvoice", function (e) {
     });
 
     return false;
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+        document.getElementById("modal_upload_invoice_file").removeAttribute("required");
+        document.querySelector("label[for=modal_upload_invoice_file]")?.classList.remove("required");
+    }
 });

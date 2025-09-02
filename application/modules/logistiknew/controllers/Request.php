@@ -423,10 +423,22 @@
                 $data['cmo_date'] = date('Y-m-d H:i:s');
             }
 
+            if($datavalidator==="KAINS_INV"){
+                $data['status']         = $datastatus;
+                $data['inv_kains_id']   = $_SESSION['userid'];
+                $data['inv_kains_date'] = date('Y-m-d H:i:s');
+            }
+
             if($datavalidator==="MANAGER_INV"){
                 $data['status']     = $datastatus;
                 $data['inv_manager_id']   = $_SESSION['userid'];
                 $data['inv_manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="FINANCE_INV"){
+                $data['status']       = $datastatus;
+                $data['inv_keu_id']   = $_SESSION['userid'];
+                $data['inv_keu_date'] = date('Y-m-d H:i:s');
             }
 
             if($this->md->updateheader($datanopemesanan,$data)){
@@ -459,26 +471,60 @@
             echo json_encode($json);
         }
 
-        public function noinvoice(){
+        // public function uploadinvoice(){
+        //     $nopemesanan = $this->input->post("modal_upload_invoice_nopemesanan");
+        //     $noinvoice   = $this->input->post("modal_upload_invoice_invoiceno");
+
+        //     $config['upload_path']   = './assets/invoice/';
+        //     $config['allowed_types'] = 'pdf';
+        //     $config['file_name']     = $nopemesanan;
+        //     $config['overwrite']     = TRUE;
+
+        //     $this->load->library('upload', $config);
+
+        //     if (!$this->upload->do_upload('modal_upload_invoice_file')) {
+        //         $error_message = strip_tags($this->upload->display_errors());
+
+        //         log_message('error', 'File upload error: ' . $error_message);
+
+        //         $json['responCode'] = "01";
+        //         $json['responHead'] = "info";
+        //         $json['responDesc'] = $error_message;
+        //     } else {
+        //         $dataupdate['invoice']      = "1";
+        //         $dataupdate['invoice_no']   = $noinvoice;
+        //         $dataupdate['invoice_date'] = date('Y-m-d H:i:s');
+
+        //         if($this->md->updateheader($nopemesanan,$dataupdate)){
+        //             $json['responCode']="00";
+        //             $json['responHead']="success";
+        //             $json['responDesc']="Data Added Successfully";
+        //         } else {
+        //             $json['responCode']="01";
+        //             $json['responHead']="info";
+        //             $json['responDesc']="Data Failed to Add";
+        //         }
+        //     }
+
+        //     echo json_encode($json);
+        // }
+
+        public function uploadinvoice(){
             $nopemesanan = $this->input->post("modal_upload_invoice_nopemesanan");
             $noinvoice   = $this->input->post("modal_upload_invoice_invoiceno");
 
-            $config['upload_path']   = './assets/invoice/';
-            $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $nopemesanan;
-            $config['overwrite']     = TRUE;
+            // default respon gagal
+            $json = [
+                'responCode' => "01",
+                'responHead' => "info",
+                'responDesc' => "Unknown error"
+            ];
 
-            $this->load->library('upload', $config);
+            // Cek apakah berjalan di localhost
+            $is_localhost = in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1']);
 
-            if (!$this->upload->do_upload('modal_upload_invoice_file')) {
-                $error_message = strip_tags($this->upload->display_errors());
-
-                log_message('error', 'File upload error: ' . $error_message);
-
-                $json['responCode'] = "01";
-                $json['responHead'] = "info";
-                $json['responDesc'] = $error_message;
-            } else {
+            if ($is_localhost) {
+                // skip upload file
                 $dataupdate['invoice']      = "1";
                 $dataupdate['invoice_no']   = $noinvoice;
                 $dataupdate['invoice_date'] = date('Y-m-d H:i:s');
@@ -486,16 +532,48 @@
                 if($this->md->updateheader($nopemesanan,$dataupdate)){
                     $json['responCode']="00";
                     $json['responHead']="success";
-                    $json['responDesc']="Data Added Successfully";
+                    $json['responDesc']="Data Added Successfully (skip upload)";
                 } else {
                     $json['responCode']="01";
                     $json['responHead']="info";
                     $json['responDesc']="Data Failed to Add";
                 }
+            } else {
+                // normal upload kalau bukan localhost
+                $config['upload_path']   = './assets/invoice/';
+                $config['allowed_types'] = 'pdf';
+                $config['file_name']     = $nopemesanan;
+                $config['overwrite']     = TRUE;
+
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('modal_upload_invoice_file')) {
+                    $error_message = strip_tags($this->upload->display_errors());
+                    log_message('error', 'File upload error: ' . $error_message);
+
+                    $json['responCode'] = "01";
+                    $json['responHead'] = "info";
+                    $json['responDesc'] = $error_message;
+                } else {
+                    $dataupdate['invoice']      = "1";
+                    $dataupdate['invoice_no']   = $noinvoice;
+                    $dataupdate['invoice_date'] = date('Y-m-d H:i:s');
+
+                    if($this->md->updateheader($nopemesanan,$dataupdate)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Added Successfully";
+                    } else {
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data Failed to Add";
+                    }
+                }
             }
 
             echo json_encode($json);
         }
+
 
         public function detailbarangspu(){
             $nopemesanan = $this->input->post("nopemesanan");

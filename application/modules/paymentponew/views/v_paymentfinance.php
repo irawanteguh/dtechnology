@@ -32,6 +32,7 @@
                                         <th>Pengadaan</th>
                                         <th>Department</th>
                                         <th>Supplier</th>
+                                        <th>No Invoice</th>
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Total</th>

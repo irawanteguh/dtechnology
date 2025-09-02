@@ -9,7 +9,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/logistiknew/request/noinvoice" id="formnoinvoice" enctype="multipart/form-data">
+            <form action="<?php echo base_url();?>index.php/logistiknew/request/uploadinvoice" id="formuploadinvoice" enctype="multipart/form-data">
                 <input type="hidden" id="modal_upload_invoice_nopemesanan" name="modal_upload_invoice_nopemesanan">
                 <div class="modal-body">
                     <div class="row">
