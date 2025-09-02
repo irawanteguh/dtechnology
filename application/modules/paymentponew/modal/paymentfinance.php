@@ -9,7 +9,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/paymentponew/paymentfinance/catatankeuangan" id="formcatatankeuangan">
+            <form action="<?php echo base_url();?>index.php/logistiknew/request/catatankeuangan" id="formcatatankeuangan">
                 <input type="hidden" id="modal_note_finance_nopemesanan" name="modal_note_finance_nopemesanan">
                 <div class="modal-body">
                     <div class="row">
@@ -38,7 +38,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/paymentponew/paymentfinance/payment" id="formpayment">
+            <form action="<?php echo base_url();?>index.php/logistiknew/request/payment" id="formpayment">
                 <input type="hidden" id="modal_finance_payment_nopemesanan" name="modal_finance_payment_nopemesanan">
                 <input type="hidden" id="modal_finance_payment_departmentid" name="modal_finance_payment_departmentid">
                 <input type="hidden" id="modal_finance_payment_note" name="modal_finance_payment_note">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Total Transfer :</label>
-                            <input type="text" class="form-control form-control-solid" id="modal_finance_payment_nominal" name="modal_finance_payment_nominal">
+                            <input type="text" class="form-control form-control-solid currency-rp" id="modal_finance_payment_nominal" name="modal_finance_payment_nominal">
                         </div>                                     
                     </div>
                 </div>
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_upload_buktibayar" tabindex="-1" aria-hidden="true">
+<!-- <div class="modal fade" id="modal_upload_buktibayar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header pb-0">
@@ -189,4 +189,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

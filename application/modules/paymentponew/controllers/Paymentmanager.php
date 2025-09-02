@@ -14,7 +14,7 @@
 
         public function datapemesanan(){
             $status="
-                        and   a.status in ('7','8','13')
+                        and   a.status in ('7','8','9')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -25,7 +25,7 @@
                                                                     )
                                                 )
                     ";
-            $orderby = "order by created_date desc;";
+            $orderby = "order by inv_kains_date desc;";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
             

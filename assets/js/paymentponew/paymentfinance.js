@@ -598,109 +598,7 @@
 //     return false;
 // };
 
-// $(document).on("submit", "#formcatatankeuangan", function (e) {
-// 	e.preventDefault();
-//     e.stopPropagation();
-// 	var form = $(this);
-//     var url  = $(this).attr("action");
-// 	$.ajax({
-//         url       : url,
-//         data      : form.serialize(),
-//         method    : "POST",
-//         dataType  : "JSON",
-//         cache     : false,
-//         beforeSend: function () {
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-// 			$("#modal_note_finance_btn").addClass("disabled");
-//         },
-// 		success: function (data) {
 
-//             if(data.responCode == "00"){
-//                 $("#modal_note_finance").modal("hide");
-//                 dataonprocess();
-//                 dataapprove();
-// 			}
-
-//             toastr.clear();
-//             toastr[data.responHead](data.responDesc, "INFORMATION");
-// 		},
-//         complete: function () {
-//             $("#modal_note_finance_btn").removeClass("disabled");
-// 		},
-//         error: function(xhr, status, error) {
-//             showAlert(
-//                 "I'm Sorry",
-//                 error,
-//                 "error",
-//                 "Please Try Again",
-//                 "btn btn-danger"
-//             );
-// 		}
-// 	});
-//     return false;
-// });
-
-// $(document).on("submit", "#formpayment", function (e) {
-//     e.preventDefault();
-//     e.stopPropagation();
-
-//     // Ambil nilai nominal dan bersihkan karakter non-angka
-//     var nominalRaw = $("#modal_finance_payment_nominal").val().replace(/[^0-9]/g, "");
-//     var nominal = parseInt(nominalRaw);
-
-//     // Validasi nilai nominal
-//     if (!nominal || nominal <= 0) {
-//         Swal.fire({
-//             title: "Nominal Tidak Valid",
-//             text: "Silakan isi jumlah transfer yang benar dan lebih dari 0.",
-//             icon: "warning",
-//             confirmButtonText: "OK",
-//             confirmButtonClass: "btn btn-warning"
-//         });
-//         return false; // Stop form submit
-//     }
-
-//     var form = $(this);
-//     var url = $(this).attr("action");
-
-//     $.ajax({
-//         url: url,
-//         data: form.serialize(),
-//         method: "POST",
-//         dataType: "JSON",
-//         cache: false,
-//         beforeSend: function () {
-//             toastr.clear();
-//             toastr["info"]("Sending request...", "Please wait");
-//             $("#modal_finance_payment_btn").addClass("disabled");
-//         },
-//         success: function (data) {
-//             if (data.responCode == "00") {
-//                 $("#modal_finance_payment").modal("hide");
-//                 dataonprocess();
-//                 dataapprove();
-//             }
-
-//             toastr.clear();
-//             toastr[data.responHead](data.responDesc, "INFORMATION");
-//         },
-//         complete: function () {
-//             $("#modal_finance_payment_btn").removeClass("disabled");
-//         },
-//         error: function (xhr, status, error) {
-//             showAlert(
-//                 "I'm Sorry",
-//                 error,
-//                 "error",
-//                 "Please Try Again",
-//                 "btn btn-danger"
-//             );
-//         }
-//     });
-
-//     return false;
-// });
 
 
 // // $(document).on("submit", "#formpayment", function (e) {
@@ -780,6 +678,42 @@ $(document).on("click", ".btn-apply", function (e) {
 
 datapemesanan(startDate,endDate);
 
+$("#modal_note_finance").on('show.bs.modal', function (event) {
+    var button             = $(event.relatedTarget);
+    var datanopemesanan    = button.attr("datanopemesanan");
+
+    $("input[name='modal_note_finance_nopemesanan']").val(datanopemesanan);
+});
+
+$("#modal_finance_payment").on('show.bs.modal', function (event) {
+    var button               = $(event.relatedTarget);
+    var datanopemesanan      = button.attr("datanopemesanan");
+    var datanopemesananunit  = button.attr("datanopemesananunit");
+    var datajudulpemesanan   = button.attr("datajudulpemesanan");
+    var datacatatanpemesanan = button.attr("datacatatanpemesanan");
+    var datacatatankeuangan  = button.attr("datacatatankeuangan");
+    var datainvoiceno        = button.attr("datainvoiceno");
+    var datanominal          = button.attr("datanominal");
+    var datadepartmentid     = button.attr("datadepartmentid");
+
+    // helper untuk ubah "null", null, undefined, "" jadi "-"
+    function safe(val) {
+        return (val === null || val === undefined || val === "null" || val === "") ? "-" : val;
+    }
+
+    $("input[name='modal_finance_payment_nopemesanan']").val(datanopemesanan);
+    $("input[name='modal_finance_payment_departmentid']").val(datadepartmentid);
+    $("input[name='modal_finance_payment_note']").val(
+        "Pembayaran invoice no : " + safe(datainvoiceno) +
+        ", no pemesanan : " + datanopemesananunit + " " +
+        datajudulpemesanan + " " +
+        safe(datacatatanpemesanan) + " " +
+        safe(datacatatankeuangan)
+    );
+    $("input[name='modal_finance_payment_nominal']").val("Rp. " + todesimal(datanominal));
+});
+
+
 function datapemesanan(startDate,endDate){
     $.ajax({
         url       : url+"index.php/paymentponew/paymentfinance/datapemesanan",
@@ -810,20 +744,21 @@ function datapemesanan(startDate,endDate){
                                         " datajudulpemesanan='"+result[i].judul_pemesanan+"'"+
                                         " dataattachmentnote='"+result[i].attachment_note+"'"+
                                         " datainvoiceno='"+result[i].invoice_no+"'"+
-                                        " datadepartmentid='"+result[i].department_id+"'";
+                                        " datadepartmentid='"+result[i].department_id+"'"+
+                                        " datanominal='"+result[i].total+"'";
 
                 let rows  ="<tr>";
                     rows +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
                     rows += "<td>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
                     rows +="<td>"+result[i].unitpelaksana+"</td>";
                     rows +="<td>"+result[i].namasupplier+"</td>";
-                    if(result[i].status==="13" || result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
+                    if(result[i].status==="9" || result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
                         rows +="<td>"+(result[i].invoice_no || "")+"</td>";
                     }
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    if(result[i].status==="16" || result[i].status==="17"){
+                    if(result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
                         rows +="<td>"+(result[i].inv_keu_note || "")+"</td>";
                     }
 
@@ -840,11 +775,13 @@ function datapemesanan(startDate,endDate){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].methodid==="4"){
-                                if(result[i].status==="13"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='14' datavalidator='FINANCE_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
-                                }
+                            if(result[i].status==="9"){
+                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
+                                rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='14' datavalidator='FINANCE_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
+                            }
+
+                            if(result[i].status==="15"){
+                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
                             }
 
                             if(result[i].attachment==="1"){
@@ -861,7 +798,7 @@ function datapemesanan(startDate,endDate){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "13"){
+                    if(result[i].status === "9"){
                         resultdataonprocess += rows;
                     }else{
                         if(result[i].status === "14"){
@@ -902,3 +839,105 @@ function datapemesanan(startDate,endDate){
     });
     return false;
 };
+
+$(document).on("submit", "#formcatatankeuangan", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_note_finance_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_note_finance").modal("hide");
+                datapemesanan(startDate,endDate);
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function () {
+            $("#modal_note_finance_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formpayment", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Ambil nilai nominal dan bersihkan karakter non-angka
+    var nominalRaw = $("#modal_finance_payment_nominal").val().replace(/[^0-9]/g, "");
+    var nominal = parseInt(nominalRaw);
+
+    // Validasi nilai nominal
+    if (!nominal || nominal <= 0) {
+        Swal.fire({
+            title: "Nominal Tidak Valid",
+            text: "Silakan isi jumlah transfer yang benar dan lebih dari 0.",
+            icon: "warning",
+            confirmButtonText: "OK",
+            confirmButtonClass: "btn btn-warning"
+        });
+        return false; // Stop form submit
+    }
+
+    var form = $(this);
+    var url = $(this).attr("action");
+
+    $.ajax({
+        url: url,
+        data: form.serialize(),
+        method: "POST",
+        dataType: "JSON",
+        cache: false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#modal_finance_payment_btn").addClass("disabled");
+        },
+        success: function (data) {
+            if (data.responCode == "00") {
+                $("#modal_finance_payment").modal("hide");
+                datapemesanan(startDate,endDate);
+            }
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+            $("#modal_finance_payment_btn").removeClass("disabled");
+        },
+        error: function (xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+        }
+    });
+
+    return false;
+});

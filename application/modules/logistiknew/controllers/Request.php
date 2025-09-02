@@ -471,6 +471,80 @@
             echo json_encode($json);
         }
 
+        public function catatankeuangan(){
+            $nopemesanan  = $this->input->post("modal_note_finance_nopemesanan");
+            $notelampiran = $this->input->post("modal_note_finance_catatan");
+ 
+            $dataupdate['inv_keu_note'] = $notelampiran;
+            $dataupdate['status']       = "15";
+            $dataupdate['inv_keu_id']   = $_SESSION['userid'];
+            $dataupdate['inv_keu_Date'] = date('Y-m-d H:i:s');
+
+            if($this->md->updateheader($nopemesanan,$dataupdate)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data failed to update";
+            }
+            
+
+            echo json_encode($json);
+        }
+
+        public function payment(){
+            $nopemesanan  = $this->input->post("modal_finance_payment_nopemesanan");
+            $rekeningid   = $this->input->post("modal_finance_payment_rekeningid");
+            $nominal      = $this->input->post("modal_finance_payment_nominal");
+            $departmentid = $this->input->post("modal_finance_payment_departmentid");
+            $catatan      = $this->input->post("modal_finance_payment_note");
+ 
+            $dataupdate['rekening_id']    = $rekeningid;
+            $dataupdate['total_transfer'] = (int) preg_replace('/\D/', '', $nominal);
+            $dataupdate['status']         = "16";
+            $dataupdate['payment_id']     = $_SESSION['userid'];
+            $dataupdate['payment_date']   = date('Y-m-d H:i:s');
+
+            $resultcheckbalancelast = $this->md->checkbalancelast($_SESSION['orgid'],$rekeningid);
+            if(empty($resultcheckbalancelast)){
+                $lastbalance = 0;
+            }else{
+                $lastbalance =$resultcheckbalancelast[0]->balance;
+            }
+
+            $datarekening['org_id']         = $_SESSION['orgid'];
+            $datarekening['transaksi_id']   = generateuuid();
+            $datarekening['rekening_id']    = $rekeningid;
+            $datarekening['department_id']  = $departmentid;
+            $datarekening['note']           = $catatan;
+            $datarekening['no_pemesanan']   = $nopemesanan;
+            $datarekening['no_kwitansi']    = $this->md->nokwitansi($_SESSION['orgid'],$rekeningid)->nokwitansi;
+            $datarekening['cash_out']       = (int) preg_replace('/\D/', '', $nominal);
+            $datarekening['before_balance'] = $lastbalance;
+            $datarekening['balance']        = strval($lastbalance)-(int) preg_replace('/\D/', '', $nominal);
+            $datarekening['status']         = "6";
+            $datarekening['accept_id']      = $_SESSION['userid'];
+            $datarekening['accept_date']    = date('Y-m-d H:i:s');
+            $datarekening['created_by']     = $_SESSION['userid'];
+
+            $this->md->insertrekening($datarekening);
+            
+            if($this->md->updateheader($nopemesanan,$dataupdate)){
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            }else{
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data failed to update";
+            }
+            
+
+            echo json_encode($json);
+        }
+
         // public function uploadinvoice(){
         //     $nopemesanan = $this->input->post("modal_upload_invoice_nopemesanan");
         //     $noinvoice   = $this->input->post("modal_upload_invoice_invoiceno");

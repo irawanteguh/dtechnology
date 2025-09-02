@@ -386,11 +386,11 @@ function datapemesanan(){
                             
                             if(result[i].methodid==="4"){
                                 if(result[i].status === "7"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='13' datavalidator='MANAGER_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='9' datavalidator='MANAGER_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='8' datavalidator='MANAGER_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                                 }
 
-                                if(result[i].status === "13"){
+                                if(result[i].status === "9"){
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='7' datavalidator='MANAGER_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Invoice</a>";
                                 }
                             }
@@ -414,7 +414,7 @@ function datapemesanan(){
                         if(result[i].status === "8"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "13"){
+                            if(result[i].status === "9"){
                                 resultdataapprove += rows;
                             }
                         }
