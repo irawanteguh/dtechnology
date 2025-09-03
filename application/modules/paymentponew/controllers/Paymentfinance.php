@@ -31,9 +31,9 @@
 
             $status = "
                 AND (
-                    (a.status in ('16','17') AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."')
+                    (a.status in ('17') AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."')
                     or (a.status = '9' and method='4')
-                    or (a.status IN ('14','15'))
+                    or (a.status IN ('14','15','16'))
                 )
             ";
 
