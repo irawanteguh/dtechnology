@@ -527,10 +527,8 @@ function datapemesanan(){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].methodid==="4"){
-                                if(result[i].status==="7" || result[i].status==="13"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
-                                }
+                            if(result[i].status==="7" || result[i].status==="13"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                             }
                             
                             if(result[i].attachment==="1"){
@@ -550,10 +548,10 @@ function datapemesanan(){
                     if(result[i].status === "7"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "8"){
+                        if(result[i].status === "8" || result[i].status === "10" || result[i].status === "12"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "13"){
+                            if(result[i].status === "9" || result[i].status === "11" || result[i].status === "13"){
                                 resultdataapprove += rows;
                             }
                         }

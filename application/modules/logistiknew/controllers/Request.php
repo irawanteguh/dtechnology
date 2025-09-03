@@ -435,6 +435,18 @@
                 $data['inv_manager_date'] = date('Y-m-d H:i:s');
             }
 
+            if($datavalidator==="VICE_INV"){
+                $data['status']     = $datastatus;
+                $data['inv_vice_id']   = $_SESSION['userid'];
+                $data['inv_vice_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="DIR_INV"){
+                $data['status']       = $datastatus;
+                $data['inv_dir_id']   = $_SESSION['userid'];
+                $data['inv_dir_date'] = date('Y-m-d H:i:s');
+            }
+
             if($datavalidator==="FINANCE_INV"){
                 $data['status']       = $datastatus;
                 $data['inv_keu_id']   = $_SESSION['userid'];

@@ -713,6 +713,12 @@ $("#modal_finance_payment").on('show.bs.modal', function (event) {
     $("input[name='modal_finance_payment_nominal']").val("Rp. " + todesimal(datanominal));
 });
 
+$("#modal_note_finance").on('show.bs.modal', function (event) {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+});
 
 function datapemesanan(startDate,endDate){
     $.ajax({
@@ -784,6 +790,14 @@ function datapemesanan(startDate,endDate){
                                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
                             }
 
+                            if(result[i].status==="16"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_buktibayar'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
+                            }
+
+                            if(result[i].status==="17"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].inv_keu_note+"' data-dirfile='"+url+"assets/buktitransfer/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View File Transfer</a>";
+                            }
+
                             if(result[i].attachment==="1"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
@@ -798,7 +812,7 @@ function datapemesanan(startDate,endDate){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "9"){
+                    if(result[i].status === "9" || result[i].status === "13"){
                         resultdataonprocess += rows;
                     }else{
                         if(result[i].status === "14"){

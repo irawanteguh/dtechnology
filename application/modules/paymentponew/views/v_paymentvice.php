@@ -25,14 +25,15 @@
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">No Request</th>
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
                                         <th>Pengadaan</th>
                                         <th>Department</th>
-                                        <th>Supplier / Cara Bayar</th>
+                                        <th>Supplier</th>
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Total</th>
-                                        <th>Disetujui oleh</th>
+                                        <th class="text-end">Status</th>
+                                        <th class="text-end">Dibuat Oleh</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -45,15 +46,15 @@
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">No Request</th>
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
                                         <th>Pengadaan</th>
                                         <th>Department</th>
-                                        <th>Supplier / Cara Bayar</th>
+                                        <th>Supplier</th>
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Total</th>
-                                        <th>Status</th>
-                                        <th>Disetujui oleh</th>
+                                        <th class="text-end">Status</th>
+                                        <th class="text-end">Dibuat Oleh</th>
                                         <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
@@ -66,15 +67,16 @@
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">No Request</th>
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
                                         <th>Pengadaan</th>
                                         <th>Department</th>
-                                        <th>Supplier / Cara Bayar</th>
+                                        <th>Supplier</th>
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Total</th>
-                                        <th>Status</th>
-                                        <th class="pe-4 text-end rounded-end">Dihapus oleh</th>
+                                        <th class="text-end">Status</th>
+                                        <th class="text-end">Dibuat Oleh</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultdatadecline"></tbody>

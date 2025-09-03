@@ -18,8 +18,7 @@
 
             $status="
                         and   a.method<>'4'
-                        and   a.status in ('13','15','16','17')
-                        and   date(a.created_date) between '".$startDate."' and '".$endDate."'
+                        and   a.status in ('11','12','13','15','16','17')
                     ";
             $orderby = "order by created_date desc;";
 

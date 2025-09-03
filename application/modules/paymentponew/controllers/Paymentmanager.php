@@ -14,7 +14,7 @@
 
         public function datapemesanan(){
             $status="
-                        and   a.status in ('7','8','9')
+                        and   a.status in ('7','8','9','10','11','12','13')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
