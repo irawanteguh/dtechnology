@@ -14,6 +14,7 @@
 
         public function datapemesanan(){
             $status="
+                        and   a.version is null
                         and   a.method<>'4'
                         and   a.status in ('9','10','11','12','13')
                     ";
