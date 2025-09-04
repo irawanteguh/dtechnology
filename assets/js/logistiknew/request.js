@@ -184,7 +184,7 @@ function datapemesanan(){
                                 }
                             }
 
-                            if(result[i].methodid==="11"){
+                            if(result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13"){
                                 if(result[i].status==="0"){
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].itemhargakosong==="0"){
@@ -197,7 +197,7 @@ function datapemesanan(){
                                     rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
                                 }
 
-                                if(result[i].status==="31"){
+                                if(result[i].status==="21" || result[i].status==="31"){
                                     if(result[i].invoice==="1"){
                                         rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
                                     }

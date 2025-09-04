@@ -72,7 +72,7 @@ function datapemesanan(){
                                 }
                             }
 
-                            if(result[i].methodid==="11"){
+                            if(result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13"){
                                 if(result[i].status==="19"){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='4' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='3' datavalidator='MANAGER' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";

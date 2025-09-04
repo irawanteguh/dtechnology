@@ -14,7 +14,7 @@
 
         public function datapemesanan(){
             $status  = " 
-                            and   a.method='11'
+                            and   a.method in ('11','12')
                             and   a.status in ('29','30','31')
                         ";
             $orderby = "order by created_date desc;";
