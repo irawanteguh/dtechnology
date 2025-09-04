@@ -16,7 +16,6 @@
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan and total=0)itemhargakosong
                             
-
                         from dt01_lgu_pemesanan_hd a
                         where a.active='1'
                         and   a.version='2.0.0.0'

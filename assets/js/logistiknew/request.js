@@ -87,6 +87,11 @@ $("#modal_upload_lampiran").on('show.bs.modal', function (event) {
 });
 
 $("#modal_upload_invoice").on('show.bs.modal', function (event) {
+    $(this).find('input[type="text"], input[type="number"], input[type="file"], textarea').val('');
+    $(this).find('select').prop('selectedIndex', 0).trigger('change');
+    $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+    
     var button          = $(event.relatedTarget);
     var datanopemesanan = button.attr("datanopemesanan");
     var datainvoiceno   = button.attr("datainvoiceno");
@@ -158,18 +163,19 @@ function datapemesanan(){
 
                             if(result[i].methodid==="4"){
                                 if(result[i].status==="0"){
+                                    if(result[i].invoice==="1"){
+                                        rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    }
+
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].itemhargakosong==="0"){
                                             rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                         }
                                     }
-                                    if(result[i].invoice==="1"){
-                                        rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    }
                                 }
 
                                 if(result[i].status==="2"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
                                 }
 
                                 if(result[i].status==="6"){
@@ -178,7 +184,7 @@ function datapemesanan(){
                                 }
                             }
 
-                            if(result[i].methodid==="11"){ // Dana Binaan
+                            if(result[i].methodid==="11"){
                                 if(result[i].status==="0"){
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].itemhargakosong==="0"){
@@ -188,32 +194,36 @@ function datapemesanan(){
                                 }
 
                                 if(result[i].status==="2"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='0' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
                                 }
 
                                 if(result[i].status==="31"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
-                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
-
                                     if(result[i].invoice==="1"){
                                         rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
                                     }
+
+                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 }
                             }
                             
-                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
-                            
+                            if(result[i].status != "1" && result[i].status != "3" && result[i].status != "5" && result[i].status != "18" && result[i].status != "20" && result[i].status != "28" && result[i].status != "30"){
+                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_lampiran' data_attachment_note='"+result[i].attachment_note+"'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload Document</a>";
+                            }
+
+                            if(result[i].status==="0"){
+                                rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='1' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Deleted Permanently</a>";
+                            }
+
+                            rows +="<div class='separator my-2'></div>";
                             if(result[i].attachment==="1"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
-
                             if(result[i].invoice==="1"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='"+result[i].invoice_no+"' data-dirfile='"+url+"assets/invoice/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View invoice</a>";
                             }
-
                             rows +="<a class='dropdown-item btn btn-sm text-primary' data-kt-drawer-show='true' data-kt-drawer-target='#drawer_chat' "+getvariabel+" onclick='getdatachat($(this));'><i class='bi bi-send text-primary'></i> Pesan Singkat</a>";
-                            rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='1' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Deleted</a>";
-                            
+
                             rows +="</div>";
                         rows +="</div>";
                     rows +="</td>";
