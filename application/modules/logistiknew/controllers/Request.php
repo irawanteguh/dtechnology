@@ -69,7 +69,7 @@
         public function datapemesanan(){
             $status  = "
                             and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','28','29','30','31')
+                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','26','27','28','29','30','31')
                         ";
             $orderby = "order by created_date desc;";
 
@@ -303,6 +303,14 @@
                 $data['dir_date']       = date('Y-m-d H:i:s');
             }
 
+            if($validator==="CTO"){
+                $data['pt_qty_it']       = $qty;
+                $data['pt_qty_cfo']      = $qty;
+                $data['pt_qty_cmo']      = $qty;
+                $data['cto_id']         = $_SESSION['userid'];
+                $data['cto_date']       = date('Y-m-d H:i:s');
+            }
+
             if($validator==="CFO"){
                 $data['pt_qty_cfo'] = $qty;
                 $data['pt_qty_cmo'] = $qty;
@@ -409,6 +417,12 @@
                 $data['status']   = $datastatus;
                 $data['dir_id']   = $_SESSION['userid'];
                 $data['dir_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CTO"){
+                $data['status']   = $datastatus;
+                $data['cto_id']   = $_SESSION['userid'];
+                $data['cto_date'] = date('Y-m-d H:i:s');
             }
 
             if($datavalidator==="CFO"){

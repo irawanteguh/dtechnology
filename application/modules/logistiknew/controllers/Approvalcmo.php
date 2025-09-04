@@ -14,9 +14,13 @@
 
         public function datapemesanan(){
             $status  = " 
-                            and   a.method in ('11','12')
+                            AND (
+                                (a.method = '7' AND a.total > 5000000)
+                                OR (a.method = '10' AND a.total > 500000)
+                                OR (a.method IN ('9','11','12'))
+                            )
                             and   a.status in ('29','30','31')
-                        ";
+                        "; 
             $orderby = "order by created_date desc;";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);

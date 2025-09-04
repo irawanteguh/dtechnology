@@ -25,7 +25,7 @@
                             )
                             and ( (a.status='2' and d.head_koordinator='N') or (a.status<>'2') )
                         )
-                            and a.status in ('2','3','4','5','6','19','20','21','28','29','30','31')
+                            and a.status in ('2','3','4','5','6','19','20','21','26','27','28','29','30','31')
                     ";
 
             $orderby = "order by created_date desc;";

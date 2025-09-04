@@ -1,6 +1,6 @@
 <?php
     defined('BASEPATH') or exit('No direct script access allowed');
-    class Approvaldirector extends CI_Controller{
+    class Approvalcto extends CI_Controller{
 
         public function __construct(){
             parent::__construct();
@@ -9,13 +9,13 @@
         }
 
         public function index(){
-            $this->template->load("template/template-sidebar","v_approvaldirector");
+            $this->template->load("template/template-sidebar","v_approvalcfo");
         }
 
         public function datapemesanan(){
             $status  = " 
-                            and   a.method<>'4'
-                            and   a.status in ('6','20','21','26','27','28','29','30','31')
+                            and   a.method='9'
+                            and   a.status in ('21','26','27')
                         ";
             $orderby = "order by created_date desc;";
 
