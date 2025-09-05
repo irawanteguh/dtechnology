@@ -9,17 +9,31 @@
         }
 
         public function index(){
-            $this->template->load("template/template-sidebar","v_approvalcfo");
+            $data = $this->loadcombobox();
+            $this->template->load("template/template-sidebar","v_approvalcfo",$data);
+        }
+
+        public function loadcombobox(){
+            $resultmasterorganization   = $this->md->masterorganization();
+
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
+            $data['masterorganization'] = $masterorganization;
+            return $data;
         }
 
         public function datapemesanan(){
+            $orgid = ($this->input->post("orgid") === "x") ? "" : "AND a.org_id='".$this->input->post("orgid")."'";
             $status  = " 
                             and   a.method='9'
                             and   a.status in ('21','26','27')
                         ";
             $orderby = "order by created_date desc;";
 
-            $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
+            $result = $this->md->datapemesanan($orgid,$status,$orderby);
             
             if(!empty($result)){
                 $json["responCode"]="00";

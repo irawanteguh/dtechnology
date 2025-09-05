@@ -5,6 +5,11 @@ $("#modal_print_po").on('shown.bs.modal', function(event){
     printpo(no_pemesanan);
 });
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    datapemesanan(startDate,endDate);
+});
+
 function updatedetail(input) {
     const itemId = input.id.split("_")[1];
     const value = input.value;

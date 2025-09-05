@@ -1,6 +1,22 @@
 <?php
     class Modelrequest extends CI_Model{
 
+        function masterorganization(){
+            $query =
+                    "
+                        select 'x'org_id, '--Pilih Semua--'org_name union
+                        select a.org_id, org_name
+                        from dt01_gen_organization_ms a
+                        where a.active='1'
+                        and   a.holding='N'
+                        order by org_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function datapemesanan($orgid,$status,$orderby){
             $query =
                     "
@@ -19,7 +35,7 @@
                         from dt01_lgu_pemesanan_hd a
                         where a.active='1'
                         and   a.version='2.0.0.0'
-                        and   a.org_id='".$orgid."'
+                        ".$orgid."
                         ".$status."
                         ".$orderby."
                     ";

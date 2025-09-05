@@ -29,9 +29,10 @@ $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
 });
 
 function datapemesanan(startDate,endDate){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url       : url+"index.php/logistiknew/approvalcmd/datapemesanan",
-        data      : {startDate:startDate,endDate:endDate},
+        data      : {startDate:startDate,endDate:endDate,orgid:orgid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
