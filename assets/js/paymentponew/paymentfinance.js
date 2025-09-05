@@ -764,7 +764,7 @@ function datapemesanan(startDate,endDate){
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    if(result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
+                    if(result[i].status==="13" || result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
                         rows +="<td>"+(result[i].inv_keu_note || "")+"</td>";
                     }
 
