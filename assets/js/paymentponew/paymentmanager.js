@@ -384,7 +384,7 @@ function datapemesanan(){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].status === "7"){
+                            if(result[i].status === "7" || result[i].status === "33"){
                                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='9' datavalidator='MANAGER_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                 rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='8' datavalidator='MANAGER_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                             }
@@ -407,7 +407,7 @@ function datapemesanan(){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "7"){
+                    if(result[i].status === "7" || result[i].status === "33"){
                         resultdataonprocess += rows;
                     }else{
                         if(result[i].status === "8" || result[i].status === "10" || result[i].status === "12"){

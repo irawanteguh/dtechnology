@@ -13,17 +13,18 @@
         }
 
         public function datapemesanan(){
-            $status="
-                        and   a.status in ('7','8','9','10','11','12','13')
-                        and   a.department_id in (
-                                                    select department_id
-                                                    from dt01_gen_department_ms
-                                                    where header_id in (
-                                                                            select department_id
-                                                                            from dt01_gen_department_ms
-                                                                            where user_id='".$_SESSION['userid']."'
-                                                                    )
-                                                )
+            $status="   
+                        and a.department_id in (
+                            select department_id
+                            from dt01_gen_department_ms d
+                            where d.header_id in (
+                                select department_id
+                                from dt01_gen_department_ms
+                                where user_id='" . $_SESSION['userid'] . "'
+                            )
+                            and ( (a.status='7' and d.head_koordinator='N') or (a.status<>'7') )
+                        )
+                        and a.status in ('7','8','9','10','11','12','13','33')
                     ";
             $orderby = "order by inv_kains_date desc;";
 

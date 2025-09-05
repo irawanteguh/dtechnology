@@ -478,6 +478,12 @@
                 $data['inv_kains_date'] = date('Y-m-d H:i:s');
             }
 
+            if($datavalidator==="KOORDINATOR_INV"){
+                $data['status']           = $datastatus;
+                $data['inv_koordinator_id']   = $_SESSION['userid'];
+                $data['inv_koordinator_date'] = date('Y-m-d H:i:s');
+            }
+
             if($datavalidator==="MANAGER_INV"){
                 $data['status']     = $datastatus;
                 $data['inv_manager_id']   = $_SESSION['userid'];

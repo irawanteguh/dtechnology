@@ -548,10 +548,10 @@ function datapemesanan(){
                     if(result[i].status === "7"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "8" || result[i].status === "10" || result[i].status === "12"){
+                        if(result[i].status === "8" || result[i].status === "10" || result[i].status === "12" || result[i].status === "32"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "9" || result[i].status === "11" || result[i].status === "13"){
+                            if(result[i].status === "9" || result[i].status === "11" || result[i].status === "13" || result[i].status === "33"){
                                 resultdataapprove += rows;
                             }
                         }
