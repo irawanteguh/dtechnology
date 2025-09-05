@@ -18,8 +18,13 @@
 
             $status="
                         and   a.method<>'4'
-                        (a.status in ('11','12','13','15','16','17') AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."')
-                        and   a.status in ('9')
+                        AND (
+                            a.status = '9'
+                        OR (
+                                a.status IN ('11','12','13','15','16','17')
+                                AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."'
+                            )
+                        )
                     ";
             $orderby = "order by created_date desc;";
 
