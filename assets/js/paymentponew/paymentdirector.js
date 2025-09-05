@@ -453,7 +453,7 @@ function datapemesanan(startDate,endDate){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "11"){
+                    if(result[i].status === "9" || result[i].status === "11"){
                         resultdataonprocess += rows;
                     }else{
                         if(result[i].status === "12"){
