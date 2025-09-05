@@ -184,7 +184,7 @@ function datapemesanan(){
                                 }
                             }
 
-                            if(result[i].methodid==="5" || result[i].methodid==="6" || result[i].methodid==="7" || result[i].methodid==="8" || [i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13"){
+                            if(result[i].methodid==="5" || result[i].methodid==="6" || result[i].methodid==="7" || result[i].methodid==="8" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13"){
                                 if(result[i].status==="0"){
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].itemhargakosong==="0"){
