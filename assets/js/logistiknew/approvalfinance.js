@@ -100,7 +100,7 @@ function datapemesanan(startDate,endDate){
                                 }
                             }
 
-                            if(result[i].methodid==="6" || result[i].methodid==="7" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13"){
+                            if(result[i].methodid==="5" || result[i].methodid==="6" || result[i].methodid==="7" || result[i].methodid==="8" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13"){
                                 if(result[i].status==="4"){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='6' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='5' datavalidator='FINANCE' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
@@ -128,10 +128,10 @@ function datapemesanan(startDate,endDate){
                     if(result[i].status === "4"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "5" || result[i].status === "20" || result[i].status === "26" || result[i].status === "28" || result[i].status === "30"){
+                        if(result[i].status === "5" || result[i].status === "20" || result[i].status === "22" || result[i].status === "26" || result[i].status === "28" || result[i].status === "30"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "6" || result[i].status === "21" || result[i].status === "27" || result[i].status === "29" || result[i].status === "31"){
+                            if(result[i].status === "6" || result[i].status === "21" || result[i].status === "23" || result[i].status === "27" || result[i].status === "29" || result[i].status === "31"){
                                 resultdataapprove += rows;
                             }
                         }

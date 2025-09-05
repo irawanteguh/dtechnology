@@ -69,7 +69,7 @@
         public function datapemesanan(){
             $status  = "
                             and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','26','27','28','29','30','31')
+                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','22','23','26','27','28','29','30','31')
                         ";
             $orderby = "order by created_date desc;";
 
@@ -137,7 +137,7 @@
             $data['qty_manager']     = $qty;
             $data['qty_keu']         = $qty;
             $data['qty_dir']         = $qty;
-            $data['qty_com']         = $qty;
+            $data['qty_com']         = 0;
             $data['pt_qty_atem']     = $qty;
             $data['pt_qty_farmasi']  = $qty;
             $data['pt_qty_it']       = $qty;
@@ -239,7 +239,7 @@
                 $data['qty_manager']     = $qty;
                 $data['qty_keu']         = $qty;
                 $data['qty_dir']         = $qty;
-                $data['qty_com']         = $qty;
+                $data['qty_com']         = 0;
                 $data['pt_qty_atem']     = $qty;
                 $data['pt_qty_farmasi']  = $qty;
                 $data['pt_qty_it']       = $qty;
@@ -254,7 +254,7 @@
                 $data['qty_manager']     = $qty;
                 $data['qty_keu']         = $qty;
                 $data['qty_dir']         = $qty;
-                $data['qty_com']         = $qty;
+                $data['qty_com']         = 0;
                 $data['pt_qty_atem']     = $qty;
                 $data['pt_qty_farmasi']  = $qty;
                 $data['pt_qty_it']       = $qty;
@@ -268,7 +268,7 @@
                 $data['qty_manager']     = $qty;
                 $data['qty_keu']         = $qty;
                 $data['qty_dir']         = $qty;
-                $data['qty_com']         = $qty;
+                $data['qty_com']         = 0;
                 $data['pt_qty_atem']     = $qty;
                 $data['pt_qty_farmasi']  = $qty;
                 $data['pt_qty_it']       = $qty;
@@ -281,7 +281,7 @@
             if($validator==="FINANCE"){
                 $data['qty_keu']         = $qty;
                 $data['qty_dir']         = $qty;
-                $data['qty_com']         = $qty;
+                $data['qty_com']         = 0;
                 $data['pt_qty_atem']     = $qty;
                 $data['pt_qty_farmasi']  = $qty;
                 $data['pt_qty_it']       = $qty;
@@ -293,7 +293,7 @@
 
             if($validator==="DIRECTOR"){
                 $data['qty_dir']         = $qty;
-                $data['qty_com']         = $qty;
+                $data['qty_com']         = 0;
                 $data['pt_qty_atem']     = $qty;
                 $data['pt_qty_farmasi']  = $qty;
                 $data['pt_qty_it']       = $qty;
@@ -303,10 +303,22 @@
                 $data['dir_date']       = date('Y-m-d H:i:s');
             }
 
+            if($validator==="CPO"){
+                $data['pt_qty_atem']    = 0;
+                $data['pt_qty_farmasi'] = $qty;
+                $data['pt_qty_it']      = 0;
+                $data['pt_qty_cfo']     = $qty;
+                $data['pt_qty_cmo']     = $qty;
+                $data['cpo_id']         = $_SESSION['userid'];
+                $data['cpo_date']       = date('Y-m-d H:i:s');
+            }
+
             if($validator==="CTO"){
-                $data['pt_qty_it']       = $qty;
-                $data['pt_qty_cfo']      = $qty;
-                $data['pt_qty_cmo']      = $qty;
+                $data['pt_qty_atem']    = 0;
+                $data['pt_qty_farmasi'] = 0;
+                $data['pt_qty_it']      = $qty;
+                $data['pt_qty_cfo']     = $qty;
+                $data['pt_qty_cmo']     = $qty;
                 $data['cto_id']         = $_SESSION['userid'];
                 $data['cto_date']       = date('Y-m-d H:i:s');
             }
@@ -417,6 +429,12 @@
                 $data['status']   = $datastatus;
                 $data['dir_id']   = $_SESSION['userid'];
                 $data['dir_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CPO"){
+                $data['status']   = $datastatus;
+                $data['cpo_id']   = $_SESSION['userid'];
+                $data['cpo_date'] = date('Y-m-d H:i:s');
             }
 
             if($datavalidator==="CTO"){

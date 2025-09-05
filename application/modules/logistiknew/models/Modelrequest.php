@@ -100,7 +100,7 @@
                         from dt01_gen_master_ms a
                         where a.active='1'
                         and   a.jenis_id='PO_2'
-                        order by master_name asc
+                        order by urut asc
                     ";
 
             $recordset = $this->db->query($query);

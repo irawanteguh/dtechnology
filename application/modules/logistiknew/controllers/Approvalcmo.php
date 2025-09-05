@@ -17,7 +17,7 @@
                             AND (
                                 (a.method = '7' AND a.total > 5000000)
                                 OR (a.method = '10' AND a.total > 500000)
-                                OR (a.method IN ('9','11','12'))
+                                OR (a.method IN ('5','9','11','12'))
                             )
                             and   a.status in ('29','30','31')
                         "; 

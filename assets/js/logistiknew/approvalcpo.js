@@ -21,7 +21,7 @@ $("#modal_master_detail_spu").on('shown.bs.modal', function(event){
     var datanopemesanan  = button.attr("datanopemesanan");
     
     $(":hidden[name='nopemesanan_item']").val(datanopemesanan);
-    detailbarangspu(datanopemesanan,"CFO");
+    detailbarangspu(datanopemesanan,"CPO");
 });
 
 $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
@@ -30,7 +30,7 @@ $('#modal_master_detail_spu').on('hidden.bs.modal', function (e) {
 
 function datapemesanan(startDate,endDate){
     $.ajax({
-        url       : url+"index.php/logistiknew/approvalcfo/datapemesanan",
+        url       : url+"index.php/logistiknew/approvalcpo/datapemesanan",
         data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
@@ -74,39 +74,18 @@ function datapemesanan(startDate,endDate){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
 
-                            if(result[i].status==="21" || result[i].status==="23" || result[i].status==="27"){
+                            if(result[i].status==="21"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";                                
                             }
 
-                            if(result[i].methodid==="5" || result[i].methodid==="7" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12"){
-                                if(result[i].status==="21" || result[i].status==="23" || result[i].status==="27"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='29' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='28' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
+                            if(result[i].methodid==="5"){
+                                if(result[i].status==="21"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='23' datavalidator='CPO' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='22' datavalidator='CPO' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }
 
-                                if(result[i].status==="29"){
-                                    if(result[i].methodid==="5"){
-                                        rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='23' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
-                                    }else{  
-                                        if(result[i].methodid==="9"){
-                                            rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='27' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
-                                        }else{
-                                            if(result[i].methodid==="10"){
-                                                rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='21' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
-                                            }else{
-                                                if(result[i].methodid==="11"){
-                                                    rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='21' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
-                                                }else{
-                                                    if(result[i].methodid==="12"){
-                                                        rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='21' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
-                                                    }
-                                                }
-                                            }
-                                            
-                                            
-                                        }
-                                    }
-                                    
+                                if(result[i].status==="23"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='21' datavalidator='CPO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
                                 }
                             }
 
@@ -124,13 +103,13 @@ function datapemesanan(startDate,endDate){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "21" || result[i].status === "23" || result[i].status === "27"){
+                    if(result[i].status === "21"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "28" || result[i].status === "30"){
+                        if(result[i].status === "22"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "29" || result[i].status === "31"){
+                            if(result[i].status === "23"){
                                 resultdataapprove += rows;
                             }
                         }

@@ -78,14 +78,14 @@ function datapemesanan(startDate,endDate){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";                                
                             }
 
-                            if(result[i].methodid==="7" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12"){
+                            if(result[i].methodid==="5" || result[i].methodid==="7" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12"){
                                 if(result[i].status==="29"){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='31' datavalidator='CMO' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='30' datavalidator='CMO' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
                                 }
 
                                 if(result[i].status==="31"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='29' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Approved</a>";
+                                    rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='29' datavalidator='CMO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
                                 }
                             }
 
