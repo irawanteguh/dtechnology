@@ -13,6 +13,7 @@
         }
 
         public function datapemesanan(){
+            $orgid = "and a.org_id='".$_SESSION['orgid']."'";
             $status  = " 
                         and   a.department_id in (
                                                     select department_id
@@ -30,7 +31,7 @@
                         ";
             $orderby = "order by created_date desc;";
 
-            $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
+            $result = $this->md->datapemesanan($orgid,$status,$orderby);
             
             if(!empty($result)){
                 $json["responCode"]="00";

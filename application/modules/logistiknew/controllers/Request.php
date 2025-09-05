@@ -67,13 +67,14 @@
         }
 
         public function datapemesanan(){
+            $orgid = "and a.org_id='".$_SESSION['orgid']."'";
             $status  = "
                             and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
                             and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','22','23','24','25','26','27','28','29','30','31')
                         ";
             $orderby = "order by created_date desc;";
 
-            $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
+            $result = $this->md->datapemesanan($orgid,$status,$orderby);
             
             if(!empty($result)){
                 $json["responCode"]="00";

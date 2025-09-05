@@ -16,13 +16,14 @@
             $startDate = $this->input->post("startDate") ?: date("Y-m-d");
             $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
+            $orgid = "and a.org_id='".$_SESSION['orgid']."'";
             $status  = " 
                             and   a.status in ('4','5','6','20','21','22','23','24','25','26','27','28','29','30','31')
                             and   date(a.created_date) between '".$startDate."' and '".$endDate."'
                         ";
             $orderby = "order by created_date desc;";
 
-            $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
+            $result = $this->md->datapemesanan($orgid,$status,$orderby);
             
             if(!empty($result)){
                 $json["responCode"]="00";
