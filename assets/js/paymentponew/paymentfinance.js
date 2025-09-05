@@ -781,7 +781,7 @@ function datapemesanan(startDate,endDate){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].status==="9"){
+                            if(result[i].status==="9" || result[i].status==="13"){
                                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                 rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='14' datavalidator='FINANCE_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                             }
