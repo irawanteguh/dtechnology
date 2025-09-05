@@ -18,7 +18,7 @@
 
             $status="
                         and   a.method<>'4'
-                        and   a.status in ('11','12','13','15','16','17')
+                        and   a.status in ('9','11','12','13','15','16','17')
                     ";
             $orderby = "order by created_date desc;";
 
