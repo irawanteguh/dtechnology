@@ -102,10 +102,10 @@ function datapemesanan(){
                     if(result[i].status === "2"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "3" || result[i].status === "5" || result[i].status === "18" || result[i].status === "20" || result[i].status === "22" || result[i].status === "26" || result[i].status === "28" || result[i].status === "30"){
+                        if(result[i].status === "3" || result[i].status === "5" || result[i].status === "18" || result[i].status === "20" || result[i].status === "22" || result[i].status === "24" || result[i].status === "26" || result[i].status === "28" || result[i].status === "30"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "4" || result[i].status === "6" ||result[i].status === "19" || result[i].status === "21" || result[i].status === "23" || result[i].status === "27" || result[i].status === "29" || result[i].status === "31"){
+                            if(result[i].status === "4" || result[i].status === "6" ||result[i].status === "19" || result[i].status === "21" || result[i].status === "23" || result[i].status === "25" || result[i].status === "27" || result[i].status === "29" || result[i].status === "31"){
                                 resultdataapprove += rows;
                             }
                         }

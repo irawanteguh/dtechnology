@@ -234,47 +234,55 @@ function datapemesanan(){
                                                     }
                                                 }
                                             }else{
-                                                if(result[i].methodid==="9"){
+                                                if(result[i].methodid==="8"){
                                                     if(result[i].status==="31"){
                                                         rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                                         rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                                     }
                                                 }else{
-                                                    if(result[i].methodid==="10"){
-                                                        if(parseFloat(result[i].total)<=500000){
-                                                            if(result[i].status==="21"){
-                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
-                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
-                                                            }
-                                                        }else{
-                                                            if(result[i].status==="31"){
-                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
-                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
-                                                            }
+                                                    if(result[i].methodid==="9"){
+                                                        if(result[i].status==="31"){
+                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                                         }
                                                     }else{
-                                                        if(result[i].methodid==="11"){
-                                                            if(result[i].status==="31"){
-                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
-                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                                        if(result[i].methodid==="10"){
+                                                            if(parseFloat(result[i].total)<=500000){
+                                                                if(result[i].status==="21"){
+                                                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                                                }
+                                                            }else{
+                                                                if(result[i].status==="31"){
+                                                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                                                }
                                                             }
                                                         }else{
-                                                            if(result[i].methodid==="12"){
+                                                            if(result[i].methodid==="11"){
                                                                 if(result[i].status==="31"){
                                                                     rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                                                     rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                                                 }
                                                             }else{
-                                                                if(result[i].methodid==="13"){
-                                                                    if(result[i].status==="21"){
+                                                                if(result[i].methodid==="12"){
+                                                                    if(result[i].status==="31"){
                                                                         rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                                                         rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                                                     }
+                                                                }else{
+                                                                    if(result[i].methodid==="13"){
+                                                                        if(result[i].status==="21"){
+                                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                    }   
+                                                        }   
+                                                    }
                                                 }
+                                                
                                             }
                                         }
                                     }
@@ -308,10 +316,10 @@ function datapemesanan(){
                     if(result[i].status === "0"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "1" || result[i].status === "3" || result[i].status === "5" || result[i].status === "18" || result[i].status === "20" || result[i].status === "22" || result[i].status === "26" || result[i].status === "28" || result[i].status === "30"){
+                        if(result[i].status === "1" || result[i].status === "3" || result[i].status === "5" || result[i].status === "18" || result[i].status === "20" || result[i].status === "22" || result[i].status === "24" || result[i].status === "26" || result[i].status === "28" || result[i].status === "30"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "2" || result[i].status === "4" || result[i].status === "6" || result[i].status === "19" || result[i].status === "21" || result[i].status === "23" || result[i].status === "27" || result[i].status === "29" || result[i].status === "31"){
+                            if(result[i].status === "2" || result[i].status === "4" || result[i].status === "6" || result[i].status === "19" || result[i].status === "21" || result[i].status === "23" || result[i].status === "25" || result[i].status === "27" || result[i].status === "29" || result[i].status === "31"){
                                 resultdataapprove += rows;
                             }
                         }

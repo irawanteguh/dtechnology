@@ -69,7 +69,7 @@
         public function datapemesanan(){
             $status  = "
                             and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','22','23','26','27','28','29','30','31')
+                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','22','23','24','25','26','27','28','29','30','31')
                         ";
             $orderby = "order by created_date desc;";
 
@@ -151,6 +151,7 @@
             $data['total']           = $subtotal;
             $data['note']            = $note;
             $data['created_by']      = $_SESSION['userid'];
+
             if($qty==="0"){
                 $data['active']   = "0";
             }else{
@@ -313,6 +314,16 @@
                 $data['cpo_date']       = date('Y-m-d H:i:s');
             }
 
+            if($validator==="CMD"){
+                $data['pt_qty_atem']    = $qty;
+                $data['pt_qty_farmasi'] = 0;
+                $data['pt_qty_it']      = 0;
+                $data['pt_qty_cfo']     = $qty;
+                $data['pt_qty_cmo']     = $qty;
+                $data['cmd_id']         = $_SESSION['userid'];
+                $data['cmd_date']       = date('Y-m-d H:i:s');
+            }
+
             if($validator==="CTO"){
                 $data['pt_qty_atem']    = 0;
                 $data['pt_qty_farmasi'] = 0;
@@ -435,6 +446,12 @@
                 $data['status']   = $datastatus;
                 $data['cpo_id']   = $_SESSION['userid'];
                 $data['cpo_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CMD"){
+                $data['status']   = $datastatus;
+                $data['cmd_id']   = $_SESSION['userid'];
+                $data['cmd_date'] = date('Y-m-d H:i:s');
             }
 
             if($datavalidator==="CTO"){
