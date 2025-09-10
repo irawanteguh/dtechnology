@@ -21,12 +21,23 @@
                         AND (
                             a.status = '9'
                         OR (
-                                a.status IN ('11','12','13','15','16','17')
+                                a.status IN ('11','13','15','16','17')
                                 AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."'
+                            )
+                        OR (
+                                a.status ='12'
+                                AND DATE(a.inv_dir_date) BETWEEN '".$startDate."' AND '".$endDate."'
                             )
                         )
                     ";
-            $orderby = "order by created_date desc;";
+            $orderby = "
+                            ORDER BY 
+                                CASE 
+                                    WHEN a.status = '9'  THEN a.inv_manager_date
+                                    WHEN a.status = '12' THEN a.inv_dir_date
+                                    WHEN a.status IN ('11','13','15','16','17') THEN a.inv_keu_date
+                                END DESC
+                        ";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
             

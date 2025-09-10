@@ -19,6 +19,9 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#tabpayment">Payment</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabtransfer">Transfer</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>
                     </li>
                 </ul>
@@ -88,6 +91,29 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultdatapayment"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabtransfer" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-dashed fs-8 gy-2">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
+                                        <th class="ps-4 rounded-start">No Pemesanan</th>
+                                        <th>Pengadaan</th>
+                                        <th>Department</th>
+                                        <th>Supplier</th>
+                                        <th>No Invoice</th>
+                                        <th class="text-end">Sub Total</th>
+                                        <th class="text-end">Ppn</th>
+                                        <th class="text-end">Total</th>
+                                        <th>Catatan</th>
+                                        <th class="text-end">Status</th>
+                                        <th class="text-end">Dibuat Oleh</th>
+                                        <th class="pe-4 text-end rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-bold" id="resultdatatransfer"></tbody>
                             </table>
                         </div>
                     </div>

@@ -737,6 +737,7 @@ function datapemesanan(startDate,endDate){
             $("#resultdataapprove").html("");
             $("#resultdatadecline").html("");
             $("#resultdatapayment").html("");
+            $("#resultdatatransfer").html("");
         },
         success:function(data){
             var result              = "";
@@ -757,8 +758,8 @@ function datapemesanan(startDate,endDate){
                                         " datanominal='"+result[i].total+"'";
 
                 let rows  ="<tr>";
-                    rows +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
-                    rows += "<td>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    rows +="<td class='ps-4'><div>"+result[i].no_pemesanan_unit+"</div>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
+                    rows +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
                     rows +="<td>"+result[i].unitpelaksana+"</td>";
                     rows +="<td>"+result[i].namasupplier+"</td>";
                     if(result[i].status==="9" || result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
@@ -824,8 +825,12 @@ function datapemesanan(startDate,endDate){
                             if(result[i].status === "15"){
                                 resultdataapprove += rows;
                             }else{
-                                if(result[i].status === "16" || result[i].status === "17"){
+                                if(result[i].status === "16"){
                                     resultdatapayment += rows;
+                                }else{
+                                    if(result[i].status === "17"){
+                                        resultdatatransfer += rows;
+                                    }
                                 }
                             }
                         }
@@ -837,6 +842,7 @@ function datapemesanan(startDate,endDate){
             $("#resultdatadecline").html(resultdatadecline);
             $("#resultdataapprove").html(resultdataapprove);
             $("#resultdatapayment").html(resultdatapayment);
+            $("#resultdatatransfer").html(resultdatatransfer);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");

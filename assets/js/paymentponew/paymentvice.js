@@ -374,8 +374,8 @@ function datapemesanan(){
                                         " datadepartmentid='"+result[i].department_id+"'";
 
                 let rows  ="<tr>";
-                    rows +="<td class='ps-4'>"+result[i].no_pemesanan_unit+"</td>";
-                    rows += "<td>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    rows +="<td class='ps-4'><div>"+result[i].no_pemesanan_unit+"</div>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
+                    rows +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
                     rows +="<td>"+result[i].unitpelaksana+"</td>";
                     rows +="<td>"+result[i].namasupplier+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";

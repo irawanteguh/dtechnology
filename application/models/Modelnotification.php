@@ -204,5 +204,31 @@
             return $sql;
         }
 
+        function informasipo($orgid,$userid){
+            $query =
+                    "
+                        select x.*,
+                            (select jabatan from dt01_gen_department_ms where active='1' and org_id=x.org_id and department_id=x.koordinatorid)manager,
+                            (select name from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=(select user_id from dt01_gen_department_ms where active='1' and org_id=x.org_id and department_id=x.koordinatorid))namamanager
+                        from(
+                        select a.org_id, department_id, department, header_id, head_koordinator, level_id,
+                            (select header_id from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.header_id)koordinatorid,
+                            (select jabatan from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.header_id)koordinator,
+                            (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=(select user_id from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.header_id))nama
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.department is not null
+                        and   a.org_id='".$orgid."'
+                        and   a.user_id='".$userid."'
+                        and   a.level_id in ('4','5')
+                        )x
+                        order by head_koordinator desc, department asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
     }
 ?>

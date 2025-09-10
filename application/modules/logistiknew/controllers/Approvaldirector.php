@@ -13,12 +13,12 @@
         }
 
         public function datapemesanan(){
-            $orgid = "and a.org_id='".$_SESSION['orgid']."'";
+            $orgid   = "and a.org_id='".$_SESSION['orgid']."'";
             $status  = " 
                             and   a.method<>'4'
                             and   a.status in ('6','20','21','22','23','24','25','26','27','28','29','30','31')
                         ";
-            $orderby = "order by created_date desc;";
+            $orderby = "order by a.created_date desc;";
 
             $result = $this->md->datapemesanan($orgid,$status,$orderby);
             

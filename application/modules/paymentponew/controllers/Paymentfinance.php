@@ -37,7 +37,15 @@
                 )
             ";
 
-            $orderby = "order by a.inv_keu_date desc";
+            $orderby = "
+                            ORDER BY 
+                                CASE 
+                                    WHEN a.status = '9'  THEN a.inv_manager_date
+                                    WHEN a.status = '13' THEN a.inv_dir_date
+                                    WHEN a.status IN ('14','15') THEN a.inv_keu_date
+                                    WHEN a.status IN ('16','17') THEN a.payment_date
+                                END DESC
+                        ";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'], $status, $orderby);
             

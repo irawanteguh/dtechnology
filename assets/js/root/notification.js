@@ -1,5 +1,6 @@
 information();
 disposisi();
+informasipo();
 
 function disposisi(){
     $.ajax({
@@ -126,6 +127,53 @@ function selfreportkpi(){
             $("#resultkpidashboard").attr("data-kt-countup-value", result[0].resultkpi).text(result[0].resultkpi + "%");
             $("#presentasikpi").html(result[0].resultkpi+" %");
             $("#progresskpi").css("width", result[0].resultkpi + "%").attr("aria-valuenow", result[0].resultkpi);
+        },
+        complete: function () {
+
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
+
+function informasipo(){
+    $.ajax({
+        url        : url+"index.php/root/notification/informasipo",
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function () {
+            $("#informasikoordinator").html("");
+        },
+        success:function(data){
+            if(data.responCode === "00") {
+                let result = data.responResult;
+                let html = "<ul>";
+                for (let i in result) {
+                    if(result[i].head_koordinator==="Y"){
+                        html += "<li>Proses persetujuan purchase order - <strong>" + result[i].department + " -> "+result[i].koordinator+" ("+result[i].nama+") -> "+result[i].manager+" ("+result[i].namamanager+")</strong></li>";
+                    }else{
+                        html += "<li>Proses persetujuan purchase order - <strong>" + result[i].department + " -> "+result[i].koordinator+" ("+result[i].nama+")</strong></li>";
+                    }
+                    
+                }
+                html += "</ul>";
+                $("#informasikoordinator").html(html);
+            }
         },
         complete: function () {
 

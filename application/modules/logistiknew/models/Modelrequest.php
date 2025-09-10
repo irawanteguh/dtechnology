@@ -98,9 +98,10 @@
                         select a.department_id, department
                         from dt01_gen_department_ms a
                         where a.active='1'
+                        and   a.department is not null
                         and   a.org_id='".$orgid."'
                         and   a.user_id='".$userid."'
-                        and   a.level_id='5'
+                        and   a.level_id in ('4','5')
                         order by department asc
                     ";
 
