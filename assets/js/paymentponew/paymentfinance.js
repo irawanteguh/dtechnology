@@ -1,5 +1,4 @@
-// Dropzone.autoDiscover = false;
-// let myDropzone;
+
 
 // let today     = new Date();
 // let startDate = today.toISOString().split('T')[0];
@@ -10,30 +9,7 @@
 // datapayment(startDate, endDate);
 // datadecline();
 
-// $("#modal_upload_buktibayar").on('show.bs.modal', function (event) {
-//     var button             = $(event.relatedTarget);
-//     var datanopemesanan    = button.attr("datanopemesanan");
 
-//     if (myDropzone) {
-//         myDropzone.destroy();
-//     }
-
-//     myDropzone = new Dropzone("#file_bukti_bayar", {
-//         url               : url + "index.php/paymentponew/paymentfinance/uploadbuktibayar?datanopemesanan=" + datanopemesanan,
-//         acceptedFiles     : '.pdf',
-//         paramName         : "file",
-//         dictDefaultMessage: "Drop files here or click to upload",
-//         maxFiles          : 1,
-//         maxFilesize       : 2,
-//         addRemoveLinks    : true,
-//         autoProcessQueue  : true,
-//         accept: function (file, done) {
-//             done();
-//             datapayment(startDate, endDate);
-//             $('#modal_upload_buktibayar').modal('hide');
-//         }
-//     });
-// });
 
 // flatpickr('[name="dateperiode"]', {
 //     mode      : "range",
@@ -644,6 +620,8 @@
 // //     return false;
 // // });
 
+Dropzone.autoDiscover = false;
+let myDropzone;
 let today     = new Date();
 let startDate = today.toISOString().split('T')[0];
 let endDate   = today.toISOString().split('T')[0];
@@ -718,6 +696,31 @@ $("#modal_note_finance").on('show.bs.modal', function (event) {
     $(this).find('select').prop('selectedIndex', 0).trigger('change');
     $(this).find('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     $(this).find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+});
+
+$("#modal_upload_buktibayar").on('show.bs.modal', function (event) {
+    var button             = $(event.relatedTarget);
+    var datanopemesanan    = button.attr("datanopemesanan");
+
+    if (myDropzone) {
+        myDropzone.destroy();
+    }
+
+    myDropzone = new Dropzone("#file_bukti_bayar", {
+        url               : url + "index.php/logistiknew/request/uploadbuktibayar?datanopemesanan=" + datanopemesanan,
+        acceptedFiles     : '.pdf',
+        paramName         : "file",
+        dictDefaultMessage: "Drop files here or click to upload",
+        maxFiles          : 1,
+        maxFilesize       : 2,
+        addRemoveLinks    : true,
+        autoProcessQueue  : true,
+        accept: function (file, done) {
+            done();
+            datapemesanan(startDate,endDate);
+            $('#modal_upload_buktibayar').modal('hide');
+        }
+    });
 });
 
 function datapemesanan(startDate,endDate){

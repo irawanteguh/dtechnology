@@ -262,32 +262,7 @@
         //     echo json_encode($json);
         // }
 
-        // public function uploadbuktibayar(){
-        //     $datanopemesanan= $_GET['datanopemesanan'];
-
-        //     $config['upload_path']   = './assets/buktitransfer/';
-        //     $config['allowed_types'] = 'pdf';
-        //     $config['file_name']     = $datanopemesanan;
-        //     $config['overwrite']     = TRUE;
-
-        //     $this->load->library('upload', $config);
-
-        //     if (!$this->upload->do_upload('file')) {
-        //         $error = array('error' => $this->upload->display_errors());
-
-        //         log_message('error', 'File upload error: ' . implode(' ', $error));
-        //         echo json_encode($error);
-        //     } else {
-        //         $upload_data = $this->upload->data();
-
-        //         $dataupdate['status']="17";
-
-        //         $this->md->updateheader($datanopemesanan,$dataupdate);
-
-        //         echo "Upload Success";
-        //     }
-
-        // }
+        
         
     }
 ?>

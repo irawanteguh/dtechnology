@@ -79,7 +79,7 @@ function datapemesanan(startDate,endDate){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_master_detail_spu'><i class='bi bi-pencil-square text-primary'></i> Update Item</a>";                                
                             }
 
-                            if(result[i].methodid==="5" || result[i].methodid==="7" || result[i].methodid==="8" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12"){
+                            if(result[i].methodid==="5" || result[i].methodid==="7" || result[i].methodid==="8" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="14"){
                                 if(result[i].status==="21" || result[i].status==="23" || result[i].status==="25" || result[i].status==="27"){
                                     rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='29' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='28' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Decline</a>";
@@ -103,6 +103,10 @@ function datapemesanan(startDate,endDate){
                                                     }else{
                                                         if(result[i].methodid==="12"){
                                                             rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='21' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
+                                                        }else{
+                                                            if(result[i].methodid==="14"){
+                                                                rows +="<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" datastatus='21' datavalidator='CFO' onclick='validasi($(this));'><i class='bi bi-arrow-counterclockwise text-info'></i> Cancel Approved</a>";
+                                                            }
                                                         }
                                                     }
                                                 }

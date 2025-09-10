@@ -150,6 +150,59 @@
             return $recordset;
         }
 
+        // function masterbarang($orgid,$nopemesanan,$parameter){
+        //     $query =
+        //             "
+        //                 SELECT 
+        //                     a.barang_id,
+        //                     a.nama_barang,
+        //                     b.item_id,
+        //                     b.stock,
+        //                     b.qty_minta AS qty,
+        //                     b.qty_req,
+        //                     b.harga,
+        //                     b.ppn,
+        //                     ROUND(b.harga_ppn, 0) AS hargappn,
+        //                     ROUND(b.total, 0) AS total,
+        //                     b.note,
+        //                     satuan_beli.satuan AS satuanbeli,
+        //                     satuan_pakai.satuan AS satuanpakai,
+        //                     jenis.jenis,
+        //                     CASE 
+        //                         WHEN b.item_id IS NULL THEN '0'
+        //                         ELSE '1'
+        //                     END AS status
+        //                 FROM dt01_lgu_barang_ms a
+        //                 LEFT JOIN dt01_lgu_pemesanan_dt b 
+        //                     ON b.org_id = a.org_id 
+        //                     AND b.barang_id = a.barang_id 
+        //                     AND b.no_pemesanan = '".$nopemesanan."'
+        //                     AND B.active='1'
+        //                 LEFT JOIN dt01_lgu_satuan_ms satuan_beli 
+        //                     ON satuan_beli.satuan_id = a.satuan_beli_id 
+        //                     AND satuan_beli.org_id = a.org_id 
+        //                     AND satuan_beli.active = '1'
+        //                 LEFT JOIN dt01_lgu_satuan_ms satuan_pakai 
+        //                     ON satuan_pakai.satuan_id = a.satuan_pakai_id 
+        //                     AND satuan_pakai.org_id = a.org_id 
+        //                     AND satuan_pakai.active = '1'
+        //                 LEFT JOIN dt01_lgu_jenis_barang_ms jenis 
+        //                     ON jenis.jenis_id = a.jenis_id 
+        //                     AND jenis.org_id = a.org_id 
+        //                     AND jenis.active = '1'
+        //                 WHERE 
+        //                     a.active = '1'
+        //                     AND a.org_id = '".$orgid."'
+        //                     ".$parameter."
+        //                 ORDER BY status DESC, a.nama_barang ASC;
+
+        //             ";
+
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
+
         function masterbarang($orgid,$nopemesanan,$parameter){
             $query =
                     "
@@ -168,6 +221,8 @@
                             satuan_beli.satuan AS satuanbeli,
                             satuan_pakai.satuan AS satuanpakai,
                             jenis.jenis,
+                            h.harga AS harga_terakhir,
+                            h.created_date AS tgl_harga_terakhir,
                             CASE 
                                 WHEN b.item_id IS NULL THEN '0'
                                 ELSE '1'
@@ -177,7 +232,22 @@
                             ON b.org_id = a.org_id 
                             AND b.barang_id = a.barang_id 
                             AND b.no_pemesanan = '".$nopemesanan."'
-                            AND B.active='1'
+                            AND b.active = '1'
+                        -- ambil harga terakhir via join dengan tabel agregat
+                        LEFT JOIN (
+                            SELECT p.org_id, p.barang_id, p.harga, p.created_date
+                            FROM dt01_lgu_pemesanan_dt p
+                            INNER JOIN (
+                                SELECT org_id, barang_id, MAX(created_date) AS max_date
+                                FROM dt01_lgu_pemesanan_dt
+                                WHERE active = '1'
+                                GROUP BY org_id, barang_id
+                            ) m ON m.org_id = p.org_id 
+                            AND m.barang_id = p.barang_id
+                            AND m.max_date = p.created_date
+                            WHERE p.active = '1'
+                        ) h ON h.org_id = a.org_id 
+                        AND h.barang_id = a.barang_id
                         LEFT JOIN dt01_lgu_satuan_ms satuan_beli 
                             ON satuan_beli.satuan_id = a.satuan_beli_id 
                             AND satuan_beli.org_id = a.org_id 
@@ -196,12 +266,15 @@
                             ".$parameter."
                         ORDER BY status DESC, a.nama_barang ASC;
 
+
                     ";
 
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
         }
+
+        
 
         function chat($userid,$refid){
             $query = "

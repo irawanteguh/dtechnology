@@ -184,7 +184,7 @@ function datapemesanan(){
                                 }
                             }
 
-                            if(result[i].methodid==="5" || result[i].methodid==="6" || result[i].methodid==="7" || result[i].methodid==="8" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13"){
+                            if(result[i].methodid==="5" || result[i].methodid==="6" || result[i].methodid==="7" || result[i].methodid==="8" || result[i].methodid==="9" || result[i].methodid==="10" || result[i].methodid==="11" || result[i].methodid==="12" || result[i].methodid==="13" || result[i].methodid==="14"){
                                 if(result[i].status==="0"){
                                     if(result[i].jmlitem!="0"){
                                         if(result[i].itemhargakosong==="0"){
@@ -273,6 +273,11 @@ function datapemesanan(){
                                                                 }else{
                                                                     if(result[i].methodid==="13"){
                                                                         if(result[i].status==="21"){
+                                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                                                        }
+                                                                    }else{
+                                                                        if(result[i].methodid==="14"){
                                                                             rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                                                             rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
                                                                         }
@@ -410,7 +415,7 @@ function masterbarang(datanopemesanan,datadepartmentid,datastatus){
                     if(result[i].harga!=null){
                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].barang_id}' value='${todesimal(result[i].harga)}' onchange='simpandata(this)'></td>`;
                     }else{
-                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].barang_id}' onchange='simpandata(this)'></td>`;
+                        tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='harga_${result[i].barang_id}' value='${todesimal(result[i].harga_terakhir)}' onchange='simpandata(this)'></td>`;
                     }
 
                     if(result[i].ppn!=null){
