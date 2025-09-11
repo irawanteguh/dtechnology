@@ -195,8 +195,6 @@ function databulananpiutang() {
     return false;
 }
 
-
-
 function dataharian() {
     const periode = $("select[name='toolbar_kunjunganyears_periode']").val();
 
