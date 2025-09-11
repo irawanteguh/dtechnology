@@ -1,6 +1,6 @@
 
-Dropzone.autoDiscover = false;
-let myDropzone;
+// Dropzone.autoDiscover = false;
+// let myDropzone;
 
 const filteritemname = new Tagify(document.querySelector("#filteritemname"), { enforceWhitelist: true });
 const filtercategory = new Tagify(document.querySelector("#filtercategory"), { enforceWhitelist: true });
@@ -66,24 +66,6 @@ $("#modal_upload_lampiran").on('show.bs.modal', function (event) {
 
     $("input[name='modal_upload_lampiran_nopemesanan']").val(datanopemesanan);
     $("textarea[name='modal_upload_lampiran_note']").val(dataattachmentnote === 'null' ? '' : dataattachmentnote);
-
-    if (myDropzone) {
-        myDropzone.destroy();
-    }
-
-    myDropzone = new Dropzone("#file_doc", {
-        url               : url + "index.php/logistiknew/request/uploaddocument?datanopemesanan="+datanopemesanan,
-        acceptedFiles     : '.pdf',
-        paramName         : "file",
-        dictDefaultMessage: "Drop files here or click to upload",
-        maxFiles          : 1,
-        maxFilesize       : 2,
-        addRemoveLinks    : true,
-        autoProcessQueue  : true,
-        accept            : function (file, done) {
-            done();
-        }
-    });
 });
 
 $("#modal_upload_invoice").on('show.bs.modal', function (event) {
@@ -619,44 +601,53 @@ $(document).on("submit", "#formnewpurchaseorder", function (e) {
 });
 
 $(document).on("submit", "#formnotelampiran", function (e) {
-	e.preventDefault();
-    e.stopPropagation();
-	var form = $(this);
-    var url  = $(this).attr("action");
+    e.preventDefault();
 
-	$.ajax({
-        url       : url,
-        data      : form.serialize(),
-        method    : "POST",
-        dataType  : "JSON",
-        cache     : false,
-        beforeSend: function () {
+    var form = $(this);
+    var url  = form.attr("action");
+    var formData = new FormData(this);
+
+    $.ajax({
+        url        : url,
+        data       : formData,
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        contentType: false,
+        processData: false,
+        beforeSend : function () {
             toastr.clear();
             toastr["info"]("Sending request...", "Please wait");
-			$("#modal_upload_lampiran_btn").addClass("disabled");
+            $("#modal_upload_lampiran_btn").addClass("disabled");
         },
-		success: function (data) {
-            if(data.responCode == "00"){
-                $("#modal_upload_lampiran").modal("hide");
-			}
+        success: function (data) {
+            if (data.responCode == "00") {
+                $('#modal_upload_lampiran').modal('hide');
+            }
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
-		},
+        },
         complete: function () {
             toastr.clear();
             $("#modal_upload_lampiran_btn").removeClass("disabled");
-		},
-        error: function(xhr, status, error) {
-            showAlert(
-                "I'm Sorry",
-                error,
-                "error",
-                "Please Try Again",
-                "btn btn-danger"
-            );
-		}
-	});
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+
     return false;
 });
 

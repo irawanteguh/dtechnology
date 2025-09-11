@@ -17,11 +17,6 @@
                         and   a.status = '6'
                         and   a.status_vice='Y'
                         and   a.status_dir='Y'
-                        and   a.department_id in (
-                                                    select department_id
-                                                    from dt01_gen_department_ms
-                                                    where user_id='".$_SESSION['userid']."'
-                                                )
                     ";
             $orderby ="order by created_date desc;";
             $result = $this->md->datarequest($_SESSION['orgid'],$status,$orderby);

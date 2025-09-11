@@ -40,6 +40,37 @@
             return $data;
 		}
 
+        public function datapemesanan(){
+            $orgid  = "and a.org_id='".$_SESSION['orgid']."'";
+            $status = "
+                            and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
+                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','22','23','24','25','26','27','28','29','30','31')
+                        ";
+
+           $orderby = "
+                            ORDER BY 
+                                CASE 
+                                    WHEN a.status = '2'  THEN a.kains_date
+                                    ELSE a.created_date
+                                END DESC
+                        ";
+
+            $result = $this->md->datapemesanan($orgid,$status,$orderby);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
         public function masterbarang(){
             $datanopemesanan  = $this->input->post("datanopemesanan");
             $datadepartmentid = $this->input->post("datadepartmentid");
@@ -66,34 +97,13 @@
             echo json_encode($json);
         }
 
-        public function datapemesanan(){
-            $orgid = "and a.org_id='".$_SESSION['orgid']."'";
-            $status  = "
-                            and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                            and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','22','23','24','25','26','27','28','29','30','31')
-                        ";
-            $orderby = "order by created_date desc;";
+        public function newpurchaseorder(){
+            $nopemesanan     = generateuuid();
+            $nopemesananunit = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_request_department"),"and hd.type<>'20'")->nomor_pemesanan;
 
-            $result = $this->md->datapemesanan($orgid,$status,$orderby);
-            
-            if(!empty($result)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Data Successfully Found";
-                $json['responResult']=$result;
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Data Failed to Find";
-            }
-
-            echo json_encode($json);
-        }
-
-        public function newpurchaseorder(){            
             $data['org_id']            = $_SESSION['orgid'];
-            $data['no_pemesanan']      = generateuuid();
-            $data['no_pemesanan_unit'] = $this->md->buatnopemesanan($_SESSION['orgid'],$this->input->post("modal_new_request_department"),"and hd.type<>'20'")->nomor_pemesanan;
+            $data['no_pemesanan']      = $nopemesanan;
+            $data['no_pemesanan_unit'] = $nopemesananunit;
             $data['judul_pemesanan']   = $this->input->post("modal_new_request_nama");
             $data['note']              = $this->input->post("modal_new_request_note");
             $data['department_id']     = $this->input->post("modal_new_request_department");
@@ -104,6 +114,16 @@
             $data['created_by']        = $_SESSION['userid'];
 
             if($this->md->insertheader($data)){
+                $chattext="No Pemesanan : ".$nopemesananunit.", Tanggal : ".date("d.m.Y").", Pengadaan : ".$this->input->post("modal_new_request_nama").", Catatan : ".$this->input->post("modal_new_request_note");
+
+                $datachat['org_id']     = $_SESSION['orgid'];
+                $datachat['chat_id']    = generateuuid();
+                $datachat['ref_id']     = $nopemesanan;
+                $datachat['chat']       = $chattext;
+                $datachat['created_by'] = $_SESSION['userid'];
+
+                $this->md->insertchat($datachat);
+
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Added Successfully";
@@ -111,6 +131,134 @@
                 $json['responCode']="01";
                 $json['responHead']="info";
                 $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function updateheader(){
+            $datanopemesanan     = $this->input->post('datanopemesanan');
+            $datanopemesananunit = $this->input->post('datanopemesananunit');
+            $datastatus          = $this->input->post('datastatus');
+            $datavalidator       = $this->input->post('datavalidator');
+            
+            if($datavalidator==="KAINS"){
+                $data['status']     = $datastatus;
+                $data['kains_id']   = $_SESSION['userid'];
+                $data['kains_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="MANAGER"){
+                $data['status']     = $datastatus;
+                $data['manager_id']   = $_SESSION['userid'];
+                $data['manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="KOORDINATOR"){
+                $data['status']           = $datastatus;
+                $data['koordinator_id']   = $_SESSION['userid'];
+                $data['koordinator_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="FINANCE"){
+                $data['status']   = $datastatus;
+                $data['keu_id']   = $_SESSION['userid'];
+                $data['keu_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="DIRECTOR"){
+                $data['status']   = $datastatus;
+                $data['dir_id']   = $_SESSION['userid'];
+                $data['dir_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CPO"){
+                $data['status']   = $datastatus;
+                $data['cpo_id']   = $_SESSION['userid'];
+                $data['cpo_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CMD"){
+                $data['status']   = $datastatus;
+                $data['cmd_id']   = $_SESSION['userid'];
+                $data['cmd_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CTO"){
+                $data['status']   = $datastatus;
+                $data['cto_id']   = $_SESSION['userid'];
+                $data['cto_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CFO"){
+                $data['status']   = $datastatus;
+                $data['cfo_id']   = $_SESSION['userid'];
+                $data['cfo_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CMO"){
+                $data['status']   = $datastatus;
+                $data['cmo_id']   = $_SESSION['userid'];
+                $data['cmo_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="KAINS_INV"){
+                $data['status']         = $datastatus;
+                $data['inv_kains_id']   = $_SESSION['userid'];
+                $data['inv_kains_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="KOORDINATOR_INV"){
+                $data['status']           = $datastatus;
+                $data['inv_koordinator_id']   = $_SESSION['userid'];
+                $data['inv_koordinator_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="MANAGER_INV"){
+                $data['status']     = $datastatus;
+                $data['inv_manager_id']   = $_SESSION['userid'];
+                $data['inv_manager_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="VICE_INV"){
+                $data['status']     = $datastatus;
+                $data['inv_vice_id']   = $_SESSION['userid'];
+                $data['inv_vice_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="DIR_INV"){
+                $data['status']       = $datastatus;
+                $data['inv_dir_id']   = $_SESSION['userid'];
+                $data['inv_dir_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="FINANCE_INV"){
+                $data['status']       = $datastatus;
+                $data['inv_keu_id']   = $_SESSION['userid'];
+                $data['inv_keu_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($this->md->updateheader($datanopemesanan,$data)){
+
+                $resultmasterstatus = $this->md->masterstatus($datastatus);
+
+                $chattext = "No Pemesanan : ".$datanopemesananunit.", <span class='badge badge-light-".$resultmasterstatus->color."'>".$resultmasterstatus->master_name."</span>";
+
+                $datachat['org_id']     = $_SESSION['orgid'];
+                $datachat['chat_id']    = generateuuid();
+                $datachat['ref_id']     = $datanopemesanan;
+                $datachat['chat']       = $chattext;
+                $datachat['created_by'] = $_SESSION['userid'];
+
+                $this->md->insertchat($datachat);
+
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Update successful";
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Failed to update database";
             }
 
             echo json_encode($json);
@@ -381,194 +529,6 @@
             echo json_encode($json);
         }
 
-        public function uploaddocument(){
-            $datanopemesanan= $_GET['datanopemesanan'];
-
-            $config['upload_path']   = './assets/documentpo/';
-            $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $datanopemesanan;
-            $config['overwrite']     = TRUE;
-
-            $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('file')) {
-                $error_message = strip_tags($this->upload->display_errors());
-
-                log_message('error', 'File upload error: ' . $error_message);
-
-                $json['responCode'] = "01";
-                $json['responHead'] = "info";
-                $json['responDesc'] = $error_message;
-            }else{
-
-                $dataupdate['attachment']      = "1";
-                $dataupdate['attachment_date'] = date('Y-m-d H:i:s');
-                $this->md->updateheader($datanopemesanan,$dataupdate);
-                echo "Upload Success";
-            }
-        }
-
-        public function uploadbuktibayar(){
-            $datanopemesanan= $_GET['datanopemesanan'];
-
-            $config['upload_path']   = './assets/buktitransfer/';
-            $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $datanopemesanan;
-            $config['overwrite']     = TRUE;
-
-            $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('file')) {
-                $error_message = strip_tags($this->upload->display_errors());
-
-                log_message('error', 'File upload error: ' . $error_message);
-
-                $json['responCode'] = "01";
-                $json['responHead'] = "info";
-                $json['responDesc'] = $error_message;
-            }else{
-                $dataupdate['status']="17";
-                $this->md->updateheader($datanopemesanan,$dataupdate);
-
-                $json['responCode']="00";
-                $json['responHead']="success";
-                $json['responDesc']="Upload Success";
-            }
-
-            echo json_encode($json);
-        }
-
-        public function updateheader(){
-            $datanopemesanan = $this->input->post('datanopemesanan');
-            $datastatus      = $this->input->post('datastatus');
-            $datavalidator   = $this->input->post('datavalidator');
-            
-            if($datavalidator==="KAINS"){
-                $data['status']     = $datastatus;
-                $data['kains_id']   = $_SESSION['userid'];
-                $data['kains_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="MANAGER"){
-                $data['status']     = $datastatus;
-                $data['manager_id']   = $_SESSION['userid'];
-                $data['manager_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="KOORDINATOR"){
-                $data['status']           = $datastatus;
-                $data['koordinator_id']   = $_SESSION['userid'];
-                $data['koordinator_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="FINANCE"){
-                $data['status']   = $datastatus;
-                $data['keu_id']   = $_SESSION['userid'];
-                $data['keu_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="DIRECTOR"){
-                $data['status']   = $datastatus;
-                $data['dir_id']   = $_SESSION['userid'];
-                $data['dir_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="CPO"){
-                $data['status']   = $datastatus;
-                $data['cpo_id']   = $_SESSION['userid'];
-                $data['cpo_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="CMD"){
-                $data['status']   = $datastatus;
-                $data['cmd_id']   = $_SESSION['userid'];
-                $data['cmd_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="CTO"){
-                $data['status']   = $datastatus;
-                $data['cto_id']   = $_SESSION['userid'];
-                $data['cto_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="CFO"){
-                $data['status']   = $datastatus;
-                $data['cfo_id']   = $_SESSION['userid'];
-                $data['cfo_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="CMO"){
-                $data['status']   = $datastatus;
-                $data['cmo_id']   = $_SESSION['userid'];
-                $data['cmo_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="KAINS_INV"){
-                $data['status']         = $datastatus;
-                $data['inv_kains_id']   = $_SESSION['userid'];
-                $data['inv_kains_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="KOORDINATOR_INV"){
-                $data['status']           = $datastatus;
-                $data['inv_koordinator_id']   = $_SESSION['userid'];
-                $data['inv_koordinator_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="MANAGER_INV"){
-                $data['status']     = $datastatus;
-                $data['inv_manager_id']   = $_SESSION['userid'];
-                $data['inv_manager_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="VICE_INV"){
-                $data['status']     = $datastatus;
-                $data['inv_vice_id']   = $_SESSION['userid'];
-                $data['inv_vice_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="DIR_INV"){
-                $data['status']       = $datastatus;
-                $data['inv_dir_id']   = $_SESSION['userid'];
-                $data['inv_dir_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($datavalidator==="FINANCE_INV"){
-                $data['status']       = $datastatus;
-                $data['inv_keu_id']   = $_SESSION['userid'];
-                $data['inv_keu_date'] = date('Y-m-d H:i:s');
-            }
-
-            if($this->md->updateheader($datanopemesanan,$data)){
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Update successful";
-            }else{
-                $json["responCode"]="01";
-                $json["responHead"]="info";
-                $json["responDesc"]="Failed to update database";
-            }
-
-            echo json_encode($json);
-        }
-
-        public function notelampiran(){            
-            $dataupdate['attachment_note'] = $this->input->post("modal_upload_lampiran_note");
-            $dataupdate['attachment_date'] = date('Y-m-d H:i:s');
-
-            if($this->md->updateheader($this->input->post("modal_upload_lampiran_nopemesanan"),$dataupdate)){
-                $json['responCode']="00";
-                $json['responHead']="success";
-                $json['responDesc']="Data Updated Successfully";
-            }else{
-                $json['responCode']="01";
-                $json['responHead']="info";
-                $json['responDesc']="Data failed to update";
-            }
-            
-            echo json_encode($json);
-        }
-
         public function catatankeuangan(){
             $nopemesanan  = $this->input->post("modal_note_finance_nopemesanan");
             $notelampiran = $this->input->post("modal_note_finance_catatan");
@@ -643,43 +603,35 @@
             echo json_encode($json);
         }
 
-        // public function uploadinvoice(){
-        //     $nopemesanan = $this->input->post("modal_upload_invoice_nopemesanan");
-        //     $noinvoice   = $this->input->post("modal_upload_invoice_invoiceno");
+        public function uploadbuktibayar(){
+            $datanopemesanan= $_GET['datanopemesanan'];
 
-        //     $config['upload_path']   = './assets/invoice/';
-        //     $config['allowed_types'] = 'pdf';
-        //     $config['file_name']     = $nopemesanan;
-        //     $config['overwrite']     = TRUE;
+            $config['upload_path']   = './assets/buktitransfer/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $datanopemesanan;
+            $config['overwrite']     = TRUE;
 
-        //     $this->load->library('upload', $config);
+            $this->load->library('upload', $config);
 
-        //     if (!$this->upload->do_upload('modal_upload_invoice_file')) {
-        //         $error_message = strip_tags($this->upload->display_errors());
+            if (!$this->upload->do_upload('file')) {
+                $error_message = strip_tags($this->upload->display_errors());
 
-        //         log_message('error', 'File upload error: ' . $error_message);
+                log_message('error', 'File upload error: ' . $error_message);
 
-        //         $json['responCode'] = "01";
-        //         $json['responHead'] = "info";
-        //         $json['responDesc'] = $error_message;
-        //     } else {
-        //         $dataupdate['invoice']      = "1";
-        //         $dataupdate['invoice_no']   = $noinvoice;
-        //         $dataupdate['invoice_date'] = date('Y-m-d H:i:s');
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = $error_message;
+            }else{
+                $dataupdate['status']="17";
+                $this->md->updateheader($datanopemesanan,$dataupdate);
 
-        //         if($this->md->updateheader($nopemesanan,$dataupdate)){
-        //             $json['responCode']="00";
-        //             $json['responHead']="success";
-        //             $json['responDesc']="Data Added Successfully";
-        //         } else {
-        //             $json['responCode']="01";
-        //             $json['responHead']="info";
-        //             $json['responDesc']="Data Failed to Add";
-        //         }
-        //     }
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Upload Success";
+            }
 
-        //     echo json_encode($json);
-        // }
+            echo json_encode($json);
+        }
 
         public function uploadinvoice(){
             $nopemesanan = $this->input->post("modal_upload_invoice_nopemesanan");
@@ -702,6 +654,16 @@
                 $dataupdate['invoice_date'] = date('Y-m-d H:i:s');
 
                 if($this->md->updateheader($nopemesanan,$dataupdate)){
+                    $chattext = "Silakan Klik Link <a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='".$noinvoice."' data-dirfile='" . $this->config->base_url() . "assets/invoice/" .$noinvoice. ".pdf' onclick='viewdocwithnote(this)'>Invoice</a> untuk melihat lampiran invoice, No Invoice : " .$noinvoice;
+
+                    $datachat['org_id']     = $_SESSION['orgid'];
+                    $datachat['chat_id']    = generateuuid();
+                    $datachat['ref_id']     = $nopemesanan;
+                    $datachat['chat']       = $chattext;
+                    $datachat['created_by'] = $_SESSION['userid'];
+
+                    $this->md->insertchat($datachat);
+
                     $json['responCode']="00";
                     $json['responHead']="success";
                     $json['responDesc']="Data Added Successfully (skip upload)";
@@ -732,6 +694,16 @@
                     $dataupdate['invoice_date'] = date('Y-m-d H:i:s');
 
                     if($this->md->updateheader($nopemesanan,$dataupdate)){
+                        $chattext = "Silakan Klik Link <a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='".$noinvoice."' data-dirfile='" . $this->config->base_url() . "assets/invoice/" .$noinvoice. ".pdf' onclick='viewdocwithnote(this)'>Invoice</a> untuk melihat lampiran invoice, No Invoice : " .$noinvoice;
+
+                        $datachat['org_id']     = $_SESSION['orgid'];
+                        $datachat['chat_id']    = generateuuid();
+                        $datachat['ref_id']     = $nopemesanan;
+                        $datachat['chat']       = $chattext;
+                        $datachat['created_by'] = $_SESSION['userid'];
+
+                        $this->md->insertchat($datachat);
+
                         $json['responCode']="00";
                         $json['responHead']="success";
                         $json['responDesc']="Data Added Successfully";
@@ -746,6 +718,59 @@
             echo json_encode($json);
         }
 
+        public function uploadlampiran(){ 
+            $nopemesanan = $this->input->post("modal_upload_lampiran_nopemesanan");
+
+            $json = [
+                'responCode' => "01",
+                'responHead' => "info",
+                'responDesc' => "Unknown error"
+            ];
+
+            $config['upload_path']   = './assets/documentpo/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $nopemesanan;
+            $config['overwrite']     = TRUE;
+
+            $this->load->library('upload', $config);
+
+
+            if (!$this->upload->do_upload('modal_upload_doc_file')) {
+                $error_message = strip_tags($this->upload->display_errors());
+                log_message('error', 'File upload error: ' . $error_message);
+
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = $error_message;
+            } else {
+                $dataupdate['attachment']      = "1";
+                $dataupdate['attachment_note'] = $this->input->post("modal_upload_lampiran_note");
+                $dataupdate['attachment_date'] = date('Y-m-d H:i:s');
+
+                if($this->md->updateheader($nopemesanan,$dataupdate)){
+                    $chattext = "Silakan Klik Link <a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' data_attachment_note='".$this->input->post("modal_upload_lampiran_note")."' data-dirfile='" . $this->config->base_url() . "assets/documentpo/" .$nopemesanan. ".pdf' onclick='viewdocwithnote(this)'>Dokumen Pendukung</a> untuk melihat data pendukung pengadaan, Catatan : " . ($this->input->post("modal_upload_lampiran_note") ?? '');
+
+                    $datachat['org_id']     = $_SESSION['orgid'];
+                    $datachat['chat_id']    = generateuuid();
+                    $datachat['ref_id']     = $nopemesanan;
+                    $datachat['chat']       = $chattext;
+                    $datachat['created_by'] = $_SESSION['userid'];
+
+                    $this->md->insertchat($datachat);
+
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Updated Successfully";
+                }else{
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data failed to update";
+                }
+                
+            }
+
+            echo json_encode($json);
+        }
 
         public function detailbarangspu(){
             $nopemesanan = $this->input->post("nopemesanan");

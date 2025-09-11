@@ -162,13 +162,14 @@ function validasi(btn) {
         cancelButtonText  : 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            var datanopemesanan = btn.attr("datanopemesanan");
-            var datastatus      = btn.attr("datastatus");
-            var datavalidator   = btn.attr("datavalidator");
+            var datanopemesanan     = btn.attr("datanopemesanan");
+            var datanopemesananunit = btn.attr("datanopemesananunit");
+            var datastatus          = btn.attr("datastatus");
+            var datavalidator       = btn.attr("datavalidator");
 
             $.ajax({
                 url       : url+"index.php/logistiknew/request/updateheader",
-                data      : {datanopemesanan:datanopemesanan,datastatus:datastatus,datavalidator:datavalidator},
+                data      : {datanopemesanan:datanopemesanan,datanopemesananunit:datanopemesananunit,datastatus:datastatus,datavalidator:datavalidator},
                 method    : "POST",
                 dataType  : "JSON",
                 cache     : false,

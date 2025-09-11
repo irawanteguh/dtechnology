@@ -151,59 +151,6 @@
             return $recordset;
         }
 
-        // function masterbarang($orgid,$nopemesanan,$parameter){
-        //     $query =
-        //             "
-        //                 SELECT 
-        //                     a.barang_id,
-        //                     a.nama_barang,
-        //                     b.item_id,
-        //                     b.stock,
-        //                     b.qty_minta AS qty,
-        //                     b.qty_req,
-        //                     b.harga,
-        //                     b.ppn,
-        //                     ROUND(b.harga_ppn, 0) AS hargappn,
-        //                     ROUND(b.total, 0) AS total,
-        //                     b.note,
-        //                     satuan_beli.satuan AS satuanbeli,
-        //                     satuan_pakai.satuan AS satuanpakai,
-        //                     jenis.jenis,
-        //                     CASE 
-        //                         WHEN b.item_id IS NULL THEN '0'
-        //                         ELSE '1'
-        //                     END AS status
-        //                 FROM dt01_lgu_barang_ms a
-        //                 LEFT JOIN dt01_lgu_pemesanan_dt b 
-        //                     ON b.org_id = a.org_id 
-        //                     AND b.barang_id = a.barang_id 
-        //                     AND b.no_pemesanan = '".$nopemesanan."'
-        //                     AND B.active='1'
-        //                 LEFT JOIN dt01_lgu_satuan_ms satuan_beli 
-        //                     ON satuan_beli.satuan_id = a.satuan_beli_id 
-        //                     AND satuan_beli.org_id = a.org_id 
-        //                     AND satuan_beli.active = '1'
-        //                 LEFT JOIN dt01_lgu_satuan_ms satuan_pakai 
-        //                     ON satuan_pakai.satuan_id = a.satuan_pakai_id 
-        //                     AND satuan_pakai.org_id = a.org_id 
-        //                     AND satuan_pakai.active = '1'
-        //                 LEFT JOIN dt01_lgu_jenis_barang_ms jenis 
-        //                     ON jenis.jenis_id = a.jenis_id 
-        //                     AND jenis.org_id = a.org_id 
-        //                     AND jenis.active = '1'
-        //                 WHERE 
-        //                     a.active = '1'
-        //                     AND a.org_id = '".$orgid."'
-        //                     ".$parameter."
-        //                 ORDER BY status DESC, a.nama_barang ASC;
-
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
-
         function masterbarang($orgid,$nopemesanan,$parameter){
             $query =
                     "
@@ -275,167 +222,205 @@
             return $recordset;
         }
 
+        function masterstatus($code){
+            $query =
+                    "
+                        select a.master_name, color
+                        from dt01_gen_master_ms a
+                        where a.active='1'
+                        and   a.jenis_id='PO_3'
+                        and   a.code='".$code."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         
+
+        // function chat($userid,$refid){
+        //     $query = "
+        //         select x.*,
+        //             (select name from dt01_gen_user_data where active='1' and user_id=x.created_by)name,
+        //             (select upper(LEFT(name, 1))  from dt01_gen_user_data where active='1' and user_id=x.created_by)initial,
+        //             (select image_profile from dt01_gen_user_data where active='1' and user_id=x.created_by)image_profile,
+        //             case 
+        //                 when '".$userid."' = x.created_by then 'out'
+        //                 else 'in'
+        //             end type
+        //         from(
+        //             -- chat biasa
+        //             select a.chat, date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat, created_date createddate, created_by
+        //             from dt01_gen_chat_dt a
+        //             where a.active='1'
+        //             and   a.ref_id='".$refid."'
+
+        //             union
+
+        //             -- pemesanan info
+        //             select concat(
+        //                     'No Pemesanan : ',no_pemesanan_unit,
+        //                     ' Tanggal : ',date_format(a.created_date,'%d.%m.%Y'),
+        //                     ', ',a.judul_pemesanan,
+        //                     ', Catatan : ',note
+        //                 )chat,
+        //                 date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat,
+        //                 created_date createddate, created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.no_pemesanan='".$refid."'
+
+        //             union
+
+        //             -- pemesanan info
+        //             select concat(
+        //                 'No Pemesanan : ', a.no_pemesanan_unit,
+        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
+        //                 ', ', a.judul_pemesanan,
+        //                 ', <span class=''badge badge-light-info''>Disetujui Ka. Instalasi / Ka. Ruangan</span>'
+        //             ) as chat,
+        //             date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
+        //             a.kains_date createddate,
+        //             a.created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.status in ('2','4')
+        //             and   a.no_pemesanan='".$refid."'
+
+        //             union
+
+        //             -- pemesanan info
+        //             select concat(
+        //                 'No Pemesanan : ', a.no_pemesanan_unit,
+        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
+        //                 ', ', a.judul_pemesanan,
+        //                 ', <span class=''badge badge-light-info''>Disetujui Koordinator</span>'
+        //             ) as chat,
+        //             date_format(a.koordinator_date,'%d.%m.%Y %H.%i.%s') jambuat,
+        //             a.koordinator_date createddate,
+        //             a.created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.status in ('4','19')
+        //             and   a.no_pemesanan='".$refid."'
+
+        //             union
+
+        //             -- pemesanan info
+        //             select concat(
+        //                 'No Pemesanan : ', a.no_pemesanan_unit,
+        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
+        //                 ', ', a.judul_pemesanan,
+        //                 ', <span class=''badge badge-light-info''>Disetujui Manager</span>'
+        //             ) as chat,
+        //             date_format(a.manager_date,'%d.%m.%Y %H.%i.%s') jambuat,
+        //             a.manager_date createddate,
+        //             a.created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.status = '4'
+        //             and   a.no_pemesanan='".$refid."'
+
+
+        //             union
+
+        //             -- pemesanan info
+        //             select concat(
+        //                 'No Pemesanan : ', a.no_pemesanan_unit,
+        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
+        //                 ' ', a.judul_pemesanan,
+        //                 ', <span class=''badge badge-light-danger''>Dibatalkan</span>'
+        //             ) as chat,
+        //             date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
+        //             a.kains_date createddate,
+        //             a.created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.status='1'
+        //             and   a.no_pemesanan='".$refid."'
+
+        //             union
+
+        //             -- pemesanan info
+        //             select concat(
+        //                 'No Pemesanan : ', a.no_pemesanan_unit,
+        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
+        //                 ' ', a.judul_pemesanan,
+        //                 ', <span class=''badge badge-light-danger''>Tidak disetujui Manager</span>'
+        //             ) as chat,
+        //             date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
+        //             a.kains_date createddate,
+        //             a.created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.status='3'
+        //             and   a.no_pemesanan='".$refid."'
+
+
+        //             union
+
+        //             -- attachment link custom
+        //             select concat(
+        //                 'Silakan Klik Link <a href=\"#\" ',
+        //                 'data-bs-toggle=\"modal\" ',
+        //                 'data-bs-target=\"#modal_view_pdf_note\" ',
+        //                 'data_attachment_note=\"', ifnull(a.note,''), '\" ',
+        //                 'data-dirfile=\"', '".$this->config->base_url()."assets/documentpo/', a.no_pemesanan, '.pdf\" ',
+        //                 'onclick=\"viewdocwithnote(this)\">Dokumen Pendukung</a> untuk melihat data pendukung pengadaan',
+        //                 ', Catatan : ',attachment_note
+        //             ) as chat,
+        //             date_format(attachment_date,'%d.%m.%Y %H.%i.%s')jambuat,
+        //             attachment_date createddate, created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.attachment='1'
+        //             and   a.no_pemesanan='".$refid."'
+
+        //             union
+
+        //             -- Inovice link custom
+        //             select concat(
+        //                 'Silakan Klik Link <a href=\"#\" ',
+        //                 'data-bs-toggle=\"modal\" ',
+        //                 'data-bs-target=\"#modal_view_pdf_note\" ',
+        //                 'data_attachment_note=\"', ifnull(a.invoice_no,''), '\" ',
+        //                 'data-dirfile=\"', '".$this->config->base_url()."assets/invoice/', a.no_pemesanan, '.pdf\" ',
+        //                 'onclick=\"viewdocwithnote(this)\">Invoice</a> untuk melihat lampiran invoice',
+        //                 ', No Invoice : ',invoice_no
+        //             ) as chat,
+        //             date_format(invoice_date,'%d.%m.%Y %H.%i.%s')jambuat,
+        //             invoice_date createddate, created_by
+        //             from dt01_lgu_pemesanan_hd a
+        //             where a.active='1'
+        //             and   a.invoice='1'
+        //             and   a.no_pemesanan='".$refid."'
+        //         )x
+        //         order by createddate asc
+        //     ";
+
+        //     $recordset = $this->db->query($query)->result();
+        //     return $recordset;
+        // }
 
         function chat($userid,$refid){
             $query = "
-                select x.*,
-                    (select name from dt01_gen_user_data where active='1' and user_id=x.created_by)name,
-                    (select upper(LEFT(name, 1))  from dt01_gen_user_data where active='1' and user_id=x.created_by)initial,
-                    (select image_profile from dt01_gen_user_data where active='1' and user_id=x.created_by)image_profile,
-                    case 
-                        when '".$userid."' = x.created_by then 'out'
-                        else 'in'
-                    end type
-                from(
-                    -- chat biasa
-                    select a.chat, date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat, created_date createddate, created_by
-                    from dt01_gen_chat_dt a
-                    where a.active='1'
-                    and   a.ref_id='".$refid."'
-
-                    union
-
-                    -- pemesanan info
-                    select concat(
-                            'No Pemesanan : ',no_pemesanan_unit,
-                            ' Tanggal : ',date_format(a.created_date,'%d.%m.%Y'),
-                            ', ',a.judul_pemesanan,
-                            ', Catatan : ',note
-                        )chat,
-                        date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat,
-                        created_date createddate, created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.no_pemesanan='".$refid."'
-
-                    union
-
-                    -- pemesanan info
-                    select concat(
-                        'No Pemesanan : ', a.no_pemesanan_unit,
-                        ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-                        ', ', a.judul_pemesanan,
-                        ', <span class=''badge badge-light-info''>Disetujui Ka. Instalasi / Ka. Ruangan</span>'
-                    ) as chat,
-                    date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
-                    a.kains_date createddate,
-                    a.created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.status in ('2','4')
-                    and   a.no_pemesanan='".$refid."'
-
-                    union
-
-                    -- pemesanan info
-                    select concat(
-                        'No Pemesanan : ', a.no_pemesanan_unit,
-                        ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-                        ', ', a.judul_pemesanan,
-                        ', <span class=''badge badge-light-info''>Disetujui Koordinator</span>'
-                    ) as chat,
-                    date_format(a.koordinator_date,'%d.%m.%Y %H.%i.%s') jambuat,
-                    a.koordinator_date createddate,
-                    a.created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.status in ('4','19')
-                    and   a.no_pemesanan='".$refid."'
-
-                    union
-
-                    -- pemesanan info
-                    select concat(
-                        'No Pemesanan : ', a.no_pemesanan_unit,
-                        ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-                        ', ', a.judul_pemesanan,
-                        ', <span class=''badge badge-light-info''>Disetujui Manager</span>'
-                    ) as chat,
-                    date_format(a.manager_date,'%d.%m.%Y %H.%i.%s') jambuat,
-                    a.manager_date createddate,
-                    a.created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.status = '4'
-                    and   a.no_pemesanan='".$refid."'
-
-
-                    union
-
-                    -- pemesanan info
-                    select concat(
-                        'No Pemesanan : ', a.no_pemesanan_unit,
-                        ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-                        ' ', a.judul_pemesanan,
-                        ', <span class=''badge badge-light-danger''>Dibatalkan</span>'
-                    ) as chat,
-                    date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
-                    a.kains_date createddate,
-                    a.created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.status='1'
-                    and   a.no_pemesanan='".$refid."'
-
-                    union
-
-                    -- pemesanan info
-                    select concat(
-                        'No Pemesanan : ', a.no_pemesanan_unit,
-                        ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-                        ' ', a.judul_pemesanan,
-                        ', <span class=''badge badge-light-danger''>Tidak disetujui Manager</span>'
-                    ) as chat,
-                    date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
-                    a.kains_date createddate,
-                    a.created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.status='3'
-                    and   a.no_pemesanan='".$refid."'
-
-
-                    union
-
-                    -- attachment link custom
-                    select concat(
-                        'Silakan Klik Link <a href=\"#\" ',
-                        'data-bs-toggle=\"modal\" ',
-                        'data-bs-target=\"#modal_view_pdf_note\" ',
-                        'data_attachment_note=\"', ifnull(a.note,''), '\" ',
-                        'data-dirfile=\"', '".$this->config->base_url()."assets/documentpo/', a.no_pemesanan, '.pdf\" ',
-                        'onclick=\"viewdocwithnote(this)\">Dokumen Pendukung</a> untuk melihat data pendukung pengadaan',
-                        ', Catatan : ',attachment_note
-                    ) as chat,
-                    date_format(attachment_date,'%d.%m.%Y %H.%i.%s')jambuat,
-                    attachment_date createddate, created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.attachment='1'
-                    and   a.no_pemesanan='".$refid."'
-
-                    union
-
-                    -- Inovice link custom
-                    select concat(
-                        'Silakan Klik Link <a href=\"#\" ',
-                        'data-bs-toggle=\"modal\" ',
-                        'data-bs-target=\"#modal_view_pdf_note\" ',
-                        'data_attachment_note=\"', ifnull(a.invoice_no,''), '\" ',
-                        'data-dirfile=\"', '".$this->config->base_url()."assets/invoice/', a.no_pemesanan, '.pdf\" ',
-                        'onclick=\"viewdocwithnote(this)\">Invoice</a> untuk melihat lampiran invoice',
-                        ', No Invoice : ',invoice_no
-                    ) as chat,
-                    date_format(invoice_date,'%d.%m.%Y %H.%i.%s')jambuat,
-                    invoice_date createddate, created_by
-                    from dt01_lgu_pemesanan_hd a
-                    where a.active='1'
-                    and   a.invoice='1'
-                    and   a.no_pemesanan='".$refid."'
-                )x
-                order by createddate asc
-            ";
+                        select x.*,
+                            (select name from dt01_gen_user_data where active='1' and user_id=x.created_by)name,
+                            (select upper(LEFT(name, 1))  from dt01_gen_user_data where active='1' and user_id=x.created_by)initial,
+                            (select image_profile from dt01_gen_user_data where active='1' and user_id=x.created_by)image_profile,
+                            case 
+                                when '".$userid."' = x.created_by then 'out'
+                                else 'in'
+                            end type
+                        from(
+                            select a.chat, date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat, created_date createddate, created_by
+                            from dt01_gen_chat_dt a
+                            where a.active='1'
+                            and   a.ref_id='".$refid."'
+                        )x
+                        order by createddate asc
+                    ";
 
             $recordset = $this->db->query($query)->result();
             return $recordset;
