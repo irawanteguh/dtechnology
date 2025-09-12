@@ -60,6 +60,12 @@
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts_4.10.38/plugins/forceDirected.js') . "'></script>" . PHP_EOL;
         echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/qrcode/easy.qrcode.min.js') . "'></script>" . PHP_EOL;
 
+
+        echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts5/index.js') . "'></script>" . PHP_EOL;
+        echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts5/percent.js') . "'></script>" . PHP_EOL;
+        echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts5/xy.js') . "'></script>" . PHP_EOL;
+        echo "\t\t<script type='text/javascript' src='" . base_url('assets/vendors/amcharts5/themes/Animated.js') . "'></script>" . PHP_EOL;
+
         $jspathroot = FCPATH.'assets/js/root/';
         if (is_dir($jspathroot)) {
             $jsFiles = glob($jspathroot . '*.js');

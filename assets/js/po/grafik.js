@@ -30,29 +30,37 @@ function datagrafik() {
                     return acc;
                 }, {});
 
-                const groupeddepartment = arr.reduce((acc, item) => {
-                    const department = item.department;
-                    const total = parseFloat(item.total);
 
-                    if (!acc[department]) {
-                        acc[department] = 0;
-                    }
-                    acc[department] += total;
+                const Datagrafik3 = Object.entries(
+                    arr.reduce((acc, item) => {
+                        const category = item.department;          // pakai department sebagai kategori
+                        const value = parseFloat(item.total) || 0; // angka total
 
-                    return acc;
-                }, {});
+                        if (!acc[category]) {
+                            acc[category] = 0;
+                        }
+                        acc[category] += value;
+
+                        return acc;
+                    }, {})
+                ).map(([category, value]) => ({
+                    category,
+                    value
+                }));
+
+
+
+
 
 
                 // pisahkan jadi array untuk chart
                 const categoriesjenis      = Object.keys(groupedjenis);
                 const seriesDatajenis      = Object.values(groupedjenis);
-                const categoriesdepartment = Object.keys(groupeddepartment);
-                const seriesDatadepartment = Object.values(groupeddepartment);
 
-                createPieChart("grafik_1", seriesDatajenis, categoriesjenis);
-                createRadarChart("grafik_2", seriesDatajenis, categoriesjenis);
+                PieAmChart5("grafik_1", seriesDatajenis, categoriesjenis);
+                // createRadarChart("grafik_2", seriesDatajenis, categoriesjenis);
 
-                createBarChart("grafik_3", seriesDatadepartment, categoriesdepartment);
+                SortedBarAmChart5("grafik_3", Datagrafik3);
             }
 
             toastr[data.responHead](data.responDesc, "INFORMATION");

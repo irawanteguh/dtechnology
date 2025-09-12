@@ -38,6 +38,7 @@
                             (select department from dt01_gen_department_ms where department_id=a.department_id)department
                         from dt01_lgu_pemesanan_hd a
                         where a.active='1'
+                        -- and   a.version='2.0.0.0'
                         and   a.status in ('16','17')
                         and   a.org_id='".$orgid."'
                         and   YEAR(a.created_date)='".$tahun."'
