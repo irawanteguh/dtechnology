@@ -347,7 +347,6 @@
 
                                 FROM dt01_gen_user_data a
                                 WHERE a.org_id = '".$orgid."'
-                                and   a.active='1'
                             ) x
                         ) y
 
