@@ -1,5 +1,15 @@
 datagrafik();
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    datagrafik();
+});
+
+$(document).on("change", "select[name='filterperiode']", function (e) {
+    e.preventDefault();
+    datagrafik();
+});
+
 function datagrafik() {
     const filterperiode      = $("select[name='filterperiode']").val();
     const selectorganization = $("select[name='selectorganization']").val();

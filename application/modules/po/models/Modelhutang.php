@@ -1,5 +1,5 @@
 <?php
-    class Modelgrafik extends CI_Model{
+    class Modelhutang extends CI_Model{
         
         function masterorganization(){
             $query =
@@ -29,24 +29,22 @@
             return $recordset;
         }
 
-        function datagrafik($orgid,$tahun){
-            $query =
-                    "
-                        select a.method, department_id, total,
-                            (select master_name from dt01_gen_master_ms where jenis_id='PO_2' and code=a.method)jenis,
-                            (select department from dt01_gen_department_ms where department_id=a.department_id)department
+        function datahutang($orgid,$tahun) {
+            $query = "
+                        select a.org_id, no_pemesanan, no_pemesanan_unit, judul_pemesanan, note, subtotal, harga_ppn, total, invoice_no,
+                            date(a.created_date)date,
+                            date_format(a.created_date, '%d.%m.%Y') AS tanggal,
+                            (select department from dt01_gen_department_ms where department_id=a.department_id)unitpemohon
                         from dt01_lgu_pemesanan_hd a
                         where a.active='1'
-                        -- and   a.version='2.0.0.0'
-                        and   a.status in ('16','17')
+                        and   a.status='15'
                         and   a.org_id='".$orgid."'
-                        and   YEAR(a.created_date)='".$tahun."'
-                        
+                        and   date_format(a.created_date, '%Y') = '".$tahun."'
+                        order by org_id, created_date asc
                     ";
 
             $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
+            return $recordset->result();
         }
 
 
