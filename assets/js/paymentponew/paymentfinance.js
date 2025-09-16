@@ -672,6 +672,7 @@ $("#modal_finance_payment").on('show.bs.modal', function (event) {
     var datacatatankeuangan  = button.attr("datacatatankeuangan");
     var datainvoiceno        = button.attr("datainvoiceno");
     var datanominal          = button.attr("datanominal");
+    var datanominalterima    = button.attr("datanominalterima");
     var datadepartmentid     = button.attr("datadepartmentid");
 
     // helper untuk ubah "null", null, undefined, "" jadi "-"
@@ -681,14 +682,11 @@ $("#modal_finance_payment").on('show.bs.modal', function (event) {
 
     $("input[name='modal_finance_payment_nopemesanan']").val(datanopemesanan);
     $("input[name='modal_finance_payment_departmentid']").val(datadepartmentid);
-    $("input[name='modal_finance_payment_note']").val(
-        "Pembayaran invoice no : " + safe(datainvoiceno) +
-        ", no pemesanan : " + datanopemesananunit + " " +
-        datajudulpemesanan + " " +
-        safe(datacatatanpemesanan) + " " +
-        safe(datacatatankeuangan)
+    $("input[name='modal_finance_payment_note']").val("Pembayaran invoice no : " + safe(datainvoiceno) +", no pemesanan : " + datanopemesananunit + " " +datajudulpemesanan + " " +safe(datacatatanpemesanan) + " " +safe(datacatatankeuangan));
+    $("input[name='modal_finance_payment_nominal']").val(
+        "Rp. " + todesimal(datanominalterima > 0 ? datanominalterima : datanominal)
     );
-    $("input[name='modal_finance_payment_nominal']").val("Rp. " + todesimal(datanominal));
+
 });
 
 $("#modal_note_finance").on('show.bs.modal', function (event) {
@@ -755,22 +753,25 @@ function datapemesanan(startDate,endDate){
                                         " dataattachmentnote='"+result[i].attachment_note+"'"+
                                         " datainvoiceno='"+result[i].invoice_no+"'"+
                                         " datadepartmentid='"+result[i].department_id+"'"+
-                                        " datanominal='"+result[i].total+"'";
+                                        " datanominal='"+result[i].total+"'"+
+                                        " datanominalterima='"+result[i].totalterima+"'";
 
                 let rows  ="<tr>";
                     rows +="<td class='ps-4'><div>"+result[i].no_pemesanan_unit+"</div>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
                     rows +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
                     rows +="<td>"+result[i].unitpelaksana+"</td>";
                     rows +="<td>"+result[i].namasupplier+"</td>";
-                    if(result[i].status==="9" || result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
-                        rows +="<td>"+(result[i].invoice_no || "")+"</td>";
-                    }
+
+                    rows +="<td>"+(result[i].invoice_no || "")+"</td>";
+
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    if(result[i].status==="13" || result[i].status==="15" || result[i].status==="16" || result[i].status==="17"){
-                        rows +="<td>"+(result[i].inv_keu_note || "")+"</td>";
-                    }
+                    rows +="<td class='text-end'>"+todesimal(result[i].subtotalterima)+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].hargappnterima)+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].totalterima)+"</td>";
+
+                    rows +="<td>"+(result[i].inv_keu_note || "")+"</td>";
 
                     if(result[i].status==="16" || result[i].status==="17"){
                         rows +="<td class='text-end'><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div>"+(result[i].rekening ? "<br><div class='badge badge-secondary'>" + result[i].rekening + "</div>" : "")+"</td>";

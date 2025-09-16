@@ -37,6 +37,9 @@ function datapemesanan(){
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].subtotalterima)+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].hargappnterima)+"</td>";
+                    rows +="<td class='text-end'>"+todesimal(result[i].totalterima)+"</td>";
                     rows +="<td class='text-end'><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
                     rows +="<td class='text-end'><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 

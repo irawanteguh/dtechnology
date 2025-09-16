@@ -30,7 +30,11 @@
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan and total=0)itemhargakosong,
-                            (select concat(account,' ',account_id) from dt01_keu_rekening_ms where org_id=a.org_id and rekening_id=a.rekening_id)rekening
+                            (select concat(account,' ',account_id) from dt01_keu_rekening_ms where org_id=a.org_id and rekening_id=a.rekening_id)rekening,
+
+                            (select sum(subtotal) from dt01_lgu_penerimaan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan)subtotalterima,
+                            (select sum(harga_ppn) from dt01_lgu_penerimaan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan)hargappnterima,
+                            (select sum(total) from dt01_lgu_penerimaan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan)totalterima
                             
 
                         from dt01_lgu_pemesanan_hd a
