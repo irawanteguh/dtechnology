@@ -94,6 +94,46 @@ $('#modal_upload_invoice').on('hidden.bs.modal', function (e) {
     datapemesanan();
 });
 
+$('#modal_penerimaan_barang').on('hidden.bs.modal', function (e) {
+    datapemesanan();
+});
+
+$("#modal_penerimaan_barang").on('show.bs.modal', function (event) {
+    var button           = $(event.relatedTarget);
+    var datanopemesanan  = button ? button.attr("datanopemesanan") : null;
+    var datadepartmentid = button ? button.attr("datadepartmentid") : null;
+
+    if(datanopemesanan){
+        $("input[name='no_pemesanan_penerimaan']").val(datanopemesanan);
+        $("input[name='no_pemesanan_department']").val(datadepartmentid);
+        datapenerimaan(datanopemesanan);
+    }
+});
+
+$('#modal_add_penerimaan_barang').on('hidden.bs.modal', function () {
+    var datanopemesanan= $("input[name='no_pemesanan_penerimaan']").val();
+    datapenerimaan(datanopemesanan);
+    $('#modal_penerimaan_barang').modal('show');
+});
+
+$("#modal_penerimaan_item").on('show.bs.modal', function (event) {
+    var button           = $(event.relatedTarget);
+    var datanopemesanan  = button ? button.attr("datanopemesanan") : null;
+    var datanopenerimaan = button ? button.attr("datanopenerimaan") : null;
+
+    $("input[name='modal_add_item_nopemesanan']").val(datanopemesanan);
+    $("input[name='modal_add_item_nopenerimaan']").val(datanopenerimaan);
+
+    detailpembelianitem(datanopemesanan,datanopenerimaan);
+});
+
+$('#modal_penerimaan_item').on('hidden.bs.modal', function () {
+    var datanopemesanan= $("input[name='no_pemesanan_penerimaan']").val();
+
+    datapenerimaan(datanopemesanan);
+    $('#modal_penerimaan_barang').modal('show');
+});
+
 function datapemesanan(){
     $.ajax({
         url       : url+"index.php/logistiknew/request/datapemesanan",
@@ -131,6 +171,14 @@ function datapemesanan(){
                     rows +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
                     rows +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+
+                    if(result[i].status === "2" || result[i].status === "4" || result[i].status === "6" || result[i].status === "19" || result[i].status === "21" || result[i].status === "23" || result[i].status === "25" || result[i].status === "27" || result[i].status === "29" || result[i].status === "31"){
+                        rows +="<td class='text-end'>"+todesimal(result[i].subtotalterima)+"</td>";
+                        rows +="<td class='text-end'>"+todesimal(result[i].hargappnterima)+"</td>";
+                        rows +="<td class='text-end'>"+todesimal(result[i].totalterima)+"</td>";
+                    }
+                    
+
                     rows +="<td class='text-end'><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div></td>";
                     rows +="<td class='text-end'><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
 
@@ -161,7 +209,13 @@ function datapemesanan(){
                                 }
 
                                 if(result[i].status==="6"){
-                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                    if(result[i].nopenerimaan!=null){
+                                        if(result[i].totalterima!=0){
+                                            rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                        }
+                                    }
+                                    
+                                    rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_penerimaan_barang'><i class='bi bi-box-seam text-primary'></i> Penerimaan Barang</a>";
                                     rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
                                 }
                             }
@@ -181,7 +235,12 @@ function datapemesanan(){
 
                                 if(result[i].status==="21" || result[i].status==="29" || result[i].status==="31"){
                                     if(result[i].invoice==="1"){
-                                        rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                        if(result[i].nopenerimaan!=null){
+                                            if(result[i].totalterima!=0){
+                                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='7' datavalidator='KAINS_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Submission</a>";
+                                            }
+                                        }
+                                        rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_penerimaan_barang'><i class='bi bi-box-seam text-primary'></i> Penerimaan Barang</a>";
                                     }
 
                                     if(result[i].methodid==="5"){
@@ -273,8 +332,6 @@ function datapemesanan(){
                                             }
                                         }
                                     }
-                                    
-                                    
                                 }
                             }
                             
@@ -317,6 +374,145 @@ function datapemesanan(){
             $("#resultdataonprocess").html(resultdataonprocess);
             $("#resultdatadecline").html(resultdatadecline);
             $("#resultdataapprove").html(resultdataapprove);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function datapenerimaan(nopenerimaan){
+    $.ajax({
+        url       : url+"index.php/logistiknew/request/datapenerimaan",
+        data      : {nopenerimaan:nopenerimaan},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdatapenerimaan").html("");
+        },
+        success:function(data){
+            var result          = "";
+            var resultdatatable = "";
+
+            if(data.responCode==="00"){
+                result = data.responResult;
+                for(var i in result){
+                    var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
+                                        " datanopenerimaan='"+result[i].transaksi_id+"'";
+
+                    resultdatatable +="<tr>";
+                    resultdatatable +="<td class='ps-4'>"+(result[i].no_penerimaan_unit || "")+"</td>";
+                    resultdatatable +="<td>"+result[i].surat_jalan+"</td>";
+                    resultdatatable +="<td>"+result[i].note+"</td>";
+                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].subtotal)+"</td>";
+                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    resultdatatable +="<td class='text-end'><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    resultdatatable +="<td class='text-end'><a href='#' class='btn btn-sm btn-light-primary' data-bs-toggle='modal' data-bs-target='#modal_penerimaan_item' "+getvariabel+"><i class='bi bi-pencil-square'></i> Add Item</a></td>";
+                    resultdatatable +="</tr>";
+                }
+            }
+
+            $("#resultdatapenerimaan").html(resultdatatable);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete: function () {
+			toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function detailpembelianitem(nopemesanan,nopenerimaan){
+    $.ajax({
+        url       : url+"index.php/logistiknew/request/detailpembelianitem",
+        data      : {nopemesanan:nopemesanan,nopenerimaan:nopenerimaan},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdetailpembelian").html("");
+        },
+        success:function(data){
+            var result          = "";
+            var resultdatatable = "";
+
+            if(data.responCode==="00"){
+                result = data.responResult;
+                for(var i in result){
+                    resultdatatable +="<tr>";
+                    resultdatatable +="<td class='ps-4'>"+result[i].namabarang+"</td>";
+                    resultdatatable +="<td class='text-end'>"+result[i].qty+"</td>";
+                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga)+"</td>";
+                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].ppn)+"</td>";
+                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    resultdatatable +="<td>"+result[i].note+"</td>";
+
+                    if(result[i].qtyterima!=null){
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaqty_"+result[i].barang_id+"' name='terimaqty_"+result[i].barang_id+"' value='"+todesimal(result[i].qtyterima)+"' onchange='simpanpenerimaan(this)'></td>";
+                    }else{
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaqty_"+result[i].barang_id+"' name='terimaqty_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)'></td>";
+                    }
+
+                    if(result[i].hargaterima!=null){
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' value='"+todesimal(result[i].hargaterima)+"' onchange='simpanpenerimaan(this)'></td>";
+                    }else{
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' value='"+todesimal(result[i].harga)+"' onchange='simpanpenerimaan(this)'></td>";
+                    }
+
+                    if(result[i].ppnterima!=null){
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"'  value='"+result[i].ppnterima+"' onchange='simpanpenerimaan(this)'></td>";
+                    }else{
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"'  value='"+result[i].ppn+"' onchange='simpanpenerimaan(this)'></td>";
+                    }
+
+                    if(result[i].hargappnterima!=null){
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavatamount_"+result[i].barang_id+"' name='terimavatamount_"+result[i].barang_id+"' value='"+todesimal(result[i].hargappnterima)+"' disabled></td>";
+                    }else{
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavatamount_"+result[i].barang_id+"' name='terimavatamount_"+result[i].barang_id+"' disabled></td>";
+                    }
+
+                    if(result[i].totalterima!=null){
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimasubtotal_"+result[i].barang_id+"' name='terimasubtotal_"+result[i].barang_id+"' value='"+todesimal(result[i].totalterima)+"' disabled></td>";
+                    }else{
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimasubtotal_"+result[i].barang_id+"' name='terimasubtotal_"+result[i].barang_id+"' disabled></td>";
+                    }
+                    
+                    resultdatatable +="</tr>";
+                }
+            }
+
+            $("#resultdetailpembelian").html(resultdatatable);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
@@ -464,7 +660,7 @@ function simpandata(input) {
     const qtyInput         = document.getElementById(`qty_${barangid}`);
     const hargaInput       = document.getElementById(`harga_${barangid}`);
     const vatElement       = document.getElementById(`vat_${barangid}`);
-    const vatAmountElement = document.getElementById(`vat_amount_${barangid}`);
+    const vatAmountElement = document.getElementById(`vatamount_${barangid}`);
     const subtotalElement  = document.getElementById(`subtotal_${barangid}`);
     const note             = document.getElementById(`note_${barangid}`);
 
@@ -557,6 +753,126 @@ function simpandata(input) {
     }
 };
 
+function simpanpenerimaan(input) {
+    const barangid     = input.id.split("_")[1];
+    const value        = input.value;
+    const nopemesanan  = $("#modal_add_item_nopemesanan").val();
+    const nopenerimaan = $("#modal_add_item_nopenerimaan").val();
+
+    if ((isNaN(value) || value.trim() === "")) {
+        showAlert(
+            "I'm Sorry",
+            "Masukkan nilai numerik yang valid!",
+            "error",
+            "Please Try Again",
+            "btn btn-danger"
+        );
+        input.value = "";
+        return;
+    }
+
+    const qtyInput         = document.getElementById(`terimaqty_${barangid}`);
+    const hargaInput       = document.getElementById(`terimaharga_${barangid}`);
+    const vatElement       = document.getElementById(`terimavat_${barangid}`);
+    const vatAmountElement = document.getElementById(`terimavatamount_${barangid}`);
+    const subtotalElement  = document.getElementById(`terimasubtotal_${barangid}`);
+
+    if(qtyInput && hargaInput && vatElement && vatAmountElement){
+        const qty   = parseFloat(qtyInput.value);
+        const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
+        const ppn   = parseFloat(vatElement.value) / 100;
+
+        if(isNaN(qty) || isNaN(harga) || isNaN(ppn)){
+            console.error("Nilai qty, harga, atau VAT tidak valid.");
+            return;
+        }
+
+        const newVat    = parseFloat((qty * (harga * ppn)).toFixed(0));
+        const itemTotal = parseFloat(((qty * harga) + newVat).toFixed(0));
+
+        vatAmountElement.innerText = todesimal(newVat);
+        subtotalElement.innerText  = todesimal(itemTotal);
+
+        let totalVat   = 0;
+        let grandTotal = 0;
+
+        // Hitung total PPN dari semua item
+        document.querySelectorAll("[id^='terimavatamount_']").forEach((vat) => {
+            totalVat += parseFloat(vat.value.replace(/\./g, "").replace(",", ".")) || 0;
+        });
+
+        // Hitung subtotal tiap item lalu jumlahkan ke grand total
+        document.querySelectorAll("[id^='terimaqty_']").forEach((qtyElem) => {
+            const id        = qtyElem.id.split("_")[1];
+            const hargaElem = document.getElementById(`terimaharga_${id}`);
+            const vatElem   = document.getElementById(`terimavat_${id}`);
+            const subtotalElem = document.getElementById(`terimasubtotal_${id}`);
+            const vatAmountElem = document.getElementById(`terimavatamount_${id}`);
+
+            const qtyVal   = parseFloat(qtyElem.value) || 0;
+            const hargaVal = parseFloat(hargaElem.value.replace(/\./g, "").replace(",", ".")) || 0;
+            const ppnVal   = parseFloat(vatElem.value) / 100 || 0;
+
+            if (qtyVal > 0 && hargaVal > 0) {
+                const vatAmount = Math.round(qtyVal * (hargaVal * ppnVal));
+                const itemTotal = Math.round((qtyVal * hargaVal) + vatAmount);
+
+                // Masukkan ke input value
+                vatAmountElem.value = todesimal(vatAmount);
+                subtotalElem.value  = todesimal(itemTotal);
+
+                // Tambahkan ke total keseluruhan
+                grandTotal += itemTotal;
+            }
+        });
+
+
+        $.ajax({
+            url     : url + "index.php/logistiknew/request/penerimaanadditem",
+            method  : "POST",
+            dataType: "JSON",
+            data    :
+            {
+                nopenerimaan:nopenerimaan,
+                nopemesanan: nopemesanan,
+                barangid   : barangid,
+                qty        : qty,
+                harga      : harga,
+                ppn        : ppn,
+                subtotal   : itemTotal,
+                vat_amount : newVat
+            },
+            beforeSend: function () {
+                toastr.clear();
+                toastr.info("Updating data...", "Please wait");
+            },
+            success: function (data) {
+                toastr.clear();
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+            },
+            error: function (xhr, status, error) {
+                showAlert(
+                    "I'm Sorry",
+                    "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+                    "error",
+                    "Please Try Again",
+                    "btn btn-danger"
+                );
+            }
+        });
+
+    }else{
+        showAlert(
+            "I'm Sorry",
+            "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+            "error",
+            "Please Try Again",
+            "btn btn-danger"
+        );
+    }
+    
+};
+
 $(document).on("submit", "#formnewpurchaseorder", function (e) {
 	e.preventDefault();
     e.stopPropagation();
@@ -586,6 +902,48 @@ $(document).on("submit", "#formnewpurchaseorder", function (e) {
         complete: function(){
             toastr.clear();
             $("#modal_new_po_btn").removeClass("disabled");
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                error,
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formnewsuratjalan", function (e) {
+	e.preventDefault();
+    e.stopPropagation();
+	var form = $(this);
+    var url  = $(this).attr("action");
+	$.ajax({
+        url       : url,
+        data      : form.serialize(),
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+			$("#modal_add_penerimaan_barang_btn").addClass("disabled");
+        },
+		success: function (data) {
+
+            if(data.responCode == "00"){
+                $("#modal_add_penerimaan_barang").modal("hide");
+			}
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		},
+        complete: function(){
+            toastr.clear();
+            $("#modal_add_penerimaan_barang_btn").removeClass("disabled");
 		},
         error: function(xhr, status, error) {
             showAlert(

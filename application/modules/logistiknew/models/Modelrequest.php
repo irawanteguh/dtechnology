@@ -30,7 +30,21 @@
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitpelaksana,
                             (select supplier from dt01_lgu_supplier_ms where org_id=a.org_id and active=a.active and supplier_id=a.supplier_id)namasupplier,
                             (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan)jmlitem,
-                            (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan and total=0)itemhargakosong
+                            (select count(item_id) from dt01_lgu_pemesanan_dt where org_id=a.org_id and active=a.active and no_pemesanan=a.no_pemesanan and total=0)itemhargakosong,
+
+                            (
+                                SELECT ph.transaksi_id
+                                FROM dt01_lgu_penerimaan_hd ph
+                                WHERE ph.active = '1'
+                                AND ph.org_id = a.org_id
+                                AND ph.no_pemesanan = a.no_pemesanan
+                                ORDER BY ph.created_date DESC
+                                LIMIT 1
+                            ) AS nopenerimaan,
+
+                            (select sum(subtotal) from dt01_lgu_penerimaan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan)subtotalterima,
+                            (select sum(harga_ppn) from dt01_lgu_penerimaan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan)hargappnterima,
+                            (select sum(total) from dt01_lgu_penerimaan_hd where active='1' and org_id=a.org_id and no_pemesanan=a.no_pemesanan)totalterima
                             
                         from dt01_lgu_pemesanan_hd a
                         where a.active='1'
@@ -38,6 +52,45 @@
                         ".$orgid."
                         ".$status."
                         ".$orderby."
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function datapenerimaan($orgid,$nopemesanan){
+            $query =
+                    "
+                        select a.transaksi_id, no_penerimaan_unit, no_pemesanan, surat_jalan, note, subtotal, harga_ppn, total,
+                            date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.created_by)dibuatoleh
+                        from dt01_lgu_penerimaan_hd a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.no_pemesanan='".$nopemesanan."'
+                        order by created_date desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function detailpembelianitem($orgid,$nopemesanan,$nopenerimaan){
+            $query =
+                    "
+                        select a.item_id, no_pemesanan, barang_id, pt_qty_cmo qty, harga, ppn, harga_ppn, total, note,
+                            (select nama_barang from dt01_lgu_barang_ms where barang_id=a.barang_id)namabarang,
+                            (select qty from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')qtyterima,
+                            (select harga from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')hargaterima,
+                            (select ppn from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')ppnterima,
+                            (select harga_ppn from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')hargappnterima,
+                            (select total from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')totalterima
+                        from dt01_lgu_pemesanan_dt a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.no_pemesanan='".$nopemesanan."'
                     ";
 
             $recordset = $this->db->query($query);
@@ -151,6 +204,32 @@
             return $recordset;
         }
 
+        function nopenerimaan($orgid,$nopemesanan,$departmentid){
+            $query = "
+                        select CONCAT(
+                                    LPAD(COALESCE(COUNT(a.no_pemesanan), 0) + 1, 3, '0'),
+                                    '/',
+                                    COALESCE(b.code,'XXX'),
+                                    '/',
+                                    DATE_FORMAT(CURDATE(), '%m'),
+                                    '/',
+                                    DATE_FORMAT(CURDATE(), '%Y'),
+                                    '/',
+                                    'TRM'
+                                ) AS nomor_pemesanan
+                        from dt01_lgu_penerimaan_hd a,
+                            dt01_gen_department_ms b
+                        where a.org_id='".$orgid."'
+                        and   a.no_pemesanan='".$nopemesanan."'
+                        and   YEAR(a.created_date) = YEAR(CURDATE())
+                        and   b.department_id='".$departmentid."'
+
+                    ";
+
+            $recordset = $this->db->query($query)->row();
+            return $recordset;
+        }
+
         function masterbarang($orgid,$nopemesanan,$parameter){
             $query =
                     "
@@ -237,172 +316,6 @@
             return $recordset;
         }
 
-        
-
-        // function chat($userid,$refid){
-        //     $query = "
-        //         select x.*,
-        //             (select name from dt01_gen_user_data where active='1' and user_id=x.created_by)name,
-        //             (select upper(LEFT(name, 1))  from dt01_gen_user_data where active='1' and user_id=x.created_by)initial,
-        //             (select image_profile from dt01_gen_user_data where active='1' and user_id=x.created_by)image_profile,
-        //             case 
-        //                 when '".$userid."' = x.created_by then 'out'
-        //                 else 'in'
-        //             end type
-        //         from(
-        //             -- chat biasa
-        //             select a.chat, date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat, created_date createddate, created_by
-        //             from dt01_gen_chat_dt a
-        //             where a.active='1'
-        //             and   a.ref_id='".$refid."'
-
-        //             union
-
-        //             -- pemesanan info
-        //             select concat(
-        //                     'No Pemesanan : ',no_pemesanan_unit,
-        //                     ' Tanggal : ',date_format(a.created_date,'%d.%m.%Y'),
-        //                     ', ',a.judul_pemesanan,
-        //                     ', Catatan : ',note
-        //                 )chat,
-        //                 date_format(created_date,'%d.%m.%Y %H.%i.%s')jambuat,
-        //                 created_date createddate, created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.no_pemesanan='".$refid."'
-
-        //             union
-
-        //             -- pemesanan info
-        //             select concat(
-        //                 'No Pemesanan : ', a.no_pemesanan_unit,
-        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-        //                 ', ', a.judul_pemesanan,
-        //                 ', <span class=''badge badge-light-info''>Disetujui Ka. Instalasi / Ka. Ruangan</span>'
-        //             ) as chat,
-        //             date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
-        //             a.kains_date createddate,
-        //             a.created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.status in ('2','4')
-        //             and   a.no_pemesanan='".$refid."'
-
-        //             union
-
-        //             -- pemesanan info
-        //             select concat(
-        //                 'No Pemesanan : ', a.no_pemesanan_unit,
-        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-        //                 ', ', a.judul_pemesanan,
-        //                 ', <span class=''badge badge-light-info''>Disetujui Koordinator</span>'
-        //             ) as chat,
-        //             date_format(a.koordinator_date,'%d.%m.%Y %H.%i.%s') jambuat,
-        //             a.koordinator_date createddate,
-        //             a.created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.status in ('4','19')
-        //             and   a.no_pemesanan='".$refid."'
-
-        //             union
-
-        //             -- pemesanan info
-        //             select concat(
-        //                 'No Pemesanan : ', a.no_pemesanan_unit,
-        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-        //                 ', ', a.judul_pemesanan,
-        //                 ', <span class=''badge badge-light-info''>Disetujui Manager</span>'
-        //             ) as chat,
-        //             date_format(a.manager_date,'%d.%m.%Y %H.%i.%s') jambuat,
-        //             a.manager_date createddate,
-        //             a.created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.status = '4'
-        //             and   a.no_pemesanan='".$refid."'
-
-
-        //             union
-
-        //             -- pemesanan info
-        //             select concat(
-        //                 'No Pemesanan : ', a.no_pemesanan_unit,
-        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-        //                 ' ', a.judul_pemesanan,
-        //                 ', <span class=''badge badge-light-danger''>Dibatalkan</span>'
-        //             ) as chat,
-        //             date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
-        //             a.kains_date createddate,
-        //             a.created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.status='1'
-        //             and   a.no_pemesanan='".$refid."'
-
-        //             union
-
-        //             -- pemesanan info
-        //             select concat(
-        //                 'No Pemesanan : ', a.no_pemesanan_unit,
-        //                 ', Tanggal : ', date_format(a.created_date,'%d.%m.%Y'),
-        //                 ' ', a.judul_pemesanan,
-        //                 ', <span class=''badge badge-light-danger''>Tidak disetujui Manager</span>'
-        //             ) as chat,
-        //             date_format(a.kains_date,'%d.%m.%Y %H.%i.%s') jambuat,
-        //             a.kains_date createddate,
-        //             a.created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.status='3'
-        //             and   a.no_pemesanan='".$refid."'
-
-
-        //             union
-
-        //             -- attachment link custom
-        //             select concat(
-        //                 'Silakan Klik Link <a href=\"#\" ',
-        //                 'data-bs-toggle=\"modal\" ',
-        //                 'data-bs-target=\"#modal_view_pdf_note\" ',
-        //                 'data_attachment_note=\"', ifnull(a.note,''), '\" ',
-        //                 'data-dirfile=\"', '".$this->config->base_url()."assets/documentpo/', a.no_pemesanan, '.pdf\" ',
-        //                 'onclick=\"viewdocwithnote(this)\">Dokumen Pendukung</a> untuk melihat data pendukung pengadaan',
-        //                 ', Catatan : ',attachment_note
-        //             ) as chat,
-        //             date_format(attachment_date,'%d.%m.%Y %H.%i.%s')jambuat,
-        //             attachment_date createddate, created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.attachment='1'
-        //             and   a.no_pemesanan='".$refid."'
-
-        //             union
-
-        //             -- Inovice link custom
-        //             select concat(
-        //                 'Silakan Klik Link <a href=\"#\" ',
-        //                 'data-bs-toggle=\"modal\" ',
-        //                 'data-bs-target=\"#modal_view_pdf_note\" ',
-        //                 'data_attachment_note=\"', ifnull(a.invoice_no,''), '\" ',
-        //                 'data-dirfile=\"', '".$this->config->base_url()."assets/invoice/', a.no_pemesanan, '.pdf\" ',
-        //                 'onclick=\"viewdocwithnote(this)\">Invoice</a> untuk melihat lampiran invoice',
-        //                 ', No Invoice : ',invoice_no
-        //             ) as chat,
-        //             date_format(invoice_date,'%d.%m.%Y %H.%i.%s')jambuat,
-        //             invoice_date createddate, created_by
-        //             from dt01_lgu_pemesanan_hd a
-        //             where a.active='1'
-        //             and   a.invoice='1'
-        //             and   a.no_pemesanan='".$refid."'
-        //         )x
-        //         order by createddate asc
-        //     ";
-
-        //     $recordset = $this->db->query($query)->result();
-        //     return $recordset;
-        // }
-
         function chat($userid,$refid){
             $query = "
                         select x.*,
@@ -445,12 +358,44 @@
             return $recordset;
         }
 
+        function hitungdetailpenerimaan($orgid,$nopenerimaan,$nopemesanan){
+            $query =
+                    "
+                        select sum((total-harga_ppn))harga, round(sum(harga_ppn),0)harga_ppn, round(sum(total),0)total
+                        from dt01_lgu_penerimaan_dt a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.no_penerimaan='".$nopenerimaan."'
+                        and   a.no_pemesanan='".$nopemesanan."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         function cekitemid($orgid,$nopemesanan,$barangid){
             $query =
                     "
                         select a.item_id
                         from dt01_lgu_pemesanan_dt a
                         where a.org_id='".$orgid."'
+                        and   a.no_pemesanan='".$nopemesanan."'
+                        and   a.barang_id='".$barangid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function cekitemidpenerimaan($orgid,$nopenerimaan,$nopemesanan,$barangid){
+            $query =
+                    "
+                        select a.transaksi_id
+                        from dt01_lgu_penerimaan_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.no_penerimaan='".$nopenerimaan."'
                         and   a.no_pemesanan='".$nopemesanan."'
                         and   a.barang_id='".$barangid."'
                     ";
@@ -536,8 +481,18 @@
             return $sql;
         }
 
+        function insertsuratjalan($data){           
+            $sql =   $this->db->insert("dt01_lgu_penerimaan_hd",$data);
+            return $sql;
+        }
+
         function updateheader($nopemesanan,$data){           
             $sql =   $this->db->update("dt01_lgu_pemesanan_hd",$data,array("no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
+        function updateheaderpenerimaan($nopemesanan,$nopenerimaan,$data){           
+            $sql =   $this->db->update("dt01_lgu_penerimaan_hd",$data,array("no_pemesanan"=>$nopemesanan,"transaksi_id"=>$nopenerimaan));
             return $sql;
         }
 
@@ -546,8 +501,18 @@
             return $sql;
         }
 
+        function insertitempenerimaan($data){           
+            $sql =   $this->db->insert("dt01_lgu_penerimaan_dt",$data);
+            return $sql;
+        }
+
         function updateitem($barangid,$nopemesanan,$data){           
             $sql =   $this->db->update("dt01_lgu_pemesanan_dt",$data,array("barang_id"=>$barangid,"no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
+        function updateitempenerimaan($barangid,$nopenerimaan,$nopemesanan,$data){           
+            $sql =   $this->db->update("dt01_lgu_penerimaan_dt",$data,array("barang_id"=>$barangid,"no_penerimaan"=>$nopenerimaan,"no_pemesanan"=>$nopemesanan));
             return $sql;
         }
 

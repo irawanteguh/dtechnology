@@ -10,17 +10,17 @@
             <div class="card-body py-3">
                 <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-7 fw-bolder flex-nowrap mb-10">
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#tabwaiting">On Process</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabwaiting">On Process</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approved</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tabapprove">Approved</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="tabwaiting" role="tabpanel">
+                    <div class="tab-pane fade" id="tabwaiting" role="tabpanel">
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
@@ -41,21 +41,28 @@
                             </table>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="tabapprove" role="tabpanel">
+                    <div class="tab-pane fad show active" id="tabapprove" role="tabpanel">
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
                                     <tr class="fw-bolder text-muted bg-light align-middle">
-                                        <th class="ps-4 rounded-start">No Pemesanan</th>
-                                        <th>Pengadaan</th>
-                                        <th>Department</th>
-                                        <th>Supplier</th>
+                                        <th rowspan="2" class="ps-4 rounded-start">No Pemesanan</th>
+                                        <th rowspan="2">Pengadaan</th>
+                                        <th rowspan="2">Department</th>
+                                        <th rowspan="2">Supplier</th>
+                                        <th colspan="3" class="text-center">Pengajuan</th>
+                                        <th colspan="3" class="text-center">Penerimaan</th>
+                                        <th rowspan="2" class="text-end">Status</th>
+                                        <th rowspan="2" class="text-end">Dibuat Oleh</th>
+                                        <th rowspan="2" class="pe-4 text-end rounded-end">Action</th>
+                                    </tr>
+                                    <tr class="fw-bolder text-muted bg-light align-middle">
                                         <th class="text-end">Sub Total</th>
                                         <th class="text-end">Ppn</th>
                                         <th class="text-end">Total</th>
-                                        <th class="text-end">Status</th>
-                                        <th class="text-end">Dibuat Oleh</th>
-                                        <th class="pe-4 text-end rounded-end">Action</th>
+                                        <th class="text-end">Sub Total</th>
+                                        <th class="text-end">Ppn</th>
+                                        <th class="text-end">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-bold" id="resultdataapprove"></tbody>

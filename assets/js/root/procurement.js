@@ -12,7 +12,7 @@ $(document).on("change", "select[name='selectorganization']", function (e) {
 
 function updatedetail(input) {
     const itemId = input.id.split("_")[1];
-    const value = input.value;
+    const value  = input.value;
 
     if (input.id !== `note_${itemId}` && (isNaN(value) || value.trim() === "")) {
         showAlert(
@@ -362,8 +362,6 @@ function printPDF() {
     printWindow.document.close();
     printWindow.print();
 };
-
-
 
 $(document).on("click", "[data-kt-element='send']", function () {
     var refid   = $("#drawer_chat_refid").val();

@@ -70,6 +70,43 @@
 
             echo json_encode($json);
         }
+        
+        public function datapenerimaan(){
+            $nopemesanan = $this->input->post("nopenerimaan");
+            $result = $this->md->datapenerimaan($_SESSION['orgid'],$nopemesanan);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function detailpembelianitem(){
+            $nopemesanan  = $this->input->post("nopemesanan");
+            $nopenerimaan = $this->input->post("nopenerimaan");
+            $result       = $this->md->detailpembelianitem($_SESSION['orgid'],$nopemesanan,$nopenerimaan);
+            
+            if(!empty($result)){
+                $json["responCode"]="00";
+                $json["responHead"]="success";
+                $json["responDesc"]="Data Successfully Found";
+                $json['responResult']=$result;
+            }else{
+                $json["responCode"]="01";
+                $json["responHead"]="info";
+                $json["responDesc"]="Data Failed to Find";
+            }
+
+            echo json_encode($json);
+        }
 
         public function masterbarang(){
             $datanopemesanan  = $this->input->post("datanopemesanan");
@@ -124,6 +161,32 @@
 
                 $this->md->insertchat($datachat);
 
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function newsuratjalan(){
+            $transaksiid  = generateuuid();
+            $nopenerimaan = $this->md->nopenerimaan($_SESSION['orgid'],$this->input->post("no_pemesanan_penerimaan"),$this->input->post("no_pemesanan_department"))->nomor_pemesanan;
+
+            $data['org_id']             = $_SESSION['orgid'];
+            $data['transaksi_id']       = $transaksiid;
+            $data['no_penerimaan_unit'] = $nopenerimaan;
+            $data['no_pemesanan']       = $this->input->post("no_pemesanan_penerimaan");
+            $data['department_id']      = $this->input->post("no_pemesanan_department");
+            $data['surat_jalan']        = $this->input->post("modal_add_penerimaan_barang_nosurat");
+            $data['note']               = $this->input->post("modal_add_penerimaan_barang_note");
+            $data['created_by']         = $_SESSION['userid'];
+
+            if($this->md->insertsuratjalan($data)){
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Added Successfully";
@@ -357,6 +420,70 @@
                     if(!empty($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid))){
                         $this->md->updatestock($this->md->cekitemid($_SESSION['orgid'],$no_pemesanan,$barangid)->item_id,$updatedatastock);
                     }
+                    
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Added Successfully";
+                }else{
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }
+
+            echo json_encode($json);
+        }
+
+         public function penerimaanadditem(){
+            $transaksiid  = generateuuid();
+            $nopenerimaan = $this->input->post('nopenerimaan');
+            $nopemesanan  = $this->input->post('nopemesanan');
+            $barangid     = $this->input->post('barangid');
+            $qty          = $this->input->post('qty');
+            $harga        = $this->input->post('harga');
+            $ppn          = $this->input->post('ppn');
+            $subtotal     = $this->input->post('subtotal');
+            $vat_amount   = $this->input->post('vat_amount');
+            
+            $data['org_id']        = $_SESSION['orgid'];
+            $data['no_penerimaan'] = $nopenerimaan;
+            $data['no_pemesanan']  = $nopemesanan;
+            $data['barang_id']     = $barangid;
+            $data['qty']           = $qty;
+            $data['harga']         = $harga;
+            $data['ppn']           = $ppn*100;
+            $data['harga_ppn']     = $vat_amount;
+            $data['total']         = $subtotal;
+            $data['created_by']    = $_SESSION['userid'];
+
+            if(empty($this->md->cekitemidpenerimaan($_SESSION['orgid'],$nopenerimaan,$nopemesanan,$barangid))){
+                $data['transaksi_id']      = $transaksiid;
+                if($this->md->insertitempenerimaan($data)){
+                    $resulthitungdetail = $this->md->hitungdetailpenerimaan($_SESSION['orgid'],$nopenerimaan,$nopemesanan);
+    
+                    $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                    $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                    $dataheader['TOTAL']     = $resulthitungdetail->total;
+    
+                    $this->md->updateheaderpenerimaan($nopemesanan,$nopenerimaan,$dataheader);
+
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Added Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
+            }else{
+                if($this->md->updateitempenerimaan($barangid,$nopenerimaan,$nopemesanan,$data)){
+                    $resulthitungdetail = $this->md->hitungdetailpenerimaan($_SESSION['orgid'],$nopenerimaan,$nopemesanan);
+    
+                    $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                    $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                    $dataheader['TOTAL']     = $resulthitungdetail->total;
+    
+                    $this->md->updateheaderpenerimaan($nopemesanan,$nopenerimaan,$dataheader);
                     
                     $json['responCode']="00";
                     $json['responHead']="success";

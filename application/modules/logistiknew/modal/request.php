@@ -265,3 +265,127 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_penerimaan_barang" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-5">
+                    <h1 class="mb-3">Penerimaan Barang</h1>
+                    <div class="text-muted fw-bold fs-5"></div>
+                </div>
+                <div class="text-end mb-5">
+                    <a href="" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modal_add_penerimaan_barang">Tambah Penerimaaan Barang</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-8 gy-2" id="tablemasterbarang">
+                        <thead>
+                            <tr class="fw-bolder text-muted bg-light align-middle">
+                                <th class="ps-4 rounded-start">No Penerimaan</th>
+                                <th>No Surat Jalan</th>
+                                <th>Catatan</th>
+                                <th class="text-end">Sub Total</th>
+                                <th class="text-end">Ppn</th>
+                                <th class="text-end">Total</th>
+                                <th class="text-end">Di terima oleh</th>
+								<th class="pe-4 text-end rounded-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600" id="resultdatapenerimaan"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_add_penerimaan_barang" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/logistiknew/request/newsuratjalan" id="formnewsuratjalan">
+                <div class="modal-body">
+                    <input type="hidden" id="no_pemesanan_penerimaan" name="no_pemesanan_penerimaan">
+                    <input type="hidden" id="no_pemesanan_department" name="no_pemesanan_department">
+                    <div class="text-center mb-5">
+                        <h1 class="mb-3">Penerimaan Surat Jalan Supplier</h1>
+                        <div class="text-muted fw-bold fs-5"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">No Surat Jalan :</label>
+                            <input type="text" class="form-control form-control-solid" id="modal_add_penerimaan_barang_nosurat" name="modal_add_penerimaan_barang_nosurat" required>
+                        </div>
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Catatan :</label>
+                            <textarea class="form-control form-control-solid" name="modal_add_penerimaan_barang_note" id="modal_add_penerimaan_barang_note" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-1">				
+                    <input class="btn btn-light-primary" id="modal_add_penerimaan_barang_btn" type="submit" value="SUBMIT" name="simpan" >
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_penerimaan_item" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modal_add_item_nopemesanan" name="modal_add_item_nopemesanan">
+                <input type="hidden" id="modal_add_item_nopenerimaan" name="modal_add_item_nopenerimaan">
+                <div class="text-center mb-5">
+                    <h1 class="mb-3">Penerimaan Item Barang</h1>
+                    <div class="text-muted fw-bold fs-5"></div>
+                </div>
+                <div class="table-responsive">
+					<table class="table align-middle table-row-dashed fs-8 gy-2">
+						<thead>
+                            <tr class="fw-bolder bg-light align-middle text-center">
+                                <th class="bg-dark text-white ps-4 rounded-start" rowspan="2">Item Name</th>
+                                <th class="bg-primary text-white" colspan="6">Pengajuan</th>
+                                <th class="bg-success text-white rounded-end" colspan="6">Penerimaan</th>
+                            </tr>
+							<tr class="fw-bolder text-white bg-light align-middle">
+                                <th class="bg-primary text-end">Qty</th>
+                                <th class="bg-primary text-end">Harga</th>
+                                <th class="bg-primary text-end">Ppn</th>
+                                <th class="bg-primary text-end">Harga Ppn</th>
+                                <th class="bg-primary text-end">Total</th>
+                                <th class="bg-primary">Catatan</th>
+                                <th class="bg-success text-end">Qty</th>
+                                <th class="bg-success text-end">Harga</th>
+                                <th class="bg-success text-end">Ppn</th>
+                                <th class="bg-success text-end">Harga Ppn</th>
+                                <th class="bg-success pe-4 text-end rounded-end">Total</th>
+							</tr>
+						</thead>
+						<tbody class="text-gray-600 fw-bold" id="resultdetailpembelian"></tbody>
+					</table>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
