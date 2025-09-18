@@ -1,0 +1,85 @@
+datamonitoring();
+
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    datamonitoring();
+});
+
+$(document).on("change", "select[name='filterperiode']", function (e) {
+    e.datamonitoring();
+    datagrafik();
+});
+
+function datamonitoring() {
+    const filterperiode      = $("select[name='filterperiode']").val();
+    const selectorganization = $("select[name='selectorganization']").val();
+
+    $.ajax({
+        url     : url + "index.php/po/status/datamonitoring",
+        method  : "POST",
+        data    : {filterperiode:filterperiode,selectorganization:selectorganization},
+        dataType: "JSON",
+        cache   : false,
+        beforeSend() {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+            $("#resultdatamonitoring").html("");
+        },
+        success(data) {
+            var result              = "";
+            var tableresult = "";
+
+            if(data.responCode==="00"){
+                result = data.responResult;
+                for(var i in result){
+                    tableresult +="<tr>";
+                    tableresult +="<td class='ps-4'><div>"+result[i].no_pemesanan_unit+"</div>"+(result[i].cito==="Y"?"<div class='badge badge-light-danger fw-bolder fa-fade me-2'>CITO</div>":"")+"<div class='badge badge-light-"+result[i].colorjenis+"'>"+result[i].namejenis+"</div></td>";
+                    tableresult +="<td><div class='fw-bolder'>"+result[i].judul_pemesanan+"</div><div class='small fst-italic'>"+result[i].note+"</div></td>";
+                    tableresult +="<td>"+result[i].unitpelaksana+"</td>";
+                    if(result[i].flagkains==="0"){
+                        tableresult +="<td class='text-center'><i class='bi bi-info-circle-fill text-danger' data-bs-toggle='tooltip' data-bs-custom-class='tooltip-dark' data-bs-trigger='hover'  data-bs-placement='right' data-bs-original-title='Belum Di Setujui Kepala Instalasi'></i></td>";
+                    }else{
+                        tableresult +="<td><div>"+result[i].kainsname+"</div><div>"+result[i].kainsdate+"</div></td>";
+                    }
+                    if(result[i].flagkoordinator==="0"){
+                        tableresult +="<td class='text-center'><i class='bi bi-info-circle-fill text-warning' data-bs-toggle='tooltip' data-bs-custom-class='tooltip-dark' data-bs-trigger='hover'  data-bs-placement='right' data-bs-original-title='Tidak Memerlukan Persetujuan Koordinator'></i></td>";
+                    }else{
+                        if(result[i].status==="1"){
+                            tableresult +="<td class='text-center'><i class='bi bi-info-circle-fill text-danger' data-bs-toggle='tooltip' data-bs-custom-class='tooltip-dark' data-bs-trigger='hover'  data-bs-placement='right' data-bs-original-title='Belum Di Setujui Koordinator'></i></td>";
+                        }else{
+                            tableresult +="<td><div>"+result[i].koordinatorname+"</div><div>"+result[i].koordinatordate+"</div></td>";
+                        }
+                        
+                    }
+                    tableresult +="<td class='text-end'><div>"+result[i].dibuatoleh+"<div>"+result[i].tglbuat+"</div></td>";
+                    tableresult +="</tr>";
+                }
+            }
+
+            $("#resultdatamonitoring").html(tableresult);
+
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+        },
+        complete() {
+            toastr.clear();
+            KTApp.initBootstrapTooltips();
+        },
+        error(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>" + error + "</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : { confirmButton: "btn btn-danger" },
+                showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+            });
+        }
+    });
+
+    return false;
+};
