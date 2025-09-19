@@ -1,3 +1,14 @@
+<style>
+    .table th.vertical {
+        writing-mode: vertical-rl;   /* bikin teks vertikal dari atas ke bawah */
+        transform: rotate(180deg);   /* biar bacaannya dari bawah ke atas */
+        text-align: center;          /* rata tengah */
+        vertical-align: middle;      /* posisikan di tengah cell */
+        white-space: nowrap;         /* biar tidak patah baris */
+        width: 40px;                 /* atur lebar kolom */
+    }
+</style>
+
 <div class="row gy-5 g-xl-8 mb-xl-8">
     <div class="col-xl-12">
         <div class="card">
@@ -15,9 +26,8 @@
                                 <th class="ps-4 rounded-start">No Pemesanan</th>
                                 <th>Pengadaan</th>
                                 <th>Department</th>
-                                <th class="text-center">Ka. Instalasi / Ruangan</th>
-                                <th class="text-center">Koordinator</th>
-                                
+                                <th class="text-center vertical">Ka. Instalasi / Ruangan</th>
+                                <th class="text-center vertical">Koordinator</th>
                                 <th>Supplier</th>
                                 <th class="text-end">Sub Total</th>
                                 <th class="text-end">Ppn</th>
