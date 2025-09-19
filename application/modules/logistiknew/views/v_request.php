@@ -10,17 +10,17 @@
             <div class="card-body py-3">
                 <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-7 fw-bolder flex-nowrap mb-10">
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tabwaiting">On Process</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tabwaiting">On Process</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#tabapprove">Approved</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabapprove">Approved</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#tabdecline">Decline</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade" id="tabwaiting" role="tabpanel">
+                    <div class="tab-pane fade show active" id="tabwaiting" role="tabpanel">
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>
@@ -41,7 +41,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="tab-pane fad show active" id="tabapprove" role="tabpanel">
+                    <div class="tab-pane fade" id="tabapprove" role="tabpanel">
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-8 gy-2">
                                 <thead>

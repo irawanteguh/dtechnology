@@ -23,18 +23,27 @@
                     <table class="table align-middle table-row-dashed fs-8 gy-2">
                         <thead>
                             <tr class="fw-bolder text-muted bg-light align-middle">
-                                <th class="ps-4 rounded-start">No Pemesanan</th>
-                                <th>Pengadaan</th>
-                                <th>Department</th>
-                                <th class="text-center vertical">Ka. Instalasi / Ruangan</th>
+                                <th class="ps-4 rounded-start" rowspan="2">No Pemesanan</th>
+                                <th rowspan="2">Pengadaan</th>
+                                <th rowspan="2">Department</th>
+                                <th rowspan="2">Total</th>
+                                <th class="text-end" rowspan="2">Status</th>
+                                <th class="text-center" colspan="5">Rumah Sakit</th>
+                                <th class="text-center" colspan="5">RMB GROUP</th>
+                                <th class="text-end" rowspan="2">Dibuat Oleh</th>
+                                <th class="pe-4 text-end rounded-end" rowspan="2">Action</th>
+                            </tr>
+                            <tr class="fw-bolder text-muted bg-light align-middle">
+                                <th class="text-center vertical">Ka. Instalasi</th>
                                 <th class="text-center vertical">Koordinator</th>
-                                <th>Supplier</th>
-                                <th class="text-end">Sub Total</th>
-                                <th class="text-end">Ppn</th>
-                                <th class="text-end">Total</th>
-                                <th class="text-end">Status</th>
-                                <th class="text-end">Dibuat Oleh</th>
-                                <th class="pe-4 text-end rounded-end">Action</th>
+                                <th class="text-center vertical">Manager</th>
+                                <th class="text-center vertical">Finance</th>
+                                <th class="text-center vertical">Director</th>
+                                <th class="text-center vertical">CPO</th>
+                                <th class="text-center vertical">CMD</th>
+                                <th class="text-center vertical">CTO</th>
+                                <th class="text-center vertical">CFO</th>
+                                <th class="text-center vertical">CMO</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-bold" id="resultdatamonitoring"></tbody>

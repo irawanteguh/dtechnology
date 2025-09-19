@@ -65,6 +65,7 @@
                         where a.org_id='".$orgid."'
                         and   a.active='1'
                         and   a.version='2.0.0.0'
+                        and a.method='4'
                         and   YEAR(a.created_date)='".$tahun."'
                         order by created_date desc
                         

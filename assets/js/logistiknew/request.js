@@ -319,8 +319,11 @@ function datapemesanan(){
                                                                         }
                                                                     }else{
                                                                         if(result[i].methodid==="14"){
-                                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
-                                                                            rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                                                            if(result[i].status==="29"){
+                                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_print_po'><i class='bi bi-printer text-primary'></i> Print PO</a>";
+                                                                                rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_invoice'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload invoice</a>";
+                                                                            }
+                                                                            
                                                                         }
                                                                     }
                                                                 }
@@ -602,7 +605,7 @@ function masterbarang(datanopemesanan,datadepartmentid,datastatus){
                         tableresult += `<td class='text-end'><input class='form-control form-control-sm text-end' id='vat_${result[i].barang_id}' onchange='simpandata(this)'></td>`;
                     }
 
-                    tableresult += `<td class='text-end' id='vat_amount_${result[i].barang_id}'>${todesimal(vatAmount)}</td>`;
+                    tableresult += `<td class='text-end' id='vatamount_${result[i].barang_id}'>${todesimal(vatAmount)}</td>`;
                     tableresult += `<td class='text-end' id='subtotal_${result[i].barang_id}'>${todesimal(subtotal)}</td>`;
 
                     if(result[i].note!=null){
@@ -644,6 +647,7 @@ function simpandata(input) {
     const barangid = input.id.split("_")[1];
     const value    = input.value;
 
+    
     if (input.id !== `note_${barangid}` && (isNaN(value) || value.trim() === "")) {
         showAlert(
             "I'm Sorry",
@@ -663,6 +667,15 @@ function simpandata(input) {
     const vatAmountElement = document.getElementById(`vatamount_${barangid}`);
     const subtotalElement  = document.getElementById(`subtotal_${barangid}`);
     const note             = document.getElementById(`note_${barangid}`);
+
+    // console.log("DEBUG INPUT ELEMENTS:");
+    // console.log("stockInput:", stockInput?.id, "value:", stockInput?.value);
+    // console.log("qtyInput:", qtyInput?.id, "value:", qtyInput?.value);
+    // console.log("hargaInput:", hargaInput?.id, "value:", hargaInput?.value);
+    // console.log("vatElement:", vatElement?.id, "value:", vatElement?.value);
+    // console.log("vatAmountElement:", vatAmountElement?.id, "innerText:", vatAmountElement?.innerText);
+    // console.log("subtotalElement:", subtotalElement?.id, "innerText:", subtotalElement?.innerText);
+    // console.log("note:", note?.id, "value:", note?.value);
 
     if (stockInput && qtyInput && hargaInput && vatElement && vatAmountElement) {
         const stock = parseFloat(stockInput.value);
@@ -733,13 +746,18 @@ function simpandata(input) {
                 toastr[data.responHead](data.responDesc, "INFORMATION");
             },
             error: function (xhr, status, error) {
-                showAlert(
-                    "I'm Sorry",
-                    "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
-                    "error",
-                    "Please Try Again",
-                    "btn btn-danger"
-                );
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                    html             : "<b>" + error + "</b>",
+                    icon             : "error",
+                    confirmButtonText: "Please Try Again",
+                    buttonsStyling   : false,
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    customClass      : { confirmButton: "btn btn-danger" },
+                    showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                    hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                });
             }
         });
     }else{
