@@ -63,7 +63,7 @@
                                     <span class="required">Activity Description</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan Masukan Detail Kegiatan Anda"></i>
                                 </label>
-                                <textarea data-kt-autosize="true" class="form-control form-control-solid" name="data_activity_description_add" id="data_activity_description_add" placeholder="Silakan masukan kegiatan anda secara detail"></textarea>
+                                <textarea data-kt-autosize="true" class="form-control form-control-solid" name="data_activity_description_add" id="data_activity_description_add" placeholder="Silakan masukan kegiatan anda secara detail" required></textarea>
                             </div>
                         </div>
                     </div>
