@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<!-- <div class="modal fade" id="modal_print_po" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_print_po" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -115,9 +115,9 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
-<div class="modal fade" id="modal_print_po" tabindex="-1" aria-hidden="true">
+<!-- <div class="modal fade" id="modal_print_po" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -201,4 +201,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
