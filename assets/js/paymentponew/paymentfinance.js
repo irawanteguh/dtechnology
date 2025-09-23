@@ -786,14 +786,48 @@ function datapemesanan(startDate,endDate){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].status==="9" || result[i].status==="13" || result[i].status==="37"){
+                            if(result[i].status==="9" || result[i].status==="13"){
                                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                 rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='14' datavalidator='FINANCE_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                             }
 
-                            if(result[i].status==="15"){
-                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
+                            
+                            if(result[i].methodid==="1" || result[i].methodid==="2" ||  result[i].methodid==="3" || result[i].methodid==="4"){
+                                if(result[i].status==="15"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
+                                }
                             }
+
+                            if(result[i].methodid==="5" ||  result[i].methodid==="8" || result[i].methodid==="9" || result[i].methodid==="11" || result[i].methodid==="12"){
+                                if(result[i].status==="37"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
+                                }
+                            }
+
+                            if(result[i].methodid==="6"){
+                                if(result[i].status==="15"){
+                                    if(parseFloat(result[i].total)<=2000000){
+                                        rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
+                                    }
+                                }
+
+                                if(result[i].status==="37"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
+                                }
+                            }
+
+                            if(result[i].methodid==="10"){
+                                if(result[i].status==="15"){
+                                    if(parseFloat(result[i].total)<=500000){
+                                        rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
+                                    }
+                                }
+
+                                if(result[i].status==="37"){
+                                    rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_finance_payment'><i class='bi bi-check2-circle text-success'></i> Payment</a>";
+                                }
+                            }
+                            
 
                             if(result[i].status==="16"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_upload_buktibayar'><i class='bi bi-cloud-arrow-up text-primary'></i> Upload File Transfer</a>";
@@ -817,13 +851,13 @@ function datapemesanan(startDate,endDate){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "9" || result[i].status === "13" || result[i].status === "37"){
+                    if(result[i].status === "9" || result[i].status === "13"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "14"){
+                        if(result[i].status === "14" || result[i].status === "34" || result[i].status === "36"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "15"){
+                            if(result[i].status === "15" || result[i].status === "35" || result[i].status === "37"){
                                 resultdataapprove += rows;
                             }else{
                                 if(result[i].status === "16"){

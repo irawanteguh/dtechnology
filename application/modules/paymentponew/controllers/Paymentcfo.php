@@ -16,14 +16,19 @@
             $startDate = $this->input->post("startDate") ?: date("Y-m-d");
             $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
-            $status="
-                        and   a.method in ('5','8','9','11','12')
-                        and   a.status in ('13','14','15','16','17','34','35','36','37')
+            $status = "
+                        and a.method in ('5','6','8','9','10','11','12')
+                        and (
+                            (a.status = '6'  and a.total > 2000000)
+                            or (a.status = '10' and a.total > 500000)
+                            or (a.status in ('15','34','35','36','37'))
+                        )
                     ";
+
             $orderby = "
                 ORDER BY 
-                CASE WHEN a.status = '9' THEN a.inv_manager_date END ASC,
-                CASE WHEN a.status <> '9' THEN a.inv_dir_date END DESC
+                CASE WHEN a.status = '15' THEN a.inv_keu_date END ASC,
+                CASE WHEN a.status in ('36','37') THEN a.cmo_date END ASC
             ";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);

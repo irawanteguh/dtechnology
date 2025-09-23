@@ -58,6 +58,8 @@ function datapemesanan(startDate,endDate){
                                 rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='36' datavalidator='CMO_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                             }
 
+                            rows +="<div class='separator my-2'></div>";
+                            
                             if(result[i].attachment==="1"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
@@ -75,10 +77,10 @@ function datapemesanan(startDate,endDate){
                     if(result[i].status === "35"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "14" || result[i].status === "36"){
+                        if(result[i].status === "36"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "15" || result[i].status === "16" || result[i].status === "17" || result[i].status === "36"){
+                            if(result[i].status === "37"){
                                 resultdataapprove += rows;
                             }
                         }

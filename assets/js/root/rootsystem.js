@@ -204,7 +204,8 @@ function showAlert(title, htmlContent, icon, confirmButtonText, buttonClass, tim
     });
 };
 
-function showLoading(title, message) {
+function showLoading(title, message){
+    toastr.clear();
     Swal.close();
     Swal.fire({
         title            : `<span style="font-size:20px; font-weight:bold; color:#2c3e50;">${title}</span>`,

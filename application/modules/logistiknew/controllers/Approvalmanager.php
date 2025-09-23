@@ -33,7 +33,7 @@
                             ORDER BY 
                             CASE WHEN a.status = '2' THEN a.kains_date END ASC,
                             CASE WHEN a.status = '19' THEN a.koordinator_date END ASC,
-                            CASE WHEN a.status not in ('2','19') THEN a.manager_date END ASC
+                            CASE WHEN a.status not in ('2','19') THEN a.manager_date END DESC
                         ";
 
             $result = $this->md->datapemesanan($orgid,$status,$orderby);

@@ -29,8 +29,8 @@
                         ";
             $orderby = "
                             ORDER BY 
-                            CASE WHEN a.status = '5' THEN a.manager_date END ASC,
-                            CASE WHEN a.status <> '5' THEN a.keu_date END DESC
+                            CASE WHEN a.status = '4' THEN a.koordinator_date END ASC,
+                            CASE WHEN a.status = '6' THEN a.keu_date END DESC
 
                         ";
 

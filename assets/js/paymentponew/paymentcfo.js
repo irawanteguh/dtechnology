@@ -53,11 +53,13 @@ function datapemesanan(startDate,endDate){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].status==="13"){
+                            if(result[i].status==="15"){
                                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='35' datavalidator='CFO_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                 rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='34' datavalidator='CFO_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                             }
 
+                            rows +="<div class='separator my-2'></div>";
+                            
                             if(result[i].attachment==="1"){
                                 rows +="<a class='dropdown-item btn btn-sm text-primary' href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf_note' "+getvariabel+" data_attachment_note='"+result[i].attachment_note+"' data-dirfile='"+url+"assets/documentpo/"+result[i].no_pemesanan+".pdf' onclick='viewdocwithnote(this)'><i class='bi bi-eye text-primary'></i> View Document</a>";
                             }
@@ -72,13 +74,13 @@ function datapemesanan(startDate,endDate){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "13"){
+                    if(result[i].status === "15"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "14" || result[i].status === "34" || result[i].status === "36"){
+                        if(result[i].status === "34" || result[i].status === "36"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "15" || result[i].status === "16"  || result[i].status === "17" || result[i].status === "35" || result[i].status === "37"){
+                            if(result[i].status === "35" || result[i].status === "37"){
                                 resultdataapprove += rows;
                             }
                         }

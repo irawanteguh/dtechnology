@@ -16,9 +16,13 @@
             $startDate = $this->input->post("startDate") ?: date("Y-m-d");
             $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
-            $status="
-                        and   a.method in ('5','8','9','11','12')
-                        and   a.status in ('14','15','16','17','35','36','37')
+            $status = "
+                        and a.method in ('5','6','8','9','10','11','12')
+                        and (
+                            (a.status = '6'  and a.total > 2000000)
+                            or (a.status = '10' and a.total > 500000)
+                            or (a.status in ('35','36','37'))
+                        )
                     ";
             $orderby = "
                 ORDER BY 

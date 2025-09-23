@@ -35,7 +35,11 @@
                             )
                             and   a.status in ('21','23','25','27','28','29','30','31')
                         ";
-            $orderby = "order by created_date desc;";
+           $orderby = "
+                            ORDER BY 
+                            CASE WHEN a.status = '29' THEN a.cfo_date END DESC
+
+                        ";
 
             $result = $this->md->datapemesanan($orgid,$status,$orderby);
             

@@ -14,7 +14,8 @@
 
         public function datapemesanan(){
             $status    = "  and   a.department_id in (select department_id from dt01_gen_department_ms where org_id=a.org_id and active='1' and user_id='".$_SESSION['userid']."')
-                            and   a.status in ('7','8','9','10','11','12','13','32','33','34','35','36','37')";
+                            and   a.status in ('7','8','9','10','11','12','13','16','17','32','33','34','35','36','37')
+                        ";
             $orderby = "
                 ORDER BY 
                 CASE WHEN a.status = '7' THEN a.inv_kains_date END DESC

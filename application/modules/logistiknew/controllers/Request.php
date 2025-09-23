@@ -50,7 +50,8 @@
 
             $orderby = "
                 ORDER BY 
-                CASE WHEN a.status = '2' THEN a.kains_date END DESC,
+                CASE WHEN a.status = '0' THEN a.created_date END DESC,
+                CASE WHEN a.status in ('1','2') THEN a.kains_date END DESC,
                 CASE WHEN a.status = '31' THEN a.cmo_date END ASC
             ";
 
