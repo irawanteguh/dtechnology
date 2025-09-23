@@ -396,13 +396,14 @@ function datapemesanan(startDate,endDate){
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
+            showLoading("Mohon Tunggu...", "Permintaan sedang dikirim...");
+
             $("#resultdataonprocess").html("");
             $("#resultdataapprove").html("");
             $("#resultdatadecline").html("");
         },
         success:function(data){
+            showLoading("Menyiapkan Data", "Sebentar ya, data sedang dimuat...");
             var result              = "";
             var resultdataonprocess = "";
             var resultdataapprove   = "";
@@ -459,10 +460,10 @@ function datapemesanan(startDate,endDate){
                     if(result[i].status === "9" || result[i].status === "11"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "12"){
+                        if(result[i].status === "12" || result[i].status === "34" || result[i].status === "36"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "13" || result[i].status === "15" || result[i].status === "16" || result[i].status === "17"){
+                            if(result[i].status === "13" || result[i].status === "15" || result[i].status === "16" || result[i].status === "17" || result[i].status === "35" || result[i].status === "37"){
                                 resultdataapprove += rows;
                             }
                         }
@@ -473,12 +474,9 @@ function datapemesanan(startDate,endDate){
             $("#resultdataonprocess").html(resultdataonprocess);
             $("#resultdatadecline").html(resultdatadecline);
             $("#resultdataapprove").html(resultdataapprove);
-
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
         },
-        complete: function () {
-			toastr.clear();
+        complete: function(){
+            Swal.close();
 		},
         error: function(xhr, status, error) {
             showAlert(

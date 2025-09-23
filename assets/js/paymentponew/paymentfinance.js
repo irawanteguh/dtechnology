@@ -729,8 +729,7 @@ function datapemesanan(startDate,endDate){
         dataType  : "JSON",
         cache     : false,
         beforeSend: function () {
-            toastr.clear();
-            toastr["info"]("Sending request...", "Please wait");
+            showLoading("Mohon Tunggu...", "Permintaan sedang dikirim...");
             $("#resultdataonprocess").html("");
             $("#resultdataapprove").html("");
             $("#resultdatadecline").html("");
@@ -738,6 +737,7 @@ function datapemesanan(startDate,endDate){
             $("#resultdatatransfer").html("");
         },
         success:function(data){
+            showLoading("Menyiapkan Data", "Sebentar ya, data sedang dimuat...");
             var result              = "";
             var resultdataonprocess = "";
             var resultdataapprove   = "";
@@ -786,7 +786,7 @@ function datapemesanan(startDate,endDate){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].status==="9" || result[i].status==="13"){
+                            if(result[i].status==="9" || result[i].status==="13" || result[i].status==="37"){
                                 rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_note_finance'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
                                 rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='14' datavalidator='FINANCE_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                             }
@@ -817,7 +817,7 @@ function datapemesanan(startDate,endDate){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "9" || result[i].status === "13"){
+                    if(result[i].status === "9" || result[i].status === "13" || result[i].status === "37"){
                         resultdataonprocess += rows;
                     }else{
                         if(result[i].status === "14"){
@@ -844,12 +844,9 @@ function datapemesanan(startDate,endDate){
             $("#resultdataapprove").html(resultdataapprove);
             $("#resultdatapayment").html(resultdatapayment);
             $("#resultdatatransfer").html(resultdatatransfer);
-
-            toastr.clear();
-            toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-			toastr.clear();
+			Swal.close();
 		},
         error: function(xhr, status, error) {
             showAlert(

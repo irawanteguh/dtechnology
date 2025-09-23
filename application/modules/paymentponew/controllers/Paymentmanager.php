@@ -24,9 +24,14 @@
                             )
                             and ( (a.status='7' and d.head_koordinator='N') or (a.status<>'7') )
                         )
-                        and a.status in ('7','8','9','10','11','12','13','33')
+                        and a.status in ('7','8','9','10','11','12','13','33','34','35','36','37')
                     ";
-            $orderby = "order by inv_kains_date desc;";
+            $orderby = "
+                ORDER BY 
+                CASE WHEN a.status not in ('9','33') THEN a.inv_kains_date END DESC,
+                CASE WHEN a.status = '33' THEN a.inv_koordinator_date END DESC,
+                CASE WHEN a.status = '9' THEN a.inv_manager_date END DESC
+            ";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
             

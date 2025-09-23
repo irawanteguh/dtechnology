@@ -14,7 +14,7 @@
 
         public function datapemesanan(){
             $status="
-                        and   a.status in ('7','8','9','10','11','12','13','32','33')
+                        and   a.status in ('7','8','9','10','11','12','13','32','33','34','35','36','37')
                         and   a.department_id in (
                                                     select department_id
                                                     from dt01_gen_department_ms
@@ -28,7 +28,11 @@
                                                                         )
                                                 )
                     ";
-            $orderby = "order by inv_kains_date desc;";
+             $orderby = "
+                ORDER BY 
+                CASE WHEN a.status = '7' THEN a.inv_kains_date END DESC,
+                CASE WHEN a.status <> '7' THEN a.inv_koordinator_date END DESC
+            ";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'],$status,$orderby);
             

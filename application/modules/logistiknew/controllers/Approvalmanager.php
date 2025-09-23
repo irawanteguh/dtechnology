@@ -29,7 +29,12 @@
                         and a.status in ('2','3','4','5','6','19','20','21','22','23','24','25','26','27','28','29','30','31')
                     ";
 
-            $orderby = "order by created_date desc;";
+            $orderby = "
+                            ORDER BY 
+                            CASE WHEN a.status = '2' THEN a.kains_date END ASC,
+                            CASE WHEN a.status = '19' THEN a.koordinator_date END ASC,
+                            CASE WHEN a.status not in ('2','19') THEN a.manager_date END ASC
+                        ";
 
             $result = $this->md->datapemesanan($orgid,$status,$orderby);
             

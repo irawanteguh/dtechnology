@@ -18,10 +18,21 @@
 
             $orgid = "and a.org_id='".$_SESSION['orgid']."'";
             $status  = " 
-                            and   a.status in ('4','5','6','20','21','22','23','24','25','26','27','28','29','30','31')
-                            and   date(a.created_date) between '".$startDate."' and '".$endDate."'
+                            and (
+                            a.status = '4'
+                            OR (
+                                a.status in ('5','6','20','21','22','23','24','25','26','27','28','29','30','31')
+                                and date(a.created_date) between '".$startDate."' and '".$endDate."'
+                            )
+                        )
+
                         ";
-            $orderby = "order by created_date desc;";
+            $orderby = "
+                            ORDER BY 
+                            CASE WHEN a.status = '5' THEN a.manager_date END ASC,
+                            CASE WHEN a.status <> '5' THEN a.keu_date END DESC
+
+                        ";
 
             $result = $this->md->datapemesanan($orgid,$status,$orderby);
             

@@ -29,23 +29,33 @@
             $startDate = $this->input->post("startDate") ?: date("Y-m-d");
             $endDate   = $this->input->post("endDate")   ?: date("Y-m-d");
 
+            // $status = "
+            //     and (
+                    
+            //         (a.status = '9' and method='4')
+            //         or (a.status = '37' and method in ('5','8','9','11','12'))
+            //         or (a.status in ('13','14','15','16'))
+            //         or (a.status in ('17') AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."')
+            //     )
+            // ";
+
             $status = "
-                AND (
-                    (a.status in ('17') AND DATE(a.inv_keu_date) BETWEEN '".$startDate."' AND '".$endDate."')
-                    or (a.status = '9' and method='4')
-                    or (a.status in ('13','14','15','16'))
-                )
-            ";
+                        and(
+                            (a.method = '4' AND a.status = '9')
+                            or (a.method IN ('5','8','9','11','12') AND a.status = '37')
+                            or (a.method NOT IN ('4','5','8','9','11','12') AND a.status = '13')
+                            or (a.status in ('14','15'))
+                            or (a.status in ('16','17') AND DATE(a.payment_date) BETWEEN '".$startDate."' AND '".$endDate."')
+                        )
+                    ";
 
             $orderby = "
-                            ORDER BY 
-                                CASE 
-                                    WHEN a.status = '9'  THEN a.inv_manager_date
-                                    WHEN a.status = '13' THEN a.inv_dir_date
-                                    WHEN a.status IN ('14','15') THEN a.inv_keu_date
-                                    WHEN a.status IN ('16','17') THEN a.payment_date
-                                END DESC
-                        ";
+                ORDER BY 
+                CASE WHEN a.status = '9' THEN a.inv_manager_date END DESC,
+                CASE WHEN a.status = '13' THEN a.inv_dir_date END DESC,
+                CASE WHEN a.status in ('14','15') THEN a.inv_keu_date END ASC,
+                CASE WHEN a.status in ('16','17') THEN a.payment_date END DESC
+            ";
 
             $result = $this->md->datapemesanan($_SESSION['orgid'], $status, $orderby);
             

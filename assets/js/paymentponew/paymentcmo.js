@@ -1,8 +1,13 @@
-datapemesanan();
+let today     = new Date();
+let startDate = today.toISOString().split('T')[0];
+let endDate   = today.toISOString().split('T')[0];
 
-function datapemesanan(){
+datapemesanan(startDate,endDate);
+
+function datapemesanan(startDate,endDate){
     $.ajax({
-        url       : url+"index.php/paymentponew/paymentcoordinator/datapemesanan",
+        url       : url+"index.php/paymentponew/paymentcmo/datapemesanan",
+        data      : {startDate:startDate,endDate:endDate},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -48,13 +53,9 @@ function datapemesanan(){
                             rows +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             rows +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                             
-                            if(result[i].status === "7"){
-                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='33' datavalidator='KOORDINATOR_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
-                                rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='32' datavalidator='KOORDINATOR_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
-                            }
-
-                            if(result[i].status === "33"){
-                                rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='7' datavalidator='KOORDINATOR_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Cancel Invoice</a>";
+                            if(result[i].status==="35"){
+                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='37' datavalidator='CMO_INV' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Invoice Approved</a>";
+                                rows +="<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" datastatus='36' datavalidator='CMO_INV' onclick='validasi($(this));'><i class='bi bi-trash-fill text-danger'></i> Invoice Decline</a>";
                             }
 
                             if(result[i].attachment==="1"){
@@ -71,13 +72,13 @@ function datapemesanan(){
                     rows +="</td>";
                     rows +="</tr>";
 
-                    if(result[i].status === "7"){
+                    if(result[i].status === "35"){
                         resultdataonprocess += rows;
                     }else{
-                        if(result[i].status === "8" || result[i].status === "10" || result[i].status === "12" || result[i].status === "32" || result[i].status === "34" || result[i].status === "36"){
+                        if(result[i].status === "14" || result[i].status === "36"){
                             resultdatadecline += rows;
                         }else{
-                            if(result[i].status === "9" || result[i].status === "11" || result[i].status === "13" || result[i].status === "33" || result[i].status === "35" || result[i].status === "37"){
+                            if(result[i].status === "15" || result[i].status === "16" || result[i].status === "17" || result[i].status === "36"){
                                 resultdataapprove += rows;
                             }
                         }

@@ -204,6 +204,18 @@ function showAlert(title, htmlContent, icon, confirmButtonText, buttonClass, tim
     });
 };
 
+function showLoading(title, message) {
+    Swal.close();
+    Swal.fire({
+        title            : `<span style="font-size:20px; font-weight:bold; color:#2c3e50;">${title}</span>`,
+        html             : `<span style="font-size:15px; color:#7f8c8d;">${message}</span>`,
+        allowOutsideClick: false,
+        allowEscapeKey   : false,
+        showConfirmButton: false,
+        didOpen          : () => Swal.showLoading()
+    });
+};
+
 function parseCustomDate(dateStr) {
     const parts = dateStr.split(" ");
     if (parts.length !== 2) return new Date("Invalid");

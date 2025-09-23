@@ -47,13 +47,12 @@
                             and   a.status in ('0','1','2','3','4','5','6','18','19','20','21','22','23','24','25','26','27','28','29','30','31')
                         ";
 
-           $orderby = "
-                            ORDER BY 
-                                CASE 
-                                    WHEN a.status = '2'  THEN a.kains_date
-                                    ELSE a.created_date
-                                END DESC
-                        ";
+
+            $orderby = "
+                ORDER BY 
+                CASE WHEN a.status = '2' THEN a.kains_date END DESC,
+                CASE WHEN a.status = '31' THEN a.cmo_date END ASC
+            ";
 
             $result = $this->md->datapemesanan($orgid,$status,$orderby);
             
@@ -293,6 +292,18 @@
                 $data['status']       = $datastatus;
                 $data['inv_dir_id']   = $_SESSION['userid'];
                 $data['inv_dir_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CFO_INV"){
+                $data['status']       = $datastatus;
+                $data['inv_cfo_id']   = $_SESSION['userid'];
+                $data['inv_cfo_date'] = date('Y-m-d H:i:s');
+            }
+
+            if($datavalidator==="CMO_INV"){
+                $data['status']       = $datastatus;
+                $data['inv_cmo_id']   = $_SESSION['userid'];
+                $data['inv_cmo_date'] = date('Y-m-d H:i:s');
             }
 
             if($datavalidator==="FINANCE_INV"){
