@@ -194,7 +194,12 @@ function datapemesanan(){
                             if(result[i].methodid==="4"){
                                 if(result[i].status==="0"){
                                     if(result[i].invoice==="1"){
-                                        rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                        rows +="<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_penerimaan_barang'><i class='bi bi-box-seam text-primary'></i> Penerimaan Barang</a>";
+                                        if(result[i].nopenerimaan!=null){
+                                            if(result[i].totalterima!=0){
+                                                rows +="<a class='dropdown-item btn btn-sm text-success' "+getvariabel+" datastatus='2' datavalidator='KAINS' onclick='validasi($(this));'><i class='bi bi-check2-circle text-success'></i> Approved</a>";
+                                            }
+                                        }
                                     }
 
                                     if(result[i].jmlitem!="0"){
@@ -474,12 +479,18 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                 for(var i in result){
                     resultdatatable +="<tr>";
                     resultdatatable +="<td class='ps-4'>"+result[i].namabarang+"</td>";
-                    resultdatatable +="<td class='text-end'>"+result[i].qty+"</td>";
-                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga)+"</td>";
-                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].ppn)+"</td>";
-                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
-                    resultdatatable +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    resultdatatable +="<td>"+result[i].note+"</td>";
+                    resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='qty_"+result[i].barang_id+"' name='qty_"+result[i].barang_id+"' value='"+todesimal(result[i].qty)+"' disabled></td>";
+                    resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+todesimal(result[i].harga)+"' disabled></td>";
+                    resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+todesimal(result[i].ppn)+"' disabled></td>";
+                    resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+todesimal(result[i].harga_ppn)+"' disabled></td>";
+                    resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+todesimal(result[i].total)+"' disabled></td>";
+                    resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+result[i].note+"' disabled></td>";
+                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga)+"</td>";
+                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].ppn)+"</td>";
+                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
+                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
+                    // resultdatatable +="<td>"+result[i].note+"</td>";
+                    resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaall_"+result[i].barang_id+"' name='terimaall_"+result[i].barang_id+"' value='"+todesimal(result[i].qtyterimaall)+"' disabled></td>";
 
                     if(result[i].qtyterima!=null){
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaqty_"+result[i].barang_id+"' name='terimaqty_"+result[i].barang_id+"' value='"+todesimal(result[i].qtyterima)+"' onchange='simpanpenerimaan(this)'></td>";
@@ -789,19 +800,30 @@ function simpanpenerimaan(input) {
         return;
     }
 
+    const qtyapproval      = document.getElementById(`qty_${barangid}`);
+    const terimall         = document.getElementById(`terimaall_${barangid}`);
     const qtyInput         = document.getElementById(`terimaqty_${barangid}`);
     const hargaInput       = document.getElementById(`terimaharga_${barangid}`);
     const vatElement       = document.getElementById(`terimavat_${barangid}`);
     const vatAmountElement = document.getElementById(`terimavatamount_${barangid}`);
     const subtotalElement  = document.getElementById(`terimasubtotal_${barangid}`);
 
+
     if(qtyInput && hargaInput && vatElement && vatAmountElement){
-        const qty   = parseFloat(qtyInput.value);
-        const harga = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
-        const ppn   = parseFloat(vatElement.value) / 100;
+        const qtysetujui = parseFloat(qtyapproval.value);
+        const terima     = parseFloat(terimall.value);
+        const qty        = parseFloat(qtyInput.value);
+        const harga      = parseFloat(hargaInput.value.replace(/\./g, "").replace(",", "."));
+        const ppn        = parseFloat(vatElement.value) / 100;
 
         if(isNaN(qty) || isNaN(harga) || isNaN(ppn)){
             console.error("Nilai qty, harga, atau VAT tidak valid.");
+            return;
+        }
+
+        if((terima+qty) > qtysetujui){
+            toastr.clear();
+            toastr.info("Jumlah Qty Yang Di Terima Melebihi Jumlah Yang Di Setujui!", "I'm Sorry");
             return;
         }
 
@@ -844,7 +866,6 @@ function simpanpenerimaan(input) {
             }
         });
 
-
         $.ajax({
             url     : url + "index.php/logistiknew/request/penerimaanadditem",
             method  : "POST",
@@ -865,6 +886,7 @@ function simpanpenerimaan(input) {
                 toastr.info("Updating data...", "Please wait");
             },
             success: function (data) {
+                detailpembelianitem(nopemesanan,nopenerimaan)
                 toastr.clear();
                 toastr[data.responHead](data.responDesc, "INFORMATION");
             },

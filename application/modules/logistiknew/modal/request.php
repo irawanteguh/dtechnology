@@ -366,6 +366,7 @@
                             <tr class="fw-bolder bg-light align-middle text-center">
                                 <th class="bg-dark text-white ps-4 rounded-start" rowspan="2">Item Name</th>
                                 <th class="bg-primary text-white" colspan="6">Pengajuan</th>
+                                <th class="bg-danger text-white" rowspan="2">Total Penerimaan</th>
                                 <th class="bg-success text-white rounded-end" colspan="6">Penerimaan</th>
                             </tr>
 							<tr class="fw-bolder text-white bg-light align-middle">

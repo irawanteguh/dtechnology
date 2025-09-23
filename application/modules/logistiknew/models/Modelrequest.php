@@ -82,6 +82,7 @@
                     "
                         select a.item_id, no_pemesanan, barang_id, pt_qty_cmo qty, harga, ppn, harga_ppn, total, note,
                             (select nama_barang from dt01_lgu_barang_ms where barang_id=a.barang_id)namabarang,
+                            (select coalesce(sum(qty),0) from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id)qtyterimaall,
                             (select qty from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')qtyterima,
                             (select harga from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')hargaterima,
                             (select ppn from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')ppnterima,
