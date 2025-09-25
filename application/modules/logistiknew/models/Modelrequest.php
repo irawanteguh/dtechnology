@@ -77,28 +77,6 @@
             return $recordset;
         }
 
-        // function detailpembelianitem($orgid,$nopemesanan,$nopenerimaan){
-        //     $query =
-        //             "
-        //                 select a.item_id, no_pemesanan, barang_id, pt_qty_cmo qty, harga, ppn, harga_ppn, total, note,
-        //                     (select nama_barang from dt01_lgu_barang_ms where barang_id=a.barang_id)namabarang,
-        //                     (select coalesce(sum(qty),0) from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id)qtyterimaall,
-        //                     (select qty from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')qtyterima,
-        //                     (select harga from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')hargaterima,
-        //                     (select ppn from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')ppnterima,
-        //                     (select harga_ppn from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')hargappnterima,
-        //                     (select total from dt01_lgu_penerimaan_dt where active='1' and no_pemesanan=a.no_pemesanan and barang_id=a.barang_id and no_penerimaan='".$nopenerimaan."')totalterima
-        //                 from dt01_lgu_pemesanan_dt a
-        //                 where a.active='1'
-        //                 and   a.org_id='".$orgid."'
-        //                 and   a.no_pemesanan='".$nopemesanan."'
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
-
         function detailpembelianitem($orgid,$nopemesanan,$nopenerimaan){
             $query =
                     "
@@ -114,7 +92,9 @@
                                         b.ppn,
                                         b.harga_ppn,
                                         b.total,
-                                        b.no_batch
+                                        b.no_batch,
+                                        b.no_pemesanan,
+                                        b.no_penerimaan
                                     )
                                     ORDER BY b.created_date DESC SEPARATOR ';'
                                 )
@@ -564,6 +544,11 @@
 
         function updateitempenerimaan($barangid,$nopenerimaan,$nopemesanan,$data){           
             $sql =   $this->db->update("dt01_lgu_penerimaan_dt",$data,array("barang_id"=>$barangid,"no_penerimaan"=>$nopenerimaan,"no_pemesanan"=>$nopemesanan));
+            return $sql;
+        }
+
+        function updatepenerimaan($transaksiid,$data){           
+            $sql =   $this->db->update("dt01_lgu_penerimaan_dt",$data,array("transaksi_id"=>$transaksiid));
             return $sql;
         }
 

@@ -488,7 +488,7 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                     resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+result[i].note+"' disabled></td>";
                     resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaall_"+result[i].barang_id+"' name='terimaall_"+result[i].barang_id+"' value='"+todesimal(result[i].qtyterimaall)+"' disabled></td>";
 
-                    if(result[i].qtyterimaall < result[i].qty){
+                    if(parseFloat(result[i].qtyterimaall) < parseFloat(result[i].qty)){
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='nobatch_"+result[i].barang_id+"' name='nobatch_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)'></td>";
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaqty_"+result[i].barang_id+"' name='terimaqty_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)'></td>";
                     }else{
@@ -497,7 +497,7 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                     }
 
                     
-                    if(result[i].qtyterimaall < result[i].qty){
+                    if(parseFloat(result[i].qtyterimaall) < parseFloat(result[i].qty)){
                         if(result[i].hargaterima!=null){
                             resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' value='"+todesimal(result[i].hargaterima)+"' onchange='simpanpenerimaan(this)'></td>";
                         }else{
@@ -507,7 +507,7 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)' disabled></td>";
                     }
                     
-                    if(result[i].qtyterimaall < result[i].qty){
+                    if(parseFloat(result[i].qtyterimaall) < parseFloat(result[i].qty)){
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)'></td>";
                     }else{
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)' disabled></td>";
@@ -544,6 +544,10 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                         for(var j in rincianArr){
                             if(rincianArr[j]==="") continue;
                             var fields = rincianArr[j].split(":");
+                            var getvariabel =  " datatransid='"+fields[0]+"'"+
+                                               " nopemesanan='"+fields[7]+"'"+
+                                               " nopenerimaan='"+fields[8]+"'";
+
                             subTable += "<tr>";
                             subTable += "<td class='text-start ps-4'>"+fields[6]+"</td>"; 
                             subTable += "<td class='text-end'>"+todesimal(fields[1])+"</td>";
@@ -551,7 +555,7 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                             subTable += "<td class='text-end'>"+todesimal(fields[3])+"</td>";
                             subTable += "<td class='text-end'>"+todesimal(fields[4])+"</td>";
                             subTable += "<td class='text-end'>"+todesimal(fields[5])+"</td>";
-                            subTable += "<td class='text-end'><a class='btn btn-danger btn-sm'>Delete</a></td>";
+                            subTable += "<td class='text-end'><a class='btn btn-danger btn-sm' "+getvariabel+" onclick='hapusdata($(this));'>Delete</a></td>";
                             subTable += "</tr>";
                         }
 
@@ -958,6 +962,56 @@ function simpanpenerimaan(input) {
         );
     }
     
+};
+
+function hapusdata(btn) {
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var datatransid  = btn.attr("datatransid");
+            var nopemesanan  = btn.attr("nopemesanan");
+            var nopenerimaan = btn.attr("nopenerimaan");
+
+            $.ajax({
+                url       : url+"index.php/logistiknew/request/hapusdata",
+                data      : {datatransid:datatransid,nopemesanan:nopemesanan,nopenerimaan:nopenerimaan},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    toastr.clear();
+                    toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+                    detailpembelianitem(nopemesanan,nopenerimaan);
+
+                    toastr.clear();
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    toastr.clear();
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
 };
 
 $(document).on("submit", "#formnewpurchaseorder", function (e) {

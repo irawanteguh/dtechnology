@@ -9,7 +9,7 @@
                         $randomColor = $colors[$randomIndex];
                         
                         if($_SESSION['imgprofile']==="Y"){
-                            echo "<img src='".base_url()."assets/images/avatars/".$_SESSION['userid'].".jpeg' alt='user' />";
+                            echo "<img src='".base_url()."assets/images/avatars/".$_SESSION['userid'].".jpeg' alt='user'/>";
                         }else{
                             echo "<div class='symbol-label fs-1 bg-light-".$randomColor." text-".$randomColor."'>".$_SESSION['initial']."</div>";
                         }

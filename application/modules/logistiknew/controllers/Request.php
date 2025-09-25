@@ -447,7 +447,7 @@
             echo json_encode($json);
         }
 
-         public function penerimaanadditem(){
+        public function penerimaanadditem(){
             $transaksiid  = generateuuid();
             $nopenerimaan = $this->input->post('nopenerimaan');
             $nopemesanan  = $this->input->post('nopemesanan');
@@ -989,6 +989,30 @@
                 $json['responCode']="01";
                 $json['responHead']="info";
                 $json['responDesc']="Data Failed to Add";
+            }
+
+            echo json_encode($json);
+        }
+
+        public function hapusdata(){
+            $data['active']           = "0";
+
+            if($this->md->updatepenerimaan($this->input->post("datatransid"),$data)){
+                $resulthitungdetail = $this->md->hitungdetailpenerimaan($_SESSION['orgid'],$this->input->post("nopenerimaan"),$this->input->post("nopemesanan"));
+    
+                $dataheader['SUBTOTAL']  = $resulthitungdetail->harga;
+                $dataheader['HARGA_PPN'] = $resulthitungdetail->harga_ppn;
+                $dataheader['TOTAL']     = $resulthitungdetail->total;
+
+                $this->md->updateheaderpenerimaan($this->input->post("nopemesanan"),$this->input->post("nopenerimaan"),$dataheader);
+
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Updated Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Updated";
             }
 
             echo json_encode($json);
