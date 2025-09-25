@@ -50,13 +50,13 @@ $('#modal_add_item').on('shown.bs.modal', function (event) {
     var button           = $(event.relatedTarget);
     var datanopemesanan  = button.attr("datanopemesanan");
     var datadepartmentid = button.attr("datadepartmentid");
+    var datanmethodid    = button.attr("datanmethodid");
     var datastatus       = button.attr("datastatus");
 
     $("input[name='modal_add_item_nopemesanan']").val(datanopemesanan);
     $("input[name='modal_add_item_departmentid']").val(datadepartmentid);
 
-    masterbarang(datanopemesanan,datadepartmentid,datastatus);
-    
+    masterbarang(datanopemesanan,datadepartmentid,datastatus,datanmethodid);
 });
 
 $("#modal_upload_lampiran").on('show.bs.modal', function (event) {
@@ -157,6 +157,7 @@ function datapemesanan(){
                 result = data.responResult;
                 for(var i in result){
                     var getvariabel =   " datanopemesanan='"+result[i].no_pemesanan+"'"+
+                                        " datanmethodid='"+result[i].methodid+"'"+
                                         " datanopemesananunit='"+result[i].no_pemesanan_unit+"'"+
                                         " datajudulpemesanan='"+result[i].judul_pemesanan+"'"+
                                         " dataattachmentnote='"+result[i].attachment_note+"'"+
@@ -485,30 +486,33 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                     resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+todesimal(result[i].harga_ppn)+"' disabled></td>";
                     resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+todesimal(result[i].total)+"' disabled></td>";
                     resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' value='"+result[i].note+"' disabled></td>";
-                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga)+"</td>";
-                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].ppn)+"</td>";
-                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].harga_ppn)+"</td>";
-                    // resultdatatable +="<td class='text-end'>"+todesimal(result[i].total)+"</td>";
-                    // resultdatatable +="<td>"+result[i].note+"</td>";
                     resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaall_"+result[i].barang_id+"' name='terimaall_"+result[i].barang_id+"' value='"+todesimal(result[i].qtyterimaall)+"' disabled></td>";
 
-                    if(result[i].qtyterima!=null){
-                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaqty_"+result[i].barang_id+"' name='terimaqty_"+result[i].barang_id+"' value='"+todesimal(result[i].qtyterima)+"' onchange='simpanpenerimaan(this)'></td>";
-                    }else{
+                    if(result[i].qtyterimaall < result[i].qty){
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='nobatch_"+result[i].barang_id+"' name='nobatch_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)'></td>";
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaqty_"+result[i].barang_id+"' name='terimaqty_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)'></td>";
+                    }else{
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='nobatch_"+result[i].barang_id+"' name='nobatch_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)' disabled></td>";
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaqty_"+result[i].barang_id+"' name='terimaqty_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)' disabled></td>";
                     }
 
-                    if(result[i].hargaterima!=null){
-                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' value='"+todesimal(result[i].hargaterima)+"' onchange='simpanpenerimaan(this)'></td>";
+                    
+                    if(result[i].qtyterimaall < result[i].qty){
+                        if(result[i].hargaterima!=null){
+                            resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' value='"+todesimal(result[i].hargaterima)+"' onchange='simpanpenerimaan(this)'></td>";
+                        }else{
+                            resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' value='"+todesimal(result[i].harga)+"' onchange='simpanpenerimaan(this)'></td>";
+                        }
                     }else{
-                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' value='"+todesimal(result[i].harga)+"' onchange='simpanpenerimaan(this)'></td>";
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimaharga_"+result[i].barang_id+"' name='terimaharga_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)' disabled></td>";
                     }
-
-                    if(result[i].ppnterima!=null){
-                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"'  value='"+result[i].ppnterima+"' onchange='simpanpenerimaan(this)'></td>";
+                    
+                    if(result[i].qtyterimaall < result[i].qty){
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)'></td>";
                     }else{
-                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"'  value='"+result[i].ppn+"' onchange='simpanpenerimaan(this)'></td>";
+                        resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavat_"+result[i].barang_id+"' name='terimavat_"+result[i].barang_id+"' onchange='simpanpenerimaan(this)' disabled></td>";
                     }
+                    
 
                     if(result[i].hargappnterima!=null){
                         resultdatatable +="<td class='text-end'><input class='form-control form-control-sm text-end' id='terimavatamount_"+result[i].barang_id+"' name='terimavatamount_"+result[i].barang_id+"' value='"+todesimal(result[i].hargappnterima)+"' disabled></td>";
@@ -523,6 +527,39 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
                     }
                     
                     resultdatatable +="</tr>";
+
+                    if(result[i].rincian && result[i].rincian!==""){
+                        resultdatatable +="<tr>";
+                        resultdatatable +="<td colspan='7'>";
+
+                        var rincianArr = result[i].rincian.split(";");
+                        var subTable  = "<table class='table table-bordered table-sm mb-0'>";
+                            subTable += "<thead>";
+                            subTable += "<tr class='text-center bg-info text-white'>";
+                            subTable += "<th class='ps-4 rounded-start text-start'>No Batch</th><th class='text-end'>Qty</th><th class='text-end'>Harga</th><th class='text-end'>PPN</th><th class='text-end'>Harga Ppn</th><th class='text-end'>Total</th><th class='pe-4 rounded-end text-end'>Actions</th>";
+                            subTable += "</tr>";
+                            subTable += "</thead>";
+                            subTable += "<tbody class='align-midle'>";
+
+                        for(var j in rincianArr){
+                            if(rincianArr[j]==="") continue;
+                            var fields = rincianArr[j].split(":");
+                            subTable += "<tr>";
+                            subTable += "<td class='text-start ps-4'>"+fields[6]+"</td>"; 
+                            subTable += "<td class='text-end'>"+todesimal(fields[1])+"</td>";
+                            subTable += "<td class='text-end'>"+todesimal(fields[2])+"</td>";
+                            subTable += "<td class='text-end'>"+todesimal(fields[3])+"</td>";
+                            subTable += "<td class='text-end'>"+todesimal(fields[4])+"</td>";
+                            subTable += "<td class='text-end'>"+todesimal(fields[5])+"</td>";
+                            subTable += "<td class='text-end'><a class='btn btn-danger btn-sm'>Delete</a></td>";
+                            subTable += "</tr>";
+                        }
+
+                        subTable += "</tbody></table>";
+                        resultdatatable += subTable;
+                        resultdatatable +="</td>";
+                        resultdatatable +="</tr>";
+                    }
                 }
             }
 
@@ -547,10 +584,10 @@ function detailpembelianitem(nopemesanan,nopenerimaan){
     return false;
 };
 
-function masterbarang(datanopemesanan,datadepartmentid,datastatus){
+function masterbarang(datanopemesanan,datadepartmentid,datastatus,datanmethodid){
     $.ajax({
         url       : url+"index.php/logistiknew/request/masterbarang",
-        data      : {datanopemesanan:datanopemesanan,datadepartmentid:datadepartmentid},
+        data      : {datanopemesanan:datanopemesanan,datadepartmentid:datadepartmentid,datanmethodid:datanmethodid},
         method    : "POST",
         dataType  : "JSON",
         cache     : false,
@@ -788,7 +825,7 @@ function simpanpenerimaan(input) {
     const nopemesanan  = $("#modal_add_item_nopemesanan").val();
     const nopenerimaan = $("#modal_add_item_nopenerimaan").val();
 
-    if ((isNaN(value) || value.trim() === "")) {
+    if (input.id !== `nobatch_${barangid}` && (isNaN(value) || value.trim() === "")) {
         showAlert(
             "I'm Sorry",
             "Masukkan nilai numerik yang valid!",
@@ -800,6 +837,7 @@ function simpanpenerimaan(input) {
         return;
     }
 
+    const noBatch          = document.getElementById(`nobatch_${barangid}`);
     const qtyapproval      = document.getElementById(`qty_${barangid}`);
     const terimall         = document.getElementById(`terimaall_${barangid}`);
     const qtyInput         = document.getElementById(`terimaqty_${barangid}`);
@@ -809,7 +847,16 @@ function simpanpenerimaan(input) {
     const subtotalElement  = document.getElementById(`terimasubtotal_${barangid}`);
 
 
-    if(qtyInput && hargaInput && vatElement && vatAmountElement){
+    // console.log("DEBUG INPUT ELEMENTS:");
+    // console.log("noBatch:", noBatch?.id, "value:", noBatch?.value);
+    // console.log("qtyInput:", qtyInput?.id, "value:", qtyInput?.value);
+    // console.log("hargaInput:", hargaInput?.id, "value:", hargaInput?.value);
+    // console.log("vatElement:", vatElement?.id, "value:", vatElement?.value);
+    // console.log("vatAmountElement:", vatAmountElement?.id, "innerText:", vatAmountElement?.innerText);
+    // console.log("subtotalElement:", subtotalElement?.id, "innerText:", subtotalElement?.innerText);
+    // console.log("note:", note?.id, "value:", note?.value);
+
+    if(noBatch && qtyInput && hargaInput && vatElement && vatAmountElement){
         const qtysetujui = parseFloat(qtyapproval.value);
         const terima     = parseFloat(terimall.value);
         const qty        = parseFloat(qtyInput.value);
@@ -843,10 +890,10 @@ function simpanpenerimaan(input) {
 
         // Hitung subtotal tiap item lalu jumlahkan ke grand total
         document.querySelectorAll("[id^='terimaqty_']").forEach((qtyElem) => {
-            const id        = qtyElem.id.split("_")[1];
-            const hargaElem = document.getElementById(`terimaharga_${id}`);
-            const vatElem   = document.getElementById(`terimavat_${id}`);
-            const subtotalElem = document.getElementById(`terimasubtotal_${id}`);
+            const id            = qtyElem.id.split("_")[1];
+            const hargaElem     = document.getElementById(`terimaharga_${id}`);
+            const vatElem       = document.getElementById(`terimavat_${id}`);
+            const subtotalElem  = document.getElementById(`terimasubtotal_${id}`);
             const vatAmountElem = document.getElementById(`terimavatamount_${id}`);
 
             const qtyVal   = parseFloat(qtyElem.value) || 0;
@@ -872,14 +919,15 @@ function simpanpenerimaan(input) {
             dataType: "JSON",
             data    :
             {
-                nopenerimaan:nopenerimaan,
-                nopemesanan: nopemesanan,
-                barangid   : barangid,
-                qty        : qty,
-                harga      : harga,
-                ppn        : ppn,
-                subtotal   : itemTotal,
-                vat_amount : newVat
+                nopenerimaan: nopenerimaan,
+                nopemesanan : nopemesanan,
+                barangid    : barangid,
+                qty         : qty,
+                harga       : harga,
+                ppn         : ppn,
+                subtotal    : itemTotal,
+                vat_amount  : newVat,
+                noBatch     : noBatch ? noBatch.value: "",
             },
             beforeSend: function () {
                 toastr.clear();
@@ -900,11 +948,10 @@ function simpanpenerimaan(input) {
                 );
             }
         });
-
     }else{
         showAlert(
             "I'm Sorry",
-            "Element Stock, qty, harga, VAT, atau VAT Amount tidak ditemukan.",
+            "Element Tidak Lengkap Silakan Hubungi Administrator.",
             "error",
             "Please Try Again",
             "btn btn-danger"

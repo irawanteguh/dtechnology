@@ -367,7 +367,7 @@
                                 <th class="bg-dark text-white ps-4 rounded-start" rowspan="2">Item Name</th>
                                 <th class="bg-primary text-white" colspan="6">Pengajuan</th>
                                 <th class="bg-danger text-white" rowspan="2">Total Penerimaan</th>
-                                <th class="bg-success text-white rounded-end" colspan="6">Penerimaan</th>
+                                <th class="bg-success text-white rounded-end" colspan="7">Penerimaan</th>
                             </tr>
 							<tr class="fw-bolder text-white bg-light align-middle">
                                 <th class="bg-primary text-end">Qty</th>
@@ -376,6 +376,7 @@
                                 <th class="bg-primary text-end">Harga Ppn</th>
                                 <th class="bg-primary text-end">Total</th>
                                 <th class="bg-primary">Catatan</th>
+                                <th class="bg-success text-end">No Batch</th>
                                 <th class="bg-success text-end">Qty</th>
                                 <th class="bg-success text-end">Harga</th>
                                 <th class="bg-success text-end">Ppn</th>
