@@ -1,10 +1,38 @@
 <?php
+    function randomgeneatorname() {
+        $names = [
+            "Andi Saputra", "Budi Santoso", "Citra Dewi", "Dewi Anggraini", 
+            "Eko Prasetyo", "Fitri Handayani", "Gilang Ramadhan", "Hesti Nuraini",
+            "Irfan Maulana", "Joko Widodo", "Kartika Putri", "Lukman Hakim"
+        ];
+        return $names[array_rand($names)];
+    };
+
+    function generateNoKartuBPJS() {
+        $digits = '';
+        for ($i = 0; $i < 13; $i++) {
+            $digits .= random_int(0, 9);
+        }
+        return $digits; // ex: "0123456789012"
+    }
+
+    function generateNoSEP($prefix = '0064R004') {
+        $part1 = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);   // 4 digits
+        $part2 = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT); // 6 digits
+        return $prefix . $part1 . 'V' . $part2;
+    }
+
     function generateuuid($data = null){
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
         return vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
+    };
+
+    function generateNilaiTindakan() {
+        $nilai = random_int(0, 30000000);
+        return $nilai;
     }
 
     function generateUniqueCode() {
@@ -17,7 +45,7 @@
         }
     
         return $uniqueCode;
-    }
+    };
 
     function generateUniqueNumber() {
         $characters = '0123456789';
@@ -29,7 +57,7 @@
         }
     
         return $uniqueCode;
-    }
+    };
 
     function encodedata($data){
         $i2 = 0;
@@ -47,7 +75,7 @@
         }
         $result = $s;
         return $result;
-    }
+    };
 
     function decodedata($data){
         $length = strlen($data);
@@ -66,5 +94,5 @@
         $decodedPassword = $res[$decodedLength - 1] . substr($res, 1, $decodedLength - 2) . $res[0];
 
         return $decodedPassword;
-    }
+    };
 ?>
