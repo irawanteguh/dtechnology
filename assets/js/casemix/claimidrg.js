@@ -54,9 +54,12 @@ function randomgenerator() {
         success: function(data) {
             if(data.name){
                 $("#claim_mr").val(data.medicalrecord);
+                $("#claim_bod").val(data.tgllahir);
                 $("#claim_name").val(data.name);
                 $("#claim_nokartu").val(data.nokartu);
                 $("#claim_nosep").val(data.nosep);
+                $("#claim_tglmasuk").val(data.tglmasuk);
+                $("#claim_tglkeluar").val(data.tglkeluar);
                 $("#claim_tindakannonbedah").val(formatCurrency(data.tindakannonbedah));
                 $("#claim_tindakanbedah").val(formatCurrency(data.tindakanbedah));
                 $("#claim_konsultasi").val(formatCurrency(data.konsultasi));
@@ -76,6 +79,10 @@ function randomgenerator() {
                 $("#claim_bmhp").val(formatCurrency(data.bmhp));
                 $("#claim_alat").val(formatCurrency(data.alat));
                 $("#claim_totaltarifrs").val(formatCurrency(data.totaltarifrs));
+
+                $('#claim_sexid').val(data.sexid).trigger('change');
+                $('#claim_jenisrawat').val(data.jenisrawat).trigger('change');
+                $('#claim_kelasrawat').val(data.kelasrawat).trigger('change');
             }
         }
     });

@@ -1,4 +1,6 @@
 <?php
+
+    //Start Function Random Generator
     function randomgeneatorname() {
         $names = [
             "Andi Saputra", "Budi Santoso", "Citra Dewi", "Dewi Anggraini", 
@@ -22,6 +24,24 @@
         return $prefix . $part1 . 'V' . $part2;
     }
 
+    function generateNilaiTindakan() {
+        $nilai = random_int(0, 30000000);
+        return $nilai;
+    }
+
+    function generateRandomTanggal($startYear = 1960, $endYear = 2010) {
+        // buat timestamp random
+        $start = strtotime("$startYear-01-01 00:00:00");
+        $end   = strtotime("$endYear-12-31 23:59:59");
+
+        $timestamp = mt_rand($start, $end);
+
+        // ambil tanggalnya, jam dipaksa 00:00:00
+        return date("Y-m-d", $timestamp) . " 00:00:00";
+    }
+
+    //End Function Random Generator
+
     function generateuuid($data = null){
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
@@ -30,10 +50,7 @@
         return vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
     };
 
-    function generateNilaiTindakan() {
-        $nilai = random_int(0, 30000000);
-        return $nilai;
-    }
+    
 
     function generateUniqueCode() {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';

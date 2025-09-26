@@ -68,7 +68,7 @@
         //     return json_decode($responsecurl,TRUE); 
         // }
 
-        public static function newclaim($body) {
+        public static function sendinacbgs($body) {
             $header = array("Content-Type: application/json");
             $responsecurl = curl([
                 'url'     => "http://192.168.102.237/E-Klaim/ws.php?mode=debug",

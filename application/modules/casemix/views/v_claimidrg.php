@@ -32,14 +32,16 @@
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span>Tanggal Lahir</span> <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tanggal lahir pasien (dd-mm-yyyy)"></i>
                             </label>
-                            <input type="text" class="form-control form-control-sm form-control-solid" disabled>
+                            <input type="text" id="claim_bod" name="claim_bod" class="form-control form-control-sm form-control-solid" readonly>
                         </div>
 
-                        <div class="fv-row mb-5 col-xl-2">
+                        <div class="fv-row mb-5 col-xl-2" id="jeniskelamin">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span>Jenis Kelamin</span> <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Jenis kelamin pasien (Laki-laki / Perempuan)"></i>
                             </label>
-                            <input type="text" class="form-control form-control-sm form-control-solid" disabled>
+                            <select data-control="select2" data-dropdown-parent="#formsetklaim" data-placeholder="Silakan Pilih Jenis Kelamin" class="form-select form-select-sm form-select-solid" id="claim_sexid" name="claim_sexid">
+                                <?php echo $jeniskelamin;?>
+                            </select>
                         </div>
 
                         <h5 class="fw-bolder mt-5 mb-3">Penjaminan</h5>
@@ -63,10 +65,30 @@
 
                         <div class="fv-row mb-5 col-xl-2">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span>Jenis Rawat</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tarif Prosedur Non Bedah"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#formsetklaim" data-placeholder="Silakan Pilih Jenis Rawat" class="form-select form-select-sm form-select-solid" id="claim_jenisrawat" name="claim_jenisrawat">
+                                <?php echo $jenisrawat;?>
+                            </select>
+                        </div>
+
+                        <div class="fv-row mb-5 col-xl-2">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                <span>Kelas Rawat</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tarif Prosedur Non Bedah"></i>
+                            </label>
+                            <select data-control="select2" data-dropdown-parent="#formsetklaim" data-placeholder="Silakan Pilih Kelas Rawat" class="form-select form-select-sm form-select-solid" id="claim_kelasrawat" name="claim_kelasrawat">
+                                <?php echo $kelasrawat;?>
+                            </select>
+                        </div>
+
+                        <div class="fv-row mb-5 col-xl-2">
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">
                                 <span>Tanggal Masuk</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tarif Prosedur Non Bedah"></i>
                             </label>
-                            <input type="text" class="form-control form-control-sm form-control-solid" id="prosedur_non_bedah">
+                            <input type="text" id="claim_tglmasuk" name="claim_tglmasuk"  class="form-control form-control-sm form-control-solid" id="prosedur_non_bedah">
                         </div>
 
                         <div class="fv-row mb-5 col-xl-2">
@@ -74,7 +96,7 @@
                                 <span>Tanggal Keluar</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Tarif Prosedur Non Bedah"></i>
                             </label>
-                            <input type="text" class="form-control form-control-sm form-control-solid" id="prosedur_non_bedah">
+                            <input type="text" id="claim_tglkeluar" name="claim_tglkeluar" class="form-control form-control-sm form-control-solid" id="prosedur_non_bedah">
                         </div>
 
                         <h5 class="fw-bolder mt-5 mb-3">Tarif Rumah Sakit</h5>
@@ -221,9 +243,6 @@
             </form>
         </div>
     </div>
-</div>
-
-<div class="row gy-5 g-xl-8 mb-xl-8">
     <div class="col-xl-6">
         <div class="card card-flush h-100" id="diagnosisicd10im">
             <div class="card-header pt-5">

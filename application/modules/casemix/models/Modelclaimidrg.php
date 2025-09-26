@@ -18,6 +18,44 @@
             return $recordset;
         }
 
+        function jeniskelamin(){
+            $query =
+                    "
+                        select '1' code,'Laki-laki'keterangan union 
+                        select '2' code,'Perempuan'keterangan
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function jenisrawat(){
+            $query =
+                    "
+                        select '1' code,'Rawat Inap'keterangan union 
+                        select '2' code,'Rawat Jalan'keterangan union
+                        select '3' code,'Rawat IGD'keterangan
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function kelasrawat(){
+            $query =
+                    "
+                        select '1' code,'Kelas 1'keterangan union 
+                        select '2' code,'Kelas 2'keterangan union
+                        select '3' code,'Kelas 3'keterangan
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
 
     }
 ?>
