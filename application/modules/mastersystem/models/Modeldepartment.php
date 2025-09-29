@@ -17,38 +17,38 @@
             return $recordset;
         }
 
-        // function masterdepartment($orgid){
-        //     $query =
-        //             "
-        //                 select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id, holding
-        //                 from dt01_gen_department_ms a
-        //                 where a.active='1'
-        //                 and   a.holding='Y'
-        //                 union
-        //                 select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id, holding
-        //                 from dt01_gen_department_ms a
-        //                 where a.active='1'
-        //                 and   a.org_id='".$orgid."'
-        //                 and   a.holding='N'
-        //                 order by holding desc, level_id asc
-        //             ";
+        function masterdepartment($orgid){
+            $query =
+                    "
+                        select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id, holding
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.holding='Y'
+                        union
+                        select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id, holding
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.holding='N'
+                        order by holding desc, level_id asc
+                    ";
 
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
         
         function masterdatadepartment($orgid){
             $query =
                     "
-                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator, holding, active,
+                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator, holding, active, user_id,
                                (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj,
                                (select level_id from dt01_gen_department_ms where department_id=a.header_id)levelidhead
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.holding='Y'
                         union
-                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator, holding, active, 
+                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator, holding, active, user_id,
                                (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj,
                                (select level_id from dt01_gen_department_ms where department_id=a.header_id)levelidhead
                         from dt01_gen_department_ms a

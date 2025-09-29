@@ -281,7 +281,7 @@ function chart(){
                             name : row.namapj || "",
                             title: row.jabatan || "",
                             dept : "Department Code: " + row.department_id,   // tambahkan property baru
-                            img  : url+"assets/images/svg/avatars/001-boy.svg"
+                            img  : url+"assets/images/avatars/"+row.user_id+".jpeg"
                         });
                     }
                     
