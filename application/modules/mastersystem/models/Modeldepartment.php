@@ -17,44 +17,43 @@
             return $recordset;
         }
 
-        function masterdepartment($orgid){
-            $query =
-                    "
-                        select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id
-                        from dt01_gen_department_ms a
-                        where a.active='1'
-                        and   a.holding='Y'
-                        union
-                        select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id
-                        from dt01_gen_department_ms a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
-                        and   a.holding='N'
-                        order by level_id asc
-                    ";
+        // function masterdepartment($orgid){
+        //     $query =
+        //             "
+        //                 select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id, holding
+        //                 from dt01_gen_department_ms a
+        //                 where a.active='1'
+        //                 and   a.holding='Y'
+        //                 union
+        //                 select a.department_id, header_id, concat(ifnull(department,''),'-',ifnull(jabatan,''))keterangan, level_id, holding
+        //                 from dt01_gen_department_ms a
+        //                 where a.active='1'
+        //                 and   a.org_id='".$orgid."'
+        //                 and   a.holding='N'
+        //                 order by holding desc, level_id asc
+        //             ";
 
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
         
         function masterdatadepartment($orgid){
             $query =
                     "
-                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator,
+                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator, holding, active,
                                (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj,
                                (select level_id from dt01_gen_department_ms where department_id=a.header_id)levelidhead
                         from dt01_gen_department_ms a
                         where a.active='1'
                         and   a.holding='Y'
                         union
-                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator,
+                        select a.department_id, header_id, department, jabatan, level_id, code, head_koordinator, holding, active, 
                                (select name from dt01_gen_user_data where active=a.active and user_id=a.user_id)namapj,
                                (select level_id from dt01_gen_department_ms where department_id=a.header_id)levelidhead
                         from dt01_gen_department_ms a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
-                        order by department asc
+                        where a.org_id='".$orgid."'
+                        order by holding desc, active desc, department asc
                     ";
 
             $recordset = $this->db->query($query);
@@ -83,6 +82,11 @@
 
         function updatedepartment($data,$departmentid){           
             $sql =   $this->db->update("dt01_gen_department_ms",$data,array("department_id"=>$departmentid));
+            return $sql;
+        }
+
+        function updatedepartmentheaderid($data,$headerid){           
+            $sql =   $this->db->update("dt01_gen_department_ms",$data,array("header_id"=>$headerid));
             return $sql;
         }
 

@@ -164,7 +164,12 @@ function masterdatadepartment(){
 
                             childElements += "<div class='d-flex align-items-center p-3 rounded-3 border-2 border-dashed border-gray-300 mb-1 d-flex justify-content-between' style='margin-left:" + indent + "px;' data-kt-search-element='customer'>";
                             childElements += "<div class='fw-bold'>";
-                            childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].department ? result[j].department : "") + "</span><br>";
+                            if(result[j].active==="1"){
+                                childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].department ? result[j].department : "") + "</span><br>";
+                            }else{
+                                childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].department ? result[j].department : "") + "</span><span class='badge badge-light-danger'>Non Active</span> <br>";
+                            }
+                            
                             childElements += "<span class='fs-6 text-gray-800 me-2'>"+(result[j].code ? "<span class='badge badge-light-info'>"+result[j].code+"</span> " : "")+(result[j].jabatan ? result[j].jabatan : "")+"</span><br>";
                             childElements += "<span class='fs-6 text-muted me-2'>"+(result[j].namapj ? result[j].namapj : "")+" </span>";
                             childElements += "</div>";
@@ -181,7 +186,6 @@ function masterdatadepartment(){
                             childElements += "</div>";
                             childElements += "</div>";
 
-                            // Recursively generate children for the current module
                             childElements += generateChildElements(result[j].department_id, level + 1);
                         }
                     }
@@ -214,7 +218,6 @@ function masterdatadepartment(){
                         tableresult += "</div>";
                         tableresult += "</div>";
 
-                        // Generate children for the top-level element
                         tableresult += generateChildElements(result[i].department_id, 1);
                     }
                     
@@ -246,7 +249,6 @@ function masterdatadepartment(){
 
 function chart(){
     var orgid = $("#selectorganization").val();
-
     $.ajax({
         url: url + "index.php/mastersystem/department/masterdatadepartment",
         data: { orgid: orgid },
@@ -265,55 +267,94 @@ function chart(){
                 nodes.push({ id: "top-management", tags: ["top-management"] });
 
                 $.each(result, function (i, row) {
-                    nodes.push({
-                        id: "dept-" + row.department_id,
-                        pid: row.header_id ? "dept-" + row.header_id : "top-management",
-                        tags: ["department"],
-                        name: row.department
-                    });
+                    if(row.active==="1"){
+                        nodes.push({
+                            id: "dept-" + row.department_id,
+                            pid: row.header_id ? "dept-" + row.header_id : "top-management",
+                            tags: ["department"],
+                            name: row.department
+                        });
 
-                    nodes.push({
-                        id   : "emp-" + row.department_id + "-" + i,
-                        stpid: "dept-" + row.department_id,
-                        name : row.namapj || "",
-                        title: row.jabatan || "",
-                        img  : url+"assets/images/svg/avatars/001-boy.svg"
-                    });
+                        nodes.push({
+                            id   : "emp-" + row.department_id + "-" + i,
+                            stpid: "dept-" + row.department_id,
+                            name : row.namapj || "",
+                            title: row.jabatan || "",
+                            dept : "Department Code: " + row.department_id,   // tambahkan property baru
+                            img  : url+"assets/images/svg/avatars/001-boy.svg"
+                        });
+                    }
+                    
                 });
 
                 // buat orgchart
                 let chart = new OrgChart(document.getElementById("tree"), {
-                    template: "ana",
-                    enableDragDrop: false,
-                    nodeBinding: {
-                        field_0: "name",
-                        field_1: "title",
-                        img_0: "img"
-                    },
-                    tags: {
-                        "top-management": {
-                            template: "invisibleGroup",
-                            subTreeConfig: {
-                                orientation: OrgChart.orientation.bottom,
-                                collapse: { level: 1 }
-                            }
-                        },
-                        "department": {
-                            template: "group",
-                            nodeMenu: {
-                                addManager: { text: "Add Manager" },
-                                remove: { text: "Remove Department" }
-                            }
+                template: "ana",
+                enableDragDrop: false,
+                nodeBinding: {
+                    field_0: "name",
+                    field_1: "title",
+                    field_2: "dept",   // tampilkan department id
+                    img_0: "img"
+                },
+                tags: {
+                    "top-management": {
+                        template: "invisibleGroup",
+                        subTreeConfig: {
+                            orientation: OrgChart.orientation.bottom,
+                            collapse: { level: 1 }
                         }
                     },
-                    toolbar: {
-                        fullScreen: true,
-                        zoom: true,
-                        fit: true,
-                        expandAll: true
-                    },
-                    nodes: nodes
-                });
+                    "department": {
+                        template: "group",
+                        nodeMenu: {
+                            remove: { text: "Remove Department" }
+                        }
+                    }
+                },
+                nodeMenu: {
+                    delete: { text: "Delete", icon: OrgChart.icon.remove }
+                },
+                nodeMenuHandler: function (id, action, nodeId) {
+                    if (action === "delete") {
+                        if (confirm("Yakin ingin menghapus node ini dari database?")) {
+                            
+                            console.log("Menghapus node:", nodeId); // cek ID yg dikirim
+
+                            // Kirim AJAX ke backend dulu
+                            $.ajax({
+                                url: url + "mastersystem/department/hapusdata",
+                                type: "POST",
+                                dataType: "json",
+                                data: { datatransid: nodeId },
+                                success: function (res) {
+                                    console.log("Respon server:", res);
+
+                                    if (res.responCode === "00") {
+                                        // baru hapus node di chart kalau sukses
+                                        chart.removeNode(nodeId);
+                                        alert("Node berhasil dihapus");
+                                    } else {
+                                        alert("Gagal hapus: " + res.responMessage);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log("AJAX Error:", status, error);
+                                    alert("Terjadi kesalahan koneksi ke server.");
+                                }
+                            });
+                        }
+                    }
+                },
+                toolbar: {
+                    fullScreen: true,
+                    zoom: true,
+                    fit: true,
+                    expandAll: true
+                },
+                nodes: nodes
+            });
+
             } else {
                 Swal.fire("Info", "Data department tidak ditemukan", "warning");
             }

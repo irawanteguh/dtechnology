@@ -70,16 +70,16 @@
 
             $data['medicalrecord']    = generateUniqueNumber();
             $data['name']             = randomgeneatorname();
-            // $data['tgllahir']         = generateRandomTanggal();
-            $data['tgllahir']         = "2000-01-01 02:00:00";
+            $data['tgllahir']         = generateRandomTanggal();
+            // $data['tgllahir']         = "2000-01-01 02:00:00";
             $data['sexid']            = "2";
             $data['jenisrawat']       = $jenisrawat;
             
             // return var_dump($jenisrawat);
 
             if($jenisrawat===1){
-                // $data['tglmasuk']  = date("Y-m-d H:i:s", strtotime("-3 days"));
-                $data['tglmasuk']  = date("Y-m-d H:i:s", strtotime("-1 hour"));
+                $data['tglmasuk']  = date("Y-m-d H:i:s", strtotime("-3 days"));
+                // $data['tglmasuk']  = date("Y-m-d H:i:s", strtotime("-1 hour"));
                 $data['tglkeluar'] = date("Y-m-d H:i:s");
             }else{
                 $data['tglmasuk']  = date("Y-m-d H:i:s");
@@ -133,7 +133,8 @@
                             "nomor_sep"   => $this->input->post("claim_nosep"),
                             "nomor_rm"    => $this->input->post("claim_mr"),
                             "nama_pasien" => $this->input->post("claim_name"),
-                            "tgl_lahir"   => $this->input->post("claim_bod"),
+                            // "tgl_lahir"   => $this->input->post("claim_bod"),
+                            "tgl_lahir"   => "2000-01-01 02:00:00",
                             "gender"      => $this->input->post("claim_sexid")
                         ]
                     ];
@@ -148,12 +149,16 @@
                     ],
                     "data" => [
                         "nomor_sep"        => $this->input->post("claim_nosep"),
-                        "nomor_kartu"      => $this->input->post("claim_nokartu"),
-                        "tgl_masuk"        => $this->input->post("claim_tglmasuk"),
-                        "tgl_pulang"       => $this->input->post("claim_tglkeluar"),
+                        "nomor_kartu"      => "0000097208276",
+                        // "nomor_kartu"      => $this->input->post("claim_nokartu"),
+                        // "tgl_masuk"        => $this->input->post("claim_tglmasuk"),
+                        // "tgl_pulang"       => $this->input->post("claim_tglkeluar"),
+                        "tgl_masuk"        => "2024-11-09 08:55:00",
+                        "tgl_pulang"       => "2024-11-09 09:55:00",
                         "cara_masuk"       => "gp",
                         "jenis_rawat"      => $this->input->post("claim_jenisrawat"),
-                        "kelas_rawat"      => $this->input->post("claim_kelasrawat"),
+                        // "kelas_rawat"      => $this->input->post("claim_kelasrawat"),
+                        "kelas_rawat"      => "3",
                         "adl_sub_acute"    => "15",
                         "adl_chronic"      => "12",
                         "icu_indikator"    => "0",
@@ -164,46 +169,46 @@
                         "sistole"          => 110,
                         "diastole"         => 60,
                         "discharge_status" => "1",
-                        "tarif_rs" => [
-                            "prosedur_non_bedah" => preg_replace('/[^0-9]/', '', $this->input->post("claim_tindakannonbedah")),
-                            "prosedur_bedah"     => preg_replace('/[^0-9]/', '', $this->input->post("claim_tindakanbedah")),
-                            "konsultasi"         => preg_replace('/[^0-9]/', '', $this->input->post("claim_konsultasi")),
-                            "tenaga_ahli"        => preg_replace('/[^0-9]/', '', $this->input->post("claim_tenagaahli")),
-                            "keperawatan"        => preg_replace('/[^0-9]/', '', $this->input->post("claim_keperawatan")),
-                            "penunjang"          => preg_replace('/[^0-9]/', '', $this->input->post("claim_penunjang")),
-                            "radiologi"          => preg_replace('/[^0-9]/', '', $this->input->post("claim_radiologi")),
-                            "laboratorium"       => preg_replace('/[^0-9]/', '', $this->input->post("claim_laboratorium")),
-                            "pelayanan_darah"    => preg_replace('/[^0-9]/', '', $this->input->post("claim_darah")),
-                            "rehabilitasi"       => preg_replace('/[^0-9]/', '', $this->input->post("claim_rehab")),
-                            "kamar"              => preg_replace('/[^0-9]/', '', $this->input->post("claim_kamar")),
-                            "rawat_intensif"     => preg_replace('/[^0-9]/', '', $this->input->post("claim_intensif")),
-                            "obat"               => preg_replace('/[^0-9]/', '', $this->input->post("claim_obat")),
-                            "obat_kronis"        => preg_replace('/[^0-9]/', '', $this->input->post("claim_obatkronis")),
-                            "obat_kemoterapi"    => preg_replace('/[^0-9]/', '', $this->input->post("claim_obatkemo")),
-                            "alkes"              => preg_replace('/[^0-9]/', '', $this->input->post("claim_alkes")),
-                            "bmhp"               => preg_replace('/[^0-9]/', '', $this->input->post("claim_bmhp")),
-                            "sewa_alat"          => preg_replace('/[^0-9]/', '', $this->input->post("claim_alat")),
-                        ],
                         // "tarif_rs" => [
-                        //     "prosedur_non_bedah" => "300000",
-                        //     "prosedur_bedah"     => "20000000",
-                        //     "konsultasi"         => "300000",
-                        //     "tenaga_ahli"        => "200000",
-                        //     "keperawatan"        => "80000",
-                        //     "penunjang"          => "1000000",
-                        //     "radiologi"          => "500000",
-                        //     "laboratorium"       => "600000",
-                        //     "pelayanan_darah"    => "150000",
-                        //     "rehabilitasi"       => "100000",
-                        //     "kamar"              => "6000000",
-                        //     "rawat_intensif"     => "2500000",
-                        //     "obat"               => "100000",
-                        //     "obat_kronis"        => "1000000",
-                        //     "obat_kemoterapi"    => "5000000",
-                        //     "alkes"              => "500000",
-                        //     "bmhp"               => "400000",
-                        //     "sewa_alat"          => "210000"
+                        //     "prosedur_non_bedah" => preg_replace('/[^0-9]/', '', $this->input->post("claim_tindakannonbedah")),
+                        //     "prosedur_bedah"     => preg_replace('/[^0-9]/', '', $this->input->post("claim_tindakanbedah")),
+                        //     "konsultasi"         => preg_replace('/[^0-9]/', '', $this->input->post("claim_konsultasi")),
+                        //     "tenaga_ahli"        => preg_replace('/[^0-9]/', '', $this->input->post("claim_tenagaahli")),
+                        //     "keperawatan"        => preg_replace('/[^0-9]/', '', $this->input->post("claim_keperawatan")),
+                        //     "penunjang"          => preg_replace('/[^0-9]/', '', $this->input->post("claim_penunjang")),
+                        //     "radiologi"          => preg_replace('/[^0-9]/', '', $this->input->post("claim_radiologi")),
+                        //     "laboratorium"       => preg_replace('/[^0-9]/', '', $this->input->post("claim_laboratorium")),
+                        //     "pelayanan_darah"    => preg_replace('/[^0-9]/', '', $this->input->post("claim_darah")),
+                        //     "rehabilitasi"       => preg_replace('/[^0-9]/', '', $this->input->post("claim_rehab")),
+                        //     "kamar"              => preg_replace('/[^0-9]/', '', $this->input->post("claim_kamar")),
+                        //     "rawat_intensif"     => preg_replace('/[^0-9]/', '', $this->input->post("claim_intensif")),
+                        //     "obat"               => preg_replace('/[^0-9]/', '', $this->input->post("claim_obat")),
+                        //     "obat_kronis"        => preg_replace('/[^0-9]/', '', $this->input->post("claim_obatkronis")),
+                        //     "obat_kemoterapi"    => preg_replace('/[^0-9]/', '', $this->input->post("claim_obatkemo")),
+                        //     "alkes"              => preg_replace('/[^0-9]/', '', $this->input->post("claim_alkes")),
+                        //     "bmhp"               => preg_replace('/[^0-9]/', '', $this->input->post("claim_bmhp")),
+                        //     "sewa_alat"          => preg_replace('/[^0-9]/', '', $this->input->post("claim_alat")),
                         // ],
+                        "tarif_rs" => [
+                            "prosedur_non_bedah" => "300000",
+                            "prosedur_bedah"     => "20000000",
+                            "konsultasi"         => "300000",
+                            "tenaga_ahli"        => "200000",
+                            "keperawatan"        => "80000",
+                            "penunjang"          => "1000000",
+                            "radiologi"          => "500000",
+                            "laboratorium"       => "600000",
+                            "pelayanan_darah"    => "150000",
+                            "rehabilitasi"       => "100000",
+                            "kamar"              => "6000000",
+                            "rawat_intensif"     => "2500000",
+                            "obat"               => "100000",
+                            "obat_kronis"        => "1000000",
+                            "obat_kemoterapi"    => "5000000",
+                            "alkes"              => "500000",
+                            "bmhp"               => "400000",
+                            "sewa_alat"          => "210000"
+                        ],
                         "pemulasaraan_jenazah"      => "1",
                         "kantong_jenazah"           => "1",
                         "peti_jenazah"              => "1",

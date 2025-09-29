@@ -21,17 +21,17 @@
             }
 
             $resultmasterorganization = $this->md->masterorganization($parameter);
-            $resultmasterdepartment   = $this->md->masterdepartment($_SESSION['orgid']);
+            // $resultmasterdepartment   = $this->md->masterdepartment($_SESSION['orgid']);
 
             $masterorganization="";
             foreach($resultmasterorganization as $a ){
                 $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
             }
 
-            $masterdepartment = $this->buildOptions($resultmasterdepartment);
+            // $masterdepartment = $this->buildOptions($resultmasterdepartment);
 
             $data['masterorganization']   = $masterorganization;
-            $data['masterdepartment']   = $masterdepartment;
+            // $data['masterdepartment']   = $masterdepartment;
             return $data;
         }
 
@@ -152,8 +152,8 @@
             $data['last_update_by']   = $_SESSION['userid'];
             $data['last_update_date'] = date("Y-m-d H:i:s");
 
-
             if($this->md->updatedepartment($data,$this->input->post("datatransid"))){
+                $this->md->updatedepartmentheaderid($data,$this->input->post("datatransid"));
                 $json['responCode']="00";
                 $json['responHead']="success";
                 $json['responDesc']="Data Updated Successfully";
