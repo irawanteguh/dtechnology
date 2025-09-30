@@ -13,7 +13,6 @@ class Validation extends CI_Controller{
 	}
 
     public function liststaff(){
-        $periodeid = $this->input->post('periodeid');
         $result    = $this->md->liststaff($_SESSION['orgid'],$_SESSION['userid'],$_SESSION['periodeidactivity']);
         
         if(!empty($result)){
@@ -48,7 +47,7 @@ class Validation extends CI_Controller{
     }
 
     public function detailactivity(){
-        $result = $this->md->detailactivity($_SESSION['orgid'],$_SESSION['userid'],$this->input->post("userid"));
+        $result = $this->md->detailactivity($_SESSION['orgid'],$_SESSION['userid'],$this->input->post("userid"),$_SESSION['periodeidactivity']);
         
         if(!empty($result)){
             $json["responCode"]="00";

@@ -455,21 +455,21 @@ $(document).on("submit", "#forminsertassessment", function (e) {
 
 function simpanvalidasi(button) {
     toastr["info"]('Mohon Menunggu Kami Sedang Melakukan Penyimpanan Data', "INFORMATION");
-    var form = $("#fromvalidationactivity");
-    var url = form.attr("action");
+    var form   = $("#fromvalidationactivity");
+    var url    = form.attr("action");
     var status = $(button).attr('name');
 
     var formData = form.serialize();
     formData += '&status=' + encodeURIComponent(status);
 
     $.ajax({
-        url: url,
-        data: formData,
-        method: "POST",
+        url     : url,
+        data    : formData,
+        method  : "POST",
         dataType: "JSON",
-        cache: false,
+        cache   : false,
         success: function (data, textStatus, jqXHR) {
-    
+
             if (data.responCode === "00") {
                 toastr[data.responHead](data.responDesc, "INFORMATION");
                 $('#modal_validation_kegiatan').modal('hide');
