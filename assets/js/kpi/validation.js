@@ -57,13 +57,10 @@ function liststaff(){
             if(data.responCode==="00"){
                 result        = data.responResult;
                 for(var i in result){
-                    // const style       = "display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;";
                     var   randomIndex = Math.floor(Math.random() * color.length);
                     var   randomColor = color[randomIndex];
 
-
                     getvariabel =   "data-userid='"+result[i].user_id+"'";
-
 
                     tableresult +="<tr>";
                     tableresult +="<td>";
@@ -229,7 +226,7 @@ function detailactivity(btn){
 
                 for(var i in result){
                     tableresult +="<tr>";
-                    tableresult +="<td class='ps-4'>";
+                    tableresult +="<td class='ps-4 text-center'>";
                     tableresult +="<input class='form-check-input h-20px w-20px' type='checkbox' name='pilih["+result[i].trans_id+"]' value='"+result[i].trans_id+"'>";
                     tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='type["+result[i].trans_id+"]' value='"+result[i].status+"'>";
                     tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='activityid["+result[i].trans_id+"]' value='"+result[i].activity_id+"'>";
@@ -240,9 +237,9 @@ function detailactivity(btn){
                     tableresult +="<input class='form-check-input h-20px w-20px' type='hidden' name='userid["+result[i].trans_id+"]' value='"+result[i].user_id+"'>";
                     tableresult +="</td>";
                     if(result[i].status==="1"){
-                        tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+"</div><div class='font-italic'>"+result[i].activity+"</div></td>";
+                        tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+"</div><div class='fst-italic'>"+result[i].activity+"</div></td>";
                     }else{
-                        tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+" <span class='badge badge-light-info'>Anamnesa From Khanza</span></div><div class='font-italic'>"+result[i].activity+"</div></td>";
+                        tableresult +="<td><div class='font-weight-bold'>"+result[i].kegiatanutama+" <span class='badge badge-light-info'>Anamnesa From Khanza</span></div><div class='fst-italic'>"+result[i].activity+"</div></td>";
                     }
                     
                     tableresult +="<td class='text-center'>"+result[i].qty+"</td>";

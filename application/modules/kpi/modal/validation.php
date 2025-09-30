@@ -49,13 +49,13 @@
                         </div>
                     </div>
                     <div class="table-responsive mh-550px scroll-y me-n5 pe-5">
-                        <table class="table align-middle table-row-dashed fs-6 gy-2">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
                             <thead>
                                 <tr class="fw-bolder text-muted bg-light">
-                                    <th class="ps-4 rounded-start"><input class="form-check-input h-20px w-20px" type="checkbox" id="checkall" name="checkall"> Select</th>
+                                    <th class="ps-4 rounded-start min-w-100px text-center"><div>Select</div><div><input class="form-check-input h-20px w-20px" type="checkbox" id="checkall" name="checkall"></div></th>
                                     <th>Activity</th>
-                                    <th class="text-center">Volume</th>
-                                    <th class="pe-4 text-end rounded-end">Date Time</th>
+                                    <th class="text-center min-w-50px">Volume</th>
+                                    <th class="pe-4 text-end rounded-end min-w-150px">Date Time</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-bold" id="resultactivity"></tbody>

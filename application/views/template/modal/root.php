@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <div class="text-muted fw-bold fs-8">Hey <b><?php echo $_SESSION['name']?></b>, Anda Yakin Ingin Keluar Dari Sistem ?</div>
+                <div class="text-muted fw-bold fs-7">Hey <b><?php echo $_SESSION['name']?></b>, Anda Yakin Ingin Keluar Dari Sistem ?</div>
             </div>
             <div class="modal-footer p-1">				
                 <a href="<?php echo base_url();?>index.php/auth/sign/logoutsystem">
