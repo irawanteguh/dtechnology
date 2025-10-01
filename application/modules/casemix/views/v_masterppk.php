@@ -13,6 +13,7 @@
                         <thead>
                             <tr class="fw-bolder text-muted bg-light align-middle">
                                 <th class="ps-4 rounded-start">Name</th>
+                                <th class="text-end">Status</th>
                                 <th class="pe-4 text-end rounded-end">Action</th>
                             </tr>
                         </thead>
