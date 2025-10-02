@@ -49,6 +49,23 @@
             return $recordset;
         }
 
+        function detaildiagnosappkinacbg($ppkid){
+            $query =
+                    "
+                        select a.transaksi_id, icd_code, jenis_id, primary_code, status,
+                            (select description from dt01_casemix_icd_ms where code=a.icd_code)description
+                        from dt01_casemix_ppk_diag_dt a
+                        where a.active='1'
+                        and   a.type='INACBG'
+                        and   a.ppk_id='".$ppkid."'
+                        order by jenis_id asc, primary_code desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function diagnosaset($ppkid){
             $query =
                     "
@@ -93,6 +110,21 @@
 
         function updateicd($data,$transaksiid,$icdid){           
             $sql =   $this->db->update("dt01_casemix_ppk_diag_dt",$data,array("ppk_id"=>$transaksiid,"icd_code"=>$icdid));
+            return $sql;
+        }
+
+        function updateicdinacbg($data,$transaksiid,$icdid){           
+            $sql =   $this->db->update("dt01_casemix_ppk_diag_dt",$data,array("TYPE"=>"INACBG","ppk_id"=>$transaksiid,"icd_code"=>$icdid));
+            return $sql;
+        }
+
+        function updateicdinacbgedit($data,$transaksiid){           
+            $sql =   $this->db->update("dt01_casemix_ppk_diag_dt",$data,array("TYPE"=>"INACBG","ppk_id"=>$transaksiid));
+            return $sql;
+        }
+
+        function insertimport($data){           
+            $sql =   $this->db->insert("dt01_casemix_ppk_diag_dt",$data);
             return $sql;
         }
 

@@ -66,6 +66,24 @@
             echo json_encode($json);
         }
 
+		public function detaildiagnosappkinacbg(){
+			$datatransaksiid = $this->input->post("datatransaksiid");
+			$result          = $this->md->detaildiagnosappkinacbg($datatransaksiid);
+            
+			if(!empty($result)){
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = "We Get The Data You Want";
+				$json['responResult'] = $result;
+            }else{
+                $json["responCode"] = "01";
+                $json["responHead"] = "info";
+                $json["responDesc"] = "We Didn't Get The Data You Wanted";
+            }
+
+            echo json_encode($json);
+        }
+
 		public function addppk(){
 			$datatransaksiid      = generateuuid();
 			$data['org_id']       = $_SESSION['orgid'];
@@ -321,7 +339,82 @@
 
 			$response = Inacbg::sendinacbgs(json_encode($body));
 			if($response['metadata']['code']===200){
+				$dataupdate['active']="0";
+				$this->md->updateicdinacbgedit($dataupdate,$datatransaksiid);
+
 				$dataupdateheader['status'] = "5";
+				$this->md->updateppk($dataupdateheader,$datatransaksiid);
+				
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = $response['metadata']['message'];
+				$json['responResult'] = $response;
+			}
+
+			echo json_encode($json);
+        }
+
+		public function importidrg(){
+			$datatransaksiid=$this->input->post("datatransaksiid");
+			$body = [
+				"metadata" => [
+					"method"  => "idrg_to_inacbg_import"
+				],
+				"data" => [
+					"nomor_sep" => $datatransaksiid
+				]
+			];
+
+			$response = Inacbg::sendinacbgs(json_encode($body));
+			// return var_dump($response);
+			if($response['metadata']['code']===200){
+				foreach ($response['data']['diagnosa']['expanded'] as $row) {
+					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
+						$dataupdate['active']="0";
+						$this->md->updateicdinacbg($dataupdate,$datatransaksiid,$row['code']);
+
+						$dataimport['org_id']       = $_SESSION['orgid'];
+						$dataimport['transaksi_id'] = generateuuid();
+						$dataimport['ppk_id']       = $datatransaksiid;
+						$dataimport['icd_code']     = $row['code'];
+						$dataimport['jenis_id']     = "1";
+						$dataimport['created_by']   = $_SESSION['userid'];
+						if($row['no']==="1"){
+							$dataimport['primary_code'] = "Y";
+						}else{
+							$dataimport['primary_code'] = "N";
+						}
+						$dataimport['type']   = "INACBG";
+						$dataimport['status'] = "1";
+
+						$this->md->insertimport($dataimport);
+					}
+				}
+
+				foreach ($response['data']['procedure']['expanded'] as $row) {
+					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
+						$dataupdate['active']="0";
+						$this->md->updateicdinacbg($dataupdate,$datatransaksiid,$row['code']);
+
+						$dataimport['org_id']       = $_SESSION['orgid'];
+						$dataimport['transaksi_id'] = generateuuid();
+						$dataimport['ppk_id']       = $datatransaksiid;
+						$dataimport['icd_code']     = $row['code'];
+						$dataimport['jenis_id']     = "2";
+						$dataimport['created_by']   = $_SESSION['userid'];
+						if($row['no']==="1"){
+							$dataimport['primary_code'] = "Y";
+						}else{
+							$dataimport['primary_code'] = "N";
+						}
+						$dataimport['type']   = "INACBG";
+						$dataimport['status'] = "1";
+
+						$this->md->insertimport($dataimport);
+					}
+				}
+
+				$dataupdateheader['status'] = "7";
 				$this->md->updateppk($dataupdateheader,$datatransaksiid);
 				
 				$json["responCode"]   = "00";

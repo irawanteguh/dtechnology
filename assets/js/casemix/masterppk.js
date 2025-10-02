@@ -7,14 +7,13 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
 
 
     $("#resultdatadetaildiagnosappk").html("");
+    $("#resultdatadetaildiagnosappkinacbg").html("");
     $("#resultgroupingidrg").html("");
 
     $("#btngroupingidrg").attr("datatransaksiid", datatransaksiid);
     $("#btnfinalidrg").attr("datatransaksiid", datatransaksiid);
     $("#btneditidrg").attr("datatransaksiid", datatransaksiid);
-
-    // $("#btngroupingidrg").addClass("disabled");
-    
+    $("#btnimportidrg").attr("datatransaksiid", datatransaksiid);    
 
     if(datastatus==="2"){
         setdiagnosaidrg(datatransaksiid);
@@ -45,6 +44,14 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
         $("#btnfinalidrg").addClass("d-none");
         detaildiagnosappk(datatransaksiid);
         getgroupingidrg(datatransaksiid);
+    }
+
+    if(datastatus==="7"){
+        $("#btngroupingidrg").addClass("d-none");
+        $("#btnfinalidrg").addClass("d-none");
+        detaildiagnosappk(datatransaksiid);
+        getgroupingidrg(datatransaksiid);
+        detaildiagnosappkinacbg(datatransaksiid);
     }
    
 });
@@ -382,6 +389,68 @@ function getgroupingidrg(datatransaksiid){
     return false;
 };
 
+function detaildiagnosappkinacbg(datatransaksiid){
+    $.ajax({
+        url        : url+"index.php/casemix/masterppk/detaildiagnosappkinacbg",
+        data       : {datatransaksiid:datatransaksiid},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function () {
+            $("#resultdatadetaildiagnosappkinacbg").html("");
+        },
+        success:function(data){
+            var result              = "";
+            var tableresult         = "";
+            var getvariabel         = "";
+
+            if(data.responCode==="00"){
+                    result  = data.responResult;
+                let hasDiag = false, hasProc = false;
+                for(var i in result){
+                    getvariabel =   "datatransaksiid='"+result[i].transaksi_id+"'";
+
+                    if(result[i].jenis_id==='1' && !hasDiag){
+                        tableresult += "<tr><td class='fw-bold fs-7'>:: Diagnosa ICD-10 ::</td></tr>";
+                        hasDiag = true;
+                    }
+                    if(result[i].jenis_id==='2' && !hasProc){
+                        tableresult += "<tr><td class='fw-bold fs-7'>:: Procedure ICD-9 CM ::</td></tr>";
+                        hasProc = true;
+                    }
+                    
+                    tableresult +="<tr>";
+                    tableresult += "<td class='ps-10'>"+(result[i].status==="1"?"<i class='bi bi-check-circle-fill text-success me-2'></i>":"<i class='bi-exclamation-circle-fill text-warning me-2'></i>")+result[i].description+" <span class='ps-4 badge badge-light-info'>"+result[i].icd_code+"</span><span class='fst-italic ps-4 text-primary'>"+(result[i].primary_code==='Y'?"Primary":"Secondary")+"</span></td>";
+                    tableresult +="</tr>";
+                }
+            }
+
+            $("#resultdatadetaildiagnosappkinacbg").html(tableresult);
+        },
+        complete: function () {
+           
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {
+                    confirmButton: "btn btn-danger"
+                },
+                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
+
 function finalidrg(){
     var datatransaksiid = $("#btnfinalidrg").attr("datatransaksiid");
     $.ajax({
@@ -451,6 +520,56 @@ function editidrg(){
                     $("#btnfinalidrg").removeClass("d-none");
                     $("#btneditidrg").addClass("d-none");
                     $("#btnimportidrg").addClass("d-none");
+                    detaildiagnosappkinacbg(datatransaksiid);
+                }
+           }
+        },
+        complete: function () {
+
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {
+                    confirmButton: "btn btn-danger"
+                },
+                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
+
+function importidrg(){
+    var datatransaksiid = $("#btnimportidrg").attr("datatransaksiid");
+    $.ajax({
+        url        : url+"index.php/casemix/masterppk/importidrg",
+        data       : {datatransaksiid:datatransaksiid},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function(){
+
+        },
+        success:function(data){
+            var result         = "";
+           if(data.responCode==="00"){
+                result        = data.responResult;
+                if(result.metadata.code===200){
+                    $("#btngroupingidrg").addClass("d-none");
+                    $("#btnfinalidrg").addClass("d-none");
+                    $("#btneditidrg").removeClass("d-none");
+                    $("#btnimportidrg").removeClass("d-none");
+
+                    detaildiagnosappkinacbg(datatransaksiid);
                 }
            }
         },

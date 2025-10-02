@@ -54,11 +54,18 @@
                     </div>
                     <div class="table-responsive mt-5" id="resultgroupingidrg"></div>
                     <div class="separator my-2"></div>
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-8 gy-2">
+                            <tbody class="text-gray-600 fw-bold" id="resultdatadetaildiagnosappkinacbg"></tbody>
+                        </table>
+                    </div>
+                    <div class="separator my-2"></div>
                     <div class="d-flex justify-content-end">
                         <a class="btn btn-sm btn-info"  id="btnimportidrg" name="btnimportidrg" onclick="importidrg()">Import Coding</a>
                         <a class="btn btn-sm btn-warning ms-4"  id="btneditidrg" name="btneditidrg" onclick="editidrg()">Edit Ulang iDRG</a>
                         <a class="btn btn-sm btn-success"  id="btnfinalidrg" name="btnfinalidrg" onclick="finalidrg()">Final iDRG</a>
                     </div>
+                    
                 </div>
             </div>
         </div>
