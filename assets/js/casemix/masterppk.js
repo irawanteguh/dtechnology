@@ -10,12 +10,11 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
     $("#resultgroupingidrg").html("");
 
     $("#btngroupingidrg").attr("datatransaksiid", datatransaksiid);
-    // $("#btnfinalidrg").attr("datatransaksiid", datatransaksiid);
-    // $("#btneditidrg").attr("datatransaksiid", datatransaksiid);
+    $("#btnfinalidrg").attr("datatransaksiid", datatransaksiid);
+    $("#btneditidrg").attr("datatransaksiid", datatransaksiid);
 
-    $("#btngroupingidrg").addClass("disabled");
-    $("#btnfinalidrg").addClass("d-none");
-    $("#btneditidrg").addClass("d-none");
+    // $("#btngroupingidrg").addClass("disabled");
+    
 
     if(datastatus==="2"){
         setdiagnosaidrg(datatransaksiid);
@@ -27,12 +26,25 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
     }
 
     if(datastatus==="4"){
+        $("#btnfinalidrg").addClass("d-none");
+        $("#btneditidrg").addClass("d-none");
+        $("#btnimportidrg").addClass("d-none");
         detaildiagnosappk(datatransaksiid);
     }
 
     if(datastatus==="5"){
+        $("#btneditidrg").addClass("d-none");
+        $("#btnimportidrg").addClass("d-none");
+        $("#btnfinalidrg").removeClass("d-none");
         detaildiagnosappk(datatransaksiid);
         groupingidrg();
+    }
+
+    if(datastatus==="6"){
+        $("#btngroupingidrg").addClass("d-none");
+        $("#btnfinalidrg").addClass("d-none");
+        detaildiagnosappk(datatransaksiid);
+        getgroupingidrg(datatransaksiid);
     }
    
 });
@@ -40,13 +52,6 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
 $('#modal_simulasi_idrg').on('hidden.bs.modal', function (e) {
     masterdatappk();
 });
-
-// $("#modal_simulasi_idrg").on('shown.bs.modal', function (event) {
-//     var button          = $(event.relatedTarget);
-//     var datatransaksiid = button ? button.attr("datatransaksiid") : null;
-    
-//     newclaim(datatransaksiid);
-// });
 
 function masterdatappk(){
     $.ajax({
@@ -112,98 +117,6 @@ function masterdatappk(){
     return false;
 };
 
-// function newclaim(datatransaksiid){
-//     $.ajax({
-//         url        : url+"index.php/casemix/masterppk/newclaim",
-//         data       : {datatransaksiid:datatransaksiid},
-//         method     : "POST",
-//         dataType   : "JSON",
-//         cache      : false,
-//         processData: true,
-//         beforeSend : function(){
-//             toastr["info"]("Sending request...", "NEW CLAIM");
-//         },
-//         success:function(data){
-//             var result = "";
-//                 result = data.responResult;
-
-//             if(data.responCode==="00" || data.responCode==="02"){
-//                 newclaimdata(datatransaksiid);
-//             }
-
-//             toastr[data.responHead](data.responDesc, "NEW CLAIM");
-//         },
-//         complete: function(){
-//             //
-// 		},
-//         error: function(xhr, status, error) {
-//             Swal.fire({
-//                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-//                 html             : "<b>"+error+"</b>",
-//                 icon             : "error",
-//                 confirmButtonText: "Please Try Again",
-//                 buttonsStyling   : false,
-//                 timerProgressBar : true,
-//                 timer            : 5000,
-//                 customClass      : {
-//                     confirmButton: "btn btn-danger"
-//                 },
-//                 showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
-//                 hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
-//             });
-// 		}
-//     });
-//     return false;
-// };
-
-// function newclaimdata(datatransaksiid){
-//     $.ajax({
-//         url        : url+"index.php/casemix/masterppk/newclaimdata",
-//         data       : {datatransaksiid:datatransaksiid},
-//         method     : "POST",
-//         dataType   : "JSON",
-//         cache      : false,
-//         processData: true,
-//         beforeSend : function(){
-//             toastr["info"]("Sending request...", "NEW CLAIM DATA");
-//         },
-//         success:function(data){
-
-//             if(data.responCode==="00" || data.responCode==="01"){
-//                 detaildiagnosappk(datatransaksiid);
-//             }
-
-//             if(data.responCode==="01"){
-//                 editidrg();
-//                 groupingidrg();
-//                 finalidrg();
-//             }
-
-//             toastr[data.responHead](data.responDesc, "NEW CLAIM DATA");
-//         },
-//         complete: function(){
-//             //
-// 		},
-//         error: function(xhr, status, error) {
-//             Swal.fire({
-//                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-//                 html             : "<b>"+error+"</b>",
-//                 icon             : "error",
-//                 confirmButtonText: "Please Try Again",
-//                 buttonsStyling   : false,
-//                 timerProgressBar : true,
-//                 timer            : 5000,
-//                 customClass      : {
-//                     confirmButton: "btn btn-danger"
-//                 },
-//                 showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
-//                 hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
-//             });
-// 		}
-//     });
-//     return false;
-// };
-
 function detaildiagnosappk(datatransaksiid){
     $.ajax({
         url        : url+"index.php/casemix/masterppk/detaildiagnosappk",
@@ -244,7 +157,7 @@ function detaildiagnosappk(datatransaksiid){
             $("#resultdatadetaildiagnosappk").html(tableresult);
         },
         complete: function () {
-            $("#btngroupingidrg").removeClass("disabled");
+           
 		},
         error: function(xhr, status, error) {
             Swal.fire({
@@ -362,7 +275,6 @@ function groupingidrg(){
         beforeSend : function () {
             toastr["info"]("Sending request...", "GROUPING iDRG");
             $("#resultgroupingidrg").html("");
-            $("#btnfinalidrg").addClass("d-none");
         },
         success:function(data){
             var result         = "";
@@ -412,104 +324,158 @@ function groupingidrg(){
     return false;
 };
 
-// function finalidrg(){
-//     var datatransaksiid = $("#btnfinalidrg").attr("datatransaksiid");
-//     $.ajax({
-//         url        : url+"index.php/casemix/masterppk/finalidrg",
-//         data       : {datatransaksiid:datatransaksiid},
-//         method     : "POST",
-//         dataType   : "JSON",
-//         cache      : false,
-//         processData: true,
-//         beforeSend : function () {
-//             toastr["info"]("Sending request...", "FINAL GROUPING iDRG");
-//         },
-//         success:function(data){
-//             var result         = "";
-//             var resultgrouping = "";
+function getgroupingidrg(datatransaksiid){
+    $.ajax({
+        url        : url+"index.php/casemix/masterppk/getgroupingidrg",
+        data       : {datatransaksiid:datatransaksiid},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function () {
+            toastr["info"]("Sending request...", "GROUPING iDRG");
+            $("#resultgroupingidrg").html("");
+        },
+        success:function(data){
+            var result         = "";
+            var resultgrouping = "";
 
-//             result        = data.responResult;
+            if(data.responCode==="00"){
+                    result        = data.responResult;
 
-//             if((result.metadata.code===200) || (result.metadata.code===400 && result.metadata.error_no==="E2102")){
-//                 // $("#resultgroupingidrg").html(resultgrouping);
-//                 $("#resultgroupingidrg table").addClass("table-success");
-//                 $("#btngroupingidrg").addClass("d-none");
-//                 $("#btnfinalidrg").addClass("d-none");
-//                 $("#btneditidrg").removeClass("d-none");
-//             }
-//         },
-//         complete: function () {
+                    resultgrouping +="<table class='table align-middle table-row-dashed fs-8 gy-2 table-success'>";
+                        resultgrouping +="<thead>";
+                            resultgrouping +="<tr class='fw-bolder text-muted align-middle'><th class='text-center rounded-start rounded-end'colspan='3'>:: Hasil Grouping iDRG ::</th></tr>";
+                        resultgrouping +="</thead>";
+                        resultgrouping +="<tbody class='text-gray-600 fw-bold'>";
+                            resultgrouping +="<tr><td class='ps-4'>Info</td><td></td><td></td></tr>";
+                            resultgrouping +="<tr><td class='ps-4'>Jenis Rawat</td><td></td><td></td></tr>";
+                            resultgrouping +="<tr><td class='ps-4'>MDC</td><td>"+result[0].mdc_description+"</td><td>"+result[0].mdc_number+"</td></tr>";
+                            resultgrouping +="<tr><td class='ps-4'>DRG</td><td>"+result[0].drg_description+"</td><td>"+result[0].drg_code+"</td></tr>";
+                            resultgrouping +="<tr><td class='ps-4'>Status</td><td></td><td></td></tr>";
+                        resultgrouping +="</tbody>";
+                    resultgrouping +="</table>";
+            }
 
-// 		},
-//         error: function(xhr, status, error) {
-//             Swal.fire({
-//                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-//                 html             : "<b>"+error+"</b>",
-//                 icon             : "error",
-//                 confirmButtonText: "Please Try Again",
-//                 buttonsStyling   : false,
-//                 timerProgressBar : true,
-//                 timer            : 5000,
-//                 customClass      : {
-//                     confirmButton: "btn btn-danger"
-//                 },
-//                 showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
-//                 hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
-//             });
-// 		}
-//     });
-//     return false;
-// };
+           $("#resultgroupingidrg").html(resultgrouping);
+        },
+        complete: function () {
+            Swal.close();
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {
+                    confirmButton: "btn btn-danger"
+                },
+                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
 
-// function editidrg(){
-//     var datatransaksiid = $("#btnfinalidrg").attr("datatransaksiid");
-//     $.ajax({
-//         url        : url+"index.php/casemix/masterppk/editidrg",
-//         data       : {datatransaksiid:datatransaksiid},
-//         method     : "POST",
-//         dataType   : "JSON",
-//         cache      : false,
-//         processData: true,
-//         beforeSend : function () {
-//             toastr["info"]("Sending request...", "EDIT GROUPING iDRG");
-//             $("#resultgroupingidrg table").removeClass("table-success");
-//         },
-//         success:function(data){
-//             var result         = "";
-//             var resultgrouping = "";
+function finalidrg(){
+    var datatransaksiid = $("#btnfinalidrg").attr("datatransaksiid");
+    $.ajax({
+        url        : url+"index.php/casemix/masterppk/finalidrg",
+        data       : {datatransaksiid:datatransaksiid},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function () {
+            //
+        },
+        success:function(data){
+            var result = "";
+                result = data.responResult;
 
-//            if(data.responCode==="00"){
-//                 result        = data.responResult;
 
-//                 if(result.metadata.code===200){
-//                     $("#btngroupingidrg").removeClass("d-none");
-//                     $("#btnfinalidrg").removeClass("d-none");
-//                     $("#btneditidrg").addClass("d-none");
-//                 }
-//            }
-//         },
-//         complete: function () {
+            if((result.metadata.code===200)){
+                $("#resultgroupingidrg table").addClass("table-success");
+                $("#btngroupingidrg").addClass("d-none");
+                $("#btnfinalidrg").addClass("d-none");
+                $("#btneditidrg").removeClass("d-none");
+                $("#btnimportidrg").removeClass("d-none");
+            }
+        },
+        complete: function () {
 
-// 		},
-//         error: function(xhr, status, error) {
-//             Swal.fire({
-//                 title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
-//                 html             : "<b>"+error+"</b>",
-//                 icon             : "error",
-//                 confirmButtonText: "Please Try Again",
-//                 buttonsStyling   : false,
-//                 timerProgressBar : true,
-//                 timer            : 5000,
-//                 customClass      : {
-//                     confirmButton: "btn btn-danger"
-//                 },
-//                 showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
-//                 hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
-//             });
-// 		}
-//     });
-//     return false;
-// };
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {
+                    confirmButton: "btn btn-danger"
+                },
+                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
+
+function editidrg(){
+    var datatransaksiid = $("#btnfinalidrg").attr("datatransaksiid");
+    $.ajax({
+        url        : url+"index.php/casemix/masterppk/editidrg",
+        data       : {datatransaksiid:datatransaksiid},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function(){
+            $("#resultgroupingidrg table").removeClass("table-success");
+        },
+        success:function(data){
+            var result         = "";
+           if(data.responCode==="00"){
+                result        = data.responResult;
+                if(result.metadata.code===200){
+                    $("#btngroupingidrg").removeClass("d-none");
+                    $("#btnfinalidrg").removeClass("d-none");
+                    $("#btneditidrg").addClass("d-none");
+                    $("#btnimportidrg").addClass("d-none");
+                }
+           }
+        },
+        complete: function () {
+
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {
+                    confirmButton: "btn btn-danger"
+                },
+                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
 
 $(document).on("submit", "#formaddppk", function (e) {
 	e.preventDefault();
@@ -529,7 +495,6 @@ $(document).on("submit", "#formaddppk", function (e) {
         },
 		success: function (data) {
             
-
             if (data.responCode == "00") {
                 $("#modal_add_ppk").modal("hide");
                 masterdatappk();

@@ -53,11 +53,11 @@
                         <a class="btn btn-sm btn-primary"  id="btngroupingidrg" name="btngroupingidrg" onclick="groupingidrg()">Grouping</a>
                     </div>
                     <div class="table-responsive mt-5" id="resultgroupingidrg"></div>
-                    <div class="d-flex justify-content-end mt-5">
-                        <a class="btn btn-sm btn-light-primary"  id="btnfinalidrg" name="btnfinalidrg" onclick="finalidrg()">Final iDRG</a>
-                    </div>
-                    <div class="d-flex justify-content-end mt-5">
-                        <a class="btn btn-sm btn-light-primary"  id="btneditidrg" name="btneditidrg" onclick="editidrg()">Edit Ulang iDRG</a>
+                    <div class="separator my-2"></div>
+                    <div class="d-flex justify-content-end">
+                        <a class="btn btn-sm btn-info"  id="btnimportidrg" name="btnimportidrg" onclick="importidrg()">Import Coding</a>
+                        <a class="btn btn-sm btn-warning ms-4"  id="btneditidrg" name="btneditidrg" onclick="editidrg()">Edit Ulang iDRG</a>
+                        <a class="btn btn-sm btn-success"  id="btnfinalidrg" name="btnfinalidrg" onclick="finalidrg()">Final iDRG</a>
                     </div>
                 </div>
             </div>

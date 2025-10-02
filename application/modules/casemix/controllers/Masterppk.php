@@ -48,8 +48,26 @@
             echo json_encode($json);
         }
 
+		public function getgroupingidrg(){
+			$datatransaksiid = $this->input->post("datatransaksiid");
+			$result          = $this->md->getgroupingidrg($datatransaksiid);
+            
+			if(!empty($result)){
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = "We Get The Data You Want";
+				$json['responResult'] = $result;
+            }else{
+                $json["responCode"] = "01";
+                $json["responHead"] = "info";
+                $json["responDesc"] = "We Didn't Get The Data You Wanted";
+            }
+
+            echo json_encode($json);
+        }
+
 		public function addppk(){
-			$datatransaksiid      = "5c5b6d4c-b890-40af-aadd-8c9cb2db2362";
+			$datatransaksiid      = generateuuid();
 			$data['org_id']       = $_SESSION['orgid'];
 			$data['transaksi_id'] = $datatransaksiid;
 			$data['name']         = $this->input->post("modal_add_ppk_name");
@@ -87,8 +105,8 @@
 								"cara_masuk"        => "gp",
 								"jenis_rawat"       => "1",
 								"kelas_rawat"       => "3",
-								"adl_sub_acute"     => "60",
-								"adl_chronic"       => "60",
+								"adl_sub_acute"     => "12",
+								"adl_chronic"       => "12",
 								"icu_indikator"     => "0",
 								"icu_los"           => "0",
 								"upgrade_class_ind" => "0",
@@ -162,6 +180,157 @@
 			}
 
             echo json_encode($json);
+        }
+
+		public function setdiagnosaidrg(){
+			$datatransaksiid   = $this->input->post("datatransaksiid");
+			$resultdiagnosaset = $this->md->diagnosaset($datatransaksiid);
+
+			$body = [
+				"metadata" => [
+					"method" => "idrg_diagnosa_set",
+					"nomor_sep" => $datatransaksiid,
+				],
+				"data" => [
+					"diagnosa" => $resultdiagnosaset->resultdiagnosa,
+				]
+			];
+
+			$response = Inacbg::sendinacbgs(json_encode($body));
+			if($response['metadata']['code']===200){
+				foreach ($response['data']['expanded'] as $row) {
+					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
+						$dataupdate['status']="1";
+						$this->md->updateicd($dataupdate,$datatransaksiid,$row['code']);
+					}
+				}
+				$dataupdateheader['status']="3";
+				$this->md->updateppk($dataupdateheader,$datatransaksiid);
+
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = $response['metadata']['message'];
+				$json['responResult'] = $response;
+			}
+
+			echo json_encode($json);
+		}
+
+		public function setprocedureidrg(){
+			$datatransaksiid    = $this->input->post("datatransaksiid");
+			$resultprocedureset = $this->md->procedureset($datatransaksiid);
+
+			$body = [
+				"metadata" => [
+					"method" => "idrg_procedure_set",
+					"nomor_sep" => $datatransaksiid,
+				],
+				"data" => [
+					"procedure" => $resultprocedureset->resultprocedure,
+				]
+			];
+
+			$response = Inacbg::sendinacbgs(json_encode($body));
+			if($response['metadata']['code']===200){
+				foreach ($response['data']['expanded'] as $row) {
+					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
+						$dataupdate['status']="1";
+						$this->md->updateicd($dataupdate,$datatransaksiid,$row['code']);
+					}
+				}
+				$dataupdateheader['status']="4";
+				$this->md->updateppk($dataupdateheader,$datatransaksiid);
+
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = $response['metadata']['message'];
+				$json['responResult'] = $response;
+			}
+
+			echo json_encode($json);
+		}
+
+		public function groupingidrg(){
+			$datatransaksiid=$this->input->post("datatransaksiid");
+
+			$body = [
+				"metadata" => [
+					"method"  => "grouper",
+					"stage"   => "1",
+					"grouper" => "idrg"
+				],
+				"data" => [
+					"nomor_sep" => $datatransaksiid
+				]
+			];
+
+			$response = Inacbg::sendinacbgs(json_encode($body));
+			if($response['metadata']['code']===200){
+				$dataupdateheader['mdc_number']      = $response['response_idrg']['mdc_number'];
+				$dataupdateheader['mdc_description'] = $response['response_idrg']['mdc_description'];
+				$dataupdateheader['drg_code']        = $response['response_idrg']['drg_code'];
+				$dataupdateheader['drg_description'] = $response['response_idrg']['drg_description'];
+				$dataupdateheader['status']          = "5";
+				$this->md->updateppk($dataupdateheader,$datatransaksiid);
+
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = $response['metadata']['message'];
+				$json['responResult'] = $response;
+			}
+
+			echo json_encode($json);
+        }
+
+		public function finalidrg(){
+			$datatransaksiid=$this->input->post("datatransaksiid");
+
+			$body = [
+				"metadata" => [
+					"method"  => "idrg_grouper_final"
+				],
+				"data" => [
+					"nomor_sep" => $datatransaksiid
+				]
+			];
+
+			$response = Inacbg::sendinacbgs(json_encode($body));
+			if($response['metadata']['code']===200){
+				$dataupdateheader['status'] = "6";
+				$this->md->updateppk($dataupdateheader,$datatransaksiid);
+
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = $response['metadata']['message'];
+				$json['responResult'] = $response;
+			}
+
+			echo json_encode($json);
+        }
+
+		public function editidrg(){
+			$datatransaksiid=$this->input->post("datatransaksiid");
+			$body = [
+				"metadata" => [
+					"method"  => "idrg_grouper_reedit"
+				],
+				"data" => [
+					"nomor_sep" => $datatransaksiid
+				]
+			];
+
+			$response = Inacbg::sendinacbgs(json_encode($body));
+			if($response['metadata']['code']===200){
+				$dataupdateheader['status'] = "5";
+				$this->md->updateppk($dataupdateheader,$datatransaksiid);
+				
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = $response['metadata']['message'];
+				$json['responResult'] = $response;
+			}
+
+			echo json_encode($json);
         }
 
 		// public function groupingidrg(){
@@ -484,162 +653,7 @@
 		// 	echo json_encode($json);
         // }
 
-		public function setdiagnosaidrg(){
-			$datatransaksiid   = $this->input->post("datatransaksiid");
-			$resultdiagnosaset = $this->md->diagnosaset($datatransaksiid);
-
-			$body = [
-				"metadata" => [
-					"method" => "idrg_diagnosa_set",
-					"nomor_sep" => $datatransaksiid,
-				],
-				"data" => [
-					"diagnosa" => $resultdiagnosaset->resultdiagnosa,
-				]
-			];
-
-			$response = Inacbg::sendinacbgs(json_encode($body));
-			if($response['metadata']['code']===200){
-				foreach ($response['data']['expanded'] as $row) {
-					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
-						$dataupdate['status']="1";
-						$this->md->updateicd($dataupdate,$datatransaksiid,$row['code']);
-					}
-				}
-				$dataupdateheader['status']="3";
-				$this->md->updateppk($dataupdateheader,$datatransaksiid);
-
-				$json["responCode"]   = "00";
-				$json["responHead"]   = "success";
-				$json["responDesc"]   = $response['metadata']['message'];
-				$json['responResult'] = $response;
-			}
-
-			echo json_encode($json);
-		}
-
-		public function setprocedureidrg(){
-			$datatransaksiid    = $this->input->post("datatransaksiid");
-			$resultprocedureset = $this->md->procedureset($datatransaksiid);
-
-			$body = [
-				"metadata" => [
-					"method" => "idrg_procedure_set",
-					"nomor_sep" => $datatransaksiid,
-				],
-				"data" => [
-					"procedure" => $resultprocedureset->resultprocedure,
-				]
-			];
-
-			$response = Inacbg::sendinacbgs(json_encode($body));
-			if($response['metadata']['code']===200){
-				foreach ($response['data']['expanded'] as $row) {
-					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
-						$dataupdate['status']="1";
-						$this->md->updateicd($dataupdate,$datatransaksiid,$row['code']);
-					}
-				}
-				$dataupdateheader['status']="4";
-				$this->md->updateppk($dataupdateheader,$datatransaksiid);
-
-				$json["responCode"]   = "00";
-				$json["responHead"]   = "success";
-				$json["responDesc"]   = $response['metadata']['message'];
-				$json['responResult'] = $response;
-			}
-
-			echo json_encode($json);
-		}
-
-
-		public function groupingidrg(){
-			$datatransaksiid=$this->input->post("datatransaksiid");
-
-			$body = [
-				"metadata" => [
-					"method"  => "grouper",
-					"stage"   => "1",
-					"grouper" => "idrg"
-				],
-				"data" => [
-					"nomor_sep" => $datatransaksiid
-				]
-			];
-
-			$response = Inacbg::sendinacbgs(json_encode($body));
-			if($response['metadata']['code']===200){
-				$dataupdateheader['mdc_number']      = $response['response_idrg']['mdc_number'];
-				$dataupdateheader['mdc_description'] = $response['response_idrg']['mdc_description'];
-				$dataupdateheader['drg_code']        = $response['response_idrg']['drg_code'];
-				$dataupdateheader['drg_description'] = $response['response_idrg']['drg_description'];
-				$dataupdateheader['status']          = "5";
-				$this->md->updateppk($dataupdateheader,$datatransaksiid);
-
-				$json["responCode"]   = "00";
-				$json["responHead"]   = "success";
-				$json["responDesc"]   = $response['metadata']['message'];
-				$json['responResult'] = $response;
-			}
-			echo json_encode($json);
-        }
-
-		public function finalidrg(){
-			$datatransaksiid=$this->input->post("datatransaksiid");
-
-			$body = [
-				"metadata" => [
-					"method"  => "idrg_grouper_final"
-				],
-				"data" => [
-					"nomor_sep" => $datatransaksiid
-				]
-			];
-
-			$response = Inacbg::sendinacbgs(json_encode($body));
-			// return var_dump($response);
-
-			if($response['metadata']['code']===200){
-				$json["responCode"]   = "00";
-				$json["responHead"]   = "success";
-				$json["responDesc"]   = $response['metadata']['message'];
-				$json['responResult'] = $response;
-			}else{
-				if($response['metadata']['code']===400 && $response['metadata']['error_no']==="E2102"){
-					$json["responCode"]   = "01";
-					$json["responHead"]   = "info";
-					$json["responDesc"]   = $response['metadata']['message'];
-					$json['responResult'] = $response;
-				}
-			}
-
-			echo json_encode($json);
-        }
-
-		public function editidrg(){
-			$datatransaksiid=$this->input->post("datatransaksiid");
-
-			$body = [
-				"metadata" => [
-					"method"  => "idrg_grouper_reedit"
-				],
-				"data" => [
-					"nomor_sep" => $datatransaksiid
-				]
-			];
-
-			$response = Inacbg::sendinacbgs(json_encode($body));
-			// return var_dump($response);
-
-			if($response['metadata']['code']===200){
-				$json["responCode"]   = "00";
-				$json["responHead"]   = "success";
-				$json["responDesc"]   = $response['metadata']['message'];
-				$json['responResult'] = $response;
-			}
-
-			echo json_encode($json);
-        }
+		
 	}
 
 ?>

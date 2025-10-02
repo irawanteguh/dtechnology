@@ -38,10 +38,12 @@
                             date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             date_format(a.kains_date, '%d.%m.%Y %H:%i:%s')kainsdate,
                             date_format(a.koordinator_date, '%d.%m.%Y %H:%i:%s')koordinatordate,
+                            date_format(a.manager_date, '%d.%m.%Y %H:%i:%s')managerdate,
 
                             (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.created_by)dibuatoleh,
                             (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.kains_id)kainsname,
                             (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.koordinator_id)koordinatorname,
+                            (select name from dt01_gen_user_data where org_id=a.org_id and user_id=a.manager_id)managername,
 
                             (select department from dt01_gen_department_ms where org_id=a.org_id and active=a.active and department_id=a.department_id)unitpelaksana,
                             (select color       from dt01_gen_master_ms where org_id=a.org_id and jenis_id='PO_2' and code=a.method)colorjenis,
@@ -64,6 +66,7 @@
                         from dt01_lgu_pemesanan_hd a
                         where a.org_id='".$orgid."'
                         and   a.active='1'
+                        -- and   a.method='4'
                         and   a.version='2.0.0.0'
                         and   YEAR(a.created_date)='".$tahun."'
                         order by created_date desc

@@ -17,6 +17,21 @@
             return $recordset;
         }
 
+        function getgroupingidrg($transaksiid){
+            $query =
+                    "
+                        select a.transaksi_id, mdc_number, mdc_description, drg_code, drg_description
+                        from dt01_casemix_ppk_ms a
+                        where a.active='1'
+                        and   a.transaksi_id='".$transaksiid."'
+                        order by created_date desc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function detaildiagnosappk($ppkid){
             $query =
                     "
@@ -24,6 +39,7 @@
                             (select description from dt01_casemix_icd_ms where code=a.icd_code)description
                         from dt01_casemix_ppk_diag_dt a
                         where a.active='1'
+                        and   a.type='IDRG'
                         and   a.ppk_id='".$ppkid."'
                         order by jenis_id asc, primary_code desc
                     ";

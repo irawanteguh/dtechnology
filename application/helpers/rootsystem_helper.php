@@ -16,18 +16,18 @@
             $digits .= random_int(0, 9);
         }
         return $digits; // ex: "0123456789012"
-    }
+    };
 
     function generateNoSEP($prefix = '0064R004') {
         $part1 = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);   // 4 digits
         $part2 = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT); // 6 digits
         return $prefix . $part1 . 'V' . $part2;
-    }
+    };
 
     function generateNilaiTindakan() {
         $nilai = random_int(0, 30000000);
         return $nilai;
-    }
+    };
 
     function generateRandomTanggal($startYear = 1960, $endYear = 2010) {
         // buat timestamp random
@@ -38,8 +38,7 @@
 
         // ambil tanggalnya, jam dipaksa 00:00:00
         return date("Y-m-d", $timestamp) . " 00:00:00";
-    }
-
+    };
     //End Function Random Generator
 
     function generateuuid($data = null){
