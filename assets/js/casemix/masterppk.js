@@ -11,6 +11,7 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
     $("#resultgroupingidrg").html("");
 
     $("#btngroupingidrg").attr("datatransaksiid", datatransaksiid);
+    $("#btngroupinginacbg").attr("datatransaksiid", datatransaksiid);  
     $("#btnfinalidrg").attr("datatransaksiid", datatransaksiid);
     $("#btneditidrg").attr("datatransaksiid", datatransaksiid);
     $("#btnimportidrg").attr("datatransaksiid", datatransaksiid);    
@@ -28,6 +29,7 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
         $("#btnfinalidrg").addClass("d-none");
         $("#btneditidrg").addClass("d-none");
         $("#btnimportidrg").addClass("d-none");
+        $("#btngroupinginacbg").addClass("d-none");
         detaildiagnosappk(datatransaksiid);
     }
 
@@ -90,7 +92,7 @@ function masterdatappk(){
                             tableresult +="<div class='btn-group' role='group'>";
                                 tableresult +="<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                                 tableresult +="<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
-                                    tableresult +="<a class='dropdown-item btn btn-sm' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_simulasi_idrg'><i class='bi bi-check2-circle text-success'></i> Simulasi iDRG</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm' "+getvariabel+" data-bs-toggle='modal' data-bs-target='#modal_simulasi_idrg'><i class='bi-stars text-primary'></i> Simulasi iDRG</a>";
                                 tableresult +="</div>";
                             tableresult +="</div>";
                         tableresult +="</td>";
@@ -237,18 +239,11 @@ function setprocedureidrg(datatransaksiid){
         cache      : false,
         processData: true,
         beforeSend : function(){
-            // toastr["info"]("Sending request...", "SET PROCEDURE iDRG");
         },
         success:function(data){
             detaildiagnosappk(datatransaksiid);
-            // if(data.responCode==="00"){
-            //     $("#btngroupingidrg").removeClass("disabled");
-            // }
-
-            // toastr[data.responHead](data.responDesc, "SET PROCEDURE iDRG");
         },
         complete: function(){
-            //
 		},
         error: function(xhr, status, error) {
             Swal.fire({
@@ -310,6 +305,70 @@ function groupingidrg(){
         },
         complete: function () {
             Swal.close();
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {
+                    confirmButton: "btn btn-danger"
+                },
+                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
+
+function groupinginacbg(){
+    var datatransaksiid = $("#btngroupingidrg").attr("datatransaksiid");
+    $.ajax({
+        url        : url+"index.php/casemix/masterppk/groupinginacbg",
+        data       : {datatransaksiid:datatransaksiid},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function(){
+            $("#resulthasilgroupinginacbgs").html("");
+        },
+        success:function(data){
+            
+            var result         = "";
+            var resultgrouping = "";
+
+            result = data.responResult;
+
+            resultgrouping += "<table class='table align-middle table-row-dashed fs-8 gy-2'>";
+            resultgrouping += "<thead>";
+            resultgrouping += "<tr class='fw-bolder text-muted align-middle'><th class='text-center rounded-start rounded-end' colspan='3'>:: Hasil Grouping InaCbg's ::</th></tr>";
+            resultgrouping += "</thead>";
+            resultgrouping += "<tbody class='text-gray-600 fw-bold'>";
+            resultgrouping += "<tr><td class='ps-4'>Info</td><td></td><td></td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Jenis Rawat</td><td></td><td></td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Group</td><td>"+result.response_inacbg.cbg.description+"</td><td>"+result.response_inacbg.cbg.code+"</td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Sub Acute</td><td>"+result.response_inacbg.sub_acute.description+"</td><td>"+result.response_inacbg.sub_acute.tariff+"</td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Chronic</td><td>"+result.response_inacbg.chronic.description+"</td><td>"+result.response_inacbg.chronic.tariff+"</td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Special Procedure</td><td>"+result.response_inacbg.special_cmg[0].description+"</td><td>"+result.response_inacbg.special_cmg[0].tariff+"</td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Special Prosthesis</td><td>"+result.response_inacbg.special_cmg[1].description+"</td><td>"+result.response_inacbg.special_cmg[1].tariff+"</td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Special Investigation</td><td>"+result.response_inacbg.special_cmg[2].description+"</td><td>"+result.response_inacbg.special_cmg[2].tariff+"</td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Special Drug</td><td>"+result.response_inacbg.special_cmg[3].description+"</td><td>"+result.response_inacbg.special_cmg[3].tariff+"</td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Total Klaim</td><td></td><td></td></tr>";
+            resultgrouping += "<tr><td class='ps-4'>Status</td><td>"+result.metadata.message+"</td><td>"+result.metadata.code+"</td></tr>";
+            resultgrouping += "</tbody>";
+            resultgrouping += "</table>";
+
+
+
+            $("#resulthasilgroupinginacbgs").html(resultgrouping);
+        },
+        complete: function(){
 		},
         error: function(xhr, status, error) {
             Swal.fire({
@@ -520,6 +579,7 @@ function editidrg(){
                     $("#btnfinalidrg").removeClass("d-none");
                     $("#btneditidrg").addClass("d-none");
                     $("#btnimportidrg").addClass("d-none");
+                    $("#btngroupinginacbg").addClass("d-none");
                     detaildiagnosappkinacbg(datatransaksiid);
                 }
            }
@@ -568,6 +628,7 @@ function importidrg(){
                     $("#btnfinalidrg").addClass("d-none");
                     $("#btneditidrg").removeClass("d-none");
                     $("#btnimportidrg").removeClass("d-none");
+                    $("#btngroupinginacbg").removeClass("d-none");
 
                     detaildiagnosappkinacbg(datatransaksiid);
                 }

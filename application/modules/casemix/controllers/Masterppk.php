@@ -85,7 +85,7 @@
         }
 
 		public function addppk(){
-			$datatransaksiid      = generateuuid();
+			$datatransaksiid      = "5c5b6d4c-b890-40af-aadd-8c9cb2db2362";
 			$data['org_id']       = $_SESSION['orgid'];
 			$data['transaksi_id'] = $datatransaksiid;
 			$data['name']         = $this->input->post("modal_add_ppk_name");
@@ -123,7 +123,7 @@
 								"cara_masuk"        => "gp",
 								"jenis_rawat"       => "1",
 								"kelas_rawat"       => "3",
-								"adl_sub_acute"     => "12",
+								"adl_sub_acute"     => "15",
 								"adl_chronic"       => "12",
 								"icu_indikator"     => "0",
 								"icu_los"           => "0",
@@ -291,6 +291,31 @@
 				$dataupdateheader['status']          = "5";
 				$this->md->updateppk($dataupdateheader,$datatransaksiid);
 
+				$json["responCode"]   = "00";
+				$json["responHead"]   = "success";
+				$json["responDesc"]   = $response['metadata']['message'];
+				$json['responResult'] = $response;
+			}
+
+			echo json_encode($json);
+        }
+
+		public function groupinginacbg(){
+			$datatransaksiid=$this->input->post("datatransaksiid");
+
+			$body = [
+				"metadata" => [
+					"method"  => "grouper",
+					"stage"   => "1",
+					"grouper" => "inacbg"
+				],
+				"data" => [
+					"nomor_sep" => $datatransaksiid
+				]
+			];
+
+			$response = Inacbg::sendinacbgs(json_encode($body));
+			if($response['metadata']['code']===200){
 				$json["responCode"]   = "00";
 				$json["responHead"]   = "success";
 				$json["responDesc"]   = $response['metadata']['message'];
