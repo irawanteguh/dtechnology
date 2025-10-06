@@ -215,6 +215,7 @@
 			];
 
 			$response = Inacbg::sendinacbgs(json_encode($body));
+			return var_dump($response);
 			if($response['metadata']['code']===200){
 				foreach ($response['data']['expanded'] as $row) {
 					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
