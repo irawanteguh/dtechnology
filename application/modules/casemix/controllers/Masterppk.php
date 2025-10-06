@@ -136,7 +136,7 @@
 								"tarif_rs" => [
 									"prosedur_non_bedah" => "0",
 									"prosedur_bedah"     => "0",
-									"konsultasi"         => "0",
+									"konsultasi"         => "15000",
 									"tenaga_ahli"        => "0",
 									"keperawatan"        => "0",
 									"penunjang"          => "0",

@@ -17,11 +17,17 @@ $("#modal_simulasi_idrg").on('show.bs.modal', function (event) {
     $("#btnimportidrg").attr("datatransaksiid", datatransaksiid);    
 
     if(datastatus==="2"){
+        $("#btneditidrg").addClass("d-none");
+        $("#btnfinalidrg").addClass("d-none");
+        $("#btnimportidrg").addClass("d-none");
+        $("#btngroupinginacbg").addClass("d-none");
         setdiagnosaidrg(datatransaksiid);
         setprocedureidrg(datatransaksiid);
     }
 
     if(datastatus==="3"){
+        $("#btnimportidrg").addClass("d-none");
+        $("#btngroupinginacbg").addClass("d-none");
         setprocedureidrg(datatransaksiid);
     }
 
@@ -299,6 +305,8 @@ function groupingidrg(){
                 resultgrouping +="</table>";
 
                 $("#btnfinalidrg").removeClass("d-none");
+                $("#btnimportidrg").addClass("d-none");
+                $("#btngroupinginacbg").addClass("d-none");
            }
 
            $("#resultgroupingidrg").html(resultgrouping);
