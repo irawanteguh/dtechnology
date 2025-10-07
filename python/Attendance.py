@@ -6,16 +6,16 @@ import base64
 from io import BytesIO
 from PIL import Image
 import os
-import datetime
 import threading
 import time
+import uuid
 
 app = Flask(__name__)
 CORS(app)  # Izinkan request dari frontend
 
 # === Konfigurasi folder ===
-MASTER_FOLDER = r"E:\xampp\htdocs\dtech\dtechnology\assets\images\avatars"   # Folder master wajah
-TMP_FOLDER    = r"E:\xampp\htdocs\dtech\dtechnology\assets\attendance"       # Folder hasil capture absensi
+MASTER_FOLDER = r"E:\xampp\htdocs\dtech\dtechnology\assets\images\avatars"  # Folder master wajah
+TMP_FOLDER    = r"E:\xampp\htdocs\dtech\dtechnology\assets\attendance"    # Folder hasil capture absensi
 
 # Pastikan folder attendance ada
 os.makedirs(TMP_FOLDER, exist_ok=True)
@@ -23,7 +23,6 @@ os.makedirs(TMP_FOLDER, exist_ok=True)
 # Variabel global untuk master faces
 master_encodings = []
 usernames = []
-
 
 # === Fungsi load master faces ===
 def load_master_faces():
@@ -54,7 +53,6 @@ def load_master_faces():
 
     print(f"[INFO] Total master faces loaded: {len(master_encodings)}")
 
-
 # === Fungsi auto-reload setiap 5 detik ===
 def auto_reload_faces():
     while True:
@@ -62,13 +60,7 @@ def auto_reload_faces():
             load_master_faces()
         except Exception as e:
             print(f"[ERROR] Auto reload failed: {e}")
-        time.sleep(5)  # interval 5 detik
-
-
-# Jalankan auto-reload di thread terpisah
-reload_thread = threading.Thread(target=auto_reload_faces, daemon=True)
-reload_thread.start()
-
+        time.sleep(5000)  # interval 5 detik (ubah sesuai kebutuhan)
 
 # === Endpoint: Recognize wajah ===
 @app.route("/recognize", methods=["POST"])
@@ -105,7 +97,6 @@ def recognize():
         print(f"[ERROR] {e}")
         return jsonify({"error": str(e)}), 500
 
-
 # === Endpoint: Reload master faces manual ===
 @app.route("/reload_faces", methods=["POST"])
 def reload_faces():
@@ -114,7 +105,6 @@ def reload_faces():
         return jsonify({"status": "success", "message": "Master faces reloaded"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
-
 
 # === Endpoint: Simpan foto capture absensi ===
 @app.route("/save_capture", methods=["POST"])
@@ -129,8 +119,8 @@ def save_capture():
             base64_data = base64_data.split(",")[1]
 
         img_bytes = base64.b64decode(base64_data)
-        filename = datetime.datetime.now().strftime("attendance_%Y%m%d_%H%M%S.jpg")
-        filepath = os.path.join(TMP_FOLDER, filename)
+        filename = f"{uuid.uuid4().hex}.jpg"
+        filepath  = os.path.join(TMP_FOLDER, filename)
 
         with open(filepath, "wb") as f:
             f.write(img_bytes)
@@ -138,9 +128,9 @@ def save_capture():
         print(f"[INFO] Attendance capture saved: {filepath}")
 
         location = data.get("location", {})
-        lat = location.get("lat", "-")
-        lon = location.get("lon", "-")
-        alamat = location.get("alamat", "-")
+        lat      = location.get("lat", "-")
+        lon      = location.get("lon", "-")
+        alamat   = location.get("alamat", "-")
 
         print(f"[INFO] Location: lat={lat}, lon={lon}, alamat={alamat}")
 
@@ -154,8 +144,11 @@ def save_capture():
         print(f"[ERROR] {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-
 # === Jalankan server ===
 if __name__ == "__main__":
+    # Jalankan thread auto_reload_faces hanya sekali (tidak di-reloader Flask)
+    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+        threading.Thread(target=auto_reload_faces, daemon=True).start()
+
     print("[INFO] Starting Flask server on port 5000...")
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=True)
