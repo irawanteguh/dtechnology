@@ -1,17 +1,29 @@
 let   currentLocation = { lat: "-", lon: "-", alamat: "Unknown" };
-// const BASE_URL        = 'http://10.12.120.58:5000';
-const BASE_URL        = url;
-const CENTER          = { lat: -6.200000, lon: 106.816666 };
-const RADIUS_LIMIT    = 0.1;                                        // km (100 meter)
+const BASE_URL        = `http://${window.location.hostname}:5000`;
+const CENTER          = { lat: 1.286021521387019, lon: 101.19285692429884 };
+const RADIUS_LIMIT    = 0.1;                                                  // km (100 meter)
 const video           = document.getElementById('video');
 const captureBtn      = document.getElementById('capture');
+const reloadBtn       = document.getElementById('reload');
 const spinner         = document.getElementById('spinnerOverlay');
-                             
+
 navigator.mediaDevices.getUserMedia({ video: true }).then(stream => video.srcObject = stream).catch(err => console.error("Kamera error:", err));
 
 updateLocation();
 setInterval(updateTime, 1000); 
 // setInterval(updateLocation, 5000);
+
+captureBtn.addEventListener('click', processCapture);
+reloadBtn.addEventListener('click', processCapture);
+
+// window.addEventListener('load', async () => {
+//     try {
+//         await fetch(`${BASE_URL}/reload_faces`, { method: 'POST' });
+//         // console.log("[INFO] Master faces reloaded on page load");
+//     } catch(err) {
+//         console.error("[ERROR] Failed to reload master faces:", err);
+//     }
+// });
 
 function updateTime() {
     const now = new Date();
@@ -104,7 +116,54 @@ function hideSpinner() {
     setTimeout(() => spinner.style.display = 'none', 500);
 }
 
-captureBtn.addEventListener('click', async () => {
+// captureBtn.addEventListener('click', async () => {
+//     try {
+//         video.pause();
+//         showSpinner();
+
+//         // ambil gambar dari video
+//         const canvas        = document.createElement('canvas');
+//               canvas.width  = video.videoWidth;
+//               canvas.height = video.videoHeight;
+//         canvas.getContext('2d').drawImage(video, 0, 0);
+//         const dataUrl = canvas.toDataURL('image/jpeg');
+
+//         // kirim ke server Python (recognize)
+//         const res = await fetch(`${BASE_URL}/recognize`, {
+//             method : 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body   : JSON.stringify({ image: dataUrl })
+//         });
+
+//         const data = await res.json();
+//         if(data.username){
+//             datauser(data.username)
+//         }else{
+//             $('#infoNIK').html("-");
+//             $('#infoNama').html("Wajah tidak dikenali");
+//             $('#infouserid').html("-");
+//             $('#infohospital').html("-");
+//         }
+
+//         // simpan hasil capture + lokasi + alamat
+//         await fetch(`${BASE_URL}/save_capture`, {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({
+//                 image: dataUrl,
+//                 location: currentLocation
+//             })
+//         });
+
+//     } catch (err) {
+//         console.error("Error capture:", err);
+//     } finally {
+//         hideSpinner();
+//         video.play();
+//     }
+// });
+
+async function processCapture() {
     try {
         video.pause();
         showSpinner();
@@ -124,12 +183,13 @@ captureBtn.addEventListener('click', async () => {
         });
 
         const data = await res.json();
-        
         if(data.username){
-            $('#infoNIK').html( data.username);
+            datauser(data.username)
         }else{
             $('#infoNIK').html("-");
             $('#infoNama').html("Wajah tidak dikenali");
+            $('#infouserid').html("-");
+            $('#infohospital').html("-");
         }
 
         // simpan hasil capture + lokasi + alamat
@@ -148,4 +208,52 @@ captureBtn.addEventListener('click', async () => {
         hideSpinner();
         video.play();
     }
+}
+
+function datauser(userid) {
+    $.ajax({
+    url     : url + "index.php/public/attendance/datauser",
+    data    : {userid:userid},
+    method  : "POST",
+    dataType: "JSON",
+    cache   : false,
+    success : function (data) {
+        if(data.responCode === "00"){
+            let result = data.responResult[0];
+
+            $('#infoNIK').html(result.nik);
+            $('#infoNama').html(result.name);
+            $('#infouserid').html(result.user_id);
+            $('#infohospital').html(result.rsname);
+
+            $('#submit').removeClass("d-none");
+            $('#reload').removeClass("d-none");
+            $('#capture').addClass("d-none");
+        } else {
+            $('#infoNIK').html("-");
+            $('#infoNama').html("Wajah tidak dikenali");
+            $('#infouserid').html("-");
+            $('#infohospital').html("-");
+
+            $('#submit').addClass("d-none");
+            $('#reload').addClass("d-none");
+            $('#capture').removeClass("d-none");
+        }
+    },
+    error: function (xhr, status, error) {
+        Swal.fire({
+            title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+            html             : "<b>" + error + "</b>",
+            icon             : "error",
+            confirmButtonText: "Please Try Again",
+            buttonsStyling   : false,
+            timerProgressBar : true,
+            timer            : 5000,
+            customClass      : { confirmButton: "btn btn-danger" },
+            showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
+            hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+        });
+        reject();
+    }
 });
+};

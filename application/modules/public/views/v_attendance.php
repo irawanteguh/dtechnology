@@ -71,8 +71,8 @@
 </style>
 
 <div class="d-flex flex-column flex-column-fluid bgi-responsive">
-    <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-        <a href="" class="mb-12">
+    <div class="d-flex flex-center flex-column flex-column-fluid p-5 pb-lg-20">
+        <a href="" class="mb-5">
             <img alt="Logo" src="<?php echo base_url();?>assets/images/logo/dtechnology.png" class="h-70px" />
         </a>
 
@@ -90,6 +90,14 @@
                 </div>
 
                 <div id="panelinformasi" class="card shadow-sm p-3 mt-1" style="background: rgba(255,255,255,0.9); border-radius: 15px;">
+                    <div class="d-flex justify-content-between border-bottom py-1">
+                        <span class="text-muted">User Id</span>
+                        <span id="infouserid" class="fw-semibold text-dark">-</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom py-1">
+                        <span class="text-muted">Hospital</span>
+                        <span id="infohospital" class="fw-semibold text-dark">-</span>
+                    </div>
                     <div class="d-flex justify-content-between border-bottom py-1">
                         <span class="text-muted">NIK</span>
                         <span id="infoNIK" class="fw-semibold text-dark">-</span>
@@ -127,6 +135,8 @@
                 <!-- Tombol Capture -->
                 <div class="d-flex justify-content-center mt-5">
                     <button class="btn btn-primary btn-md" id="capture" name="capture">📸 Capture & Recognize</button>
+                    <button class="btn btn-success btn-md d-none" id="submit" name="submit">SUBMIT</button>
+                    <button class="btn btn-danger btn-md d-none ms-4" id="reload" name="reload"><i class="bi-arrow-clockwise me-4"></i>RELOAD</button>
                 </div>
             </div>
         </div>

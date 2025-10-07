@@ -1,0 +1,1 @@
+python "E:\xampp\htdocs\dtech\dtechnology\python\Attendance.py"
