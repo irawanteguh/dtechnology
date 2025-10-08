@@ -11,7 +11,8 @@ import time
 import uuid
 
 app = Flask(__name__)
-CORS(app)
+# Izinkan hanya frontend resmi, bisa ganti sesuai domain
+CORS(app, origins=["https://rsumutiasari.rmbhospitalgroup.com"])
 
 # === Konfigurasi folder ===
 MASTER_FOLDER = r"D:\xampp\htdocs\dtechnology\assets\images\avatars"
@@ -25,29 +26,27 @@ os.makedirs(CONVERTED_FOLDER, exist_ok=True)
 master_encodings = []
 usernames = []
 
-
 # === Fungsi bantu: pastikan gambar valid 8-bit RGB ===
 def load_face_image_safe(image_path):
     try:
         img = Image.open(image_path)
 
-        # Jika bit depth tinggi (misalnya 16-bit), turunkan ke 8-bit RGB
+        # Konversi jika bit depth tinggi
         if img.mode == "I;16":
-            print(f"[INFO] Konversi {os.path.basename(image_path)} dari 16-bit ? 8-bit RGB")
+            print(f"[INFO] Konversi {os.path.basename(image_path)} dari 16-bit -> 8-bit RGB")
             img = img.point(lambda i: i * (1.0 / 256)).convert("RGB")
-
         elif img.mode not in ("RGB", "L"):
-            print(f"[INFO] Konversi {os.path.basename(image_path)} dari {img.mode} ? RGB")
+            print(f"[INFO] Konversi {os.path.basename(image_path)} dari {img.mode} -> RGB")
             img = img.convert("RGB")
 
         img_array = np.asarray(img, dtype=np.uint8)
 
-        # Pastikan hasil akhir benar-benar RGB 3-channel
+        # Pastikan 3 channel
         if img_array.ndim != 3 or img_array.shape[2] != 3:
             print(f"[WARN] {os.path.basename(image_path)} bukan gambar RGB 3 channel valid.")
             return None
 
-        # Simpan hasil konversi di folder khusus
+        # Simpan hasil konversi
         save_path = os.path.join(CONVERTED_FOLDER, os.path.splitext(os.path.basename(image_path))[0] + ".jpg")
         if not os.path.exists(save_path):
             img.save(save_path, "JPEG", quality=90)
@@ -58,7 +57,6 @@ def load_face_image_safe(image_path):
         print(f"[ERROR] Gagal load {os.path.basename(image_path)}: {e}")
         return None
 
-
 # === Fungsi utama: memuat master wajah ===
 def load_master_faces():
     global master_encodings, usernames
@@ -66,8 +64,6 @@ def load_master_faces():
     usernames.clear()
 
     print(f"[INFO] Memuat master wajah dari folder: {CONVERTED_FOLDER}")
-
-    # Pastikan folder hasil konversi ada
     if not os.path.exists(CONVERTED_FOLDER):
         print(f"[ERROR] Folder {CONVERTED_FOLDER} tidak ditemukan!")
         return
@@ -79,9 +75,7 @@ def load_master_faces():
 
         path_to_load = os.path.join(CONVERTED_FOLDER, filename)
         img_array = load_face_image_safe(path_to_load)
-
         if img_array is None:
-            print(f"[WARN] Gagal memuat {path_to_load}")
             continue
 
         try:
@@ -107,8 +101,6 @@ def auto_reload_faces():
             print(f"[ERROR] Auto reload gagal: {e}")
         time.sleep(10)
 
-
-
 # === Endpoint: pengenalan wajah ===
 @app.route("/recognize", methods=["POST"])
 def recognize():
@@ -120,13 +112,11 @@ def recognize():
         base64_data = data["image"].split(",")[-1]
         img_bytes = base64.b64decode(base64_data)
         img = Image.open(BytesIO(img_bytes))
-
         if img.mode not in ("RGB", "L"):
             img = img.convert("RGB")
 
         img_np = np.asarray(img, dtype=np.uint8)
-        face_locations = face_recognition.face_locations(img_np)
-        face_encodings = face_recognition.face_encodings(img_np, face_locations)
+        face_encodings = face_recognition.face_encodings(img_np)
         print(f"[INFO] Terdeteksi {len(face_encodings)} wajah pada request")
 
         if not master_encodings:
@@ -147,7 +137,6 @@ def recognize():
         print(f"[ERROR] {e}")
         return jsonify({"error": str(e)}), 500
 
-
 # === Endpoint: reload manual ===
 @app.route("/reload_faces", methods=["POST"])
 def reload_faces():
@@ -156,7 +145,6 @@ def reload_faces():
         return jsonify({"status": "success", "message": "Master faces reloaded"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
-
 
 # === Endpoint: simpan hasil capture ===
 @app.route("/save_capture", methods=["POST"])
@@ -180,7 +168,6 @@ def save_capture():
         lat = location.get("lat", "-")
         lon = location.get("lon", "-")
         alamat = location.get("alamat", "-")
-
         print(f"[INFO] Lokasi: lat={lat}, lon={lon}, alamat={alamat}")
 
         return jsonify({
@@ -193,9 +180,9 @@ def save_capture():
         print(f"[ERROR] {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-
 # === Jalankan server Flask ===
 if __name__ == "__main__":
+    # Thread auto reload hanya dijalankan sekali
     if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         threading.Thread(target=auto_reload_faces, daemon=True).start()
 
