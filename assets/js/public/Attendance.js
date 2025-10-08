@@ -1,6 +1,6 @@
 let   currentLocation = { lat: "-", lon: "-", alamat: "Unknown" };
 // const BASE_URL        = `http://${window.location.hostname}:5000`;
-const BASE_URL        = `http://localhost:5000`;
+const BASE_URL        = `http://192.168.102.13:5000`;
 const CENTER          = { lat: 1.286021521387019, lon: 101.19285692429884 };
 const RADIUS_LIMIT    = 0.1;                                                  // km (100 meter)
 const video           = document.getElementById('video');
