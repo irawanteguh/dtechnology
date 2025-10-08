@@ -14,15 +14,15 @@ app = Flask(__name__)
 CORS(app)
 
 # === Folder master wajah & folder absensi ===
-MASTER_FOLDER = r"E:\xampp\htdocs\dtech\dtechnology\assets\images\avatars"
-ATTENDANCE_FOLDER = r"E:\xampp\htdocs\dtech\dtechnology\assets\attendance"
+MASTER_FOLDER = r"D:\xampp\dtechnology\assets\images\avatars"
+ATTENDANCE_FOLDER = r"D:\xampp\dtechnology\assets\attendance"
 os.makedirs(ATTENDANCE_FOLDER, exist_ok=True)
 
 # Global untuk master wajah
 master_encodings = []
 master_names = []
 
-# Fungsi load master wajah dengan paksa konversi ke RGB
+# Fungsi load master wajah dengan PIL + convert RGB
 def load_master_faces():
     global master_encodings, master_names
     encodings = []
@@ -36,12 +36,13 @@ def load_master_faces():
                 with Image.open(path) as img:
                     img = img.convert('RGB')
                     img_np = np.array(img)
-                    image_encodings = face_recognition.face_encodings(img_np)
-                    if image_encodings:
-                        encodings.append(image_encodings[0])
-                        names.append(os.path.splitext(filename)[0])
-                    else:
-                        print(f"[WARNING] Tidak ada wajah terdeteksi di {filename}")
+                # Hitung encoding
+                image_encodings = face_recognition.face_encodings(img_np)
+                if image_encodings:
+                    encodings.append(image_encodings[0])
+                    names.append(os.path.splitext(filename)[0])
+                else:
+                    print(f"[WARNING] Tidak ada wajah terdeteksi di {filename}")
             except Exception as e:
                 print(f"[ERROR] Gagal memuat {filename}: {e}")
 
