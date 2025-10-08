@@ -71,35 +71,43 @@ def load_master_faces():
         print(f"[ERROR] Folder {MASTER_FOLDER} tidak ditemukan!")
         return
 
+    # Ambil daftar file unik dari kedua folder
+    master_files = {
+        os.path.splitext(f)[0]: os.path.join(MASTER_FOLDER, f)
+        for f in os.listdir(MASTER_FOLDER)
+        if f.lower().endswith((".jpg", ".jpeg", ".png"))
+    }
+
+    converted_files = {
+        os.path.splitext(f)[0]: os.path.join(CONVERTED_FOLDER, f)
+        for f in os.listdir(CONVERTED_FOLDER)
+        if f.lower().endswith((".jpg", ".jpeg"))
+    }
+
+    # Gabungkan — hasil konversi prioritas lebih tinggi
+    all_files = {**master_files, **converted_files}
+
     total = 0
-    for filename in os.listdir(MASTER_FOLDER):
-        if not filename.lower().endswith((".jpg", ".jpeg", ".png")):
-            continue
-
-        original_path = os.path.join(MASTER_FOLDER, filename)
-        converted_path = os.path.join(CONVERTED_FOLDER, os.path.splitext(filename)[0] + ".jpg")
-
-        # Gunakan hasil konversi jika tersedia
-        path_to_load = converted_path if os.path.exists(converted_path) else original_path
-
-        img_array = load_face_image_safe(path_to_load)
+    for name, path in all_files.items():
+        img_array = load_face_image_safe(path)
         if img_array is None:
-            print(f"[WARN] Gagal memuat {path_to_load}")
+            print(f"[WARN] Gagal memuat {path}")
             continue
 
         try:
             encodings = face_recognition.face_encodings(img_array)
             if encodings:
                 master_encodings.append(encodings[0])
-                usernames.append(os.path.splitext(filename)[0])
+                usernames.append(name)
                 total += 1
-                print(f"[INFO] Loaded face for {filename} (source: {os.path.basename(path_to_load)})")
+                print(f"[INFO] Loaded face: {name} (source: {os.path.basename(path)})")
             else:
-                print(f"[WARN] Tidak ditemukan wajah dalam {filename}")
+                print(f"[WARN] Tidak ditemukan wajah dalam {name}")
         except Exception as e:
-            print(f"[ERROR] Gagal proses {filename}: {e}")
+            print(f"[ERROR] Gagal proses {name}: {e}")
 
     print(f"[INFO] Total wajah master dimuat: {total}")
+
 
 
 # === Auto reload master wajah ===
