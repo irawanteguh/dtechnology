@@ -1,1 +1,4 @@
+Download https://www.python.org/downloads/release/python-3119/
+
+py -m pip install -r "D:\xampp\htdocs\dtechnology\python\requirements.txt"
 python "E:\xampp\htdocs\dtech\dtechnology\python\Attendance.py"
