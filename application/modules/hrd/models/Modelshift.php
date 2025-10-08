@@ -1,9 +1,26 @@
 <?php
     class Modelshift extends CI_Model{
+
+        function masterorganization($parameter){
+            $query =
+                    "
+                        select a.org_id, org_name
+                        from dt01_gen_organization_ms a
+                        where a.active='1'
+                        ".$parameter."
+                        order by org_name asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function jadwalshift($orgid){
             $query =
                     "
                         SELECT 
+                            '1'jenisid,
                             a.transaksi_id,
                             a.user_id,
                             (SELECT name FROM dt01_gen_user_data WHERE active='1' AND user_id=a.user_id) AS name,
@@ -41,7 +58,24 @@
                         FROM dt01_hrd_jadwal_shift_dt a
                         WHERE a.org_id='".$orgid."'
                         AND a.tahun='2025'
-                        AND a.bulan='09'
+                        AND a.bulan='10'
+                        UNION ALL
+                        SELECT
+                            '2' AS jenisid,
+                            NULL AS transaksi_id,
+                            a.user_id,
+                            a.name,
+                            NULL AS h1, NULL AS h2, NULL AS h3, NULL AS h4, NULL AS h5,
+                            NULL AS h6, NULL AS h7, NULL AS h8, NULL AS h9, NULL AS h10,
+                            NULL AS h11, NULL AS h12, NULL AS h13, NULL AS h14, NULL AS h15,
+                            NULL AS h16, NULL AS h17, NULL AS h18, NULL AS h19, NULL AS h20,
+                            NULL AS h21, NULL AS h22, NULL AS h23, NULL AS h24, NULL AS h25,
+                            NULL AS h26, NULL AS h27, NULL AS h28, NULL AS h29, NULL AS h30,
+                            NULL AS h31
+                        FROM dt01_gen_user_data a
+                        WHERE a.org_id='".$orgid."'
+                        and   a.active='1'
+                        and   a.user_id not in (select user_id from dt01_hrd_jadwal_shift_dt where org_id=a.org_id and tahun='2025' and bulan='10')
                         ORDER BY name ASC;
       
                     ";
@@ -50,6 +84,13 @@
             $recordset = $recordset->result();
             return $recordset;
         }
+
+
+
+
+
+        
+
 
     }
 ?>

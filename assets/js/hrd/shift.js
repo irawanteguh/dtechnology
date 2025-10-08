@@ -1,8 +1,15 @@
 jadwalshift();
 
+$(document).on("change", "select[name='selectorganization']", function (e) {
+    e.preventDefault();
+    jadwalshift();
+});
+
 function jadwalshift(){
+    var orgid = $("#selectorganization").val();
     $.ajax({
         url        : url+"index.php/hrd/shift/jadwalshift",
+        data       : {orgid:orgid},
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -33,8 +40,12 @@ function jadwalshift(){
                             let colorClass = parts[3] ? 'table-' + parts[3].replace('#','') : ''; // bg-ff0000
 
                             tableresult += `<td class='text-center ${colorClass}' data-bs-toggle='tooltip' data-bs-custom-class='tooltip-dark' data-bs-html='true' data-bs-trigger='hover' data-bs-placement='right' title='<div class="text-start"><b>Informasi</b><hr style="margin:5px 0;">Jam Masuk : ${jammasuk}<br>Jam Pulang : ${jampulang}</div>'>${code}</td>`;
-                        } else {
-                            tableresult += "<td class='text-center table-success'></td>";
+                        }else{
+                            if(result[i].jenisid==="1"){
+                                tableresult += "<td class='text-center table-success'></td>";
+                            }else{
+                                tableresult += "<td class='text-center'><i class='bi bi-pencil-square'></i></td>";
+                            }
                         }
                     }
 

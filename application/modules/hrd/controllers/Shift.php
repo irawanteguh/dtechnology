@@ -9,11 +9,30 @@
         }
 
 		public function index(){
-			$this->template->load("template/template-sidebar","v_shift");
+            $data = $this->loadcombobox();
+			$this->template->load("template/template-sidebar","v_shift",$data);
+		}
+
+        public function loadcombobox(){
+            if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
+                $parameter="";
+            }else{
+                $parameter="and a.org_id='".$_SESSION['orgid']."'";
+            }
+            $resultmasterorganization   = $this->md->masterorganization($parameter);
+
+            $masterorganization="";
+            foreach($resultmasterorganization as $a ){
+                $masterorganization.="<option value='".$a->org_id."'>".$a->org_name."</option>";
+            }
+
+            $data['masterorganization']   = $masterorganization;
+            
+            return $data;
 		}
 
         public function jadwalshift(){
-            $result = $this->md->jadwalshift($_SESSION['orgid']);
+            $result = $this->md->jadwalshift($this->input->post("orgid"));
             
             if(!empty($result)){
                 $json["responCode"]="00";

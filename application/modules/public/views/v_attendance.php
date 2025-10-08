@@ -135,7 +135,7 @@
                 <!-- Tombol Capture -->
                 <div class="d-flex justify-content-center mt-5">
                     <button class="btn btn-primary btn-md" id="capture" name="capture">📸 Capture & Recognize</button>
-                    <button class="btn btn-success btn-md d-none" id="submit" name="submit">Submit</button>
+                    <button class="btn btn-success btn-md d-none" id="submit" name="submit" onclick="simpanabsen(this);">Submit</button>
                     <button class="btn btn-danger btn-md d-none ms-4" id="reload" name="reload"><i class="bi-arrow-clockwise me-4"></i>Reload</button>
                 </div>
             </div>

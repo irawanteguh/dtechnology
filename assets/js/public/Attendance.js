@@ -182,18 +182,8 @@ async function processCapture() {
             body   : JSON.stringify({ image: dataUrl })
         });
 
-        const data = await res.json();
-        if(data.username){
-            datauser(data.username)
-        }else{
-            $('#infoNIK').html("-");
-            $('#infoNama').html("Wajah tidak dikenali");
-            $('#infouserid').html("-");
-            $('#infohospital').html("-");
-        }
-
         // simpan hasil capture + lokasi + alamat
-        await fetch(`${BASE_URL}/save_capture`, {
+        const resimg = await fetch(`${BASE_URL}/save_capture`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -201,6 +191,18 @@ async function processCapture() {
                 location: currentLocation
             })
         });
+
+        const data    = await res.json();
+        const dataimg = await resimg.json();
+
+        if(data.username){
+            datauser(data.username,dataimg.filename)
+        }else{
+            $('#infoNIK').html("-");
+            $('#infoNama').html("Wajah tidak dikenali");
+            $('#infouserid').html("-");
+            $('#infohospital').html("-");
+        }
 
     } catch (err) {
         console.error("Error capture:", err);
@@ -210,7 +212,7 @@ async function processCapture() {
     }
 }
 
-function datauser(userid) {
+function datauser(userid,filename) {
     $.ajax({
     url     : url + "index.php/public/attendance/datauser",
     data    : {userid:userid},
@@ -229,6 +231,10 @@ function datauser(userid) {
             $('#submit').removeClass("d-none");
             $('#reload').removeClass("d-none");
             $('#capture').addClass("d-none");
+
+            $("#submit").attr("userid", result.user_id);
+            $("#submit").attr("transaksiid", filename.replace(/\.[^/.]+$/, ""));
+            $("#submit").attr("orgid", result.org_id);
         } else {
             $('#infoNIK').html("-");
             $('#infoNama').html("Wajah tidak dikenali");
@@ -256,4 +262,57 @@ function datauser(userid) {
         reject();
     }
 });
+};
+
+function simpanabsen(btn) {
+    btn = $(btn);
+    Swal.fire({
+        title             : 'Are you sure?',
+        text              : "You won't be able to revert this!",
+        icon              : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Yes, proceed!',
+        cancelButtonText  : 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var userid      = btn.attr("userid");
+            var transaksiid = btn.attr("transaksiid");
+            var orgid       = btn.attr("orgid");
+            $.ajax({
+                url       : url+"index.php/public/attendance/simpanabsen",
+                data      : {userid:userid,transaksiid:transaksiid,orgid:orgid},
+                method    : "POST",
+                dataType  : "JSON",
+                cache     : false,
+                beforeSend: function () {
+                    toastr.clear();
+                    toastr["info"]("Sending request...", "Please wait");
+                },
+                success: function (data) {
+
+                    if(data.responCode==="00"){
+                        location.reload();
+                    }
+
+                    toastr.clear();
+                    toastr[data.responHead](data.responDesc, "INFORMATION");
+                },
+                complete: function () {
+                    toastr.clear();
+                },
+                error: function (xhr, status, error) {
+                    showAlert(
+                        "I'm Sorry",
+                        error,
+                        "error",
+                        "Please Try Again",
+                        "btn btn-danger"
+                    );
+                }
+            });
+        }
+    });
+    return false;
 };

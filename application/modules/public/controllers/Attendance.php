@@ -30,5 +30,24 @@
             echo json_encode($json);
         }
 
+        public function simpanabsen(){
+            $data['org_id']       = $this->input->post("orgid");
+            $data['transaksi_id'] = $this->input->post("transaksiid");
+            $data['user_id']      = $this->input->post("userid");
+            $data['tgl_jam']      = date("Y-m-d H:i:s");
+
+            if($this->md->insertabsen($data)){
+                $json['responCode']   = "00";
+                $json['responHead']   = "success";
+                $json['responDesc']   = "Data Added Successfully";
+            } else {
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
+            }
+            
+            echo json_encode($json);
+        }
+
 	}
 ?>
