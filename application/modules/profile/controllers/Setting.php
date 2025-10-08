@@ -13,45 +13,121 @@
 		}
 
 		public function updatepersonalinformasi(){
+			$json = [
+				'responCode' => "01",
+				'responHead' => "info",
+				'responDesc' => "Unknown error"
+			];
 
-            $json = [
-                'responCode' => "01",
-                'responHead' => "info",
-                'responDesc' => "Unknown error"
-            ];
+			$config['upload_path']   = './assets/images/avatars/';
+			$config['allowed_types'] = 'jpeg'; // hanya file .jpeg
+			$config['file_ext_tolower'] = TRUE;
+			$config['file_name']     = $_SESSION['userid'];
+			$config['overwrite']     = TRUE;
 
-            $config['upload_path']   = './assets/images/avatars/';
-			$config['allowed_types'] = 'jpeg';
-            $config['file_name']     = $_SESSION['userid'];
-            $config['overwrite']     = true;
+			$this->load->library('upload', $config);
 
-            $this->load->library('upload', $config);
+			if (!$this->upload->do_upload('avatar')) {
+				$error_message = strip_tags($this->upload->display_errors());
+				log_message('error', 'File upload error: ' . $error_message);
+
+				$json['responDesc'] = $error_message;
+			} else {
+				$uploadData = $this->upload->data();
+				$full_path = $uploadData['full_path'];
+
+				// validasi ulang: pastikan benar-benar .jpeg
+				$ext = strtolower(pathinfo($uploadData['file_name'], PATHINFO_EXTENSION));
+				if ($ext !== 'jpeg') {
+					unlink($full_path);
+					$json['responDesc'] = "Hanya file .jpeg yang diizinkan!";
+					echo json_encode($json);
+					return;
+				}
+
+				// === Konversi agar pasti RGB 8-bit (hindari RGBA / CMYK) ===
+				$image = @imagecreatefromjpeg($full_path);
+				if (!$image) {
+					// coba buka sebagai PNG (kalau user rename .png ke .jpeg)
+					$image = @imagecreatefrompng($full_path);
+				}
+
+				if ($image) {
+					// Buat image baru dalam mode RGB 8-bit
+					$rgb_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+					// Salin tanpa alpha channel
+					imagecopy($rgb_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+					// Simpan ulang sebagai .jpeg murni (pastikan 8bit RGB)
+					imagejpeg($rgb_image, $full_path, 95);
+
+					imagedestroy($image);
+					imagedestroy($rgb_image);
+				} else {
+					// kalau tetap gagal, hapus file
+					unlink($full_path);
+					$json['responDesc'] = "File tidak valid atau rusak. Pastikan format JPEG RGB 8bit.";
+					echo json_encode($json);
+					return;
+				}
+
+				// update ke database
+				$dataupdate['image_profile'] = "Y";
+
+				if ($this->md->updateprofile($dataupdate, $_SESSION['userid'])) {
+					$json['responCode'] = "00";
+					$json['responHead'] = "success";
+					$json['responDesc'] = "Foto berhasil diupload dan dikonversi ke RGB 8-bit.";
+				} else {
+					$json['responDesc'] = "Data failed to update.";
+				}
+			}
+
+			echo json_encode($json);
+		}
 
 
-            if (!$this->upload->do_upload('avatar')) {
-                $error_message = strip_tags($this->upload->display_errors());
-                log_message('error', 'File upload error: ' . $error_message);
+		// public function updatepersonalinformasi(){
 
-                $json['responCode'] = "01";
-                $json['responHead'] = "info";
-                $json['responDesc'] = $error_message;
-            } else {
-                $dataupdate['image_profile'] = "Y";
+        //     $json = [
+        //         'responCode' => "01",
+        //         'responHead' => "info",
+        //         'responDesc' => "Unknown error"
+        //     ];
 
-                if($this->md->updateprofile($dataupdate,$_SESSION['userid'])){
-                    $json['responCode']="00";
-                    $json['responHead']="success";
-                    $json['responDesc']="Data Updated Successfully";
-                }else{
-                    $json['responCode']="01";
-                    $json['responHead']="info";
-                    $json['responDesc']="Data failed to update";
-                }
+        //     $config['upload_path']   = './assets/images/avatars/';
+		// 	$config['allowed_types'] = 'jpeg';
+        //     $config['file_name']     = $_SESSION['userid'];
+        //     $config['overwrite']     = true;
+
+        //     $this->load->library('upload', $config);
+
+
+        //     if (!$this->upload->do_upload('avatar')) {
+        //         $error_message = strip_tags($this->upload->display_errors());
+        //         log_message('error', 'File upload error: ' . $error_message);
+
+        //         $json['responCode'] = "01";
+        //         $json['responHead'] = "info";
+        //         $json['responDesc'] = $error_message;
+        //     } else {
+        //         $dataupdate['image_profile'] = "Y";
+
+        //         if($this->md->updateprofile($dataupdate,$_SESSION['userid'])){
+        //             $json['responCode']="00";
+        //             $json['responHead']="success";
+        //             $json['responDesc']="Data Updated Successfully";
+        //         }else{
+        //             $json['responCode']="01";
+        //             $json['responHead']="info";
+        //             $json['responDesc']="Data failed to update";
+        //         }
                 
-            }
+        //     }
 
-            echo json_encode($json);
-        }
+        //     echo json_encode($json);
+        // }
 		
 		// public function datauser(){
 		// 	$result = $this->md->datauser($_SESSION['orgid'], $_SESSION['userid']);
