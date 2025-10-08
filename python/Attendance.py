@@ -25,12 +25,13 @@ os.makedirs(CONVERTED_FOLDER, exist_ok=True)
 master_encodings = []
 usernames = []
 
+
 # === Fungsi bantu: pastikan gambar valid 8-bit RGB ===
 def load_face_image_safe(image_path):
     try:
         img = Image.open(image_path)
 
-        # Jika bit depth tinggi (misalnya 16-bit), turunkan ke 8-bit
+        # Jika bit depth tinggi (misalnya 16-bit), turunkan ke 8-bit RGB
         if img.mode == "I;16":
             print(f"[INFO] Konversi {os.path.basename(image_path)} dari 16-bit ? 8-bit RGB")
             img = img.point(lambda i: i * (1.0 / 256)).convert("RGB")
@@ -41,11 +42,12 @@ def load_face_image_safe(image_path):
 
         img_array = np.asarray(img, dtype=np.uint8)
 
+        # Pastikan hasil akhir benar-benar RGB 3-channel
         if img_array.ndim != 3 or img_array.shape[2] != 3:
             print(f"[WARN] {os.path.basename(image_path)} bukan gambar RGB 3 channel valid.")
             return None
 
-        # Simpan versi hasil konversi
+        # Simpan hasil konversi di folder khusus
         save_path = os.path.join(CONVERTED_FOLDER, os.path.splitext(os.path.basename(image_path))[0] + ".jpg")
         if not os.path.exists(save_path):
             img.save(save_path, "JPEG", quality=90)
@@ -53,7 +55,7 @@ def load_face_image_safe(image_path):
         return img_array
 
     except Exception as e:
-        print(f"[ERROR] Gagal load {os.path.basename(image_path)}: {str(e)}")
+        print(f"[ERROR] Gagal load {os.path.basename(image_path)}: {e}")
         return None
 
 
@@ -74,9 +76,15 @@ def load_master_faces():
         if not filename.lower().endswith((".jpg", ".jpeg", ".png")):
             continue
 
-        path = os.path.join(MASTER_FOLDER, filename)
-        img_array = load_face_image_safe(path)
+        original_path = os.path.join(MASTER_FOLDER, filename)
+        converted_path = os.path.join(CONVERTED_FOLDER, os.path.splitext(filename)[0] + ".jpg")
+
+        # Gunakan hasil konversi jika tersedia
+        path_to_load = converted_path if os.path.exists(converted_path) else original_path
+
+        img_array = load_face_image_safe(path_to_load)
         if img_array is None:
+            print(f"[WARN] Gagal memuat {path_to_load}")
             continue
 
         try:
@@ -85,11 +93,11 @@ def load_master_faces():
                 master_encodings.append(encodings[0])
                 usernames.append(os.path.splitext(filename)[0])
                 total += 1
-                print(f"[INFO] Loaded face for {filename}")
+                print(f"[INFO] Loaded face for {filename} (source: {os.path.basename(path_to_load)})")
             else:
                 print(f"[WARN] Tidak ditemukan wajah dalam {filename}")
         except Exception as e:
-            print(f"[ERROR] Gagal proses {filename}: {str(e)}")
+            print(f"[ERROR] Gagal proses {filename}: {e}")
 
     print(f"[INFO] Total wajah master dimuat: {total}")
 
@@ -100,8 +108,8 @@ def auto_reload_faces():
         try:
             load_master_faces()
         except Exception as e:
-            print(f"[ERROR] Auto reload gagal: {str(e)}")
-        time.sleep(5)
+            print(f"[ERROR] Auto reload gagal: {e}")
+        time.sleep(10)  # cek ulang tiap 10 detik
 
 
 # === Endpoint: pengenalan wajah ===
@@ -139,7 +147,7 @@ def recognize():
         return jsonify({"username": None})
 
     except Exception as e:
-        print(f"[ERROR] {str(e)}")
+        print(f"[ERROR] {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -185,7 +193,7 @@ def save_capture():
         })
 
     except Exception as e:
-        print(f"[ERROR] {str(e)}")
+        print(f"[ERROR] {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
