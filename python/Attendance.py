@@ -16,37 +16,45 @@ CORS(app)
 # === Konfigurasi folder ===
 MASTER_FOLDER = r"D:\xampp\htdocs\dtechnology\assets\images\avatars"   # Folder master wajah
 TMP_FOLDER    = r"D:\xampp\htdocs\dtechnology\assets\attendance"       # Folder hasil capture absensi
+CONVERTED_FOLDER = os.path.join(MASTER_FOLDER, "_converted")           # Folder cache hasil konversi
 
-# Pastikan folder attendance ada
 os.makedirs(TMP_FOLDER, exist_ok=True)
+os.makedirs(CONVERTED_FOLDER, exist_ok=True)
 
 # Variabel global untuk master faces
 master_encodings = []
 usernames = []
 
+
 # === Fungsi bantu: load image dengan konversi aman ===
 def load_face_image_safe(image_path):
-    """Buka gambar, konversi ke RGB 8-bit jika perlu"""
+    """Buka gambar dan pastikan hasilnya RGB 8-bit"""
     try:
         img = Image.open(image_path)
 
-        # Konversi RGBA, CMYK, atau mode lain ke RGB
+        # Konversi otomatis ke RGB jika tidak sesuai
         if img.mode not in ("RGB", "L"):
-            print(f"[INFO] Konversi {os.path.basename(image_path)} dari {img.mode} ke RGB")
+            print(f"[INFO] Konversi {os.path.basename(image_path)} dari {img.mode} ? RGB")
             img = img.convert("RGB")
 
-        # Ubah ke numpy array
-        img_array = np.array(img)
+        # Pastikan array-nya 8-bit
+        img_array = np.asarray(img, dtype=np.uint8)
 
-        # Pastikan dtype = uint8 (8-bit)
-        if img_array.dtype != np.uint8:
-            print(f"[WARN] {os.path.basename(image_path)} bukan 8-bit, konversi paksa ke 8-bit")
-            img_array = (img_array / 256).astype(np.uint8)
+        # Validasi array shape
+        if img_array.ndim != 3 or img_array.shape[2] != 3:
+            print(f"[WARN] {os.path.basename(image_path)} bukan gambar RGB 3 channel valid.")
+            return None
+
+        # Opsional: simpan hasil konversi agar cepat di load berikutnya
+        base_name = os.path.basename(image_path)
+        save_path = os.path.join(CONVERTED_FOLDER, os.path.splitext(base_name)[0] + ".jpg")
+        if not os.path.exists(save_path):
+            img.save(save_path, "JPEG", quality=90)
 
         return img_array
 
     except Exception as e:
-        print(f"[ERROR] Gagal load {os.path.basename(image_path)}: {str(e)}")
+        print(f"[ERROR] Gagal load {os.path.basename(image_path)}: {e}")
         return None
 
 
@@ -62,6 +70,7 @@ def load_master_faces():
         print(f"[ERROR] Folder {MASTER_FOLDER} tidak ditemukan!")
         return
 
+    total = 0
     for filename in os.listdir(MASTER_FOLDER):
         if not filename.lower().endswith((".jpg", ".jpeg", ".png")):
             continue
@@ -76,13 +85,14 @@ def load_master_faces():
             if encodings:
                 master_encodings.append(encodings[0])
                 usernames.append(os.path.splitext(filename)[0])
+                total += 1
                 print(f"[INFO] Loaded face for {filename}")
             else:
                 print(f"[WARN] Tidak ditemukan wajah dalam {filename}")
         except Exception as e:
             print(f"[ERROR] Gagal proses {filename}: {e}")
 
-    print(f"[INFO] Total wajah master dimuat: {len(master_encodings)}")
+    print(f"[INFO] Total wajah master dimuat: {total}")
 
 
 # === Fungsi auto-reload master wajah ===
@@ -92,7 +102,7 @@ def auto_reload_faces():
             load_master_faces()
         except Exception as e:
             print(f"[ERROR] Auto reload gagal: {e}")
-        time.sleep(5)  # Reload tiap 5 detik
+        time.sleep(5)
 
 
 # === Endpoint: Pengenalan wajah ===
@@ -103,17 +113,16 @@ def recognize():
         if not data or "image" not in data:
             return jsonify({"error": "No image data provided"}), 400
 
-        # Decode base64 ? bytes ? image
         base64_data = data["image"].split(",")[-1]
         img_bytes = base64.b64decode(base64_data)
         img = Image.open(BytesIO(img_bytes))
 
-        # Konversi aman ke RGB
+        # Konversi ke RGB aman
         if img.mode not in ("RGB", "L"):
             img = img.convert("RGB")
-        img_np = np.array(img)
 
-        # Deteksi dan encoding wajah
+        img_np = np.asarray(img, dtype=np.uint8)
+
         face_locations = face_recognition.face_locations(img_np)
         face_encodings = face_recognition.face_encodings(img_np, face_locations)
         print(f"[INFO] Terdeteksi {len(face_encodings)} wajah pada request")
@@ -186,10 +195,9 @@ def save_capture():
 
 # === Jalankan server Flask ===
 if __name__ == "__main__":
-    # Jalankan auto reload hanya sekali
     if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         threading.Thread(target=auto_reload_faces, daemon=True).start()
 
     print("[INFO] Starting Flask server on port 5000...")
-    load_master_faces()  # Load master wajah pertama kali
+    load_master_faces()
     app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=True)
