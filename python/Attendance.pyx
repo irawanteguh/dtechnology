@@ -22,7 +22,7 @@ os.makedirs(ATTENDANCE_FOLDER, exist_ok=True)
 master_encodings = []
 master_names = []
 
-# Fungsi load master wajah dengan paksa konversi ke RGB
+# Fungsi load master wajah
 def load_master_faces():
     global master_encodings, master_names
     encodings = []
@@ -32,16 +32,13 @@ def load_master_faces():
         if filename.lower().endswith('.jpeg'):
             path = os.path.join(MASTER_FOLDER, filename)
             try:
-                # Paksa konversi ke RGB 8-bit
-                with Image.open(path) as img:
-                    img = img.convert('RGB')
-                    img_np = np.array(img)
-                    image_encodings = face_recognition.face_encodings(img_np)
-                    if image_encodings:
-                        encodings.append(image_encodings[0])
-                        names.append(os.path.splitext(filename)[0])
-                    else:
-                        print(f"[WARNING] Tidak ada wajah terdeteksi di {filename}")
+                image = face_recognition.load_image_file(path)
+                image_encodings = face_recognition.face_encodings(image)
+                if image_encodings:
+                    encodings.append(image_encodings[0])
+                    names.append(os.path.splitext(filename)[0])
+                else:
+                    print(f"[WARNING] Tidak ada wajah terdeteksi di {filename}")
             except Exception as e:
                 print(f"[ERROR] Gagal memuat {filename}: {e}")
 
@@ -97,6 +94,7 @@ def detect_face():
             })
 
         status = "success" if results else "false"
+
         return jsonify({'status': status, 'faces': results})
 
     except Exception as e:
