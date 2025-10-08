@@ -7,6 +7,8 @@ from io import BytesIO
 from PIL import Image
 import os
 import uuid
+import threading
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -16,24 +18,42 @@ MASTER_FOLDER = r"E:\xampp\htdocs\dtech\dtechnology\assets\images\avatars"
 ATTENDANCE_FOLDER = r"E:\xampp\htdocs\dtech\dtechnology\assets\attendance"
 os.makedirs(ATTENDANCE_FOLDER, exist_ok=True)
 
-# Load semua master wajah saat server start
-print("[INFO] Memuat master wajah...")
+# Global untuk master wajah
 master_encodings = []
 master_names = []
 
-for filename in os.listdir(MASTER_FOLDER):
-    if filename.lower().endswith('.jpeg'):
-        path = os.path.join(MASTER_FOLDER, filename)
-        image = face_recognition.load_image_file(path)
-        encodings = face_recognition.face_encodings(image)
-        if encodings:
-            master_encodings.append(encodings[0])
-            master_names.append(os.path.splitext(filename)[0])
-            print(f"Loaded: {filename}")
-        else:
-            print(f"[WARNING] Tidak ada wajah terdeteksi di {filename}")
+# Fungsi load master wajah
+def load_master_faces():
+    global master_encodings, master_names
+    encodings = []
+    names = []
 
-print(f"[INFO] Total master wajah terload: {len(master_encodings)}")
+    for filename in os.listdir(MASTER_FOLDER):
+        if filename.lower().endswith('.jpeg'):
+            path = os.path.join(MASTER_FOLDER, filename)
+            try:
+                image = face_recognition.load_image_file(path)
+                image_encodings = face_recognition.face_encodings(image)
+                if image_encodings:
+                    encodings.append(image_encodings[0])
+                    names.append(os.path.splitext(filename)[0])
+                else:
+                    print(f"[WARNING] Tidak ada wajah terdeteksi di {filename}")
+            except Exception as e:
+                print(f"[ERROR] Gagal memuat {filename}: {e}")
+
+    master_encodings = encodings
+    master_names = names
+    print(f"[INFO] Master wajah terupdate: {len(master_encodings)} wajah")
+
+# Thread auto reload setiap 10 detik
+def auto_reload_master():
+    while True:
+        load_master_faces()
+        time.sleep(10)
+
+# Start thread auto reload
+threading.Thread(target=auto_reload_master, daemon=True).start()
 
 # =======================
 # Endpoint deteksi wajah
@@ -49,8 +69,8 @@ def detect_face():
             data = data.split("base64,")[1]
 
         img_bytes = base64.b64decode(data)
-        img       = Image.open(BytesIO(img_bytes)).convert('RGB')
-        img_np    = np.array(img)
+        img = Image.open(BytesIO(img_bytes)).convert('RGB')
+        img_np = np.array(img)
 
         face_locations = face_recognition.face_locations(img_np)
         face_encodings = face_recognition.face_encodings(img_np, face_locations)
@@ -100,7 +120,6 @@ def save_capture():
 
         print(f"[INFO] Capture absensi disimpan: {filepath}")
 
-        # Ambil lokasi jika ada
         location = data.get("location", {})
         lat = location.get("lat", "-")
         lon = location.get("lon", "-")
