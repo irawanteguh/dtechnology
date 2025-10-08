@@ -78,7 +78,7 @@
 				if ($this->md->updateprofile($dataupdate, $_SESSION['userid'])) {
 					$json['responCode'] = "00";
 					$json['responHead'] = "success";
-					$json['responDesc'] = "Foto berhasil diupload dan dikonversi ke RGB 8-bit.";
+					$json['responDesc'] = "Foto berhasil diupload";
 				} else {
 					$json['responDesc'] = "Data failed to update.";
 				}

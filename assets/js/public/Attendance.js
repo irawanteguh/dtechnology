@@ -1,6 +1,6 @@
 let   currentLocation = { lat: "-", lon: "-", alamat: "Unknown" };
-// const BASE_URL        = `http://${window.location.hostname}:5000`;
-const BASE_URL        = `http://192.168.102.13:5000`;
+const BASE_URL        = `http://${window.location.hostname}:5000`;
+// const BASE_URL        = `http://192.168.102.13:5000`;
 const CENTER          = { lat: 1.286021521387019, lon: 101.19285692429884 };
 const RADIUS_LIMIT    = 0.1;                                                  // km (100 meter)
 const video           = document.getElementById('video');
@@ -177,7 +177,7 @@ async function processCapture() {
         const dataUrl = canvas.toDataURL('image/jpeg');
 
         // kirim ke server Python (recognize)
-        const res = await fetch(`${BASE_URL}/recognize`, {
+        const res = await fetch(`${BASE_URL}/detect_face`, {
             method : 'POST',
             headers: { 'Content-Type': 'application/json' },
             body   : JSON.stringify({ image: dataUrl })
@@ -196,13 +196,15 @@ async function processCapture() {
         const data    = await res.json();
         const dataimg = await resimg.json();
 
-        if(data.username){
-            datauser(data.username,dataimg.filename)
+        if (data.status==="success") {
+            datauser(data.faces[0].name,dataimg.filename)
         }else{
             $('#infoNIK').html("-");
             $('#infoNama').html("Wajah tidak dikenali");
             $('#infouserid').html("-");
             $('#infohospital').html("-");
+
+            $('#submit').addClass("d-none");
         }
 
     } catch (err) {
