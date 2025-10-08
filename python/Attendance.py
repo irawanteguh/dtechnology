@@ -14,51 +14,50 @@ app = Flask(__name__)
 CORS(app)
 
 # === Konfigurasi folder ===
-MASTER_FOLDER = r"D:\xampp\htdocs\dtechnology\assets\images\avatars"   # Folder master wajah
-TMP_FOLDER    = r"D:\xampp\htdocs\dtechnology\assets\attendance"       # Folder hasil capture absensi
-CONVERTED_FOLDER = os.path.join(MASTER_FOLDER, "_converted")           # Folder cache hasil konversi
+MASTER_FOLDER = r"D:\xampp\htdocs\dtechnology\assets\images\avatars"
+TMP_FOLDER = r"D:\xampp\htdocs\dtechnology\assets\attendance"
+CONVERTED_FOLDER = os.path.join(MASTER_FOLDER, "_converted")
 
 os.makedirs(TMP_FOLDER, exist_ok=True)
 os.makedirs(CONVERTED_FOLDER, exist_ok=True)
 
-# Variabel global untuk master faces
+# Variabel global
 master_encodings = []
 usernames = []
 
-
-# === Fungsi bantu: load image dengan konversi aman ===
+# === Fungsi bantu: pastikan gambar valid 8-bit RGB ===
 def load_face_image_safe(image_path):
-    """Buka gambar dan pastikan hasilnya RGB 8-bit"""
     try:
         img = Image.open(image_path)
 
-        # Konversi otomatis ke RGB jika tidak sesuai
-        if img.mode not in ("RGB", "L"):
+        # Jika bit depth tinggi (misalnya 16-bit), turunkan ke 8-bit
+        if img.mode == "I;16":
+            print(f"[INFO] Konversi {os.path.basename(image_path)} dari 16-bit ? 8-bit RGB")
+            img = img.point(lambda i: i * (1.0 / 256)).convert("RGB")
+
+        elif img.mode not in ("RGB", "L"):
             print(f"[INFO] Konversi {os.path.basename(image_path)} dari {img.mode} ? RGB")
             img = img.convert("RGB")
 
-        # Pastikan array-nya 8-bit
         img_array = np.asarray(img, dtype=np.uint8)
 
-        # Validasi array shape
         if img_array.ndim != 3 or img_array.shape[2] != 3:
             print(f"[WARN] {os.path.basename(image_path)} bukan gambar RGB 3 channel valid.")
             return None
 
-        # Opsional: simpan hasil konversi agar cepat di load berikutnya
-        base_name = os.path.basename(image_path)
-        save_path = os.path.join(CONVERTED_FOLDER, os.path.splitext(base_name)[0] + ".jpg")
+        # Simpan versi hasil konversi
+        save_path = os.path.join(CONVERTED_FOLDER, os.path.splitext(os.path.basename(image_path))[0] + ".jpg")
         if not os.path.exists(save_path):
             img.save(save_path, "JPEG", quality=90)
 
         return img_array
 
     except Exception as e:
-        print(f"[ERROR] Gagal load {os.path.basename(image_path)}: {e}")
+        print(f"[ERROR] Gagal load {os.path.basename(image_path)}: {str(e)}")
         return None
 
 
-# === Fungsi utama: Load master faces ===
+# === Fungsi utama: memuat master wajah ===
 def load_master_faces():
     global master_encodings, usernames
     master_encodings.clear()
@@ -90,22 +89,22 @@ def load_master_faces():
             else:
                 print(f"[WARN] Tidak ditemukan wajah dalam {filename}")
         except Exception as e:
-            print(f"[ERROR] Gagal proses {filename}: {e}")
+            print(f"[ERROR] Gagal proses {filename}: {str(e)}")
 
     print(f"[INFO] Total wajah master dimuat: {total}")
 
 
-# === Fungsi auto-reload master wajah ===
+# === Auto reload master wajah ===
 def auto_reload_faces():
     while True:
         try:
             load_master_faces()
         except Exception as e:
-            print(f"[ERROR] Auto reload gagal: {e}")
+            print(f"[ERROR] Auto reload gagal: {str(e)}")
         time.sleep(5)
 
 
-# === Endpoint: Pengenalan wajah ===
+# === Endpoint: pengenalan wajah ===
 @app.route("/recognize", methods=["POST"])
 def recognize():
     try:
@@ -117,12 +116,10 @@ def recognize():
         img_bytes = base64.b64decode(base64_data)
         img = Image.open(BytesIO(img_bytes))
 
-        # Konversi ke RGB aman
         if img.mode not in ("RGB", "L"):
             img = img.convert("RGB")
 
         img_np = np.asarray(img, dtype=np.uint8)
-
         face_locations = face_recognition.face_locations(img_np)
         face_encodings = face_recognition.face_encodings(img_np, face_locations)
         print(f"[INFO] Terdeteksi {len(face_encodings)} wajah pada request")
@@ -142,11 +139,11 @@ def recognize():
         return jsonify({"username": None})
 
     except Exception as e:
-        print(f"[ERROR] {e}")
+        print(f"[ERROR] {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 
-# === Endpoint: Reload master faces manual ===
+# === Endpoint: reload manual ===
 @app.route("/reload_faces", methods=["POST"])
 def reload_faces():
     try:
@@ -156,7 +153,7 @@ def reload_faces():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
-# === Endpoint: Simpan hasil capture absensi ===
+# === Endpoint: simpan hasil capture ===
 @app.route("/save_capture", methods=["POST"])
 def save_capture():
     try:
@@ -174,7 +171,6 @@ def save_capture():
 
         print(f"[INFO] Capture absensi disimpan: {filepath}")
 
-        # Info lokasi (jika dikirim)
         location = data.get("location", {})
         lat = location.get("lat", "-")
         lon = location.get("lon", "-")
@@ -189,7 +185,7 @@ def save_capture():
         })
 
     except Exception as e:
-        print(f"[ERROR] {e}")
+        print(f"[ERROR] {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
