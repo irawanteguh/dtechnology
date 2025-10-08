@@ -105,7 +105,8 @@ def auto_reload_faces():
             load_master_faces()
         except Exception as e:
             print(f"[ERROR] Auto reload gagal: {e}")
-        time.sleep(10)  # cek ulang tiap 10 detik
+        time.sleep(10)
+
 
 
 # === Endpoint: pengenalan wajah ===
