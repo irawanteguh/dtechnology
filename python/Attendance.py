@@ -14,8 +14,8 @@ app = Flask(__name__)
 CORS(app)
 
 # === Folder master wajah & folder absensi ===
-MASTER_FOLDER = r"D:\xampp\dtechnology\assets\images\avatars"
-ATTENDANCE_FOLDER = r"D:\xampp\dtechnology\assets\attendance"
+MASTER_FOLDER = r"D:\xampp\htdocs\dtechnology\assets\images\avatars"
+ATTENDANCE_FOLDER = r"D:\xampp\htdocs\dtechnology\assets\attendance"
 os.makedirs(ATTENDANCE_FOLDER, exist_ok=True)
 
 # Global untuk master wajah
