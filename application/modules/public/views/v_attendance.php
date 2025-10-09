@@ -90,10 +90,10 @@
                 </div>
 
                 <div id="panelinformasi" class="card shadow-sm p-3 mt-1" style="background: rgba(255,255,255,0.9); border-radius: 15px;">
-                    <div class="d-flex justify-content-between border-bottom py-1">
+                    <!-- <div class="d-flex justify-content-between border-bottom py-1">
                         <span class="text-muted">User Id</span>
                         <span id="infouserid" class="fw-semibold text-dark">-</span>
-                    </div>
+                    </div> -->
                     <div class="d-flex justify-content-between border-bottom py-1">
                         <span class="text-muted">Hospital</span>
                         <span id="infohospital" class="fw-semibold text-dark">-</span>
@@ -105,6 +105,10 @@
                     <div class="d-flex justify-content-between border-bottom py-1">
                         <span class="text-muted">Name</span>
                         <span id="infoNama" class="fw-semibold text-dark">-</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom py-1">
+                        <span class="text-muted">Confidence</span>
+                        <span id="infoconfidence" class="fw-semibold text-dark">-</span>
                     </div>
                     <div class="d-flex justify-content-between border-bottom py-1">
                         <span class="text-muted">Latitude</span>

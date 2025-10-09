@@ -10,11 +10,11 @@ application/sessions/*
 !application/sessions/index.html
 
 ######Folder##########
-assets/attendance/*
-!assets/attendance/index.html
+#assets/attendance/*
+#!assets/attendance/index.html
 
-assets/images/avatars/*
-!assets/images/avatars/index.html
+#assets/images/avatars/*
+#!assets/images/avatars/index.html
 
 assets/buktitl/*
 !assets/buktitl/index.html

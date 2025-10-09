@@ -117,53 +117,6 @@ function hideSpinner() {
     setTimeout(() => spinner.style.display = 'none', 500);
 }
 
-// captureBtn.addEventListener('click', async () => {
-//     try {
-//         video.pause();
-//         showSpinner();
-
-//         // ambil gambar dari video
-//         const canvas        = document.createElement('canvas');
-//               canvas.width  = video.videoWidth;
-//               canvas.height = video.videoHeight;
-//         canvas.getContext('2d').drawImage(video, 0, 0);
-//         const dataUrl = canvas.toDataURL('image/jpeg');
-
-//         // kirim ke server Python (recognize)
-//         const res = await fetch(`${BASE_URL}/recognize`, {
-//             method : 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body   : JSON.stringify({ image: dataUrl })
-//         });
-
-//         const data = await res.json();
-//         if(data.username){
-//             datauser(data.username)
-//         }else{
-//             $('#infoNIK').html("-");
-//             $('#infoNama').html("Wajah tidak dikenali");
-//             $('#infouserid').html("-");
-//             $('#infohospital').html("-");
-//         }
-
-//         // simpan hasil capture + lokasi + alamat
-//         await fetch(`${BASE_URL}/save_capture`, {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({
-//                 image: dataUrl,
-//                 location: currentLocation
-//             })
-//         });
-
-//     } catch (err) {
-//         console.error("Error capture:", err);
-//     } finally {
-//         hideSpinner();
-//         video.play();
-//     }
-// });
-
 async function processCapture() {
     try {
         video.pause();
@@ -197,10 +150,11 @@ async function processCapture() {
         const dataimg = await resimg.json();
 
         if (data.status==="success") {
-            datauser(data.faces[0].name,dataimg.filename)
+            datauser(data.faces[0].name,data.faces[0].confidence,dataimg.filename)
         }else{
             $('#infoNIK').html("-");
             $('#infoNama').html("Wajah tidak dikenali");
+            $('#infoconfidence').html("-");
             $('#infouserid').html("-");
             $('#infohospital').html("-");
 
@@ -215,7 +169,7 @@ async function processCapture() {
     }
 }
 
-function datauser(userid,filename) {
+function datauser(userid,confidence,filename) {
     $.ajax({
     url     : url + "index.php/public/attendance/datauser",
     data    : {userid:userid},
@@ -230,6 +184,7 @@ function datauser(userid,filename) {
             $('#infoNama').html(result.name);
             $('#infouserid').html(result.user_id);
             $('#infohospital').html(result.rsname);
+            $('#infoconfidence').html(confidence.toFixed(2) + '%');
 
             $('#submit').removeClass("d-none");
             $('#reload').removeClass("d-none");
@@ -241,6 +196,7 @@ function datauser(userid,filename) {
         } else {
             $('#infoNIK').html("-");
             $('#infoNama').html("Wajah tidak dikenali");
+            $('#infoconfidence').html("-");
             $('#infouserid').html("-");
             $('#infohospital').html("-");
 
