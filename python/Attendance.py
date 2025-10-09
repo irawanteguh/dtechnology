@@ -89,7 +89,7 @@ def load_master_faces():
             else:
                 print(f"{timestamp()} [WARNING] Tidak ada wajah terdeteksi di {filename}")
         except Exception as e:
-            print(f"{timestamp()} [ERROR] Gagal memuat {filename}: {e}")
+            log_error(f"Gagal memuat {filename}: {e}")
 
     master_encodings = encodings
     master_names     = names
