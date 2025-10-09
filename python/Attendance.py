@@ -81,6 +81,9 @@ def load_master_faces():
             with Image.open(path) as img:
                 img    = img.convert('RGB')
                 img_np = np.array(img)
+
+                log_info(f"Filename:{filename} Mode:{img.mode}")
+
             # Hitung encoding
             image_encodings = face_recognition.face_encodings(img_np)
             if image_encodings:
