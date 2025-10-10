@@ -122,6 +122,94 @@ def load_master_faces():
     log_success(f"Master wajah siap: {len(master_encodings)} file.")
 
 
+# def auto_detect_faces():
+#     log_info("=== Memulai auto detect wajah dari folder attendance ===")
+#     load_master_faces()
+
+#     while True:
+#         try:
+#             if not os.path.exists(ATTENDANCE_FOLDER):
+#                 log_error(f"Folder tidak ditemukan: {ATTENDANCE_FOLDER}")
+#                 time.sleep(5)
+#                 continue
+
+#             # Ambil semua file gambar baru
+#             files = []
+#             files = [
+#                 f for f in os.listdir(ATTENDANCE_FOLDER)
+#                 if f.lower().endswith(('.jpeg', '.jpg', '.png'))
+#             ]
+
+#             if not files:
+#                 time.sleep(2)
+#                 continue
+
+#             for filename in files:
+#                 try:
+#                     path = os.path.join(ATTENDANCE_FOLDER, filename)
+#                     if not os.path.isfile(path):
+#                         continue
+
+#                     log_warn(f"Memproses file: {filename}")
+
+#                     # Baca gambar
+#                     with Image.open(path) as img:
+#                         img = img.convert('RGB')
+#                         img_np = np.array(img)
+
+#                     # Deteksi wajah
+#                     newname = f"done_nowface_{filename}"
+#                     face_locations = face_recognition.face_locations(img_np)
+#                     face_encodings = face_recognition.face_encodings(img_np, face_locations)
+
+#                     if not face_encodings:
+#                         log_warn(f"Tidak ada wajah pada {filename}")
+#                         newname = f"done_nowface_{filename}"
+
+#                     elif not master_encodings:
+#                         log_warn("Master wajah kosong, lewati perbandingan.")
+#                         newname = f"done_nomaster_{filename}"
+
+#                     else:
+#                         best_name = "Unknown"
+#                         best_conf = 0.0
+
+#                         for face_encoding in face_encodings:
+#                             distances = face_recognition.face_distance(master_encodings, face_encoding)
+#                             if len(distances) == 0:
+#                                 continue
+
+#                             matches = face_recognition.compare_faces(master_encodings, face_encoding)
+#                             best_match_index = np.argmin(distances)
+#                             confidence = face_confidence(distances[best_match_index])
+#                             name = master_names[best_match_index] if matches[best_match_index] else "Unknown"
+
+#                             if confidence > best_conf:
+#                                 best_conf = confidence
+#                                 best_name = name
+
+#                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
+#                         newname = f"{filename}"
+
+#                     # Pindahkan file ke folder hasil (done)
+#                     new_path = os.path.join(FACERECOGNITION_FOLDER, newname)
+#                     os.rename(path, new_path)
+
+#                     # Setelah proses pengenalan wajah berhasil:
+#                     base_filename = os.path.splitext(filename)[0]  # Hilangkan ekstensi (.jpeg/.jpg/.png)
+#                     update_facerecognition_status(base_filename, status=1, confidence=best_conf, user_id=best_name)
+
+#                 except Exception as e:
+#                     log_error(f"Gagal memproses {filename}: {e}")
+#                     time.sleep(0.5)
+#                     continue
+
+#         except Exception as e:
+#             log_error(f"[auto_detect_faces] Error utama: {e}")
+
+#         time.sleep(5)
+
+
 def auto_detect_faces():
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
     load_master_faces()
@@ -133,8 +221,6 @@ def auto_detect_faces():
                 time.sleep(5)
                 continue
 
-            # Ambil semua file gambar baru
-            files = []
             files = [
                 f for f in os.listdir(ATTENDANCE_FOLDER)
                 if f.lower().endswith(('.jpeg', '.jpg', '.png'))
@@ -152,28 +238,21 @@ def auto_detect_faces():
 
                     log_warn(f"Memproses file: {filename}")
 
-                    # Baca gambar
                     with Image.open(path) as img:
                         img = img.convert('RGB')
                         img_np = np.array(img)
 
-                    # Deteksi wajah
-                    newname = f"done_nowface_{filename}"
                     face_locations = face_recognition.face_locations(img_np)
                     face_encodings = face_recognition.face_encodings(img_np, face_locations)
 
-                    if not face_encodings:
-                        log_warn(f"Tidak ada wajah pada {filename}")
-                        newname = f"done_nowface_{filename}"
+                    # Default jika tidak ada wajah / master kosong
+                    status = 9
+                    best_conf = 0.0
+                    best_name = "Unknown"
+                    newname = f"done_nowface_{filename}"
 
-                    elif not master_encodings:
-                        log_warn("Master wajah kosong, lewati perbandingan.")
-                        newname = f"done_nomaster_{filename}"
-
-                    else:
-                        best_name = "Unknown"
-                        best_conf = 0.0
-
+                    if face_encodings and master_encodings:
+                        # Cek tiap wajah di gambar
                         for face_encoding in face_encodings:
                             distances = face_recognition.face_distance(master_encodings, face_encoding)
                             if len(distances) == 0:
@@ -184,20 +263,39 @@ def auto_detect_faces():
                             confidence = face_confidence(distances[best_match_index])
                             name = master_names[best_match_index] if matches[best_match_index] else "Unknown"
 
+                            # Ambil confidence tertinggi
                             if confidence > best_conf:
                                 best_conf = confidence
                                 best_name = name
 
-                        log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
-                        newname = f"{filename}"
+                        # Tentukan status berdasarkan threshold 50%
+                        if best_conf > 50.0:
+                            status = 1
+                            newname = filename
+                            log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
+                        else:
+                            status = 9
+                            best_name = "Unknown"
+                            best_conf = 0.0
+                            log_warn(f"{filename} wajah terdeteksi tapi confidence rendah ({best_conf:.2f}%)")
+                    else:
+                        if not face_encodings:
+                            log_warn(f"Tidak ada wajah pada {filename}")
+                        else:
+                            log_warn("Master wajah kosong, lewati perbandingan.")
 
-                    # Pindahkan file ke folder hasil (done)
+                    # Pindahkan file ke folder hasil
                     new_path = os.path.join(FACERECOGNITION_FOLDER, newname)
                     os.rename(path, new_path)
 
-                    # Setelah proses pengenalan wajah berhasil:
-                    base_filename = os.path.splitext(filename)[0]  # Hilangkan ekstensi (.jpeg/.jpg/.png)
-                    update_facerecognition_status(base_filename, status=1, confidence=best_conf, user_id=best_name)
+                    # Update database dengan status & confidence
+                    base_filename = os.path.splitext(filename)[0]
+                    update_facerecognition_status(
+                        base_filename,
+                        status=status,
+                        confidence=best_conf,
+                        user_id=best_name
+                    )
 
                 except Exception as e:
                     log_error(f"Gagal memproses {filename}: {e}")
@@ -208,6 +306,7 @@ def auto_detect_faces():
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
         time.sleep(5)
+
      
 
 if __name__ == '__main__':
