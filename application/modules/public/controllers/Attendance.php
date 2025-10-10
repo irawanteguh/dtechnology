@@ -80,29 +80,30 @@
                     $result = null;
 
                     for ($i = 1; $i <= $max_attempts; $i++) {
-                        $result = $this->md->datauser($imageid);
+                        sleep(2);
 
+                        $result = $this->md->datauser($imageid);
                         if (!empty($result)) {
                             break;
                         }
                     }
                     
                     if(!empty($result)){
-                        $json["responCode"]="00";
-                        $json["responHead"]="success";
-                        $json["responDesc"]="Data Successfully Found";
-                        $json['responResult']=$result;
+                        $json["responCode"]    = "00";
+                        $json["responHead"]    = "success";
+                        $json["responDesc"]    = "Data Successfully Found";
+                        $json['responResult']  = $result;
                         $json['responImageId'] = $imageid;
                     }else{
-                        $json["responCode"]="01";
-                        $json["responHead"]="info";
-                        $json["responDesc"]="Data Failed to Find";
+                        $json["responCode"]    = "01";
+                        $json["responHead"]    = "info";
+                        $json["responDesc"]    = "Data Failed to Find";
                         $json['responImageId'] = $imageid;
                     }
                 }else{
-                    $json['responCode'] = "01";
-                    $json['responHead'] = "error";
-                    $json['responDesc'] = "Gagal Simpan Data";
+                    $json['responCode']    = "01";
+                    $json['responHead']    = "error";
+                    $json['responDesc']    = "Gagal Simpan Data";
                     $json['responImageId'] = $imageid;
                 }
             } else {
