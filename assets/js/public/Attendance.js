@@ -8,7 +8,15 @@ const captureBtn      = document.getElementById('capture');
 const reloadBtn       = document.getElementById('reload');
 const spinner         = document.getElementById('spinnerOverlay');
 
-navigator.mediaDevices.getUserMedia({ video: true }).then(stream => video.srcObject = stream).catch(err => console.error("Kamera error:", err));
+// navigator.mediaDevices.getUserMedia({ video: true }).then(stream => video.srcObject = stream).catch(err => console.error("Kamera error:", err));
+
+if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => video.srcObject = stream).catch(err => console.error("Kamera error:", err));
+} else {
+    console.error("Browser tidak mendukung kamera atau situs tidak aman (HTTP).");
+    alert("Kamera tidak dapat digunakan. Gunakan HTTPS atau browser terbaru.");
+}
+
 
 updateLocation();
 setInterval(updateTime, 1000); 
