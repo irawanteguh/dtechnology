@@ -103,13 +103,13 @@
                     $json['responCode'] = "01";
                     $json['responHead'] = "error";
                     $json['responDesc'] = "Gagal Simpan Data";
-                    $json['responImageId'] = $imageid
+                    $json['responImageId'] = $imageid;
                 }
             } else {
                 $json['responCode']    = "01";
                 $json['responHead']    = "error";
                 $json['responDesc']    = "Foto gagal diupload";
-                $json['responImageId'] = $imageid
+                $json['responImageId'] = $imageid;
             }
 
             // Kembalikan hasil dalam JSON
