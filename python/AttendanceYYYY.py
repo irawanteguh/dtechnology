@@ -10,15 +10,9 @@ import os
 import uuid
 import threading
 import time
-import pymysql
-
-# Global untuk master wajah
-master_encodings = []
-master_names     = []
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECT_DIR = os.path.dirname(BASE_DIR)
-
 
 app = Flask(__name__)
 CORS(app)
@@ -33,14 +27,9 @@ os.makedirs(MASTER_FOLDER, exist_ok=True)
 os.makedirs(ATTENDANCE_FOLDER, exist_ok=True)
 os.makedirs(FACERECOGNITION_FOLDER, exist_ok=True)
 
-def get_db_connection():
-    return pymysql.connect(
-        host='192.168.200.105',
-        user='joker',
-        password='midlane',
-        database='sikms',
-        cursorclass=pymysql.cursors.DictCursor
-    )
+# Global untuk master wajah
+master_encodings = []
+master_names     = []
 
 def timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -57,43 +46,14 @@ def log_warn(msg): print(f"🟡 {LogColor.WARN}[WARN]{LogColor.END}\t{timestamp(
 def log_success(msg): print(f"🟢 {LogColor.SUCCESS}[SUCCESS]{LogColor.END}\t{timestamp()} {msg}")
 def log_error(msg): print(f"🔴 {LogColor.ERROR}[ERROR]{LogColor.END}\t{timestamp()} {msg}")
 
-def update_facerecognition_status(filename, status, confidence=0, user_id=None):
-    try:
-        conn = get_db_connection()
-        with conn.cursor() as cur:
-            sql = """
-                UPDATE dt01_gen_facerecognition_hd
-                SET status = %s,
-                    confidence = %s,
-                    user_id = %s
-                WHERE image_id = %s
-            """
-            cur.execute(sql, (status, confidence, user_id, filename))
-            conn.commit()
-        conn.close()
-        log_info(f"[DB] Update {filename}: status={status}, conf={confidence:.2f}%, user_id={user_id}")
-    except Exception as e:
-        log_error(f"[DB] Gagal update untuk {filename}: {e}")
 
-
-
-
-def face_confidence(face_distance, face_match_threshold=0.6):
-    if face_distance > face_match_threshold:
-        range_ = (1.0 - face_match_threshold)
-        linear_val = (1.0 - face_distance) / (range_ * 2.0)
-        return linear_val * 100
-    else:
-        range_ = face_match_threshold
-        linear_val = 1.0 - (face_distance / (range_ * 2.0))
-        return linear_val * 100
-
-
+# === Fungsi load master wajah ===
 def load_master_faces():
     global master_encodings, master_names
     encodings, names = [], []
 
-    files = [f for f in os.listdir(MASTER_FOLDER) if f.lower().endswith('.jpeg')]
+    files = [f for f in os.listdir(MASTER_FOLDER)
+             if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
 
     if not files:
         log_warn("Tidak ada file wajah di folder master.")
@@ -121,10 +81,21 @@ def load_master_faces():
     master_names = names
     log_success(f"Master wajah siap: {len(master_encodings)} file.")
 
+# === Confidence function ===
+def face_confidence(face_distance, face_match_threshold=0.6):
+    if face_distance > face_match_threshold:
+        range_ = (1.0 - face_match_threshold)
+        linear_val = (1.0 - face_distance) / (range_ * 2.0)
+        return linear_val * 100
+    else:
+        range_ = face_match_threshold
+        linear_val = 1.0 - (face_distance / (range_ * 2.0))
+        return linear_val * 100
 
+# === Auto detect attendance ===
 def auto_detect_faces():
-    log_info("=== Memulai auto detect wajah dari folder attendance ===")
     load_master_faces()
+    log_info("=== Memulai auto detect wajah dari folder attendance ===")
 
     while True:
         try:
@@ -134,7 +105,6 @@ def auto_detect_faces():
                 continue
 
             # Ambil semua file gambar baru
-            files = []
             files = [
                 f for f in os.listdir(ATTENDANCE_FOLDER)
                 if f.lower().endswith(('.jpeg', '.jpg', '.png'))
@@ -189,15 +159,11 @@ def auto_detect_faces():
                                 best_name = name
 
                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
-                        newname = f"{filename}"
+                        newname = f"done_{best_name}_{filename}"
 
                     # Pindahkan file ke folder hasil (done)
                     new_path = os.path.join(FACERECOGNITION_FOLDER, newname)
                     os.rename(path, new_path)
-
-                    # Setelah proses pengenalan wajah berhasil:
-                    base_filename = os.path.splitext(filename)[0]  # Hilangkan ekstensi (.jpeg/.jpg/.png)
-                    update_facerecognition_status(base_filename, status=1, confidence=best_conf, user_id=best_name)
 
                 except Exception as e:
                     log_error(f"Gagal memproses {filename}: {e}")
@@ -208,7 +174,12 @@ def auto_detect_faces():
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
         time.sleep(5)
-     
+        
+# Thread auto reload setiap 10 detik
+def auto_reload_master():
+    while True:
+        load_master_faces()
+        time.sleep(10)
 
 if __name__ == '__main__':
     log_info("=== Konfigurasi Folder ===")
@@ -217,5 +188,6 @@ if __name__ == '__main__':
     log_info(f"FACERECOGNITION   : {FACERECOGNITION_FOLDER}")
     log_info("===========================")
 
+    # threading.Thread(target=auto_reload_master, daemon=True).start()
     threading.Thread(target=auto_detect_faces, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)

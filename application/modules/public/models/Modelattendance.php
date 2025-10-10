@@ -19,5 +19,10 @@
             $sql =   $this->db->insert("dt01_hrd_receive_absen",$data);
             return $sql;
         }
+
+        function insertface($data){           
+            $sql =   $this->db->insert("dt01_gen_facerecognition_hd",$data);
+            return $sql;
+        }
     }
 ?>

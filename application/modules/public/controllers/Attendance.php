@@ -49,5 +49,43 @@
             echo json_encode($json);
         }
 
+        public function save_image() {
+            $imageid = generateuuid();
+            $post = json_decode($this->input->raw_input_stream, true);
+
+            $image_data    = $post['image'];
+            $image_data    = str_replace('data:image/jpeg;base64,', '', $image_data);
+            $image_data    = str_replace('data:image/png;base64,', '', $image_data);
+            $image_data    = str_replace(' ', '+', $image_data);
+            $decoded_image = base64_decode($image_data);
+
+            // Pastikan folder tujuan ada
+            $folder_path = FCPATH . 'assets/attendance/';
+            if (!file_exists($folder_path)) {
+                mkdir($folder_path, 0777, true);
+            }
+
+            // Buat nama file unik
+            $filename  = $imageid.'.jpeg';
+            $file_path = $folder_path . $filename;
+
+            // Simpan file ke folder
+            if(file_put_contents($file_path, $decoded_image)){
+                $data['image_id'] = $imageid;
+                $this->md->insertface($data);
+
+                $json['responCode'] = "00";
+                $json['responHead'] = "success";
+                $json['responDesc'] = "Foto berhasil diupload";
+            } else {
+                $json['responCode'] = "01";
+                $json['responHead'] = "error";
+                $json['responDesc'] = "Foto gagal diupload";
+            }
+
+            // Kembalikan hasil dalam JSON
+            echo json_encode($json);
+        }
+
 	}
 ?>
