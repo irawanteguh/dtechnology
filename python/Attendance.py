@@ -226,7 +226,7 @@ def auto_detect_faces():
         try:
             if not os.path.exists(ATTENDANCE_FOLDER):
                 log_error(f"Folder tidak ditemukan: {ATTENDANCE_FOLDER}")
-                time.sleep(1)
+                time.sleep(5)
                 continue
 
             # Ambil semua file gambar baru
@@ -236,7 +236,7 @@ def auto_detect_faces():
             ]
 
             if not files:
-                time.sleep(1)
+                time.sleep(5)
                 continue
 
             for filename in files:
@@ -317,13 +317,13 @@ def auto_detect_faces():
 
                 except Exception as e:
                     log_error(f"Gagal memproses {filename}: {e}")
-                    time.sleep(0.1)
+                    time.sleep(0.5)
                     continue
 
         except Exception as e:
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
-        time.sleep(1)  # cek folder tiap detik
+        time.sleep(5)  # cek folder tiap detik
 
 
 def auto_reload_master():
