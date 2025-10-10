@@ -226,16 +226,17 @@ def auto_detect_faces():
         try:
             if not os.path.exists(ATTENDANCE_FOLDER):
                 log_error(f"Folder tidak ditemukan: {ATTENDANCE_FOLDER}")
-                time.sleep(1)  # cek tiap detik
+                time.sleep(1)
                 continue
 
+            # Ambil semua file gambar baru
             files = [
                 f for f in os.listdir(ATTENDANCE_FOLDER)
                 if f.lower().endswith(('.jpeg', '.jpg', '.png'))
             ]
 
             if not files:
-                time.sleep(1)  # cek tiap detik
+                time.sleep(1)
                 continue
 
             for filename in files:
@@ -276,7 +277,7 @@ def auto_detect_faces():
                     return best_name, best_conf, has_face
 
                 try:
-                    # Deteksi sekali saja
+                    # Deteksi wajah sekali
                     best_name, best_conf, has_face = detect_face(path)
 
                     # Tentukan status
@@ -294,7 +295,7 @@ def auto_detect_faces():
                         else:
                             log_warn(f"{filename} wajah terdeteksi tapi confidence rendah ({best_conf:.2f}%)")
 
-                    # Pindahkan file sekali saja
+                    # Pindahkan file hanya jika masih ada
                     if os.path.exists(path):
                         new_path = os.path.join(FACERECOGNITION_FOLDER, newname)
                         try:
@@ -302,7 +303,7 @@ def auto_detect_faces():
                         except Exception as e:
                             log_error(f"Gagal memindahkan {filename}: {e}")
                     else:
-                        log_warn(f"File {filename} sudah tidak ada, lewati rename")
+                        log_warn(f"File {filename} sudah dipindahkan, lewati rename")
 
                     # Update database
                     base_filename = os.path.splitext(filename)[0]
@@ -322,6 +323,7 @@ def auto_detect_faces():
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
         time.sleep(1)  # cek folder tiap detik
+
 
 
      
