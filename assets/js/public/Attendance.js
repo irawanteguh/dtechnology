@@ -3,6 +3,7 @@ const CENTER       = { lat: 1.286021521387019, lon: 101.19285692429884 };
 const RADIUS_LIMIT = 0.1;
 const video        = document.getElementById('video');
 const captureBtn   = document.getElementById('capture');
+const reloadBtn    = document.getElementById('reload');
 const spinner      = document.getElementById('spinnerOverlay');
 
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
@@ -167,7 +168,7 @@ function hideSpinner() {
 
 async function processCapture() {
     $('#infoNIK').html("-");
-    $('#infoNama').html("Wajah tidak dikenali");
+    $('#infoNama').html("-");
     $('#infoconfidence').html("-");
     $('#infouserid').html("-");
     $('#infohospital').html("-");
