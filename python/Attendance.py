@@ -226,7 +226,7 @@ def auto_detect_faces():
         try:
             if not os.path.exists(ATTENDANCE_FOLDER):
                 log_error(f"Folder tidak ditemukan: {ATTENDANCE_FOLDER}")
-                time.sleep(5)
+                time.sleep(1)
                 continue
 
             # Ambil semua file gambar baru
@@ -236,7 +236,7 @@ def auto_detect_faces():
             ]
 
             if not files:
-                time.sleep(5)
+                time.sleep(1)
                 continue
 
             for filename in files:
@@ -342,4 +342,4 @@ if __name__ == '__main__':
 
     threading.Thread(target=auto_reload_master, daemon=True).start()
     threading.Thread(target=auto_detect_faces, daemon=True).start()
-    app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
