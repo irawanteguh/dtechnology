@@ -15,6 +15,9 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
 updateLocation();
 setInterval(updateTime, 1000); 
 
+captureBtn.addEventListener('click', processCapture);
+reloadBtn.addEventListener('click', processCapture);
+
 function getDistanceFromCenter(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius bumi (km)
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -106,7 +109,63 @@ function hideSpinner() {
     setTimeout(() => spinner.style.display = 'none', 500);
 }
 
-captureBtn.addEventListener('click', async () => {
+// captureBtn.addEventListener('click', async () => {
+//     // ambil frame dari video
+//     const canvas        = document.createElement('canvas');
+//           canvas.width  = video.videoWidth;
+//           canvas.height = video.videoHeight;
+//     canvas.getContext('2d').drawImage(video, 0, 0);
+
+//     const dataUrl = canvas.toDataURL('image/jpeg'); // hasil base64
+
+//     try {
+//         video.pause();
+//         showSpinner();
+
+//         const res = await fetch(url+"index.php/public/attendance/save_image", {
+//             method : 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body   : JSON.stringify({ image: dataUrl })
+//         });
+
+//         const data = await res.json();
+
+//         if(data.responCode === "00"){
+//             let result = data.responResult[0];
+
+//             $('#infoNIK').html(result.nik);
+//             $('#infoNama').html(result.name);
+//             $('#infouserid').html(result.user_id);
+//             $('#infohospital').html(result.rsname);
+//             $('#infoconfidence').html(parseFloat(result.confidence).toFixed(2) + '%');
+
+//             $('#submit').removeClass("d-none");
+//             $('#reload').removeClass("d-none");
+//             $('#capture').addClass("d-none");
+
+//             $("#submit").attr("userid", result.user_id);
+//             $("#submit").attr("transaksiid", result.image_id);
+//             $("#submit").attr("orgid", result.orgid);
+//         }else{
+//             $('#infoNIK').html("-");
+//             $('#infoNama').html("Wajah tidak dikenali");
+//             $('#infoconfidence').html("-");
+//             $('#infouserid').html("-");
+//             $('#infohospital').html("-");
+
+//             $('#submit').addClass("d-none");
+//             $('#reload').addClass("d-none");
+//             $('#capture').removeClass("d-none");
+//         }
+//     } catch (err) {
+//         console.error("Error capture:", err);
+//     } finally {
+//         hideSpinner();
+//         video.play();
+//     }
+// });
+
+async function processCapture() {
     // ambil frame dari video
     const canvas        = document.createElement('canvas');
           canvas.width  = video.videoWidth;
@@ -160,7 +219,7 @@ captureBtn.addEventListener('click', async () => {
         hideSpinner();
         video.play();
     }
-});
+}
 
 function simpanabsen(btn) {
     btn = $(btn);
