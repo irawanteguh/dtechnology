@@ -166,6 +166,16 @@ function hideSpinner() {
 // });
 
 async function processCapture() {
+    $('#infoNIK').html("-");
+    $('#infoNama').html("Wajah tidak dikenali");
+    $('#infoconfidence').html("-");
+    $('#infouserid').html("-");
+    $('#infohospital').html("-");
+
+    $('#submit').addClass("d-none");
+    $('#reload').addClass("d-none");
+    $('#capture').removeClass("d-none");
+
     // ambil frame dari video
     const canvas        = document.createElement('canvas');
           canvas.width  = video.videoWidth;
