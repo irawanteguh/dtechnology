@@ -341,5 +341,5 @@ if __name__ == '__main__':
     log_info("===========================")
 
     threading.Thread(target=auto_reload_master, daemon=True).start()
-    # threading.Thread(target=auto_detect_faces, daemon=True).start()
+    threading.Thread(target=auto_detect_faces, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
