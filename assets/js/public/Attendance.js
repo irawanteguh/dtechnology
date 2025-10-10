@@ -130,11 +130,12 @@ captureBtn.addEventListener('click', async () => {
         if(data.responCode === "00"){
             let result = data.responResult[0];
 
+            
             $('#infoNIK').html(result.nik);
             $('#infoNama').html(result.name);
             $('#infouserid').html(result.user_id);
             $('#infohospital').html(result.rsname);
-            $('#infoconfidence').html(result.confidence.toFixed(2) + '%');
+            $('#infoconfidence').html(result.confidence + '%');
 
             $('#submit').removeClass("d-none");
             $('#reload').removeClass("d-none");
