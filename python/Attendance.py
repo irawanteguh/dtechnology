@@ -226,7 +226,7 @@ def auto_detect_faces():
         try:
             if not os.path.exists(ATTENDANCE_FOLDER):
                 log_error(f"Folder tidak ditemukan: {ATTENDANCE_FOLDER}")
-                time.sleep(5)
+                time.sleep(1)  # cek tiap detik
                 continue
 
             files = [
@@ -235,7 +235,7 @@ def auto_detect_faces():
             ]
 
             if not files:
-                time.sleep(2)
+                time.sleep(1)  # cek tiap detik
                 continue
 
             for filename in files:
@@ -276,16 +276,8 @@ def auto_detect_faces():
                     return best_name, best_conf, has_face
 
                 try:
-                    # Deteksi pertama
+                    # Deteksi sekali saja
                     best_name, best_conf, has_face = detect_face(path)
-
-                    # Retry sekali jika confidence < 50 dan ada wajah
-                    retried = False
-                    if has_face and best_conf < 50.0:
-                        log_warn(f"Confidence {best_conf:.2f}% < 50%, mencoba detect ulang {filename}")
-                        time.sleep(1)
-                        best_name, best_conf, has_face = detect_face(path)
-                        retried = True
 
                     # Tentukan status
                     if has_face and best_conf >= 50.0:
@@ -312,7 +304,7 @@ def auto_detect_faces():
                     else:
                         log_warn(f"File {filename} sudah tidak ada, lewati rename")
 
-                    # Update database berdasarkan hasil terakhir, termasuk retry
+                    # Update database
                     base_filename = os.path.splitext(filename)[0]
                     update_facerecognition_status(
                         base_filename,
@@ -321,18 +313,16 @@ def auto_detect_faces():
                         user_id=best_name
                     )
 
-                    if retried and status == 1:
-                        log_info(f"{filename} berhasil dikenali setelah retry dengan confidence {best_conf:.2f}%")
-
                 except Exception as e:
                     log_error(f"Gagal memproses {filename}: {e}")
-                    time.sleep(0.5)
+                    time.sleep(0.1)
                     continue
 
         except Exception as e:
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
-        time.sleep(1)
+        time.sleep(1)  # cek folder tiap detik
+
 
      
 
