@@ -244,39 +244,39 @@ def auto_detect_faces():
                 if not os.path.isfile(path):
                     continue
 
-                log_warn(f"Memproses file: {filename}")
-
-                def detect_face(img_path):
-                    """Fungsi bantu deteksi wajah dan return best_name, best_conf, has_face"""
-                    with Image.open(img_path) as img:
-                        img = img.convert('RGB')
-                        img_np = np.array(img)
-
-                    face_locations = face_recognition.face_locations(img_np)
-                    face_encodings = face_recognition.face_encodings(img_np, face_locations)
-
-                    best_name = "Unknown"
-                    best_conf = 0.0
-                    has_face = bool(face_encodings)
-
-                    if face_encodings and master_encodings:
-                        for face_encoding in face_encodings:
-                            distances = face_recognition.face_distance(master_encodings, face_encoding)
-                            if len(distances) == 0:
-                                continue
-
-                            matches = face_recognition.compare_faces(master_encodings, face_encoding)
-                            best_match_index = np.argmin(distances)
-                            confidence = face_confidence(distances[best_match_index])
-                            name = master_names[best_match_index] if matches[best_match_index] else "Unknown"
-
-                            if confidence > best_conf:
-                                best_conf = confidence
-                                best_name = name
-
-                    return best_name, best_conf, has_face
-
                 try:
+                    # Fungsi bantu deteksi wajah
+                    def detect_face(img_path):
+                        """Return best_name, best_conf, has_face"""
+                        log_warn(f"Memproses file: {filename}")  # dicetak sekali per file
+                        with Image.open(img_path) as img:
+                            img = img.convert('RGB')
+                            img_np = np.array(img)
+
+                        face_locations = face_recognition.face_locations(img_np)
+                        face_encodings = face_recognition.face_encodings(img_np, face_locations)
+
+                        best_name = "Unknown"
+                        best_conf = 0.0
+                        has_face = bool(face_encodings)
+
+                        if face_encodings and master_encodings:
+                            for face_encoding in face_encodings:
+                                distances = face_recognition.face_distance(master_encodings, face_encoding)
+                                if len(distances) == 0:
+                                    continue
+
+                                matches = face_recognition.compare_faces(master_encodings, face_encoding)
+                                best_match_index = np.argmin(distances)
+                                confidence = face_confidence(distances[best_match_index])
+                                name = master_names[best_match_index] if matches[best_match_index] else "Unknown"
+
+                                if confidence > best_conf:
+                                    best_conf = confidence
+                                    best_name = name
+
+                        return best_name, best_conf, has_face
+
                     # Deteksi wajah sekali
                     best_name, best_conf, has_face = detect_face(path)
 
@@ -323,6 +323,7 @@ def auto_detect_faces():
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
         time.sleep(1)  # cek folder tiap detik
+
 
 
 
