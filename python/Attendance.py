@@ -247,6 +247,7 @@ def auto_detect_faces():
                 try:
                     # Fungsi bantu deteksi wajah
                     def detect_face(img_path):
+                        global master_encodings, master_names
                         """Return best_name, best_conf, has_face"""
                         log_warn(f"Memproses file: {filename}")  # dicetak sekali per file
                         with Image.open(img_path) as img:
@@ -339,7 +340,6 @@ if __name__ == '__main__':
     log_info(f"FACERECOGNITION   : {FACERECOGNITION_FOLDER}")
     log_info("===========================")
 
-    load_master_faces()
-    threading.Thread(target=auto_detect_faces, daemon=True).start()
+    threading.Thread(target=auto_reload_master, daemon=True).start()
     threading.Thread(target=auto_detect_faces, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
