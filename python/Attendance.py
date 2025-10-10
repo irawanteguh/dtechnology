@@ -305,7 +305,7 @@ def auto_detect_faces():
         except Exception as e:
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
-        time.sleep(5)
+        time.sleep(3)
 
      
 
