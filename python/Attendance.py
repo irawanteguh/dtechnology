@@ -322,7 +322,7 @@ def auto_detect_faces():
         except Exception as e:
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
-        time.sleep(3)
+        time.sleep(5)
      
 
 if __name__ == '__main__':
