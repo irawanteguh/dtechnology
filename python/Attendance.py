@@ -329,7 +329,7 @@ def auto_detect_faces():
 def auto_reload_master():
     while True:
         load_master_faces()
-        time.sleep(10)
+        time.sleep(60)
 
      
 
