@@ -92,20 +92,24 @@
                         $json["responHead"]="success";
                         $json["responDesc"]="Data Successfully Found";
                         $json['responResult']=$result;
+                        $json['responImageId'] = $imageid;
                     }else{
                         $json["responCode"]="01";
                         $json["responHead"]="info";
                         $json["responDesc"]="Data Failed to Find";
+                        $json['responImageId'] = $imageid;
                     }
                 }else{
                     $json['responCode'] = "01";
                     $json['responHead'] = "error";
                     $json['responDesc'] = "Gagal Simpan Data";
+                    $json['responImageId'] = $imageid
                 }
             } else {
-                $json['responCode'] = "01";
-                $json['responHead'] = "error";
-                $json['responDesc'] = "Foto gagal diupload";
+                $json['responCode']    = "01";
+                $json['responHead']    = "error";
+                $json['responDesc']    = "Foto gagal diupload";
+                $json['responImageId'] = $imageid
             }
 
             // Kembalikan hasil dalam JSON
