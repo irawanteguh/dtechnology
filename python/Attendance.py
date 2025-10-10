@@ -220,7 +220,7 @@ def load_master_faces():
 
 def auto_detect_faces():
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
-    load_master_faces()
+    # load_master_faces()
 
     while True:
         try:
@@ -325,7 +325,10 @@ def auto_detect_faces():
         time.sleep(1)  # cek folder tiap detik
 
 
-
+def auto_reload_master():
+    while True:
+        load_master_faces()
+        time.sleep(10)
 
      
 
@@ -336,5 +339,7 @@ if __name__ == '__main__':
     log_info(f"FACERECOGNITION   : {FACERECOGNITION_FOLDER}")
     log_info("===========================")
 
+    load_master_faces()
+    threading.Thread(target=auto_detect_faces, daemon=True).start()
     threading.Thread(target=auto_detect_faces, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
