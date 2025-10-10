@@ -3,6 +3,7 @@ const CENTER       = { lat: 1.286021521387019, lon: 101.19285692429884 };
 const RADIUS_LIMIT = 0.1;
 const video        = document.getElementById('video');
 const captureBtn   = document.getElementById('capture');
+const spinner      = document.getElementById('spinnerOverlay');
 
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
     navigator.mediaDevices.getUserMedia({ video: true }).then(stream => video.srcObject = stream).catch(err => console.error("Kamera error:", err));
@@ -95,6 +96,16 @@ function updateTime() {
     $('#infoWaktu').html(now.toLocaleString('en-US', options));
 }
 
+function showSpinner() {
+    spinner.style.display = 'flex';
+    setTimeout(() => spinner.classList.add('show'), 50);
+}
+
+function hideSpinner() {
+    spinner.classList.remove('show');
+    setTimeout(() => spinner.style.display = 'none', 500);
+}
+
 captureBtn.addEventListener('click', async () => {
     // ambil frame dari video
     const canvas        = document.createElement('canvas');
@@ -105,6 +116,9 @@ captureBtn.addEventListener('click', async () => {
     const dataUrl = canvas.toDataURL('image/jpeg'); // hasil base64
 
     try {
+        video.pause();
+        showSpinner();
+
         const res = await fetch(url+"index.php/public/attendance/save_image", {
             method : 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -114,7 +128,31 @@ captureBtn.addEventListener('click', async () => {
         const data = await res.json();
 
         if(data.responCode === "00"){
+            let result = data.responResult[0];
 
+            $('#infoNIK').html(result.nik);
+            $('#infoNama').html(result.name);
+            $('#infouserid').html(result.user_id);
+            $('#infohospital').html(result.rsname);
+            $('#infoconfidence').html(confidence.toFixed(2) + '%');
+
+            $('#submit').removeClass("d-none");
+            $('#reload').removeClass("d-none");
+            $('#capture').addClass("d-none");
+
+            $("#submit").attr("userid", result.user_id);
+            $("#submit").attr("transaksiid", filename.replace(/\.[^/.]+$/, ""));
+            $("#submit").attr("orgid", result.org_id);
+        }else{
+            $('#infoNIK').html("-");
+            $('#infoNama').html("Wajah tidak dikenali");
+            $('#infoconfidence').html("-");
+            $('#infouserid').html("-");
+            $('#infohospital').html("-");
+
+            $('#submit').addClass("d-none");
+            $('#reload').addClass("d-none");
+            $('#capture').removeClass("d-none");
         }
 
         toastr[data.responHead](data.responDesc, "INFORMATION");

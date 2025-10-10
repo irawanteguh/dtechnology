@@ -72,11 +72,28 @@
             // Simpan file ke folder
             if(file_put_contents($file_path, $decoded_image)){
                 $data['image_id'] = $imageid;
-                $this->md->insertface($data);
+            
+                if($this->md->insertface($data)){
 
-                $json['responCode'] = "00";
-                $json['responHead'] = "success";
-                $json['responDesc'] = "Foto berhasil diupload";
+                    sleep(2);
+                    
+                    $result = $this->md->datauser($imageid);
+                    
+                    if(!empty($result)){
+                        $json["responCode"]="00";
+                        $json["responHead"]="success";
+                        $json["responDesc"]="Data Successfully Found";
+                        $json['responResult']=$result;
+                    }else{
+                        $json["responCode"]="01";
+                        $json["responHead"]="info";
+                        $json["responDesc"]="Data Failed to Find";
+                    }
+                }else{
+                    $json['responCode'] = "01";
+                    $json['responHead'] = "error";
+                    $json['responDesc'] = "Gagal Simpan Data";
+                }
             } else {
                 $json['responCode'] = "01";
                 $json['responHead'] = "error";

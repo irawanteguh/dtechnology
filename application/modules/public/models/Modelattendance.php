@@ -4,10 +4,13 @@
         function datauser($userid){
             $query =
                     "
-                        select a.org_id, user_id, name, nik,
-                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)rsname
-                        from dt01_gen_user_data a
-                        where a.user_id='".$userid."'
+                        select a.image_id, user_id, confidence,
+                            (select name from dt01_gen_user_data where active='1' and user_id=a.user_id)name,
+                            (select nik from dt01_gen_user_data where active='1' and user_id=a.user_id)nik,
+                            (select org_name from dt01_gen_organization_ms where active='1' and org_id=(select org_id from dt01_gen_user_data where active='1' and user_id=a.user_id))rsname
+                        from dt01_gen_facerecognition_hd a
+                        where a.status='1'
+                        and   a.image_id='".$imageid."'
                     ";
 
             $recordset = $this->db->query($query);
