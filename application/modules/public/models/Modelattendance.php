@@ -7,6 +7,7 @@
                         select a.image_id, user_id, confidence,
                             (select name from dt01_gen_user_data where active='1' and user_id=a.user_id)name,
                             (select nik from dt01_gen_user_data where active='1' and user_id=a.user_id)nik,
+                            (select org_id from dt01_gen_user_data where active='1' and user_id=a.user_id)orgid,
                             (select org_name from dt01_gen_organization_ms where active='1' and org_id=(select org_id from dt01_gen_user_data where active='1' and user_id=a.user_id))rsname
                         from dt01_gen_facerecognition_hd a
                         where a.status='1'
