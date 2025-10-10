@@ -323,7 +323,7 @@ def auto_detect_faces():
         except Exception as e:
             log_error(f"[auto_detect_faces] Error utama: {e}")
 
-        time.sleep(1)  # cek folder tiap detik
+        time.sleep(5)  # cek folder tiap detik
 
 
 def auto_reload_master():
