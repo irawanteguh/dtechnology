@@ -279,14 +279,14 @@ def auto_detect_faces():
                     # Deteksi pertama
                     best_name, best_conf, has_face = detect_face(path)
 
-                    # Retry sekali jika confidence < 60 dan ada wajah
-                    if has_face and best_conf < 60.0:
-                        log_warn(f"Confidence {best_conf:.2f}% < 60%, mencoba detect ulang {filename}")
+                    # Retry sekali jika confidence < 50 dan ada wajah
+                    if has_face and best_conf < 50.0:
+                        log_warn(f"Confidence {best_conf:.2f}% < 50%, mencoba detect ulang {filename}")
                         time.sleep(1)  # delay sebelum retry
                         best_name, best_conf, has_face = detect_face(path)
 
                     # Tentukan status
-                    if has_face and best_conf >= 60.0:
+                    if has_face and best_conf >= 50.0:
                         status = 1
                         newname = filename
                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
