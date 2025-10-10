@@ -74,10 +74,18 @@
                 $data['image_id'] = $imageid;
             
                 if($this->md->insertface($data)){
-
                     sleep(2);
-                    
-                    $result = $this->md->datauser($imageid);
+
+                    $max_attempts = 5;
+                    $result = null;
+
+                    for ($i = 1; $i <= $max_attempts; $i++) {
+                        $result = $this->md->datauser($imageid);
+
+                        if (!empty($result)) {
+                            break;
+                        }
+                    }
                     
                     if(!empty($result)){
                         $json["responCode"]="00";
