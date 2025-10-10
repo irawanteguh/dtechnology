@@ -80,7 +80,7 @@
                     $result = null;
 
                     for ($i = 1; $i <= $max_attempts; $i++) {
-                        sleep(2);
+                        sleep(1);
 
                         $result = $this->md->datauser($imageid);
                         if (!empty($result)) {
