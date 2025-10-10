@@ -1,7 +1,7 @@
 <?php
     class Modelattendance extends CI_Model{
 
-        function datauser($userid){
+        function datauser($imageid){
             $query =
                     "
                         select a.image_id, user_id, confidence,
