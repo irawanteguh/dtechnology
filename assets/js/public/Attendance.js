@@ -154,10 +154,10 @@ captureBtn.addEventListener('click', async () => {
             $('#reload').addClass("d-none");
             $('#capture').removeClass("d-none");
         }
-
-        toastr[data.responHead](data.responDesc, "INFORMATION");
     } catch (err) {
-        console.error('Error capture:', err);
-        alert('Terjadi kesalahan saat menyimpan.');
+        console.error("Error capture:", err);
+    } finally {
+        hideSpinner();
+        video.play();
     }
 });
