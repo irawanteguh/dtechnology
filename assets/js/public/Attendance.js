@@ -134,7 +134,7 @@ captureBtn.addEventListener('click', async () => {
             $('#infoNama').html(result.name);
             $('#infouserid').html(result.user_id);
             $('#infohospital').html(result.rsname);
-            $('#infoconfidence').html(confidence.toFixed(2) + '%');
+            $('#infoconfidence').html(result.confidence.toFixed(2) + '%');
 
             $('#submit').removeClass("d-none");
             $('#reload').removeClass("d-none");
