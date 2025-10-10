@@ -286,7 +286,7 @@ def auto_detect_faces():
                         best_name, best_conf, has_face = detect_face(path)
 
                     # Tentukan status
-                    if has_face and best_conf >= 70.0:
+                    if has_face and best_conf >= 60.0:
                         status = 1
                         newname = filename
                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
