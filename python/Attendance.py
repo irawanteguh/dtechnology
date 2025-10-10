@@ -220,9 +220,10 @@ def load_master_faces():
 
 def auto_detect_faces():
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
+    load_master_faces()
     while True:
         try:
-            load_master_faces()
+            # load_master_faces()
 
             if not os.path.exists(ATTENDANCE_FOLDER):
                 log_error(f"Folder tidak ditemukan: {ATTENDANCE_FOLDER}")
