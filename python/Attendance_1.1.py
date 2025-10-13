@@ -146,35 +146,123 @@ def load_master_faces():
     log_success(f"Master wajah siap: {len(master_encodings)} wajah terdaftar.")
 
 
-def detect_face(path):
-    """Return best_name, best_conf, has_face"""
+# def detect_face(path):
+#     """Return best_name, best_conf, has_face"""
+#     global master_encodings, master_names
+#     img_eq = preprocess_image(path)
+#     face_locations = face_recognition.face_locations(img_eq, model='hog')
+#     face_encodings = face_recognition.face_encodings(img_eq, face_locations)
+
+#     if not face_encodings:
+#         return "Unknown", 0.0, False
+
+#     best_name = "Unknown"
+#     best_conf = 0.0
+
+#     for face_encoding in face_encodings:
+#         distances = face_recognition.face_distance(master_encodings, face_encoding)
+#         if len(distances) == 0:
+#             continue
+
+#         best_index = np.argmin(distances)
+#         confidence = face_confidence(distances[best_index])
+#         name = master_names[best_index] if confidence > 50 else "Unknown"
+
+#         if confidence > best_conf:
+#             best_conf = confidence
+#             best_name = name
+
+#     return best_name, best_conf, True
+
+def detect_face(path, tolerance=0.5):
+    """Mendeteksi wajah dan mencocokkannya dengan master face menggunakan tolerance."""
     global master_encodings, master_names
     img_eq = preprocess_image(path)
+
+    # Gunakan model HOG (lebih ringan) atau CNN (lebih akurat)
     face_locations = face_recognition.face_locations(img_eq, model='hog')
     face_encodings = face_recognition.face_encodings(img_eq, face_locations)
 
     if not face_encodings:
-        return "Unknown", 0.0, False
+        return "NoFace", 0.0, False
 
     best_name = "Unknown"
     best_conf = 0.0
 
     for face_encoding in face_encodings:
+        # Hitung jarak antar wajah
         distances = face_recognition.face_distance(master_encodings, face_encoding)
         if len(distances) == 0:
             continue
 
+        # Ambil jarak terkecil
         best_index = np.argmin(distances)
-        confidence = face_confidence(distances[best_index])
-        name = master_names[best_index] if confidence > 50 else "Unknown"
+        best_distance = distances[best_index]
+        best_name_candidate = master_names[best_index]
 
-        if confidence > best_conf:
+        # Cek apakah jarak di bawah tolerance (semakin kecil semakin mirip)
+        match = best_distance <= tolerance
+
+        # Konversi jarak jadi "confidence" (semakin kecil jarak → semakin tinggi confidence)
+        confidence = (1 - best_distance) * 100
+
+        if match and confidence > best_conf:
+            best_name = best_name_candidate
             best_conf = confidence
-            best_name = name
 
-    return best_name, best_conf, True
+    # Jika tidak ada yang cocok di bawah tolerance
+    if best_name == "Unknown":
+        return "Unknown", best_conf, True
+    else:
+        return best_name, best_conf, True
 
-def auto_detect_faces():
+
+# def auto_detect_faces():
+#     log_info("=== Memulai auto detect wajah dari folder attendance ===")
+
+#     while True:
+#         try:
+#             files = [f for f in os.listdir(ATTENDANCE_FOLDER) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
+#             if not files:
+#                 time.sleep(1)
+#                 continue
+
+#             for filename in files:
+#                 path = os.path.join(ATTENDANCE_FOLDER, filename)
+#                 if not os.path.isfile(path):
+#                     continue
+
+#                 log_warn(f"Memproses file: {filename}")
+#                 try:
+#                     best_name, best_conf, has_face = detect_face(path)
+
+#                     if has_face and best_conf >= 50.0:
+#                         status = 1
+#                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
+#                         newname = filename
+#                     else:
+#                         status = 9
+#                         best_name = "Unknown"
+#                         newname = f"done_nowface_{filename}"
+#                         log_warn(f"{filename} tidak dikenali (conf={best_conf:.2f}%)")
+
+#                     # Pindah file
+#                     new_path = os.path.join(FACERECOGNITION_FOLDER, newname)
+#                     os.rename(path, new_path)
+
+#                     # Update DB
+#                     base_filename = os.path.splitext(filename)[0]
+#                     update_facerecognition_status(base_filename, status, best_conf, best_name)
+
+#                 except Exception as e:
+#                     log_error(f"Gagal memproses {filename}: {e}")
+
+#         except Exception as e:
+#             log_error(f"[auto_detect_faces] Error utama: {e}")
+
+#         time.sleep(1)
+
+def auto_detect_faces(tolerance=0.5):
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
 
     while True:
@@ -191,9 +279,10 @@ def auto_detect_faces():
 
                 log_warn(f"Memproses file: {filename}")
                 try:
-                    best_name, best_conf, has_face = detect_face(path)
+                    # gunakan tolerance di sini
+                    best_name, best_conf, has_face = detect_face(path, tolerance=tolerance)
 
-                    if has_face and best_conf >= 50.0:
+                    if has_face and best_name != "Unknown":
                         status = 1
                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
                         newname = filename
@@ -203,11 +292,11 @@ def auto_detect_faces():
                         newname = f"done_nowface_{filename}"
                         log_warn(f"{filename} tidak dikenali (conf={best_conf:.2f}%)")
 
-                    # Pindah file
+                    # Pindahkan file ke folder hasil
                     new_path = os.path.join(FACERECOGNITION_FOLDER, newname)
                     os.rename(path, new_path)
 
-                    # Update DB
+                    # Update status di DB
                     base_filename = os.path.splitext(filename)[0]
                     update_facerecognition_status(base_filename, status, best_conf, best_name)
 
