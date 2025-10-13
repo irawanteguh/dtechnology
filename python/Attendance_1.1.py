@@ -120,7 +120,7 @@ def load_master_faces():
         path = os.path.join(MASTER_FOLDER, f)
         try:
             img_eq = preprocess_image(path)
-            face_locations = face_recognition.face_locations(img_eq, model='cnn')
+            face_locations = face_recognition.face_locations(img_eq, model='hog')
             face_encs = face_recognition.face_encodings(img_eq, face_locations)
 
             if face_encs:
