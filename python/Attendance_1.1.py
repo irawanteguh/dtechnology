@@ -90,16 +90,19 @@ def face_confidence(distance, threshold=0.45):
 
 
 def preprocess_image(image_path):
-    """Resize + normalisasi pencahayaan"""
     img = Image.open(image_path).convert('RGB')
-    img = ImageOps.exif_transpose(img)  # perbaiki orientasi
-    img = img.resize((480, int(img.height * 480 / img.width)))  # ubah ukuran
-    img_np = np.array(img)
+    img = ImageOps.exif_transpose(img)
+    img = img.resize((480, int(img.height * 480 / img.width)))
 
-    # Equalize brightness (histogram)
+    img_np = np.array(img)
     img_yuv = cv2.cvtColor(img_np, cv2.COLOR_RGB2YUV)
     img_yuv[:, :, 0] = cv2.equalizeHist(img_yuv[:, :, 0])
     img_eq = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB)
+
+    # NEW: perhalus noise & tingkatkan kontras
+    img_eq = cv2.GaussianBlur(img_eq, (3, 3), 0)
+    img_eq = cv2.convertScaleAbs(img_eq, alpha=1.2, beta=10)
+
     return img_eq
 
 
