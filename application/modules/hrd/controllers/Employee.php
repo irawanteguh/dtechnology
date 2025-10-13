@@ -20,7 +20,7 @@
             $resultdutyhours            = $this->md->dutyhours();
 
             if($_SESSION['leveluser']==="83e9982c-814a-4349-89fb-cbee6f34e340" || $_SESSION['holding']==="Y"){
-                $parameter="and a.header_id='".$_SESSION['groupid']."'";
+                $parameter="";
             }else{
                 $parameter="and a.org_id='".$_SESSION['orgid']."'";
             }
