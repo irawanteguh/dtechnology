@@ -143,7 +143,7 @@ def detect_face(path):
     """Return best_name, best_conf, has_face"""
     global master_encodings, master_names
     img_eq = preprocess_image(path)
-    face_locations = face_recognition.face_locations(img_eq, model='cnn')
+    face_locations = face_recognition.face_locations(img_eq, model='hog')
     face_encodings = face_recognition.face_encodings(img_eq, face_locations)
 
     if not face_encodings:
