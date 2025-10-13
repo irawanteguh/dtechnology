@@ -18,6 +18,7 @@
                 foreach($result as $a){
                     $resultcheckdata = $this->md->checkdata(ORG_ID,$a->nik);
 
+                    $data['GROUP_ID']    = "d843b43e-158e-45ce-8f68-795ae1e218d0";
                     $data['ORG_ID']      = ORG_ID;
                     $data['NIK']         = $a->nik;
                     $data['USERNAME']    = $a->nik;
