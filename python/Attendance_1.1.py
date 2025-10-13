@@ -119,7 +119,12 @@ def load_master_faces():
     for f in files:
         path = os.path.join(MASTER_FOLDER, f)
         try:
-            img_eq = preprocess_image(path)
+            # img_eq = preprocess_image(path)
+
+            with Image.open(path) as img:
+                img = img.convert('RGB')
+                img_eq = np.array(img)
+
             face_locations = face_recognition.face_locations(img_eq, model='hog')
             face_encs = face_recognition.face_encodings(img_eq, face_locations)
 
