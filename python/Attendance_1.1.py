@@ -156,14 +156,13 @@ def detect_face(path):
 
         best_index = np.argmin(distances)
         confidence = face_confidence(distances[best_index])
-        name = master_names[best_index] if confidence > 60 else "Unknown"
+        name = master_names[best_index] if confidence > 50 else "Unknown"
 
         if confidence > best_conf:
             best_conf = confidence
             best_name = name
 
     return best_name, best_conf, True
-
 
 def auto_detect_faces():
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
