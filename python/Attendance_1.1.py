@@ -92,18 +92,24 @@ def face_confidence(distance, threshold=0.45):
 def preprocess_image(image_path):
     img = Image.open(image_path).convert('RGB')
     img = ImageOps.exif_transpose(img)
-    img = img.resize((480, int(img.height * 480 / img.width)))
+    
+    # ✅ Batasi resize hanya jika terlalu besar
+    if img.width > 1000:
+        scale = 800 / img.width
+        img = img.resize((800, int(img.height * scale)))
 
     img_np = np.array(img)
+
+    # ✅ Ubah ke YUV untuk sedikit normalisasi pencahayaan
     img_yuv = cv2.cvtColor(img_np, cv2.COLOR_RGB2YUV)
     img_yuv[:, :, 0] = cv2.equalizeHist(img_yuv[:, :, 0])
     img_eq = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB)
 
-    # NEW: perhalus noise & tingkatkan kontras
-    img_eq = cv2.GaussianBlur(img_eq, (3, 3), 0)
-    img_eq = cv2.convertScaleAbs(img_eq, alpha=1.2, beta=10)
+    # ✅ Hindari blur; cukup tambahkan sedikit peningkatan kontras lembut
+    img_eq = cv2.convertScaleAbs(img_eq, alpha=1.05, beta=5)
 
     return img_eq
+
 
 
 def load_master_faces():
@@ -119,11 +125,7 @@ def load_master_faces():
     for f in files:
         path = os.path.join(MASTER_FOLDER, f)
         try:
-            # img_eq = preprocess_image(path)
-
-            with Image.open(path) as img:
-                img = img.convert('RGB')
-                img_eq = np.array(img)
+            img_eq = preprocess_image(path)
 
             face_locations = face_recognition.face_locations(img_eq, model='hog')
             face_encs = face_recognition.face_encodings(img_eq, face_locations)
