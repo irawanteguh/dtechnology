@@ -81,8 +81,6 @@ def update_facerecognition_status(filename, status, confidence=0, user_id=None):
     except Exception as e:
         log_error(f"[DB] Gagal update untuk {filename}: {e}")
 
-
-
 def face_confidence(distance, threshold=0.45):
     """Konversi jarak jadi confidence dengan kurva logistik"""
     if distance > 1:
@@ -186,7 +184,7 @@ def auto_detect_faces():
                 try:
                     best_name, best_conf, has_face = detect_face(path)
 
-                    if has_face and best_conf >= 60.0:
+                    if has_face and best_conf >= 50.0:
                         status = 1
                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
                         newname = filename
