@@ -21,6 +21,7 @@
                                 <th class="text-center">Late</th>
                                 <th class="text-center">Early</th>
                                 <th class="text-center">Note</th>
+                                <th class="pe-4 text-end rounded-end">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-bold" id="resultdatareportpresence"></tbody>

@@ -1,4 +1,116 @@
+let mapAbsensi;
+let markerMasuk, markerKeluar;
+const CENTER       = { lat: 1.2858396300516295, lon: 101.19232472131372 };
+const RADIUS_LIMIT = 0.1; // dalam kilometer (100 meter)
+
 reportpresence();
+
+$(document).on('show.bs.modal', '#modal_view_informasi_absensi', function (e) {
+    const triggerLink = $(e.relatedTarget);
+
+    // Ambil data lokasi dari atribut
+    const latMasuk  = parseFloat(triggerLink.attr("datalatitudemasuk"));
+    const lonMasuk  = parseFloat(triggerLink.attr("datalongtitudemasuk"));
+    const latKeluar = parseFloat(triggerLink.attr("datalatitudekeluar"));
+    const lonKeluar = parseFloat(triggerLink.attr("datalongtitudekeluar"));
+
+    // Bersihkan isi jika tidak ada data
+    if ((isNaN(latMasuk) || isNaN(lonMasuk)) && (isNaN(latKeluar) || isNaN(lonKeluar))) {
+        $("#map_absensi").html("<div class='text-center text-danger fw-bold mt-5'>Lokasi tidak tersedia</div>");
+        return;
+    }
+
+    setTimeout(() => {
+        tampilkanMapAbsensi(latMasuk, lonMasuk, latKeluar, lonKeluar);
+    }, 300);
+});
+
+function tampilkanMapAbsensi(latMasuk, lonMasuk, latKeluar, lonKeluar) {
+    if (mapAbsensi) {
+        mapAbsensi.remove();
+    }
+
+    mapAbsensi = L.map('map_absensi');
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(mapAbsensi);
+
+    let markers = [];
+
+    // === Tambahkan area radius pusat (misalnya kantor) ===
+    const centerMarker = L.marker([CENTER.lat, CENTER.lon], {
+        icon: L.icon({
+            iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36]
+        })
+    }).addTo(mapAbsensi);
+
+    centerMarker.bindTooltip("🏢 <b>Area Kantor</b>", {
+        permanent: true,
+        direction: 'right',
+        offset: [10, 0],
+        className: 'tooltip-custom'
+    }).openTooltip();
+
+    // Buat lingkaran radius area (meter)
+    const radiusMeter = RADIUS_LIMIT * 1000;
+    const areaCircle = L.circle([CENTER.lat, CENTER.lon], {
+        radius: radiusMeter,
+        color: '#007bff',
+        fillColor: '#007bff',
+        fillOpacity: 0.15
+    }).addTo(mapAbsensi);
+
+    markers.push([CENTER.lat, CENTER.lon]);
+
+    // === Marker MASUK (Hijau)
+    if (!isNaN(latMasuk) && !isNaN(lonMasuk)) {
+        let markerMasuk = L.marker([latMasuk, lonMasuk], {
+            icon: L.icon({
+                iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png',
+                iconSize: [36, 36],
+                iconAnchor: [18, 36]
+            })
+        }).addTo(mapAbsensi);
+
+        markerMasuk.bindTooltip("🟢 <b>Absen Masuk</b>", {
+            permanent: true,
+            direction: 'right',
+            offset: [10, 0],
+            className: 'tooltip-custom'
+        }).openTooltip();
+
+        markers.push([latMasuk, lonMasuk]);
+    }
+
+    // === Marker KELUAR (Merah)
+    if (!isNaN(latKeluar) && !isNaN(lonKeluar)) {
+        let markerKeluar = L.marker([latKeluar, lonKeluar], {
+            icon: L.icon({
+                iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',
+                iconSize: [36, 36],
+                iconAnchor: [18, 36]
+            })
+        }).addTo(mapAbsensi);
+
+        markerKeluar.bindTooltip("🔴 <b>Absen Pulang</b>", {
+            permanent: true,
+            direction: 'right',
+            offset: [10, 0],
+            className: 'tooltip-custom'
+        }).openTooltip();
+
+        markers.push([latKeluar, lonKeluar]);
+    }
+
+    // === Sesuaikan tampilan map ===
+    if (markers.length > 1) {
+        mapAbsensi.fitBounds(markers, { padding: [50, 50] });
+    } else if (markers.length === 1) {
+        mapAbsensi.setView(markers[0], 17);
+    }
+}
 
 function reportpresence(){
     $.ajax({
@@ -33,6 +145,11 @@ function reportpresence(){
                     let terlambat = 0;
                     let pulangcepat = 0;
                     let note = [];
+
+                    var getvariabel =  " datalatitudemasuk='" + result[i].latjammasuk + "'"+
+                                       " datalongtitudemasuk='" + result[i].longjammasuk + "'"+
+                                       " datalatitudekeluar='" + result[i].latjamkeluar + "'"+
+                                       " datalongtitudekeluar='" + result[i].longjamkeluar + "'";
 
                     // Hitung terlambat
                     if (result[i].realjammasuk && result[i].jammasuk) {
@@ -100,6 +217,7 @@ function reportpresence(){
                     else if (note.includes("Lengkap")) colorNote = "text-success fw-bold";
 
                     tableresult += "<td class='" + colorNote + "'>" + note.join(", ") + "</td>";
+                    tableresult += "<td class='pe-4 text-end'><a href='#' class='btn btn-sm btn-primary' data-bs-toggle='modal' data-bs-target='#modal_view_informasi_absensi' "+getvariabel+">View Detail</a></td>";
 
                     tableresult += "</tr>";
                 }

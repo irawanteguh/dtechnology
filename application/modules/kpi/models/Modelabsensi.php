@@ -17,7 +17,13 @@
                             (select jam_masuk from dt01_hrd_code_shift_ms where shift_id=x.shiftid)jammasuk,
                             (select jam_keluar from dt01_hrd_code_shift_ms where shift_id=x.shiftid)jamkeluar,
                             (select TIME(MIN(a.tgl_jam)) from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y'))realjammasuk,
-                            (select TIME(MAX(a.tgl_jam)) from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y'))realjamkeluar
+                            (select TIME(MAX(a.tgl_jam)) from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y'))realjamkeluar,
+                            (select latitude   from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y') order by a.tgl_jam asc limit 1)latjammasuk,
+                            (select longtitude from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y') order by a.tgl_jam asc limit 1)longjammasuk,
+                            (select latitude   from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y') order by a.tgl_jam desc limit 1)latjamkeluar,
+                            (select longtitude from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y') order by a.tgl_jam desc limit 1)longjamkeluar,
+                            (select transaksi_id   from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y') order by a.tgl_jam asc limit 1)transmasuk,
+                            (select transaksi_id from dt01_hrd_receive_absen a where a.org_id='".$orgid."' and a.user_id='".$userid."' and DATE(a.tgl_jam) = STR_TO_DATE(X.periode, '%d.%m.%Y') order by a.tgl_jam desc limit 1)transkeluar
                         FROM(
                             SELECT DATE_FORMAT(tanggal, '%d.%m.%Y') AS periode,
                                 DATE_FORMAT(tanggal, '%d') AS date,

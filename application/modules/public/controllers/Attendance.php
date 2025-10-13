@@ -34,6 +34,8 @@
             $data['org_id']       = $this->input->post("orgid");
             $data['transaksi_id'] = $this->input->post("transaksiid");
             $data['user_id']      = $this->input->post("userid");
+            $data['latitude']     = $this->input->post("latitude");
+            $data['longtitude']   = $this->input->post("longitude");
             $data['tgl_jam']      = date("Y-m-d H:i:s");
 
             if($this->md->insertabsen($data)){

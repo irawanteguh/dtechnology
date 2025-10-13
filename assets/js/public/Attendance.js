@@ -1,5 +1,5 @@
 const BASE_URL     = `${window.location.origin}/dtechnology`;
-const CENTER       = { lat: 1.286021521387019, lon: 101.19285692429884 };
+const CENTER       = { lat: 1.2858396300516295, lon: 101.19232472131372 };
 const RADIUS_LIMIT = 0.1;
 const video        = document.getElementById('video');
 const captureBtn   = document.getElementById('capture');
@@ -15,12 +15,13 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
 
 updateLocation();
 setInterval(updateTime, 1000); 
+// setInterval(updateLocation, 5000); 
 
 captureBtn.addEventListener('click', processCapture);
 reloadBtn.addEventListener('click', processCapture);
 
 function getDistanceFromCenter(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius bumi (km)
+    const R    = 6371;                           // Radius bumi (km)
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a =
@@ -248,9 +249,22 @@ function simpanabsen(btn) {
             var userid      = btn.attr("userid");
             var transaksiid = btn.attr("transaksiid");
             var orgid       = btn.attr("orgid");
+
+            var lat     = $('#infoLat').text() || "-";
+            var lon     = $('#infoLon').text() || "-";
+
+            lat = lat.replace(/[^\d.-]/g, "");
+            lon = lon.replace(/[^\d.-]/g, "");
+
             $.ajax({
                 url       : url+"index.php/public/attendance/simpanabsen",
-                data      : {userid:userid,transaksiid:transaksiid,orgid:orgid},
+                data      : {
+                    userid     : userid,
+                    transaksiid: transaksiid,
+                    orgid      : orgid,
+                    latitude   : lat,
+                    longitude  : lon
+                },
                 method    : "POST",
                 dataType  : "JSON",
                 cache     : false,
