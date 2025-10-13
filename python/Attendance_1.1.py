@@ -57,6 +57,31 @@ def log_warn(msg): print(f"🟡 {LogColor.WARN}[WARN]{LogColor.END}\t{timestamp(
 def log_success(msg): print(f"🟢 {LogColor.SUCCESS}[SUCCESS]{LogColor.END}\t{timestamp()} {msg}")
 def log_error(msg): print(f"🔴 {LogColor.ERROR}[ERROR]{LogColor.END}\t{timestamp()} {msg}")
 
+def update_facerecognition_status(filename, status, confidence=0, user_id=None):
+    """
+    Memperbarui status, tingkat kepercayaan (confidence), dan user_id 
+    untuk data face recognition berdasarkan image_id (filename).
+    """
+    try:
+        conn = get_db_connection()
+        with conn.cursor() as cur:
+            sql = """
+                UPDATE dt01_gen_facerecognition_hd
+                SET status = %s,
+                    confidence = %s,
+                    user_id = %s
+                WHERE image_id = %s
+            """
+            cur.execute(sql, (status, confidence, user_id, filename))
+            conn.commit()
+
+        conn.close()
+        log_info(f"[DB] Update {filename}: status={status}, conf={confidence:.2f}%, user_id={user_id}")
+
+    except Exception as e:
+        log_error(f"[DB] Gagal update untuk {filename}: {e}")
+
+
 
 def face_confidence(distance, threshold=0.45):
     """Konversi jarak jadi confidence dengan kurva logistik"""
