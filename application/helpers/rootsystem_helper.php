@@ -1,5 +1,4 @@
 <?php
-
     //Start Function Random Generator
     function randomgeneatorname() {
         $names = [
@@ -15,7 +14,7 @@
         for ($i = 0; $i < 13; $i++) {
             $digits .= random_int(0, 9);
         }
-        return $digits; // ex: "0123456789012"
+        return $digits;
     };
 
     function generateNoSEP($prefix = '0064R004') {
@@ -25,20 +24,18 @@
     };
 
     function generateNilaiTindakan() {
-        $nilai = random_int(0, 30000000);
+        $nilai = random_int(150000, 3000000);
         return $nilai;
     };
 
-    function generateRandomTanggal($startYear = 1960, $endYear = 2010) {
-        // buat timestamp random
-        $start = strtotime("$startYear-01-01 00:00:00");
-        $end   = strtotime("$endYear-12-31 23:59:59");
-
+    function generateRandomTanggal($startYear = 1992, $endYear = 2025) {
+        $start     = strtotime("$startYear-01-01 00:00:00");
+        $end       = strtotime("$endYear-12-31 23:59:59");
         $timestamp = mt_rand($start, $end);
 
-        // ambil tanggalnya, jam dipaksa 00:00:00
         return date("Y-m-d", $timestamp) . " 00:00:00";
     };
+
     //End Function Random Generator
 
     function generateuuid($data = null){
@@ -48,8 +45,6 @@
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
         return vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
     };
-
-    
 
     function generateUniqueCode() {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
