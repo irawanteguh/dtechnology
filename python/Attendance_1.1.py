@@ -265,6 +265,10 @@ def detect_face(path, tolerance=0.5):
 def auto_detect_faces(tolerance=0.5):
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
 
+    # Buat folder "noface" jika belum ada
+    noface_folder = os.path.join(FACERECOGNITION_FOLDER, "noface")
+    os.makedirs(noface_folder, exist_ok=True)
+
     while True:
         try:
             files = [f for f in os.listdir(ATTENDANCE_FOLDER) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
@@ -279,25 +283,26 @@ def auto_detect_faces(tolerance=0.5):
 
                 log_warn(f"Memproses file: {filename}")
                 try:
-                    # gunakan tolerance di sini
                     best_name, best_conf, has_face = detect_face(path, tolerance=tolerance)
+                    base_filename = os.path.splitext(filename)[0]
 
+                    # === Jika wajah dikenali ===
                     if has_face and best_name != "Unknown":
                         status = 1
+                        new_path = os.path.join(FACERECOGNITION_FOLDER, filename)
                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
-                        newname = filename
+
+                    # === Selain itu (tidak dikenal atau tidak ada wajah) ===
                     else:
                         status = 9
-                        best_name = "Unknown"
-                        newname = f"done_nowface_{filename}"
-                        log_warn(f"{filename} tidak dikenali (conf={best_conf:.2f}%)")
+                        best_name = "Unknown" if has_face else "NoFace"
+                        new_path = os.path.join(noface_folder, filename)
+                        log_warn(f"{filename} tidak dikenali atau tidak ada wajah (conf={best_conf:.2f}%)")
 
-                    # Pindahkan file ke folder hasil
-                    new_path = os.path.join(FACERECOGNITION_FOLDER, newname)
+                    # Pindahkan file ke folder tujuan
                     os.rename(path, new_path)
 
-                    # Update status di DB
-                    base_filename = os.path.splitext(filename)[0]
+                    # Update status di database
                     update_facerecognition_status(base_filename, status, best_conf, best_name)
 
                 except Exception as e:
