@@ -107,6 +107,7 @@
 				];
 
 				$response = Inacbg::sendinacbgs(json_encode($body));
+				// return var_dump($response);
 				if($response['metadata']['code']===200){
 					$dataupdate['status']="1";
 					if($this->md->updateppk($dataupdate,$datatransaksiid)){
@@ -171,7 +172,7 @@
 								"alteplase_ind"             => 0,
 								"tarif_poli_eks"            => "0",
 								"nama_dokter"               => "BAMBANG, DR",
-								"kode_tarif"                => "AP",
+								"kode_tarif"                => "DS",
 								"payor_id"                  => "3",
 								"payor_cd"                  => "JKN",
 								"cob_cd"                    => 0,
@@ -215,7 +216,7 @@
 			];
 
 			$response = Inacbg::sendinacbgs(json_encode($body));
-			return var_dump($response);
+			// return var_dump($response);
 			if($response['metadata']['code']===200){
 				foreach ($response['data']['expanded'] as $row) {
 					if(isset($row['metadata']['code']) && $row['metadata']['code'] == 200){
