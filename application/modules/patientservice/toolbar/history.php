@@ -1,1 +1,2 @@
-<a class="btn btn-sm btn-primary"><i class="bi-search me-4"></i>Find Patient</a>
+<a class="btn btn-sm btn-danger me-4" data-bs-toggle="modal" data-bs-target="#modal_triase_igd"><i class="bi bi-heart-pulse-fill me-2"></i>Triase IGD</a>
+<a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_find_patient"><i class="bi-search me-2"></i>Find Patient</a>

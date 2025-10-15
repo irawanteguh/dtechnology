@@ -1,5 +1,77 @@
+let typingTimer;
+const typingDelay = 1000;
+
 daftaralergipasien();
 soapie();
+
+document.getElementById('searchPatientGlobal').addEventListener('keyup', function() {
+    clearTimeout(typingTimer);
+    const searchValue = this.value.trim();
+
+    typingTimer = setTimeout(() => {
+        daftarpasien(searchValue);
+    }, typingDelay);
+});
+
+// === Function utama ===
+function daftarpasien(keyword = ""){
+    $.ajax({
+        url        : url + "index.php/patientservice/history/daftarpasien",
+        data       : { keyword: keyword }, // ⬅️ kirim keyword ke backend
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function(){
+            $("#resultdatadaftarpasien").html("<tr><td colspan='8' class='text-center text-muted py-5'>Loading...</td></tr>");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            if (data.responCode === "00") {
+                let result = data.responResult;
+                if (result.length > 0) {
+                    for (var i in result) {
+                        tableresult += "<tr>";
+                        tableresult += "<td class='ps-4'><div>"+result[i].nm_pasien+"</div><div class='badge badge-pill badge-light-info'>"+result[i].no_rkm_medis+"</div></td>";
+                        tableresult += "<td>" + result[i].no_ktp + "</td>";
+                        tableresult += "<td class='text-center'>" + result[i].tgllahir + "</td>";
+                        tableresult += "<td>" + result[i].jeniskelamin + "</td>";
+                        tableresult += "<td>" + result[i].alamat + "</td>";
+                        tableresult += "<td>" + result[i].nm_ibu + "</td>";
+                        tableresult += "<td class='text-end'><a class='btn btn-sm btn-primary'><i class='bi bi-eye me-2'></i>View History</a></td>";
+                        tableresult += "</tr>";
+                    }
+                } else {
+                    tableresult = "<tr><td colspan='8' class='text-center text-muted py-5'>No data found</td></tr>";
+                }
+            } else {
+                tableresult = "<tr><td colspan='8' class='text-center text-danger py-5'>"+data.responDesc+"</td></tr>";
+            }
+
+            $("#resultdatadaftarpasien").html(tableresult);
+        },
+        complete: function(){
+            toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+
+    return false;
+}
 
 function daftaralergipasien(){
     $.ajax({

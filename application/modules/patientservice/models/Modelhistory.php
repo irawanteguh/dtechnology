@@ -1,6 +1,21 @@
 <?php
     class Modelhistory extends CI_Model{
 
+        function daftarpasien($parameter){
+            $query =
+                    "
+                        select a.no_rkm_medis, nm_pasien, no_ktp, nm_ibu, alamat,
+                            date_format(a.tgl_lahir, '%d.%m.%Y')tgllahir,
+                            case when a.jk = 'L' then 'Laki-laki' else 'Perempuan' end jeniskelamin
+                        from pasien a
+                        where a.no_rkm_medis='".$parameter."' or upper(a.nm_pasien) like upper('%".$parameter."%')
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function daftaralergipasien(){
             $query =
                     "
