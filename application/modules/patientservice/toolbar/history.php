@@ -1,0 +1,1 @@
+<a class="btn btn-sm btn-primary"><i class="bi-search me-4"></i>Find Patient</a>
