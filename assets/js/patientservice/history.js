@@ -3,6 +3,7 @@ const typingDelay = 1000;
 
 daftaralergipasien();
 soapie();
+catatanperawat();
 
 document.getElementById('searchPatientGlobal').addEventListener('keyup', function() {
     clearTimeout(typingTimer);
@@ -136,7 +137,14 @@ function soapie(){
         cache      : false,
         processData: true,
         beforeSend : function(){
-            $("#areautama").html("");
+            $("#areasoapie").html(`
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="mt-3 text-gray-600 fw-semibold">Memuat data, mohon tunggu...</div>
+                </div>
+            `);
         },
         success:function(data){
             var result              = "";
@@ -154,7 +162,7 @@ function soapie(){
                     let evaluasi    = (result[i].evaluasi || '').replace(/\n/g, '<br>');
 
                     tableresult += "<div class='card mb-10'>";
-                    tableresult += "<div class='card-body py-3'>";
+                    tableresult += "<div class='card-body p-8'>";
                     tableresult += "<div class='d-flex justify-content-between flex-wrap align-items-start'>";
 
                         // === BAGIAN BADGE VITAL SIGN ===
@@ -176,7 +184,6 @@ function soapie(){
                             if (result[i].gcs && result[i].gcs != 0)
                                 tableresult += "<span class='badge badge-pill badge-light-info m-1'>GCS: " + result[i].gcs + "</span>";
                         tableresult += "</div>";
-
                         // === BAGIAN NAMA & TANGGAL (rata kiri) ===
                         tableresult += "<div class='text-end'>";
                             tableresult += "<h6 class='fw-bold mb-0'>" + (result[i].nama || '-') + "</h6>";
@@ -220,12 +227,86 @@ function soapie(){
                 }
             }
 
-
-
-            $("#areautama").html(tableresult);
+            $("#areasoapie").html(tableresult);
         },
         complete: function(){
-            toastr.clear();
+
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {
+                    confirmButton: "btn btn-danger"
+                },
+                showClass: {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass: {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+    return false;
+};
+
+function catatanperawat(){
+    $.ajax({
+        url        : url+"index.php/patientservice/history/catatanperawat",
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function(){
+            $("#areacatatanperawat").html(`
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="mt-3 text-gray-600 fw-semibold">Memuat data, mohon tunggu...</div>
+                </div>
+            `);
+        },
+        success:function(data){
+            var result              = "";
+            var tableresult         = "";
+
+            if (data.responCode === "00") {
+                result = data.responResult;
+                for (var i in result) {
+                    // ubah newline jadi <br> biar baris baru ikut tampil di HTML
+                    let uraian     = (result[i].uraian || '').replace(/\n/g, '<br>');
+
+                    tableresult += "<div class='d-flex justify-content-between flex-wrap align-items-start'>";
+                        
+                        tableresult += "<div class='mb-3'>";
+                        tableresult += "</div>";
+
+                        // === BAGIAN NAMA & TANGGAL (rata kiri) ===
+                        tableresult += "<div class='text-end'>";
+                            tableresult += "<h6 class='fw-bold mb-0'>" + (result[i].nama || '-') + "</h6>";
+                            tableresult += "<h6 class='text-muted small'>" + (result[i].tanggal || '-') + " " + (result[i].jam || '-') + "</h6>";
+                        tableresult += "</div>";
+
+                    tableresult += "</div>"; // tutup d-flex
+
+                    tableresult += `
+                        <div class="mb-10">
+                            <div><h3>Catatan :</h3></div>
+                            <div class="border-primary border-dashed border-3 p-2 rounded bg-light-primary">${uraian}</div>
+                        </div>
+                    `;
+
+                    // tableresult += "<div class='separator separator-dashed border-secondary border-2 mb-5 mt-5'></div>";
+                }
+            }
+
+            $("#areacatatanperawat").html(tableresult);
+        },
+        complete: function(){
+
 		},
         error: function(xhr, status, error) {
             Swal.fire({

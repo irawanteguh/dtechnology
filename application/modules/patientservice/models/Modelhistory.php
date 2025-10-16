@@ -44,6 +44,21 @@
             return $recordset;
         }
 
+        function catatanperawat(){
+            $query =
+                    "
+                        select a.tanggal, jam, uraian,
+                            (select nama from pegawai where nik=a.nip)nama
+                        from catatan_keperawatan_ranap a
+                        where a.no_rawat='2024/11/10/000080'
+                        order by a.tanggal asc, jam asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
 
     }
 ?>
