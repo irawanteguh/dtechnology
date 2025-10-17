@@ -1,9 +1,7 @@
 let typingTimer;
 const typingDelay = 1000;
 
-daftaralergipasien();
-soapie();
-catatanperawat();
+
 
 document.getElementById('searchPatientGlobal').addEventListener('keyup', function() {
     clearTimeout(typingTimer);
@@ -13,6 +11,30 @@ document.getElementById('searchPatientGlobal').addEventListener('keyup', functio
         daftarpasien(searchValue);
     }, typingDelay);
 });
+
+function showSpinner(btn) {
+    const $btn = $(btn);
+    $btn.prop("disabled", true); // nonaktifkan tombol biar gak diklik dua kali
+    const originalHtml = $btn.html(); // simpan isi awal tombol
+    $btn.data("original-html", originalHtml); // simpan di data agar bisa dikembalikan
+
+    // ubah ke tampilan spinner Metronic
+    $btn.html(`
+        <span class="spinner-border spinner-border-sm align-middle me-2"></span>
+        Loading...
+    `);
+}
+
+function getalldata(btn){
+    const norawat = btn.attr("datanorawat");
+    const nomr    = btn.attr("datanomr");
+
+    daftaralergipasien(nomr);
+    soapie(norawat);
+    catatanperawat(norawat);
+
+    KTDrawer.getInstance(document.querySelector("#kt_riwayatkunjungan"))?.hide();
+}
 
 // === Function utama ===
 function daftarpasien(keyword = ""){
@@ -40,7 +62,17 @@ function daftarpasien(keyword = ""){
                         tableresult += "<td>" + result[i].jeniskelamin + "</td>";
                         tableresult += "<td>" + result[i].alamat + "</td>";
                         tableresult += "<td>" + result[i].nm_ibu + "</td>";
-                        tableresult += "<td class='text-end'><a class='btn btn-sm btn-primary'><i class='bi bi-eye me-2'></i>View History</a></td>";
+                        tableresult += `<td class='text-end'>
+                                            <a class='btn btn-sm btn-primary'
+                                            datainitialnamapasien="${result[i].nm_pasien.charAt(0).toUpperCase()}"
+                                            datanamapasien="${result[i].nm_pasien.replace(/"/g, '&quot;')}"
+                                            datanomr="${result[i].no_rkm_medis}"
+                                            onclick="historykunjungan($(this)); showSpinner(this);"
+                                            id="btngethistory">
+                                            <i class="bi bi-eye me-2"></i>View History
+                                            </a>
+                                        </td>`;
+
                         tableresult += "</tr>";
                     }
                 } else {
@@ -74,9 +106,87 @@ function daftarpasien(keyword = ""){
     return false;
 }
 
-function daftaralergipasien(){
+function historykunjungan(btn){
+    var nomr       = btn.attr("datanomr");
+    var namapasien = btn.attr("datanamapasien");
+    var initial    = btn.attr("datainitialnamapasien");
+
+    let colors = ["primary", "success", "info", "warning", "danger"];
+    let randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    $("#namapasien").html(namapasien);
+    $("#nomr").html(nomr);
+
+    $("#intialnamapasien").html(`
+        <div class="symbol-label fs-1 bg-light-${randomColor} text-${randomColor}">
+            ${initial}
+        </div>
+    `);
+
+    $.ajax({
+        url        : url + "index.php/patientservice/history/historykunjungan",
+        data       : { nomr: nomr },
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: true,
+        beforeSend : function(){
+            $("#resultdatahistorykunjungan").html("<tr><td colspan='8' class='text-center text-muted py-5'>Loading...</td></tr>");
+        },
+        success:function(data){
+            var tableresult = "";
+
+            $("#btngethistory").removeClass("disabled");
+            $("#btngethistory").html('<i class="bi bi-eye me-2"></i>View History');
+
+            if (data.responCode === "00") {
+                $('#modal_find_patient').modal('hide');
+                KTDrawer.getInstance(document.querySelector("#kt_riwayatkunjungan"))?.show();
+                let result = data.responResult;
+                if (result.length > 0) {
+                    for (var i in result) {
+                        tableresult += "<tr>";
+                        tableresult += "<td class='ps-4'><a href='#' datanomr="+result[i].no_rkm_medis+" datanorawat="+result[i].no_rawat+" onclick='getalldata($(this));' >" + result[i].no_rawat + "</a></td>";
+                        tableresult += "<td>" + result[i].tgl_registrasi + "</td>";
+                        tableresult += "<td>" + result[i].namadokter + "</td>";
+                        tableresult += "<td class='pe-4 text-end'>" + result[i].namapoli + "</td>";
+                        tableresult += "</tr>";
+                    }
+                } else {
+                    tableresult = "<tr><td colspan='8' class='text-center text-muted py-5'>No data found</td></tr>";
+                }
+            } else {
+                tableresult = "<tr><td colspan='8' class='text-center text-danger py-5'>"+data.responDesc+"</td></tr>";
+            }
+
+            $("#resultdatahistorykunjungan").html(tableresult);
+        },
+        complete: function(){
+            toastr.clear();
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold' style='color:#234974;'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+    });
+
+    return false;
+}
+
+function daftaralergipasien(nomr){
     $.ajax({
         url        : url+"index.php/patientservice/history/daftaralergipasien",
+        data       : { nomr: nomr },
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -129,9 +239,10 @@ function daftaralergipasien(){
     return false;
 };
 
-function soapie(){
+function soapie(norawat){
     $.ajax({
         url        : url+"index.php/patientservice/history/soapie",
+        data       : { norawat: norawat },
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -252,9 +363,10 @@ function soapie(){
     return false;
 };
 
-function catatanperawat(){
+function catatanperawat(norawat){
     $.ajax({
         url        : url+"index.php/patientservice/history/catatanperawat",
+        data       : { norawat: norawat },
         method     : "POST",
         dataType   : "JSON",
         cache      : false,

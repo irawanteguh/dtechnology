@@ -2,10 +2,10 @@
     <span>History Visits</span>
 </button>
 
-<div id="kt_riwayatkunjungan" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="riwayatkunjungan" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'350px', 'lg': '475px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#btn_riwayatkunjungan" data-kt-drawer-close="#btn_close_riwayatkunjungan">
+<div id="kt_riwayatkunjungan" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="riwayatkunjungan" data-kt-drawer-activate="true" data-kt-drawer-overlay="true"  data-kt-drawer-width="43%" data-kt-drawer-direction="end" data-kt-drawer-toggle="#btn_riwayatkunjungan" data-kt-drawer-close="#btn_close_riwayatkunjungan">
     <div class="card shadow-none rounded-0 w-100">
         <div class="card-header" id="kt_riwayatkunjungan_header">
-            <h3 class="card-title fw-bolder text-gray-700">Riwayat Kunjungan</h3>
+            <h3 class="card-title fw-bolder text-gray-700">History Visits</h3>
             <div class="card-toolbar">
                 <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="btn_close_riwayatkunjungan">
                     <span class="svg-icon svg-icon-2">
@@ -19,6 +19,19 @@
         </div>
         <div class="card-body" id="kt_riwayatkunjungan_body">
             <div id="kt_riwayatkunjungan_scroll" class="scroll-y me-n5 pe-5" data-kt-scroll="true" data-kt-scroll-height="auto" data-kt-scroll-wrappers="#kt_riwayatkunjungan_body" data-kt-scroll-dependencies="#kt_riwayatkunjungan_header" data-kt-scroll-offset="5px">
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-8 gy-2">
+                        <thead>
+                            <tr class="fw-bolder text-muted bg-light align-middle">
+                                <th class="ps-4 rounded-start">No Rawat</th>
+                                <th class="text-center">Tanggal</th>
+                                <th class="text-center">Nama Dokter</th>
+                                <th class="pe-4 text-end rounded-end">Nama Poli</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 fw-bold" id="resultdatahistorykunjungan"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
