@@ -5,7 +5,7 @@
     $route['default_controller'] = 'landingpage/Mutiasari';
     // $route['default_controller'] = 'landingpage/landingpage';
 
-    $route['authtilaka']           = 'restapi/tilaka/TilakaserviceV5/auth';
+    // $route['authtilaka']           = 'restapi/tilaka/TilakaserviceV5/auth';
     $route['uploadallfile']        = 'restapi/tilaka/TilakaserviceV5/uploadallfile';
     $route['requestsign']          = 'restapi/tilaka/TilakaserviceV5/requestsign';
     $route['requestsignquicksign'] = 'restapi/tilaka/TilakaserviceV5/requestsignquicksign';
