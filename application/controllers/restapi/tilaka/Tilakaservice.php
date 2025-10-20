@@ -19,7 +19,7 @@
 
         public function auth_GET(){
             $response = Tilaka::oauth();
-            $this->response($response,REST_Controller::HTTP_OK);
+            $this->response($response['access_token'],REST_Controller::HTTP_OK);
         }
 
 
