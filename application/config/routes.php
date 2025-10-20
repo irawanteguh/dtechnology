@@ -16,11 +16,8 @@
     $route['getfile']              = 'restapi/tilaka/TilakaserviceV5/getfile';
     $route['mergepdfs']            = 'restapi/tilaka/TilakaserviceV5/mergepdfs';
 
-    $route['authtilaka/bulk']         = 'restapi/tilaka/Tilakaservicebulk/auth';
-    $route['uploadfilesingle/bulk']   = 'restapi/tilaka/Tilakaservicebulk/uploadfilesingle';
-    $route['requestsignsingle/bulk']  = 'restapi/tilaka/Tilakaservicebulk/requestsignsingle';
-    $route['executesignsingle/bulk']  = 'restapi/tilaka/Tilakaservicebulk/executesignsingle';
-    $route['downloadfilesingle/bulk'] = 'restapi/tilaka/Tilakaservicebulk/downloadfilesingle';
+    $route['authtilaka']           = 'restapi/tilaka/Tilakaservice/auth';
+
 
     $route['pegawai']               = 'restapi/khanza/Khanza/pegawai';
     $route['pasien']                = 'restapi/khanza/Khanza/pasien';
