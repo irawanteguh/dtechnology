@@ -1,7 +1,7 @@
 	{
 		"type"   : "module",
 		"scripts": {
-			"wagateway": "node wagateway.js",
+			"wagateway": "node nodejs/wagateway.js",
 			"tilaka"   : "node nodejs/servicetilaka.js"
 		},
 		"dependencies": {
