@@ -10,7 +10,7 @@
     use setasign\Fpdi\Fpdi;
     use setasign\Fpdi\PdfReader;
 
-    class TilakaserviceV5 extends REST_Controller{
+    class Tilakaservice extends REST_Controller{
         
         public function __construct(){
             parent::__construct();
@@ -22,7 +22,7 @@
             $this->response($response,REST_Controller::HTTP_OK);
         }
 
-        
+
     }
 
 ?>
