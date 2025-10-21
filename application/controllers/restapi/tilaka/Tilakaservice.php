@@ -92,7 +92,7 @@
                                                     $datasimpanhd['note']            = "";
                                                     
                                                     if($this->md->updatefile($datasimpanhd, $a->no_file)){
-                                                        echo PHP_EOL."No File: {$a->no_file}.pdf"." Location: ".$location." Filename: ".$responseuploadfile['filename']."Status: Uploaded Success";
+                                                        echo PHP_EOL."Filename: ".$responseuploadfile['filename']." Status: Uploaded Success";
                                                     }
                                                 }
                                             }
