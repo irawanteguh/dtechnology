@@ -59,11 +59,11 @@
 
             if(!empty($result)){
                 foreach ($result as $a) {
-                    $location           = "";
-                    $listfile           = [];
-                    $datasimpanhd       = [];
-                    $responseuploadfile = [];
-                    $filesize           = 0;
+                    $location                 = "";
+                    $datasimpanhd             = [];
+                    $responseuploadfile       = [];
+                    $responsecheckcertificate = [];
+                    $filesize                 = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
@@ -90,7 +90,7 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
-                                                    echo PHP_EOL."Filename: ".$responseuploadfile['filename']." Status: Uploaded Success";
+                                                    echo PHP_EOL."Status: True Filename: ".$responseuploadfile['filename']." Status: Uploaded Success";
                                                 }
                                             }else{
                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
@@ -122,7 +122,20 @@
                     }
                 }
             } else {
-                echo "Data Tidak Ditemukan";
+                echo "Status: False Message: Data Tidak Ditemukan";
+            }
+        }
+
+        public function excutesign_POST(){
+            $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 10;";
+            $result = $this->md->listexecute(ORG_ID, $status);
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    echo PHP_EOL."Status: True RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier}";
+                }
+            }else{
+                echo "Status: False Message: Data Tidak Ditemukan";
             }
         }
     }

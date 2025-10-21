@@ -13,7 +13,7 @@ for (const iface of Object.values(interfaces)) {
 	}
 }
 
-const BASE_URL = process.env.BASE_URL || `http://${host}/dtechnology/index.php/`;
+const BASE_URL = process.env.BASE_URL || `http://${host}/dtech/dtechnology/index.php/`;
 console.log(chalk.cyanBright(`[INIT] BASE_URL: ${BASE_URL}`));
 
 function getTimeStamp() {
@@ -39,10 +39,13 @@ async function callAPI(endpoint, method = "GET", body = null) {
 		const response = await fetch(url, options);
 		const text = await response.text();
 
-		let color = chalk.cyanBright;
+		let color = chalk.cyanBright; // default = Info
+		const lower = text.toLowerCase();
+		if (lower.includes("true")) color = chalk.greenBright;
+		else if (lower.includes("false")) color = chalk.redBright;
 
 		console.log(
-			`${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.cyan(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)} → ${color(text)}`
+			`${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.cyan(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)}\t→ ${color(text)}`
 		);
 	} catch (error) {
 		console.error(
@@ -56,6 +59,7 @@ async function callAPI(endpoint, method = "GET", body = null) {
 // =======================================================
 async function runservices() {
   await callAPI("uploadallfile", "POST");
+  await callAPI("excutesign", "POST");
 }
 
 // Jalankan pertama kali & ulang tiap 10 detik

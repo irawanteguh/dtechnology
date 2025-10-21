@@ -21,6 +21,22 @@
             return $recordset;
         }
 
+        function listexecute($orgid,$status){
+            $query =
+                    "
+                        select distinct a.assign, user_identifier, request_id, user_identifier, no_file, source_file,
+                                (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
+                        from dt01_gen_document_file_dt a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        ".$status."
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function checkfilename($orgid,$filename){
             $query =
                     "
