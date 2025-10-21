@@ -39,7 +39,7 @@ async function callAPI(endpoint, method = "GET", body = null) {
 		const response = await fetch(url, options);
 		const text = await response.text();
 
-		let color = chalk.blueBright;
+		let color = chalk.cyanBright;
 
 		console.log(
 			`${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.cyan(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)} → ${color(text)}`
