@@ -51,41 +51,66 @@
             $this->response($response['access_token'],REST_Controller::HTTP_OK);
         }
 
-        public function uploadallfile_POST() {
-            $status = "and a.status_sign ='1' order by note asc, created_date asc limit 10;";
+        public function uploadallfile_POST(){
+            header('Content-Type: text/plain');
+
+            $status = "AND a.status_sign = '0' ORDER BY note ASC, created_date ASC LIMIT 10;";
             $result = $this->md->pencariandata(ORG_ID, $status);
 
-            // Response otomatis
-            if (!empty($result)) {
-                $responseservice = [
-                    'ResponseDTechnology' => [
-                        'metaData' => [
-                            'code'    => REST_Controller::HTTP_OK,
-                            'message' => 'Data Ditemukan'
-                        ],
-                        'data' => $result
-                    ]
-                ];
-                $httpCode = REST_Controller::HTTP_OK;
+            if(!empty($result)){
+                foreach ($result as $a) {
+                    $location           = "";
+                    $listfile           = [];
+                    $datasimpanhd       = [];
+                    $responseuploadfile = [];
+                    $filesize           = 0;
+
+                    if($a->source_file==="DTECHNOLOGY"){
+                        $location = FCPATH."assets/document/".$a->no_file.".pdf";
+                    }else{
+                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                    }
+
+                    if(file_exists($location)){
+                        $filesize = filesize($location);
+                        if($filesize!=0){
+                            $bodycheckcertificate['user_identifier']=$a->useridentifier;
+                            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+
+                            if(isset($responsecheckcertificate['success'])){
+                                if($responsecheckcertificate['success']){
+                                    if($responsecheckcertificate['status']===3){
+                                        $responseuploadfile = Tilaka::uploadfile($location);
+                                        if(isset($responseuploadfile['success'])){
+                                            if($responseuploadfile['success']){
+                                                $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
+                                                if(empty($resultcheckfilename)){
+                                                    $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                                    $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                    $datasimpanhd['status_sign']     = "1";
+                                                    $datasimpanhd['status_file']     = "1";
+                                                    $datasimpanhd['note']            = "";
+                                                    
+                                                    if($this->md->updatefile($datasimpanhd, $a->no_file)){
+                                                        echo PHP_EOL."No File: {$a->no_file}.pdf"." Location: ".$location." Filename: ".$responseuploadfile['filename']."Status: Uploaded Success";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }else{
+                            echo PHP_EOL."No File: {$a->no_file}.pdf"." Location: ".$location." Status: File Corrupted, File Size : ".$filesize;
+                        }
+                    }else{
+                        echo PHP_EOL."No File: {$a->no_file}.pdf"." Location: ".$location." Status: File not found";
+                    }
+                }
             } else {
-                $responseservice = [
-                    'ResponseDTechnology' => [
-                        'metaData' => [
-                            'code'    => REST_Controller::HTTP_NOT_FOUND,
-                            'message' => 'Data Tidak Ditemukan'
-                        ],
-                        'data' => null
-                    ]
-                ];
-                $httpCode = REST_Controller::HTTP_NOT_FOUND;
+                echo "Data Tidak Ditemukan";
             }
-
-            // Kirim response sesuai kondisi
-            $this->response($responseservice, $httpCode);
         }
-
-
-
     }
 
 ?>
