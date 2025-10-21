@@ -90,23 +90,23 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
-                                                    echo PHP_EOL."Status: True Filename: ".$responseuploadfile['filename']." Status: Uploaded Success";
+                                                    echo PHP_EOL."Status: True Filename: ".$responseuploadfile['filename']." Message: Uploaded Success";
                                                 }
                                             }else{
                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
-                                                echo PHP_EOL."No File: {$a->no_file}.pdf"." Status: ".$responseuploadfile['message'];
+                                                echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Message: ".$responseuploadfile['message'];
                                             }
                                         }
                                     }else{
                                         $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-                                        echo PHP_EOL."No File: {$a->no_file}.pdf"." Status: ".$responsecheckcertificate['message']['info'];
+                                        echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Message: ".$responsecheckcertificate['message']['info'];
                                     }
                                 }
                             }
                         }else{
                             $datasimpanhd['status_sign'] = "98";
                             $datasimpanhd['note']        = "File Corrupted";
-                            echo PHP_EOL."No File: {$a->no_file}.pdf"." Status: File Corrupted, File Size : ".$filesize;
+                            echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Message: File Corrupted, File Size : ".$filesize;
                         }
                     }else{
                         $datasimpanhd['status_sign']     = "99";
@@ -114,7 +114,7 @@
                         $datasimpanhd['status_file']     = "0";
                         $datasimpanhd['user_identifier'] = "";
                         $datasimpanhd['url']             = "";
-                        echo PHP_EOL."No File: {$a->no_file}.pdf"." Location: ".$location." Status: File not found";
+                        echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Location: ".$location." Message: File not found";
                     }
 
                     if(!empty($datasimpanhd)){
@@ -132,7 +132,47 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    echo PHP_EOL."Status: True RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier}";
+                    $response    = [];
+                    $data        = [];
+                    $body        = [];
+
+                    $body['request_id']      = $a->request_id;
+                    $body['user_identifier'] = $a->user_identifier;
+
+                    $response = Tilaka::excutesign(json_encode($body));
+
+                    if(isset($response['success'])){
+                        if($response['status']==="DONE"){
+                            $data['STATUS_SIGN'] = "4";
+                            $data['NOTE']        = "";
+                            $this->md->updatefile($data,$a->no_file);
+                            echo PHP_EOL."Status: True RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
+                        }
+
+                        if($response['status']==="FAILED"){
+                            $data['STATUS_SIGN']     = "0";
+                            $data['STATUS_FILE']     = "1";
+                            $data['REQUEST_ID']      = "";
+                            $data['LINK']            = "";
+                            $data['NOTE']            = "";
+                            $data['USER_IDENTIFIER'] = "";
+                            $data['URL']             = "";
+                            $this->md->updatefile($data,$a->no_file);
+                            echo PHP_EOL."Status: False RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
+                        }
+
+                        if($response['status']==="PROCESS"){
+                            $data['NOTE']=$response['status'];
+                            $this->md->updatefile($data,$a->no_file);
+                            echo PHP_EOL."Status: Info RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
+                        }
+
+                        if($response['status']==="PARAMERR"){
+                            $data['NOTE']=$response['status'];
+                            $this->md->updatefile($data,$a->no_file);
+                            echo PHP_EOL."Status: Info RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
+                        }
+                    }
                 }
             }else{
                 echo "Status: False Message: Data Tidak Ditemukan";
