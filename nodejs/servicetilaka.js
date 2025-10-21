@@ -13,7 +13,7 @@ for (const iface of Object.values(interfaces)) {
 	}
 }
 
-const BASE_URL = process.env.BASE_URL || `http://${host}/dtech/dtechnology/index.php/`;
+const BASE_URL = process.env.BASE_URL || `http://${host}/dtechnology/index.php/`;
 console.log(chalk.cyanBright(`[INIT] BASE_URL: ${BASE_URL}`));
 
 function getTimeStamp() {
