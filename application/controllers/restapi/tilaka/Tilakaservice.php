@@ -90,21 +90,35 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
-                                                    
-                                                    if($this->md->updatefile($datasimpanhd, $a->no_file)){
-                                                        echo PHP_EOL."Filename: ".$responseuploadfile['filename']." Status: Uploaded Success";
-                                                    }
+                                                    echo PHP_EOL."Filename: ".$responseuploadfile['filename']." Status: Uploaded Success";
                                                 }
+                                            }else{
+                                                $datasimpanhd['note'] = $responseuploadfile['message'];
+                                                echo PHP_EOL."No File: {$a->no_file}.pdf"." Status: ".$responseuploadfile['message'];
                                             }
                                         }
+                                    }else{
+                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+                                        echo PHP_EOL."No File: {$a->no_file}.pdf"." Status: ".$responsecheckcertificate['message']['info'];
                                     }
                                 }
                             }
                         }else{
-                            echo PHP_EOL."No File: {$a->no_file}.pdf"." Location: ".$location." Status: File Corrupted, File Size : ".$filesize;
+                            $datasimpanhd['status_sign'] = "98";
+                            $datasimpanhd['note']        = "File Corrupted";
+                            echo PHP_EOL."No File: {$a->no_file}.pdf"." Status: File Corrupted, File Size : ".$filesize;
                         }
                     }else{
+                        $datasimpanhd['status_sign']     = "99";
+                        $datasimpanhd['note']            = "File not found";
+                        $datasimpanhd['status_file']     = "0";
+                        $datasimpanhd['user_identifier'] = "";
+                        $datasimpanhd['url']             = "";
                         echo PHP_EOL."No File: {$a->no_file}.pdf"." Location: ".$location." Status: File not found";
+                    }
+
+                    if(!empty($datasimpanhd)){
+                        $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
                 }
             } else {
