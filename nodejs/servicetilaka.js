@@ -60,4 +60,4 @@ async function runservices() {
 
 // Jalankan pertama kali & ulang tiap 10 detik
 runservices();
-setInterval(runservices, 1000);
+setInterval(runservices, 10000);
