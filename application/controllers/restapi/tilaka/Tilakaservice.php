@@ -143,7 +143,7 @@
                             $data['STATUS_SIGN'] = "4";
                             $data['NOTE']        = "";
                             $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL.color('green')."\t\t\t\tRequestId: {$a->request_id}\t\t\t\t".$response['status'];
+                            echo PHP_EOL.color('green')."\t\t\t\t\t\tRequestId: {$a->request_id}\t\t\t\t".$response['status'];
                         }
 
                         if($response['status']==="FAILED"){
