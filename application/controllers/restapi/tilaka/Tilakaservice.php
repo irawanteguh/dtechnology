@@ -250,7 +250,7 @@
 
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
-
+                                    $statusMsg = color('green').$responsecheckcertificate['message']['info'];
                                 }else{
                                     $statusMsg = color('red').$responsecheckcertificate['message']['info'];
                                 }
