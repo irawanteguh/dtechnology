@@ -53,7 +53,7 @@
             $result = $this->md->pencariandata(ORG_ID, $status);
             
             echo PHP_EOL;
-            echo color('cyan').str_pad("NO FILE", 40).str_pad("LOCATION", 60).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+            echo color('cyan').str_pad("NO FILE", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
 
             if(!empty($result)){
                 foreach ($result as $a) {
@@ -112,14 +112,14 @@
                         $datasimpanhd['status_file']     = "0";
                         $datasimpanhd['user_identifier'] = "";
                         $datasimpanhd['url']             = "";
-                        $statusMsg                       = color('red')."File not found";
+                        $statusMsg                       = color('red')."File not found : ".$location;
                     }
 
                     if(!empty($datasimpanhd)){
-                        $this->md->updatefile($datasimpanhd, $a->no_file);
+                        // $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40).str_pad($location, 60).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
                 }
             } else {
                 echo color('red')."Data Tidak Ditemukan";
@@ -305,7 +305,7 @@
             $result = $this->md->listexecute(ORG_ID, $status);
 
             echo PHP_EOL;
-            echo color('cyan').str_pad("NO FILE", 40).str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+            echo color('cyan').str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
 
             if(!empty($result)){
                 foreach($result as $a){
@@ -347,10 +347,10 @@
                         }
 
                         if(!empty($datasimpanhd)){
-                            // $this->md->updatefile($datasimpanhd, $a->no_file);
+                            $this->md->updatefile($datasimpanhd, $a->no_file);
                         }
 
-                        echo str_pad($a->no_file.".pdf", 40).str_pad($a->request_id, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
+                        echo str_pad($a->request_id, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
                     }
                 }
             }else{
