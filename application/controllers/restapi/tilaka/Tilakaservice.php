@@ -124,7 +124,7 @@
         }
 
         public function excutesign_POST(){
-            $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 1;";
+            $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 10;";
             $result = $this->md->listexecute(ORG_ID, $status);
 
             if(!empty($result)){
@@ -143,7 +143,7 @@
                             $data['STATUS_SIGN'] = "4";
                             $data['NOTE']        = "";
                             $this->md->updatefile($data,$a->no_file);
-                            echo color('green')."RequestId: {$a->request_id}\t\t".$response['status'];
+                            echo color('green')."RequestId: {$a->request_id}\t\t".$response['status'].PHP_EOL;
                         }
 
                         if($response['status']==="FAILED"){
@@ -161,7 +161,7 @@
                         if($response['status']==="PROCESS"){
                             $data['NOTE']=$response['status'];
                             $this->md->updatefile($data,$a->no_file);
-                            echo color('cyan')."RequestId: {$a->request_id}\t\t".$response['status'];
+                            echo color('cyan')."RequestId: {$a->request_id}\t\t".$response['status'].PHP_EOL;
                         }
 
                         if($response['status']==="PARAMERR"){
