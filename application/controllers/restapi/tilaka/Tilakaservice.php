@@ -251,7 +251,11 @@
                             // return var_dump($responsecheckcertificate['message']['info']);
 
                             if(isset($responsecheckcertificate['success'])){
+                                if($responsecheckcertificate['success']){
 
+                                }else{
+                                    $statusMsg = color('red').$responsecheckcertificate['message']['info'];
+                                }
                             }else{
                                 $statusMsg = color('red').$responsecheckcertificate['message']['info'];
                             }
