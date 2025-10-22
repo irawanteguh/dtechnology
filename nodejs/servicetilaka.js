@@ -35,14 +35,14 @@ function getTimeStamp() {
 function printHeader() {
   console.clear();
   console.log(chalk.bold.cyan("🚀 DTechnology Service Tilaka Monitor"));
-  console.log(chalk.gray("==============================================================================================================================================="));
+  console.log(chalk.gray("==================================================================================================================================================================="));
   console.log(`${chalk.yellow("BASE_URL")}\t${chalk.white(BASE_URL)}`);
   console.log(`${chalk.yellow("Last Refresh")}\t${chalk.white(getTimeStamp())}`);
-  console.log(chalk.gray("==============================================================================================================================================="));
+  console.log(chalk.gray("==================================================================================================================================================================="));
   console.log(chalk.gray("Logs\t\t(auto-refresh every 10s)"));
-  console.log(chalk.gray("==============================================================================================================================================="));
-  console.log(chalk.gray("TIMESTAMP\t\tMETHOD\tENDPOINT\tRESPONSE\t\t\t\t\t\t\t\t\tSTATUS"));
-  console.log(chalk.gray("==============================================================================================================================================="));
+  console.log(chalk.gray("==================================================================================================================================================================="));
+  console.log(chalk.gray("TIMESTAMP\t\tMETHOD\tENDPOINT\tRESPONSE\t\t\t\t\t\t\t\t\t\tSTATUS"));
+  console.log(chalk.gray("==================================================================================================================================================================="));
 }
 
 // =======================================================
@@ -52,31 +52,31 @@ let logBuffer = []; // menampung log terbaru
 const MAX_LOGS = 20; // tampilkan 20 terakhir agar tidak penuh
 
 async function callAPI(endpoint, method = "GET", body = null) {
-  const url = `${BASE_URL}${endpoint}`;
-  const options = {
-    method,
-    headers: { "Content-Type": "application/json" },
-  };
+	const url = `${BASE_URL}${endpoint}`;
+	const options = {
+		method,
+		headers: { "Content-Type": "application/json" },
+	};
 
-  if (body) options.body = JSON.stringify(body);
+	if (body) options.body = JSON.stringify(body);
 
-  try {
-    const response = await fetch(url, options);
-    const text = await response.text();
+	try {
+		const response = await fetch(url, options);
+		const text = await response.text();
 
-    const line = `${chalk.gray(`[${getTimeStamp()}]`)}\t${chalk.cyan(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.white(text)}`;
-    logBuffer.push(line);
+		const line = `${chalk.gray(`[${getTimeStamp()}]`)}\t${chalk.cyan(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.white(text)}`;
+		logBuffer.push(line);
 
-    // Batasi log agar tidak terus menumpuk
-    if (logBuffer.length > MAX_LOGS) logBuffer.shift();
+		// Batasi log agar tidak terus menumpuk
+		if (logBuffer.length > MAX_LOGS) logBuffer.shift();
 
-    refreshDisplay();
-  } catch (error) {
-    const line = `${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.red(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)} ${chalk.redBright("Error:")} ${error.message}`;
-    logBuffer.push(line);
-    if (logBuffer.length > MAX_LOGS) logBuffer.shift();
-    refreshDisplay();
-  }
+		refreshDisplay();
+	} catch (error) {
+		const line = `${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.red(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)} ${chalk.redBright("Error:")} ${error.message}`;
+		logBuffer.push(line);
+		if (logBuffer.length > MAX_LOGS) logBuffer.shift();
+		refreshDisplay();
+	}
 }
 
 // =======================================================
