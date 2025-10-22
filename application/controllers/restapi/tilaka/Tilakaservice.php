@@ -245,8 +245,7 @@
                                 }
                             }
 
-                            // $bodycheckcertificate['user_identifier']=$a->user_identifier;
-                            $bodycheckcertificate['user_identifier']="riripratiwi02";
+                            $bodycheckcertificate['user_identifier']=$a->user_identifier;
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
                             // return var_dump($responsecheckcertificate);
@@ -254,7 +253,7 @@
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
-
+                                        $statusMsg = color('green').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                     }else{
                                         $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                     }
