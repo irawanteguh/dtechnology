@@ -1,7 +1,7 @@
 import os from "os";
 import fetch from "node-fetch";
 import chalk from "chalk";
-let lebar = 170;
+let lebar = 150;
 let host  = "localhost";
 
 const interfaces = os.networkInterfaces();
