@@ -87,7 +87,7 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
-                                                    echo PHP_EOL.color('green')."Filename: ".$responseuploadfile['filename']."\tUploaded Success";
+                                                    echo PHP_EOL.color('green')."\t\t\t\t\t\tFilename: ".$responseuploadfile['filename']."\tUploaded Success";
                                                 }
                                             }else{
                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
