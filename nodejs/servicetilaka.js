@@ -41,7 +41,7 @@ function printHeader() {
   console.log(chalk.gray("==============================================================================================================================================="));
   console.log(chalk.gray("Logs\t\t(auto-refresh every 10s)"));
   console.log(chalk.gray("==============================================================================================================================================="));
-  console.log(chalk.gray("TIMESTAMP\t\tMETHOD\tENDPOINT\tRESPONSE"));
+  console.log(chalk.gray("TIMESTAMP\t\tMETHOD\tENDPOINT\tRESPONSE\t\t\t\t\t\t\t\t\tSTATUS"));
   console.log(chalk.gray("==============================================================================================================================================="));
 }
 
