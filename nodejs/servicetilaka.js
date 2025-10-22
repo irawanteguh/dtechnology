@@ -68,7 +68,7 @@ async function callAPI(endpoint, method = "GET", body = null) {
 			console.log(chalk.cyan("*".repeat(lebar)));
 			console.log(chalk.cyan("TIMESTAMP\t\tMETHOD\tENDPOINT\tSTATUS"));
 			// console.log(chalk.cyan("=".repeat(lebar)));
-			console.log(`${chalk.white(`[${getTimeStamp()}]`)}\t${chalk.cyan(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.green("Success")}\n${chalk.white(text)}`);
+			console.log(`${chalk.white(`[${getTimeStamp()}]`)}\t${chalk.yellow(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.green("Success")}\n${chalk.white(text)}`);
 			console.log(chalk.cyan("*".repeat(lebar))+"\n\n");
 		}
 
