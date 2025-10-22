@@ -253,7 +253,32 @@
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
-                                        $statusMsg = color('green').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                        $responserequestsign = Tilaka::requestsign(json_encode($body));
+                                        if(isset($responserequestsign['success'])){
+                                            if($responserequestsign['success']){
+                                                foreach($resultfilerequestsign as $files){
+                                                    $datasimpanhd = [];
+
+                                                    if($files->source_file==="DTECHNOLOGY"){
+                                                        $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                                                    }else{
+                                                        $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                                    }
+
+                                                    if(file_exists($filename)){
+                                                        $datasimpanhd['request_id']  = $requestid;
+                                                        $datasimpanhd['status_sign'] = "2";
+                                                        $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
+                                                    }else{
+                                                        $datasimpanhd['status_sign'] = "0";
+                                                    }
+
+                                                    $this->md->updatefile($datasimpanhd,$files->no_file);
+
+                                                    $statusMsg = color('green')."Success";
+                                                }
+                                            }
+                                        }
                                     }else{
                                         $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                     }
