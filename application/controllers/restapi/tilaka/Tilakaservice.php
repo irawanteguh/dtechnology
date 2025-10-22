@@ -161,7 +161,7 @@
                         if($response['status']==="PROCESS"){
                             $data['NOTE']=$response['status'];
                             $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL."Status: Info RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
+                            echo color('green')."RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier}\t\t".$response['status'];
                         }
 
                         if($response['status']==="PARAMERR"){
