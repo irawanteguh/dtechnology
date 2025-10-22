@@ -253,7 +253,11 @@
 
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
-                                    $statusMsg = color('green').$responsecheckcertificate['message']['info'];
+                                    if($responsecheckcertificate['status']===3){
+
+                                    }else{
+                                        $statusMsg = color('green').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['message']['data'][0]['status']." | ".$responsecheckcertificate['message']['data'][0]['expiry_date"'];
+                                    }
                                 }else{
                                     $statusMsg = color('red').$responsecheckcertificate['message']['info'];
                                 }
