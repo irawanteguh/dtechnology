@@ -87,23 +87,23 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
-                                                    echo PHP_EOL.color('green')."\t\t\t\t\t\tFilename: ".$responseuploadfile['filename']."\t\t\tUploaded Success";
+                                                    echo PHP_EOL.color('green')."\t\t\t\t\t\tFilename: ".$responseuploadfile['filename'].".pdf\t\t\tUploaded Success";
                                                 }
                                             }else{
                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
-                                                echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Message: ".$responseuploadfile['message'];
+                                                echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\t".$responseuploadfile['message'];
                                             }
                                         }
                                     }else{
                                         $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-                                        echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Message: ".$responsecheckcertificate['message']['info'];
+                                        echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\t".$responsecheckcertificate['message']['info'];
                                     }
                                 }
                             }
                         }else{
                             $datasimpanhd['status_sign'] = "98";
                             $datasimpanhd['note']        = "File Corrupted";
-                            echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Message: File Corrupted, File Size : ".$filesize;
+                            echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\tFile Corrupted, File Size : ".$filesize;
                         }
                     }else{
                         $datasimpanhd['status_sign']     = "99";
@@ -111,7 +111,7 @@
                         $datasimpanhd['status_file']     = "0";
                         $datasimpanhd['user_identifier'] = "";
                         $datasimpanhd['url']             = "";
-                        echo PHP_EOL."Status: False NoFile: {$a->no_file}.pdf"." Location: ".$location." Message: File not found";
+                        echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\tFile not found";
                     }
 
                     if(!empty($datasimpanhd)){
@@ -143,7 +143,7 @@
                             $data['STATUS_SIGN'] = "4";
                             $data['NOTE']        = "";
                             $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL.color('green')."\t\t\t\t\t\tRequestId: {$a->request_id}\t\t\t\t".$response['status'];
+                            echo PHP_EOL.color('green')."\t\t\t\t\t\tRequestId: {$a->request_id}\t\t\t\t\t\t".$response['status'];
                         }
 
                         if($response['status']==="FAILED"){
