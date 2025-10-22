@@ -245,7 +245,8 @@
                                 }
                             }
 
-                            $bodycheckcertificate['user_identifier']=$a->user_identifier;
+                            // $bodycheckcertificate['user_identifier']=$a->user_identifier;
+                            $bodycheckcertificate['user_identifier']="riripratiwi02";
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
                             if(isset($responsecheckcertificate['success'])){
