@@ -56,7 +56,6 @@
             
             echo PHP_EOL;
             echo color('cyan').str_pad("NO FILE", 40).str_pad("LOCATION", 60).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
-            // echo color('cyan').str_repeat("*", 170).PHP_EOL;
 
             if(!empty($result)){
                 foreach ($result as $a) {
