@@ -143,7 +143,7 @@
                             $data['STATUS_SIGN'] = "4";
                             $data['NOTE']        = "";
                             $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL.color('green')."RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier}\t".$response['status'];
+                            echo color('green')."RequestId: {$a->request_id}\t\t".$response['status'];
                         }
 
                         if($response['status']==="FAILED"){
@@ -161,7 +161,7 @@
                         if($response['status']==="PROCESS"){
                             $data['NOTE']=$response['status'];
                             $this->md->updatefile($data,$a->no_file);
-                            echo color('cyan')."RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier}\t\t".$response['status'];
+                            echo color('cyan')."RequestId: {$a->request_id}\t\t".$response['status'];
                         }
 
                         if($response['status']==="PARAMERR"){
