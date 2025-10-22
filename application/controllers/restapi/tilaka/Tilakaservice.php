@@ -116,7 +116,7 @@
                     }
 
                     if(!empty($datasimpanhd)){
-                        // $this->md->updatefile($datasimpanhd, $a->no_file);
+                        $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
                     echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
