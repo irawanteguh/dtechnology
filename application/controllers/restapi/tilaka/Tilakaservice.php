@@ -90,16 +90,16 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
-                                                    $statusMsg = color('green')."Uploaded Success";
+                                                    $statusMsg                       = color('green')."Uploaded Success";
                                                 }
                                             }else{
                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
-                                                $statusMsg = color('red').$responseuploadfile['message'];
+                                                $statusMsg            = color('red').$responseuploadfile['message'];
                                             }
                                         }
                                     }else{
                                         $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-                                        $statusMsg = color('red').$responsecheckcertificate['message']['info'];
+                                        $statusMsg            = color('red').$responsecheckcertificate['message']['info'];
                                     }
                                 }
                             }
@@ -133,11 +133,14 @@
             $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 10;";
             $result = $this->md->listexecute(ORG_ID, $status);
 
+            echo PHP_EOL;
+            echo color('cyan').str_pad("NO FILE", 40).str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+
             if(!empty($result)){
                 foreach($result as $a){
-                    $response    = [];
-                    $data        = [];
-                    $body        = [];
+                    $response     = [];
+                    $datasimpanhd = [];
+                    $body         = [];
 
                     $body['request_id']      = $a->request_id;
                     $body['user_identifier'] = $a->user_identifier;
@@ -146,39 +149,41 @@
 
                     if(isset($response['success'])){
                         if($response['status']==="DONE"){
-                            $data['STATUS_SIGN'] = "4";
-                            $data['NOTE']        = "";
-                            $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL.color('green')."\t\t\t\t\t\tRequestId: {$a->request_id} NoFile: {$a->no_file}.pdf\t".$response['status'];
+                            $datasimpanhd['STATUS_SIGN'] = "4";
+                            $datasimpanhd['NOTE']        = "";
+                            $statusMsg                   = color('green').$response['status'];
                         }
 
                         if($response['status']==="FAILED"){
-                            $data['STATUS_SIGN']     = "0";
-                            $data['STATUS_FILE']     = "1";
-                            $data['REQUEST_ID']      = "";
-                            $data['LINK']            = "";
-                            $data['NOTE']            = "";
-                            $data['USER_IDENTIFIER'] = "";
-                            $data['URL']             = "";
-                            $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL."Status: False RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
+                            $datasimpanhd['STATUS_SIGN']     = "0";
+                            $datasimpanhd['STATUS_FILE']     = "1";
+                            $datasimpanhd['REQUEST_ID']      = "";
+                            $datasimpanhd['LINK']            = "";
+                            $datasimpanhd['NOTE']            = "";
+                            $datasimpanhd['USER_IDENTIFIER'] = "";
+                            $datasimpanhd['URL']             = "";
+                            $statusMsg                       = color('danger').$response['status'];
                         }
 
                         if($response['status']==="PROCESS"){
-                            $data['NOTE']=$response['status'];
-                            $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL.color('cyan')."\t\t\t\t\t\tRequestId: {$a->request_id} NoFile: {$a->no_file}.pdf\t".$response['status'];
+                            $datasimpanhd['NOTE'] = $response['status'];
+                            $statusMsg            = color('danger').$response['status'];
                         }
 
                         if($response['status']==="PARAMERR"){
-                            $data['NOTE']=$response['status'];
-                            $this->md->updatefile($data,$a->no_file);
-                            echo PHP_EOL."Status: Info RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
+                            $datasimpanhd['NOTE'] = $response['status'];
+                            $statusMsg            = color('danger').$response['status'];
                         }
+
+                        if(!empty($datasimpanhd)){
+                            // $this->md->updatefile($datasimpanhd, $a->no_file);
+                        }
+
+                        echo str_pad($a->no_file.".pdf", 40).str_pad($a->request_id, 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
                     }
                 }
             }else{
-                echo color('red')."Message: Data Tidak Ditemukan";
+                echo color('red')."Data Tidak Ditemukan";
             }
         }
     }
