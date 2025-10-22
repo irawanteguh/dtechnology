@@ -130,7 +130,7 @@
 
 
         public function excutesign_POST(){
-            $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 10;";
+            $status = "AND a.status_sign = '5' ORDER BY note ASC, created_date DESC LIMIT 10;";
             $result = $this->md->listexecute(ORG_ID, $status);
 
             echo PHP_EOL;
@@ -179,7 +179,7 @@
                             // $this->md->updatefile($datasimpanhd, $a->no_file);
                         }
 
-                        echo str_pad($a->no_file.".pdf", 40).str_pad($a->request_id, 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
+                        echo str_pad($a->no_file.".pdf", 40).str_pad($a->request_id, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
                     }
                 }
             }else{
