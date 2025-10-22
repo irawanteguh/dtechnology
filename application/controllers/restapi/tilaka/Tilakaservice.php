@@ -10,40 +10,37 @@
     use setasign\Fpdi\Fpdi;
     use setasign\Fpdi\PdfReader;
 
+    if(!function_exists('color')){
+        function color($name = null){
+            $colors = [
+                'reset'          => "\033[0m",
+                'black'          => "\033[30m",
+                'red'            => "\033[31m",
+                'green'          => "\033[32m",
+                'yellow'         => "\033[33m",
+                'blue'           => "\033[34m",
+                'magenta'        => "\033[35m",
+                'cyan'           => "\033[36m",
+                'white'          => "\033[37m",
+                'gray'           => "\033[90m",
+                'light_red'      => "\033[91m",
+                'light_green'    => "\033[92m",
+                'light_yellow'   => "\033[93m",
+                'light_blue'     => "\033[94m",
+                'light_magenta'  => "\033[95m",
+                'light_cyan'     => "\033[96m",
+                'light_white'    => "\033[97m",
+            ];
+
+            return $colors[$name] ?? $colors['reset'];
+        }
+    }
+
     class Tilakaservice extends REST_Controller{
         
         public function __construct(){
             parent::__construct();
             $this->load->model("Modeltilaka","md");
-        }
-
-        private function sendResponse($data) {
-            if (!empty($data)) {
-                $response = [
-                    'ResponseDTechnology' => [
-                        'metaData' => [
-                            'code'    => REST_Controller::HTTP_OK,
-                            'message' => 'Data Ditemukan'
-                        ],
-                        'data' => $data
-                    ]
-                ];
-                $httpCode = REST_Controller::HTTP_OK;
-            } else {
-                $response = [
-                    'ResponseDTechnology' => [
-                        'metaData' => [
-                            'code'    => REST_Controller::HTTP_NOT_FOUND,
-                            'message' => 'Data Tidak Ditemukan'
-                        ],
-                        'data' => null
-                    ]
-                ];
-                $httpCode = REST_Controller::HTTP_NOT_FOUND;
-            }
-
-            // Kirim response ke client
-            $this->response($response, $httpCode);
         }
 
         public function auth_GET(){
@@ -122,7 +119,7 @@
                     }
                 }
             } else {
-                echo "Status: False Message: Data Tidak Ditemukan";
+                echo color('red')."Message: Data Tidak Ditemukan";
             }
         }
 
@@ -175,7 +172,7 @@
                     }
                 }
             }else{
-                echo "Status: False Message: Data Tidak Ditemukan";
+                echo color('red')."Message: Data Tidak Ditemukan";
             }
         }
     }
