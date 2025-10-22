@@ -130,7 +130,7 @@
 
 
         public function excutesign_POST(){
-            $status = "AND a.status_sign = '5' ORDER BY note ASC, created_date DESC LIMIT 10;";
+            $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 10;";
             $result = $this->md->listexecute(ORG_ID, $status);
 
             echo PHP_EOL;
