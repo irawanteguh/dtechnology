@@ -142,7 +142,7 @@
                         if($response['status']==="DONE"){
                             $data['STATUS_SIGN'] = "4";
                             $data['NOTE']        = "";
-                            // $this->md->updatefile($data,$a->no_file);
+                            $this->md->updatefile($data,$a->no_file);
                             echo PHP_EOL.color('green')."\t\t\t\t\t\tRequestId: {$a->request_id} NoFile: {$a->no_file}.pdf\t".$response['status'];
                         }
 
@@ -154,19 +154,19 @@
                             $data['NOTE']            = "";
                             $data['USER_IDENTIFIER'] = "";
                             $data['URL']             = "";
-                            // $this->md->updatefile($data,$a->no_file);
+                            $this->md->updatefile($data,$a->no_file);
                             echo PHP_EOL."Status: False RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
                         }
 
                         if($response['status']==="PROCESS"){
                             $data['NOTE']=$response['status'];
-                            // $this->md->updatefile($data,$a->no_file);
+                            $this->md->updatefile($data,$a->no_file);
                             echo PHP_EOL.color('cyan')."\t\t\t\t\t\tRequestId: {$a->request_id} NoFile: {$a->no_file}.pdf\t".$response['status'];
                         }
 
                         if($response['status']==="PARAMERR"){
                             $data['NOTE']=$response['status'];
-                            // $this->md->updatefile($data,$a->no_file);
+                            $this->md->updatefile($data,$a->no_file);
                             echo PHP_EOL."Status: Info RequestId: {$a->request_id} NoFile: {$a->no_file}.pdf UserIdentifier: {$a->user_identifier} Message: ".$response['status'];
                         }
                     }
