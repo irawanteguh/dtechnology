@@ -249,6 +249,8 @@
                             $bodycheckcertificate['user_identifier']="riripratiwi02";
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
+                            return var_dump($responsecheckcertificate);
+
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     $statusMsg = color('green').$responsecheckcertificate['message']['info'];
