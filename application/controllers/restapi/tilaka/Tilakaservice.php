@@ -136,7 +136,7 @@
             if(!empty($result)){
                 foreach($result as $a){
                     $requestid  = "";
-                    $location   = "";
+                    $filename   = "";
                     $listfile   = [];
                     $body       = [];
                     $signatures = [];
@@ -156,12 +156,12 @@
                             foreach($resultfilerequestsign as $files){
 
                                 if($files->source_file==="DTECHNOLOGY"){
-                                    $location = FCPATH."assets/document/".$files->no_file.".pdf";
+                                    $filename = FCPATH."assets/document/".$files->no_file.".pdf";
                                 }else{
-                                    $location = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                    $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                                 }
 
-                                if(file_exists($location)){
+                                if(file_exists($filename)){
                                     if(preg_match('/SIGNER(.*)/', $filename, $matches)){
                                         $position = "$" . preg_replace('/\.pdf$/', '', $matches[1]);
                                         
