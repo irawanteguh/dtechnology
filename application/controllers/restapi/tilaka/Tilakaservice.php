@@ -53,6 +53,10 @@
 
             $status = "AND a.status_sign = '0' ORDER BY note ASC, created_date ASC LIMIT 10;";
             $result = $this->md->pencariandata(ORG_ID, $status);
+            
+            echo PHP_EOL;
+            echo color('cyan').str_pad("NO FILE", 40).str_pad("LOCATION", 60).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+            // echo color('cyan').str_repeat("*", 170).PHP_EOL;
 
             if(!empty($result)){
                 foreach ($result as $a) {
@@ -87,23 +91,23 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
-                                                    echo PHP_EOL.color('green')."\t\t\t\t\t\tFilename: ".$responseuploadfile['filename'].".pdf\t\t\tUploaded Success";
+                                                    $statusMsg = color('green')."Uploaded Success";
                                                 }
                                             }else{
                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
-                                                echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\t".$responseuploadfile['message'];
+                                                $statusMsg = color('red').$responseuploadfile['message'];
                                             }
                                         }
                                     }else{
                                         $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-                                        echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\t".$responsecheckcertificate['message']['info'];
+                                        $statusMsg = color('red').$responsecheckcertificate['message']['info'];
                                     }
                                 }
                             }
                         }else{
                             $datasimpanhd['status_sign'] = "98";
                             $datasimpanhd['note']        = "File Corrupted";
-                            echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\tFile Corrupted, File Size : ".$filesize;
+                            $statusMsg                   = color('red')."File Corrupted, Size: ".$filesize;
                         }
                     }else{
                         $datasimpanhd['status_sign']     = "99";
@@ -111,17 +115,20 @@
                         $datasimpanhd['status_file']     = "0";
                         $datasimpanhd['user_identifier'] = "";
                         $datasimpanhd['url']             = "";
-                        echo PHP_EOL.color('red')."\t\t\t\t\t\tNoFile: {$a->no_file}.pdf"."\t\t\tFile not found";
+                        $statusMsg                       = color('red')."File not found";
                     }
 
                     if(!empty($datasimpanhd)){
-                        $this->md->updatefile($datasimpanhd, $a->no_file);
+                        // $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
+
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($location, 60).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
                 }
             } else {
                 echo color('red')."Message: Data Tidak Ditemukan";
             }
         }
+
 
         public function excutesign_POST(){
             $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 10;";

@@ -1,55 +1,36 @@
 import os from "os";
 import fetch from "node-fetch";
 import chalk from "chalk";
-import readline from "readline";
+let lebar = 170;
+let host  = "localhost";
 
-// =======================================================
-// 🌐 Get Local IP & BASE_URL
-// =======================================================
-let host = "localhost";
 const interfaces = os.networkInterfaces();
 for (const iface of Object.values(interfaces)) {
-  for (const info of iface) {
-    if (info.family === "IPv4" && !info.internal) {
-      host = info.address;
-      break;
-    }
-  }
+	for (const info of iface) {
+		if (info.family === "IPv4" && !info.internal) {
+			host = info.address;
+			break;
+		}
+	}
 }
 
 const BASE_URL = process.env.BASE_URL || `http://${host}/dtechnology/index.php/`;
 
-// =======================================================
-// 🕒 Timestamp helper
-// =======================================================
 function getTimeStamp() {
   const now = new Date();
-  const date = now.toISOString().slice(0, 10);
-  const time = now.toTimeString().split(" ")[0];
-  return `${date} ${time}`;
+  const pad = (n) => n.toString().padStart(2, "0");
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 }
 
-// =======================================================
-// 🧩 Header (frozen section)
-// =======================================================
 function printHeader() {
-  console.clear();
-  console.log(chalk.bold.cyan("🚀 DTechnology Service Tilaka Monitor"));
-  console.log(chalk.gray("============================================================================================================================================================="));
-  console.log(`${chalk.yellow("BASE_URL")}\t${chalk.white(BASE_URL)}`);
-  console.log(`${chalk.yellow("Last Refresh")}\t${chalk.white(getTimeStamp())}`);
-  console.log(chalk.gray("============================================================================================================================================================="));
-  console.log(chalk.gray("Logs\t\t(auto-refresh every 10s)"));
-  console.log(chalk.gray("============================================================================================================================================================="));
-  console.log(chalk.gray("TIMESTAMP\t\tMETHOD\tENDPOINT\tRESPONSE\t\t\t\t\t\t\t\t\t\tSTATUS"));
-  console.log(chalk.gray("============================================================================================================================================================="));
+	console.clear();
+	// console.log(chalk.gray("=".repeat(150)));
+	// console.log(chalk.bold.cyan("🚀 DTechnology Service Tilaka Monitor\n"));
+	// console.log(`${chalk.yellow("BASE_URL")}\t${chalk.white(BASE_URL)}`);
+	// console.log(`${chalk.yellow("Last Refresh")}\t${chalk.white(getTimeStamp())}`);
+	// console.log(chalk.gray("Logs\t\t(auto-refresh every 10s)"));
+	// console.log(chalk.gray("=".repeat(150)));
 }
-
-// =======================================================
-// 📡 callAPI + log output (below header)
-// =======================================================
-let logBuffer = []; // menampung log terbaru
-const MAX_LOGS = 20; // tampilkan 20 terakhir agar tidak penuh
 
 async function callAPI(endpoint, method = "GET", body = null) {
 	const url = `${BASE_URL}${endpoint}`;
@@ -62,41 +43,48 @@ async function callAPI(endpoint, method = "GET", body = null) {
 
 	try {
 		const response = await fetch(url, options);
-		const text = await response.text();
+		const text     = await response.text();
 
-		const line = `${chalk.gray(`[${getTimeStamp()}]`)}\t${chalk.cyan(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.white(text)}`;
-		logBuffer.push(line);
+		if(!response.ok){
+			const cleanMsg = text.replace(/<[^>]*>?/gm, "").replace(/\s+/g, " ").trim();
 
-		// Batasi log agar tidak terus menumpuk
-		if (logBuffer.length > MAX_LOGS) logBuffer.shift();
+			const lines   = cleanMsg.split(/(?=\d{3}\s)/)[0] || cleanMsg;
+			const message = lines.replace(/Apache\/.*$/i, "").replace(/Port\s\d+/i, "").trim();
 
-		refreshDisplay();
+			console.log(chalk.cyan("=".repeat(lebar)));
+			console.log(chalk.cyan("TIMESTAMP\t\tMETHOD\tENDPOINT\tSTATUS\t\tMESSAGE"));
+			console.log(chalk.cyan("=".repeat(lebar)));
+			console.log(chalk.white(getTimeStamp())+"\t"+chalk.white(method)+"\t"+chalk.white(endpoint)+"\t"+chalk.red(`Error ${response.status}`)+"\t"+chalk.white(message)+"\n");
+			
+			return;
+		}
+
+		try {
+
+			const data = JSON.parse(text);
+			console.log(`${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.cyan(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)} ? ${chalk.green("? Success")}`,data);
+
+		} catch {
+			console.log(chalk.cyan("*".repeat(lebar)));
+			console.log(chalk.cyan("TIMESTAMP\t\tMETHOD\tENDPOINT\tSTATUS"));
+			// console.log(chalk.cyan("=".repeat(lebar)));
+			console.log(`${chalk.white(`[${getTimeStamp()}]`)}\t${chalk.cyan(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.green("Success")}\n${chalk.white(text)}`);
+			console.log(chalk.cyan("*".repeat(lebar))+"\n\n");
+		}
+
 	} catch (error) {
-		const line = `${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.red(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)} ${chalk.redBright("Error:")} ${error.message}`;
-		logBuffer.push(line);
-		if (logBuffer.length > MAX_LOGS) logBuffer.shift();
-		refreshDisplay();
+		console.log(chalk.cyan("=".repeat(lebar)));
+		console.log(chalk.cyan("TIMESTAMP\t\tMETHOD\tENDPOINT\tSTATUS\t\tMESSAGE"));
+		console.log(chalk.cyan("=".repeat(lebar)));
+		console.log(chalk.white(getTimeStamp())+"\t"+chalk.white(method)+"\t"+chalk.white(endpoint)+"\t"+chalk.red(`Network Error`)+"\t"+chalk.white(error.message)+"\n");
 	}
 }
 
-// =======================================================
-// 🧠 Fungsi refreshDisplay → header tetap, log di bawah
-// =======================================================
-function refreshDisplay() {
-  readline.cursorTo(process.stdout, 0, 0);
-  printHeader();
-  for (const line of logBuffer) console.log(line);
-}
-
-// =======================================================
-// 🔁 Looping service
-// =======================================================
 async function runservices() {
   await callAPI("uploadallfile", "POST");
-  await callAPI("excutesign", "POST");
+//   await callAPI("excutesign", "POST");
 }
 
-// Jalankan pertama kali & interval
 printHeader();
 runservices();
 setInterval(runservices, 10000);
