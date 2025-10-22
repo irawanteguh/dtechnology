@@ -124,7 +124,7 @@
                     echo str_pad($a->no_file.".pdf", 40).str_pad($location, 60).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
                 }
             } else {
-                echo color('red')."Message: Data Tidak Ditemukan";
+                echo color('red')."Data Tidak Ditemukan";
             }
         }
 
