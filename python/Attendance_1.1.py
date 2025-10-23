@@ -142,47 +142,96 @@ def load_master_faces():
     master_names = names
     log_success(f"Master wajah siap: {len(master_encodings)} wajah terdaftar.")
 
+# def detect_face(path, tolerance=0.5):
+#     """Mendeteksi wajah dan mencocokkannya dengan master face menggunakan tolerance."""
+#     global master_encodings, master_names
+#     img_eq = preprocess_image(path)
+
+#     # Gunakan model HOG (lebih ringan) atau CNN (lebih akurat)
+#     face_locations = face_recognition.face_locations(img_eq, model='hog')
+#     face_encodings = face_recognition.face_encodings(img_eq, face_locations)
+
+#     if not face_encodings:
+#         return "NoFace", 0.0, False
+
+#     best_name = "Unknown"
+#     best_conf = 0.0
+
+#     for face_encoding in face_encodings:
+#         # Hitung jarak antar wajah
+#         distances = face_recognition.face_distance(master_encodings, face_encoding)
+#         if len(distances) == 0:
+#             continue
+
+#         # Ambil jarak terkecil
+#         best_index = np.argmin(distances)
+#         best_distance = distances[best_index]
+#         best_name_candidate = master_names[best_index]
+
+#         # Cek apakah jarak di bawah tolerance (semakin kecil semakin mirip)
+#         match = best_distance <= tolerance
+
+#         # Konversi jarak jadi "confidence" (semakin kecil jarak → semakin tinggi confidence)
+#         confidence = (1 - best_distance) * 100
+
+#         if match and confidence > best_conf:
+#             best_name = best_name_candidate
+#             best_conf = confidence
+
+#     # Jika tidak ada yang cocok di bawah tolerance
+#     if best_name == "Unknown":
+#         return "Unknown", best_conf, True
+#     else:
+#         return best_name, best_conf, True
+
 def detect_face(path, tolerance=0.5):
-    """Mendeteksi wajah dan mencocokkannya dengan master face menggunakan tolerance."""
+    """Mendeteksi wajah dan mencocokkannya dengan master face, fallback ke tiny detector jika gagal."""
     global master_encodings, master_names
     img_eq = preprocess_image(path)
 
-    # Gunakan model HOG (lebih ringan) atau CNN (lebih akurat)
+    # --- Tahap 1: coba deteksi dengan face_recognition (HOG) ---
     face_locations = face_recognition.face_locations(img_eq, model='hog')
     face_encodings = face_recognition.face_encodings(img_eq, face_locations)
 
+    # --- Jika tidak ada wajah, fallback ke Tiny (Haar Cascade) ---
     if not face_encodings:
-        return "NoFace", 0.0, False
+        log_warn(f"Tidak terdeteksi wajah dengan face_recognition → mencoba Tiny detector")
 
+        gray = cv2.cvtColor(img_eq, cv2.COLOR_RGB2GRAY)
+        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(80, 80))
+
+        if len(faces) > 0:
+            log_info(f"Tiny detector menemukan {len(faces)} wajah (fallback mode).")
+            return "Unknown", 0.0, True  # Ada wajah, tapi belum dikenal
+        else:
+            return "NoFace", 0.0, False  # Tidak ada wajah sama sekali
+
+    # --- Tahap 2: Pencocokan wajah dengan master ---
     best_name = "Unknown"
     best_conf = 0.0
 
     for face_encoding in face_encodings:
-        # Hitung jarak antar wajah
         distances = face_recognition.face_distance(master_encodings, face_encoding)
         if len(distances) == 0:
             continue
 
-        # Ambil jarak terkecil
         best_index = np.argmin(distances)
         best_distance = distances[best_index]
         best_name_candidate = master_names[best_index]
 
-        # Cek apakah jarak di bawah tolerance (semakin kecil semakin mirip)
         match = best_distance <= tolerance
-
-        # Konversi jarak jadi "confidence" (semakin kecil jarak → semakin tinggi confidence)
         confidence = (1 - best_distance) * 100
 
         if match and confidence > best_conf:
             best_name = best_name_candidate
             best_conf = confidence
 
-    # Jika tidak ada yang cocok di bawah tolerance
     if best_name == "Unknown":
         return "Unknown", best_conf, True
     else:
         return best_name, best_conf, True
+
 
 def auto_detect_faces(tolerance=0.5):
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
