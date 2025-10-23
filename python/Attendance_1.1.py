@@ -284,7 +284,7 @@ def detect_face(path, tolerance=0.5):
 
 #         time.sleep(1)
 
-MAX_BATCH = 10  # jumlah maksimal file per loop
+MAX_BATCH = 2  # jumlah maksimal file per loop
 
 def auto_detect_faces(tolerance=0.5):
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
