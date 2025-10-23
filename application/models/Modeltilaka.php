@@ -81,7 +81,7 @@
         function listexecute($orgid){
             $query =
                     "
-                        select distinct a.user_identifier, request_id, user_identifier
+                        select distinct a.no_file, user_identifier, request_id, user_identifier
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.org_id='".$orgid."'
