@@ -52,7 +52,7 @@
 
         public function headerlog(){
             echo PHP_EOL;
-            echo color('cyan').str_pad("FILE IDENTITY", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+            echo color('cyan').str_pad("IDENTITY", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
         }
 
         public function uploadallfile_POST(){
@@ -61,8 +61,8 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $location = "";
-                    $filesize = 0;
+                    $location  = "";
+                    $filesize  = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
@@ -132,83 +132,6 @@
             }
         }
 
-        // public function uploadallfile_POST(){
-        //     $status = "AND a.status_sign = '0' ORDER BY note ASC, created_date ASC LIMIT 10;";
-        //     $result = $this->md->pencariandata(ORG_ID, $status);
-            
-        //     echo PHP_EOL;
-        //     echo color('cyan').str_pad("NO FILE", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
-
-        //     if(!empty($result)){
-        //         foreach ($result as $a) {
-        //             $location                 = "";
-        //             $datasimpanhd             = [];
-        //             $responseuploadfile       = [];
-        //             $responsecheckcertificate = [];
-        //             $filesize                 = 0;
-
-        //             if($a->source_file==="DTECHNOLOGY"){
-        //                 $location = FCPATH."assets/document/".$a->no_file.".pdf";
-        //             }else{
-        //                 $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
-        //             }
-
-        //             if(file_exists($location)){
-        //                 $filesize = filesize($location);
-        //                 if($filesize!=0){
-        //                     $bodycheckcertificate['user_identifier']=$a->useridentifier;
-        //                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-
-        //                     if(isset($responsecheckcertificate['success'])){
-        //                         if($responsecheckcertificate['success']){
-        //                             if($responsecheckcertificate['status']===3){
-        //                                 $responseuploadfile = Tilaka::uploadfile($location);
-        //                                 if(isset($responseuploadfile['success'])){
-        //                                     if($responseuploadfile['success']){
-        //                                         $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
-        //                                         if(empty($resultcheckfilename)){
-        //                                             $datasimpanhd['filename']        = $responseuploadfile['filename'];
-        //                                             $datasimpanhd['user_identifier'] = $a->useridentifier;
-        //                                             $datasimpanhd['status_sign']     = "1";
-        //                                             $datasimpanhd['status_file']     = "1";
-        //                                             $datasimpanhd['note']            = "";
-        //                                             $statusMsg                       = color('green')."Uploaded Success";
-        //                                         }
-        //                                     }else{
-        //                                         $datasimpanhd['note'] = $responseuploadfile['message'];
-        //                                         $statusMsg            = color('red').$responseuploadfile['message'];
-        //                                     }
-        //                                 }
-        //                             }else{
-        //                                 $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-        //                                 $statusMsg            = color('red').$responsecheckcertificate['message']['info'];
-        //                             }
-        //                         }
-        //                     }
-        //                 }else{
-        //                     $datasimpanhd['status_sign'] = "98";
-        //                     $datasimpanhd['note']        = "File Corrupted";
-        //                     $statusMsg                   = color('red')."File Corrupted, Size: ".$filesize;
-        //                 }
-        //             }else{
-        //                 $datasimpanhd['status_sign']     = "99";
-        //                 $datasimpanhd['note']            = "File not found";
-        //                 $datasimpanhd['status_file']     = "0";
-        //                 $datasimpanhd['user_identifier'] = "";
-        //                 $datasimpanhd['url']             = "";
-        //                 $statusMsg                       = color('red')."File not found : ".$location;
-        //             }
-
-        //             if(!empty($datasimpanhd)){
-        //                 // $this->md->updatefile($datasimpanhd, $a->no_file);
-        //             }
-
-        //             echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
-        //         }
-        //     } else {
-        //         echo color('red')."Data Tidak Ditemukan";
-        //     }
-        // }
 
         // public function requestsign_POST(){
         //     $status = "AND a.status_sign = '1' LIMIT 10;";
@@ -384,63 +307,62 @@
         //     }
         // }
 
-        // public function excutesign_POST(){
-        //     $status = "AND a.status_sign = '3' ORDER BY note ASC, created_date DESC LIMIT 10;";
-        //     $result = $this->md->listexecute(ORG_ID, $status);
+        public function excutesign_POST(){
+            $this->headerlog();
+            $result = $this->md->listexecute(ORG_ID);
 
-        //     echo PHP_EOL;
-        //     echo color('cyan').str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+            if(!empty($result)){
+                foreach($result as $a){
+                    $response     = [];
+                    $datasimpanhd = [];
+                    $body         = [];
+                    
 
-        //     if(!empty($result)){
-        //         foreach($result as $a){
-        //             $response     = [];
-        //             $datasimpanhd = [];
-        //             $body         = [];
+                    $body['request_id']      = $a->request_id;
+                    $body['user_identifier'] = $a->user_identifier;
 
-        //             $body['request_id']      = $a->request_id;
-        //             $body['user_identifier'] = $a->user_identifier;
+                    $response = Tilaka::excutesign(json_encode($body));
+                    // return var_dump($response);
 
-        //             $response = Tilaka::excutesign(json_encode($body));
+                    if(isset($response['success'])){
+                        if($response['status']==="DONE"){
+                            $datasimpanhd['STATUS_SIGN'] = "4";
+                            $datasimpanhd['NOTE']        = "";
+                            $statusMsg                   = color('green').$response['status']." | ".$response['message'];
+                        }
 
-        //             if(isset($response['success'])){
-        //                 if($response['status']==="DONE"){
-        //                     $datasimpanhd['STATUS_SIGN'] = "4";
-        //                     $datasimpanhd['NOTE']        = "";
-        //                     $statusMsg                   = color('green').$response['status'];
-        //                 }
+                        if($response['status']==="FAILED"){
+                            $datasimpanhd['STATUS_SIGN']     = "0";
+                            $datasimpanhd['STATUS_FILE']     = "1";
+                            $datasimpanhd['REQUEST_ID']      = "";
+                            $datasimpanhd['LINK']            = "";
+                            $datasimpanhd['NOTE']            = "";
+                            $datasimpanhd['USER_IDENTIFIER'] = "";
+                            $datasimpanhd['URL']             = "";
+                            $statusMsg                       = color('danger').$response['status']." | ".$response['message'];
+                        }
 
-        //                 if($response['status']==="FAILED"){
-        //                     $datasimpanhd['STATUS_SIGN']     = "0";
-        //                     $datasimpanhd['STATUS_FILE']     = "1";
-        //                     $datasimpanhd['REQUEST_ID']      = "";
-        //                     $datasimpanhd['LINK']            = "";
-        //                     $datasimpanhd['NOTE']            = "";
-        //                     $datasimpanhd['USER_IDENTIFIER'] = "";
-        //                     $datasimpanhd['URL']             = "";
-        //                     $statusMsg                       = color('danger').$response['status'];
-        //                 }
+                        if($response['status']==="PROCESS"){
+                            $datasimpanhd['NOTE'] = $response['status'];
+                            $statusMsg            = color('cyan').$response['status']." | ".$response['message'];
+                        }
 
-        //                 if($response['status']==="PROCESS"){
-        //                     $datasimpanhd['NOTE'] = $response['status'];
-        //                     $statusMsg            = color('danger').$response['status'];
-        //                 }
+                        if($response['status']==="PARAMERR"){
+                            $datasimpanhd['NOTE'] = $response['status'];
+                            $statusMsg            = color('cyan').$response['status']." | ".$response['message'];
+                        }
 
-        //                 if($response['status']==="PARAMERR"){
-        //                     $datasimpanhd['NOTE'] = $response['status'];
-        //                     $statusMsg            = color('danger').$response['status'];
-        //                 }
+                        if(!empty($datasimpanhd)){
+                            $this->md->updatefile($datasimpanhd, $a->no_file);
+                        }
 
-        //                 if(!empty($datasimpanhd)){
-        //                     $this->md->updatefile($datasimpanhd, $a->no_file);
-        //                 }
-
-        //                 echo str_pad($a->request_id, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
-        //             }
-        //         }
-        //     }else{
-        //         echo color('red')."Data Tidak Ditemukan";
-        //     }
-        // }
+                        echo str_pad($a->request_id, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
+                    }
+                }
+            }else{
+                echo color('red')."Data Tidak Ditemukan";
+            }
+        }
     }
 
 ?>
