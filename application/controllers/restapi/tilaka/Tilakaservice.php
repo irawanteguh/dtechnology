@@ -81,7 +81,6 @@
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
                                         $responseuploadfile = Tilaka::uploadfile($location);
-                                        return var_dump($responseuploadfile);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
                                                 $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
