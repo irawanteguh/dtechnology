@@ -81,11 +81,13 @@
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
-                                        $responseuploadfile = Tilaka::uploadfile($location."x");
+                                        $responseuploadfile = Tilaka::uploadfile();
                                         return var_dump($responseuploadfile);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
 
+                                            }else{
+                                                $statusMsg = color('red').$responseuploadfile['message'];
                                             }
                                         }
                                     }else{
