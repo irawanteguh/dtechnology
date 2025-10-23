@@ -75,7 +75,6 @@
                         if($filesize!=0){
                             $bodycheckcertificate['user_identifier']=$a->useridentifier;
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-                            // return var_dump($responsecheckcertificate);
 
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
@@ -85,24 +84,45 @@
                                             if($responseuploadfile['success']){
                                                 $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
                                                 if(empty($resultcheckfilename)){
+                                                    $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                                    $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                    $datasimpanhd['status_sign']     = "1";
+                                                    $datasimpanhd['status_file']     = "1";
+                                                    $datasimpanhd['note']            = "";
+
                                                     $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                                 }
                                             }else{
+                                                $datasimpanhd['note'] = $responseuploadfile['message'];
                                                 $statusMsg = color('red').$responseuploadfile['message'];
                                             }
                                         }
                                     }else{
+                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
                                         $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                     }
                                 }else{
+                                    $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
                                     $statusMsg = color('red').$responsecheckcertificate['message']['info'];
                                 }
                             }
                         }else{
+                            $datasimpanhd['status_sign'] = "98";
+                            $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
                             $statusMsg = color('red')."File Corrupted, Size: ".$filesize;
                         }
                     }else{
+                        $datasimpanhd['status_sign']     = "99";
+                        $datasimpanhd['note']            = "File not found";
+                        $datasimpanhd['status_file']     = "0";
+                        $datasimpanhd['user_identifier'] = "";
+                        $datasimpanhd['url']             = "";
+
                         $statusMsg = color('red')."File not found | ".$location;
+                    }
+
+                    if(!empty($datasimpanhd)){
+                        $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
                     echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
