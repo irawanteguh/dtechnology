@@ -77,7 +77,7 @@
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
                             // return var_dump($responsecheckcertificate);
 
-                            $location="";
+                            $location=".pdf";
 
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
