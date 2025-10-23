@@ -77,8 +77,6 @@
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
                             // return var_dump($responsecheckcertificate);
 
-                            $location=".pdf";
-
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
@@ -86,7 +84,10 @@
                                         return var_dump($responseuploadfile);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
-
+                                                $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
+                                                if(empty($resultcheckfilename)){
+                                                    $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                                }
                                             }else{
                                                 $statusMsg = color('red').$responseuploadfile['message'];
                                             }
