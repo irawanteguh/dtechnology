@@ -77,11 +77,12 @@
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
                             // return var_dump($responsecheckcertificate);
 
+                            $location="";
 
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
-                                        $responseuploadfile = Tilaka::uploadfile();
+                                        $responseuploadfile = Tilaka::uploadfile($location);
                                         return var_dump($responseuploadfile);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
