@@ -363,6 +363,53 @@
                 echo color('red')."Data Tidak Ditemukan";
             }
         }
+
+        public function statussign_POST(){
+            $this->headerlog();
+            $result = $this->md->listdownload(ORG_ID);
+            if(!empty($result)){
+                foreach($result as $a){
+                    $response    = [];
+                    $body        = [];
+
+                    $body['request_id'] = $a->request_id;
+                    $response = Tilaka::excutesignstatus(json_encode($body));
+
+                    // return var_dump($response);
+
+                    if(isset($response['success'])){
+                        if($response['success']){
+                            foreach($response['list_pdf'] as $listpdfs){
+                                $data        = [];
+                                $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                $fileContent = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
+
+                                if($fileContent !== false){
+                                    if($a->source_file==="DTECHNOLOGY"){
+                                        $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
+                                    }else{
+                                        $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
+                                    }
+
+                                    if(file_put_contents($destinationPath,$fileContent)){
+                                        $data['STATUS_SIGN'] = "5";
+                                        $data['NOTE']        = "";
+                                        $data['LINK']        = $listpdfs['presigned_url'];
+                                        
+                                        $this->md->updatefile($data,$nofile);
+                                        $statusMsg = color('green').$response['message'];
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    echo str_pad($a->request_id, 40).str_pad($response['status'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
+                }
+            }else{
+                echo color('red')."Data Tidak Ditemukan";
+            }
+        }
     }
 
 ?>

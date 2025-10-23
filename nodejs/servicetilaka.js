@@ -81,6 +81,7 @@ async function callAPI(endpoint, method = "GET", body = null) {
 async function runservices() {
   await callAPI("uploadallfile", "POST");
   await callAPI("excutesign", "POST");
+  await callAPI("statussign", "POST");
 }
 
 

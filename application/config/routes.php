@@ -10,7 +10,7 @@
     $route['requestsign']          = 'restapi/tilaka/TilakaserviceV5/requestsign';
     $route['requestsignquicksign'] = 'restapi/tilaka/TilakaserviceV5/requestsignquicksign';
     // $route['excutesign']           = 'restapi/tilaka/TilakaserviceV5/excutesign';
-    $route['statussign']           = 'restapi/tilaka/TilakaserviceV5/statussign';
+    // $route['statussign']           = 'restapi/tilaka/TilakaserviceV5/statussign';
     $route['statussignquicksign']  = 'restapi/tilaka/TilakaserviceV5/statussignquicksign';
     $route['appkyc']               = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
     $route['getfile']              = 'restapi/tilaka/TilakaserviceV5/getfile';
@@ -20,6 +20,7 @@
     // $route['requestsign']          = 'restapi/tilaka/Tilakaservice/requestsign';
     $route['uploadallfile']        = 'restapi/tilaka/Tilakaservice/uploadallfile';
     $route['excutesign']           = 'restapi/tilaka/Tilakaservice/excutesign';
+    $route['statussign']           = 'restapi/tilaka/Tilakaservice/statussign';
 
 
     $route['pegawai']               = 'restapi/khanza/Khanza/pegawai';

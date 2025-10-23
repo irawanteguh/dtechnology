@@ -12,7 +12,7 @@
                         and   a.status_file = '1'
                         and   a.status_sign = '0'
                         and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
-                        limit 5;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -87,6 +87,23 @@
                         and   a.org_id='".$orgid."'
                         and   a.status_sign = '3'
                         order by created_date desc
+                        limit 10;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function listdownload($orgid){
+            $query =
+                    "
+                        select distinct a.request_id, source_file, user_identifier,
+                                (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
+                        from dt01_gen_document_file_dt a
+                        where a.active='1'
+                        and   a.org_id='".$orgid."'
+                        and   a.status_sign ='4'
                         limit 10;
                     ";
 
