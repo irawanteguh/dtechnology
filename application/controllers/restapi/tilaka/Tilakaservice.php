@@ -65,9 +65,9 @@
                     $filesize = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
-                        $location = FCPATH."assets/document/".$a->no_file.".pdfx";
+                        $location = FCPATH."assets/document/".$a->no_file.".pdf";
                     }else{
-                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdfx";
+                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
                     }
 
                     if(file_exists($location)){
@@ -81,7 +81,7 @@
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
-                                        $responseuploadfile = Tilaka::uploadfile($location);
+                                        $responseuploadfile = Tilaka::uploadfile($location."x");
                                         return var_dump($responseuploadfile);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
