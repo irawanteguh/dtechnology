@@ -233,10 +233,62 @@ def detect_face(path, tolerance=0.5):
         return best_name, best_conf, True
 
 
+# def auto_detect_faces(tolerance=0.5):
+#     log_info("=== Memulai auto detect wajah dari folder attendance ===")
+
+#     # Buat folder "noface" jika belum ada
+#     noface_folder = os.path.join(FACERECOGNITION_FOLDER, "noface")
+#     os.makedirs(noface_folder, exist_ok=True)
+
+#     while True:
+#         try:
+#             files = [f for f in os.listdir(ATTENDANCE_FOLDER) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
+#             if not files:
+#                 time.sleep(1)
+#                 continue
+
+#             for filename in files:
+#                 path = os.path.join(ATTENDANCE_FOLDER, filename)
+#                 if not os.path.isfile(path):
+#                     continue
+
+#                 log_warn(f"Memproses file: {filename}")
+#                 try:
+#                     best_name, best_conf, has_face = detect_face(path, tolerance=tolerance)
+#                     base_filename = os.path.splitext(filename)[0]
+
+#                     # === Jika wajah dikenali ===
+#                     if has_face and best_name != "Unknown":
+#                         status = 1
+#                         new_path = os.path.join(FACERECOGNITION_FOLDER, filename)
+#                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
+
+#                     # === Selain itu (tidak dikenal atau tidak ada wajah) ===
+#                     else:
+#                         status = 9
+#                         best_name = "Unknown" if has_face else "NoFace"
+#                         new_path = os.path.join(noface_folder, filename)
+#                         log_warn(f"{filename} tidak dikenali atau tidak ada wajah (conf={best_conf:.2f}%)")
+
+#                     # Pindahkan file ke folder tujuan
+#                     os.rename(path, new_path)
+
+#                     # Update status di database
+#                     update_facerecognition_status(base_filename, status, best_conf, best_name)
+
+#                 except Exception as e:
+#                     log_error(f"Gagal memproses {filename}: {e}")
+
+#         except Exception as e:
+#             log_error(f"[auto_detect_faces] Error utama: {e}")
+
+#         time.sleep(1)
+
+MAX_BATCH = 10  # jumlah maksimal file per loop
+
 def auto_detect_faces(tolerance=0.5):
     log_info("=== Memulai auto detect wajah dari folder attendance ===")
 
-    # Buat folder "noface" jika belum ada
     noface_folder = os.path.join(FACERECOGNITION_FOLDER, "noface")
     os.makedirs(noface_folder, exist_ok=True)
 
@@ -244,45 +296,45 @@ def auto_detect_faces(tolerance=0.5):
         try:
             files = [f for f in os.listdir(ATTENDANCE_FOLDER) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
             if not files:
-                time.sleep(1)
+                time.sleep(2)
                 continue
 
-            for filename in files:
+            # ambil hanya beberapa file per siklus
+            batch = files[:MAX_BATCH]
+
+            for filename in batch:
                 path = os.path.join(ATTENDANCE_FOLDER, filename)
                 if not os.path.isfile(path):
                     continue
 
-                log_warn(f"Memproses file: {filename}")
                 try:
+                    log_warn(f"Memproses file: {filename}")
                     best_name, best_conf, has_face = detect_face(path, tolerance=tolerance)
                     base_filename = os.path.splitext(filename)[0]
 
-                    # === Jika wajah dikenali ===
                     if has_face and best_name != "Unknown":
                         status = 1
                         new_path = os.path.join(FACERECOGNITION_FOLDER, filename)
                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
-
-                    # === Selain itu (tidak dikenal atau tidak ada wajah) ===
                     else:
                         status = 9
                         best_name = "Unknown" if has_face else "NoFace"
                         new_path = os.path.join(noface_folder, filename)
-                        log_warn(f"{filename} tidak dikenali atau tidak ada wajah (conf={best_conf:.2f}%)")
+                        log_warn(f"{filename} tidak dikenali / tidak ada wajah (conf={best_conf:.2f}%)")
 
-                    # Pindahkan file ke folder tujuan
                     os.rename(path, new_path)
-
-                    # Update status di database
                     update_facerecognition_status(base_filename, status, best_conf, best_name)
 
                 except Exception as e:
                     log_error(f"Gagal memproses {filename}: {e}")
 
+            # beri jeda antar batch agar CPU & RAM sempat istirahat
+            time.sleep(3)
+
         except Exception as e:
             log_error(f"[auto_detect_faces] Error utama: {e}")
+            time.sleep(5)
 
-        time.sleep(1)
 
 def auto_reload_master():
     while True:
