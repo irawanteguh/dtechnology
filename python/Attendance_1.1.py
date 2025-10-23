@@ -189,6 +189,11 @@ def detect_face(path, tolerance=0.5):
     global master_encodings, master_names
     img_eq = preprocess_image(path)
 
+    # --- ⛔ Cegah error jika master kosong ---
+    if not master_encodings or not master_names:
+        log_warn("Master wajah kosong — skip deteksi sementara.")
+        return "NoMaster", 0.0, False
+
     # --- Tahap 1: coba deteksi dengan face_recognition (HOG) ---
     face_locations = face_recognition.face_locations(img_eq, model='hog')
     face_encodings = face_recognition.face_encodings(img_eq, face_locations)
@@ -196,22 +201,25 @@ def detect_face(path, tolerance=0.5):
     # --- Jika tidak ada wajah, fallback ke Tiny (Haar Cascade) ---
     if not face_encodings:
         log_warn(f"Tidak terdeteksi wajah dengan face_recognition → mencoba Tiny detector")
-
         gray = cv2.cvtColor(img_eq, cv2.COLOR_RGB2GRAY)
         face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(80, 80))
 
         if len(faces) > 0:
             log_info(f"Tiny detector menemukan {len(faces)} wajah (fallback mode).")
-            return "Unknown", 0.0, True  # Ada wajah, tapi belum dikenal
+            return "Unknown", 0.0, True
         else:
-            return "NoFace", 0.0, False  # Tidak ada wajah sama sekali
+            return "NoFace", 0.0, False
 
     # --- Tahap 2: Pencocokan wajah dengan master ---
     best_name = "Unknown"
     best_conf = 0.0
 
     for face_encoding in face_encodings:
+        if not master_encodings:
+            log_warn("Master kosong saat perbandingan wajah — skip.")
+            return "NoMaster", 0.0, False
+
         distances = face_recognition.face_distance(master_encodings, face_encoding)
         if len(distances) == 0:
             continue
@@ -227,10 +235,7 @@ def detect_face(path, tolerance=0.5):
             best_name = best_name_candidate
             best_conf = confidence
 
-    if best_name == "Unknown":
-        return "Unknown", best_conf, True
-    else:
-        return best_name, best_conf, True
+    return best_name, best_conf, True
 
 
 # def auto_detect_faces(tolerance=0.5):
