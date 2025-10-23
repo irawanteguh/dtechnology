@@ -1,6 +1,7 @@
 import os from "os";
 import fetch from "node-fetch";
 import chalk from "chalk";
+
 let lebar = 155;
 let host  = "localhost";
 
@@ -45,17 +46,13 @@ async function callAPI(endpoint, method = "GET", body = null) {
 		const response = await fetch(url, options);
 		const text     = await response.text();
 
+		// console.log(response);
+
 		if(!response.ok){
-			const cleanMsg = text.replace(/<[^>]*>?/gm, "").replace(/\s+/g, " ").trim();
-
-			const lines   = cleanMsg.split(/(?=\d{3}\s)/)[0] || cleanMsg;
-			const message = lines.replace(/Apache\/.*$/i, "").replace(/Port\s\d+/i, "").trim();
-
 			console.log(chalk.cyan("=".repeat(lebar)));
 			console.log(chalk.cyan("TIMESTAMP\t\tMETHOD\tENDPOINT\tSTATUS\t\tMESSAGE"));
 			console.log(chalk.cyan("=".repeat(lebar)));
-			console.log(chalk.white(getTimeStamp())+"\t"+chalk.white(method)+"\t"+chalk.white(endpoint)+"\t"+chalk.red(`Error ${response.status}`)+"\t"+chalk.white(message)+"\n");
-			
+			console.log(chalk.white(getTimeStamp())+"\t"+chalk.white(method)+"\t"+chalk.white(endpoint)+"\t"+chalk.red(`Error ${response.status}`)+"\t"+chalk.white(response.statusText)+"\n");
 			return;
 		}
 
@@ -65,11 +62,12 @@ async function callAPI(endpoint, method = "GET", body = null) {
 			console.log(`${chalk.gray(`[${getTimeStamp()}]`)} ${chalk.cyan(`[${method}]`)} ${chalk.yellow(`[${endpoint}]`)} ? ${chalk.green("? Success")}`,data);
 
 		} catch {
-			console.log(chalk.cyan("*".repeat(lebar)));
-			console.log(chalk.cyan("TIMESTAMP\t\tMETHOD\tENDPOINT\tSTATUS"));
-			// console.log(chalk.cyan("=".repeat(lebar)));
-			console.log(`${chalk.white(`[${getTimeStamp()}]`)}\t${chalk.yellow(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.green("Success")}\n${chalk.white(text)}`);
-			console.log(chalk.cyan("*".repeat(lebar))+"\n\n");
+			console.log(chalk.cyan("=".repeat(lebar)));
+			console.log(chalk.cyan("TIMESTAMP\t\tMETHOD\tENDPOINT\tSTATUS\t\tMESSAGE"));
+			console.log(chalk.cyan("=".repeat(lebar)));
+			
+			console.log(`${chalk.white(`[${getTimeStamp()}]`)}\t${chalk.yellow(`[${method}]`)}\t${chalk.yellow(`[${endpoint}]`)}\t${chalk.green(`${response.status}`)}\t\t${chalk.green(`${response.statusText}`)}\n${chalk.white(text)}`);
+			// console.log(chalk.cyan("*".repeat(lebar))+"\n\n");
 		}
 
 	} catch (error) {
@@ -82,15 +80,15 @@ async function callAPI(endpoint, method = "GET", body = null) {
 
 async function runservices() {
   await callAPI("uploadallfile", "POST");
-  await callAPI("excutesign", "POST");
+//   await callAPI("excutesign", "POST");
 }
 
 
-async function runservicesrequest() {
-  await callAPI("requestsign", "POST");
-}
+// async function runservicesrequest() {
+//   await callAPI("requestsign", "POST");
+// }
 
 printHeader();
 runservices();
-setInterval(runservices, 5000);
-setInterval(runservicesrequest, 3600000);
+// setInterval(runservices, 5000);
+// setInterval(runservicesrequest, 3600000);
