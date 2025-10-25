@@ -256,7 +256,7 @@ def auto_reload_master():
 def start_background_tasks():
     log_info("=== Flask Server Siap ===")
     threading.Thread(target=auto_reload_master, daemon=True).start()
-    threading.Thread(target=auto_detect_faces, daemon=True).start()
+    # threading.Thread(target=auto_detect_faces, daemon=True).start()
 
 def init():
     print("Inisialisasi pertama kali...")
