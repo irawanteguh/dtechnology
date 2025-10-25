@@ -247,24 +247,18 @@ def auto_detect_faces(tolerance=0.5):
             time.sleep(5)
 
 def auto_reload_master():
-    log_info(">> AUTO RELOAD MASTER START <<")
     while True:
         load_master_faces()
         time.sleep(60)
 
-def start_background_tasks():
-    log_info("=== Flask Server Siap ===")
-    # auto_reload_master()
-    threading.Thread(target=load_master_faces, daemon=True).start()
-    threading.Thread(target=auto_detect_faces, daemon=True).start()
-    
 if __name__ == '__main__':
     log_info("=== Konfigurasi Folder ===")
     log_info(f"MASTER_FOLDER     : {MASTER_FOLDER}")
     log_info(f"ATTENDANCE_FOLDER : {ATTENDANCE_FOLDER}")
     log_info(f"FACERECOGNITION   : {FACERECOGNITION_FOLDER}")
     log_info("===========================")
-    
-    start_background_tasks()
+
+    threading.Thread(target=load_master_faces, daemon=True).start()
+    threading.Thread(target=auto_detect_faces, daemon=True).start()
 
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
