@@ -142,48 +142,6 @@ def load_master_faces():
     master_names = names
     log_success(f"Master wajah siap: {len(master_encodings)} wajah terdaftar.")
 
-# def detect_face(path, tolerance=0.5):
-#     """Mendeteksi wajah dan mencocokkannya dengan master face menggunakan tolerance."""
-#     global master_encodings, master_names
-#     img_eq = preprocess_image(path)
-
-#     # Gunakan model HOG (lebih ringan) atau CNN (lebih akurat)
-#     face_locations = face_recognition.face_locations(img_eq, model='hog')
-#     face_encodings = face_recognition.face_encodings(img_eq, face_locations)
-
-#     if not face_encodings:
-#         return "NoFace", 0.0, False
-
-#     best_name = "Unknown"
-#     best_conf = 0.0
-
-#     for face_encoding in face_encodings:
-#         # Hitung jarak antar wajah
-#         distances = face_recognition.face_distance(master_encodings, face_encoding)
-#         if len(distances) == 0:
-#             continue
-
-#         # Ambil jarak terkecil
-#         best_index = np.argmin(distances)
-#         best_distance = distances[best_index]
-#         best_name_candidate = master_names[best_index]
-
-#         # Cek apakah jarak di bawah tolerance (semakin kecil semakin mirip)
-#         match = best_distance <= tolerance
-
-#         # Konversi jarak jadi "confidence" (semakin kecil jarak → semakin tinggi confidence)
-#         confidence = (1 - best_distance) * 100
-
-#         if match and confidence > best_conf:
-#             best_name = best_name_candidate
-#             best_conf = confidence
-
-#     # Jika tidak ada yang cocok di bawah tolerance
-#     if best_name == "Unknown":
-#         return "Unknown", best_conf, True
-#     else:
-#         return best_name, best_conf, True
-
 def detect_face(path, tolerance=0.5):
     """Mendeteksi wajah dan mencocokkannya dengan master face, fallback ke tiny detector jika gagal."""
     global master_encodings, master_names
@@ -236,58 +194,6 @@ def detect_face(path, tolerance=0.5):
             best_conf = confidence
 
     return best_name, best_conf, True
-
-
-# def auto_detect_faces(tolerance=0.5):
-#     log_info("=== Memulai auto detect wajah dari folder attendance ===")
-
-#     # Buat folder "noface" jika belum ada
-#     noface_folder = os.path.join(FACERECOGNITION_FOLDER, "noface")
-#     os.makedirs(noface_folder, exist_ok=True)
-
-#     while True:
-#         try:
-#             files = [f for f in os.listdir(ATTENDANCE_FOLDER) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
-#             if not files:
-#                 time.sleep(1)
-#                 continue
-
-#             for filename in files:
-#                 path = os.path.join(ATTENDANCE_FOLDER, filename)
-#                 if not os.path.isfile(path):
-#                     continue
-
-#                 log_warn(f"Memproses file: {filename}")
-#                 try:
-#                     best_name, best_conf, has_face = detect_face(path, tolerance=tolerance)
-#                     base_filename = os.path.splitext(filename)[0]
-
-#                     # === Jika wajah dikenali ===
-#                     if has_face and best_name != "Unknown":
-#                         status = 1
-#                         new_path = os.path.join(FACERECOGNITION_FOLDER, filename)
-#                         log_success(f"{filename} dikenali sebagai {best_name} ({best_conf:.2f}%)")
-
-#                     # === Selain itu (tidak dikenal atau tidak ada wajah) ===
-#                     else:
-#                         status = 9
-#                         best_name = "Unknown" if has_face else "NoFace"
-#                         new_path = os.path.join(noface_folder, filename)
-#                         log_warn(f"{filename} tidak dikenali atau tidak ada wajah (conf={best_conf:.2f}%)")
-
-#                     # Pindahkan file ke folder tujuan
-#                     os.rename(path, new_path)
-
-#                     # Update status di database
-#                     update_facerecognition_status(base_filename, status, best_conf, best_name)
-
-#                 except Exception as e:
-#                     log_error(f"Gagal memproses {filename}: {e}")
-
-#         except Exception as e:
-#             log_error(f"[auto_detect_faces] Error utama: {e}")
-
-#         time.sleep(1)
 
 MAX_BATCH = 2  # jumlah maksimal file per loop
 
@@ -354,5 +260,5 @@ if __name__ == '__main__':
     log_info("===========================")
 
     threading.Thread(target=auto_reload_master, daemon=True).start()
-    threading.Thread(target=auto_detect_faces, daemon=True).start()
+    # threading.Thread(target=auto_detect_faces, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
