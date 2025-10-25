@@ -253,7 +253,6 @@ def auto_reload_master():
         load_master_faces()
         time.sleep(60)
 
-@app.before_first_request
 def start_background_tasks():
     log_info("=== Flask Server Siap ===")
     threading.Thread(target=auto_reload_master, daemon=True).start()
@@ -274,5 +273,5 @@ if __name__ == '__main__':
     # threading.Thread(target=auto_detect_faces, daemon=True).start()
 
     start_background_tasks()
-    
+
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
