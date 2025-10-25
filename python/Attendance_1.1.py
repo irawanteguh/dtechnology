@@ -246,7 +246,6 @@ def auto_detect_faces(tolerance=0.5):
             log_error(f"[auto_detect_faces] Error utama: {e}")
             time.sleep(5)
 
-
 def auto_reload_master():
     log_info(">> AUTO RELOAD MASTER START <<")
     while True:
@@ -255,22 +254,17 @@ def auto_reload_master():
 
 def start_background_tasks():
     log_info("=== Flask Server Siap ===")
-    threading.Thread(target=auto_reload_master, daemon=True).start()
-    # threading.Thread(target=auto_detect_faces, daemon=True).start()
-
-def init():
-    print("Inisialisasi pertama kali...")
+    load_master_faces()
+    # auto_reload_master()
+    # threading.Thread(target=auto_reload_master, daemon=True).start()
+    threading.Thread(target=auto_detect_faces, daemon=True).start()
     
 if __name__ == '__main__':
-    init()
     log_info("=== Konfigurasi Folder ===")
     log_info(f"MASTER_FOLDER     : {MASTER_FOLDER}")
     log_info(f"ATTENDANCE_FOLDER : {ATTENDANCE_FOLDER}")
     log_info(f"FACERECOGNITION   : {FACERECOGNITION_FOLDER}")
     log_info("===========================")
-
-    # threading.Thread(target=auto_reload_master, daemon=True).start()
-    # threading.Thread(target=auto_detect_faces, daemon=True).start()
 
     start_background_tasks()
 
