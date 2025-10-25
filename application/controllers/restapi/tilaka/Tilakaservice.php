@@ -133,179 +133,180 @@
         }
 
 
-        // public function requestsign_POST(){
-        //     $status = "AND a.status_sign = '1' LIMIT 10;";
-        //     $result = $this->md->listrequestsign(ORG_ID,$status);
+        public function requestsign_POST(){
+            $status = "AND a.status_sign = '1' LIMIT 10;";
+            $result = $this->md->listrequestsign(ORG_ID,$status);
 
-        //     echo PHP_EOL;
-        //     echo color('cyan').str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+            echo PHP_EOL;
+            echo color('cyan').str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
 
-        //     if(!empty($result)){
-        //         foreach($result as $a){
-        //             $requestid  = "";
-        //             $filename   = "";
-        //             $listfile   = [];
-        //             $body       = [];
-        //             $signatures = [];
+            if(!empty($result)){
+                foreach($result as $a){
+                    $requestid  = "";
+                    $filename   = "";
+                    $listfile   = [];
+                    $body       = [];
+                    $signatures = [];
 
-        //             $requestid = generateuuid();
+                    $requestid = generateuuid();
 
-        //             if(file_exists(FCPATH."assets/speciment/".ORG_ID.".png")){
-        //                 $signatures['user_identifier'] = $a->user_identifier;
-        //                 $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
+                    if(file_exists(FCPATH."assets/speciment/".ORG_ID.".png")){
+                        $signatures['user_identifier'] = $a->user_identifier;
+                        $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
     
-        //                 $body['request_id']   = $requestid;
-        //                 $body['signatures'][] = $signatures;
+                        $body['request_id']   = $requestid;
+                        $body['signatures'][] = $signatures;
 
-        //                 $resultfilerequestsign = $this->md->filerequestsign(ORG_ID,$status,$a->assign);
+                        $resultfilerequestsign = $this->md->filerequestsign(ORG_ID,$status,$a->assign);
                         
-        //                 if(!empty($resultfilerequestsign)){
-        //                     foreach($resultfilerequestsign as $files){
+                        if(!empty($resultfilerequestsign)){
+                            foreach($resultfilerequestsign as $files){
 
-        //                         if($files->source_file==="DTECHNOLOGY"){
-        //                             $filename = FCPATH."assets/document/".$files->no_file.".pdf";
-        //                         }else{
-        //                             $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
-        //                         }
+                                if($files->source_file==="DTECHNOLOGY"){
+                                    $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                                }else{
+                                    $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                }
 
-        //                         if(file_exists($filename)){
-        //                             if(preg_match('/SIGNER(.*)/', $filename, $matches)){
-        //                                 $position = "$" . preg_replace('/\.pdf$/', '', $matches[1]);
+                                if(file_exists($filename)){
+                                    if(preg_match('/SIGNER(.*)/', $filename, $matches)){
+                                        $position = "$" . preg_replace('/\.pdf$/', '', $matches[1]);
                                         
-        //                                 $pdfParse          = new Pdfparse($filename);
-        //                                 $specimentposition = $pdfParse->findText($position);
+                                        $pdfParse          = new Pdfparse($filename);
+                                        $specimentposition = $pdfParse->findText($position);
 
-        //                                 if(!empty($specimentposition['content'][$position])){
-        //                                     $listpdf = [];
-        //                                     foreach ($specimentposition['content'][$position] as $specimen) { 
-        //                                         if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
-        //                                             $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
-        //                                             $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
-        //                                             $page        = floatval($specimen['page']);
+                                        if(!empty($specimentposition['content'][$position])){
+                                            $listpdf = [];
+                                            foreach ($specimentposition['content'][$position] as $specimen) { 
+                                                if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
+                                                    $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
+                                                    $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
+                                                    $page        = floatval($specimen['page']);
                                         
-        //                                             $listpdfsignatures['user_identifier'] = $a->user_identifier;
-        //                                             $listpdfsignatures['location']        = $files->orgname;
-        //                                             $listpdfsignatures['width']           = floatval(WIDTH);
-        //                                             $listpdfsignatures['height']          = floatval(HEIGHT);
-        //                                             $listpdfsignatures['coordinate_x']    = $coordinatex;
-        //                                             $listpdfsignatures['coordinate_y']    = $coordinatey;
-        //                                             $listpdfsignatures['page_number']     = $page;
-        //                                             $listpdfsignatures['qrcombine']       = "QRONLY";
+                                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                                    $listpdfsignatures['location']        = $files->orgname;
+                                                    $listpdfsignatures['width']           = floatval(WIDTH);
+                                                    $listpdfsignatures['height']          = floatval(HEIGHT);
+                                                    $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                                    $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                                    $listpdfsignatures['page_number']     = $page;
+                                                    $listpdfsignatures['qrcombine']       = "QRONLY";
                                         
-        //                                             if (CERTIFICATE === "PERSONAL") {
-        //                                                 $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
-        //                                             }
+                                                    if (CERTIFICATE === "PERSONAL") {
+                                                        $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                                    }
                                         
-        //                                             $listpdf['filename']     = $files->filename;
-        //                                             $listpdf['signatures'][] = $listpdfsignatures;
-        //                                         }
-        //                                     }
-        //                                 }else{
-        //                                     $listpdf     = [];
-        //                                     $coordinatex = floatval(COORDINATE_X);
-        //                                     $coordinatey = floatval(COORDINATE_Y);
-        //                                     $page        = floatval(PAGE);
+                                                    $listpdf['filename']     = $files->filename;
+                                                    $listpdf['signatures'][] = $listpdfsignatures;
+                                                }
+                                            }
+                                        }else{
+                                            $listpdf     = [];
+                                            $coordinatex = floatval(COORDINATE_X);
+                                            $coordinatey = floatval(COORDINATE_Y);
+                                            $page        = floatval(PAGE);
             
             
-        //                                     $listpdfsignatures['user_identifier'] = $a->user_identifier;
-        //                                     $listpdfsignatures['location']        = $files->orgname;
-        //                                     $listpdfsignatures['width']           = floatval(WIDTH);
-        //                                     $listpdfsignatures['height']          = floatval(HEIGHT);
-        //                                     $listpdfsignatures['coordinate_x']    = $coordinatex;
-        //                                     $listpdfsignatures['coordinate_y']    = $coordinatey;
-        //                                     $listpdfsignatures['page_number']     = $page;
-        //                                     $listpdfsignatures['qrcombine']       = "QRONLY";
+                                            $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                            $listpdfsignatures['location']        = $files->orgname;
+                                            $listpdfsignatures['width']           = floatval(WIDTH);
+                                            $listpdfsignatures['height']          = floatval(HEIGHT);
+                                            $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                            $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                            $listpdfsignatures['page_number']     = $page;
+                                            $listpdfsignatures['qrcombine']       = "QRONLY";
 
-        //                                     if(CERTIFICATE==="PERSONAL"){
-        //                                         $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
-        //                                     }
+                                            if(CERTIFICATE==="PERSONAL"){
+                                                $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                            }
                     
-        //                                     $listpdf['filename']     = $files->filename;
-        //                                     $listpdf['signatures'][] = $listpdfsignatures;
-        //                                 }
-        //                             }else{
-        //                                 $listpdf     = [];
-        //                                 $coordinatex = floatval(COORDINATE_X);
-        //                                 $coordinatey = floatval(COORDINATE_Y);
-        //                                 $page        = floatval(PAGE);
+                                            $listpdf['filename']     = $files->filename;
+                                            $listpdf['signatures'][] = $listpdfsignatures;
+                                        }
+                                    }else{
+                                        $listpdf     = [];
+                                        $coordinatex = floatval(COORDINATE_X);
+                                        $coordinatey = floatval(COORDINATE_Y);
+                                        $page        = floatval(PAGE);
         
-        //                                 $listpdfsignatures['user_identifier'] = $a->user_identifier;
-        //                                 $listpdfsignatures['location']        = $files->orgname;
-        //                                 $listpdfsignatures['width']           = floatval(WIDTH);
-        //                                 $listpdfsignatures['height']          = floatval(HEIGHT);
-        //                                 $listpdfsignatures['coordinate_x']    = $coordinatex;
-        //                                 $listpdfsignatures['coordinate_y']    = $coordinatey;
-        //                                 $listpdfsignatures['page_number']     = $page;
-        //                                 $listpdfsignatures['qrcombine']       = "QRONLY";
+                                        $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                        $listpdfsignatures['location']        = $files->orgname;
+                                        $listpdfsignatures['width']           = floatval(WIDTH);
+                                        $listpdfsignatures['height']          = floatval(HEIGHT);
+                                        $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                        $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                        $listpdfsignatures['page_number']     = $page;
+                                        $listpdfsignatures['qrcombine']       = "QRONLY";
 
-        //                                 if(CERTIFICATE==="PERSONAL"){
-        //                                     $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
-        //                                 }
+                                        if(CERTIFICATE==="PERSONAL"){
+                                            $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                        }
                 
-        //                                 $listpdf['filename']     = $files->filename;
-        //                                 $listpdf['signatures'][] = $listpdfsignatures;
-        //                             }
+                                        $listpdf['filename']     = $files->filename;
+                                        $listpdf['signatures'][] = $listpdfsignatures;
+                                    }
 
-        //                             $body['list_pdf'][]=$listpdf;
-        //                         }else{
-        //                             $statusMsg = color('red')."File not found";
-        //                         }
-        //                     }
+                                    $body['list_pdf'][]=$listpdf;
+                                }else{
+                                    $statusMsg = color('red')."File not found";
+                                }
+                            }
 
-        //                     $bodycheckcertificate['user_identifier']=$a->user_identifier;
-        //                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+                            $bodycheckcertificate['user_identifier']=$a->user_identifier;
+                            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
-        //                     // return var_dump($responsecheckcertificate);
+                            // return var_dump($responsecheckcertificate);
 
-        //                     if(isset($responsecheckcertificate['success'])){
-        //                         if($responsecheckcertificate['success']){
-        //                             if($responsecheckcertificate['status']===3){
-        //                                 $responserequestsign = Tilaka::requestsign(json_encode($body));
-        //                                 if(isset($responserequestsign['success'])){
-        //                                     if($responserequestsign['success']){
-        //                                         foreach($resultfilerequestsign as $files){
-        //                                             $datasimpanhd = [];
+                            if(isset($responsecheckcertificate['success'])){
+                                if($responsecheckcertificate['success']){
+                                    if($responsecheckcertificate['status']===3){
+                                        return var_dump($body);
+                                        // $responserequestsign = Tilaka::requestsign(json_encode($body));
+                                        // if(isset($responserequestsign['success'])){
+                                        //     if($responserequestsign['success']){
+                                        //         foreach($resultfilerequestsign as $files){
+                                        //             $datasimpanhd = [];
 
-        //                                             if($files->source_file==="DTECHNOLOGY"){
-        //                                                 $filename = FCPATH."assets/document/".$files->no_file.".pdf";
-        //                                             }else{
-        //                                                 $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
-        //                                             }
+                                        //             if($files->source_file==="DTECHNOLOGY"){
+                                        //                 $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                                        //             }else{
+                                        //                 $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                        //             }
 
-        //                                             if(file_exists($filename)){
-        //                                                 $datasimpanhd['request_id']  = $requestid;
-        //                                                 $datasimpanhd['status_sign'] = "2";
-        //                                                 $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
-        //                                             }else{
-        //                                                 $datasimpanhd['status_sign'] = "0";
-        //                                             }
+                                        //             if(file_exists($filename)){
+                                        //                 $datasimpanhd['request_id']  = $requestid;
+                                        //                 $datasimpanhd['status_sign'] = "2";
+                                        //                 $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
+                                        //             }else{
+                                        //                 $datasimpanhd['status_sign'] = "0";
+                                        //             }
 
-        //                                             $this->md->updatefile($datasimpanhd,$files->no_file);
+                                        //             $this->md->updatefile($datasimpanhd,$files->no_file);
 
-        //                                             $statusMsg = color('green')."Success";
-        //                                         }
-        //                                     }
-        //                                 }
-        //                             }else{
-        //                                 $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
-        //                             }
-        //                         }else{
-        //                             $statusMsg = color('red').$responsecheckcertificate['message']['info'];
-        //                         }
-        //                     }
+                                        //             $statusMsg = color('green')."Success";
+                                        //         }
+                                        //     }
+                                        // }
+                                    }else{
+                                        $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                    }
+                                }else{
+                                    $statusMsg = color('red').$responsecheckcertificate['message']['info'];
+                                }
+                            }
                             
-        //                     echo str_pad($requestid, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
-        //                 }else{
-        //                     echo color('red')."Rincian File Tidak Ditemukan";
-        //                 }
-        //             }else{
-        //                 echo color('red')."Speciment Tidak Ditemukan";
-        //             }
-        //         }
-        //     }else{
-        //         echo color('red')."Data Tidak Ditemukan";
-        //     }
-        // }
+                            echo str_pad($requestid, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
+                        }else{
+                            echo color('red')."Rincian File Tidak Ditemukan";
+                        }
+                    }else{
+                        echo color('red')."Speciment Tidak Ditemukan";
+                    }
+                }
+            }else{
+                echo color('red')."Data Tidak Ditemukan";
+            }
+        }
 
         public function excutesign_POST(){
             $this->headerlog();
