@@ -152,7 +152,8 @@
 
                     if(file_exists(FCPATH."assets/speciment/".ORG_ID.".png")){
                         $signatures['user_identifier'] = $a->user_identifier;
-                        $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
+                        // $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
+                         $signatures['signature_image'] = "";
     
                         $body['request_id']   = $requestid;
                         $body['signatures'][] = $signatures;
