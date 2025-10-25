@@ -255,7 +255,7 @@ def auto_reload_master():
 def start_background_tasks():
     log_info("=== Flask Server Siap ===")
     # auto_reload_master()
-    # threading.Thread(target=auto_reload_master, daemon=True).start()
+    threading.Thread(target=load_master_faces, daemon=True).start()
     threading.Thread(target=auto_detect_faces, daemon=True).start()
     
 if __name__ == '__main__':
@@ -264,8 +264,7 @@ if __name__ == '__main__':
     log_info(f"ATTENDANCE_FOLDER : {ATTENDANCE_FOLDER}")
     log_info(f"FACERECOGNITION   : {FACERECOGNITION_FOLDER}")
     log_info("===========================")
-
-    load_master_faces()
+    
     start_background_tasks()
 
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
