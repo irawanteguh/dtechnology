@@ -257,8 +257,13 @@ def auto_reload_master():
 def start_background_tasks():
     log_info("=== Flask Server Siap ===")
     threading.Thread(target=auto_reload_master, daemon=True).start()
+    threading.Thread(target=auto_detect_faces, daemon=True).start()
 
+def init():
+    print("Inisialisasi pertama kali...")
+    
 if __name__ == '__main__':
+    init()
     log_info("=== Konfigurasi Folder ===")
     log_info(f"MASTER_FOLDER     : {MASTER_FOLDER}")
     log_info(f"ATTENDANCE_FOLDER : {ATTENDANCE_FOLDER}")
@@ -267,4 +272,7 @@ if __name__ == '__main__':
 
     # threading.Thread(target=auto_reload_master, daemon=True).start()
     # threading.Thread(target=auto_detect_faces, daemon=True).start()
+
+    start_background_tasks()
+    
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
