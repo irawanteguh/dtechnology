@@ -8,14 +8,14 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/tilakaV2/repodocument/signdocument" id="formsigndocument">
+            <form action="<?php echo base_url();?>index.php/tilakaV2/repodocument/signdocument" id="formsigndocument" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="text-center mb-13">
                         <h1 class="mb-3">Sign Document</h1>
-                        <div class="text-muted fw-bold fs-5">Please fill in this form</div>
+                        <div class="text-muted fw-bold fs-5">Please Sign Document</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-5">
+                        <div class="col-md-12 mb-5">
 							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 								<span class="required">Document Type</span>
 								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Document Type"></i>
@@ -24,29 +24,37 @@
 								<?php echo $document;?>
 							</select>
 						</div>
-                        <div class="col-md-6 mb-5">
+                        <div class="col-md-9 mb-5">
 							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
-								<span class="required">Signing Position</span>
-								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Signing Position"></i>
+								<span class="required">Assign</span>
+								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Assign"></i>
 							</label>
-							<select data-control="select2" data-dropdown-parent="#modal_sign_add" data-placeholder="Please Select Signing Position" class="form-select form-select-solid" name="modal_sign_add_document_position" id="modal_sign_add_document_position" required>
-								<?php echo $masterposition;?>
+							<select data-control="select2" data-dropdown-parent="#modal_sign_add" data-placeholder="Please Select Assign" class="form-select form-select-solid" name="modal_sign_add_assign" id="modal_sign_add_assign" required>
+								<?php echo $assign;?>
+							</select>
+						</div><div class="col-md-3 mb-5">
+							<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+								<span class="required">Position Signer</span>
+								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Assign"></i>
+							</label>
+							<select data-control="select2" data-dropdown-parent="#modal_sign_add" data-placeholder="Please Select Assign" class="form-select form-select-solid" name="modal_sign_add_position" id="modal_sign_add_position" required>
+								<?php echo $positionsigner;?>
 							</select>
 						</div>
-                        <div class="d-flex flex-column mb-8 fv-row">
-                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                                <span class="required">Assign</span>
-                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a target priorty"></i>
-                            </label>
-                            <input class="form-control form-control-solid" name="modal_sign_add_assign" id="modal_sign_add_assign"/>
-                        </div>
                         <div class="col-xl-12 mb-5">
-                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Note 1 :</label>
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Information 1 :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_sign_add_informasi1" name="modal_sign_add_informasi1" required>
                         </div>
                         <div class="col-xl-12 mb-5">
-                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">Note 2 :</label>
+                            <label class="d-flex align-items-center fs-5 fw-bold mb-2">Information 2 :</label>
                             <input type="text" class="form-control form-control-solid" id="modal_sign_add_informasi2" name="modal_sign_add_informasi2">
+                        </div>
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                <span class="required">Upload Document</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a target priorty"></i>
+                            </label>
+                            <input type="file" class="form-control" name="modal_sign_add_document" id="modal_sign_add_document" accept=".pdf">
                         </div>
                     </div>
                 </div>
@@ -57,6 +65,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="modal_upload_document" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">

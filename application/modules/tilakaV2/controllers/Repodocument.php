@@ -14,27 +14,64 @@
             $this->template->load("template/template-sidebar","v_repodocument",$data);
 		}
 
-		public function loadcombobox(){
-            $resultmasterdocument = $this->md->masterdocument();
-            $resultmasterposition = $this->md->masterposition();
+        public function loadcombobox(){
+            $resultmasterdocument = $this->md->masterdocument($_SESSION['orgid']);
+            $resultuserassign     = $this->md->userassign($_SESSION['orgid']);
+            $resultpositionsigner     = $this->md->positionsigner();
 
             $document="";
             foreach($resultmasterdocument as $a ){
                 $document.="<option value='".$a->jenis_doc."'>".$a->document_name."</option>";
             }
 
-            $masterposition="";
-            foreach($resultmasterposition as $a ){
-                $masterposition.="<option value='".$a->id."'>".$a->metod."</option>";
+            $assign="";
+            foreach($resultuserassign as $a ){
+                $assign.="<option value='".$a->nik."'>".$a->name."</option>";
             }
 
+            $positionsigner="";
+            foreach($resultpositionsigner as $a ){
+                $positionsigner.="<option value='".$a->id."'>".$a->position."</option>";
+            }
+
+
             $data['document']       = $document;
-            $data['masterposition'] = $masterposition;
+            $data['assign']         = $assign;
+            $data['positionsigner'] = $positionsigner;
             return $data;
 		}
 
-        public function masterassign(){
-            $result = $this->md->userassign($_SESSION['orgid']);
+		public function dataupload(){
+            $startDate = $this->input->post("startDate");
+            $endDate   = $this->input->post("endDate");
+
+            if (empty($startDate)) {
+                $startDate = date('Y-m-d');
+            }
+
+            if (empty($endDate)) {
+                $endDate = date('Y-m-d');
+            }
+
+            $startDate .= " 00:00:00";
+            $endDate   .= " 23:59:59";
+
+
+            $resultcheckroleaccess = $this->md->checkroleaccess($_SESSION['orgid'],$_SESSION['userid']);
+
+            if(!empty($resultcheckroleaccess)){
+                $parameter ="and a.org_id='".$_SESSION['orgid']."'";
+            }else{
+                $parameter ="
+                                and a.org_id='".$_SESSION['orgid']."'
+                                and a.assign='".$_SESSION['username']."'
+                                or  a.created_by='".$_SESSION['userid']."'
+                                or  a.created_by in (select user_id from dt01_gen_user_asst_dt where active='1' and asst_id='".$_SESSION['userid']."')
+                                or  a.assign in (select nik from dt01_gen_user_data where active='1' and user_id in (select user_id from dt01_gen_user_asst_dt where active='1' and asst_id='".$_SESSION['userid']."'))
+                            ";
+            }
+
+            $result = $this->md->dataupload($parameter,$startDate,$endDate);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
@@ -50,85 +87,57 @@
             echo json_encode($json);
         }
 
-		public function datarepository(){
-            $parameter ="and a.org_id='".$_SESSION['orgid']."'";
-            $result = $this->md->datarepository($parameter);
-            
-			if(!empty($result)){
-				$json["responCode"]   = "00";
-				$json["responHead"]   = "success";
-				$json["responDesc"]   = "We Get The Data You Want";
-				$json['responResult'] = $result;
-            }else{
-                $json["responCode"] = "01";
-                $json["responHead"] = "info";
-                $json["responDesc"] = "We Didn't Get The Data You Wanted";
-            }
-
-            echo json_encode($json);
-        }
-
-		public function signdocument() {
+        public function signdocument(){
             $type     = $this->input->post("modal_sign_add_document_type");
-            $assign   = json_decode($this->input->post("modal_sign_add_assign"),true);
-            $position = $this->input->post("modal_sign_add_document_position");
+            $assign   = $this->input->post("modal_sign_add_assign");
             $info1    = $this->input->post("modal_sign_add_informasi1");
             $info2    = $this->input->post("modal_sign_add_informasi2");
-            $transid  = generateuuid();
+            $position = $this->input->post("modal_sign_add_position");
 
-            $data['org_id']     = $_SESSION['orgid'];
-            $data['no_file']    = $transid;
-            $data['jenis_doc']  = $type;
-            $data['note_1']     = $info1;
-            $data['note_2']     = $info2;
-            $data['type']       = count($assign) == 1 ? 'S' : 'B';
-            $data['location']   = "DTECHNOLOGY";
-            $data['created_by'] = $_SESSION['userid'];
-        
-            if(!empty($assign)){
-                if($this->md->insertsigndocument($data)){
-        
-                    $order = 0; 
-                    foreach ($assign as $a) {
-                        $assignValue = $a['value'];
-                        list($name, $nik) = explode(' - ', $assignValue);
-    
-                        $name = trim($name);
-                        $nik  = trim($nik);
-        
-                        $dataassign['org_id']     = $_SESSION['orgid'];
-                        $dataassign['type']       = $position;
-                        $dataassign['nik']        = $nik;
-                        $dataassign['tag']        = $nik;
-                        $dataassign['no_file']    = $transid;
-                        $dataassign['order']      = $order+1;
-                        $dataassign['created_by'] = $_SESSION['userid'];
-        
-                        $this->md->insertsigndocumentassign($dataassign);
+            $transid = generateuuid();
 
-                        $order++;
-                    }
-            
-                    $json['responCode'] = "00";
-                    $json['responHead'] = "success";
-                    $json['responDesc'] = "Data Added Successfully";
-                }else{
-                    $json['responCode'] = "01";
-                    $json['responHead'] = "info";
-                    $json['responDesc'] = "Data Failed to Add";
-                }
-            }else{
+            $config['upload_path']   = './assets/document/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $transid."_SIGNER".$position;
+            $config['overwrite']     = true;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('modal_sign_add_document')) {
+                $error_message = strip_tags($this->upload->display_errors());
+
+                log_message('error', 'File upload error: ' . $error_message);
+
                 $json['responCode'] = "01";
                 $json['responHead'] = "info";
-                $json['responDesc'] = "Please Select Assigner";
+                $json['responDesc'] = $error_message;
+            } else {
+                $data['org_id']        = $_SESSION['orgid'];
+                $data['no_file']       = generateuuid()."_SIGNER".$position;
+                $data['status_file']   = "0";
+                $data['jenis_doc']     = $type;
+                $data['assign']        = $assign;
+                $data['pasien_idx']    = $info1;
+                $data['transaksi_idx'] = $info2;
+                $data['source_file']   = "DTECHNOLOGY";
+                $data['created_by']    = $_SESSION['userid'];
+
+                if($this->md->insertsigndocument($data)){
+                    $json['responCode']="00";
+                    $json['responHead']="success";
+                    $json['responDesc']="Data Added Successfully";
+                } else {
+                    $json['responCode']="01";
+                    $json['responHead']="info";
+                    $json['responDesc']="Data Failed to Add";
+                }
             }
-            
-        
+
             echo json_encode($json);
         }
-        
-		public function uploadfile(){
-			$nofile  = $_GET['nofile'];
+
+        public function uploadfile(){
+            $nofile = $_GET['nofile'];
 
             $config['upload_path']   = './assets/document/';
             $config['allowed_types'] = 'pdf';
@@ -139,24 +148,19 @@
             if (!$this->upload->do_upload('file')) {
                 $error = array('error' => $this->upload->display_errors());
                 log_message('error', 'File upload error: ' . implode(' ', $error));
-
-                $json["responCode"]="01";
-                $json["responHead"]="error";
-                $json["responDesc"]=json_encode($error);
-            }else{
+                echo json_encode($error);
+            } else {
                 $upload_data = $this->upload->data();
 
-                $data['status']="1";
-                $this->md->updatefile($data,$nofile);
-                
-                $json["responCode"]="00";
-                $json["responHead"]="success";
-                $json["responDesc"]="Upload File Success";
+                $data['STATUS_FILE']="1";
+                $data['SOURCE_FILE']="DTECHNOLOGY";
+                $this->md->updatefile($data, $nofile);
+
+                echo "Upload Success";
             }
 
-            echo json_encode($json);
-
         }
+
 	}
 
 ?>
