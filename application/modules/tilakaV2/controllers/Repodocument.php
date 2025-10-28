@@ -114,7 +114,7 @@
             } else {
                 $data['org_id']        = $_SESSION['orgid'];
                 $data['no_file']       = generateuuid()."_SIGNER".$position;
-                $data['status_file']   = "0";
+                $data['status_file']   = "1";
                 $data['jenis_doc']     = $type;
                 $data['assign']        = $assign;
                 $data['pasien_idx']    = $info1;
