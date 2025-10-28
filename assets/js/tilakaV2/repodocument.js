@@ -272,8 +272,9 @@ function dataupload(startDate,endDate){
                     const tgljam    = item.tgljam || "";
 
                     let linkfile = "";
-                    const filePath = item.source_file === "DTECHNOLOGY" 
-                        ? `${url}assets/document/${noFile}.pdf`
+                    const cleanUrl = url.replace(/index\.php\/?/, "");
+                    const filePath = item.source_file === "DTECHNOLOGY"
+                        ? `${cleanUrl}assets/document/${noFile}.pdf`
                         : `${pathposttilaka}/${noFile}.pdf`;
 
                     // Tentukan link berdasarkan status_file & status_sign
