@@ -274,7 +274,7 @@ function dataupload(startDate,endDate){
                     let linkfile = "";
                     const filePath = item.source_file === "DTECHNOLOGY" 
                     ? `${url}assets/document/${noFile}.pdf`
-                    : `${pathposttilaka}/${noFile}.pdf`;
+                    : `${pathposttilaka}/x${noFile}.pdf`;
 
                     // Tentukan link berdasarkan status_file & status_sign
                     if (item.status_sign === "0" && item.status_file === "0") {
