@@ -1,64 +1,125 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Database Error</title>
-<style type="text/css">
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        overflow: auto;
+        padding: 40px 0;
+    }
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+    .background {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+    }
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
+    .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.05);
+        animation: float 10s infinite ease-in-out;
+    }
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
+    .circle:nth-child(1) { width: 250px; height: 250px; top: 10%; left: 15%; }
+    .circle:nth-child(2) { width: 350px; height: 350px; bottom: 15%; right: 25%; animation-delay: 2s; }
+    .circle:nth-child(3) { width: 150px; height: 150px; top: 65%; left: 40%; animation-delay: 4s; }
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
 
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
+    .error-container {
+        position: relative;
+        z-index: 10;
+        background: rgba(30,41,59,0.85);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 35px;
+        width: 90%;
+        max-width: 1400px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        border-left: 10px solid #ef4444;
+        animation: fadeIn 0.7s ease-out;
+        margin-bottom: 40px;
+    }
 
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
-}
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-p {
-	margin: 12px 15px 12px 15px;
-}
+    h1 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #f87171;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #cbd5e1;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 5px 0;
+    }
+
+    code {
+        display: block;
+        background: rgba(15,23,42,0.8);
+        border-radius: 8px;
+        padding: 8px 14px; /* dikurangi dari 12px 16px */
+        margin-top: 15px;
+        font-family: Consolas, monospace;
+        border-left: 3px solid #ef4444;
+        color: #f1f5f9;
+        white-space: pre-wrap;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .footer-note {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 13px;
+        color: #64748b;
+    }
 </style>
 </head>
 <body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
-	</div>
+
+<div class="background">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+</div>
+
+<div class="error-container">
+    <h1>🚫 <?= $heading; ?></h1>
+    <p><?= $message; ?></p>
+
+    <code>
+<?= date('Y-m-d H:i:s'); ?> — Database connection failed.
+Please verify your database settings in application/config/database.php.
+    </code>
+
+    <div class="footer-note">CodeIgniter Error Handler • <?= date('Y') ?></div>
+</div>
+
 </body>
 </html>
