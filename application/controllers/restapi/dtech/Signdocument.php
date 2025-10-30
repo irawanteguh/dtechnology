@@ -91,9 +91,9 @@
             }
 
             return $this->response([
-                'status' => true,
+                'status'  => true,
                 'message' => $message,
-                'data' => $data
+                'data'    => $data
             ], 200);
 
         }
