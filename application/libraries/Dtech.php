@@ -103,6 +103,8 @@
         public static function checkdatauser($nik){
             $oauthResponse = Dtech::oauth();
 
+            return var_dump($oauthResponse);
+
             if(isset($oauthResponse['data']['token'])){
                 $token = $oauthResponse['data']['token'];
 
