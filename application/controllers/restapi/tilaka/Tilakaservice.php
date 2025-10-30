@@ -158,7 +158,7 @@
 
                     echo str_pad($a->no_file.".pdf", 40).str_pad($responsecheckdatauser['data']['useridentifier'] ?? '', 20).$statusMsg.PHP_EOL;
 
-                    if ($isTempFile && file_exists($location)) {
+                    if (file_exists($location)) {
                         unlink($location);
                     }
                 }
