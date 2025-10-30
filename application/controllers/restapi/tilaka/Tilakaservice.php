@@ -266,7 +266,7 @@
                                     $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                                 }
 
-                                if(file_exists($filename)){
+                                // if(file_exists($filename)){
                                     if(preg_match('/SIGNER(.*)/', $filename, $matches)){
                                         $position = "$" . preg_replace('/\.pdf$/', '', $matches[1]);
                                         
@@ -345,15 +345,13 @@
                                     }
 
                                     $body['list_pdf'][]=$listpdf;
-                                }else{
-                                    $statusMsg = color('red')."File not found";
-                                }
+                                // }else{
+                                //     $statusMsg = color('red')."File not found";
+                                // }
                             }
 
                             $bodycheckcertificate['user_identifier']=$a->user_identifier;
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-
-                            // return var_dump($responsecheckcertificate);
 
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
