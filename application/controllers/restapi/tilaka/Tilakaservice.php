@@ -168,7 +168,6 @@
                     if($a->source_file === "DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
                     } else {
-                        // Ubah jadi URL langsung dari server aapanel
                         $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
                     }
 
@@ -188,9 +187,8 @@
                             $filesize = 0;
                         }
                     } else {
-                        // Jika path lokal
                         if (file_exists($location)) {
-                            $filesize = filesize($location);
+                            $filesize     = filesize($location);
                             $file_content = file_get_contents($location);
                         } else {
                             $filesize = 0;
@@ -207,7 +205,7 @@
                             if (isset($responsecheckcertificate['success']) && $responsecheckcertificate['success']) {
                                 if ($responsecheckcertificate['status'] === 3) {
                                     $responseuploadfile = Tilaka::uploadfile($location);
-
+                                    return var_dump($responseuploadfile);
                                     if (isset($responseuploadfile['success']) && $responseuploadfile['success']) {
                                         $resultcheckfilename = $this->md->checkfilename(ORG_ID, $responseuploadfile['filename']);
                                         if (empty($resultcheckfilename)) {
@@ -237,8 +235,6 @@
                                             $responsetransfer = Dtech::addsigndocument(json_encode($body));
 
                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
-                                        } else {
-                                            $statusMsg = color('red')."Error Nih Guys";
                                         }
                                     } else {
                                         $datasimpanhd['note'] = $responseuploadfile['message'];
@@ -268,9 +264,7 @@
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40)
-                        .str_pad($responsecheckdatauser['data']['useridentifier'] ?? '', 20)
-                        .$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($responsecheckdatauser['data']['useridentifier'] ?? '', 20).$statusMsg.PHP_EOL;
                 }
             } else {
                 echo color('red')."Data Tidak Ditemukan";
