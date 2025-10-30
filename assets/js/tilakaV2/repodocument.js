@@ -272,7 +272,7 @@ function dataupload(startDate,endDate){
                 result = data.responResult;
                 for(var i in result){
                     var rows         = "";
-                    const filePath = result[i].source_file === "DTECHNOLOGY" ? `${url}assets/document/${result[i].no_file}.pdf` : `${url}/${result[i].no_file}.pdf`;
+                    const filePath = result[i].source_file === "DTECHNOLOGY" ? `${url}assets/document/${result[i].no_file}.pdf` : `${url}assets/document/${result[i].no_file}.pdf`;
 
                     rows +="<tr>";
                     if(result[i].status_file==="0"){
