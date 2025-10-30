@@ -93,6 +93,20 @@
                                                             $datasimpanhd['status_file']     = "1";
                                                             $datasimpanhd['note']            = "";
 
+                                                            $body['org_id']          = ORG_ID;
+                                                            $body['no_file']         = $a->no_file;
+                                                            $body['filename']        = $responseuploadfile['filename'];
+                                                            $body['jenis_doc']       = $a->jenis_doc;
+                                                            $body['assign']          = $a->assign;
+                                                            $body['status_sign']     = "1";
+                                                            $body['pasien_idx']      = $a->pasien_idx;
+                                                            $body['transaksi_idx']   = $a->transaksi_idx;
+                                                            $body['source_file']     = $a->source_file;
+                                                            $body['status_file']     = "1";
+                                                            $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
+
+                                                            Dtech::addsigndocument(json_encode($body));
+
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                                         }
                                                     }else{
