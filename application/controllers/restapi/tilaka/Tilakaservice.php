@@ -79,7 +79,6 @@
                                 if($responsecheckdatauser['status']){
                                     $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
                                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-
                                     if(isset($responsecheckcertificate['success'])){
                                         if($responsecheckcertificate['success']){
                                             if($responsecheckcertificate['status']===3){

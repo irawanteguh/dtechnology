@@ -39,11 +39,14 @@
    
 
 
-    // $route['auth']                     = 'restapi/dtech/Auth/createdtoken';
+    $route['auth']            = 'restapi/dtech/Auth/createdtoken';
+    $route['datauser/(:any)'] = 'restapi/dtech/User/datauser/$1';
+    $route['addsigndocument'] = 'restapi/dtech/Signdocument/addsigndocument';
+
     // $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     // $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
     // $route['statusdocument']           = 'restapi/dtech/Signdocument/statusdocument';
-    $route['datauser/(:any)']          = 'restapi/dtech/User/datauser/$1';
+    
    
 
     $route['documenttte']        = 'restapi/dtech/Notification/documenttte';

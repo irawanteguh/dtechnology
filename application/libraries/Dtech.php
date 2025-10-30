@@ -74,19 +74,58 @@
             }
         }
 
+        public static function addsigndocument($body){
+            $oauthResponse = Dtech::oauth();
+
+            if(isset($oauthResponse['data']['token'])){
+                $token = $oauthResponse['data']['token'];
+
+                $header = [
+                    "x-token: $token",
+                    "Content-Type: application/json"
+                ];
+
+                $header = ["Content-Type: application/json"];
+
+                $responsecurl = curl([
+                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/addsigndocument/",
+                    'method'  => "POST",
+                    'header'  => $header,
+                    'body'    => $body,
+                    'savelog' => false,
+                    'source'  => "DTECH-INSERTDOCUMENT"
+                ]);
+                return json_decode($responsecurl,TRUE); 
+            }else{
+                return json_decode($oauthResponse, TRUE); 
+            }
+        }
+
         public static function checkdatauser($nik){
-            $header = ["Content-Type: application/json"];
+            $oauthResponse = Dtech::oauth();
 
-            $responsecurl = curl([
-                'url'     => "https://rsumutiasari.com/dtechnology/index.php/datauser/".$nik,
-                'method'  => "GET",
-                'header'  => $header,
-                'body'    => "",
-                'savelog' => false,
-                'source'  => "DTECH-CHECKDATAUSER"
-            ]);
+            if(isset($oauthResponse['data']['token'])){
+                $token = $oauthResponse['data']['token'];
 
-            return json_decode($responsecurl,TRUE); 
+                $header = [
+                    "x-token: $token",
+                    "Content-Type: application/json"
+                ];
+
+                $header = ["Content-Type: application/json"];
+
+                $responsecurl = curl([
+                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/datauser/".$nik,
+                    'method'  => "GET",
+                    'header'  => $header,
+                    'body'    => "",
+                    'savelog' => false,
+                    'source'  => "DTECH-CHECKDATAUSER"
+                ]);
+                return json_decode($responsecurl,TRUE); 
+            }else{
+                return json_decode($oauthResponse, TRUE); 
+            }
         }
     }
 
