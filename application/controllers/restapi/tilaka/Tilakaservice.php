@@ -107,7 +107,7 @@
                                                             $body['file']            = new CURLFile($location, mime_content_type($location), basename($location));
 
                                                             $responsetransfer = Dtech::addsigndocument($body);
-                                                            // return var_dump($responsetransfer);
+                                                            return var_dump($responsetransfer);
 
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                                         }else{
