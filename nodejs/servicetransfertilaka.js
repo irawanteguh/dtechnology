@@ -84,4 +84,4 @@ async function runservices() {
 
 printHeader();
 runservices();
-// setInterval(runservices, 5000);
+setInterval(runservices, 5000);

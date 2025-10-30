@@ -298,6 +298,7 @@ function dataupload(startDate,endDate){
                     switch (result[i].status_sign) {
                         case "0":
                         case "1":
+                        case "2":
                             tableprocess += rows;
                             break;
                         case "5":
