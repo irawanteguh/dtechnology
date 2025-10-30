@@ -73,6 +73,7 @@
                     }
 
                     $fileContent = @file_get_contents($location);
+                    file_put_contents($localTemp, $fileContent);
 
                     if(file_exists($location)){
                         $filesize = filesize($location);
