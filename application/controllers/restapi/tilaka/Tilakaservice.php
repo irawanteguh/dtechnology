@@ -105,7 +105,9 @@
                                                             $body['status_file']     = "1";
                                                             $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
 
-                                                            Dtech::addsigndocument(json_encode($body));
+                                                            $responsetransfer = Dtech::addsigndocument(json_encode($body));
+
+                                                            return var_dump($responsetransfer);
 
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                                         }
