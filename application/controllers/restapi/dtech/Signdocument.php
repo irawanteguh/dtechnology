@@ -54,51 +54,118 @@
         // }
 
         //RMB Hospital Group Direct To Tilaka RSMS
-        public function addsigndocument_POST() {
-            $data  = [];
+        // public function addsigndocument_POST() {
+        //     $data  = [];
+        //     $input = json_decode($this->input->raw_input_stream, true);
+
+        //     return var_dump($input);
+
+        //     $data['org_id']          = $input['org_id'];
+        //     $data['no_file']         = $input['no_file'];
+        //     $data['filename']        = $input['filename'];
+        //     $data['jenis_doc']       = $input['jenis_doc'];
+        //     $data['assign']          = $input['assign'];
+        //     $data['status_sign']     = $input['status_sign'];
+        //     $data['pasien_idx']      = $input['pasien_idx'];
+        //     $data['transaksi_idx']   = $input['transaksi_idx'];
+        //     $data['source_file']     = $input['source_file'];
+        //     $data['status_file']     = $input['status_file'];
+        //     $data['user_identifier'] = $input['user_identifier'];
+
+        //     $config['upload_path']   = FCPATH.'assets/document/';
+        //     $config['allowed_types'] = 'pdf';
+        //     $config['file_name']     = $input['no_file'];
+        //     $config['overwrite']     = true;
+
+        //     $this->load->library('upload', $config);
+
+        //     if (!$this->upload->do_upload('file')) {
+        //         $error_message = strip_tags($this->upload->display_errors());
+
+        //         // log_message('error', 'File upload error: ' . $error_message);
+        //         $message = "File upload error: ".$error_message;
+        //     }else{
+        //         if($this->md->insertsigndocument($data)){
+        //             $message = "Data Berhasil Di Simpan";
+        //         }else{
+        //             $message = "Data Gagal Di Simpan";
+        //         }
+        //     }
+
+        //     return $this->response([
+        //         'status'  => true,
+        //         'message' => $message,
+        //         'data'    => $data
+        //     ], 200);
+
+        // }
+
+        public function addsigndocument_POST(){
             $input = json_decode($this->input->raw_input_stream, true);
 
-            return var_dump($input);
-
-            $data['org_id']          = $input['org_id'];
-            $data['no_file']         = $input['no_file'];
-            $data['filename']        = $input['filename'];
-            $data['jenis_doc']       = $input['jenis_doc'];
-            $data['assign']          = $input['assign'];
-            $data['status_sign']     = $input['status_sign'];
-            $data['pasien_idx']      = $input['pasien_idx'];
-            $data['transaksi_idx']   = $input['transaksi_idx'];
-            $data['source_file']     = $input['source_file'];
-            $data['status_file']     = $input['status_file'];
-            $data['user_identifier'] = $input['user_identifier'];
-
-            $config['upload_path']   = FCPATH.'assets/document/';
-            $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $input['no_file'];
-            $config['overwrite']     = true;
-
-            $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('file')) {
-                $error_message = strip_tags($this->upload->display_errors());
-
-                // log_message('error', 'File upload error: ' . $error_message);
-                $message = "File upload error: ".$error_message;
-            }else{
-                if($this->md->insertsigndocument($data)){
-                    $message = "Data Berhasil Di Simpan";
-                }else{
-                    $message = "Data Gagal Di Simpan";
-                }
+            if (empty($input)) {
+                return $this->response([
+                    'status'  => false,
+                    'message' => 'Request body kosong atau format tidak valid.'
+                ], 400);
             }
 
+            $data = [
+                'org_id'          => $input['org_id'] ?? '',
+                'no_file'         => $input['no_file'] ?? '',
+                'filename'        => $input['filename'] ?? '',
+                'jenis_doc'       => $input['jenis_doc'] ?? '',
+                'assign'          => $input['assign'] ?? '',
+                'status_sign'     => $input['status_sign'] ?? '',
+                'pasien_idx'      => $input['pasien_idx'] ?? '',
+                'transaksi_idx'   => $input['transaksi_idx'] ?? '',
+                'source_file'     => $input['source_file'] ?? '',
+                'status_file'     => $input['status_file'] ?? '',
+                'user_identifier' => $input['user_identifier'] ?? ''
+            ];
+
+            $file_content = $input['file_content'] ?? null;
+            $save_path    = FCPATH . 'assets/document/' . $data['no_file'] . '.pdf';
+
+            if (empty($file_content)) {
+                return $this->response([
+                    'status'  => false,
+                    'message' => 'File content kosong (base64 tidak ditemukan).',
+                    'data'    => $data
+                ], 400);
+            }
+
+            // Decode base64 ke binary dan simpan sebagai file PDF
+            $binary_data = base64_decode($file_content);
+
+            if ($binary_data === false) {
+                return $this->response([
+                    'status'  => false,
+                    'message' => 'File base64 gagal didekode.',
+                    'data'    => $data
+                ], 400);
+            }
+
+            // Simpan file ke lokasi tujuan
+            if (file_put_contents($save_path, $binary_data) === false) {
+                return $this->response([
+                    'status'  => false,
+                    'message' => 'Gagal menyimpan file ke server.',
+                    'data'    => $data
+                ], 500);
+            }
+
+            // Simpan metadata ke database
+            $save = $this->md->insertsigndocument($data);
+
             return $this->response([
-                'status'  => true,
-                'message' => $message,
+                'status'  => $save,
+                'message' => $save ? 'File dan data berhasil disimpan.' : 'File tersimpan, tapi gagal insert database.',
+                'file'    => base_url('assets/document/' . $data['no_file'] . '.pdf'),
                 'data'    => $data
             ], 200);
-
         }
+
 
         // public function statusdocument_get() {
         //     $data  = [];
