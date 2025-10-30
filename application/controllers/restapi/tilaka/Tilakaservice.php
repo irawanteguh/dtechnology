@@ -107,8 +107,6 @@
                                                             $body['file_content']    = base64_encode(file_get_contents($location));
 
                                                             $responsetransfer = Dtech::addsigndocument(json_encode($body));
-                                                            return var_dump($responsetransfer);
-                                                            
 
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                                         }else{
