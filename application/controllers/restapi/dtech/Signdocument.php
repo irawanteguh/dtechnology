@@ -54,50 +54,122 @@
         // }
 
         //RMB Hospital Group Direct To Tilaka RSMS
-        public function addsigndocument_POST() {
-            $data  = [];
-            // $input = json_decode($this->input->raw_input_stream, true);
-            $input = $this->input->post();
+        // public function addsigndocument_POST() {
+        //     $data  = [];
+        //     // $input = json_decode($this->input->raw_input_stream, true);
+        //     $input = $this->input->post();
 
-            $data['org_id']          = $input['org_id'];
-            $data['no_file']         = $input['no_file'];
-            $data['filename']        = $input['filename'];
-            $data['jenis_doc']       = $input['jenis_doc'];
-            $data['assign']          = $input['assign'];
-            $data['status_sign']     = $input['status_sign'];
-            $data['pasien_idx']      = $input['pasien_idx'];
-            $data['transaksi_idx']   = $input['transaksi_idx'];
-            $data['source_file']     = $input['source_file'];
-            $data['status_file']     = $input['status_file'];
-            $data['user_identifier'] = $input['user_identifier'];
+        //     $data['org_id']          = $input['org_id'];
+        //     $data['no_file']         = $input['no_file'];
+        //     $data['filename']        = $input['filename'];
+        //     $data['jenis_doc']       = $input['jenis_doc'];
+        //     $data['assign']          = $input['assign'];
+        //     $data['status_sign']     = $input['status_sign'];
+        //     $data['pasien_idx']      = $input['pasien_idx'];
+        //     $data['transaksi_idx']   = $input['transaksi_idx'];
+        //     $data['source_file']     = $input['source_file'];
+        //     $data['status_file']     = $input['status_file'];
+        //     $data['user_identifier'] = $input['user_identifier'];
 
-            $config['upload_path']   = FCPATH.'assets/document/';
-            $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $input['no_file'];
-            $config['overwrite']     = true;
+        //     $config['upload_path']   = FCPATH.'assets/document/';
+        //     $config['allowed_types'] = 'pdf';
+        //     $config['file_name']     = $input['no_file'];
+        //     $config['overwrite']     = true;
 
-            $this->load->library('upload', $config);
+        //     $this->load->library('upload', $config);
 
-            if (!$this->upload->do_upload('file')) {
-                $error_message = strip_tags($this->upload->display_errors());
+        //     if (!$this->upload->do_upload('file')) {
+        //         $error_message = strip_tags($this->upload->display_errors());
 
-                // log_message('error', 'File upload error: ' . $error_message);
-                $message = "File upload error: ".$error_message;
-            }else{
-                if($this->md->insertsigndocument($data)){
-                    $message = "Data Berhasil Di Simpan";
-                }else{
-                    $message = "Data Gagal Di Simpan";
-                }
-            }
+        //         // log_message('error', 'File upload error: ' . $error_message);
+        //         $message = "File upload error: ".$error_message;
+        //     }else{
+        //         if($this->md->insertsigndocument($data)){
+        //             $message = "Data Berhasil Di Simpan";
+        //         }else{
+        //             $message = "Data Gagal Di Simpan";
+        //         }
+        //     }
 
-            return $this->response([
-                'status'  => true,
-                'message' => $message,
-                'data'    => $data
-            ], 200);
+        //     return $this->response([
+        //         'status'  => true,
+        //         'message' => $message,
+        //         'data'    => $data
+        //     ], 200);
 
+        // }
+
+        public function addsigndocument_POST()
+{
+    $this->headerlog();
+
+    // Pastikan request multipart/form-data
+    if (empty($_FILES['file'])) {
+        return $this->response([
+            'status'  => false,
+            'message' => 'File PDF tidak ditemukan dalam request.'
+        ], 400);
+    }
+
+    // Ambil data lain dari input POST (karena dikirim bersama file)
+    $data = [
+        'org_id'          => $this->input->post('org_id'),
+        'no_file'         => $this->input->post('no_file'),
+        'filename'        => $this->input->post('filename'),
+        'jenis_doc'       => $this->input->post('jenis_doc'),
+        'assign'          => $this->input->post('assign'),
+        'status_sign'     => $this->input->post('status_sign'),
+        'pasien_idx'      => $this->input->post('pasien_idx'),
+        'transaksi_idx'   => $this->input->post('transaksi_idx'),
+        'source_file'     => $this->input->post('source_file'),
+        'status_file'     => $this->input->post('status_file'),
+        'user_identifier' => $this->input->post('user_identifier')
+    ];
+
+    // Konfigurasi upload
+    $config['upload_path']   = FCPATH . 'assets/document/';
+    $config['allowed_types'] = 'pdf';
+    $config['file_name']     = $data['no_file'];
+    $config['overwrite']     = true;
+
+    $this->load->library('upload', $config);
+
+    if (!$this->upload->do_upload('file')) {
+        $error_message = strip_tags($this->upload->display_errors());
+        return $this->response([
+            'status'  => false,
+            'message' => "Gagal mengunggah file: " . $error_message,
+            'data'    => $data
+        ], 400);
+    }
+
+    // Upload sukses → simpan data ke database
+    $upload_data = $this->upload->data();
+    $filepath    = $upload_data['full_path'];
+
+    if (file_exists($filepath)) {
+        $save = $this->md->insertsigndocument($data);
+
+        if ($save) {
+            $message = "File dan data berhasil disimpan.";
+        } else {
+            $message = "File berhasil diunggah, tetapi gagal menyimpan data ke database.";
         }
+
+        return $this->response([
+            'status'  => true,
+            'message' => $message,
+            'file'    => base_url('assets/document/' . basename($filepath)),
+            'data'    => $data
+        ], 200);
+    } else {
+        return $this->response([
+            'status'  => false,
+            'message' => "Upload gagal: file tidak ditemukan setelah proses upload.",
+            'data'    => $data
+        ], 500);
+    }
+}
 
 
         // public function statusdocument_get() {
