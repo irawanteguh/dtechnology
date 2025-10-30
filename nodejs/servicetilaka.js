@@ -89,7 +89,7 @@ async function runservicesrequest() {
 }
 
 printHeader();
-runservices();
+// runservices();
 runservicesrequest();
-setInterval(runservices, 5000);
-setInterval(runservicesrequest, 3600000);
+// setInterval(runservices, 5000);
+// setInterval(runservicesrequest, 3600000);
