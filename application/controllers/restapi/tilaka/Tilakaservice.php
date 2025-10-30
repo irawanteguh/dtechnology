@@ -104,12 +104,10 @@
                                                             $body['source_file']     = $a->source_file;
                                                             $body['status_file']     = "1";
                                                             $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
-                                                            $body['file']            = base64_encode(file_get_contents($location));
+                                                            $body['file_content']    = base64_encode(file_get_contents($location));
 
-                                                            return var_dump($body);
-
-                                                            // $responsetransfer = Dtech::addsigndocument(json_encode($body));
-                                                            // return var_dump($responsetransfer);
+                                                            $responsetransfer = Dtech::addsigndocument(json_encode($body));
+                                                            return var_dump($responsetransfer);
                                                             
 
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
