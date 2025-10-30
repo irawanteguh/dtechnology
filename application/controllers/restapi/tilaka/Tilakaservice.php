@@ -89,7 +89,7 @@
                                                         $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
                                                         if(empty($resultcheckfilename)){
                                                             $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                                            $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                            $datasimpanhd['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
                                                             $datasimpanhd['status_sign']     = "1";
                                                             $datasimpanhd['status_file']     = "1";
                                                             $datasimpanhd['note']            = "";
@@ -131,7 +131,7 @@
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($responsecheckdatauser['data']['useridentifier'], 20).$statusMsg.PHP_EOL;
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";
