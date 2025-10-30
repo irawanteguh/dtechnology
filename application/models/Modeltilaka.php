@@ -54,7 +54,7 @@
             return $recordset;
         }
 
-        function filerequestsign($orgid,$status,$assign){
+        function filerequestsign($status,$assign){
             $query =
                     "
                         select a.no_file, filename, status_sign, assign, user_identifier, source_file,
@@ -63,7 +63,6 @@
                                 (select org_name      from dt01_gen_organization_ms where active='1' and org_id=a.org_id)orgname
                         from dt01_gen_document_file_dt a
                         where a.active      = '1'
-                        and   a.org_id      = '".$orgid."'
                         and   a.assign      = '".$assign."'
                         and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         ".$status."
