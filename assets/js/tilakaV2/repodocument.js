@@ -83,7 +83,6 @@ function dataupload(startDate,endDate){
         },
         success:function(data){
             var result       = "";
-            var rows         = "";
             var tableprocess = "";
             var tablehold    = "";
             var tablefinish  = "";
@@ -272,6 +271,7 @@ function dataupload(startDate,endDate){
             if(data.responCode === "00"){
                 result = data.responResult;
                 for(var i in result){
+                    var rows         = "";
                     const filePath = result[i].source_file === "DTECHNOLOGY" ? `${url}assets/document/${result[i].no_file}.pdf` : `${url}/${result[i].no_file}.pdf`;
 
                     rows +="<tr>";
