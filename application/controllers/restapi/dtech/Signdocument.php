@@ -81,7 +81,7 @@
                 $error_message = strip_tags($this->upload->display_errors());
 
                 // log_message('error', 'File upload error: ' . $error_message);
-                $message = "4'File upload error: ".$error_message;
+                $message = "File upload error: ".$error_message;
             }else{
                 if($this->md->insertsigndocument($data)){
                     $message = "Data Berhasil Di Simpan";
