@@ -79,10 +79,10 @@ async function callAPI(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-	await callAPI("transferfile", "POST");
-	// await callAPI("uploadallfile", "POST");
-	// await callAPI("excutesign", "POST");
-	// await callAPI("statussign", "POST");
+	// await callAPI("transferfile", "POST");
+	await callAPI("uploadallfile", "POST");
+	await callAPI("excutesign", "POST");
+	await callAPI("statussign", "POST");
 }
 
 async function runservicesrequest() {
@@ -92,4 +92,4 @@ async function runservicesrequest() {
 printHeader();
 runservices();
 setInterval(runservices, 5000);
-// setInterval(runservicesrequest, 3600000);
+setInterval(runservicesrequest, 3600000);
