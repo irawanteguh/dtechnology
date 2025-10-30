@@ -59,6 +59,8 @@
             // $input = json_decode($this->input->raw_input_stream, true);
             $input = $this->input->post();
 
+            return var_dump($input);
+
             $data['org_id']          = $input['org_id'];
             $data['no_file']         = $input['no_file'];
             $data['filename']        = $input['filename'];
