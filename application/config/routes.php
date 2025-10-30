@@ -16,11 +16,12 @@
     $route['getfile']              = 'restapi/tilaka/TilakaserviceV5/getfile';
     $route['mergepdfs']            = 'restapi/tilaka/TilakaserviceV5/mergepdfs';
 
-    $route['authtilaka']           = 'restapi/tilaka/Tilakaservice/auth';
-    $route['requestsign']          = 'restapi/tilaka/Tilakaservice/requestsign';
-    $route['uploadallfile']        = 'restapi/tilaka/Tilakaservice/uploadallfile';
-    $route['excutesign']           = 'restapi/tilaka/Tilakaservice/excutesign';
-    $route['statussign']           = 'restapi/tilaka/Tilakaservice/statussign';
+    $route['authtilaka']    = 'restapi/tilaka/Tilakaservice/auth';
+    $route['requestsign']   = 'restapi/tilaka/Tilakaservice/requestsign';
+    $route['uploadallfile'] = 'restapi/tilaka/Tilakaservice/uploadallfile';
+    $route['excutesign']    = 'restapi/tilaka/Tilakaservice/excutesign';
+    $route['statussign']    = 'restapi/tilaka/Tilakaservice/statussign';
+    $route['transferfile']  = 'restapi/tilaka/Tilakaservice/transferfile';
 
 
     $route['pegawai']               = 'restapi/khanza/Khanza/pegawai';
@@ -42,7 +43,7 @@
     $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
     $route['statusdocument']           = 'restapi/dtech/Signdocument/statusdocument';
-    $route['transferfile']             = 'restapi/dtech/Tilaka/transferfile';
+   
 
     $route['documenttte']  = 'restapi/dtech/Notification/documenttte';
     $route['approvalpodirector'] = 'restapi/dtech/Notification/approvalpodirector';
