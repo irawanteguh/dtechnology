@@ -60,6 +60,7 @@
             $input = $this->input->post();
 
             return var_dump($input);
+            die();
 
             $data['org_id']          = $input['org_id'];
             $data['no_file']         = $input['no_file'];
