@@ -74,7 +74,11 @@
 
                     $fileContent = @file_get_contents($location);
                     $localTemp   = $tempDir . $a->no_file . ".pdf";
-                    file_put_contents($localTemp, $fileContent);
+
+                    if ($fileContent !== false) {
+                        file_put_contents($localTemp, $fileContent);
+                        $location = $localTemp; // pakai lokasi lokal
+                    }
 
                     if(file_exists($location)){
                         $filesize = filesize($location);
