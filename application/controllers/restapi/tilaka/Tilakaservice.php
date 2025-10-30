@@ -56,86 +56,207 @@
         }
 
         //Start RMB Hospital Group Direct To Tilaka RSMS
+        // public function transferfile_POST(){
+        //     $this->headerlog();
+        //     $result = $this->md->datalisttransferfile(ORG_ID);
+
+        //     if(!empty($result)){
+        //         foreach($result as $a){
+        //             $location              = "";
+        //             $filesize              = 0;
+
+        //             if($a->source_file==="DTECHNOLOGY"){
+        //                 $location = FCPATH."assets/document/".$a->no_file.".pdf";
+        //             }else{
+        //                 $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+        //             }
+
+        //             if(file_exists($location)){
+        //                 $filesize = filesize($location);
+        //                 if($filesize!=0){
+        //                     $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+        //                     if(isset($responsecheckdatauser['status'])){
+        //                         if($responsecheckdatauser['status']){
+        //                             $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
+        //                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+        //                             if(isset($responsecheckcertificate['success'])){
+        //                                 if($responsecheckcertificate['success']){
+        //                                     if($responsecheckcertificate['status']===3){
+        //                                         $responseuploadfile = Tilaka::uploadfile($location);
+        //                                         if(isset($responseuploadfile['success'])){
+        //                                             if($responseuploadfile['success']){
+        //                                                 $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
+        //                                                 if(empty($resultcheckfilename)){
+        //                                                     $datasimpanhd['filename']        = $responseuploadfile['filename'];
+        //                                                     $datasimpanhd['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
+        //                                                     $datasimpanhd['status_sign']     = "1";
+        //                                                     $datasimpanhd['status_file']     = "1";
+        //                                                     $datasimpanhd['note']            = "";
+
+        //                                                     $body['org_id']          = ORG_ID;
+        //                                                     $body['no_file']         = $a->no_file;
+        //                                                     $body['filename']        = $responseuploadfile['filename'];
+        //                                                     $body['jenis_doc']       = $a->jenis_doc;
+        //                                                     $body['assign']          = $a->assign;
+        //                                                     $body['status_sign']     = "1";
+        //                                                     $body['pasien_idx']      = $a->pasien_idx;
+        //                                                     $body['transaksi_idx']   = $a->transaksi_idx;
+        //                                                     $body['source_file']     = $a->source_file;
+        //                                                     $body['status_file']     = "1";
+        //                                                     $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
+        //                                                     $body['file_content']    = base64_encode(file_get_contents($location));
+
+        //                                                     $responsetransfer = Dtech::addsigndocument(json_encode($body));
+
+        //                                                     $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+        //                                                 }else{
+        //                                                     $statusMsg = color('red')."Error Nih Guys";
+        //                                                 }
+        //                                             }else{
+        //                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
+        //                                                 $statusMsg = color('red').$responseuploadfile['message'];
+        //                                             }
+        //                                         }
+        //                                     }else{
+        //                                         $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+        //                                         $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+        //                                     }
+        //                                 }else{
+        //                                     $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+        //                                     $statusMsg = color('red').$responsecheckcertificate['message']['info'];
+        //                                 }
+        //                             }
+        //                         }
+        //                     }
+        //                 }else{
+        //                     $datasimpanhd['status_sign'] = "98";
+        //                     $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
+        //                     $statusMsg = color('red')."File Corrupted, Size: ".$filesize;
+        //                 }
+        //             }else{
+        //                 $datasimpanhd['status_sign']     = "99";
+        //                 $datasimpanhd['note']            = "File not found";
+        //                 $datasimpanhd['status_file']     = "0";
+        //                 $datasimpanhd['user_identifier'] = "";
+        //                 $datasimpanhd['url']             = "";
+
+        //                 $statusMsg = color('red')."File not found | ".$location;
+        //             }
+
+        //             if(!empty($datasimpanhd)){
+        //                 $this->md->updatefile($datasimpanhd, $a->no_file);
+        //             }
+
+        //             echo str_pad($a->no_file.".pdf", 40).str_pad($responsecheckdatauser['data']['useridentifier'] ?? '', 20).$statusMsg.PHP_EOL;
+        //         }
+        //     }else{
+        //         echo color('red')."Data Tidak Ditemukan";
+        //     }
+        // }
+
         public function transferfile_POST(){
             $this->headerlog();
             $result = $this->md->datalisttransferfile(ORG_ID);
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $location              = "";
-                    $filesize              = 0;
+                    $location = "";
+                    $filesize = 0;
+                    $file_content = "";
 
-                    if($a->source_file==="DTECHNOLOGY"){
+                    // Tentukan sumber file
+                    if($a->source_file === "DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
-                    }else{
-                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                    } else {
+                        // Ubah jadi URL langsung dari server aapanel
+                        $location = "http://100.100.100.5/webapps/berkasrawat/pages/upload/".$a->no_file.".pdf";
                     }
 
-                    if(file_exists($location)){
-                        $filesize = filesize($location);
-                        if($filesize!=0){
-                            $responsecheckdatauser = Dtech::checkdatauser($a->assign);
-                            if(isset($responsecheckdatauser['status'])){
-                                if($responsecheckdatauser['status']){
-                                    $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
-                                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-                                    if(isset($responsecheckcertificate['success'])){
-                                        if($responsecheckcertificate['success']){
-                                            if($responsecheckcertificate['status']===3){
-                                                $responseuploadfile = Tilaka::uploadfile($location);
-                                                if(isset($responseuploadfile['success'])){
-                                                    if($responseuploadfile['success']){
-                                                        $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
-                                                        if(empty($resultcheckfilename)){
-                                                            $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                                            $datasimpanhd['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
-                                                            $datasimpanhd['status_sign']     = "1";
-                                                            $datasimpanhd['status_file']     = "1";
-                                                            $datasimpanhd['note']            = "";
+                    // --- CEK FILE ---
+                    if (strpos($location, 'http') === 0) {
+                        // Jika sumber berupa URL HTTP → pakai CURL
+                        $ch = curl_init($location);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                        $file_content = curl_exec($ch);
+                        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        curl_close($ch);
 
-                                                            $body['org_id']          = ORG_ID;
-                                                            $body['no_file']         = $a->no_file;
-                                                            $body['filename']        = $responseuploadfile['filename'];
-                                                            $body['jenis_doc']       = $a->jenis_doc;
-                                                            $body['assign']          = $a->assign;
-                                                            $body['status_sign']     = "1";
-                                                            $body['pasien_idx']      = $a->pasien_idx;
-                                                            $body['transaksi_idx']   = $a->transaksi_idx;
-                                                            $body['source_file']     = $a->source_file;
-                                                            $body['status_file']     = "1";
-                                                            $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
-                                                            $body['file_content']    = base64_encode(file_get_contents($location));
-
-                                                            $responsetransfer = Dtech::addsigndocument(json_encode($body));
-
-                                                            $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
-                                                        }else{
-                                                            $statusMsg = color('red')."Error Nih Guys";
-                                                        }
-                                                    }else{
-                                                        $datasimpanhd['note'] = $responseuploadfile['message'];
-                                                        $statusMsg = color('red').$responseuploadfile['message'];
-                                                    }
-                                                }
-                                            }else{
-                                                $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-                                                $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
-                                            }
-                                        }else{
-                                            $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-                                            $statusMsg = color('red').$responsecheckcertificate['message']['info'];
-                                        }
-                                    }
-                                }
-                            }
-                        }else{
-                            $datasimpanhd['status_sign'] = "98";
-                            $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
-                            $statusMsg = color('red')."File Corrupted, Size: ".$filesize;
+                        if ($http_code == 200 && $file_content !== false) {
+                            $filesize = strlen($file_content);
+                        } else {
+                            $filesize = 0;
                         }
-                    }else{
+                    } else {
+                        // Jika path lokal
+                        if (file_exists($location)) {
+                            $filesize = filesize($location);
+                            $file_content = file_get_contents($location);
+                        } else {
+                            $filesize = 0;
+                        }
+                    }
+
+                    // --- PROSES ---
+                    if ($filesize != 0 && !empty($file_content)) {
+                        $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+                        if (isset($responsecheckdatauser['status']) && $responsecheckdatauser['status']) {
+                            $bodycheckcertificate['user_identifier'] = $responsecheckdatauser['data']['useridentifier'] ?? '';
+                            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+
+                            if (isset($responsecheckcertificate['success']) && $responsecheckcertificate['success']) {
+                                if ($responsecheckcertificate['status'] === 3) {
+                                    $responseuploadfile = Tilaka::uploadfile($location);
+
+                                    if (isset($responseuploadfile['success']) && $responseuploadfile['success']) {
+                                        $resultcheckfilename = $this->md->checkfilename(ORG_ID, $responseuploadfile['filename']);
+                                        if (empty($resultcheckfilename)) {
+                                            $datasimpanhd = [
+                                                'filename'        => $responseuploadfile['filename'],
+                                                'user_identifier' => $responsecheckdatauser['data']['useridentifier'],
+                                                'status_sign'     => "1",
+                                                'status_file'     => "1",
+                                                'note'            => ""
+                                            ];
+
+                                            $body = [
+                                                'org_id'          => ORG_ID,
+                                                'no_file'         => $a->no_file,
+                                                'filename'        => $responseuploadfile['filename'],
+                                                'jenis_doc'       => $a->jenis_doc,
+                                                'assign'          => $a->assign,
+                                                'status_sign'     => "1",
+                                                'pasien_idx'      => $a->pasien_idx,
+                                                'transaksi_idx'   => $a->transaksi_idx,
+                                                'source_file'     => $a->source_file,
+                                                'status_file'     => "1",
+                                                'user_identifier' => $responsecheckdatauser['data']['useridentifier'],
+                                                'file_content'    => base64_encode($file_content)
+                                            ];
+
+                                            $responsetransfer = Dtech::addsigndocument(json_encode($body));
+
+                                            $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                        } else {
+                                            $statusMsg = color('red')."Error Nih Guys";
+                                        }
+                                    } else {
+                                        $datasimpanhd['note'] = $responseuploadfile['message'];
+                                        $statusMsg = color('red').$responseuploadfile['message'];
+                                    }
+                                } else {
+                                    $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+                                    $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                }
+                            } else {
+                                $datasimpanhd['note'] = $responsecheckcertificate['message']['info'] ?? 'Unknown Certificate Error';
+                                $statusMsg = color('red').$datasimpanhd['note'];
+                            }
+                        }
+                    } else {
+                        // File tidak ditemukan
                         $datasimpanhd['status_sign']     = "99";
-                        $datasimpanhd['note']            = "File not found";
+                        $datasimpanhd['note']            = "File not found or unreadable";
                         $datasimpanhd['status_file']     = "0";
                         $datasimpanhd['user_identifier'] = "";
                         $datasimpanhd['url']             = "";
@@ -143,16 +264,19 @@
                         $statusMsg = color('red')."File not found | ".$location;
                     }
 
-                    if(!empty($datasimpanhd)){
+                    if (!empty($datasimpanhd)) {
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40).str_pad($responsecheckdatauser['data']['useridentifier'] ?? '', 20).$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 40)
+                        .str_pad($responsecheckdatauser['data']['useridentifier'] ?? '', 20)
+                        .$statusMsg.PHP_EOL;
                 }
-            }else{
+            } else {
                 echo color('red')."Data Tidak Ditemukan";
             }
         }
+
         //End RMB Hospital Group Direct To Tilaka RSMS
 
         public function uploadallfile_POST(){
