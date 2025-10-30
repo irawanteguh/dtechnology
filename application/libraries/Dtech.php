@@ -75,6 +75,8 @@
         }
 
         public static function checkdatauser($nik){
+            $header = ["Content-Type: application/json"];
+
             $responsecurl = curl([
                 'url'     => "https://rsumutiasari.com/dtechnology/index.php/datauser/".$nik,
                 'method'  => "GET",
