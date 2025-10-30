@@ -1,8 +1,9 @@
 	{
 		"type"   : "module",
 		"scripts": {
-			"wagateway": "node nodejs/wagateway.js",
-			"tilaka"   : "node nodejs/servicetilaka.js"
+			"wagateway"     : "node nodejs/wagateway.js",
+			"tilaka"        : "node nodejs/servicetilaka.js",
+			"transfertilaka": "node nodejs/servicetransfertilaka.js"
 		},
 		"dependencies": {
 			"axios"           : "^1.10.0",
