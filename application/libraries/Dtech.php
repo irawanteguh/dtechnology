@@ -81,7 +81,6 @@
                 'url'     => "https://rsumutiasari.com/dtechnology/index.php/datauser/".$nik,
                 'method'  => "GET",
                 'header'  => $header,
-                'body'    => $body,
                 'savelog' => false,
                 'source'  => "DTECH-CHECKDATAUSER"
             ]);
