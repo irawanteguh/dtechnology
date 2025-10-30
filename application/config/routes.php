@@ -35,13 +35,14 @@
     $route['GetResultLeka/(:any)/(:any)'] = 'restapi/aktivo/Leka/GetResultLeka/$1/$2';
     $route['UpdateLeka/(:any)']           = 'restapi/aktivo/Leka/UpdateLeka/$1';
 
-    $route['loadserver']        = 'root/Loadserver/load';
+   
 
 
     $route['auth']                     = 'restapi/dtech/Auth/createdtoken';
     $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
     $route['statusdocument']           = 'restapi/dtech/Signdocument/statusdocument';
+    $route['transferfile']             = 'restapi/dtech/Tilaka/transferfile';
 
     $route['documenttte']  = 'restapi/dtech/Notification/documenttte';
     $route['approvalpodirector'] = 'restapi/dtech/Notification/approvalpodirector';
@@ -50,6 +51,8 @@
     $route['updatedevice']      = 'restapi/dtech/Whatsapp/updatedevice';
     $route['broadcastwhatsapp'] = 'restapi/dtech/Whatsapp/broadcastwhatsapp';
     
+
+    $route['loadserver']        = 'root/Loadserver/load';
 
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';

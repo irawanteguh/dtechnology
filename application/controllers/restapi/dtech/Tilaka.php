@@ -43,6 +43,59 @@
             $this->load->model("Modeltilaka","md");
         }
 
+        public function transferfile_POST(){
+            $this->headerlog();
+            $result = $this->md->datalisttransferfile(ORG_ID);
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $location  = "";
+                    $filesize  = 0;
+
+                    if($a->source_file==="DTECHNOLOGY"){
+                        $location = FCPATH."assets/document/".$a->no_file.".pdf";
+                    }else{
+                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                    }
+
+                    if(file_exists($location)){
+                        $filesize = filesize($location);
+                        if($filesize!=0){
+                            $responseuploadfile = Tilaka::uploadfile($location);
+                            if(isset($responseuploadfile['success'])){
+                                if($responseuploadfile['success']){
+                                    $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                }else{
+                                    $datasimpanhd['note'] = $responseuploadfile['message'];
+                                    $statusMsg = color('red').$responseuploadfile['message'];
+                                }
+                            }
+                        }else{
+                            $datasimpanhd['status_sign'] = "98";
+                            $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
+                            $statusMsg = color('red')."File Corrupted, Size: ".$filesize;
+                        }
+                    }else{
+                        $datasimpanhd['status_sign']     = "99";
+                        $datasimpanhd['note']            = "File not found";
+                        $datasimpanhd['status_file']     = "0";
+                        $datasimpanhd['user_identifier'] = "";
+                        $datasimpanhd['url']             = "";
+
+                        $statusMsg = color('red')."File not found | ".$location;
+                    }
+
+                    if(!empty($datasimpanhd)){
+                        $this->md->updatefile($datasimpanhd, $a->no_file);
+                    }
+
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
+                }
+            }else{
+                echo color('red')."Data Tidak Ditemukan";
+            }
+        }
+
     }
 
 ?>

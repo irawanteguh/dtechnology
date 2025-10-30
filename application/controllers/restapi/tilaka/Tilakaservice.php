@@ -45,14 +45,14 @@
             $this->load->model("Modeltilaka","md");
         }
 
-        public function auth_GET(){
-            $response = Tilaka::oauth();
-            $this->response($response['access_token'],REST_Controller::HTTP_OK);
-        }
-
         public function headerlog(){
             echo PHP_EOL;
             echo color('cyan').str_pad("IDENTITY", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+        }
+
+        public function auth_GET(){
+            $response = Tilaka::oauth();
+            $this->response($response['access_token'],REST_Controller::HTTP_OK);
         }
 
         public function uploadallfile_POST(){
@@ -131,7 +131,6 @@
                 echo color('red')."Data Tidak Ditemukan";
             }
         }
-
 
         public function requestsign_POST(){
             $status = "AND a.status_sign = '1' LIMIT 10;";
