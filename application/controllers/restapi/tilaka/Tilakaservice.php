@@ -106,7 +106,7 @@
                                                             $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
                                                             $body['file']            = new CURLFile($location, mime_content_type($location), basename($location));
 
-                                                            $responsetransfer = Dtech::addsigndocument(json_encode($body));
+                                                            $responsetransfer = Dtech::addsigndocument($body);
 
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                                         }else{
