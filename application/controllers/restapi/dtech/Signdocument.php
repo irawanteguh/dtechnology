@@ -70,10 +70,24 @@
             $data['status_file']     = $input['status_file'];
             $data['user_identifier'] = $input['user_identifier'];
 
-            if($this->md->insertsigndocument($data)){
-                $message = "Data Berhasil Di Simpan";
+            $config['upload_path']   = FCPATH.'assets/document/';
+            $config['allowed_types'] = 'pdf';
+            $config['file_name']     = $input['no_file'];
+            $config['overwrite']     = true;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('file')) {
+                $error_message = strip_tags($this->upload->display_errors());
+
+                // log_message('error', 'File upload error: ' . $error_message);
+                $message = "4'File upload error: ".$error_message;
             }else{
-                $message = "Data Gagal Di Simpan";
+                if($this->md->insertsigndocument($data)){
+                    $message = "Data Berhasil Di Simpan";
+                }else{
+                    $message = "Data Gagal Di Simpan";
+                }
             }
 
             return $this->response([

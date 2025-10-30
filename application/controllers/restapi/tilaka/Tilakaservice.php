@@ -104,6 +104,7 @@
                                                             $body['source_file']     = $a->source_file;
                                                             $body['status_file']     = "1";
                                                             $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
+                                                            $body['file']            = new CURLFile($location, mime_content_type($location), basename($location));
 
                                                             $responsetransfer = Dtech::addsigndocument(json_encode($body));
 
@@ -266,7 +267,7 @@
                                     $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                                 }
 
-                                // if(file_exists($filename)){
+                                if(file_exists($filename)){
                                     if(preg_match('/SIGNER(.*)/', $filename, $matches)){
                                         $position = "$" . preg_replace('/\.pdf$/', '', $matches[1]);
                                         
@@ -345,9 +346,9 @@
                                     }
 
                                     $body['list_pdf'][]=$listpdf;
-                                // }else{
-                                //     $statusMsg = color('red')."File not found";
-                                // }
+                                }else{
+                                    $statusMsg = color('red')."File not found";
+                                }
                             }
 
                             $bodycheckcertificate['user_identifier']=$a->user_identifier;
