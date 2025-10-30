@@ -192,81 +192,81 @@ function dataupload(startDate,endDate){
             // $("#resultrepodocumentfinish").html(tablefinish);
             // $("#resultrepodocumentonhold").html(tablehold);
 
-            // if (data.responCode === "00") {
-            //     const result = data.responResult;
-            //     let tableprocess = "", tablefinish = "", tablehold = "";
+            // // if (data.responCode === "00") {
+            // //     const result = data.responResult;
+            // //     let tableprocess = "", tablefinish = "", tablehold = "";
 
-            //     // Fungsi bantu buat 1 row HTML
-            //     const makeRow = (item) => {
-            //         const color     = item.colorstatus || "secondary";
-            //         const status    = item.status || "-";
-            //         const desc      = item.descriptionstatus || "";
-            //         const jenisDoc  = item.jenisdocument || "-";
-            //         const noFile    = item.no_file || "-";
-            //         const filename  = item.filename || "-";
-            //         const pasien    = item.pasien_idx || "-";
-            //         const trx       = item.transaksi_idx || "-";
-            //         const assign    = item.assignname || "";
-            //         const userId    = item.useridentifier || "<i class='bi bi-x-octagon text-danger'></i>";
-            //         const note      = item.note || "";
-            //         const createdby = item.createdby || "By Integrated System";
-            //         const tgljam    = item.tgljam || "";
+            // //     // Fungsi bantu buat 1 row HTML
+            // //     const makeRow = (item) => {
+            // //         const color     = item.colorstatus || "secondary";
+            // //         const status    = item.status || "-";
+            // //         const desc      = item.descriptionstatus || "";
+            // //         const jenisDoc  = item.jenisdocument || "-";
+            // //         const noFile    = item.no_file || "-";
+            // //         const filename  = item.filename || "-";
+            // //         const pasien    = item.pasien_idx || "-";
+            // //         const trx       = item.transaksi_idx || "-";
+            // //         const assign    = item.assignname || "";
+            // //         const userId    = item.useridentifier || "<i class='bi bi-x-octagon text-danger'></i>";
+            // //         const note      = item.note || "";
+            // //         const createdby = item.createdby || "By Integrated System";
+            // //         const tgljam    = item.tgljam || "";
 
-            //         let linkfile = "";
-            //         const filePath = item.source_file === "DTECHNOLOGY" ? `${url}assets/document/${noFile}.pdf` : `${url}/${pathposttilaka}/${noFile}.pdf`;
+            // //         let linkfile = "";
+            // //         const filePath = item.source_file === "DTECHNOLOGY" ? `${url}assets/document/${noFile}.pdf` : `${url}/${pathposttilaka}/${noFile}.pdf`;
 
-            //         // Tentukan link berdasarkan status_file & status_sign
-            //         if (item.status_sign === "0" && item.status_file === "0") {
-            //             linkfile = `<a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='${item.no_file}' onclick='uploadfile(this)'>${noFile}</a>`;
-            //         } else {
-            //             linkfile = `<a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='${filePath}' onclick='viewdocwithoutnote(this)'>${noFile}</a>`;
-            //         }
+            // //         // Tentukan link berdasarkan status_file & status_sign
+            // //         if (item.status_sign === "0" && item.status_file === "0") {
+            // //             linkfile = `<a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='${item.no_file}' onclick='uploadfile(this)'>${noFile}</a>`;
+            // //         } else {
+            // //             linkfile = `<a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='${filePath}' onclick='viewdocwithoutnote(this)'>${noFile}</a>`;
+            // //         }
 
-            //         const descText = item.status_file === "0" && item.status_sign !== "5" && item.status_sign !== "99" ? "Please Upload File" : desc;
+            // //         const descText = item.status_file === "0" && item.status_sign !== "5" && item.status_sign !== "99" ? "Please Upload File" : desc;
 
-            //         return `
-            //             <tr>
-            //                 <td class='ps-4'>
-            //                     <div><span class='badge badge-light-${color} fs-7 fw-bold'>${status}</span></div>
-            //                     <div class='fst-italic small'>${descText}</div>
-            //                 </td>
-            //                 <td>
-            //                     <div>${jenisDoc}</div>
-            //                     <div>${linkfile}</div>
-            //                     <div>${filename}</div>
-            //                 </td>
-            //                 <td><div>${pasien}</div><div>${trx}</div></td>
-            //                 <td><div>${assign}</div><div>${userId}</div></td>
-            //                 <td><div class='badge badge-light-info'>${note}</div></td>
-            //                 <td class='pe-4 text-end'><div>${createdby}</div><div>${tgljam}</div></td>
-            //             </tr>`;
-            //     };
+            // //         return `
+            // //             <tr>
+            // //                 <td class='ps-4'>
+            // //                     <div><span class='badge badge-light-${color} fs-7 fw-bold'>${status}</span></div>
+            // //                     <div class='fst-italic small'>${descText}</div>
+            // //                 </td>
+            // //                 <td>
+            // //                     <div>${jenisDoc}</div>
+            // //                     <div>${linkfile}</div>
+            // //                     <div>${filename}</div>
+            // //                 </td>
+            // //                 <td><div>${pasien}</div><div>${trx}</div></td>
+            // //                 <td><div>${assign}</div><div>${userId}</div></td>
+            // //                 <td><div class='badge badge-light-info'>${note}</div></td>
+            // //                 <td class='pe-4 text-end'><div>${createdby}</div><div>${tgljam}</div></td>
+            // //             </tr>`;
+            // //     };
 
-            //     // Loop utama
-            //     result.forEach(item => {
-            //         switch (item.status_sign) {
-            //             case "5":
-            //                 tablefinish += makeRow(item);
-            //                 break;
-            //             case "99": // hold
-            //                 tablehold += makeRow(item);
-            //                 break;
-            //             default:   // proses
-            //                 tableprocess += makeRow(item);
-            //                 break;
-            //         }
+            // //     // Loop utama
+            // //     result.forEach(item => {
+            // //         switch (item.status_sign) {
+            // //             case "5":
+            // //                 tablefinish += makeRow(item);
+            // //                 break;
+            // //             case "99": // hold
+            // //                 tablehold += makeRow(item);
+            // //                 break;
+            // //             default:   // proses
+            // //                 tableprocess += makeRow(item);
+            // //                 break;
+            // //         }
 
-            //         jml ++;
-            //     });
+            // //         jml ++;
+            // //     });
 
-            //     // Update DOM
-            //     $("#resultrepodocumentonprocess").html(tableprocess);
-            //     $("#resultrepodocumentfinish").html(tablefinish);
-            //     $("#resultrepodocumentonhold").html(tablehold);
-            // }
+            // //     // Update DOM
+            // //     $("#resultrepodocumentonprocess").html(tableprocess);
+            // //     $("#resultrepodocumentfinish").html(tablefinish);
+            // //     $("#resultrepodocumentonhold").html(tablehold);
+            // // }
 
 
-            // $("#info_list_document").html(jml+" Document");
+            // // $("#info_list_document").html(jml+" Document");
 
 
             if(data.responCode === "00"){
