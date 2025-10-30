@@ -56,7 +56,8 @@
         //RMB Hospital Group Direct To Tilaka RSMS
         public function addsigndocument_POST() {
             $data  = [];
-            $input = json_decode($this->input->raw_input_stream, true);
+            // $input = json_decode($this->input->raw_input_stream, true);
+            $input = $this->input->post();
 
             $data['org_id']          = $input['org_id'];
             $data['no_file']         = $input['no_file'];
