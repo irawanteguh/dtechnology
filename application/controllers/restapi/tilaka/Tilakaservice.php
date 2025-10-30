@@ -73,6 +73,7 @@
                     }
 
                     $fileContent = @file_get_contents($location);
+                    $localTemp   = $tempDir . $a->no_file . ".pdf";
                     file_put_contents($localTemp, $fileContent);
 
                     if(file_exists($location)){
