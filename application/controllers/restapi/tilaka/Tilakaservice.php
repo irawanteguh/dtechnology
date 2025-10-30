@@ -55,7 +55,7 @@
             $this->response($response['access_token'],REST_Controller::HTTP_OK);
         }
 
-        //RMB Hospital Group Direct To Tilaka RSMS
+        //Start RMB Hospital Group Direct To Tilaka RSMS
         public function transferfile_POST(){
             $this->headerlog();
             $result = $this->md->datalisttransferfile(ORG_ID);
@@ -152,6 +152,7 @@
                 echo color('red')."Data Tidak Ditemukan";
             }
         }
+        //End RMB Hospital Group Direct To Tilaka RSMS
 
         public function uploadallfile_POST(){
             $this->headerlog();
@@ -232,7 +233,7 @@
 
         public function requestsign_POST(){
             $status = "AND a.status_sign = '1' LIMIT 10;";
-            $result = $this->md->listrequestsign(ORG_ID,$status);
+            $result = $this->md->listrequestsign($status);
 
             echo PHP_EOL;
             echo color('cyan').str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
