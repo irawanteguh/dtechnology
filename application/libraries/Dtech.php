@@ -75,6 +75,8 @@
         }
 
         public static function addsigndocument($body){
+            return var_dump($body);
+            
             $oauthResponse = Dtech::oauth();
 
             if(isset($oauthResponse['data']['token'])){
