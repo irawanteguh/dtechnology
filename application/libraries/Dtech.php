@@ -2,7 +2,7 @@
     class Dtech{
 
         public static function oauth(){
-            $body['orgid']    = ORG_ID;
+            $body['orgid']    = "10c84edd-500b-49e3-93a5-a2c8cd2c8524";
             $body['username'] = "Admin_Leka";
             $body['password'] = "12345678";
 
