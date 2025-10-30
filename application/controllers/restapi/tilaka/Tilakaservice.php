@@ -77,7 +77,16 @@
                             $responseuploadfile = Tilaka::uploadfile($location);
                             if(isset($responseuploadfile['success'])){
                                 if($responseuploadfile['success']){
-                                    $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                    $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
+                                    if(empty($resultcheckfilename)){
+                                        $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                        $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                        $datasimpanhd['status_sign']     = "1";
+                                        $datasimpanhd['status_file']     = "1";
+                                        $datasimpanhd['note']            = "";
+
+                                        $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                    }
                                 }else{
                                     $datasimpanhd['note'] = $responseuploadfile['message'];
                                     $statusMsg = color('red').$responseuploadfile['message'];
