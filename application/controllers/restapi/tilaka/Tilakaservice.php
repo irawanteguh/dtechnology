@@ -106,7 +106,7 @@
                                                             $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
                                                             $body['file']            = new CURLFile($location, mime_content_type($location), basename($location));
 
-                                                            return var_dump(json_decode($body));
+                                                            return var_dump($body);
 
                                                             // $responsetransfer = Dtech::addsigndocument(json_decode($body));
                                                             
