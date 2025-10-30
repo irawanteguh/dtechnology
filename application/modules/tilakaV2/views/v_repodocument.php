@@ -30,7 +30,7 @@
                 </div>
 			</div>
 			<div class="card-body py-3">
-				<ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap mb-10">
+				<ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-7 fw-bolder flex-nowrap mb-10">
                     <li class="nav-item">
                         <a class="nav-link active" data-bs-toggle="tab" href="#tabonprocess">On Process</a>
                     </li>
