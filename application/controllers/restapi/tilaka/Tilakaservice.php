@@ -62,8 +62,9 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $location  = "";
-                    $filesize  = 0;
+                    $responsecheckdatauser = [];
+                    $location              = "";
+                    $filesize              = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
