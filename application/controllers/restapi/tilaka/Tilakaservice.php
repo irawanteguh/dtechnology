@@ -110,6 +110,8 @@
                                                             // return var_dump($responsetransfer);
 
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                                        }else{
+                                                            $statusMsg = color('red')."Error Nih Guys";
                                                         }
                                                     }else{
                                                         $datasimpanhd['note'] = $responseuploadfile['message'];
