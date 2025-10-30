@@ -75,8 +75,6 @@
                         $filesize = filesize($location);
                         if($filesize!=0){
                             $responsecheckdatauser = Dtech::checkdatauser($a->assign);
-                            return var_dump($responsecheckdatauser);
-                            
                             if(isset($responsecheckdatauser['status'])){
                                 if($responsecheckdatauser['status']){
                                     $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
@@ -95,22 +93,20 @@
                                                             $datasimpanhd['status_file']     = "1";
                                                             $datasimpanhd['note']            = "";
 
-                                                            // $body['org_id']          = ORG_ID;
-                                                            // $body['no_file']         = $a->no_file;
-                                                            // $body['filename']        = $responseuploadfile['filename'];
-                                                            // $body['jenis_doc']       = $a->jenis_doc;
-                                                            // $body['assign']          = $a->assign;
-                                                            // $body['status_sign']     = "1";
-                                                            // $body['pasien_idx']      = $a->pasien_idx;
-                                                            // $body['transaksi_idx']   = $a->transaksi_idx;
-                                                            // $body['source_file']     = $a->source_file;
-                                                            // $body['status_file']     = "1";
-                                                            // $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
+                                                            $body['org_id']          = ORG_ID;
+                                                            $body['no_file']         = $a->no_file;
+                                                            $body['filename']        = $responseuploadfile['filename'];
+                                                            $body['jenis_doc']       = $a->jenis_doc;
+                                                            $body['assign']          = $a->assign;
+                                                            $body['status_sign']     = "1";
+                                                            $body['pasien_idx']      = $a->pasien_idx;
+                                                            $body['transaksi_idx']   = $a->transaksi_idx;
+                                                            $body['source_file']     = $a->source_file;
+                                                            $body['status_file']     = "1";
+                                                            $body['user_identifier'] = $responsecheckdatauser['data']['useridentifier'];
 
-                                                            // $responsetransfer = Dtech::addsigndocument(json_encode($body));
-
-                                                            // return var_dump($responsetransfer);
-
+                                                            $responsetransfer = Dtech::addsigndocument(json_encode($body));
+                                                            
                                                             $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                                         }else{
                                                             $statusMsg = color('red')."Error Nih Guys";
