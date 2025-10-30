@@ -75,6 +75,7 @@
                         $filesize = filesize($location);
                         if($filesize!=0){
                             $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+                            return var_dump($responsecheckdatauser);
                             if(isset($responsecheckdatauser['status'])){
                                 if($responsecheckdatauser['status']){
                                     $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
