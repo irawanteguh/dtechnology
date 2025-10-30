@@ -90,5 +90,6 @@ async function runservicesrequest() {
 
 printHeader();
 runservices();
+runservicesrequest();
 setInterval(runservices, 5000);
 setInterval(runservicesrequest, 3600000);
