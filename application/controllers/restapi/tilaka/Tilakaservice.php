@@ -62,7 +62,6 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $responsecheckdatauser = [];
                     $location              = "";
                     $filesize              = 0;
 
@@ -76,7 +75,6 @@
                         $filesize = filesize($location);
                         if($filesize!=0){
                             $responsecheckdatauser = Dtech::checkdatauser($a->assign);
-                            return var_dump($responsecheckdatauser);
                             if(isset($responsecheckdatauser['status'])){
                                 if($responsecheckdatauser['status']){
                                     $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
@@ -149,7 +147,7 @@
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40).str_pad($responsecheckdatauser['data']['useridentifier'], 20).$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($responsecheckdatauser['data']['useridentifier'] ?? '', 20).$statusMsg.PHP_EOL;
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";
