@@ -73,6 +73,19 @@
                 return json_decode($oauthResponse, TRUE); 
             }
         }
+
+        public static function checkdatauser($nik){
+            $responsecurl = curl([
+                'url'     => "https://rsumutiasari.com/dtechnology/index.php/datauser/".$nik,
+                'method'  => "GET",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "DTECH-CHECKDATAUSER"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
     }
 
 ?>

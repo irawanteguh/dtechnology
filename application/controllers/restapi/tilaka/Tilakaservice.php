@@ -74,21 +74,42 @@
                     if(file_exists($location)){
                         $filesize = filesize($location);
                         if($filesize!=0){
-                            $responseuploadfile = Tilaka::uploadfile($location);
-                            if(isset($responseuploadfile['success'])){
-                                if($responseuploadfile['success']){
-                                    $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
-                                    if(empty($resultcheckfilename)){
-                                        $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                        $datasimpanhd['status_sign']     = "1";
-                                        $datasimpanhd['status_file']     = "1";
-                                        $datasimpanhd['note']            = "";
+                            $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+                            if(isset($responsecheckdatauser['status'])){
+                                if($responsecheckdatauser['status']){
+                                    $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
+                                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
 
-                                        $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                    if(isset($responsecheckcertificate['success'])){
+                                        if($responsecheckcertificate['success']){
+                                            if($responsecheckcertificate['status']===3){
+                                                $responseuploadfile = Tilaka::uploadfile($location);
+                                                if(isset($responseuploadfile['success'])){
+                                                    if($responseuploadfile['success']){
+                                                        $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
+                                                        if(empty($resultcheckfilename)){
+                                                            $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                                            $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                            $datasimpanhd['status_sign']     = "1";
+                                                            $datasimpanhd['status_file']     = "1";
+                                                            $datasimpanhd['note']            = "";
+
+                                                            $statusMsg = color('green').$responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                                        }
+                                                    }else{
+                                                        $datasimpanhd['note'] = $responseuploadfile['message'];
+                                                        $statusMsg = color('red').$responseuploadfile['message'];
+                                                    }
+                                                }
+                                            }else{
+                                                $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+                                                $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                            }
+                                        }else{
+                                            $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+                                            $statusMsg = color('red').$responsecheckcertificate['message']['info'];
+                                        }
                                     }
-                                }else{
-                                    $datasimpanhd['note'] = $responseuploadfile['message'];
-                                    $statusMsg = color('red').$responseuploadfile['message'];
                                 }
                             }
                         }else{
@@ -110,7 +131,7 @@
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40).str_pad("TRANSFER FILE", 20).$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";

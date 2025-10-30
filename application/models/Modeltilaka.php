@@ -4,7 +4,7 @@
         function datalisttransferfile($orgid){
             $query =
                     "
-                        select a.no_file, source_file
+                        select a.no_file, source_file, assign
                         from dt01_gen_document_file_dt a
                         where a.active      = '1'
                         and   a.org_id      = '".$orgid."'
