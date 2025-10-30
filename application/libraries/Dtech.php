@@ -85,8 +85,6 @@
                     "Content-Type: application/json"
                 ];
 
-                $header = ["Content-Type: application/json"];
-
                 $responsecurl = curl([
                     'url'     => "https://rsumutiasari.com/dtechnology/index.php/addsigndocument/",
                     'method'  => "POST",
@@ -112,8 +110,6 @@
                     "x-token: $token",
                     "Content-Type: application/json"
                 ];
-
-                $header = ["Content-Type: application/json"];
 
                 $responsecurl = curl([
                     'url'     => "https://rsumutiasari.com/dtechnology/index.php/datauser/".$nik,
