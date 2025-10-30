@@ -110,7 +110,7 @@
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40)."".$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 40)."SYSTEM".$statusMsg.PHP_EOL;
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";
