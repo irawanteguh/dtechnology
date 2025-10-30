@@ -169,7 +169,7 @@
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
                     } else {
                         // Ubah jadi URL langsung dari server aapanel
-                        $location = "http://100.100.100.5/webapps/berkasrawat/pages/upload/".$a->no_file.".pdf";
+                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
                     }
 
                     // --- CEK FILE ---
