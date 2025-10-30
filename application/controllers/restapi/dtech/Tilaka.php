@@ -43,6 +43,11 @@
             $this->load->model("Modeltilaka","md");
         }
 
+        public function headerlog(){
+            echo PHP_EOL;
+            echo color('cyan').str_pad("IDENTITY", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
+        }
+        
         public function transferfile_POST(){
             $this->headerlog();
             $result = $this->md->datalisttransferfile(ORG_ID);
