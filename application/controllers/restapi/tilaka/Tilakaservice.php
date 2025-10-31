@@ -183,7 +183,8 @@
                             if($a->source_file==="DTECHNOLOGY"){
                                 $location = FCPATH."assets/document/".$a->no_file.".pdf";
                             }else{
-                                $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                                // $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                                $location = "/www/wwwroot/webapps/berkasrawat/pages/upload/".$a->no_file.".pdf";
                             }
 
                             $fileContent = @file_get_contents($location);
