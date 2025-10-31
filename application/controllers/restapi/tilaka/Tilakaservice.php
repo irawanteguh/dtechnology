@@ -184,7 +184,7 @@
                                 $location = FCPATH."assets/document/".$a->no_file.".pdf";
                             }else{
                                 // $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
-                                $location = "/www/wwwroot/webapps/berkasrawat/pages/upload/".$a->no_file.".pdf";
+                                $location = "/www/wwwroot/100.100.100.5/webapps/berkasrawat/pages/upload/" . $a->no_file . ".pdf";
                             }
 
                             $fileContent = base64_decode($resultstatusdocument['data']['file_content']);
