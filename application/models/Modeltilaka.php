@@ -40,7 +40,7 @@
         function listrequestsign($status){
             $query =
                     "
-                        select distinct a.assign, user_identifier,
+                        select distinct a.org_id, assign, user_identifier,
                                 (select name from dt01_gen_user_data   where active='1' and nik=a.assign)assignname,
                                 (select email from dt01_gen_user_data   where active='1' and nik=a.assign)email
                         from dt01_gen_document_file_dt a
