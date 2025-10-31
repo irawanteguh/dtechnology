@@ -16,12 +16,13 @@
     $route['getfile']              = 'restapi/tilaka/TilakaserviceV5/getfile';
     $route['mergepdfs']            = 'restapi/tilaka/TilakaserviceV5/mergepdfs';
 
-    $route['authtilaka']    = 'restapi/tilaka/Tilakaservice/auth';
-    $route['requestsign']   = 'restapi/tilaka/Tilakaservice/requestsign';
-    $route['uploadallfile'] = 'restapi/tilaka/Tilakaservice/uploadallfile';
-    $route['excutesign']    = 'restapi/tilaka/Tilakaservice/excutesign';
-    $route['statussign']    = 'restapi/tilaka/Tilakaservice/statussign';
-    $route['transferfile']  = 'restapi/tilaka/Tilakaservice/transferfile';
+    $route['authtilaka']        = 'restapi/tilaka/Tilakaservice/auth';
+    $route['requestsign']       = 'restapi/tilaka/Tilakaservice/requestsign';
+    $route['uploadallfile']     = 'restapi/tilaka/Tilakaservice/uploadallfile';
+    $route['excutesign']        = 'restapi/tilaka/Tilakaservice/excutesign';
+    $route['statussign']        = 'restapi/tilaka/Tilakaservice/statussign';
+    $route['transferfile']      = 'restapi/tilaka/Tilakaservice/transferfile';
+    $route['getstatusdocument'] = 'restapi/tilaka/Tilakaservice/getstatusdocument';
 
 
     $route['pegawai']               = 'restapi/khanza/Khanza/pegawai';
@@ -39,13 +40,14 @@
    
 
 
-    $route['auth']            = 'restapi/dtech/Auth/createdtoken';
-    $route['datauser/(:any)'] = 'restapi/dtech/User/datauser/$1';
-    $route['addsigndocument'] = 'restapi/dtech/Signdocument/addsigndocument';
+    $route['auth']                  = 'restapi/dtech/Auth/createdtoken';
+    $route['datauser/(:any)']       = 'restapi/dtech/User/datauser/$1';
+    $route['addsigndocument']       = 'restapi/dtech/Signdocument/addsigndocument';
+    $route['statusdocument/(:any)'] = 'restapi/dtech/Signdocument/statusdocument/$1';
 
     // $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     // $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
-    // $route['statusdocument']           = 'restapi/dtech/Signdocument/statusdocument';
+    
     
    
 

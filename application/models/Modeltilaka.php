@@ -1,14 +1,29 @@
 <?php
     class Modeltilaka extends CI_Model{
 
-        function datalisttransferfile($orgid){
+        function datalisttransferfile(){
             $query =
                     "
                         select a.no_file, source_file, assign, jenis_doc, pasien_idx, transaksi_idx, source_file
                         from dt01_gen_document_file_dt a
                         where a.active      = '1'
-                        and   a.org_id      = '".$orgid."'
                         and   a.status_sign = '0'
+                        order by created_date asc
+                        limit 10;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function dataliststatussign(){
+            $query =
+                    "
+                        select a.no_file, source_file, assign, user_identifier, jenis_doc, pasien_idx, transaksi_idx, source_file
+                        from dt01_gen_document_file_dt a
+                        where a.active      = '1'
+                        and   a.status_sign = '1'
                         order by created_date asc
                         limit 10;
                     ";

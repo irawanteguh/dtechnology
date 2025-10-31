@@ -166,52 +166,37 @@
             ], 200);
         }
 
+        public function statusdocument_get($nofile) {
+            $data                 = [];
+            $resultstatusdocument = $this->md->statusdocument($nofile);
 
-        // public function statusdocument_get() {
-        //     $data  = [];
-        //     $input = json_decode($this->input->raw_input_stream, true);
+            if(!empty($resultstatusdocument)){
+                $data['no_file']             = $resultstatusdocument->no_file;
+                $data['jenis_document_code'] = $resultstatusdocument->jenis_doc;
+                $data['jenis_document']      = $resultstatusdocument->typedocument;
+                $data['note_1']              = $resultstatusdocument->pasien_idx;
+                $data['note_2']              = $resultstatusdocument->transaksi_idx;
+                $data['note_3']              = $resultstatusdocument->note;
+                $data['assign_name']         = $resultstatusdocument->assignname;
+                $data['active']              = (bool) $resultstatusdocument->active;
+                $data['status_file']         = (bool) $resultstatusdocument->status_file;
+                $data['status_sign_code']    = $resultstatusdocument->status_sign;
+                $data['status_sign']         = $resultstatusdocument->status;
+                $data['created_date']        = $resultstatusdocument->created_date;
+                $status                      = true;
+                $message                     = "Dokument ditemukan";
+            }else{
+                $data['no_file'] = $nofile;
+                $status          = false;
+                $message         = "Dokument tidak ditemukan";
+            }
 
-        //     if (!isset($input['orgid']) || empty($input['orgid'])) {
-        //         return $this->response([
-        //             'status' => false,
-        //             'message' => 'Bad Request: orgid is required'
-        //         ], 400);
-        //     }
-
-        //     if (!isset($input['nofile']) || empty($input['nofile'])) {
-        //         return $this->response([
-        //             'status' => false,
-        //             'message' => 'Bad Request: orgid is required'
-        //         ], 400);
-        //     }
-
-        //     $resultstatusdocument = $this->md->statusdocument($input['orgid'],$input['nofile']);
-
-        //     if(!empty($resultstatusdocument)){
-        //         $data['no_file']             = $resultstatusdocument->no_file;
-        //         $data['jenis_document_code'] = $resultstatusdocument->jenis_doc;
-        //         $data['jenis_document']      = $resultstatusdocument->typedocument;
-        //         $data['note_1']              = $resultstatusdocument->pasien_idx;
-        //         $data['note_2']              = $resultstatusdocument->transaksi_idx;
-        //         $data['note_3']              = $resultstatusdocument->note;
-        //         $data['assign_name']         = $resultstatusdocument->assignname;
-        //         $data['active']              = (bool) $resultstatusdocument->active;
-        //         $data['status_file']         = (bool) $resultstatusdocument->status_file;
-        //         $data['status_sign_code']    = $resultstatusdocument->status_sign;
-        //         $data['status_sign']         = $resultstatusdocument->status;
-        //         $data['created_date']        = $resultstatusdocument->created_date;
-        //         $message                     = "Dokument ditemukan";
-        //     }else{
-        //         $data['no_file'] = $input['nofile'];
-        //         $message         = "Dokument tidak ditemukan";
-        //     }
-
-        //     return $this->response([
-        //         'status' => true,
-        //         'message' => $message,
-        //         'data' => $data
-        //     ], 200);
-        // }
+            return $this->response([
+                'status'  => $status,
+                'message' => $message,
+                'data'    => $data
+            ], 200);
+        }
 
     }
 ?>

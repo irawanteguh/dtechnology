@@ -58,13 +58,13 @@
         //Start RMB Hospital Group Direct To Tilaka RSMS
         public function transferfile_POST(){
             $this->headerlog();
-            $result = $this->md->datalisttransferfile(ORG_ID);
+            $result = $this->md->datalisttransferfile();
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $location              = "";
-                    $filesize              = 0;
-                    $tempDir = FCPATH . "assets/documenttemp/";
+                    $location = "";
+                    $filesize = 0;
+                    $tempDir  = FCPATH . "assets/documenttemp/";
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
@@ -166,6 +166,22 @@
                 echo color('red')."Data Tidak Ditemukan";
             }
         }
+
+        public function getstatusdocument_GET(){
+            $this->headerlog();
+            $result = $this->md->dataliststatussign();
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $statusMsg = color('green')."OK";
+                    echo str_pad($a->no_file.".pdf", 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
+                }
+            }else{
+                echo color('red')."Data Tidak Ditemukan";
+            }
+        }
+
+
 
         // public function transferfile_POST(){
         //     $this->headerlog();
