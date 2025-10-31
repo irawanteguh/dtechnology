@@ -173,7 +173,18 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $statusMsg = color('green')."OK";
+                    $resultstatusdocument = Dtech::statusdocument($a->no_file);
+
+                    if(isset($resultstatusdocument['status'])){
+                        if($resultstatusdocument['status']){
+                            $datasimpanhd['status_file']     = $resultstatusdocument['data']['status_sign_code'];
+                            $this->md->updatefile($datasimpanhd, $a->no_file);
+                            $statusMsg = color('green').$resultstatusdocument['data']['status_sign'];
+                        }else{
+                            $statusMsg = color('red').$resultstatusdocument['message'];
+                        }
+                    }
+                    
                     echo str_pad($a->no_file.".pdf", 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
                 }
             }else{
