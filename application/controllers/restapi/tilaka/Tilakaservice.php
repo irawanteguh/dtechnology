@@ -171,61 +171,60 @@
             $this->headerlog();
             $result = $this->md->dataliststatussign();
 
-            if(!empty($result)){
-                foreach($result as $a){
+            if (!empty($result)) {
+                foreach ($result as $a) {
                     $datasimpanhd         = [];
-                    $resultstatusdocument = [];
-
                     $resultstatusdocument = Dtech::statusdocument($a->no_file);
-                    if(isset($resultstatusdocument['status'])){
-                        if($resultstatusdocument['status']){
-                            $tempDir  = FCPATH . "assets/documenttemp/";
-                            
+                    $statusMsg = '';
 
-                            $fileContent = base64_decode($resultstatusdocument['data']['file_content']);
-                            $localTemp   = $tempDir . $a->no_file . ".pdf";
-                            if ($fileContent !== false) {
-                                if(file_put_contents($localTemp, $fileContent)){
-                                    $uploadResponse = $this->uploadToServer($tempDir, $a->no_file);
-                                    if ($uploadResponse['status']) {
-                                        $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
-                                        $this->md->updatefile($datasimpanhd, $a->no_file);
-                                        $statusMsg = color('green') . "Upload sukses ke server 100.100.100.5";
-                                    } else {
-                                        $statusMsg = color('red') . "Upload gagal: " . $uploadResponse['message'];
-                                    }
+                    if (isset($resultstatusdocument['status']) && $resultstatusdocument['status']) {
 
-                                    // Hapus file sementara
-                                    if (file_exists($localTemp)) unlink($localTemp);
-                                }else{
-                                    $statusMsg = color('red')."Gagal Simpan File";
-                                }
-                            }else{
-                                $statusMsg = color('red')."Content File Tidak Tersedia";
+                        $tempDir  = FCPATH . "assets/documenttemp/";
+                        if (!file_exists($tempDir)) mkdir($tempDir, 0777, true);
+
+                        $fileContent = base64_decode($resultstatusdocument['data']['file_content']);
+                        $localTemp   = $tempDir . $a->no_file . ".pdf";
+
+                        if ($fileContent !== false && file_put_contents($localTemp, $fileContent)) {
+
+                            // Upload ke server 100.100.100.5
+                            $uploadResponse = $this->uploadToServer($localTemp, $a->no_file . ".pdf");
+
+                            if ($uploadResponse['status']) {
+                                $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
+                                $this->md->updatefile($datasimpanhd, $a->no_file);
+                                $statusMsg = color('green') . "Upload sukses ke server 100.100.100.5";
+                            } else {
+                                $statusMsg = color('red') . "Upload gagal: " . $uploadResponse['message'];
                             }
-                            
-                            
-                        }else{
-                            $statusMsg = color('red').$resultstatusdocument['message'];
+
+                            // Hapus file sementara
+                            if (file_exists($localTemp)) unlink($localTemp);
+
+                        } else {
+                            $statusMsg = color('red') . "Gagal menyimpan file lokal sementara";
                         }
+
+                    } else {
+                        $statusMsg = color('red') . ($resultstatusdocument['message'] ?? "Status document tidak valid");
                     }
-                    
-                    echo str_pad($a->no_file.".pdf", 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
+
+                    echo str_pad($a->no_file . ".pdf", 40) . str_pad($a->user_identifier, 20) . $statusMsg . PHP_EOL;
                 }
-            }else{
-                echo color('red')."Data Tidak Ditemukan";
+            } else {
+                echo color('red') . "Data Tidak Ditemukan";
             }
         }
 
-        private function uploadToServer($filePath, $fileName) {
+        private function uploadToServer($fileFullPath, $fileName) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://100.100.100.5/webapps/berkasrawat/upload_api.php");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, [
-                'file' => new CURLFile($filePath),
-                'filename' => $fileName
+                'file' => new CURLFile($fileFullPath, 'application/pdf', $fileName)
             ]);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 
             $response = curl_exec($ch);
             $error = curl_error($ch);
@@ -236,12 +235,13 @@
             }
 
             $json = json_decode($response, true);
-            if (isset($json['status']) && $json['status']) {
+            if (isset($json['success']) && $json['success']) {
                 return ['status' => true, 'message' => $json['message']];
             } else {
                 return ['status' => false, 'message' => $json['message'] ?? 'Gagal upload (no response)'];
             }
         }
+
 
 
         // public function transferfile_POST(){
