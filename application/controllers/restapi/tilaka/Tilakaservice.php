@@ -181,7 +181,7 @@
                         if($resultstatusdocument['status']){
                             $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
                             $this->md->updatefile($datasimpanhd, $a->no_file);
-                            $statusMsg = color('green').$resultstatusdocument['data']['status_sign'].$datasimpanhd." | ".$a->no_file;
+                            $statusMsg = color('green').$resultstatusdocument['data']['status_sign'];
                         }else{
                             $statusMsg = color('red').$resultstatusdocument['message'];
                         }
