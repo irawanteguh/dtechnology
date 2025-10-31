@@ -179,20 +179,15 @@
                     $resultstatusdocument = Dtech::statusdocument($a->no_file);
                     if(isset($resultstatusdocument['status'])){
                         if($resultstatusdocument['status']){
-
-                            if($a->source_file==="DTECHNOLOGY"){
-                                $location = FCPATH."assets/document/".$a->no_file.".pdf";
-                            }else{
-                                // $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
-                                $location = "/www/wwwroot/100.100.100.5/webapps/berkasrawat/pages/upload/" . $a->no_file . ".pdf";
-                            }
+                            $tempDir  = FCPATH . "assets/documenttemp/";
+                            
 
                             $fileContent = base64_decode($resultstatusdocument['data']['file_content']);
-
+                            $localTemp   = $tempDir . $a->no_file . ".pdf";
                             if ($fileContent !== false) {
-                                if(file_put_contents($location, $fileContent)){
-                                    $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
-                                    $this->md->updatefile($datasimpanhd, $a->no_file);
+                                if(file_put_contents($localTemp, $fileContent)){
+                                    // $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
+                                    // $this->md->updatefile($datasimpanhd, $a->no_file);
                                     $statusMsg = color('green').$resultstatusdocument['data']['status_sign'];
                                 }else{
                                     $statusMsg = color('red')."Gagal Simpan File";
