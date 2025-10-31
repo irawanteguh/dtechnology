@@ -1,13 +1,12 @@
 <?php
     class Modelroot extends CI_Model{
 
-        function environment($dtechclientid){
+        function environment(){
             $query =
                     "
                         select a.*
                         from dt01_gen_enviroment_ms a
                         where a.active='1'
-                        and   a.org_id='".$dtechclientid."'
                     ";
 
             $recordset = $this->db->query($query);
