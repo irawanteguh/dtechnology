@@ -58,7 +58,7 @@
         //Start RMB Hospital Group Direct To Tilaka RSMS
         public function transferfile_POST(){
             $this->headerlog();
-            $result = $this->md->datalisttransferfile();
+            $result = $this->md->datalisttransferfile(ORG_ID);
 
             if(!empty($result)){
                 foreach($result as $a){
