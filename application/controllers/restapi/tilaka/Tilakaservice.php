@@ -187,10 +187,9 @@
                             }
 
                             $fileContent = @file_get_contents($location);
-                            $localTemp   = $location . $a->no_file . ".pdf";
 
                             if ($fileContent !== false) {
-                                if(file_put_contents($localTemp, $fileContent)){
+                                if(file_put_contents($location, $fileContent)){
                                     $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
                                     $this->md->updatefile($datasimpanhd, $a->no_file);
                                     $statusMsg = color('green').$resultstatusdocument['data']['status_sign'];
