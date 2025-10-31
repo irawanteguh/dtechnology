@@ -594,7 +594,7 @@
 
         public function statussign_POST(){
             $this->headerlog();
-            $result = $this->md->listdownload(ORG_ID);
+            $result = $this->md->listdownload();
             if(!empty($result)){
                 foreach($result as $a){
                     $response    = [];
