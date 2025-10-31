@@ -190,10 +190,10 @@
                             // Upload ke server 100.100.100.5
                             $uploadResponse = $this->uploadToServer($localTemp, $a->no_file . ".pdf");
 
-                            if ($uploadResponse['status']) {
+                            if ($uploadResponse['status'] === true) {
                                 $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
                                 $this->md->updatefile($datasimpanhd, $a->no_file);
-                                $statusMsg = color('green') . "Upload sukses ke server 100.100.100.5";
+                                $statusMsg = color('green') . "Upload sukses ke server 100.100.100.5 (" . $uploadResponse['message'] . ")";
                             } else {
                                 $statusMsg = color('red') . "Upload gagal: " . $uploadResponse['message'];
                             }
@@ -216,30 +216,34 @@
             }
         }
 
-        private function uploadToServer($fileFullPath, $fileName) {
+        private function uploadToServer($filePath, $fileName) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://100.100.100.5/webapps/berkasrawat/uploadfilette.php");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, [
-                'file' => new CURLFile($fileFullPath, 'application/pdf', $fileName)
+                'file' => new CURLFile($filePath, 'application/pdf', $fileName),
+                'filename' => $fileName
             ]);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 
             $response = curl_exec($ch);
             $error = curl_error($ch);
             curl_close($ch);
 
             if ($error) {
-                return ['status' => false, 'message' => $error];
+                return ['status' => false, 'message' => "cURL error: $error"];
             }
 
-            $json = json_decode($response, true);
-            if (isset($json['success']) && $json['success']) {
-                return ['status' => true, 'message' => $json['message']];
-            } else {
-                return ['status' => false, 'message' => $json['message'] ?? 'Gagal upload (no response)'];
+            // Debug jika JSON tidak valid
+            $json = json_decode(trim($response), true);
+            if ($json === null) {
+                return ['status' => false, 'message' => "Invalid JSON response: " . substr($response, 0, 200)];
             }
+
+            return [
+                'status' => isset($json['status']) ? (bool)$json['status'] : false,
+                'message' => $json['message'] ?? 'Tidak ada pesan dari server'
+            ];
         }
 
 
