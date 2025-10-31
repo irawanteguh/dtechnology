@@ -196,7 +196,7 @@
                                     }
 
                                     // Hapus file sementara
-                                    if (file_exists($tempDir)) unlink($tempDir);
+                                    if (file_exists($localTemp)) unlink($localTemp);
                                 }else{
                                     $statusMsg = color('red')."Gagal Simpan File";
                                 }
