@@ -171,6 +171,14 @@
             $resultstatusdocument = $this->md->statusdocument($nofile);
 
             if(!empty($resultstatusdocument)){
+                $location = "";
+
+                if($resultstatusdocument->source_file==="DTECHNOLOGY"){
+                    $location = FCPATH."assets/document/".$resultstatusdocument->no_file.".pdf";
+                }else{
+                    $location = PATHFILE_GET_TILAKA."/".$resultstatusdocument->no_file.".pdf";
+                }
+                    
                 $data['no_file']             = $resultstatusdocument->no_file;
                 $data['jenis_document_code'] = $resultstatusdocument->jenis_doc;
                 $data['jenis_document']      = $resultstatusdocument->typedocument;
@@ -182,6 +190,7 @@
                 $data['status_file']         = (bool) $resultstatusdocument->status_file;
                 $data['status_sign_code']    = $resultstatusdocument->status_sign;
                 $data['status_sign']         = $resultstatusdocument->status;
+                $data['file_content']        = base64_encode(file_get_contents($location));
                 $data['created_date']        = $resultstatusdocument->created_date;
                 $status                      = true;
                 $message                     = "Dokument ditemukan";

@@ -4,7 +4,7 @@
         function statusdocument($nofile){
             $query =
                     "
-                        select a.no_file, created_date, jenis_doc, pasien_idx, transaksi_idx, note, active, status_sign, status_file,
+                        select a.no_file, created_date, jenis_doc, pasien_idx, transaksi_idx, note, active, status_sign, status_file, source_file,
                             (select document_name from dt01_gen_document_ms where jenis_doc=a.jenis_doc)typedocument,
                             (select name from dt01_gen_user_data where nik=a.assign)assignname,
                             (select master_name from dt01_gen_master_ms where jenis_id='Statussign_1' and code=a.status_sign)status
