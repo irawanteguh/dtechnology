@@ -174,8 +174,6 @@
             if(!empty($result)){
                 foreach($result as $a){
                     $resultstatusdocument = Dtech::statusdocument($a->no_file);
-
-                    return var_dump($resultstatusdocument);
                     if(isset($resultstatusdocument['status'])){
                         if($resultstatusdocument['status']){
                             $datasimpanhd['status_file']     = $resultstatusdocument['data']['status_sign_code'];
