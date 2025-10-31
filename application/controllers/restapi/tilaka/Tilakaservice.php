@@ -537,7 +537,7 @@
 
         public function excutesign_POST(){
             $this->headerlog();
-            $result = $this->md->listexecute(ORG_ID);
+            $result = $this->md->listexecute();
 
             if(!empty($result)){
                 foreach($result as $a){

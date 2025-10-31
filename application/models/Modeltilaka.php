@@ -73,13 +73,12 @@
             return $recordset;
         }
 
-        function listexecute($orgid){
+        function listexecute(){
             $query =
                     "
                         select distinct a.no_file, user_identifier, request_id, user_identifier
                         from dt01_gen_document_file_dt a
                         where a.active='1'
-                        and   a.org_id='".$orgid."'
                         and   a.status_sign = '3'
                         order by created_date desc
                         limit 10;
