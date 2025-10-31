@@ -186,9 +186,17 @@
                             $localTemp   = $tempDir . $a->no_file . ".pdf";
                             if ($fileContent !== false) {
                                 if(file_put_contents($localTemp, $fileContent)){
-                                    // $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
-                                    // $this->md->updatefile($datasimpanhd, $a->no_file);
-                                    $statusMsg = color('green').$resultstatusdocument['data']['status_sign'];
+                                    $uploadResponse = $this->uploadToServer($tempDir, $a->no_file);
+                                    if ($uploadResponse['status']) {
+                                        $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
+                                        $this->md->updatefile($datasimpanhd, $a->no_file);
+                                        $statusMsg = color('green') . "Upload sukses ke server 100.100.100.5";
+                                    } else {
+                                        $statusMsg = color('red') . "Upload gagal: " . $uploadResponse['message'];
+                                    }
+
+                                    // Hapus file sementara
+                                    if (file_exists($tempDir)) unlink($tempDir);
                                 }else{
                                     $statusMsg = color('red')."Gagal Simpan File";
                                 }
@@ -209,6 +217,31 @@
             }
         }
 
+        private function uploadToServer($filePath, $fileName) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "http://100.100.100.5/webapps/berkasrawat/upload_api.php");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'file' => new CURLFile($filePath),
+                'filename' => $fileName
+            ]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            if ($error) {
+                return ['status' => false, 'message' => $error];
+            }
+
+            $json = json_decode($response, true);
+            if (isset($json['status']) && $json['status']) {
+                return ['status' => true, 'message' => $json['message']];
+            } else {
+                return ['status' => false, 'message' => $json['message'] ?? 'Gagal upload (no response)'];
+            }
+        }
 
 
         // public function transferfile_POST(){
