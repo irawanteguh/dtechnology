@@ -137,7 +137,7 @@
                 ];
 
                 $responsecurl = curl([
-                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/getstatusdocument/".$nofile,
+                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/statusdocument/".$nofile,
                     'method'  => "GET",
                     'header'  => $header,
                     'body'    => "",
