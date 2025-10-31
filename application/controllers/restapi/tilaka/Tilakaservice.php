@@ -173,10 +173,11 @@
 
             if(!empty($result)){
                 foreach($result as $a){
+                    $datasimpanhd = [];
                     $resultstatusdocument = Dtech::statusdocument($a->no_file);
                     if(isset($resultstatusdocument['status'])){
                         if($resultstatusdocument['status']){
-                            $datasimpanhd['status_file']     = $resultstatusdocument['data']['status_sign_code'];
+                            $datasimpanhd['status_file'] = $resultstatusdocument['data']['status_sign_code'];
                             $this->md->updatefile($datasimpanhd, $a->no_file);
                             $statusMsg = color('green').$resultstatusdocument['data']['status_sign'];
                         }else{
