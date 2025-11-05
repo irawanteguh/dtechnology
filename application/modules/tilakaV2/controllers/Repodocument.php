@@ -96,7 +96,7 @@
 
             $transid = generateuuid();
 
-            $config['upload_path']   = './assets/akreditasi/';
+            $config['upload_path']   = './assets/akrediasi/';
             $config['allowed_types'] = 'pdf';
             $config['file_name']     = $transid."_SIGNER".$position;
             $config['overwrite']     = true;
