@@ -62,9 +62,9 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $location              = "";
-                    $filesize              = 0;
-                    $tempDir = FCPATH . "assets/documenttemp/";
+                    $location = "";
+                    $filesize = 0;
+                    $tempDir  = FCPATH . "assets/documenttemp/";
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
@@ -166,6 +166,87 @@
                 echo color('red')."Data Tidak Ditemukan";
             }
         }
+
+        public function getstatusdocument_GET(){
+            $this->headerlog();
+            $result = $this->md->dataliststatussign();
+
+            if (!empty($result)) {
+                foreach ($result as $a) {
+                    $datasimpanhd         = [];
+                    $resultstatusdocument = Dtech::statusdocument($a->no_file);
+                    $statusMsg = '';
+
+                    if (isset($resultstatusdocument['status']) && $resultstatusdocument['status']) {
+
+                        $tempDir  = FCPATH . "assets/documenttemp/";
+                        if (!file_exists($tempDir)) mkdir($tempDir, 0777, true);
+
+                        $fileContent = base64_decode($resultstatusdocument['data']['file_content']);
+                        $localTemp   = $tempDir . $a->no_file . ".pdf";
+
+                        if ($fileContent !== false && file_put_contents($localTemp, $fileContent)) {
+
+                            // Upload ke server 100.100.100.5
+                            $uploadResponse = $this->uploadToServer($localTemp, $a->no_file . ".pdf");
+
+                            if ($uploadResponse['status'] === true) {
+                                $datasimpanhd['status_sign'] = $resultstatusdocument['data']['status_sign_code'];
+                                $this->md->updatefile($datasimpanhd, $a->no_file);
+                                $statusMsg = color('green') . "Upload sukses ke server 100.100.100.5 (" . $uploadResponse['message'] . ")";
+                            } else {
+                                $statusMsg = color('red') . "Upload gagal: " . $uploadResponse['message'];
+                            }
+
+                            // Hapus file sementara
+                            if (file_exists($localTemp)) unlink($localTemp);
+
+                        } else {
+                            $statusMsg = color('red') . "Gagal menyimpan file lokal sementara";
+                        }
+
+                    } else {
+                        $statusMsg = color('red') . ($resultstatusdocument['message'] ?? "Status document tidak valid");
+                    }
+
+                    echo str_pad($a->no_file . ".pdf", 40) . str_pad($a->user_identifier, 20) . $statusMsg . PHP_EOL;
+                }
+            } else {
+                echo color('red') . "Data Tidak Ditemukan";
+            }
+        }
+
+        private function uploadToServer($filePath, $fileName) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "http://100.100.100.5/webapps/berkasrawat/uploadfilette.php");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'file' => new CURLFile($filePath, 'application/pdf', $fileName),
+                'filename' => $fileName
+            ]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            if ($error) {
+                return ['status' => false, 'message' => "cURL error: $error"];
+            }
+
+            // Debug jika JSON tidak valid
+            $json = json_decode(trim($response), true);
+            if ($json === null) {
+                return ['status' => false, 'message' => "Invalid JSON response: " . substr($response, 0, 200)];
+            }
+
+            return [
+                'status' => isset($json['status']) ? (bool)$json['status'] : false,
+                'message' => $json['message'] ?? 'Tidak ada pesan dari server'
+            ];
+        }
+
+
 
         // public function transferfile_POST(){
         //     $this->headerlog();

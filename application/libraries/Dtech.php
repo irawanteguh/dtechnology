@@ -124,6 +124,31 @@
                 return json_decode($oauthResponse, TRUE); 
             }
         }
+
+        public static function statusdocument($nofile){
+            $oauthResponse = Dtech::oauth();
+
+            if(isset($oauthResponse['data']['token'])){
+                $token = $oauthResponse['data']['token'];
+
+                $header = [
+                    "x-token: $token",
+                    "Content-Type: application/json"
+                ];
+
+                $responsecurl = curl([
+                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/statusdocument/".$nofile,
+                    'method'  => "GET",
+                    'header'  => $header,
+                    'body'    => "",
+                    'savelog' => false,
+                    'source'  => "DTECH-CHECKSTATUSDOCUMENT"
+                ]);
+                return json_decode($responsecurl,TRUE); 
+            }else{
+                return json_decode($oauthResponse, TRUE); 
+            }
+        }
     }
 
 ?>
