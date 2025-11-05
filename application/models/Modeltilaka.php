@@ -61,6 +61,7 @@
                                 (select email from dt01_gen_user_data   where active='1' and nik=a.assign)email
                         from dt01_gen_document_file_dt a
                         where a.active='1'
+                        and   a.org_id='d5e63fbc-01ec-4ba8-90b8-fb623438b99d'
                         and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
                         ".$status."
                     ";
