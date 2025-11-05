@@ -38,6 +38,9 @@ assets/documenttemp/*
 assets/invoice/*
 !assets/invoice/index.html
 
+assets/ktp/*
+!assets/ktp/index.html
+
 assets/suratmasuk/*
 !assets/suratmasuk/index.html
 
