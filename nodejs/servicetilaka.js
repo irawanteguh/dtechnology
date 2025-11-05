@@ -79,7 +79,7 @@ async function callAPI(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-	await callAPI("requestsign", "POST");
+	await callAPI("requestsignquicksign", "POST");
 	// await callAPI("excutesign", "POST");
 	// await callAPI("statussign", "POST");
 }

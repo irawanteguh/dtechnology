@@ -343,7 +343,7 @@
 
                     if(file_exists(FCPATH."assets/speciment/".$a->org_id.".png")){
                         $signatures['user_identifier'] = $a->user_identifier;
-                        $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
+                        $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".$a->org_id.".png"));
     
                         $body['request_id']   = $requestid;
                         $body['signatures'][] = $signatures;
@@ -497,6 +497,163 @@
             }else{
                 echo color('red')."Data Tidak Ditemukan";
             }
+        }
+
+        public function requestsignquicksign_POST(){
+            $responseservice = [];
+
+            $status = "and   a.status_sign ='1' limit 50;";
+            $result = $this->md->listrequestsign($status);
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $requestid  = "";
+                    $listfile   = [];
+                    $body       = [];
+                    $signatures = [];
+
+                    $requestid = generateuuid();
+                    
+                    if(file_exists(FCPATH."assets/speciment/".$a->org_id.".png")){
+                        $signatures['email'] = $a->email;
+                        $signatures['user_identifier'] = $a->user_identifier;
+                        $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".$a->org_id.".png"));
+    
+                        $body['request_id']   = $requestid;
+                        $body['signatures'][] = $signatures;
+    
+                        $resultfilerequestsign = $this->md->filerequestsign($status,$a->assign);
+                        foreach($resultfilerequestsign as $files){
+    
+                            if($files->source_file==="DTECHNOLOGY"){
+                                $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                            }else{
+                                $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                            }
+    
+                            if(file_exists($filename)){
+                                if(preg_match('/SIGNER(.*)/', $filename, $matches)) {
+                                    $position = "$" . preg_replace('/\.pdf$/', '', $matches[1]);
+                                    
+                                    $pdfParse          = new Pdfparse($filename);
+                                    $specimentposition = $pdfParse->findText($position);
+    
+                                    if(!empty($specimentposition['content'][$position])){ 
+                                        $listpdf = [];
+                                        foreach ($specimentposition['content'][$position] as $specimen) { 
+                                            if (isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])) {
+                                                $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
+                                                $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
+                                                $page        = floatval($specimen['page']);
+                                    
+                                                $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                                $listpdfsignatures['location']        = $files->orgname;
+                                                $listpdfsignatures['width']           = floatval(WIDTH);
+                                                $listpdfsignatures['height']          = floatval(HEIGHT);
+                                                $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                                $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                                $listpdfsignatures['page_number']     = $page;
+                                                $listpdfsignatures['qrcombine']       = "QRONLY";
+                                    
+                                                if (CERTIFICATE === "PERSONAL") {
+                                                    $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                                }
+                                    
+                                                $listpdf['template_no']  = $files->assign;
+                                                $listpdf['filename']     = $files->filename;
+                                                $listpdf['signatures'][] = $listpdfsignatures;
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    $listpdf     = [];
+                                    $coordinatex = floatval(COORDINATE_X);
+                                    $coordinatey = floatval(COORDINATE_Y);
+                                    $page        = floatval(PAGE);
+    
+    
+                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                    $listpdfsignatures['location']        = $files->orgname;
+                                    $listpdfsignatures['width']           = floatval(WIDTH);
+                                    $listpdfsignatures['height']          = floatval(HEIGHT);
+                                    $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                    $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                    $listpdfsignatures['page_number']     = $page;
+                                    $listpdfsignatures['qrcombine']       = "QRONLY";
+                                    if(CERTIFICATE==="PERSONAL"){
+                                        $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                    }
+            
+                                    $listpdf['template_no']  = $files->assign;
+                                    $listpdf['filename']     = $files->filename;
+                                    $listpdf['signatures'][] = $listpdfsignatures;
+                                }
+    
+                                $body['list_pdf'][]=$listpdf;
+                            }
+                        }
+    
+                        $bodycheckcertificate['user_identifier']=$a->user_identifier;
+                        $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+    
+                        if(isset($responsecheckcertificate['success'])){
+                            if($responsecheckcertificate['success']){
+                                if($responsecheckcertificate['status']===3){
+                                    $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
+                                    if(isset($responserequestsign['success'])){
+                                        if($responserequestsign['success']){
+                                            foreach($resultfilerequestsign as $files){
+                                                $datasimpanhd = [];
+
+                                                if($files->source_file==="DTECHNOLOGY"){
+                                                    $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                                                }else{
+                                                    $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                                }
+
+                                                if(file_exists($filename)){
+                                                    $datasimpanhd['request_id']  = $requestid;
+                                                    if($responserequestsign['auth_response'][0]['url']!=null){
+                                                        $datasimpanhd['status_sign'] = "2";
+                                                        $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
+                                                    }else{
+                                                        $datasimpanhd['status_sign'] = "4";
+                                                    }
+                                                }else{
+                                                    $datasimpanhd['status_sign'] = "0";
+                                                }
+
+                                                $this->md->updatefile($datasimpanhd,$files->no_file);
+                                            }
+                                        }else{
+                                            $datasimpanhd['status_sign'] = "99";
+                                            $datasimpanhd['note'] = $responserequestsign['message'];
+                                            $this->md->updatefile($datasimpanhd,$files->no_file);
+                                        }
+                                    }
+                                    $listfile['responsetilaka'] = $responserequestsign;
+                                }
+                            }else{
+                                $listfile['responsetilaka'] = $responsecheckcertificate;
+                            }
+                        }else{
+                            $listfile['responsetilaka'] = $responsecheckcertificate;
+                        }
+    
+                        $listfile['signer']['assign']         = $a->assign;
+                        $listfile['signer']['name']           = $a->assignname;
+                        $listfile['signer']['useridentifier'] = $a->user_identifier;
+                        $listfile['payload'] = $body;
+                        
+                        $responseservice['listfile'][]=$listfile;
+                    }else{
+                        $responseservice['ResponseDTechnology'] = "Speciment Not Found";
+                    }
+                }
+            }else{
+                $responseservice['ResponseDTechnology'] = "Tidak Ada List Request Sign";
+            }
+            $this->response($responseservice,REST_Controller::HTTP_OK);
         }
 
         public function excutesign_POST(){
