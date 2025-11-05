@@ -96,7 +96,7 @@
 
             $transid = generateuuid();
 
-            $config['upload_path']   = './assets/buktitl/';
+            $config['upload_path']   = './assets/document/';
             $config['allowed_types'] = 'pdf';
             $config['file_name']     = $transid."_SIGNER".$position;
             $config['overwrite']     = true;
