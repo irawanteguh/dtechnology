@@ -56,7 +56,7 @@
                         $json["responCode"] = "00";
                         $json["responHead"] = "success";
                         $json["responDesc"] = "Hey, ".$datasession->name."<br>Welcome Back and Have a nice day";
-                        $json["url"] = base_url()."index.php/dashboard/dashboard";
+                        $json["url"] = base_url()."index.php/".$datasession->defaultcontroller;
                     } else {
                         $json["responCode"] = "02";
                         $json["responHead"] = "error";
