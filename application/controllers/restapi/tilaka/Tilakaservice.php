@@ -537,7 +537,7 @@
                                     
                                     $pdfParse          = new Pdfparse($filename);
                                     $specimentposition = $pdfParse->findText($position);
-                                    return var_dump($specimentposition);
+
                                     if(!empty($specimentposition['content'][$position])){ 
                                         $listpdf = [];
                                         foreach ($specimentposition['content'][$position] as $specimen) { 
@@ -599,7 +599,6 @@
                         if(isset($responsecheckcertificate['success'])){
                             if($responsecheckcertificate['success']){
                                 if($responsecheckcertificate['status']===3){
-                                    return var_dump($body);
                                     $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
                                     if(isset($responserequestsign['success'])){
                                         if($responserequestsign['success']){
