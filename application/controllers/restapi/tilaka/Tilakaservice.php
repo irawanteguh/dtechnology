@@ -36,8 +36,6 @@
         }
     }
 
-    
-
     class Tilakaservice extends REST_Controller{
         
         public function __construct(){
