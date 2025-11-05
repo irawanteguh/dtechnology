@@ -537,7 +537,7 @@
                                     
                                     $pdfParse          = new Pdfparse($filename);
                                     $specimentposition = $pdfParse->findText($position);
-    
+                                    return var_dump($specimentposition);
                                     if(!empty($specimentposition['content'][$position])){ 
                                         $listpdf = [];
                                         foreach ($specimentposition['content'][$position] as $specimen) { 
@@ -590,8 +590,6 @@
                                 }
     
                                 $body['list_pdf'][]=$listpdf;
-                            }else{
-                                return var_dump("File Tidak Di Temukan");
                             }
                         }
     
