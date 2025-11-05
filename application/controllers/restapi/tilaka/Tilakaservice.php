@@ -530,8 +530,6 @@
                             }else{
                                 $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                             }
-
-                            return var_dump($filename);
     
                             if(file_exists($filename)){
                                 if(preg_match('/SIGNER(.*)/', $filename, $matches)) {
