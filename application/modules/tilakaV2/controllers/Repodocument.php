@@ -87,6 +87,55 @@
             echo json_encode($json);
         }
 
+        // public function signdocument(){
+        //     $type     = $this->input->post("modal_sign_add_document_type");
+        //     $assign   = $this->input->post("modal_sign_add_assign");
+        //     $info1    = $this->input->post("modal_sign_add_informasi1");
+        //     $info2    = $this->input->post("modal_sign_add_informasi2");
+        //     $position = $this->input->post("modal_sign_add_position");
+
+        //     $transid = generateuuid();
+
+        //     $config['upload_path']   = './assets/document/';
+        //     $config['allowed_types'] = 'pdf';
+        //     $config['file_name']     = $transid."_SIGNER".$position;
+        //     $config['overwrite']     = true;
+
+        //     $this->load->library('upload', $config);
+
+        //     if (!$this->upload->do_upload('modal_sign_add_document')) {
+        //         $error_message = strip_tags($this->upload->display_errors());
+
+        //         log_message('error', 'File upload error: ' . $error_message);
+
+        //         $json['responCode'] = "01";
+        //         $json['responHead'] = "info";
+        //         $json['responDesc'] = $error_message;
+        //     } else {
+        //         $data['org_id']        = $_SESSION['orgid'];
+        //         $data['no_file']       = generateuuid()."_SIGNER".$position;
+        //         $data['status_file']   = "1";
+        //         $data['jenis_doc']     = $type;
+        //         $data['assign']        = $assign;
+        //         $data['pasien_idx']    = $info1;
+        //         $data['transaksi_idx'] = $info2;
+        //         $data['source_file']   = "DTECHNOLOGY";
+        //         $data['created_by']    = $_SESSION['userid'];
+
+        //         if($this->md->insertsigndocument($data)){
+        //             $json['responCode']="00";
+        //             $json['responHead']="success";
+        //             $json['responDesc']="Data Added Successfully";
+        //         } else {
+        //             $json['responCode']="01";
+        //             $json['responHead']="info";
+        //             $json['responDesc']="Data Failed to Add";
+        //         }
+        //     }
+
+        //     echo json_encode($json);
+        // }
+
         public function signdocument(){
             $type     = $this->input->post("modal_sign_add_document_type");
             $assign   = $this->input->post("modal_sign_add_assign");
@@ -112,8 +161,23 @@
                 $json['responHead'] = "info";
                 $json['responDesc'] = $error_message;
             } else {
+                $uploadData = $this->upload->data(); // ambil detail file hasil upload
+                $filePath   = $uploadData['full_path'];
+
+                // ?? Cek file benar-benar ada di server
+                if (!file_exists($filePath)) {
+                    log_message('error', 'File not found after upload: ' . $filePath);
+
+                    $json['responCode'] = "02";
+                    $json['responHead'] = "warning";
+                    $json['responDesc'] = "File upload completed but not found on server.";
+                    echo json_encode($json);
+                    return;
+                }
+
+                // Data siap disimpan ke DB
                 $data['org_id']        = $_SESSION['orgid'];
-                $data['no_file']       = generateuuid()."_SIGNER".$position;
+                $data['no_file']       = $transid."_SIGNER".$position;
                 $data['status_file']   = "1";
                 $data['jenis_doc']     = $type;
                 $data['assign']        = $assign;
@@ -135,6 +199,7 @@
 
             echo json_encode($json);
         }
+
 
         public function uploadfile(){
             $nofile = $_GET['nofile'];
