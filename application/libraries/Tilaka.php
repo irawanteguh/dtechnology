@@ -42,8 +42,6 @@
                         'source'  => "TILAKA-UUID"
                     ]);
                 }
-                
-
                 return json_decode($responsecurl,TRUE); 
             }else{
                 return json_decode($oauthResponse, TRUE); 
@@ -250,7 +248,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "TILAKA-SIGNSTATUS"
                 ]);
                 return json_decode($responsecurl,TRUE); 

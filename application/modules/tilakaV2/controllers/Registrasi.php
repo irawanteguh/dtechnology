@@ -12,6 +12,17 @@
 		public function index(){
             $data = $this->loadcombobox();
 
+            $full_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+            $full_url .= "://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+            $datacallback['org_id']      = $_SESSION['orgid'];
+            $datacallback['callback_id'] = generateuuid();
+            $datacallback['url']         = $full_url;
+            $datacallback['created_by']  = $_SESSION['userid'];
+
+            $this->md->insertcallback($datacallback);
+            
+
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
                 
                 if(($_GET['reason_code'] === "0" || $_GET['reason_code'] === "2") && $_GET['status']==="S"){ // reason code 0 : Sukses KYC, status S : Sukses
