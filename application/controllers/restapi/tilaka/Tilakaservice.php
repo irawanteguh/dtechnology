@@ -450,8 +450,6 @@
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
                                         $responserequestsign = Tilaka::requestsign(json_encode($body));
-                                        
-                                        return var_dump($responserequestsign);
 
                                         if(isset($responserequestsign['success'])){
                                             if($responserequestsign['success']){
@@ -476,6 +474,8 @@
 
                                                     $statusMsg = color('green')."Success";
                                                 }
+                                            }else{
+                                                $statusMsg = color('red').$responserequestsign['message'];
                                             }
                                         }
                                     }else{

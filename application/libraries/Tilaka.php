@@ -185,8 +185,6 @@
             $oauthResponse = Tilaka::oauth();
             if(isset($oauthResponse['access_token'])){
                 $header = array("Content-Type: application/json","Authorization: Bearer ".$oauthResponse['access_token']);
-
-                return var_dump($body);
                 
                 $responsecurl = curl([
                     'url'     => TILAKALITE_URL."api/v1/requestsign",
