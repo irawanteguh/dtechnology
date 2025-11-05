@@ -440,7 +440,7 @@
                             $data['REASON_CODE']      = "";
 
                             if($this->md->updatedatauserid($data,$userid)){
-                                unlink($ktp_path);
+                                // unlink($ktp_path);
                             }
                         }
             
