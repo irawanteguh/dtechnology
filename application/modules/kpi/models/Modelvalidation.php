@@ -30,7 +30,8 @@
                             SUM(nilai) AS total_nilai,
                             COUNT(assessment_id) AS total_komponen
                         FROM dt01_hrd_assessment_dt
-                        WHERE periode = '09.2025'
+                        WHERE  active='1'
+                        and    periode = '".$periodeid."'
                         GROUP BY org_id, user_id
                     ),
                     env_assessment AS (
@@ -184,8 +185,7 @@
                     "
                         select a.transaksi_id
                         from dt01_hrd_assessment_dt a
-                        where a.active='1'
-                        and   a.org_id='".$orgid."'
+                        where a.org_id='".$orgid."'
                         and   a.user_id='".$userid."'
                         and   a.periode='".$periode."'
                         and   a.assessment_id='".$assessmenid."'        

@@ -92,6 +92,7 @@ class Validation extends CI_Controller{
             $data['created_by']    = $_SESSION['userid'];
             $data['assessment_id'] = $assessment['assessment_id'];
             $data['nilai']         = $assessment['nilai'];
+            $data['active']        = "1";
 
             $resultcheckassessment = $this->md->checkassessment($_SESSION['orgid'],$this->input->post("modal_validation_perilaku_userid_add"),$_SESSION['periodeidassessment'],$assessment['assessment_id']);
             
