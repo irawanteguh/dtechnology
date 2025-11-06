@@ -248,8 +248,7 @@
 
         public function uploadallfile_POST(){
             $this->headerlog();
-            $orgid="d5e63fbc-01ec-4ba8-90b8-fb623438b99d";
-            $result = $this->md->datalistuploadfile($orgid);
+            $result = $this->md->datalistuploadfile();
 
             if(!empty($result)){
                 foreach($result as $a){
