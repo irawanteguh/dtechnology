@@ -11,6 +11,7 @@
     // $route['requestsignquicksign'] = 'restapi/tilaka/TilakaserviceV5/requestsignquicksign';
     // $route['excutesign']           = 'restapi/tilaka/TilakaserviceV5/excutesign';
     // $route['statussign']           = 'restapi/tilaka/TilakaserviceV5/statussign';
+
     $route['statussignquicksign']  = 'restapi/tilaka/TilakaserviceV5/statussignquicksign';
     $route['appkyc']               = 'restapi/tilaka/TilakaserviceV5/checkdataapprovalkyc';
     $route['getfile']              = 'restapi/tilaka/TilakaserviceV5/getfile';
