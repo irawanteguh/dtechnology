@@ -39,7 +39,7 @@
             return $recordset;
         }
 
-        function informationkpi($orgid){
+        function informationkpi(){
             $query =
                     "
                         select x.*,
@@ -82,9 +82,9 @@
 
                         from(
                         select
-                            (select prod from dt01_gen_enviroment_ms where active='1' and org_id='".$orgid."' and environment_name='START_VALID_ASSESSMENT') startassessment,
-                            (select prod from dt01_gen_enviroment_ms where active='1' and org_id='".$orgid."' and environment_name='END_VALID_ASSESSMENT') endassessment,
-                            (select prod from dt01_gen_enviroment_ms where active='1' and org_id='".$orgid."' and environment_name='END_VALID_ACTIVITY') endactivity
+                            (select prod from dt01_gen_enviroment_ms where active='1' and environment_name='START_VALID_ASSESSMENT') startassessment,
+                            (select prod from dt01_gen_enviroment_ms where active='1' and environment_name='END_VALID_ASSESSMENT') endassessment,
+                            (select prod from dt01_gen_enviroment_ms where active='1' and environment_name='END_VALID_ACTIVITY') endactivity
                         )x                     
                     ";
 

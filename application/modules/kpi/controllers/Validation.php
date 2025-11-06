@@ -30,7 +30,7 @@ class Validation extends CI_Controller{
     }
 
     public function listassement(){
-        $result = $this->md->listassement($_SESSION['orgid']);
+        $result = $this->md->listassement();
         
         if(!empty($result)){
             $json["responCode"]="00";

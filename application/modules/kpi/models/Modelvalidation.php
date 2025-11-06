@@ -166,12 +166,11 @@
             return $recordset;
         }
 
-        function listassement($orgid){
+        function listassement(){
             $query =
                     "
                         select a.assessment_id, assessment, jenis, header_id, kategori_id
                         from dt01_hrd_assessment_ms a
-                        where a.org_id='".$orgid."'
                         order by kategori_id asc, assessment asc           
                     ";
 

@@ -21,7 +21,7 @@
             
             if (!empty($checkauth)) {
                 $datasession = $this->md->datasession($checkauth->user_id);
-                $datanotification = $this->mn->informationkpi($datasession->org_id);
+                $datanotification = $this->mn->informationkpi();
         
                 $sessiondata = array(
                     "orgid"               => $datasession->org_id,
