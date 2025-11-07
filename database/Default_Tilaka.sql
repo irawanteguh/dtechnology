@@ -6,9 +6,9 @@ CREATE TABLE `dt01_gen_callback_it` (
   `URL` varchar(1000) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`CALLBACK_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_gen_department_ms`;
 
@@ -25,11 +25,11 @@ CREATE TABLE `dt01_gen_department_ms` (
   `HEAD_KOORDINATOR` varchar(1) DEFAULT 'N',
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`DEPARTMENT_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_gen_document_file_dt`;
 
@@ -44,16 +44,16 @@ CREATE TABLE `dt01_gen_document_file_dt` (
   `PASIEN_IDX` varchar(1000) DEFAULT NULL,
   `TRANSAKSI_IDX` varchar(1000) DEFAULT NULL,
   `ACTIVE` varchar(1) NOT NULL DEFAULT '1',
-  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `REQUEST_ID` varchar(36) DEFAULT NULL,
-  `NOTE` text DEFAULT NULL,
+  `NOTE` text,
   `SOURCE_FILE` varchar(255) DEFAULT NULL,
   `STATUS_FILE` varchar(1) DEFAULT '0' COMMENT '0 : File Tidak Ada\r\n1 : File Ada\r\n2 : File Dilakukan Merge',
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `USER_IDENTIFIER` varchar(1000) DEFAULT NULL,
   `URL` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`NO_FILE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_gen_document_ms`;
 
@@ -64,11 +64,10 @@ CREATE TABLE `dt01_gen_document_ms` (
   `JENIS_ID` varchar(1) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) NOT NULL,
-  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`JENIS_DOC`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "123", "Document Testing", "1", "1", "a05df4a9-23dc-4faa-af1e-01aec2f44976", "2025-11-05 10:18:48");
 
 
 DROP TABLE IF EXISTS `dt01_gen_enviroment_ms`;
@@ -81,10 +80,10 @@ CREATE TABLE `dt01_gen_enviroment_ms` (
   `PROD` varchar(1000) DEFAULT NULL,
   `ACTIVE` varchar(1) NOT NULL DEFAULT '1',
   `CREATED_BY` varchar(36) NOT NULL,
-  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
-  `URUT` int(11) DEFAULT 0,
+  `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `URUT` int(11) DEFAULT '0',
   PRIMARY KEY (`ENV_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "0a9b8755-68ff-410f-aa9d-721d07f15c4a", "WA_GATEWAY", "http://192.168.102.13:5001", "http://192.168.102.13:5001", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18", "0");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "2621c461-0ecf-491e-8495-99166b904b2d", "END_VALID_ACTIVITY", "5", "7", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18", "0");
@@ -127,12 +126,12 @@ CREATE TABLE `dt01_gen_master_ms` (
   `COLOR` varchar(100) DEFAULT NULL,
   `ICON` varchar(100) DEFAULT NULL,
   `JENIS_ID` varchar(100) DEFAULT NULL,
-  `URUT` int(11) DEFAULT 0,
+  `URUT` int(11) DEFAULT '0',
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`MASTER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `dt01_gen_master_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "0998f038-ea8b-42b8-a7c4-77bfd3d43bb4", "2", "Request Sign", "Waiting Signing User", "info", "", "Statussign_1", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
 INSERT INTO `dt01_gen_master_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "0edaebdc-578a-4da8-bd0e-6983290c68f4", "1", "Upload File", "Waiting Request Sign", "info", "", "Statussign_1", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
@@ -156,13 +155,13 @@ CREATE TABLE `dt01_gen_modules_ms` (
   `PARENT` varchar(1) NOT NULL DEFAULT 'N',
   `ICON` varchar(500) NOT NULL,
   `STATUS` varchar(1) NOT NULL DEFAULT '0',
-  `URUT` int(11) NOT NULL DEFAULT 0,
+  `URUT` int(11) NOT NULL DEFAULT '0',
   `QUICK` varchar(1) DEFAULT 'N',
   `ACTIVE` varchar(1) NOT NULL DEFAULT '1',
   `CREATED_BY` varchar(36) NOT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`MODULES_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `dt01_gen_modules_ms` VALUES ("01b1b52a-7d47-4352-b145-37d9bb2646c3", "Tilaka", "", "45304d5b-390d-4618-a08d-793b475f37b7", "tilaka", "", "Y", "bi bi-filetype-pdf", "0", "998", "N", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("029f2730-7ee9-4383-a409-4b5fe0d61fcc", "Request", "", "ef759cae-8fd6-4e36-9790-439e03c3a503", "logistik", "request", "N", "bi bi-file-earmark-spreadsheet", "0", "3", "N", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
@@ -382,9 +381,9 @@ CREATE TABLE `dt01_gen_organization_ms` (
   `HOLDING` varchar(1) DEFAULT 'N',
   `ACTIVE` varchar(1) NOT NULL DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ORG_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `dt01_gen_organization_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "d2287574-8d65-4897-a0f7-d74477bbe2d0", "", "RS Bhayangkara", "", "N", "N", "1", "", "2025-11-05 09:37:06");
 INSERT INTO `dt01_gen_organization_ms` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "", "", "Polda", "", "N", "Y", "1", "", "2025-11-05 09:37:42");
@@ -400,9 +399,9 @@ CREATE TABLE `dt01_gen_referensi_dt` (
   `LINK` varchar(1000) NOT NULL,
   `ACTIVE` varchar(1) NOT NULL DEFAULT '1',
   `CREATED_BY` varchar(36) NOT NULL,
-  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`REF_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `dt01_gen_referensi_dt` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "1d388997-3327-4746-8e80-0d49f37d1303", "forking postman collection", "informasi langkah-langkah forking postman collection", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/forking/#forking-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
 INSERT INTO `dt01_gen_referensi_dt` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "9fd2c349-c12b-470c-867c-f21b80df021c", "import postman collection", "formasi langkah-langkah import postman collection.", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/import/#import-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
@@ -424,11 +423,11 @@ CREATE TABLE `dt01_gen_role_access` (
   `ROLE_ID` varchar(36) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
-  `LAST_UPDATE_DATE` date DEFAULT current_timestamp(),
+  `LAST_UPDATE_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -441,11 +440,11 @@ CREATE TABLE `dt01_gen_role_dt` (
   `MODULES_ID` varchar(36) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
-  `LAST_UPDATE_DATE` datetime DEFAULT current_timestamp(),
+  `LAST_UPDATE_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -458,9 +457,9 @@ CREATE TABLE `dt01_gen_user_asst_dt` (
   `ASST_ID` varchar(36) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_gen_user_data`;
 
@@ -494,20 +493,20 @@ CREATE TABLE `dt01_gen_user_data` (
   `IMAGE_IDENTITY` varchar(1) NOT NULL DEFAULT 'N',
   `LEVEL_USER` varchar(36) NOT NULL DEFAULT 'a3b109d6-b792-4883-b176-31bc762de98d',
   `KLINIS_ID` varchar(36) DEFAULT NULL,
-  `DUTY_DAYS` int(11) DEFAULT 0,
-  `DUTY_HOURS` int(11) DEFAULT 0,
-  `HOURS_MONTH` int(11) DEFAULT 0,
+  `DUTY_DAYS` int(11) DEFAULT '0',
+  `DUTY_HOURS` int(11) DEFAULT '0',
+  `HOURS_MONTH` int(11) DEFAULT '0',
   `SUSPENDED` varchar(1) NOT NULL DEFAULT 'N',
   `KOLEGIUM_ID` varchar(36) DEFAULT NULL,
   `REASON_CODE` varchar(1) DEFAULT NULL,
   `NO_HP` varchar(100) DEFAULT NULL,
   `ACTIVE` varchar(1) NOT NULL DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ACTIVE_ID` varchar(36) DEFAULT NULL,
   `ACTIVE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_hrd_position_dt`;
 
@@ -524,11 +523,11 @@ CREATE TABLE `dt01_hrd_position_dt` (
   `STATUS` varchar(1) NOT NULL DEFAULT '1',
   `ACTIVE` varchar(1) NOT NULL DEFAULT '1',
   `CREATED_BY` varchar(36) NOT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_hrd_position_ms`;
 
@@ -546,11 +545,11 @@ CREATE TABLE `dt01_hrd_position_ms` (
   `RVU` int(11) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   `LAST_UPDATE_BY` varchar(36) NOT NULL,
-  `LAST_UPDATE_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `LAST_UPDATE_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`POSITION_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_med_kolegium_ms`;
 
@@ -563,7 +562,7 @@ CREATE TABLE `dt01_med_kolegium_ms` (
   `ICON` varchar(100) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   PRIMARY KEY (`KOLEGIUM_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_sek_surat_hd`;
 
@@ -584,9 +583,9 @@ CREATE TABLE `dt01_sek_surat_hd` (
   `RINGKASAN` varchar(1000) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   `CREATED_BY` varchar(36) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_sek_surat_it`;
 
@@ -608,7 +607,7 @@ CREATE TABLE `dt01_sek_surat_it` (
   `HAPUS_DATETIME` datetime DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   PRIMARY KEY (`TRANSAKSI_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `dt01_service_api_logs_out`;
 
@@ -616,14 +615,14 @@ CREATE TABLE `dt01_service_api_logs_out` (
   `ORG_ID` varchar(36) DEFAULT NULL,
   `REQUEST_ID` varchar(13) NOT NULL,
   `REQUEST_METHOD` varchar(6) DEFAULT NULL,
-  `REQUEST_URL` text DEFAULT NULL,
-  `REQUEST_HEADERS` text DEFAULT NULL,
-  `REQUEST_BODY` text DEFAULT NULL,
-  `USER_AGENT` text DEFAULT NULL,
+  `REQUEST_URL` text,
+  `REQUEST_HEADERS` text,
+  `REQUEST_BODY` text,
+  `USER_AGENT` text,
   `REMOTE_ADDRESS` varchar(15) DEFAULT NULL,
   `RESPONSE_STATUS` varchar(3) DEFAULT NULL,
-  `RESPONSE_HEADERS` text DEFAULT NULL,
-  `RESPONSE_BODY` text DEFAULT NULL,
+  `RESPONSE_HEADERS` text,
+  `RESPONSE_BODY` text,
   `APPCONNECT_TIME_US` decimal(18,0) DEFAULT NULL,
   `CONNECT_TIME_US` decimal(18,0) DEFAULT NULL,
   `NAMELOOKUP_TIME_US` decimal(18,0) DEFAULT NULL,
@@ -632,7 +631,7 @@ CREATE TABLE `dt01_service_api_logs_out` (
   `STARTTRANSFER_TIME_US` decimal(18,0) DEFAULT NULL,
   `TOTAL_TIME_US` decimal(18,0) DEFAULT NULL,
   `SOURCE` varchar(1000) DEFAULT NULL,
-  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`REQUEST_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
