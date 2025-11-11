@@ -657,7 +657,7 @@
                                                 if($responserequestsign['auth_response'][0]['url']!=null){
                                                     echo str_pad($requestid, 40).str_pad($responserequestsign['auth_urls'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
                                                 }else{
-                                                     echo str_pad($requestid, 40).str_pad($responserequestsign['auth_response'][0]['token_key'], 20).$statusMsg.PHP_EOL;
+                                                    echo str_pad($requestid, 40).str_pad($responserequestsign['auth_response'][0]['token_key'], 20).$statusMsg.PHP_EOL;
                                                 }
                                                 
                                             }
