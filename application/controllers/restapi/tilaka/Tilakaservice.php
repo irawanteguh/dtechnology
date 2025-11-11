@@ -812,6 +812,8 @@
                             }
 
                             if($response['message']==="FAILED"){
+                                $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                
                                 $data['STATUS_SIGN']     = "0";
                                 $data['STATUS_FILE']     = "1";
                                 $data['REQUEST_ID']      = "";
@@ -820,7 +822,7 @@
                                 $data['USER_IDENTIFIER'] = "";
                                 $data['URL']             = "";
                                 $this->md->updatefile($data,$nofile);
-                                
+
                                 $statusMsg = color('red').$response['message'];
                             }
 
