@@ -773,13 +773,13 @@
 
             if(!empty($result)){
                 foreach($result as $a){
+                    $statusMsg   = "";
                     $responseall = [];
                     $response    = [];
                     $body        = [];
 
                     $body['request_id'] = $a->request_id;
                     $response = Tilaka::excutesignstatus(json_encode($body));
-                    // return var_dump($response);
                     if(isset($response['success'])){
                         if($response['success']){
                             if($response['message']==="DONE"){
@@ -801,7 +801,7 @@
                                             $data['LINK']        = $listpdfs['presigned_url'];
                                             
                                             $this->md->updatefile($data,$nofile);
-                                            $statusMsg = color('green')."File Success Downloaded";
+                                            $statusMsg = color('green').$response['message'];
                                         }else{
                                             $statusMsg = color('red')."Content Tidak Berhasil Di Simpan";
                                         }
