@@ -600,7 +600,7 @@
                         if(isset($responsecheckcertificate['success'])){
                             if($responsecheckcertificate['success']){
                                 if($responsecheckcertificate['status']===3){
-                                    $responserequestsign = Tilaka::requestsign(json_encode($body));
+                                    $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
 
                                     // return var_dump($responserequestsign);
 
@@ -628,6 +628,38 @@
                                                 $statusMsg = color('green').str_pad($responserequestsign['message'], 60);
 
                                                 echo str_pad($requestid, 40).str_pad($responserequestsign['auth_urls'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
+                                            }
+
+                                            foreach($resultfilerequestsign as $files){
+                                                $datasimpanhd = [];
+
+                                                if($files->source_file==="DTECHNOLOGY"){
+                                                    $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                                                }else{
+                                                    $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                                }
+
+                                                if(file_exists($filename)){
+                                                    $datasimpanhd['request_id']  = $requestid;
+                                                    if($responserequestsign['auth_response'][0]['url']!=null){
+                                                        $datasimpanhd['status_sign'] = "2";
+                                                        $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
+                                                    }else{
+                                                        $datasimpanhd['status_sign'] = "4";
+                                                    }
+                                                }else{
+                                                    $datasimpanhd['status_sign'] = "0";
+                                                }
+
+                                                $this->md->updatefile($datasimpanhd,$files->no_file);
+
+                                                $statusMsg = color('green').str_pad($responserequestsign['message'], 60);
+                                                if($responserequestsign['auth_response'][0]['url']!=null){
+                                                    echo str_pad($requestid, 40).str_pad($responserequestsign['auth_urls'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
+                                                }else{
+                                                     echo str_pad($requestid, 40).str_pad($responserequestsign['auth_response'][0]['token_key'], 20).$statusMsg.PHP_EOL;
+                                                }
+                                                
                                             }
                                         }
                                     }

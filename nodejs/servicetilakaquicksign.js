@@ -70,12 +70,12 @@ async function callAPI(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-	await callAPI("uploadallfile", "POST");
+	// await callAPI("uploadallfile", "POST");
     await callAPI("requestsignquicksign", "POST");
-    await callAPI("excutesign", "POST");
-    await callAPI("statussign", "POST");
+    // await callAPI("excutesign", "POST");
+    // await callAPI("statussign", "POST");
 }
 
 printHeader();
 runservices();
-setInterval(runservices, 5000);
+// setInterval(runservices, 5000);
