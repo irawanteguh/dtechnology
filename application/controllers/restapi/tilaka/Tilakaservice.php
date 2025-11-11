@@ -811,9 +811,10 @@
                                 }
                             }
 
+                            return var_dump($response);
+                            
                             if($response['message']==="FAILED"){
-                                $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
-                                
+
                                 $data['STATUS_SIGN']     = "0";
                                 $data['STATUS_FILE']     = "1";
                                 $data['REQUEST_ID']      = "";
