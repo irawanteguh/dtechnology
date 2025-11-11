@@ -812,6 +812,8 @@
                             }
                         }
                     }
+
+                    echo str_pad($a->request_id, 40).str_pad($response['status'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";
