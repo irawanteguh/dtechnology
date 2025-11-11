@@ -809,8 +809,27 @@
                                         $statusMsg = color('red')."Content Tidak Di Temukan";
                                     }
                                 }
-                            }else{
+                            }
+
+                            if($response['message']==="FAILED"){
+                                $data['STATUS_SIGN']     = "0";
+                                $data['STATUS_FILE']     = "1";
+                                $data['REQUEST_ID']      = "";
+                                $data['LINK']            = "";
+                                $data['NOTE']            = "";
+                                $data['USER_IDENTIFIER'] = "";
+                                $data['URL']             = "";
+                                $this->md->updatefile($data,$nofile);
+                                
                                 $statusMsg = color('red').$response['message'];
+                            }
+
+                            if($response['message']==="PROCESS"){
+                                $statusMsg = color('cyan').$response['message'];
+                            }
+
+                            if($response['message']==="PARAMERR"){
+                                $statusMsg = color('cyan').$response['message'];
                             }
                         }
                     }
