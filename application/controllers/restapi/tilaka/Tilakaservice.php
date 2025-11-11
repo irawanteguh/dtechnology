@@ -779,7 +779,7 @@
 
                     $body['request_id'] = $a->request_id;
                     $response = Tilaka::excutesignstatus(json_encode($body));
-
+                    // return var_dump($response);
                     if(isset($response['success'])){
                         if($response['success']){
                             if($response['message']==="DONE"){
@@ -809,6 +809,8 @@
                                         $statusMsg = color('red')."Content Tidak Di Temukan";
                                     }
                                 }
+                            }else{
+                                $statusMsg = color('red').$response['message'];
                             }
                         }
                     }
