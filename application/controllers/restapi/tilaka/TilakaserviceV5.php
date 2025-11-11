@@ -619,7 +619,6 @@
             $this->response($summaryresponse,REST_Controller::HTTP_OK);
         }
 
-
         public function getfile_GET(){
             $orgId    = isset($_SESSION['orgid']) ? $_SESSION['orgid'] : ORG_ID;
             $location = FCPATH . "/assets/documenttemp/";

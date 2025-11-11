@@ -266,11 +266,12 @@
                         if($filesize!=0){
                             $bodycheckcertificate['user_identifier']=$a->useridentifier;
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-
+                            
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
                                         $responseuploadfile = Tilaka::uploadfile($location);
+                                        // return var_dump($responseuploadfile);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
                                                 $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
@@ -287,6 +288,8 @@
                                                 $datasimpanhd['note'] = $responseuploadfile['message'];
                                                 $statusMsg = color('red').$responseuploadfile['message'];
                                             }
+                                        }else{
+                                            $statusMsg = color('red')."Tidak Ada Response Dari Tilaka Lite";
                                         }
                                     }else{
                                         $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
@@ -316,7 +319,7 @@
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo str_pad($a->no_file.".pdf", 40).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
+                    echo str_pad($a->no_file.".pdf", 60).str_pad($a->useridentifier, 20).$statusMsg.PHP_EOL;
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";
@@ -324,11 +327,10 @@
         }
 
         public function requestsign_POST(){
+            $this->headerlog();
+
             $status = "AND a.status_sign = '1' LIMIT 10;";
             $result = $this->md->listrequestsign($status);
-
-            echo PHP_EOL;
-            echo color('cyan').str_pad("REQUEST ID", 40).str_pad("USER IDENTIFIER", 20)."MESSAGE".PHP_EOL;
 
             if(!empty($result)){
                 foreach($result as $a){
@@ -499,7 +501,7 @@
         }
 
         public function requestsignquicksign_POST(){
-            $responseservice = [];
+            $this->headerlog();
 
             $status = "and   a.status_sign ='1' limit 50;";
             $result = $this->md->listrequestsign($status);
@@ -512,7 +514,7 @@
                     $signatures = [];
 
                     $requestid = generateuuid();
-                    
+
                     if(file_exists(FCPATH."assets/speciment/".$a->org_id.".png")){
                         $signatures['email'] = $a->email;
                         $signatures['user_identifier'] = $a->user_identifier;
@@ -520,7 +522,7 @@
     
                         $body['request_id']   = $requestid;
                         $body['signatures'][] = $signatures;
-    
+
                         $resultfilerequestsign = $this->md->filerequestsign($status,$a->assign);
                         foreach($resultfilerequestsign as $files){
     
@@ -536,7 +538,7 @@
                                     
                                     $pdfParse          = new Pdfparse($filename);
                                     $specimentposition = $pdfParse->findText($position);
-
+    
                                     if(!empty($specimentposition['content'][$position])){ 
                                         $listpdf = [];
                                         foreach ($specimentposition['content'][$position] as $specimen) { 
@@ -552,7 +554,7 @@
                                                 $listpdfsignatures['coordinate_x']    = $coordinatex;
                                                 $listpdfsignatures['coordinate_y']    = $coordinatey;
                                                 $listpdfsignatures['page_number']     = $page;
-                                                $listpdfsignatures['qr_option']        = "QRONLY";
+                                                $listpdfsignatures['qrcombine']       = "QRONLY";
                                     
                                                 if (CERTIFICATE === "PERSONAL") {
                                                     $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
@@ -578,7 +580,7 @@
                                     $listpdfsignatures['coordinate_x']    = $coordinatex;
                                     $listpdfsignatures['coordinate_y']    = $coordinatey;
                                     $listpdfsignatures['page_number']     = $page;
-                                    $listpdfsignatures['qr_option']        = "QRONLY";
+                                    $listpdfsignatures['qrcombine']       = "QRONLY";
                                     if(CERTIFICATE==="PERSONAL"){
                                         $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
                                     }
@@ -591,14 +593,17 @@
                                 $body['list_pdf'][]=$listpdf;
                             }
                         }
-    
+
                         $bodycheckcertificate['user_identifier']=$a->user_identifier;
                         $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
     
                         if(isset($responsecheckcertificate['success'])){
                             if($responsecheckcertificate['success']){
                                 if($responsecheckcertificate['status']===3){
-                                    $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
+                                    $responserequestsign = Tilaka::requestsign(json_encode($body));
+
+                                    // return var_dump($responserequestsign);
+
                                     if(isset($responserequestsign['success'])){
                                         if($responserequestsign['success']){
                                             foreach($resultfilerequestsign as $files){
@@ -612,47 +617,34 @@
 
                                                 if(file_exists($filename)){
                                                     $datasimpanhd['request_id']  = $requestid;
-                                                    if($responserequestsign['auth_response'][0]['url']!=null){
-                                                        $datasimpanhd['status_sign'] = "2";
-                                                        $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
-                                                    }else{
-                                                        $datasimpanhd['status_sign'] = "4";
-                                                    }
+                                                    $datasimpanhd['status_sign'] = "2";
+                                                    $datasimpanhd['url']         = $responserequestsign['auth_urls'][0]['url']; 
                                                 }else{
                                                     $datasimpanhd['status_sign'] = "0";
                                                 }
 
                                                 $this->md->updatefile($datasimpanhd,$files->no_file);
+
+                                                $statusMsg = color('green').str_pad($responserequestsign['message'], 60);
+
+                                                echo str_pad($requestid, 40).str_pad($responserequestsign['auth_urls'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
                                             }
-                                        }else{
-                                            $datasimpanhd['status_sign'] = "99";
-                                            $datasimpanhd['note'] = $responserequestsign['message'];
-                                            $this->md->updatefile($datasimpanhd,$files->no_file);
                                         }
                                     }
-                                    $listfile['responsetilaka'] = $responserequestsign;
                                 }
                             }else{
-                                $listfile['responsetilaka'] = $responsecheckcertificate;
+                                echo color('red').$responsecheckcertificate;
                             }
                         }else{
-                            $listfile['responsetilaka'] = $responsecheckcertificate;
+                            echo color('red').$responsecheckcertificate;
                         }
-    
-                        $listfile['signer']['assign']         = $a->assign;
-                        $listfile['signer']['name']           = $a->assignname;
-                        $listfile['signer']['useridentifier'] = $a->user_identifier;
-                        $listfile['payload'] = $body;
-                        
-                        $responseservice['listfile'][]=$listfile;
                     }else{
-                        $responseservice['ResponseDTechnology'] = "Speciment Not Found";
+                        echo color('red')."Speciment Tidak Ditemukan";
                     }
                 }
             }else{
-                $responseservice['ResponseDTechnology'] = "Tidak Ada List Request Sign";
+                echo color('red')."Data Tidak Ditemukan";
             }
-            $this->response($responseservice,REST_Controller::HTTP_OK);
         }
 
         public function excutesign_POST(){
@@ -746,7 +738,11 @@
                                         
                                         $this->md->updatefile($data,$nofile);
                                         $statusMsg = color('green').$response['message'];
+                                    }else{
+                                        $statusMsg = color('red')."Gagal Menyimpan File";
                                     }
+                                }else{
+                                    $statusMsg = color('red')."Gagal Mendownload File";
                                 }
                             }
                         }
