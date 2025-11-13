@@ -335,6 +335,101 @@
             }
         }
 
+        public function statussignquicksign_POST(){
+            $this->headerlog();
+            $result = $this->md->listdownload();
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $statusColor = "";
+                    $statusMsg   = "";
+                    $responseall = [];
+                    $response    = [];
+                    $body        = [];
+                    $response    = [];
+
+                    $body['request_id'] = $a->request_id;
+                    $response = Tilaka::excutesignstatus(json_encode($body));
+
+                    if(isset($response['success'])){
+                        if($response['success']){
+                            if($response['message']==="DONE"){
+                                foreach($response['list_pdf'] as $listpdfs){
+                                    $data        = [];
+                                    $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                    $fileContent = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
+
+                                    if($fileContent!==false){
+                                        if($a->source_file==="DTECHNOLOGY"){
+                                            $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
+                                        }else{
+                                            $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
+                                        }
+
+                                        if(file_put_contents($destinationPath,$fileContent)){
+                                            $data['STATUS_SIGN'] = "5";
+                                            $data['NOTE']        = "";
+                                            $data['LINK']        = $listpdfs['presigned_url'];
+                                            
+                                            $this->md->updatefile($data,$nofile);
+
+                                            $statusColor = "green";
+                                            $statusMsg   = $response['message'];
+                                        }else{
+                                            $statusColor = "red";
+                                            $statusMsg   = "Content Tidak Berhasil Di Simpan";
+                                        }
+                                    }else{
+                                        $statusColor = "red";
+                                        $statusMsg   = "Content Tidak Di Temukan";
+                                    }
+                                }
+                            }
+
+                            if($response['message']==="FAILED"){
+                                foreach($response['list_pdf'] as $listpdfs){
+                                    $data        = [];
+                                    $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                    
+                                    $data['STATUS_SIGN']     = "99";
+                                    $data['STATUS_FILE']     = "1";
+                                    $data['REQUEST_ID']      = "";
+                                    $data['LINK']            = "";
+                                    $data['NOTE']            = $response['message'];
+                                    $data['USER_IDENTIFIER'] = "";
+                                    $data['URL']             = "";
+
+                                    $this->md->updatefile($data,$nofile);
+
+                                    $statusColor = "red";
+                                    $statusMsg   = $response['message'];
+                                }
+                            }
+
+                            if($response['message']==="PROCESS"){
+                                foreach($response['list_pdf'] as $listpdfs){
+                                    $statusColor = "cyan";
+                                    $statusMsg   = $response['message'];
+                                }
+                                
+                            }
+
+                            if($response['message']==="PARAMERR"){
+                                foreach($response['list_pdf'] as $listpdfs){
+                                    $statusColor = "cyan";
+                                    $statusMsg   = $response['message'];
+                                }
+                            }
+                        }
+                    }
+
+                    echo $this->formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                }
+            }else{
+                echo color('red')."Data Tidak Ditemukan";
+            }
+        }
+
     }
 
 ?>

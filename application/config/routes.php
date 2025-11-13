@@ -23,11 +23,12 @@
     $route['statussign']           = 'restapi/tilaka/Tilakaservice/statussign';
     $route['transferfile']         = 'restapi/tilaka/Tilakaservice/transferfile';
     $route['getstatusdocument']    = 'restapi/tilaka/Tilakaservice/getstatusdocument';
-    $route['statussignquicksign']  = 'restapi/tilaka/Tilakaservice/statussignquicksign';
+    
 
 
     $route['uploadallfile']        = 'restapi/tilaka/Tilakaquicksign/uploadallfile';
     $route['requestsignquicksign'] = 'restapi/tilaka/Tilakaquicksign/requestsignquicksign';
+    $route['statussignquicksign']  = 'restapi/tilaka/Tilakaquicksign/statussignquicksign';
 
 
     $route['pegawai']               = 'restapi/khanza/Khanza/pegawai';
