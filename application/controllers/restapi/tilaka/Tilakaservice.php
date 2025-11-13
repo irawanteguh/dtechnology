@@ -245,7 +245,6 @@
         }
         //End RMB Hospital Group Direct To Tilaka RSMS
 
-
         public function uploadallfile_POST(){
             $this->headerlog();
             $result = $this->md->datalistuploadfile();

@@ -17,7 +17,7 @@
     $route['mergepdfs']            = 'restapi/tilaka/TilakaserviceV5/mergepdfs';
 
     $route['authtilaka']           = 'restapi/tilaka/Tilakaservice/auth';
-    $route['uploadallfile']        = 'restapi/tilaka/Tilakaservice/uploadallfile';
+    
     $route['requestsign']          = 'restapi/tilaka/Tilakaservice/requestsign';
     $route['excutesign']           = 'restapi/tilaka/Tilakaservice/excutesign';
     $route['statussign']           = 'restapi/tilaka/Tilakaservice/statussign';
@@ -25,6 +25,9 @@
     $route['getstatusdocument']    = 'restapi/tilaka/Tilakaservice/getstatusdocument';
     $route['requestsignquicksign'] = 'restapi/tilaka/Tilakaservice/requestsignquicksign';
     $route['statussignquicksign']  = 'restapi/tilaka/Tilakaservice/statussignquicksign';
+
+
+    $route['uploadallfile']        = 'restapi/tilaka/Tilakaquicksign/uploadallfile';
 
 
     $route['pegawai']               = 'restapi/khanza/Khanza/pegawai';
