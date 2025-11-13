@@ -416,7 +416,7 @@
 
                             if($response['message']==="PARAMERR"){
                                 foreach($response['list_pdf'] as $listpdfs){
-                                    $statusColor = "cyan";
+                                    $statusColor = "yellow";
                                     $statusMsg   = $response['message'];
                                 }
                             }
