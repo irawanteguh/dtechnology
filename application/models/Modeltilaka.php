@@ -52,7 +52,7 @@
             return $recordset;
         }
 
-        function listrequestsign($status){
+        function listrequestsign(){
             $query =
                     "
                         select distinct a.org_id, assign, user_identifier,
@@ -61,7 +61,8 @@
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
-                        ".$status."
+                        and   a.status_sign ='1'
+                        limit 50;
                     ";
 
             $recordset = $this->db->query($query);
@@ -69,7 +70,7 @@
             return $recordset;
         }
 
-        function filerequestsign($status,$assign){
+        function filerequestsign($assign){
             $query =
                     "
                         select a.no_file, filename, status_sign, assign, user_identifier, source_file,
@@ -80,7 +81,8 @@
                         where a.active      = '1'
                         and   a.assign      = '".$assign."'
                         and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
-                        ".$status."
+                        and   a.status_sign ='1'
+                        limit 50;
                     ";
 
             $recordset = $this->db->query($query);
