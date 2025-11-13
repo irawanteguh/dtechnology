@@ -271,7 +271,6 @@
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
                                         $responseuploadfile = Tilaka::uploadfile($location);
-                                        // return var_dump($responseuploadfile);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
                                                 $resultcheckfilename = $this->md->checkfilename(ORG_ID,$responseuploadfile['filename']);
@@ -292,7 +291,7 @@
                                             $statusMsg = color('red')."Tidak Ada Response Dari Tilaka Lite";
                                         }
                                     }else{
-                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                         $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                     }
                                 }else{
@@ -704,7 +703,7 @@
 
                         $bodycheckcertificate['user_identifier']=$a->user_identifier;
                         $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-    
+                        
                         if(isset($responsecheckcertificate['success'])){
                             if($responsecheckcertificate['success']){
                                 if($responsecheckcertificate['status']===3){
@@ -736,19 +735,22 @@
                                                 $this->md->updatefile($datasimpanhd,$files->no_file);
 
                                                 $statusMsg = color('green').str_pad($responserequestsign['message'], 60);
-                                                
-                                                if($responserequestsign['auth_response'][0]['url']!=null){
-                                                    echo str_pad($requestid, 40).str_pad($responserequestsign['auth_urls'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
-                                                }else{
-                                                    echo str_pad($requestid, 40).str_pad($responserequestsign['auth_response'][0]['user_identifier'], 20).$statusMsg.PHP_EOL;
-                                                }
-
-
-                                                
                                             }
+                                        }else{
+                                            $datasimpanhd['note'] = $responserequestsign['message'];
+                                            $this->md->updatefile($datasimpanhd,$files->no_file);
+                                            $statusMsg = color('green').str_pad($responserequestsign['message'], 60);
                                         }
+
+                                        
                                     }
+                                }else{
+                                    $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                    $this->md->updatefile($datasimpanhd,$files->no_file);
+                                    $statusMsg = color('red').$responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                 }
+
+                                echo str_pad($requestid, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
                             }else{
                                 echo color('red').$responsecheckcertificate;
                             }
