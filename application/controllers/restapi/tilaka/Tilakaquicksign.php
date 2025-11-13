@@ -282,7 +282,7 @@
                                                                 $datasimpanhd['status_sign'] = "2";
                                                                 $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
                                                             }else{
-                                                                $datasimpanhd['status_sign'] = "4";
+                                                                $datasimpanhd['status_sign'] = "3";
                                                             }
 
                                                             $statusColor = "green";
