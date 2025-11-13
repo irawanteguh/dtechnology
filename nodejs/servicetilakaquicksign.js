@@ -194,16 +194,26 @@ async function callAPI(endpoint, method = "GET", body = null) {
         }
 
     }catch(error){
-        //
+        console.log(
+            formatLog(
+                getTimeStamp(),
+                method,
+                endpoint,
+                "Network Error",
+                error.message,
+                { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
+                { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
+            )
+        );
     }
 }
 
 async function runservices() {
-	// await callAPI("uploadallfile", "POST");
-    // await callAPI("requestsignquicksign", "POST");
+	await callAPI("uploadallfile", "POST");
+    await callAPI("requestsignquicksign", "POST");
     await callAPI("statussignquicksign", "POST");
 }
 
 console.clear();
 runservices();
-// setInterval(runservices, 5000);
+setInterval(runservices, 5000);
