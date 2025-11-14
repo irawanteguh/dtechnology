@@ -56,13 +56,12 @@
             return $recordset;
         }
 
-        function checkemail($orgid,$userid,$email){
+        function checkemail($userid,$email){
             $query =
                     "
                         select a.*
                         from dt01_gen_user_data a
-                        where a.org_id='".$orgid."'
-                        and   a.active='1'
+                        where a.active='1'
                         and   a.user_id<>'".$userid."'
                         and   lower(a.email)=lower('".$email."')
                     ";
@@ -72,13 +71,12 @@
             return $recordset;
         }
 
-        function checknik($orgid,$userid,$nik){
+        function checknik($userid,$nik){
             $query =
                     "
                         select a.*
                         from dt01_gen_user_data a
-                        where a.org_id='".$orgid."'
-                        and   a.active='1'
+                        where a.active='1'
                         and   a.user_id<>'".$userid."'
                         and   a.identity_no='".$nik."'
                     ";
@@ -120,6 +118,11 @@
 
         function insertcallback($data){           
             $sql =   $this->db->insert("dt01_gen_callback_it",$data);
+            return $sql;
+        }
+
+        function insertuser($data){           
+            $sql =   $this->db->insert("dt01_gen_user_data",$data);
             return $sql;
         }
 

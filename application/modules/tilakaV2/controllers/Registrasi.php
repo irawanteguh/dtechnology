@@ -358,17 +358,61 @@
             $file         = (object)@$_FILES['avatar'];
 
             $config['upload_path']      = './assets/images/avatars/';
-            $config['allowed_types']    = 'jpeg';
-            $config['file_name']        = $userid;
-            $config['overwrite']        = TRUE;
+			$config['allowed_types']    = 'jpeg';
+			$config['file_ext_tolower'] = TRUE;
+			$config['file_name']        = $userid;
+			$config['overwrite']        = TRUE;
+
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload('avatar')){
-                $error = array('error' => $this->upload->display_errors());
                 $dataupdate['IMAGE_PROFILE'] = "N";
+                $error_message = strip_tags($this->upload->display_errors());
+				log_message('error', 'File upload error: ' . $error_message);
+
+				$json['responDesc'] = $error_message;
             }else{
-                $data = array('upload_data' => $this->upload->data());
-                $dataupdate['IMAGE_PROFILE'] = "Y";
+                $uploadData = $this->upload->data();
+				$full_path = $uploadData['full_path'];
+
+				// validasi ulang: pastikan benar-benar .jpeg
+				$ext = strtolower(pathinfo($uploadData['file_name'], PATHINFO_EXTENSION));
+				if ($ext !== 'jpeg') {
+					unlink($full_path);
+					$json['responDesc'] = "Hanya file .jpeg yang diizinkan!";
+					echo json_encode($json);
+					return;
+				}
+
+				// === Konversi agar pasti RGB 8-bit (hindari RGBA / CMYK) ===
+				$image = @imagecreatefromjpeg($full_path);
+				if (!$image) {
+					// coba buka sebagai PNG (kalau user rename .png ke .jpeg)
+					$image = @imagecreatefrompng($full_path);
+				}
+
+				if ($image) {
+					// Buat image baru dalam mode RGB 8-bit
+					$rgb_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+					// Salin tanpa alpha channel
+					imagecopy($rgb_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+					// Simpan ulang sebagai .jpeg murni (pastikan 8bit RGB)
+					imagejpeg($rgb_image, $full_path, 95);
+
+					imagedestroy($image);
+					imagedestroy($rgb_image);
+				} else {
+					// kalau tetap gagal, hapus file
+					unlink($full_path);
+					$json['responDesc'] = "File tidak valid atau rusak. Pastikan format JPEG RGB 8bit.";
+					echo json_encode($json);
+					return;
+				}
+
+				// update ke database
+				$dataupdate['image_profile'] = "Y";
             }
 
             $dataupdate['NIK']           = $nikrs;
@@ -383,6 +427,112 @@
             if(empty($resultcheckemail)){
                 if(empty($resultchecknik)){
                     if($this->md->updatedatauserid($dataupdate,$userid)){
+                        $json['responCode']="00";
+                        $json['responHead']="success";
+                        $json['responDesc']="Data Updated Successfully";
+                    }else{
+                        $json['responCode']="01";
+                        $json['responHead']="info";
+                        $json['responDesc']="Data failed to update";
+                    }
+                }else{
+                    $json['responCode'] = "01";
+                    $json['responHead'] = "info";
+                    $json['responDesc'] = "Identity No is already in use";
+                }
+            }else{
+                $json['responCode'] = "01";
+                $json['responHead'] = "info";
+                $json['responDesc'] = "Email is already in use";
+            }
+            
+
+            echo json_encode($json);
+        }
+
+        public function adduser(){
+            $userid       = generateuuid();
+            $nikrs        = $this->input->post("nikrs-add");
+            $namakaryawan = $this->input->post("namakaryawan-add");
+            $namaktp      = $this->input->post("namaktp-add");
+            $noktp        = $this->input->post("noktp-add");
+            $email        = $this->input->post("email-add");
+            $file         = (object)@$_FILES['avataradd'];
+
+            $config['upload_path']      = './assets/images/avatars/';
+			$config['allowed_types']    = 'jpeg';
+			$config['file_ext_tolower'] = TRUE;
+			$config['file_name']        = $userid;
+			$config['overwrite']        = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('avataradd')){
+                $datainsert['IMAGE_PROFILE'] = "N";
+                $error_message = strip_tags($this->upload->display_errors());
+				log_message('error', 'File upload error: ' . $error_message);
+
+				$json['responDesc'] = $error_message;
+            }else{
+                $uploadData = $this->upload->data();
+				$full_path = $uploadData['full_path'];
+
+				// validasi ulang: pastikan benar-benar .jpeg
+				$ext = strtolower(pathinfo($uploadData['file_name'], PATHINFO_EXTENSION));
+				if ($ext !== 'jpeg') {
+					unlink($full_path);
+					$json['responDesc'] = "Hanya file .jpeg yang diizinkan!";
+					echo json_encode($json);
+					return;
+				}
+
+				// === Konversi agar pasti RGB 8-bit (hindari RGBA / CMYK) ===
+				$image = @imagecreatefromjpeg($full_path);
+				if (!$image) {
+					// coba buka sebagai PNG (kalau user rename .png ke .jpeg)
+					$image = @imagecreatefrompng($full_path);
+				}
+
+				if ($image) {
+					// Buat image baru dalam mode RGB 8-bit
+					$rgb_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+					// Salin tanpa alpha channel
+					imagecopy($rgb_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+					// Simpan ulang sebagai .jpeg murni (pastikan 8bit RGB)
+					imagejpeg($rgb_image, $full_path, 95);
+
+					imagedestroy($image);
+					imagedestroy($rgb_image);
+				} else {
+					// kalau tetap gagal, hapus file
+					unlink($full_path);
+					$json['responDesc'] = "File tidak valid atau rusak. Pastikan format JPEG RGB 8bit.";
+					echo json_encode($json);
+					return;
+				}
+
+				// update ke database
+				$datainsert['image_profile'] = "Y";
+            }
+
+            $datainsert['group_id']      = $_SESSION['groupid'];
+            $datainsert['org_id']        = $_SESSION['orgid'];
+            $datainsert['user_id']       = $userid;
+            $datainsert['username']      = $nikrs;
+            $datainsert['NIK']           = $nikrs;
+            $datainsert['NAME']          = $namakaryawan;
+            $datainsert['NAME_IDENTITY'] = $namaktp;
+            $datainsert['EMAIL']         = $email;
+            $datainsert['IDENTITY_NO']   = $noktp;
+
+            $resultcheckemail = $this->md->checkemail($userid,$email);
+            $resultchecknik   = $this->md->checknik($userid,$noktp);
+
+            if(empty($resultcheckemail)){
+                if(empty($resultchecknik)){
+                    if($this->md->insertuser($datainsert)){
                         $json['responCode']="00";
                         $json['responHead']="success";
                         $json['responDesc']="Data Updated Successfully";

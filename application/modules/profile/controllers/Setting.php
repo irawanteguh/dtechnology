@@ -19,11 +19,11 @@
 				'responDesc' => "Unknown error"
 			];
 
-			$config['upload_path']   = './assets/images/avatars/';
-			$config['allowed_types'] = 'jpeg'; // hanya file .jpeg
+			$config['upload_path']      = './assets/images/avatars/';
+			$config['allowed_types']    = 'jpeg';
 			$config['file_ext_tolower'] = TRUE;
-			$config['file_name']     = $_SESSION['userid'];
-			$config['overwrite']     = TRUE;
+			$config['file_name']        = $_SESSION['userid'];
+			$config['overwrite']        = TRUE;
 
 			$this->load->library('upload', $config);
 

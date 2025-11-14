@@ -24,6 +24,14 @@ $('#modal-edituser').on('hidden.bs.modal', function (e) {
     datakaryawan();
 });
 
+$('#modal-adduser').on('hidden.bs.modal', function (e) {
+    if (Dropzone.instances.length > 0) {
+        Dropzone.instances.forEach(dz => dz.destroy());
+    }
+    Dropzone.autoDiscover = false;
+    datakaryawan();
+});
+
 $('#checkboxsyarattilaka').change(function() {
     if(this.checked) {
         $('#btnregistrasiusertilaka').prop('disabled', false);
@@ -453,6 +461,60 @@ $(document).on("submit", "#formedituser", function (e) {
             if(data.responCode==="00"){
                 toastr[data.responHead](data.responDesc, "INFORMATION");
                 $('#modal-edituser').modal('hide');
+            }else{
+                Swal.fire({
+                    title            : "<h1 class='font-weight-bold'>For Your Information</h1>",
+                    html             : "<b>"+data.responDesc+"</b>",
+                    icon             : data.responHead,
+                    confirmButtonText: 'Please Try Again',
+                    customClass      : {confirmButton: 'btn btn-danger'},
+                    timerProgressBar : true,
+                    timer            : 5000,
+                    showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                    hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+                });
+            }
+			
+		},
+        complete: function () {
+            
+		},
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title            : "<h1 class='font-weight-bold'>I'm Sorry</h1>",
+                html             : "<b>"+error+"</b>",
+                icon             : "error",
+                confirmButtonText: "Please Try Again",
+                buttonsStyling   : false,
+                timerProgressBar : true,
+                timer            : 5000,
+                customClass      : {confirmButton: "btn btn-danger"},
+                showClass        : {popup: "animate__animated animate__fadeInUp animate__faster"},
+                hideClass        : {popup: "animate__animated animate__fadeOutDown animate__faster"}
+            });
+		}
+	});
+    return false;
+});
+
+$(document).on("submit", "#formadduser", function (e) {
+	e.preventDefault();
+	var data = new  FormData(this);
+	$.ajax({
+        url        : url+'index.php/tilakaV2/registrasi/adduser',
+        data       : data,
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        processData: false,
+        contentType: false,
+        beforeSend : function () {
+            toastr["info"]("Sending request...", "Please wait");
+        },
+		success: function (data) {
+            if(data.responCode==="00"){
+                toastr[data.responHead](data.responDesc, "INFORMATION");
+                $('#modal-adduser').modal('hide');
             }else{
                 Swal.fire({
                     title            : "<h1 class='font-weight-bold'>For Your Information</h1>",

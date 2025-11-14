@@ -4,16 +4,7 @@
             <span class="card-label fw-bolder fs-3 mb-1">User Data</span>
         </h3>
         <div class="card-toolbar my-1">
-            <!-- <div class="me-4 my-1">
-                <select id="kt_filter_orders" name="orders" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-solid form-select-sm">
-                    <option value="All" selected="selected">All Orders</option>
-                    <option value="Approved">Approved</option>
-                    <option value="Declined">Declined</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="In Transit">In Transit</option>
-                </select>
-            </div> -->
-            <div class="d-flex align-items-center position-relative my-1">
+            <div class="d-flex align-items-center position-relative my-1 me-4">
                 <span class="svg-icon svg-icon-3 position-absolute ms-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black" />
@@ -21,6 +12,26 @@
                     </svg>
                 </span>
                 <input type="search" class="form-control form-control-solid form-select-sm w-150px ps-9" placeholder="Search" name="searchdatakaryawan" id="searchdatakaryawan"/>
+            </div>
+            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <span class="svg-icon svg-icon-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="5" y="5" width="5" height="5" rx="1" fill="#000000"></rect>
+                            <rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3"></rect>
+                            <rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"></rect>
+                            <rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"></rect>
+                        </g>
+                    </svg>
+                </span>
+            </button>
+            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
+                <div class="menu-item px-3">
+                    <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Master User</div>
+                </div>
+                <div class="menu-item px-3">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#modal-adduser" class="menu-link px-3">Add User</a>
+                </div>
             </div>
         </div>
     </div>

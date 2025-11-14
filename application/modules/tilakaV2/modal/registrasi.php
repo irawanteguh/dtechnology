@@ -1,3 +1,115 @@
+<div class="modal fade" id="modal-adduser" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header pb-0">
+                <h1 class="mb-3">Tambah Data Karyawan</h1>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
+                </div>
+            </div>
+            <form action="<?php echo base_url();?>index.php/tilakaV2/registrasi/adduser" id="formadduser">
+                <div class="modal-body">
+                    <div class="text-start mb-5">
+                        <div class="text-muted fw-bold fs-5">Silakan menambahkan data karyawan</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 row">
+                            <div class="col-md-2">
+                                <div class="col-md-12 mb-5">
+                                    <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                        <span>Avatar</span>
+                                    </label>
+                                    <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(<?php echo base_url()?>assets/images/avatars/blank.png)">
+                                        <?php                                            
+                                            if($_SESSION['imgprofile']==="Y"){
+                                                $imageUrl = base_url() . "assets/images/avatars/".$_SESSION['userid'].".jpeg";
+                                            }else{
+                                                $imageUrl = base_url() . "assets/images/avatars/blank.png";
+                                            }
+                                            echo "<div class='image-input-wrapper w-125px h-125px' style='background-image: url(".$imageUrl.")'></div>";
+                                        ?>
+
+                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                                            <i class="bi bi-pencil-fill fs-7"></i>
+                                            <input type="file" name="avataradd" id="avataradd" accept=".jpeg" />
+                                            <input type="hidden" name="avatar_remove" />
+                                        </label>
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                                            <i class="bi bi-x fs-2"></i>
+                                        </span>
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                                            <i class="bi bi-x fs-2"></i>
+                                        </span>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-md-10 row">
+                                <div class="col-md-12 mb-5">
+                                    <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                        <span class="required">NIK Rumah Sakit</span>
+                                    </label>
+                                    <input type="text" class="form-control form-control-solid form-control-sm" id="nikrs-add" name="nikrs-add" required>
+                                </div>                                  
+                                <div class="col-md-6 mb-5">
+                                    <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                        <span class="required">Nama Karyawan</span>
+                                    </label>
+                                    <input type="text" class="form-control form-control-solid form-control-sm" id="namakaryawan-add" name="namakaryawan-add" required>
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                        <span class="required">Nama Sesuai KTP</span>
+                                        <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan masukan nama sesuai KTP"></i>
+                                    </label>
+                                    <input type="text" class="form-control form-control-solid form-control-sm" id="namaktp-add" name="namaktp-add" required>
+                                </div>  
+                                <div class="col-md-4 mb-5">
+                                    <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                        <span class="required">Nomor Kartu Tanda Penduduk</span>
+                                        <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan no KTP anda yang aktif"></i>
+                                    </label>
+                                    <input type="text" class="form-control form-control-solid form-control-sm" placeholder="Silakan Masukan Nomor KTP" id="noktp-add" name="noktp-add" minlength="16" maxlength="16" required>
+                                    <span class="fs-9 text-muted">Nomor Kartu Tanda Penduduk Maksimal 16 Digit</span>
+                                </div>                                
+                                <div class="col-md-8 mb-5">
+                                    <label class="d-flex align-items-center fs-5 fw-bold mb-2">
+                                        <span class="required">Email Address</span>
+                                        <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan alamat email anda yang aktif"></i>
+                                    </label>
+                                    <input type="text" class="form-control form-control-solid form-control-sm" placeholder="Silakan Masukan Alamat Email Anda" id="email-add" name="email-add" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="col-form-label" for="filektp">Upload KTP</label>
+                            <div class="dropzone" id="file_doc">
+                                <div class="dz-message needsclick">
+                                    <span class="svg-icon svg-icon-3hx svg-icon-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22ZM16 12.6L12.7 9.3C12.3 8.9 11.7 8.9 11.3 9.3L8 12.6H11V18C11 18.6 11.4 19 12 19C12.6 19 13 18.6 13 18V12.6H16Z" fill="black" />
+                                            <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="black" />
+                                        </svg>
+                                    </span>
+                                    <div class="ms-4">
+                                        <h3 class="dfs-3 fw-bolder text-gray-900 mb-1">Drop files here or click to upload.</h3>
+                                        <span class="fw-bold fs-8 text-muted">File Document Dalam Format .Jpeg</span><br>
+                                        <span class="fw-bold fs-8 text-muted">Max File Size 2 Mb</span>
+                                    </div>
+                                </div>
+                            </div>   
+                        </div>                                          
+                    </div>
+                </div> 
+                <div class="modal-footer p-1">	
+                    <input class="btn btn-light-primary" id="btnproses" type="submit" value="SUBMIT" name="simpan" >			
+                </div>  
+            </form>  
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-edituser" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
