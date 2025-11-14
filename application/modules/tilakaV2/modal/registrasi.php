@@ -84,7 +84,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label class="col-form-label" for="filektp">Upload KTP</label>
-                            <div class="dropzone" id="file_doc">
+                            <div class="dropzone" id="file_docadd">
                                 <div class="dz-message needsclick">
                                     <span class="svg-icon svg-icon-3hx svg-icon-primary">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
