@@ -25,6 +25,7 @@
     $route['getstatusdocument']    = 'restapi/tilaka/Tilakaservice/getstatusdocument';
     
 
+    $route['statusregister']        = 'restapi/tilaka/Tilakaregister/statusregister';
 
     $route['uploadallfile']        = 'restapi/tilaka/Tilakaquicksign/uploadallfile';
     $route['requestsignquicksign'] = 'restapi/tilaka/Tilakaquicksign/requestsignquicksign';
