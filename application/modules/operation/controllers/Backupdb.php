@@ -86,13 +86,12 @@
 								'dt01_gen_enviroment_ms',
 								'dt01_gen_document_ms',
 								'dt01_gen_modules_ms',
-								'dt01_gen_organization_ms',
 								'dt01_gen_referensi_dt',
 								'dt01_gen_role_ms',
 								'dt01_gen_role_dt',
 								'dt01_gen_role_access',
 								'dt01_gen_master_ms',
-								'dt01_hrd_kategori_tenaga_ms'
+								'dt01_gen_user_data'
 							];
 		
 			foreach ($tables as $table) {
