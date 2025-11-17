@@ -68,7 +68,93 @@ CREATE TABLE `dt01_gen_document_ms` (
   PRIMARY KEY (`JENIS_DOC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "001", "Document Testing", "1", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-11 10:10:47");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "001", "Triase IGD", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "002", "SBPK", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "003", "Hasil Labor", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "004", "Hasil Radiologi", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "005", "Resume Medis Rajal", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "006", "Resume Medis Rawat Inap", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "007", "Laporan Operasi", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "008", "SPRI", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "009", "Penilaian Awal Medis IGD", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "010", "Penilaian Awal Medis Ranap", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "011", "Resep Obat", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "012", "Partograf", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "013", "Surat Kontrol", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "014", "Hasil Labor 1", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "015", "Hasil Labor 2", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "016", "Hasil Labor 3", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "017", "Hasil Labor 4", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "018", "Hasil Radiologi 2", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "019", "Resep Obat 1", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "020", "Resep Obat 2", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "021", "Resep Obat 3", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "022", "SEP", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "023", "SEP", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "052248", "Surat Izin Operasional Rumah Sakit (SIO RS) / Izin Penyelenggaraan RS dari Kemenkes", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:39:24");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "065", "Surat Keterangan Lahir", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "066", "Billing", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "067", "Resep Obat", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "068", "SKDP", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "079", "SEP Ranap", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-04-15 10:54:25");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "086", "PA Jaringan", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-08-19 11:37:41");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "091", "Surat Kematian", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "092", "Hasil Labor 5", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "094", "Hasil Labor 7", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "095", "Hasil Labor 8", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "096", "Hasil Labor 9", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "097", "Hasil Labor 10", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "098", "Hasil Labor 11", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "099", "Document", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "100", "Hasil Labor 13", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "101", "Hasil Labor 14", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "102", "Hasil Labor 15", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "103", "Hasil Labor 16", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "104", "Hasil Labor 17", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "105", "Hasil Labor 18", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "106", "Hasil Labor 19", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "107", "Hasil Labor 20", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "108", "Hasil Radiologi 3", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "109", "Hasil Radiologi 4", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "110", "Hasil Radiologi 5", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "111", "Hasil Radiologi 6", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "112", "Resep Obat 4", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "113", "Resep Obat 5", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "114", "Resep Obat 6", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "115", "Resep Obat 7", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "116", "Resep Obat 8", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "117", "Resep Obat 9", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "118", "Resep Obat 10", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "119", "Resep Obat 11", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "120", "Resep Obat 12", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "121", "Resep Obat 13", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "122", "Resep Obat 14", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "123", "Resep Obat 15", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "124", "Resep Obat 16", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "125", "Resep Obat 17", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "126", "Resep Obat 18", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "127", "Resep Obat 19", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2024-12-19 10:55:34");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "144165", "Surat Izin Praktek (SIP)", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:01:01");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "146921", "Perjanjian Kerja Sama (PKS)", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:56:55");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "172295", "PJK3 RS", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:55:27");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "185672", "SIK", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:55:06");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "345667", "Tanda Daftar Rumah Sakit (TDRS) (jika masih berlaku).", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:44:24");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "407032", "Kalibrasi", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:52:54");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "500941", "SKP DOKTER MCU", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:55:57");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "524949", "Izin IPAL", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:01:24");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "540397", "Nomor Induk Berusaha (NIB) dari OSS-RBA", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:37:41");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "562550", "Sertifikat Akreditasi Rumah Sakit (KARS/LAM-KPRS)", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:46:28");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "587974", "Izin B3", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:01:48");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "629594", "Akta Pendirian dan/atau Perubahan Badan Hukum (Notaris, Kemenkumham)", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:36:30");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "700233", "Izin BAPETEN", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:53:14");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "719384", "Surat Domisili Usaha (jika masih diperlukan sesuai regulasi daerah)", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:45:31");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "726867", "Standart Operasional Procedure", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-20 23:52:23");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "730347", "Surat Izin Operasional Rumah Sakit (SIO RS)", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-28 14:35:57");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "777733", "Sertifikat Standar Bangunan & Prasarana RS (termasuk IMB/PBG)", "1", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:46:37");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "779590", "Ukes Pesawat Sinar X", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:53:42");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "786636", "Izin Genset", "2", "1", "45e8cc43-1d60-4c0e-b385-5559fbae5736", "2025-08-29 09:04:48");
+INSERT INTO `dt01_gen_document_ms` VALUES ("d5e63fbc-01ec-4ba8-90b8-fb623438b99d", "827177", "NPWP Badan Usaha", "2", "1", "2f657e5b-c6fe-48d3-840c-ccb35da4f66d", "2025-08-19 11:45:10");
+INSERT INTO `dt01_gen_document_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "xxx", "Tets", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-03-14 22:06:13");
 
 
 DROP TABLE IF EXISTS `dt01_gen_enviroment_ms`;
@@ -445,6 +531,23 @@ CREATE TABLE `dt01_gen_role_dt` (
 
 
 
+DROP TABLE IF EXISTS `dt01_gen_role_ms`;
+
+CREATE TABLE `dt01_gen_role_ms` (
+  `ORG_ID` varchar(36) DEFAULT NULL,
+  `ROLE_ID` varchar(36) NOT NULL,
+  `ROLE` varchar(1000) DEFAULT NULL,
+  `ACTIVE` varchar(1) DEFAULT '1',
+  `CREATED_BY` varchar(36) DEFAULT NULL,
+  `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
+  `LAST_UPDATED_BY` varchar(36) DEFAULT NULL,
+  `LAST_UPDATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ROLE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `dt01_gen_role_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "34c2e933-4b1b-47cd-8497-71de44ac4e01", "Administrator Tilaka", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-17 16:05:58", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-17 16:05:58");
+
+
 DROP TABLE IF EXISTS `dt01_gen_user_asst_dt`;
 
 CREATE TABLE `dt01_gen_user_asst_dt` (
@@ -505,12 +608,13 @@ CREATE TABLE `dt01_gen_user_data` (
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "04a4884b-10fd-4036-86ca-ce012f00c678", "root2", "3832333435363731", "Administrator 2", "Administrator 2", "-", "", "7687686787686786", "", "", "peppitautade-1274@yopmail.com", "", "", "irawan6", "dc6c4189-7ef3-4818-80a1-264efb962cfb", "", "revb001d208-3610-421d-b881-dffd1393b385", "issue-3317bb04-c2c1-4532-8bc1-7f899102a68e", "1", "Proses permohonan sertifikat dalam proses", "2025-11-13 02:57:32", "2026-11-13 02:57:31", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "1", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-13 08:56:18", "", "");
+INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "04a4884b-10fd-4036-86ca-ce012f00c678", "root2", "3832333435363731", "Administrator 2", "Administrator 2", "-", "", "7687686787686786", "", "", "peppitautade-1274@yopmail.com", "", "", "irawan6", "dc6c4189-7ef3-4818-80a1-264efb962cfb", "", "revb001d208-3610-421d-b881-dffd1393b385", "issue-3317bb04-c2c1-4532-8bc1-7f899102a68e", "", "", "2025-11-13 02:57:32", "2026-11-13 02:57:31", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "1", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-13 08:56:18", "", "");
 INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "07d5263d-c614-463a-9b77-f6e4a7abd975", "root5", "3832333435363731", "Administrator 4", "Administrator 4", "0", "", "8546548765677654", "", "", "freheprannamei-5605@yopmail.com", "", "", "", "28d841a7-5bcf-4bd5-9a10-40226b9274bd", "", "", "", "", "", "", "", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-13 10:56:53", "", "");
-INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "49d35e2c-80f2-4a49-a566-e50271dfe53f", "root1", "3832333435363731", "Administrator 1", "Administrator 1", "0", "", "5675675675675675", "", "", "wauzoillausiri-3393@yopmail.com", "", "", "irawan7", "df4f5f62-8ffb-4801-a694-39ad8d8aadd1", "", "", "", "1", "Proses permohonan sertifikat dalam proses", "", "", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-13 10:33:33", "", "");
+INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "49d35e2c-80f2-4a49-a566-e50271dfe53f", "root1", "3832333435363731", "Administrator 1", "Administrator 1", "0", "", "5675675675675675", "", "", "wauzoillausiri-3393@yopmail.com", "", "", "irawan7", "df4f5f62-8ffb-4801-a694-39ad8d8aadd1", "", "", "", "3", "Aktif", "2025-11-14 06:09:28", "2026-11-14 06:09:27", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-13 10:33:33", "", "");
+INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "569a21b9-15d0-4b6e-8fe8-fb0210749b1a", "14567838", "3832333435363731", "Deni Hidayat", "Deni Hidayat", "14567838", "", "1401061003940003", "", "", "deniforstudying@gmail.com", "", "", "deni123", "d3f9c92b-5e2b-4cc2-9d35-cd8984f7469b", "", "", "", "1", "Proses permohonan sertifikat dalam proses", "", "", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "", "2025-11-14 13:59:04", "", "");
 INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "6652e626-4438-4bff-aeef-164598310b94", "root", "3832333435363731", "Administrator", "Administrator", "1521027", "", "2312312312323432", "", "", "delauzenutro-5535@yopmail.com", "", "", "irawan3", "c597a73e-5a75-470d-bde6-83395b36d218", "", "", "", "3", "Aktif", "2025-11-11 03:00:03", "2026-11-11 03:00:02", "", "N", "Y", "83e9982c-814a-4349-89fb-cbee6f34e340", "", "0", "0", "0", "N", "", "", "081288646630", "1", "", "2025-11-07 08:10:00", "", "");
 INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "ce5a4a05-2426-489c-aba0-47fe3e88381b", "root3", "3832333435363731", "Administrator 3", "Administrator 3", "0", "", "7988797897897897", "", "", "xanneddaquoga-5473@yopmail.com", "", "", "irawan8", "c397772a-8a8c-459a-8db8-8523a7a97679", "", "", "", "1", "Proses permohonan sertifikat dalam proses", "", "", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-13 10:50:33", "", "");
-INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "fd87df09-c8c7-43a0-b4b6-95eb9ca8259e", "root4", "3832333435363731", "Administrator 5", "Administrator 5", "1521028", "", "6578686786786786", "", "", "quavapizocri-7628@yopmail.com", "", "", "irawan5", "bb990f06-63a8-4bf8-aa70-a97759814e19", "", "", "", "1", "Proses permohonan sertifikat dalam proses", "2025-11-12 10:00:03", "2026-11-12 10:00:02", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-12 16:48:25", "", "");
+INSERT INTO `dt01_gen_user_data` VALUES ("d2287574-8d65-4897-a0f7-d74477bbe2d0", "be3d71bc-484e-4971-9590-e31e10516c25", "fd87df09-c8c7-43a0-b4b6-95eb9ca8259e", "root4", "3832333435363731", "Administrator 5", "Administrator 5", "1521028", "", "6578686786786786", "", "", "quavapizocri-7628@yopmail.com", "", "", "irawan5", "bb990f06-63a8-4bf8-aa70-a97759814e19", "", "", "", "1", "Revoke", "2025-11-12 10:00:03", "2026-11-12 10:00:02", "", "N", "Y", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-12 16:48:25", "", "");
 
 
 DROP TABLE IF EXISTS `dt01_hrd_position_dt`;
