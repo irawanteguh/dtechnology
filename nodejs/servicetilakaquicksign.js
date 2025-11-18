@@ -217,4 +217,4 @@ async function runservices() {
 
 console.clear();
 runservices();
-setInterval(runservices, 5000);
+setInterval(runservices, 10000);

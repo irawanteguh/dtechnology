@@ -370,73 +370,6 @@
                                     }
 
                                     $body['list_pdf'][]=$listpdf;
-
-                                    $bodycheckcertificate['user_identifier']=$a->user_identifier;
-                                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-
-                                    if(isset($responsecheckcertificate['success'])){
-                                        if($responsecheckcertificate['success']){
-                                            if($responsecheckcertificate['status']===3){
-                                                $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
-
-                                                if(isset($responserequestsign['success'])){
-                                                    if($responserequestsign['success']){
-                                                        foreach($resultfilerequestsign as $files){
-                                                            if($files->source_file==="DTECHNOLOGY"){
-                                                                $filename = FCPATH."assets/document/".$files->no_file.".pdf";
-                                                            }else{
-                                                                $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
-                                                            }
-
-                                                            if($this->fileExists($filename)){
-                                                                $datasimpanhd['request_id']  = $requestid;
-
-                                                                if($responserequestsign['auth_response'][0]['url']!=null){
-                                                                    $datasimpanhd['status_sign'] = "2";
-                                                                    $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
-                                                                }else{
-                                                                    $datasimpanhd['status_sign'] = "3";
-                                                                }
-
-                                                                $statusColor = "green";
-                                                                $statusMsg   = $responserequestsign['message'];
-                                                            }else{
-                                                                $datasimpanhd['status_sign']     = "99";
-                                                                $datasimpanhd['note']            = "File not found";
-                                                                $datasimpanhd['status_file']     = "0";
-                                                                $datasimpanhd['user_identifier'] = "";
-                                                                $datasimpanhd['url']             = "";
-
-                                                                $statusColor = "red";
-                                                                $statusMsg   = "File : ".$files->no_file.".pdf Tidak Di Temukan Folder Penyimpanan";
-                                                            }
-                                                        }
-                                                    }else{
-                                                        $datasimpanhd['note'] = $responserequestsign['message'];
-
-                                                        $statusColor = "red";
-                                                        $statusMsg   = $responserequestsign['message'];
-                                                    }
-                                                }else{
-                                                    $statusColor = "red";
-                                                    $statusMsg   = "Gagal Request Sign";
-                                                }
-                                            }else{
-                                                $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
-
-                                                $statusColor = "red";
-                                                $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
-                                            }
-                                        }else{
-                                            $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-
-                                            $statusColor = "red";
-                                            $statusMsg   = $responsecheckcertificate['message']['info'];
-                                        }
-                                    }else{
-                                        $statusColor = "red";
-                                        $statusMsg   = "UnSuccess Check Certificate";
-                                    }
                                 }else{
                                     $datasimpanhd['status_sign']     = "99";
                                     $datasimpanhd['note']            = "File not found";
@@ -451,6 +384,77 @@
                                 if(!empty($datasimpanhd)){
                                     $this->md->updatefile($datasimpanhd, $files->no_file);
                                 }
+                            }
+
+                            $bodycheckcertificate['user_identifier']=$a->user_identifier;
+                            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+
+                            if(isset($responsecheckcertificate['success'])){
+                                if($responsecheckcertificate['success']){
+                                    if($responsecheckcertificate['status']===3){
+                                        $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
+
+                                        if(isset($responserequestsign['success'])){
+                                            if($responserequestsign['success']){
+                                                foreach($resultfilerequestsign as $files){
+                                                    if($files->source_file==="DTECHNOLOGY"){
+                                                        $filename = FCPATH."assets/document/".$files->no_file.".pdf";
+                                                    }else{
+                                                        $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                                    }
+
+                                                    if($this->fileExists($filename)){
+                                                        $datasimpanhd['request_id']  = $requestid;
+
+                                                        if($responserequestsign['auth_response'][0]['url']!=null){
+                                                            $datasimpanhd['status_sign'] = "2";
+                                                            $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
+                                                        }else{
+                                                            $datasimpanhd['status_sign'] = "3";
+                                                        }
+
+                                                        $statusColor = "green";
+                                                        $statusMsg   = $responserequestsign['message'];
+                                                    }else{
+                                                        $datasimpanhd['status_sign']     = "99";
+                                                        $datasimpanhd['note']            = "File not found";
+                                                        $datasimpanhd['status_file']     = "0";
+                                                        $datasimpanhd['user_identifier'] = "";
+                                                        $datasimpanhd['url']             = "";
+
+                                                        $statusColor = "red";
+                                                        $statusMsg   = "File : ".$files->no_file.".pdf Tidak Di Temukan Folder Penyimpanan";
+                                                    }
+
+                                                    if(!empty($datasimpanhd)){
+                                                        $this->md->updatefile($datasimpanhd, $files->no_file);
+                                                    }
+                                                }
+                                            }else{
+                                                $datasimpanhd['note'] = $responserequestsign['message'];
+
+                                                $statusColor = "red";
+                                                $statusMsg   = $responserequestsign['message'];
+                                            }
+                                        }else{
+                                            $statusColor = "red";
+                                            $statusMsg   = "Gagal Request Sign";
+                                        }
+                                    }else{
+                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+
+                                        $statusColor = "red";
+                                        $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                    }
+                                }else{
+                                    $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+
+                                    $statusColor = "red";
+                                    $statusMsg   = $responsecheckcertificate['message']['info'];
+                                }
+                            }else{
+                                $statusColor = "red";
+                                $statusMsg   = "UnSuccess Check Certificate";
                             }
                         }else{
                             $statusColor = "red";
