@@ -480,10 +480,15 @@
                                         $data['NOTE']        = "";
                                         $data['LINK']        = $listpdfs['presigned_url'];
                                         
-                                        $this->md->updatefile($data,$nofile);
+                                        if($this->md->updatefile($data,$nofile)){
+                                            $statusColor = "green";
+                                            $statusMsg   = $response['message']." | " . $destinationPath;
+                                        }else{
+                                            $statusColor = "red";
+                                            $statusMsg   = "Gagal Update Data";
+                                        }
 
-                                        $statusColor = "green";
-                                        $statusMsg   = $response['message']." | " . $destinationPath;
+                                        
                                     }else{
                                         $statusColor = "red";
                                         $statusMsg   = "Gagal Download Content Tidak Di Temukan";
