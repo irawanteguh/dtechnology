@@ -491,7 +491,7 @@
                                 }
                             }
 
-                            if($message==="FAILED"){
+                            if($response['message']==="FAILED"){
                                 $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
 
                                 if(preg_match('/_(\d+)$/', $mainName, $m)){
