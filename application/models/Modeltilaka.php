@@ -76,7 +76,7 @@
                         where a.active='1'
                         and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
                         and   a.status_sign ='1'
-                        limit 1;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -96,29 +96,13 @@
                         and   a.assign      = '".$assign."'
                         and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
                         and   a.status_sign ='1'
-                        limit 1;
+                        limit 50;
                     ";
 
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
             return $recordset;
         }
-
-        // function listexecute(){
-        //     $query =
-        //             "
-        //                 select distinct a.no_file, user_identifier, request_id, user_identifier
-        //                 from dt01_gen_document_file_dt a
-        //                 where a.active='1'
-        //                 and   a.status_sign = '3'
-        //                 order by created_date desc
-        //                 limit 10;
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
 
         function listdownload(){
             $query =
@@ -128,7 +112,7 @@
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.status_sign in ('2','3')
-                        limit 10;
+                        limit 50;
                     ";
 
             $recordset = $this->db->query($query);
@@ -136,27 +120,13 @@
             return $recordset;
         }
 
-        // function checkfilename($filename){
-        //     $query =
-        //             "
-        //                 select a.filename
-        //                 from dt01_gen_document_file_dt a
-        //                 where a.active='1'
-        //                 and   a.filename='".$filename."'
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
-
         function updatefile($data,$nofile){           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile));
             return $sql;
         }
 
         function updatedatauserid($data, $userid){           
-            $sql =   $this->db->update("dt01_gen_user_data",$data,array("USER_ID"=>$userid));
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_id"=>$userid));
             return $sql;
         }
 

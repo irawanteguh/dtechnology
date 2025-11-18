@@ -303,27 +303,64 @@
                                             $statusMsg   = "Tag Tidak Ditemukan";
                                         }
                                     }else{
-                                        $listpdf     = [];
-                                        $coordinatex = floatval(COORDINATE_X);
-                                        $coordinatey = floatval(COORDINATE_Y);
-                                        $page        = floatval(PAGE);
-        
-        
-                                        $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                                        $listpdfsignatures['location']        = $files->orgname;
-                                        $listpdfsignatures['width']           = floatval(WIDTH);
-                                        $listpdfsignatures['height']          = floatval(HEIGHT);
-                                        $listpdfsignatures['coordinate_x']    = $coordinatex;
-                                        $listpdfsignatures['coordinate_y']    = $coordinatey;
-                                        $listpdfsignatures['page_number']     = $page;
-                                        $listpdfsignatures['qrcombine']       = "QRONLY";
-                                        if(CERTIFICATE==="PERSONAL"){
-                                            $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                        $position          = "$1";
+                                        $pdfParse          = new Pdfparse($filename);
+                                        $specimentposition = $pdfParse->findText($position);
+
+                                        if(!empty($specimentposition['content'][$position])){
+                                            $listpdf = [];
+
+                                            foreach ($specimentposition['content'][$position] as $specimen){
+                                                if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
+                                                    $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
+                                                    $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
+                                                    $page        = floatval($specimen['page']);
+                                        
+                                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                                    $listpdfsignatures['location']        = $files->orgname;
+                                                    $listpdfsignatures['width']           = floatval(WIDTH);
+                                                    $listpdfsignatures['height']          = floatval(HEIGHT);
+                                                    $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                                    $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                                    $listpdfsignatures['page_number']     = $page;
+                                                    $listpdfsignatures['qrcombine']       = "QRONLY";
+                                        
+                                                    if (CERTIFICATE === "PERSONAL") {
+                                                        $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                                    }
+                                        
+                                                    $listpdf['template_no']  = $files->assign;
+                                                    $listpdf['filename']     = $files->filename;
+                                                    $listpdf['signatures'][] = $listpdfsignatures;
+
+                                                }else{
+                                                    $statusColor = "red";
+                                                    $statusMsg   = "Tag Coordinat Tidak Ditemukan";
+                                                }
+                                            } 
+                                        }else{
+                                            $listpdf     = [];
+                                            $coordinatex = floatval(COORDINATE_X);
+                                            $coordinatey = floatval(COORDINATE_Y);
+                                            $page        = floatval(PAGE);
+            
+            
+                                            $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                            $listpdfsignatures['location']        = $files->orgname;
+                                            $listpdfsignatures['width']           = floatval(WIDTH);
+                                            $listpdfsignatures['height']          = floatval(HEIGHT);
+                                            $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                            $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                            $listpdfsignatures['page_number']     = $page;
+                                            $listpdfsignatures['qrcombine']       = "QRONLY";
+                                            if(CERTIFICATE==="PERSONAL"){
+                                                $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
+                                            }
+                    
+                                            $listpdf['template_no']  = $files->assign;
+                                            $listpdf['filename']     = $files->filename;
+                                            $listpdf['signatures'][] = $listpdfsignatures;
                                         }
-                
-                                        $listpdf['template_no']  = $files->assign;
-                                        $listpdf['filename']     = $files->filename;
-                                        $listpdf['signatures'][] = $listpdfsignatures;
                                     }
 
                                     $body['list_pdf'][]=$listpdf;
