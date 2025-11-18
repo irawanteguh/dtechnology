@@ -492,51 +492,53 @@
                         if($response['success']){
                             if($response['message']==="DONE"){
                                 foreach($response['list_pdf'] as $listpdfs){
-                                    $url      = htmlspecialchars_decode($listpdfs['presigned_url']);
-                                    $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
+                                    if($listpdfs['error']===false){
+                                        $url      = htmlspecialchars_decode($listpdfs['presigned_url']);
+                                        $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
 
-                                    if (strpos($mainName, "_") !== false) {
-                                        $nofile = substr($mainName, strpos($mainName, "_") + 1);
-                                    } else {
-                                        $nofile = $mainName;
-                                    }
-
-                                    $fileContent = $this->curlDownload($url);
-
-                                    if($fileContent!==false){
-                                        if($a->source_file === "DTECHNOLOGY"){
-                                            $destinationPath = FCPATH . "assets/document/" . $nofile . ".pdf";
-                                            $save = file_put_contents($destinationPath, $fileContent);
-
-                                            if ($save === false) {
-                                                echo $this->formatlog($a->request_id, $a->user_identifier, "Gagal menyimpan file di lokal", 'white','light_yellow','red');
-                                                continue;
-                                            }
-                                        }else{
-                                            $upload = $this->uploadToAapanel($nofile . ".pdf", $fileContent);
-
-                                            if (!$upload || !$upload['success']) {
-                                                echo $this->formatlog($a->request_id, $a->user_identifier, "Upload ke AAPanel gagal", 'white','light_yellow','red');
-                                                continue;
-                                            }
-
-                                            $destinationPath = PATHFILE_POST_TILAKA . $nofile . ".pdf";
+                                        if (strpos($mainName, "_") !== false) {
+                                            $nofile = substr($mainName, strpos($mainName, "_") + 1);
+                                        } else {
+                                            $nofile = $mainName;
                                         }
 
-                                        $data['STATUS_SIGN'] = "5";
-                                        $data['NOTE']        = "";
-                                        $data['LINK']        = $listpdfs['presigned_url'];
-                                        
-                                        if($this->md->updatefile($data,$nofile)){
-                                            $statusColor = "green";
-                                            $statusMsg   = $response['message']." | " . $destinationPath;
+                                        $fileContent = $this->curlDownload($url);
+
+                                        if($fileContent!==false){
+                                            if($a->source_file === "DTECHNOLOGY"){
+                                                $destinationPath = FCPATH . "assets/document/" . $nofile . ".pdf";
+                                                $save = file_put_contents($destinationPath, $fileContent);
+
+                                                if ($save === false) {
+                                                    echo $this->formatlog($a->request_id, $a->user_identifier, "Gagal menyimpan file di lokal", 'white','light_yellow','red');
+                                                    continue;
+                                                }
+                                            }else{
+                                                $upload = $this->uploadToAapanel($nofile . ".pdf", $fileContent);
+
+                                                if (!$upload || !$upload['success']) {
+                                                    echo $this->formatlog($a->request_id, $a->user_identifier, "Upload ke AAPanel gagal", 'white','light_yellow','red');
+                                                    continue;
+                                                }
+
+                                                $destinationPath = PATHFILE_POST_TILAKA . $nofile . ".pdf";
+                                            }
+
+                                            $data['STATUS_SIGN'] = "5";
+                                            $data['NOTE']        = "";
+                                            $data['LINK']        = $listpdfs['presigned_url'];
+                                            
+                                            if($this->md->updatefile($data,$nofile)){
+                                                $statusColor = "green";
+                                                $statusMsg   = $response['message']." | " . $destinationPath;
+                                            }else{
+                                                $statusColor = "red";
+                                                $statusMsg   = "Gagal Update Data";
+                                            }
                                         }else{
                                             $statusColor = "red";
-                                            $statusMsg   = "Gagal Update Data";
+                                            $statusMsg   = "Gagal Download Content Tidak Di Temukan";
                                         }
-                                    }else{
-                                        $statusColor = "red";
-                                        $statusMsg   = "Gagal Download Content Tidak Di Temukan";
                                     }
                                 }
                             }
