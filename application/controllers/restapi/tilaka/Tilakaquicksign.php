@@ -574,7 +574,7 @@
                             if($response['message']==="PROCESS"){
                                 foreach($response['list_pdf'] as $listpdfs){
                                     $statusColor = "yellow";
-                                    $statusMsg   = $response['message']." | ".$response['status'][0]['num_signatures_done']."/".$response['status'][0]['num_signatures']." Document";
+                                    $statusMsg   = $response['message']." | ".$response['status'][0]['status']." | ".$response['status'][0]['num_signatures_done']."/".$response['status'][0]['num_signatures']." Document";
                                 }
                                 
                             }
