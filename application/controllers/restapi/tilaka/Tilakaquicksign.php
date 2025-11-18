@@ -448,9 +448,9 @@
                                     $url      = htmlspecialchars_decode($listpdfs['presigned_url']);
                                     $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
 
-                                    if(preg_match('/_(\d+)$/', $mainName, $m)){
-                                        $nofile = $m[1];
-                                    }else{
+                                    if (strpos($mainName, "_") !== false) {
+                                        $nofile = substr($mainName, strpos($mainName, "_") + 1);
+                                    } else {
                                         $nofile = $mainName;
                                     }
 
@@ -499,9 +499,9 @@
                             if($response['message']==="FAILED"){
                                 $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
 
-                                if(preg_match('/_(\d+)$/', $mainName, $m)){
-                                    $nofile = $m[1];
-                                }else{
+                                if (strpos($mainName, "_") !== false) {
+                                    $nofile = substr($mainName, strpos($mainName, "_") + 1);
+                                } else {
                                     $nofile = $mainName;
                                 }
 
