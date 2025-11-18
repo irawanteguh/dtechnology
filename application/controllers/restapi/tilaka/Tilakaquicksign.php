@@ -116,6 +116,16 @@
             return json_decode($response, true);
         }
 
+        private function curlDownload($url){
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            return $data;
+        }
+
         public function uploadallfile_POST(){
             $this->headerlog();
             $result = $this->md->datalistuploadfile();
