@@ -487,8 +487,6 @@
                                             $statusColor = "red";
                                             $statusMsg   = "Gagal Update Data";
                                         }
-
-                                        
                                     }else{
                                         $statusColor = "red";
                                         $statusMsg   = "Gagal Download Content Tidak Di Temukan";
