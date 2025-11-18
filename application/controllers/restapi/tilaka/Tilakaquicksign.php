@@ -539,6 +539,11 @@
                                             $statusColor = "red";
                                             $statusMsg   = "Gagal Download Content Tidak Di Temukan";
                                         }
+                                    }else{
+                                        $data['STATUS_SIGN'] = "0";
+                                        $data['NOTE']        = "";
+
+                                        $this->md->updatefile($data,$nofile);
                                     }
                                 }
                             }
