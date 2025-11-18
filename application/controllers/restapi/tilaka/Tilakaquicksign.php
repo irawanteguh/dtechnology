@@ -66,6 +66,102 @@
             return $formatted . PHP_EOL;
         }
 
+        private function fileExistsFlexible($path) {
+            // Jika bentuknya URL
+            if (filter_var($path, FILTER_VALIDATE_URL)) {
+                // Cek header HTTP
+                $headers = @get_headers($path);
+                if (!$headers) return false;
+
+                return (strpos($headers[0], '200') !== false);
+            }
+
+            // Jika bentuknya path lokal
+            return file_exists($path);
+        }
+
+        function getFileSizeFlexible($path) {
+
+            // Jika path adalah URL
+            if (filter_var($path, FILTER_VALIDATE_URL)) {
+                $ch = curl_init($path);
+                curl_setopt($ch, CURLOPT_NOBODY, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_exec($ch);
+
+                $filesize = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+                curl_close($ch);
+
+                if ($filesize > 0) {
+                    return $filesize; // bytes
+                } else {
+                    return 0; // tidak bisa baca size
+                }
+            }
+
+            // Jika path lokal
+            if (file_exists($path)) {
+                return filesize($path);
+            }
+
+            return 0;
+        }
+
+
+        private function convertUrlToLocalPath($url){
+            // Jika bukan URL, langsung kembalikan
+            if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                return rtrim($url, '/') . '/';
+            }
+
+            // Hilangkan http:// atau https://
+            $clean = preg_replace('/^https?:\/\//', '', $url);
+
+            // Pisahkan domain dan path
+            $parts = explode('/', $clean, 2);
+
+            if (count($parts) < 2) {
+                return false;
+            }
+
+            // Anda bisa sesuaikan base folder jika perlu
+            return '/' . $parts[1];   // hasil: /webappsagus/berkasrawat/pages/upload/
+        }
+
+        private function uploadToAapanel($filename, $binary){
+            $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
+            file_put_contents($tmp, $binary);
+
+            $ch = curl_init("http://10.10.11.250/webappsagus/UploadAAPanel.php");
+
+            curl_setopt($ch, CURLOPT_POST, true);
+
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'file' => new CURLFile($tmp, 'application/pdf', $filename)
+            ]);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            unlink($tmp);
+
+            return json_decode($response, true);
+        }
+
+
+        function curlDownload($url){
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            return $data;
+        }
 
         public function uploadallfile_POST(){
             $this->headerlog();
@@ -87,8 +183,8 @@
                         $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
                     }
 
-                    if(file_exists($location)){
-                        $filesize = filesize($location);
+                    if($this->fileExistsFlexible($location)){
+                        $filesize = $this->getFileSizeFlexible($location);
                         if($filesize!=0){
                             $bodycheckcertificate['user_identifier']=$a->useridentifier;
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
@@ -99,14 +195,11 @@
                                         $responseuploadfile = Tilaka::uploadfile($location);
                                         if(isset($responseuploadfile['success'])){
                                             if($responseuploadfile['success']){
-                                                $resultcheckfilename = $this->md->checkfilename($responseuploadfile['filename']);
-                                                if(empty($resultcheckfilename)){
-                                                    $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                                    $datasimpanhd['user_identifier'] = $a->useridentifier;
-                                                    $datasimpanhd['status_sign']     = "1";
-                                                    $datasimpanhd['status_file']     = "1";
-                                                    $datasimpanhd['note']            = "";
-                                                }
+                                                $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                                $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                $datasimpanhd['status_sign']     = "1";
+                                                $datasimpanhd['status_file']     = "1";
+                                                $datasimpanhd['note']            = "";
 
                                                 $statusColor = "green";
                                                 $statusMsg   = $responseuploadfile['message']." | ".$responseuploadfile['filename'];
@@ -183,7 +276,7 @@
                     $requestid = generateuuid();
                     $locationspeciment = FCPATH."assets/speciment/".$a->org_id.".png";
 
-                    if(file_exists($locationspeciment)){
+                    if($this->fileExistsFlexible($locationspeciment)){
                         $signatures['email']           = $a->email;
                         $signatures['user_identifier'] = $a->user_identifier;
                         $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents($locationspeciment));
@@ -200,7 +293,7 @@
                                     $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                                 }
 
-                                if(file_exists($filename)){
+                                if($this->fileExistsFlexible($filename)){
                                     if(preg_match('/SIGNER(.*)/', $filename, $matches)){
                                         $position = "$".preg_replace('/\.pdf$/', '', $matches[1]);
                                         
@@ -275,7 +368,7 @@
                                                             $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
                                                         }
 
-                                                        if(file_exists($filename)){
+                                                        if($this->fileExistsFlexible($filename)){
                                                             $datasimpanhd['request_id']  = $requestid;
 
                                                             if($responserequestsign['auth_response'][0]['url']!=null){
@@ -335,100 +428,235 @@
             }
         }
 
-        public function statussignquicksign_POST(){
-            $this->headerlog();
-            $result = $this->md->listdownload();
+        // public function statussignquicksign_POST(){
+        //     $this->headerlog();
+        //     $result = $this->md->listdownload();
 
-            if(!empty($result)){
-                foreach($result as $a){
-                    $statusColor = "";
-                    $statusMsg   = "";
-                    $responseall = [];
-                    $response    = [];
-                    $body        = [];
-                    $response    = [];
+        //     if(!empty($result)){
+        //         foreach($result as $a){
+        //             $statusColor = "";
+        //             $statusMsg   = "";
+        //             $responseall = [];
+        //             $response    = [];
+        //             $body        = [];
+        //             $response    = [];
 
-                    $body['request_id'] = $a->request_id;
-                    $response = Tilaka::excutesignstatus(json_encode($body));
+        //             $body['request_id'] = $a->request_id;
+        //             $response = Tilaka::excutesignstatus(json_encode($body));
 
-                    if(isset($response['success'])){
-                        if($response['success']){
-                            if($response['message']==="DONE"){
-                                foreach($response['list_pdf'] as $listpdfs){
-                                    $data        = [];
-                                    $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
-                                    $fileContent = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
+        //             if(isset($response['success'])){
+        //                 if($response['success']){
+        //                     if($response['message']==="DONE"){
+        //                         foreach($response['list_pdf'] as $listpdfs){
+        //                             $data        = [];
 
-                                    if($fileContent!==false){
-                                        if($a->source_file==="DTECHNOLOGY"){
-                                            $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
-                                        }else{
-                                            $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
-                                        }
-
-                                        if(file_put_contents($destinationPath,$fileContent)){
-                                            $data['STATUS_SIGN'] = "5";
-                                            $data['NOTE']        = "";
-                                            $data['LINK']        = $listpdfs['presigned_url'];
-                                            
-                                            $this->md->updatefile($data,$nofile);
-
-                                            $statusColor = "green";
-                                            $statusMsg   = $response['message'];
-                                        }else{
-                                            $statusColor = "red";
-                                            $statusMsg   = "Content Tidak Berhasil Di Simpan";
-                                        }
-                                    }else{
-                                        $statusColor = "red";
-                                        $statusMsg   = "Content Tidak Di Temukan";
-                                    }
-                                }
-                            }
-
-                            if($response['message']==="FAILED"){
-                                foreach($response['list_pdf'] as $listpdfs){
-                                    $data        = [];
-                                    $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
                                     
-                                    $data['STATUS_SIGN']     = "99";
-                                    $data['STATUS_FILE']     = "1";
-                                    $data['REQUEST_ID']      = "";
-                                    $data['LINK']            = "";
-                                    $data['NOTE']            = $response['message'];
-                                    $data['USER_IDENTIFIER'] = "";
-                                    $data['URL']             = "";
+        //                             $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+        //                             $fileContent = file_get_contents(htmlspecialchars_decode($listpdfs['presigned_url']));
 
-                                    $this->md->updatefile($data,$nofile);
+        //                             if($fileContent!==false){
+        //                                 if($a->source_file==="DTECHNOLOGY"){
+        //                                     $destinationPath = FCPATH."/assets/document/".$nofile.".pdf";
+        //                                 }else{
+        //                                     $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
+        //                                 }
 
-                                    $statusColor = "red";
-                                    $statusMsg   = $response['message'];
-                                }
-                            }
+        //                                 if(file_put_contents($destinationPath,$fileContent)){
+        //                                     $data['STATUS_SIGN'] = "5";
+        //                                     $data['NOTE']        = "";
+        //                                     $data['LINK']        = $listpdfs['presigned_url'];
+                                            
+        //                                     $this->md->updatefile($data,$nofile);
 
-                            if($response['message']==="PROCESS"){
-                                foreach($response['list_pdf'] as $listpdfs){
-                                    $statusColor = "yellow";
-                                    $statusMsg   = $response['message'];
-                                }
+        //                                     $statusColor = "green";
+        //                                     $statusMsg   = $response['message'];
+        //                                 }else{
+        //                                     $statusColor = "red";
+        //                                     $statusMsg   = "Content Tidak Berhasil Di Simpan";
+        //                                 }
+        //                             }else{
+        //                                 $statusColor = "red";
+        //                                 $statusMsg   = "Content Tidak Di Temukan";
+        //                             }
+        //                         }
+        //                     }
+
+        //                     if($response['message']==="FAILED"){
+        //                         foreach($response['list_pdf'] as $listpdfs){
+        //                             $data        = [];
+        //                             $nofile      = preg_match('/_(.*?)\.pdf$/', $listpdfs['filename'], $matches) ? $matches[1] : '';
+                                    
+        //                             $data['STATUS_SIGN']     = "99";
+        //                             $data['STATUS_FILE']     = "1";
+        //                             $data['REQUEST_ID']      = "";
+        //                             $data['LINK']            = "";
+        //                             $data['NOTE']            = $response['message'];
+        //                             $data['USER_IDENTIFIER'] = "";
+        //                             $data['URL']             = "";
+
+        //                             $this->md->updatefile($data,$nofile);
+
+        //                             $statusColor = "red";
+        //                             $statusMsg   = $response['message'];
+        //                         }
+        //                     }
+
+        //                     if($response['message']==="PROCESS"){
+        //                         foreach($response['list_pdf'] as $listpdfs){
+        //                             $statusColor = "yellow";
+        //                             $statusMsg   = $response['message'];
+        //                         }
                                 
-                            }
+        //                     }
 
-                            if($response['message']==="PARAMERR"){
-                                foreach($response['list_pdf'] as $listpdfs){
-                                    $statusColor = "yellow";
-                                    $statusMsg   = $response['message'];
-                                }
-                            }
-                        }
+        //                     if($response['message']==="PARAMERR"){
+        //                         foreach($response['list_pdf'] as $listpdfs){
+        //                             $statusColor = "yellow";
+        //                             $statusMsg   = $response['message'];
+        //                         }
+        //                     }
+        //                 }
+        //             }
+
+        //             echo $this->formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+        //         }
+        //     }else{
+        //         echo color('red')."Data Tidak Ditemukan";
+        //     }
+        // }
+
+        public function statussignquicksign_POST()
+{
+    $this->headerlog();
+    $result = $this->md->listdownload();
+
+    if (empty($result)) {
+        echo color('red') . "Data Tidak Ditemukan";
+        return;
+    }
+
+    foreach ($result as $a) {
+
+        $body['request_id'] = $a->request_id;
+        $response = Tilaka::excutesignstatus(json_encode($body));
+
+        if (!isset($response['success']) || !$response['success']) {
+            echo $this->formatlog($a->request_id, $a->user_identifier, "Invalid Response",
+                'white','light_yellow','red');
+            continue;
+        }
+
+        $message = $response['message'];
+
+        /* ======================
+         *      STATUS DONE
+         * ====================== */
+        if ($message === "DONE") {
+
+            foreach ($response['list_pdf'] as $listpdfs) {
+
+                $url = htmlspecialchars_decode($listpdfs['presigned_url']);
+
+                $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
+
+                if (preg_match('/_(\d+)$/', $mainName, $m)) {
+                    $nofile = $m[1];
+                } else {
+                    $nofile = $mainName;
+                }
+
+                // Download PDF
+                $fileContent = $this->curlDownload($url);
+
+                if (!$fileContent) {
+                    echo $this->formatlog($a->request_id, $a->user_identifier,
+                        "Gagal download file",'white','light_yellow','red');
+                    continue;
+                }
+
+                /* ======================================
+                 *   PENYIMPANAN
+                 * ====================================== */
+
+                if ($a->source_file === "DTECHNOLOGY") {
+
+                    // Simpan di root aplikasi 10.10.11.66
+                    $destinationPath = FCPATH . "assets/document/" . $nofile . ".pdf";
+                    file_put_contents($destinationPath, $fileContent);
+
+                } else {
+
+                    // Upload ke server aapanel 10.10.11.250
+                    $upload = $this->uploadToAapanel($nofile . ".pdf", $fileContent);
+
+                    if (!$upload || !$upload['success']) {
+                        echo $this->formatlog($a->request_id, $a->user_identifier,
+                            "Upload ke aapanel gagal",'white','light_yellow','red');
+                        continue;
                     }
 
-                    echo $this->formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                    $destinationPath = PATHFILE_POST_TILAKA . $nofile . ".pdf";
                 }
-            }else{
-                echo color('red')."Data Tidak Ditemukan";
+
+                // Update DB
+                $data['STATUS_SIGN'] = "5";
+                $data['NOTE']        = "";
+                $data['LINK']        = $destinationPath;
+
+                $this->md->updatefile($data, $nofile);
+
+                echo $this->formatlog($a->request_id, $a->user_identifier,
+                    "DONE | " . $destinationPath,'white','light_yellow','green');
             }
         }
+
+        /* ======================
+         *      STATUS FAILED
+         * ====================== */
+        if ($message === "FAILED") {
+
+            foreach ($response['list_pdf'] as $listpdfs) {
+
+                $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
+
+                if (preg_match('/_(\d+)$/', $mainName, $m)) {
+                    $nofile = $m[1];
+                } else {
+                    $nofile = $mainName;
+                }
+
+                $data = [
+                    'STATUS_SIGN'     => "99",
+                    'STATUS_FILE'     => "1",
+                    'REQUEST_ID'      => "",
+                    'LINK'            => "",
+                    'NOTE'            => $message,
+                    'USER_IDENTIFIER' => "",
+                    'URL'             => ""
+                ];
+
+                $this->md->updatefile($data, $nofile);
+
+                echo $this->formatlog($a->request_id, $a->user_identifier,
+                    "FAILED",'white','light_yellow','red');
+            }
+        }
+
+        /* ====================== */
+        if ($message === "PROCESS") {
+            echo $this->formatlog($a->request_id,$a->user_identifier,"PROCESS",
+                'white','light_yellow','yellow');
+        }
+
+        if ($message === "PARAMERR") {
+            echo $this->formatlog($a->request_id,$a->user_identifier,"PARAMERR",
+                'white','light_yellow','yellow');
+        }
+    }
+}
+
+
+
 
     }
 

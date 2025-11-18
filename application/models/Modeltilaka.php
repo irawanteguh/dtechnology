@@ -136,19 +136,19 @@
             return $recordset;
         }
 
-        function checkfilename($filename){
-            $query =
-                    "
-                        select a.filename
-                        from dt01_gen_document_file_dt a
-                        where a.active='1'
-                        and   a.filename='".$filename."'
-                    ";
+        // function checkfilename($filename){
+        //     $query =
+        //             "
+        //                 select a.filename
+        //                 from dt01_gen_document_file_dt a
+        //                 where a.active='1'
+        //                 and   a.filename='".$filename."'
+        //             ";
 
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
 
         function updatefile($data,$nofile){           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile));
