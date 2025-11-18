@@ -304,8 +304,7 @@
                                         }
                                     }else{
                                         $position          = "$1";
-                                        // $pdfParse          = new Pdfparse($filename);
-                                        $pdfParse          = new Pdfparse($this->fileExists($filename));
+                                        $pdfParse          = new Pdfparse($filename);
                                         $specimentposition = $pdfParse->findText($position);
 
                                         if(!empty($specimentposition['content'][$position])){
