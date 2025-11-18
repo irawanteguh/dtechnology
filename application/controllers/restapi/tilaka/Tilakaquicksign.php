@@ -303,9 +303,15 @@
                                             $statusMsg   = "Tag Tidak Ditemukan";
                                         }
                                     }else{
+                                        $tempDir       = sys_get_temp_dir();
+                                        $localFilename = $tempDir . '/' . uniqid() . '.pdf';
+                                        $pdfContent    = $this->curlDownload($filename);
+                                        $writeSuccess  = file_put_contents($localFilename, $pdfContent);
+
                                         $position          = "$1";
-                                        $pdfParse          = new Pdfparse($filename);
+                                        $pdfParse          = new Pdfparse($localFilename);
                                         $specimentposition = $pdfParse->findText($position);
+                                        unlink($localFilename);
 
                                         if(!empty($specimentposition['content'][$position])){
                                             $listpdf = [];
