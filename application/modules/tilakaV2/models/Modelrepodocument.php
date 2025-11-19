@@ -5,7 +5,7 @@
             $query =
                     "
                         select x.*,
-                            (select user_identifier from dt01_gen_user_data   where active='1' and nik=x.assign)useridentifier,
+                            (select user_identifier from dt01_gen_user_data   where active='1' and certificate='3' and nik=x.assign)useridentifier,
                             (select name            from dt01_gen_user_data   where active='1' and nik=x.assign)assignname,
                             (select name            from dt01_gen_user_data   where active='1' and user_id=x.created_by)createdby,
                             (select document_name   from dt01_gen_document_ms where active='1' and jenis_doc=x.jenis_doc)jenisdocument,
@@ -18,7 +18,6 @@
                             where a.active='1'
                             and   a.status_sign not in ('5','99')
                             ".$parameter."
-                            and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
 
                             union
 

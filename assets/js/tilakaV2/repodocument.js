@@ -289,7 +289,7 @@ function dataupload(startDate,endDate){
                     
                     rows +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
                     rows +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
-                    rows +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
+                    rows +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+(result[i].useridentifier ? "" : "User Belum Terdaftar Pengguna TTE / Sertifikat Belum Aktif")+"</div></td>";
                     rows +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
                     rows +="</tr>";
 
