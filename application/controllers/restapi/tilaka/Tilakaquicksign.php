@@ -487,7 +487,7 @@
 
                     $body['request_id'] = $a->request_id;
                     $response = Tilaka::excutesignstatus(json_encode($body));
-
+                    
                     if(isset($response['success'])){
                         if($response['success']){
                             if($response['message']==="DONE"){
@@ -549,26 +549,28 @@
                             }
 
                             if($response['message']==="FAILED"){
-                                $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
+                                foreach($response['list_pdf'] as $listpdfs){
+                                    $mainName = pathinfo($listpdfs['filename'], PATHINFO_FILENAME);
 
-                                if (strpos($mainName, "_") !== false) {
-                                    $nofile = substr($mainName, strpos($mainName, "_") + 1);
-                                } else {
-                                    $nofile = $mainName;
+                                    if (strpos($mainName, "_") !== false) {
+                                        $nofile = substr($mainName, strpos($mainName, "_") + 1);
+                                    } else {
+                                        $nofile = $mainName;
+                                    }
+
+                                    $data['STATUS_SIGN']     = "99";
+                                    $data['STATUS_FILE']     = "1";
+                                    $data['REQUEST_ID']      = "";
+                                    $data['LINK']            = "";
+                                    $data['NOTE']            = $response['message'];
+                                    $data['USER_IDENTIFIER'] = "";
+                                    $data['URL']             = "";
+
+                                    $this->md->updatefile($data,$nofile);
+
+                                    $statusColor = "red";
+                                    $statusMsg   = $response['message'];
                                 }
-
-                                $data['STATUS_SIGN']     = "99";
-                                $data['STATUS_FILE']     = "1";
-                                $data['REQUEST_ID']      = "";
-                                $data['LINK']            = "";
-                                $data['NOTE']            = $response['message'];
-                                $data['USER_IDENTIFIER'] = "";
-                                $data['URL']             = "";
-
-                                $this->md->updatefile($data,$nofile);
-
-                                $statusColor = "red";
-                                $statusMsg   = $response['message'];
                             }
 
                             if($response['message']==="PROCESS"){
