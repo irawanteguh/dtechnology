@@ -126,6 +126,58 @@
             return $data;
         }
 
+        private function getQRCode($text, $logoPath){
+
+            // 1. Generate QR ke buffer
+            ob_start();
+            QRcode::png($text, null, QR_ECLEVEL_H, 8, 2); // level H agar kuat jika ditumpuk logo
+            $qrImageData = ob_get_contents();
+            ob_end_clean();
+
+            // 2. Convert buffer ke image resource
+            $qrImage = imagecreatefromstring($qrImageData);
+            if (!$qrImage) return false;
+
+            // 3. Load logo image
+            if (!file_exists($logoPath)) return false;
+            $logo = imagecreatefrompng($logoPath); // disarankan PNG transparan
+
+            // 4. Hitung ukuran
+            $qrWidth  = imagesx($qrImage);
+            $qrHeight = imagesy($qrImage);
+
+            $logoWidth  = imagesx($logo);
+            $logoHeight = imagesy($logo);
+
+            // Buat ukuran logo sekitar 25% dari QR
+            $logoQRWidth  = $qrWidth / 4;
+            $scale        = $logoWidth / $logoQRWidth;
+            $logoQRHeight = $logoHeight / $scale;
+
+            // Posisi tengah
+            $x = ($qrWidth - $logoQRWidth) / 2;
+            $y = ($qrHeight - $logoQRHeight) / 2;
+
+            // 5. Tempelkan logo ke QR
+            imagecopyresampled(
+                $qrImage,
+                $logo,
+                $x, $y,
+                0, 0,
+                $logoQRWidth, $logoQRHeight,
+                $logoWidth, $logoHeight
+            );
+
+            // 6. Simpan QR final ke buffer
+            ob_start();
+            imagepng($qrImage);
+            $finalImageData = ob_get_contents();
+            ob_end_clean();
+
+            // 7. Encode base64
+            return 'data:image/png;base64,' . base64_encode($finalImageData);
+        }
+
         public function uploadallfile_POST(){
             $this->headerlog();
             $result = $this->md->datalistuploadfile();
@@ -232,6 +284,7 @@
                     $statusColor              = "";
                     $statusMsg                = "";
                     $requestid                = "";
+                    $signatureimages          = "";
                     $listfile                 = [];
                     $body                     = [];
                     $signatures               = [];
@@ -244,9 +297,18 @@
                     $locationspeciment = FCPATH."assets/speciment/".$a->org_id.".png";
 
                     if($this->fileExists($locationspeciment)){
+                        $text            = "Dokumen telah ditandatangani elektronik oleh ".$a->assignname." ID : ".$a->assign." Created Date : ".$a->tgljam;
+                        $logo            = FCPATH."assets/images/clients/".$a->org_id.".png";
+                        
+                        if(SIGNATUREIMAGES==="DEFAULT"){
+                            $signatureimages = "data:image/png;base64,".base64_encode(file_get_contents($locationspeciment));
+                        }else{
+                            $signatureimages = $this->getQRCode($text, $logo);
+                        }
+
                         $signatures['email']           = $a->email;
                         $signatures['user_identifier'] = $a->user_identifier;
-                        $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents($locationspeciment));
+                        $signatures['signature_image'] = $signatureimages;
 
                         $body['request_id']   = $requestid;
                         $body['signatures'][] = $signatures;
