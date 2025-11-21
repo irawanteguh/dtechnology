@@ -4,7 +4,7 @@
         function masterenvironment($orgid){
             $query =
                     "
-                        select a.env_id, environment_name, dev, prod
+                        select a.env_id, environment_name, dev, prod, jenis
                         from dt01_gen_enviroment_ms a
                         where a.org_id='".$orgid."'
                         order by urut ASC
