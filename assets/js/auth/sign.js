@@ -35,6 +35,7 @@ var validatorsignin = function () {
                         window.location.href = response.url;
                     });
                 } else if (response.responCode === "03") {
+                    $("#urldeffault").val(response.url);
                     $('#modal_auth_change_mobilephone').modal('show');
                 } else if (response.responCode === "02") {
                     window.location.href = response.url;
@@ -99,7 +100,7 @@ var validatorsignin = function () {
                             confirmButtonText: "Go to Dashboard",
                             customClass: { confirmButton: 'btn btn-success' }
                         }).then(() => {
-                            window.location.href = url+"index.php/dashboard/dashboard";
+                            window.location.href = $("#urldeffault").val();
                         });
                     } else {
                         Swal.fire({

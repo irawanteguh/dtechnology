@@ -89,6 +89,7 @@
                     </div>
                 </div>
                 <form action="<?= base_url('auth/sign/updatemobile') ?>" id="formupdatemobilephone" method="post">
+                    <input type="hidden" id="urldeffault" name="urldeffault">
                     <div class="mb-10 fv-row">
                         <label class="form-label fw-bolder text-dark fs-6">Mobile Number</label>
                         <input class="form-control form-control-lg form-control-solid" type="text" name="no_hp" id="no_hp" required />

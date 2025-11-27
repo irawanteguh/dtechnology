@@ -51,6 +51,7 @@
                     $json["responCode"] = "03";
                     $json["responHead"] = "warning";
                     $json["responDesc"] = "Please update your mobile phone number.";
+                    $json["url"] = base_url()."index.php/".$datasession->defaultcontroller;
                 } else {
                     if ($datasession->suspended === "N") {
                         $json["responCode"] = "00";
