@@ -166,12 +166,13 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $statusColor           = "";
-                    $statusMsg             = "";
-                    $location              = "";
-                    $responsecheckdatauser = [];
-                    $bodycheckcertificate  = [];
-                    $filesize              = 0;
+                    $statusColor              = "";
+                    $statusMsg                = "";
+                    $location                 = "";
+                    $responsecheckdatauser    = [];
+                    $responsecheckcertificate = [];
+                    $bodycheckcertificate     = [];
+                    $filesize                 = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
