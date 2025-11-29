@@ -357,7 +357,7 @@
                         $this->md->updatefile($datasimpanhd, $a->no_file);
                     }
 
-                    echo $this->formatlog($a->no_file.".pdf",$a->useridentifier,$statusMsg,'white','light_yellow',$statusColor);
+                    echo $this->formatlog($a->no_file.".pdf",$useridentifier,$statusMsg,'white','light_yellow',$statusColor);
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";
