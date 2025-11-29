@@ -1,20 +1,14 @@
 <?php
     class Tilaka{
 
-        public static function downloadToTemp($url, $extension = 'pdf'){
-            // Tentukan direktori temp (ubah sesuai OS)
-            $tempDir = sys_get_temp_dir(); // cross-platform: Windows/Linux
-
-            // Buat nama file random
-            $tempFile = $tempDir . DIRECTORY_SEPARATOR . 'temp_'.uniqid().'.'.$extension;
-
-            // Download file dari URL
-            $fileData = $this->curlDownload($url);
-
-            // Simpan ke temp file
-            file_put_contents($tempFile, $fileData);
-
-            return $tempFile; // file siap digunakan oleh CURLFILE
+        public static function curlDownload($url){
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            return $data;
         }
 
         public static function oauth(){
@@ -215,7 +209,7 @@
                 $tempExt  = strtolower(pathinfo(parse_url($location, PHP_URL_PATH), PATHINFO_EXTENSION));
                 $tempFile = $tempDir . DIRECTORY_SEPARATOR . uniqid('tilaka_') . '.' . $tempExt;
                 
-                $fileData = self::downloadToTemp($location);
+                $fileData = self::curlDownload($location);
                 file_put_contents($tempFile, $fileData);
 
                 $location = $tempFile; // ubah location ke temp file tersebut
