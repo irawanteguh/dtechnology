@@ -1,21 +1,21 @@
 <?php
     class Modeltilaka extends CI_Model{
 
-        function datalisttransferfile(){
-            $query =
-                    "
-                        select a.no_file, source_file, assign, jenis_doc, pasien_idx, transaksi_idx, source_file
-                        from dt01_gen_document_file_dt a
-                        where a.active      = '1'
-                        and   a.status_sign = '0'
-                        order by created_date asc
-                        limit 10;
-                    ";
+        // function datalisttransferfile(){
+        //     $query =
+        //             "
+        //                 select a.no_file, source_file, assign, jenis_doc, pasien_idx, transaksi_idx, source_file
+        //                 from dt01_gen_document_file_dt a
+        //                 where a.active      = '1'
+        //                 and   a.status_sign = '0'
+        //                 order by created_date asc
+        //                 limit 10;
+        //             ";
 
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
 
         // function dataliststatussign(){
         //     $query =
@@ -55,7 +55,7 @@
                         from dt01_gen_document_file_dt a
                         where a.active      = '1'
                         and   a.status_sign = '0'
-                        and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
+                        -- and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
                         order by created_date asc
                         limit 10;
                     ";

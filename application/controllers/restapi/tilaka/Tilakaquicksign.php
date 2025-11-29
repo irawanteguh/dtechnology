@@ -160,94 +160,94 @@
             return 'data:image/png;base64,' . base64_encode($finalImageData);
         }
 
-        public function transferfiletoholding_POST(){
-            $this->headerlog();
-            $result = $this->md->datalisttransferfile();
+        // public function transferfiletoholding_POST(){
+        //     $this->headerlog();
+        //     $result = $this->md->datalisttransferfile();
 
-            if(!empty($result)){
-                foreach($result as $a){
-                    $statusColor              = "";
-                    $statusMsg                = "";
-                    $location                 = "";
-                    $responsecheckdatauser    = [];
-                    $responsecheckcertificate = [];
-                    $bodycheckcertificate     = [];
-                    $filesize                 = 0;
+        //     if(!empty($result)){
+        //         foreach($result as $a){
+        //             $statusColor              = "";
+        //             $statusMsg                = "";
+        //             $location                 = "";
+        //             $responsecheckdatauser    = [];
+        //             $responsecheckcertificate = [];
+        //             $bodycheckcertificate     = [];
+        //             $filesize                 = 0;
 
-                    if($a->source_file==="DTECHNOLOGY"){
-                        $location = FCPATH."assets/document/".$a->no_file.".pdf";
-                    }else{
-                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
-                    }
+        //             if($a->source_file==="DTECHNOLOGY"){
+        //                 $location = FCPATH."assets/document/".$a->no_file.".pdf";
+        //             }else{
+        //                 $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+        //             }
 
-                    if($this->fileExists($location)){
-                        $filesize = $this->getFileSize($location);
+        //             if($this->fileExists($location)){
+        //                 $filesize = $this->getFileSize($location);
 
-                        if($filesize!=0){
-                            $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+        //                 if($filesize!=0){
+        //                     $responsecheckdatauser = Dtech::checkdatauser($a->assign);
 
-                            if(isset($responsecheckdatauser['status'])){
-                                if($responsecheckdatauser['status']){
-                                    $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
-                                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+        //                     if(isset($responsecheckdatauser['status'])){
+        //                         if($responsecheckdatauser['status']){
+        //                             $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
+        //                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
                                     
-                                    if(isset($responsecheckcertificate['success'])){
-                                        if($responsecheckcertificate['success']){
-                                            if($responsecheckcertificate['status']===3){
-                                                $statusColor = "green";
-                                                $statusMsg   = "Testing";
-                                            }else{
-                                                $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+        //                             if(isset($responsecheckcertificate['success'])){
+        //                                 if($responsecheckcertificate['success']){
+        //                                     if($responsecheckcertificate['status']===3){
+        //                                         $statusColor = "green";
+        //                                         $statusMsg   = "Testing";
+        //                                     }else{
+        //                                         $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
 
-                                                $statusColor = "red";
-                                                $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
-                                            }
-                                        }else{
-                                            $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+        //                                         $statusColor = "red";
+        //                                         $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+        //                                     }
+        //                                 }else{
+        //                                     $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
 
-                                            $statusColor = "red";
-                                            $statusMsg   = $responsecheckcertificate['message']['info'];
-                                        }
-                                    }else{
-                                        $statusColor = "red";
-                                        $statusMsg   = "Failed Check Certificate";
-                                    }
-                                }else{
-                                    $statusColor = "red";
-                                    $statusMsg   = $responsecheckcertificate['message'];
-                                }
-                            }else{
-                                $statusColor = "red";
-                                $statusMsg   = "Gagal Check Data Holding";
-                            }
-                        }else{
-                            $datasimpanhd['status_sign'] = "98";
-                            $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
+        //                                     $statusColor = "red";
+        //                                     $statusMsg   = $responsecheckcertificate['message']['info'];
+        //                                 }
+        //                             }else{
+        //                                 $statusColor = "red";
+        //                                 $statusMsg   = "Failed Check Certificate";
+        //                             }
+        //                         }else{
+        //                             $statusColor = "red";
+        //                             $statusMsg   = $responsecheckcertificate['message'];
+        //                         }
+        //                     }else{
+        //                         $statusColor = "red";
+        //                         $statusMsg   = "Gagal Check Data Holding";
+        //                     }
+        //                 }else{
+        //                     $datasimpanhd['status_sign'] = "98";
+        //                     $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
 
-                            $statusColor = "red";
-                            $statusMsg   = "File Corrupted, Size: ".$filesize;
-                        }
-                    }else{
-                        $datasimpanhd['status_sign']     = "99";
-                        $datasimpanhd['note']            = "File not found";
-                        $datasimpanhd['status_file']     = "0";
-                        $datasimpanhd['user_identifier'] = "";
-                        $datasimpanhd['url']             = "";
+        //                     $statusColor = "red";
+        //                     $statusMsg   = "File Corrupted, Size: ".$filesize;
+        //                 }
+        //             }else{
+        //                 $datasimpanhd['status_sign']     = "99";
+        //                 $datasimpanhd['note']            = "File not found";
+        //                 $datasimpanhd['status_file']     = "0";
+        //                 $datasimpanhd['user_identifier'] = "";
+        //                 $datasimpanhd['url']             = "";
 
-                        $statusColor = "red";
-                        $statusMsg   = "File not found | ".$location;
-                    }
+        //                 $statusColor = "red";
+        //                 $statusMsg   = "File not found | ".$location;
+        //             }
 
-                    if(!empty($datasimpanhd)){
-                        $this->md->updatefile($datasimpanhd, $a->no_file);
-                    }
+        //             if(!empty($datasimpanhd)){
+        //                 $this->md->updatefile($datasimpanhd, $a->no_file);
+        //             }
 
-                    echo $this->formatlog($a->no_file.".pdf",$a->assign,$statusMsg,'white','light_yellow',$statusColor);
-                }
-            }else{
-                echo color('red')."Data Tidak Ditemukan";
-            }
-        }
+        //             echo $this->formatlog($a->no_file.".pdf",$a->assign,$statusMsg,'white','light_yellow',$statusColor);
+        //         }
+        //     }else{
+        //         echo color('red')."Data Tidak Ditemukan";
+        //     }
+        // }
 
         public function uploadallfile_POST(){
             $this->headerlog();
@@ -258,9 +258,11 @@
                     $statusColor              = "";
                     $statusMsg                = "";
                     $location                 = "";
+                    $useridentifier           = "";
                     $bodycheckcertificate     = [];
                     $responsecheckcertificate = [];
                     $responseuploadfile       = [];
+                    $responsecheckdatauser    = [];
                     $filesize                 = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
@@ -269,70 +271,87 @@
                         $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
                     }
 
-                    if($this->fileExists($location)){
-                        $filesize = $this->getFileSize($location);
+                    if(CHECK_DATA_HOLDING==="FALSE"){
+                        $useridentifier=$a->useridentifier;
+                    }else{
+                        $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+                        if(isset($responsecheckdatauser['status'])){
+                            if($responsecheckdatauser['status']){
+                                $useridentifier = $responsecheckdatauser['data']['useridentifier'];
+                            }
+                        }
+                    }
 
-                        if($filesize!=0){
-                            $bodycheckcertificate['user_identifier']=$a->useridentifier;
-                            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-            
-                            if(isset($responsecheckcertificate['success'])){
-                                if($responsecheckcertificate['success']){
-                                    if($responsecheckcertificate['status']===3){
-                                        $responseuploadfile = Tilaka::uploadfile($location);
-                                        if(isset($responseuploadfile['success'])){
-                                            if($responseuploadfile['success']){
-                                                $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                                $datasimpanhd['user_identifier'] = $a->useridentifier;
-                                                $datasimpanhd['status_sign']     = "1";
-                                                $datasimpanhd['status_file']     = "1";
-                                                $datasimpanhd['note']            = "";
+                    if($useridentifier!=""){
+                        if($this->fileExists($location)){
+                            $filesize = $this->getFileSize($location);
 
-                                                $statusColor = "green";
-                                                $statusMsg   = $responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                            if($filesize!=0){
+                                $bodycheckcertificate['user_identifier']=$useridentifier;
+                                $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+                
+                                if(isset($responsecheckcertificate['success'])){
+                                    if($responsecheckcertificate['success']){
+                                        if($responsecheckcertificate['status']===3){
+                                            $responseuploadfile = Tilaka::uploadfile($location);
+                                            if(isset($responseuploadfile['success'])){
+                                                if($responseuploadfile['success']){
+                                                    $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                                    $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                    $datasimpanhd['status_sign']     = "1";
+                                                    $datasimpanhd['status_file']     = "1";
+                                                    $datasimpanhd['note']            = "";
+
+                                                    $statusColor = "green";
+                                                    $statusMsg   = $responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                                }else{
+                                                    $datasimpanhd['note'] = $responseuploadfile['message'];
+
+                                                    $statusColor = "red";
+                                                    $statusMsg   = $responseuploadfile['message'];
+                                                }
                                             }else{
-                                                $datasimpanhd['note'] = $responseuploadfile['message'];
-
                                                 $statusColor = "red";
-                                                $statusMsg   = $responseuploadfile['message'];
+                                                $statusMsg   = "No Response From Tilaka Lite";
                                             }
                                         }else{
+                                            $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+
                                             $statusColor = "red";
-                                            $statusMsg   = "No Response From Tilaka Lite";
+                                            $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
                                         }
                                     }else{
-                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
 
                                         $statusColor = "red";
-                                        $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                        $statusMsg   = $responsecheckcertificate['message']['info'];
                                     }
                                 }else{
-                                    $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-
                                     $statusColor = "red";
-                                    $statusMsg   = $responsecheckcertificate['message']['info'];
+                                    $statusMsg   = "Failed Check Certificate";
                                 }
                             }else{
+                                $datasimpanhd['status_sign'] = "98";
+                                $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
+
                                 $statusColor = "red";
-                                $statusMsg   = "Failed Check Certificate";
+                                $statusMsg   = "File Corrupted, Size: ".$filesize;
                             }
                         }else{
-                            $datasimpanhd['status_sign'] = "98";
-                            $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
+                            $datasimpanhd['status_sign']     = "99";
+                            $datasimpanhd['note']            = "File not found";
+                            $datasimpanhd['status_file']     = "0";
+                            $datasimpanhd['user_identifier'] = "";
+                            $datasimpanhd['url']             = "";
 
                             $statusColor = "red";
-                            $statusMsg   = "File Corrupted, Size: ".$filesize;
+                            $statusMsg   = "File not found | ".$location;
                         }
                     }else{
-                        $datasimpanhd['status_sign']     = "99";
-                        $datasimpanhd['note']            = "File not found";
-                        $datasimpanhd['status_file']     = "0";
-                        $datasimpanhd['user_identifier'] = "";
-                        $datasimpanhd['url']             = "";
-
                         $statusColor = "red";
-                        $statusMsg   = "File not found | ".$location;
+                        $statusMsg   = "User Identifier Tidak Di Temukan";
                     }
+                    
 
                     if(!empty($datasimpanhd)){
                         $this->md->updatefile($datasimpanhd, $a->no_file);

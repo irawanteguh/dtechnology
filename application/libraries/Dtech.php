@@ -112,7 +112,7 @@
                 ];
 
                 $responsecurl = curl([
-                    'url'     => "https://rsumutiasari.com/dtechnology/index.php/datauser/".$nik,
+                    'url'     => URL_HOLDING."/dtechnology/index.php/datauser/".$nik,
                     'method'  => "GET",
                     'header'  => $header,
                     'body'    => "",
