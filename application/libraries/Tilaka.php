@@ -1,7 +1,7 @@
 <?php
     class Tilaka{
 
-        private function downloadToTemp($url, $extension = 'pdf'){
+        public static function downloadToTemp($url, $extension = 'pdf'){
             // Tentukan direktori temp (ubah sesuai OS)
             $tempDir = sys_get_temp_dir(); // cross-platform: Windows/Linux
 
