@@ -50,7 +50,7 @@
         function datalistuploadfile(){
             $query =
                     "
-                        select a.no_file, source_file,
+                        select a.no_file, source_file, assign,
                                 (select user_identifier from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)useridentifier
                         from dt01_gen_document_file_dt a
                         where a.active      = '1'
