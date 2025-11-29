@@ -187,7 +187,7 @@
                             $responsecheckdatauser = Dtech::checkdatauser($a->assign);
 
                             if(isset($responsecheckdatauser['status'])){
-                                if($responsecheckcertificate['success']){
+                                if($responsecheckdatauser['success']){
                                     $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
                                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
                                     return var_dump($responsecheckcertificate);
