@@ -202,17 +202,16 @@
                 "Content-Type: multipart/form-data"
             );
 
-            // Cek apakah location adalah URL
+            // Cek apakah $location berupa URL
             if (filter_var($location, FILTER_VALIDATE_URL)) {
-                // Download dulu ke file temp
+                $filename = basename(parse_url($location, PHP_URL_PATH)); // ambil nama asli
                 $tempDir  = sys_get_temp_dir();
-                $tempExt  = strtolower(pathinfo(parse_url($location, PHP_URL_PATH), PATHINFO_EXTENSION));
-                $tempFile = $tempDir . DIRECTORY_SEPARATOR . '.' . $tempExt;
-                
+                $tempFile = $tempDir . DIRECTORY_SEPARATOR . $filename;
+
                 $fileData = self::curlDownload($location);
                 file_put_contents($tempFile, $fileData);
 
-                $location = $tempFile; // ubah location ke temp file tersebut
+                $location = $tempFile; // update path upload menjadi file temp
             }
 
             $infodoc   = pathinfo($location);
@@ -226,11 +225,11 @@
                 default:     $mimedoc = 'application/octet-stream'; break;
             }
 
-            $namedoc = $infodoc['basename'];
+            $namedoc = $infodoc['basename']; // nama asli file tetap dipakai
 
-            $requestbody = array(
+            $requestbody = [
                 'file' => new CURLFILE($location, $mimedoc, $namedoc)
-            );
+            ];
 
             $responsecurl = curl([
                 'url'     => TILAKALITE_URL."api/v1/upload",
@@ -241,13 +240,14 @@
                 'source'  => "TILAKA-UPLOADFILE"
             ]);
 
-            // Hapus file temp jika tadi download dari URL
+            // Jika file temp, kita hapus
             if (isset($tempFile) && file_exists($tempFile)) {
                 unlink($tempFile);
             }
 
             return json_decode($responsecurl, TRUE);
         }
+
 
         
         public static function requestsign($body){
