@@ -215,7 +215,7 @@
                 $tempExt  = strtolower(pathinfo(parse_url($location, PHP_URL_PATH), PATHINFO_EXTENSION));
                 $tempFile = $tempDir . DIRECTORY_SEPARATOR . uniqid('tilaka_') . '.' . $tempExt;
                 
-                $fileData = self::curlDownload($location);
+                $fileData = self::downloadToTemp($location);
                 file_put_contents($tempFile, $fileData);
 
                 $location = $tempFile; // ubah location ke temp file tersebut
