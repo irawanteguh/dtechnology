@@ -351,6 +351,8 @@
                     }else{
                         $statusColor = "red";
                         $statusMsg   = "User Identifier Tidak Di Temukan";
+
+                        $datasimpanhd['note'] = "User Identifier Tidak Di Temukan";
                     }
                     
 
