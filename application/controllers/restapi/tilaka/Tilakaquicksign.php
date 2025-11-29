@@ -185,12 +185,12 @@
 
                         if($filesize!=0){
                             $responsecheckdatauser = Dtech::checkdatauser($a->assign);
-                            return var_dump($responsecheckdatauser);
+
                             if(isset($responsecheckdatauser['status'])){
-                                if($responsecheckdatauser['success']){
+                                if($responsecheckdatauser['status']){
                                     $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
                                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-                                    return var_dump($responsecheckcertificate);
+                                    
                                     if(isset($responsecheckcertificate['success'])){
                                         if($responsecheckcertificate['success']){
                                             if($responsecheckcertificate['status']===3){
