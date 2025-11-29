@@ -1,6 +1,22 @@
 <?php
     class Tilaka{
 
+        private function downloadToTemp($url, $extension = 'pdf'){
+            // Tentukan direktori temp (ubah sesuai OS)
+            $tempDir = sys_get_temp_dir(); // cross-platform: Windows/Linux
+
+            // Buat nama file random
+            $tempFile = $tempDir . DIRECTORY_SEPARATOR . 'temp_'.uniqid().'.'.$extension;
+
+            // Download file dari URL
+            $fileData = $this->curlDownload($url);
+
+            // Simpan ke temp file
+            file_put_contents($tempFile, $fileData);
+
+            return $tempFile; // file siap digunakan oleh CURLFILE
+        }
+
         public static function oauth(){
             $body   = array("client_id"=>CLIENT_ID_TILAKA,"client_secret"=>CLIENT_SECRET_TILAKA,"grant_type"=>"client_credentials");
             $header = array("Content-Type: application/x-www-form-urlencoded");
@@ -134,52 +150,111 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        // public static function uploadfile($location){
+        //     $oauthResponse = Tilaka::oauth();
+        //     if(isset($oauthResponse['access_token'])){
+        //         $header    = array("Authorization: Bearer ".$oauthResponse['access_token']);
+        //         $infodoc   = pathinfo($location);
+        //         $extension = strtolower($infodoc['extension']);
+                
+        //         switch ($extension) {
+        //             case 'pdf':
+        //                 $mimedoc = 'application/pdf';
+        //             break;
+
+        //             case 'jpg':
+        //             case 'jpeg':
+        //                 $mimedoc = 'image/jpeg';
+        //             break;
+
+        //             case 'png':
+        //                 $mimedoc = 'image/png';
+        //             break;
+
+        //             default:
+        //                 $mimedoc = 'application/octet-stream';
+        //             break;
+        //         }
+                
+        //         $namedoc = $infodoc['basename'];
+            
+        //         $requestbody = array(
+        //             'file' => new CURLFILE($location, $mimedoc, $namedoc)
+        //         );
+            
+        //         $responsecurl = curl([
+        //             'url'     => TILAKALITE_URL."api/v1/upload",
+        //             'method'  => "POST",
+        //             'header'  => $header,
+        //             'body'    => $requestbody,
+        //             'savelog' => false,
+        //             'source'  => "TILAKA-UPLOADFILE"
+        //         ]);
+            
+        //         return json_decode($responsecurl, TRUE); 
+        //     }else{
+        //         return json_decode($oauthResponse, TRUE); 
+        //     }
+        // }
+
         public static function uploadfile($location){
             $oauthResponse = Tilaka::oauth();
-            if(isset($oauthResponse['access_token'])){
-                $header    = array("Authorization: Bearer ".$oauthResponse['access_token']);
-                $infodoc   = pathinfo($location);
-                $extension = strtolower($infodoc['extension']);
-                
-                switch ($extension) {
-                    case 'pdf':
-                        $mimedoc = 'application/pdf';
-                    break;
-
-                    case 'jpg':
-                    case 'jpeg':
-                        $mimedoc = 'image/jpeg';
-                    break;
-
-                    case 'png':
-                        $mimedoc = 'image/png';
-                    break;
-
-                    default:
-                        $mimedoc = 'application/octet-stream';
-                    break;
-                }
-                
-                $namedoc = $infodoc['basename'];
-            
-                $requestbody = array(
-                    'file' => new CURLFILE($location, $mimedoc, $namedoc)
-                );
-            
-                $responsecurl = curl([
-                    'url'     => TILAKALITE_URL."api/v1/upload",
-                    'method'  => "POST",
-                    'header'  => $header,
-                    'body'    => $requestbody,
-                    'savelog' => false,
-                    'source'  => "TILAKA-UPLOADFILE"
-                ]);
-            
-                return json_decode($responsecurl, TRUE); 
-            }else{
+            if(!isset($oauthResponse['access_token'])){
                 return json_decode($oauthResponse, TRUE); 
             }
+
+            $header = array(
+                "Authorization: Bearer ".$oauthResponse['access_token'],
+                "Content-Type: multipart/form-data"
+            );
+
+            // Cek apakah location adalah URL
+            if (filter_var($location, FILTER_VALIDATE_URL)) {
+                // Download dulu ke file temp
+                $tempDir  = sys_get_temp_dir();
+                $tempExt  = strtolower(pathinfo(parse_url($location, PHP_URL_PATH), PATHINFO_EXTENSION));
+                $tempFile = $tempDir . DIRECTORY_SEPARATOR . uniqid('tilaka_') . '.' . $tempExt;
+                
+                $fileData = self::curlDownload($location);
+                file_put_contents($tempFile, $fileData);
+
+                $location = $tempFile; // ubah location ke temp file tersebut
+            }
+
+            $infodoc   = pathinfo($location);
+            $extension = strtolower($infodoc['extension']);
+
+            switch ($extension) {
+                case 'pdf':  $mimedoc = 'application/pdf'; break;
+                case 'jpg':
+                case 'jpeg': $mimedoc = 'image/jpeg'; break;
+                case 'png':  $mimedoc = 'image/png'; break;
+                default:     $mimedoc = 'application/octet-stream'; break;
+            }
+
+            $namedoc = $infodoc['basename'];
+
+            $requestbody = array(
+                'file' => new CURLFILE($location, $mimedoc, $namedoc)
+            );
+
+            $responsecurl = curl([
+                'url'     => TILAKALITE_URL."api/v1/upload",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $requestbody,
+                'savelog' => false,
+                'source'  => "TILAKA-UPLOADFILE"
+            ]);
+
+            // Hapus file temp jika tadi download dari URL
+            if (isset($tempFile) && file_exists($tempFile)) {
+                unlink($tempFile);
+            }
+
+            return json_decode($responsecurl, TRUE);
         }
+
         
         public static function requestsign($body){
             $oauthResponse = Tilaka::oauth();
