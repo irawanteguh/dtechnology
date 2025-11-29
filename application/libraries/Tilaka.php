@@ -207,7 +207,7 @@
                 // Download dulu ke file temp
                 $tempDir  = sys_get_temp_dir();
                 $tempExt  = strtolower(pathinfo(parse_url($location, PHP_URL_PATH), PATHINFO_EXTENSION));
-                $tempFile = $tempDir.$tempExt;
+                $tempFile = $tempDir . DIRECTORY_SEPARATOR . '.' . $tempExt;
                 
                 $fileData = self::curlDownload($location);
                 file_put_contents($tempFile, $fileData);
