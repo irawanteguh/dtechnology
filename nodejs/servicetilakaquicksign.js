@@ -144,10 +144,10 @@ async function callAPI(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-    await callAPI("statusregister", "GET");
+    // await callAPI("statusregister", "GET");
 	await callAPI("uploadallfile", "POST");
-    await callAPI("requestsignquicksign", "POST");
-    await callAPI("statussignquicksign", "POST");
+    // await callAPI("requestsignquicksign", "POST");
+    // await callAPI("statussignquicksign", "POST");
 }
 
 console.clear();
