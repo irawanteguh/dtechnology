@@ -166,10 +166,11 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $statusColor              = "";
-                    $statusMsg                = "";
-                    $location                 = "";
-                    $filesize                 = 0;
+                    $statusColor           = "";
+                    $statusMsg             = "";
+                    $location              = "";
+                    $responsecheckdatauser = [];
+                    $filesize              = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
                         $location = FCPATH."assets/document/".$a->no_file.".pdf";
@@ -181,8 +182,10 @@
                         $filesize = $this->getFileSize($location);
 
                         if($filesize!=0){
+                            $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+
                             $statusColor = "green";
-                            $statusMsg   = "Test";
+                            $statusMsg   = $responsecheckdatauser;
                         }else{
                             $datasimpanhd['status_sign'] = "98";
                             $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
