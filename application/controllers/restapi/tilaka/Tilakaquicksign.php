@@ -170,6 +170,7 @@
                     $statusMsg             = "";
                     $location              = "";
                     $responsecheckdatauser = [];
+                    $bodycheckcertificate  = [];
                     $filesize              = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
@@ -184,8 +185,39 @@
                         if($filesize!=0){
                             $responsecheckdatauser = Dtech::checkdatauser($a->assign);
 
-                            $statusColor = "green";
-                            $statusMsg   = $responsecheckdatauser['status'];
+                            if(isset($responsecheckdatauser['status'])){
+                                if($responsecheckcertificate['success']){
+                                    $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
+                                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+                                    if(isset($responsecheckcertificate['success'])){
+                                        if($responsecheckcertificate['success']){
+                                            if($responsecheckcertificate['status']===3){
+                                                $statusColor = "green";
+                                                $statusMsg   = "Testing";
+                                            }else{
+                                                $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+
+                                                $statusColor = "red";
+                                                $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                            }
+                                        }else{
+                                            $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+
+                                            $statusColor = "red";
+                                            $statusMsg   = $responsecheckcertificate['message']['info'];
+                                        }
+                                    }else{
+                                        $statusColor = "red";
+                                        $statusMsg   = "Failed Check Certificate";
+                                    }
+                                }else{
+                                    $statusColor = "red";
+                                    $statusMsg   = $responsecheckcertificate['message'];
+                                }
+                            }else{
+                                $statusColor = "red";
+                                $statusMsg   = "Gagal Check Data Holding";
+                            }
                         }else{
                             $datasimpanhd['status_sign'] = "98";
                             $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
