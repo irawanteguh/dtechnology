@@ -259,6 +259,7 @@
                     $statusMsg                = "";
                     $location                 = "";
                     $useridentifier           = "";
+                    $datasimpanhd             = [];
                     $bodycheckcertificate     = [];
                     $responsecheckcertificate = [];
                     $responseuploadfile       = [];
