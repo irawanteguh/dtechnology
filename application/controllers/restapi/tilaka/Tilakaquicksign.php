@@ -168,7 +168,43 @@
                 foreach($result as $a){
                     $statusColor              = "";
                     $statusMsg                = "";
-                    
+                    $location                 = "";
+                    $filesize                 = 0;
+
+                    if($a->source_file==="DTECHNOLOGY"){
+                        $location = FCPATH."assets/document/".$a->no_file.".pdf";
+                    }else{
+                        $location = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                    }
+
+                    if($this->fileExists($location)){
+                        $filesize = $this->getFileSize($location);
+
+                        if($filesize!=0){
+                            $statusColor = "green";
+                            $statusMsg   = "Test";
+                        }else{
+                            $datasimpanhd['status_sign'] = "98";
+                            $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
+
+                            $statusColor = "red";
+                            $statusMsg   = "File Corrupted, Size: ".$filesize;
+                        }
+                    }else{
+                        $datasimpanhd['status_sign']     = "99";
+                        $datasimpanhd['note']            = "File not found";
+                        $datasimpanhd['status_file']     = "0";
+                        $datasimpanhd['user_identifier'] = "";
+                        $datasimpanhd['url']             = "";
+
+                        $statusColor = "red";
+                        $statusMsg   = "File not found | ".$location;
+                    }
+
+                    if(!empty($datasimpanhd)){
+                        $this->md->updatefile($datasimpanhd, $a->no_file);
+                    }
+
                     echo $this->formatlog($a->no_file.".pdf",$a->assign,$statusMsg,'white','light_yellow',$statusColor);
                 }
             }else{
