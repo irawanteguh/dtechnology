@@ -272,9 +272,9 @@
                         $filesize = $this->getFileSize($location);
 
                         if($filesize!=0){
-                            $bodycheckcertificate['user_identifier']=$a->useridentifier;
+                            $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-                            return var_dump($responsecheckcertificate);
+            
                             if(isset($responsecheckcertificate['success'])){
                                 if($responsecheckcertificate['success']){
                                     if($responsecheckcertificate['status']===3){
