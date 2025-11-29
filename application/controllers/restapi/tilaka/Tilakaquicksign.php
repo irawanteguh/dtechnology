@@ -185,7 +185,7 @@
                             $responsecheckdatauser = Dtech::checkdatauser($a->assign);
 
                             $statusColor = "green";
-                            $statusMsg   = $responsecheckdatauser;
+                            $statusMsg   = $responsecheckdatauser['status'];
                         }else{
                             $datasimpanhd['status_sign'] = "98";
                             $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
