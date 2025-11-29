@@ -190,6 +190,7 @@
                                 if($responsecheckcertificate['success']){
                                     $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
                                     $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+                                    return var_dump($responsecheckcertificate);
                                     if(isset($responsecheckcertificate['success'])){
                                         if($responsecheckcertificate['success']){
                                             if($responsecheckcertificate['status']===3){
@@ -272,7 +273,7 @@
                         $filesize = $this->getFileSize($location);
 
                         if($filesize!=0){
-                            $bodycheckcertificate['user_identifier']=$responsecheckdatauser['data']['useridentifier'];
+                            $bodycheckcertificate['user_identifier']=$a->useridentifier;
                             $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
             
                             if(isset($responsecheckcertificate['success'])){
