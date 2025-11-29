@@ -127,55 +127,53 @@
         }
 
         private function getQRCode($text, $logoPath){
-
-            // 1. Generate QR ke buffer
             ob_start();
-            QRcode::png($text, null, QR_ECLEVEL_H, 8, 2); // level H agar kuat jika ditumpuk logo
+            QRcode::png($text, null, QR_ECLEVEL_H, 8, 2);
             $qrImageData = ob_get_contents();
             ob_end_clean();
 
-            // 2. Convert buffer ke image resource
             $qrImage = imagecreatefromstring($qrImageData);
             if (!$qrImage) return false;
 
-            // 3. Load logo image
             if (!file_exists($logoPath)) return false;
-            $logo = imagecreatefrompng($logoPath); // disarankan PNG transparan
+            $logo = imagecreatefrompng($logoPath);
 
-            // 4. Hitung ukuran
-            $qrWidth  = imagesx($qrImage);
-            $qrHeight = imagesy($qrImage);
-
+            $qrWidth    = imagesx($qrImage);
+            $qrHeight   = imagesy($qrImage);
             $logoWidth  = imagesx($logo);
             $logoHeight = imagesy($logo);
 
-            // Buat ukuran logo sekitar 25% dari QR
             $logoQRWidth  = $qrWidth / 4;
             $scale        = $logoWidth / $logoQRWidth;
             $logoQRHeight = $logoHeight / $scale;
 
-            // Posisi tengah
             $x = ($qrWidth - $logoQRWidth) / 2;
             $y = ($qrHeight - $logoQRHeight) / 2;
 
-            // 5. Tempelkan logo ke QR
-            imagecopyresampled(
-                $qrImage,
-                $logo,
-                $x, $y,
-                0, 0,
-                $logoQRWidth, $logoQRHeight,
-                $logoWidth, $logoHeight
-            );
+            imagecopyresampled($qrImage, $logo, $x, $y, 0, 0, $logoQRWidth, $logoQRHeight, $logoWidth, $logoHeight);
 
-            // 6. Simpan QR final ke buffer
             ob_start();
             imagepng($qrImage);
             $finalImageData = ob_get_contents();
             ob_end_clean();
 
-            // 7. Encode base64
             return 'data:image/png;base64,' . base64_encode($finalImageData);
+        }
+
+        public function transferfiletoholding_POST(){
+            $this->headerlog();
+            $result = $this->md->datalisttransferfile();
+
+            if(!empty($result)){
+                foreach($result as $a){
+                    $statusColor              = "";
+                    $statusMsg                = "";
+                    
+                    echo $this->formatlog($a->no_file.".pdf",$a->assign,$statusMsg,'white','light_yellow',$statusColor);
+                }
+            }else{
+                echo color('red')."Data Tidak Ditemukan";
+            }
         }
 
         public function uploadallfile_POST(){
