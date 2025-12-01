@@ -511,7 +511,7 @@
                     $body['user_identifier'] = $a->user_identifier;
 
                     $response = Tilaka::excutesign(json_encode($body));
-                    return var_dump($response);
+                    // return var_dump($response);
 
                     if(isset($response['success'])){
                         if($response['status']==="DONE"){
