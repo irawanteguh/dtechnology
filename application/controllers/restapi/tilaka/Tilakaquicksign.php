@@ -162,7 +162,12 @@
 
         public function uploadallfile_POST(){
             $this->headerlog();
-            $result = $this->md->datalistuploadfile();
+            if(CHECK_DATA_HOLDING==="FALSE"){
+                $paramater = "and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)";
+            }else{
+                $paramater = "";
+            }
+            $result = $this->md->datalistuploadfile($paramater);
 
             if(!empty($result)){
                 foreach($result as $a){
