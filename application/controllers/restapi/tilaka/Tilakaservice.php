@@ -511,7 +511,7 @@
                     $body['user_identifier'] = $a->user_identifier;
 
                     $response = Tilaka::excutesign(json_encode($body));
-                    // return var_dump($response);
+                    return var_dump($response);
 
                     if(isset($response['success'])){
                         if($response['status']==="DONE"){
@@ -542,7 +542,7 @@
                         }
 
                         if(!empty($datasimpanhd)){
-                            $this->md->updatefile($datasimpanhd, $a->no_file);
+                            $this->md->updaterequestid($datasimpanhd, $a->request_id);
                         }
 
                         echo str_pad($a->request_id, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;

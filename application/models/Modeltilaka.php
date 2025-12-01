@@ -102,22 +102,6 @@
             $recordset = $recordset->result();
             return $recordset;
         }
-
-        function listexecute(){
-            $query =
-                    "
-                        select distinct a.request_id, source_file, user_identifier,
-                                (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
-                        from dt01_gen_document_file_dt a
-                        where a.active='1'
-                        and   a.status_sign='2'
-                        limit 50;
-                    ";
-
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
         
         function listdownload(){
             $query =
@@ -142,6 +126,29 @@
 
         function updatedatauserid($data, $userid){           
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_id"=>$userid));
+            return $sql;
+        }
+
+        //Tilaka Reguler Sign
+
+        function listexecute(){
+            $query =
+                    "
+                        select distinct a.request_id, source_file, user_identifier,
+                                (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
+                        from dt01_gen_document_file_dt a
+                        where a.active='1'
+                        and   a.status_sign='2'
+                        limit 50;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function updaterequestid($data,$requestid){           
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("request_id"=>$requestid));
             return $sql;
         }
 
