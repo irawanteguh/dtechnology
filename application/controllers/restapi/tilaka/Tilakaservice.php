@@ -326,9 +326,7 @@
 
         public function requestsign_POST(){
             $this->headerlog();
-
-            $status = "AND a.status_sign = '1' LIMIT 10;";
-            $result = $this->md->listrequestsign($status);
+            $result = $this->md->listrequestsign();
 
             if(!empty($result)){
                 foreach($result as $a){
