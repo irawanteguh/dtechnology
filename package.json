@@ -3,6 +3,7 @@
 		"scripts": {
 			"wagateway"     : "node nodejs/wagateway.js",
 			"tilaka"        : "node nodejs/servicetilaka.js",
+			"tilakarsbm"        : "node nodejs/servicetilakarsbm.js",
 			"tilakaquick"   : "node nodejs/servicetilakaquicksign.js",
 			"transfertilaka": "node nodejs/servicetransfertilaka.js"
 		},

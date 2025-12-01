@@ -57,6 +57,7 @@
             $resultdata = $this->md->datauser($nik);
             if(!empty($resultdata)){
                 $data['useridentifier'] = $resultdata->user_identifier;
+                $data['email'] = $resultdata->user_identifier;
                 $message = "Data Di Temukan";
             }else{
                 $message = "Data Tidak Di Temukan";

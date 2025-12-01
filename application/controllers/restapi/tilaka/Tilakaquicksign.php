@@ -298,7 +298,7 @@
                                             if(isset($responseuploadfile['success'])){
                                                 if($responseuploadfile['success']){
                                                     $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                                    $datasimpanhd['user_identifier'] = $a->useridentifier;
+                                                    $datasimpanhd['user_identifier'] = $useridentifier;
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['note']            = "";
@@ -378,6 +378,8 @@
                     $statusMsg                = "";
                     $requestid                = "";
                     $signatureimages          = "";
+                    $useridentifier ="";
+                    $email ="";
                     $listfile                 = [];
                     $body                     = [];
                     $signatures               = [];
@@ -385,6 +387,19 @@
                     $responsecheckcertificate = [];
                     $responserequestsign      = [];
                     $datasimpanhd             = [];
+
+                    if(CHECK_DATA_HOLDING==="FALSE"){
+                        $useridentifier=$a->user_identifier;
+                        $email=$a->email;
+                    }else{
+                        $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+                        if(isset($responsecheckdatauser['status'])){
+                            if($responsecheckdatauser['status']){
+                                $useridentifier = $responsecheckdatauser['data']['useridentifier'];
+                                $email = $responsecheckdatauser['data']['email'];
+                            }
+                        }
+                    }
 
                     $requestid = generateuuid();
                     $locationspeciment = FCPATH."assets/speciment/".$a->org_id.".png";
@@ -399,8 +414,8 @@
                             $signatureimages = $this->getQRCode($text, $logo);
                         }
 
-                        $signatures['email']           = $a->email;
-                        $signatures['user_identifier'] = $a->user_identifier;
+                        $signatures['email']           = $email;
+                        $signatures['user_identifier'] = $useridentifier;
                         $signatures['signature_image'] = $signatureimages;
 
                         $body['request_id']   = $requestid;
