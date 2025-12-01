@@ -345,7 +345,7 @@
                         $body['request_id']   = $requestid;
                         $body['signatures'][] = $signatures;
 
-                        $resultfilerequestsign = $this->md->filerequestsign($status,$a->assign);
+                        $resultfilerequestsign = $this->md->filerequestsign($a->assign);
                         
                         if(!empty($resultfilerequestsign)){
                             foreach($resultfilerequestsign as $files){
