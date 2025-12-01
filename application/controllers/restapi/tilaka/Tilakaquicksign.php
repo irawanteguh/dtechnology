@@ -312,7 +312,7 @@
                         if(isset($responsecheckdatauser['status'])){
                             if($responsecheckdatauser['status']){
                                 $useridentifier = $responsecheckdatauser['data']['useridentifier'];
-                                $email = $responsecheckdatauser['data']['email'];
+                                $email          = $responsecheckdatauser['data']['email'];
                             }
                         }
                     }
