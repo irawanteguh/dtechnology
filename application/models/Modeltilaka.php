@@ -143,7 +143,6 @@
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.status_sign='3'
-                        and a.assign='2102364'
                         limit 50;
                     ";
 
@@ -159,7 +158,6 @@
                                 (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
                         from dt01_gen_document_file_dt a
                         where a.active='1'
-                        and a.assign='2102364'
                         and   a.status_sign='4'
                         limit 50;
                     ";
