@@ -378,7 +378,7 @@
                                                     $listpdfsignatures['coordinate_x']    = $coordinatex;
                                                     $listpdfsignatures['coordinate_y']    = $coordinatey;
                                                     $listpdfsignatures['page_number']     = $page;
-                                                    $listpdfsignatures['qr_option']       = "QRONLY";
+                                                    // $listpdfsignatures['qr_option']       = "QRONLY";
                                         
                                                     if (CERTIFICATE === "PERSONAL") {
                                                         $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
@@ -402,7 +402,7 @@
                                             $listpdfsignatures['coordinate_x']    = $coordinatex;
                                             $listpdfsignatures['coordinate_y']    = $coordinatey;
                                             $listpdfsignatures['page_number']     = $page;
-                                            $listpdfsignatures['qr_option']       = "QRONLY";
+                                            // $listpdfsignatures['qr_option']       = "QRONLY";
 
                                             if(CERTIFICATE==="PERSONAL"){
                                                 $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
@@ -424,7 +424,7 @@
                                         $listpdfsignatures['coordinate_x']    = $coordinatex;
                                         $listpdfsignatures['coordinate_y']    = $coordinatey;
                                         $listpdfsignatures['page_number']     = $page;
-                                        $listpdfsignatures['qrcombine']       = "QRONLY";
+                                        // $listpdfsignatures['qrcombine']       = "QRONLY";
 
                                         if(CERTIFICATE==="PERSONAL"){
                                             $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
@@ -658,7 +658,7 @@
                                                 $listpdfsignatures['coordinate_x']    = $coordinatex;
                                                 $listpdfsignatures['coordinate_y']    = $coordinatey;
                                                 $listpdfsignatures['page_number']     = $page;
-                                                $listpdfsignatures['qrcombine']       = "QRONLY";
+                                                // $listpdfsignatures['qrcombine']       = "QRONLY";
                                     
                                                 if (CERTIFICATE === "PERSONAL") {
                                                     $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
@@ -684,7 +684,7 @@
                                     $listpdfsignatures['coordinate_x']    = $coordinatex;
                                     $listpdfsignatures['coordinate_y']    = $coordinatey;
                                     $listpdfsignatures['page_number']     = $page;
-                                    $listpdfsignatures['qrcombine']       = "QRONLY";
+                                    // $listpdfsignatures['qrcombine']       = "QRONLY";
                                     if(CERTIFICATE==="PERSONAL"){
                                         $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
                                     }
