@@ -131,8 +131,12 @@
             return $sql;
         }
 
-        //Tilaka Reguler Sign
+        function updaterequestid($data,$requestid){           
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("request_id"=>$requestid));
+            return $sql;
+        }
 
+        //Tilaka Reguler Sign
         function listexecute(){
             $query =
                     "
@@ -166,11 +170,6 @@
             $recordset = $recordset->result();
             return $recordset;
         }
-
-        function updaterequestid($data,$requestid){           
-            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("request_id"=>$requestid));
-            return $sql;
-        }
-
+        //Tilaka Reguler Sign
     }
 ?>

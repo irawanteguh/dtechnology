@@ -1,16 +1,6 @@
 <?php
     class Tilaka{
 
-        public static function curlDownload($url){
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            $data = curl_exec($ch);
-            curl_close($ch);
-            return $data;
-        }
-
         public static function oauth(){
             $body   = array("client_id"=>CLIENT_ID_TILAKA,"client_secret"=>CLIENT_SECRET_TILAKA,"grant_type"=>"client_credentials");
             $header = array("Content-Type: application/x-www-form-urlencoded");
@@ -39,7 +29,7 @@
                         'method'  => "POST",
                         'header'  => $header,
                         'body'    => "",
-                        'savelog' => true,
+                        'savelog' => false,
                         'source'  => "TILAKA-UUID"
                     ]);
                 }else{
@@ -68,7 +58,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => "",
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "TILAKA-UUIDENROLL"
                 ]);
     
@@ -86,7 +76,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => $body,
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "TILAKA-REGISTERKYC"
             ]);
 
@@ -101,7 +91,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => $body,
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "TILAKA-CHECKREGISTRASIUSER"
             ]);
 
@@ -118,7 +108,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "TILAKA-CHECKCERTIFICATEUSER"
                 ]);
     
@@ -137,59 +127,22 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => $body,
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "TILAKA-REVOKE"
             ]);
 
             return json_decode($responsecurl,TRUE); 
         }
 
-        // public static function uploadfile($location){
-        //     $oauthResponse = Tilaka::oauth();
-        //     if(isset($oauthResponse['access_token'])){
-        //         $header    = array("Authorization: Bearer ".$oauthResponse['access_token']);
-        //         $infodoc   = pathinfo($location);
-        //         $extension = strtolower($infodoc['extension']);
-                
-        //         switch ($extension) {
-        //             case 'pdf':
-        //                 $mimedoc = 'application/pdf';
-        //             break;
-
-        //             case 'jpg':
-        //             case 'jpeg':
-        //                 $mimedoc = 'image/jpeg';
-        //             break;
-
-        //             case 'png':
-        //                 $mimedoc = 'image/png';
-        //             break;
-
-        //             default:
-        //                 $mimedoc = 'application/octet-stream';
-        //             break;
-        //         }
-                
-        //         $namedoc = $infodoc['basename'];
-            
-        //         $requestbody = array(
-        //             'file' => new CURLFILE($location, $mimedoc, $namedoc)
-        //         );
-            
-        //         $responsecurl = curl([
-        //             'url'     => TILAKALITE_URL."api/v1/upload",
-        //             'method'  => "POST",
-        //             'header'  => $header,
-        //             'body'    => $requestbody,
-        //             'savelog' => false,
-        //             'source'  => "TILAKA-UPLOADFILE"
-        //         ]);
-            
-        //         return json_decode($responsecurl, TRUE); 
-        //     }else{
-        //         return json_decode($oauthResponse, TRUE); 
-        //     }
-        // }
+        public static function curlDownload($url){
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            return $data;
+        }
 
         public static function uploadfile($location){
             $oauthResponse = Tilaka::oauth();
@@ -248,8 +201,6 @@
             return json_decode($responsecurl, TRUE);
         }
 
-
-        
         public static function requestsign($body){
             $oauthResponse = Tilaka::oauth();
             if(isset($oauthResponse['access_token'])){
@@ -260,7 +211,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "TILAKA-REQSIGN"
                 ]);
                 return json_decode($responsecurl,TRUE); 
@@ -279,7 +230,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "TILAKA-REQSIGN"
                 ]);
                 return json_decode($responsecurl,TRUE); 
