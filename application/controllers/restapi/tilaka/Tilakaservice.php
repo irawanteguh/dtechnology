@@ -586,7 +586,7 @@
                                         $data['LINK']        = $listpdfs['presigned_url'];
                                         
                                         $this->md->updatefile($data,$nofile);
-                                        $statusMsg = color('green').$response['message'];
+                                        $statusMsg = color('green').$response['message']." | ".$response['status'][0]['status']." | ".$response['status'][0]['num_signatures_done']."/".$response['status'][0]['num_signatures']." Document";
                                     }else{
                                         $statusMsg = color('red')."Gagal Menyimpan File";
                                     }
