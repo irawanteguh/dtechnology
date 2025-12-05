@@ -588,6 +588,7 @@
                                         $this->md->updatefile($data,$nofile);
                                         $statusMsg = color('green').$response['message']." | ".$response['status'][0]['status']." | ".$response['status'][0]['num_signatures_done']."/".$response['status'][0]['num_signatures']." Document";
                                     }else{
+                                        $data['STATUS_SIGN'] = "0";
                                         $statusMsg = color('red')."Gagal Menyimpan File";
                                     }
                                 }else{
