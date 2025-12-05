@@ -57,7 +57,7 @@
                         and   a.status_sign = '0'
                         ".$paramater."
                         order by note asc, created_date asc
-                        limit 10;
+                        limit 20;
                     ";
 
             $recordset = $this->db->query($query);
