@@ -55,7 +55,6 @@
                         from dt01_gen_document_file_dt a
                         where a.active      = '1'
                         and   a.status_sign = '0'
-                        and a.assign='2102364'
                         ".$paramater."
                         order by note asc, created_date asc
                         limit 10;
@@ -74,7 +73,6 @@
                                 (select email from dt01_gen_user_data   where active='1' and nik=a.assign)email
                         from dt01_gen_document_file_dt a
                         where a.active='1'
-                        and a.assign='2102364'
                         -- and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
                         and   a.status_sign ='1'
                         limit 10;
