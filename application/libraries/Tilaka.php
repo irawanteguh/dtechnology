@@ -29,7 +29,7 @@
                         'method'  => "POST",
                         'header'  => $header,
                         'body'    => "",
-                        'savelog' => false,
+                        'savelog' => true,
                         'source'  => "TILAKA-UUID"
                     ]);
                 }else{
@@ -58,7 +58,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => "",
-                    'savelog' => false,
+                    'savelog' => true,
                     'source'  => "TILAKA-UUIDENROLL"
                 ]);
     
@@ -76,7 +76,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => $body,
-                'savelog' => false,
+                'savelog' => true,
                 'source'  => "TILAKA-REGISTERKYC"
             ]);
 
