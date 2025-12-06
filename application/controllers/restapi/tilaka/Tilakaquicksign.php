@@ -218,6 +218,7 @@
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
                                                     $datasimpanhd['link']            = null;
+                                                    $datasimpanhd['url']             = null;
                                                     $datasimpanhd['request_id']      = null;
                                                     $datasimpanhd['note']            = null;
 
