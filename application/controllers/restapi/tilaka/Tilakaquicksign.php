@@ -261,8 +261,10 @@
                             $datasimpanhd['status_sign']     = "99";
                             $datasimpanhd['note']            = "File not found";
                             $datasimpanhd['status_file']     = "0";
-                            $datasimpanhd['user_identifier'] = "";
-                            $datasimpanhd['url']             = "";
+                            $datasimpanhd['user_identifier'] = null;
+                            $datasimpanhd['link']            = null;
+                            $datasimpanhd['url']             = null;
+                            $datasimpanhd['request_id']      = null;
 
                             $statusColor = "red";
                             $statusMsg   = "File not found | ".$location;
