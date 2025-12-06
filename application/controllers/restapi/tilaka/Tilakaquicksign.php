@@ -217,7 +217,9 @@
                                                     $datasimpanhd['user_identifier'] = $useridentifier;
                                                     $datasimpanhd['status_sign']     = "1";
                                                     $datasimpanhd['status_file']     = "1";
-                                                    $datasimpanhd['note']            = "";
+                                                    $datasimpanhd['link']            = null;
+                                                    $datasimpanhd['request_id']      = null;
+                                                    $datasimpanhd['note']            = null;
 
                                                     $statusColor = "green";
                                                     $statusMsg   = $responseuploadfile['message']." | ".$responseuploadfile['filename'];
@@ -294,8 +296,8 @@
                     $statusMsg                = "";
                     $requestid                = "";
                     $signatureimages          = "";
-                    $useridentifier ="";
-                    $email ="";
+                    $useridentifier           = "";
+                    $email                    = "";
                     $listfile                 = [];
                     $body                     = [];
                     $signatures               = [];
