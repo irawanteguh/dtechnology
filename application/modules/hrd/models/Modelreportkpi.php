@@ -75,7 +75,6 @@
                     FROM dt01_hrd_position_dt dt
                     JOIN dt01_hrd_position_ms ms ON 
                         dt.position_id = ms.position_id AND 
-                        dt.org_id = ms.org_id AND 
                         ms.active = '1'
                     WHERE 
                         dt.active = '1' AND 

@@ -155,16 +155,15 @@
                 "Content-Type: multipart/form-data"
             );
 
-            // Cek apakah $location berupa URL
             if (filter_var($location, FILTER_VALIDATE_URL)) {
-                $filename = basename(parse_url($location, PHP_URL_PATH)); // ambil nama asli
+                $filename = basename(parse_url($location, PHP_URL_PATH));
                 $tempDir  = sys_get_temp_dir();
                 $tempFile = $tempDir . DIRECTORY_SEPARATOR . $filename;
 
                 $fileData = self::curlDownload($location);
                 file_put_contents($tempFile, $fileData);
 
-                $location = $tempFile; // update path upload menjadi file temp
+                $location = $tempFile;
             }
 
             $infodoc   = pathinfo($location);
@@ -178,7 +177,7 @@
                 default:     $mimedoc = 'application/octet-stream'; break;
             }
 
-            $namedoc = $infodoc['basename']; // nama asli file tetap dipakai
+            $namedoc = $infodoc['basename'];
 
             $requestbody = [
                 'file' => new CURLFILE($location, $mimedoc, $namedoc)
@@ -193,7 +192,6 @@
                 'source'  => "TILAKA-UPLOADFILE"
             ]);
 
-            // Jika file temp, kita hapus
             if (isset($tempFile) && file_exists($tempFile)) {
                 unlink($tempFile);
             }

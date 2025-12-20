@@ -261,7 +261,7 @@
             return $recordset;
         }
 
-        function masterbarang($orgid,$nopemesanan,$parameter){
+        function masterbarang($nopemesanan,$parameter){
             $query =
                     "
                         SELECT 
@@ -320,7 +320,6 @@
                             AND jenis.active = '1'
                         WHERE 
                             a.active = '1'
-                            AND a.org_id = '".$orgid."'
                             ".$parameter."
                         ORDER BY status DESC, a.nama_barang ASC;
 

@@ -25,7 +25,7 @@
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and department_id=a.department_id)department,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and department_id=a.bagian_id)bagian,
                                 (select replace(replace(department,'Wakil Direktur ',''),'Manajer ','') from dt01_gen_department_ms where active='1' and department_id=a.unit_id)unit,
-                                (select ifnull(name, 'Unknown')  from dt01_gen_user_data where active='1' and user_id=a.last_update_by) lastupdateby,
+                                (select ifnull(name, 'Unknown')  from dt01_gen_user_data where user_id=a.last_update_by) lastupdateby,
                                 (select level                    from dt01_gen_level_fungsional_ms where active = '1' and level_id = a.level_fungsional) functional,
 
                                 (select org_name   from dt01_gen_organization_ms where org_id=a.org_id)orgname,
