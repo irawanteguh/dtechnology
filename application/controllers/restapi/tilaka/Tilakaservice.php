@@ -467,7 +467,7 @@
                                                         $datasimpanhd['status_sign'] = "0";
                                                     }
 
-                                                    $this->md->updatefile($datasimpanhd,$files->no_file);
+                                                    $this->md->updatetransaksi($datasimpanhd,"1",$a->no_file);
 
                                                     $statusMsg = color('green')."Success";
                                                 }
