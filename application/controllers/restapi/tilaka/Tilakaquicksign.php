@@ -64,6 +64,7 @@
             return $formatted . PHP_EOL;
         }
 
+        //Start Function Support
         private function fileExists($path) {
             if (filter_var($path, FILTER_VALIDATE_URL)) {
                 $headers = @get_headers($path);
@@ -159,6 +160,13 @@
 
             return 'data:image/png;base64,' . base64_encode($finalImageData);
         }
+
+        private function nonactiveduplicatefile($nofile){
+            $nonactive['ACTIVE'] = "0";
+            $nonactive['NOTE']   = "Terdeteksi Revisi Dokumen";
+            $this->md->updatefile($nonactive,$nofile);
+        }
+        //End Function Support
 
         public function uploadallfile_POST(){
             $this->headerlog();
@@ -278,6 +286,7 @@
                     
 
                     if(!empty($datasimpanhd)){
+                        $this->nonactiveduplicatefile($nofile);
                         $this->md->updatetransaksi($datasimpanhd,"0",$a->no_file);
                     }
 
