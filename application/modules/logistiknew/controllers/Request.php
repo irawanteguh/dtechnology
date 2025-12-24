@@ -111,7 +111,7 @@
         public function masterbarang(){
             $datanopemesanan  = $this->input->post("datanopemesanan");
             $datadepartmentid = $this->input->post("datadepartmentid");
-            $datanmethodid = $this->input->post("datanmethodid");
+            $datanmethodid    = $this->input->post("datanmethodid");
 
             if($datanmethodid === "5"){
                 $parameter ="and a.jenis_id='b3a2e1a0-0001-4a00-9001-000000000001'";
@@ -119,7 +119,7 @@
                 $parameter ="and a.jenis_id<>'b3a2e1a0-0001-4a00-9001-000000000001'";
             }
 
-            $result = $this->md->masterbarang($_SESSION['orgid'],$datanopemesanan,$parameter);
+            $result = $this->md->masterbarang($datanopemesanan,$parameter);
             
 			if(!empty($result)){
                 $json["responCode"]="00";
