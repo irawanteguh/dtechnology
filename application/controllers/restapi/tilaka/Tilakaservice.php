@@ -564,8 +564,6 @@
                     $body['request_id'] = $a->request_id;
                     $response = Tilaka::excutesignstatus(json_encode($body));
 
-                    // return var_dump($response);
-
                     if(isset($response['success'])){
                         if($response['success']){
                             foreach($response['list_pdf'] as $listpdfs){
@@ -585,7 +583,7 @@
                                         $data['NOTE']        = "";
                                         $data['LINK']        = $listpdfs['presigned_url'];
                                         
-                                        $this->md->updatefile($data,$nofile);
+                                        $this->md->updatetransaksi($data,"4",$nofile);
                                         $statusMsg = color('green').$response['message']." | ".$response['status'][0]['status']." | ".$response['status'][0]['num_signatures_done']."/".$response['status'][0]['num_signatures']." Document";
                                     }else{
                                         $data['STATUS_SIGN'] = "0";
