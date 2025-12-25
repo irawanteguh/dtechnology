@@ -376,7 +376,6 @@
                                                     $listpdfsignatures['coordinate_x']    = $coordinatex;
                                                     $listpdfsignatures['coordinate_y']    = $coordinatey;
                                                     $listpdfsignatures['page_number']     = $page;
-                                                    // $listpdfsignatures['qrcombine']       = "QRONLY";
                                         
                                                     if (CERTIFICATE === "PERSONAL") {
                                                         $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
@@ -422,7 +421,6 @@
                                                     $listpdfsignatures['coordinate_x']    = $coordinatex;
                                                     $listpdfsignatures['coordinate_y']    = $coordinatey;
                                                     $listpdfsignatures['page_number']     = $page;
-                                                    // $listpdfsignatures['qrcombine']       = "QRONLY";
                                         
                                                     if (CERTIFICATE === "PERSONAL") {
                                                         $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
@@ -451,7 +449,6 @@
                                             $listpdfsignatures['coordinate_x']    = $coordinatex;
                                             $listpdfsignatures['coordinate_y']    = $coordinatey;
                                             $listpdfsignatures['page_number']     = $page;
-                                            // $listpdfsignatures['qrcombine']       = "QRONLY";
                                             if(CERTIFICATE==="PERSONAL"){
                                                 $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
                                             }
@@ -467,15 +464,16 @@
                                     $datasimpanhd['status_sign']     = "99";
                                     $datasimpanhd['note']            = "File not found";
                                     $datasimpanhd['status_file']     = "0";
-                                    $datasimpanhd['user_identifier'] = "";
-                                    $datasimpanhd['url']             = "";
+                                    $datasimpanhd['user_identifier'] = null;
+                                    $datasimpanhd['url']             = null;
 
                                     $statusColor = "red";
                                     $statusMsg   = "File : ".$files->no_file.".pdf Tidak Di Temukan Folder Penyimpanan";
                                 }
 
                                 if(!empty($datasimpanhd)){
-                                    $this->md->updatefile($datasimpanhd, $files->no_file);
+                                    $this->md->updatetransaksi($datasimpanhd,"1",$files->no_file);
+                                    // $this->md->updatefile($datasimpanhd,$files->no_file);
                                 }
                             }
 

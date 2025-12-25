@@ -74,7 +74,6 @@
                                 (select email from dt01_gen_user_data   where active='1' and nik=a.assign)email
                         from dt01_gen_document_file_dt a
                         where a.active='1'
-                        -- and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
                         and   a.status_sign ='1'
                         limit 10;
                     ";
@@ -120,10 +119,10 @@
             return $recordset;
         }
 
-        // function updatefile($data,$nofile){           
-        //     $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile,"active"=>"1"));
-        //     return $sql;
-        // }
+        function updatefile($data,$nofile){           
+            $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile,"active"=>"1"));
+            return $sql;
+        }
 
         function updatetransaksi($data,$statussign,$nofile){           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile,"status_sign"=>$statussign,"active"=>"1"));
