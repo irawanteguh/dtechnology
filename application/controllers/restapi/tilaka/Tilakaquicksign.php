@@ -160,16 +160,11 @@
 
             return 'data:image/png;base64,' . base64_encode($finalImageData);
         }
-
-        private function nonactiveduplicatefile($nofile){
-            $nonactive['ACTIVE'] = "0";
-            $nonactive['NOTE']   = "Terdeteksi Revisi Dokumen";
-            $this->md->updatefile($nonactive,$nofile);
-        }
         //End Function Support
 
         public function uploadallfile_POST(){
             $this->headerlog();
+
             if(CHECK_DATA_HOLDING==="FALSE"){
                 $paramater = "and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)";
             }else{
@@ -284,9 +279,7 @@
                         $datasimpanhd['note'] = "User Identifier Tidak Di Temukan";
                     }
                     
-
                     if(!empty($datasimpanhd)){
-                        $this->nonactiveduplicatefile($nofile);
                         $this->md->updatetransaksi($datasimpanhd,"0",$a->no_file);
                     }
 
