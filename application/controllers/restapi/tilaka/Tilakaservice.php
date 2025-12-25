@@ -511,23 +511,22 @@
                     $body['user_identifier'] = $a->user_identifier;
 
                     $response = Tilaka::excutesign(json_encode($body));
-                    // return var_dump($response);
 
                     if(isset($response['success'])){
                         if($response['status']==="DONE"){
                             $datasimpanhd['STATUS_SIGN'] = "4";
-                            $datasimpanhd['NOTE']        = "";
+                            $datasimpanhd['NOTE']        = null;
                             $statusMsg                   = color('green').$response['status']." | ".$response['message'];
                         }
 
                         if($response['status']==="FAILED"){
                             $datasimpanhd['STATUS_SIGN']     = "0";
                             $datasimpanhd['STATUS_FILE']     = "1";
-                            $datasimpanhd['REQUEST_ID']      = "";
-                            $datasimpanhd['LINK']            = "";
-                            $datasimpanhd['NOTE']            = "";
-                            $datasimpanhd['USER_IDENTIFIER'] = "";
-                            $datasimpanhd['URL']             = "";
+                            $datasimpanhd['REQUEST_ID']      = null;
+                            $datasimpanhd['LINK']            = null;
+                            $datasimpanhd['NOTE']            = null;
+                            $datasimpanhd['USER_IDENTIFIER'] = null;
+                            $datasimpanhd['URL']             = null;
                             $statusMsg                       = color('danger').$response['status']." | ".$response['message'];
                         }
 
@@ -542,7 +541,7 @@
                         }
 
                         if(!empty($datasimpanhd)){
-                            $this->md->updaterequestid($datasimpanhd, $a->request_id);
+                            $this->md->updaterequestid($datasimpanhd,$a->request_id);
                         }
 
                         echo str_pad($a->request_id, 40).str_pad($a->user_identifier, 20).$statusMsg.PHP_EOL;
