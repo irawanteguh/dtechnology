@@ -165,7 +165,7 @@
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.status_sign='4'
-                        limit 50;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
