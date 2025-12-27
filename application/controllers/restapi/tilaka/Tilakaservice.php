@@ -578,10 +578,6 @@
                                     }
 
                                     if(file_put_contents($destinationPath,$fileContent)){
-                                        // $datanonactive['ACTIVE'] = "0";
-                                        // $datanonactive['NOTE']   = "Terdeteksi Revisi Dokumen";
-                                        // $this->md->updatetransaksi($datanonactive,"5",$nofile);
-
                                         $data['STATUS_SIGN'] = "5";
                                         $data['NOTE']        = null;
                                         $data['LINK']        = $listpdfs['presigned_url'];
