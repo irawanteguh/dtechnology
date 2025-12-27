@@ -396,16 +396,18 @@ function datakaryawan(){
                                     tableresult +="</a>";
                                 tableresult +="</div>";
                                 tableresult +="<div class='d-flex flex-column'>";
-                                    if(result[i].REGISTER_ID!=""){
-                                        tableresult +="<a class='text-gray-800 text-hover-primary mb-1' "+getvariabel+" onclick='certificatestatus(this)' style='cursor: pointer;' title='Click For Cretificate Status'>"+result[i].NAME+"</a>";
-                                    }else{
-                                        tableresult +="<a class='text-gray-800 text-hover-primary mb-1'>"+result[i].NAME+"</a>";
-                                    }
+                                    // if(result[i].REGISTER_ID!=""){
+                                    //     tableresult +="<a class='text-gray-800 text-hover-primary mb-1' "+getvariabel+" onclick='certificatestatus(this)' style='cursor: pointer;' title='Click For Cretificate Status'>"+result[i].NAME+"</a>";
+                                    // }else{
+                                    //     tableresult +="<a class='text-gray-800 text-hover-primary mb-1'>"+result[i].NAME+"</a>";
+                                    // }
+                                    // tableresult +="<a class='text-gray-800 text-hover-primary mb-1'>"+result[i].NAME+"</a>";
+                                    tableresult +="<div class='text-gray-800 mb-1'>"+result[i].NAME+"</div>";
                                     tableresult +="<span>"+(result[i].EMAIL ? result[i].EMAIL : "-")+"</span>";
                                 tableresult +="</div>";
                         tableresult +="</td>";
                         tableresult += "<td><div>"+(result[i].NIK ? result[i].NIK : "")+"</div><div>" + (result[i].IDENTITY_NO ? result[i].IDENTITY_NO : "") + "</div></td>";
-                        tableresult += "<td>"+(result[i].USER_IDENTIFIER ? result[i].USER_IDENTIFIER : "")+"</td>";
+                        tableresult += "<td>"+(result[i].USER_IDENTIFIER ? "<a class='text-hover-primary mb-1' "+getvariabel+" onclick='certificatestatus(this)' style='cursor: pointer;' title='Click For Cretificate Status'>"+result[i].USER_IDENTIFIER+"</a>" : "")+"</td>";
                         tableresult += statususer;
                         tableresult +="<td class='text-end'>";
                             tableresult +="<div class='btn-group' role='group'>";
