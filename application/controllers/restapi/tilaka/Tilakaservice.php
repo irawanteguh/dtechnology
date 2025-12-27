@@ -578,12 +578,15 @@
                                     }
 
                                     if(file_put_contents($destinationPath,$fileContent)){
+                                        $datanonactive['ACTIVE'] = "0";
+                                        $datanonactive['NOTE']   = "Terdeteksi Revisi Dokumen";
+                                        $this->md->updatetransaksi($datanonactive,"5",$nofile);
+
                                         $data['STATUS_SIGN'] = "5";
                                         $data['NOTE']        = null;
                                         $data['LINK']        = $listpdfs['presigned_url'];
-                                        
-
                                         $this->md->updatetransaksi($data,"4",$nofile);
+                                        
                                         $statusMsg = color('green').$response['message']." | ".$response['status'][0]['status']." | ".$response['status'][0]['num_signatures_done']."/".$response['status'][0]['num_signatures']." Document";
                                     }else{
                                         $data['STATUS_SIGN'] = "0";
