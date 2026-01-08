@@ -58,7 +58,7 @@
                         and   a.status_file='1'
                         ".$paramater."
                         order by note asc, created_date asc
-                        limit 20;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
