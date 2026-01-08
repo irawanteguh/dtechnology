@@ -143,50 +143,11 @@ async function callAPI(endpoint, method = "GET", body = null) {
     }
 }
 
-// async function runservices() {
-//     await callAPI("statusregister", "GET");
-// 	await callAPI("uploadallfile", "POST");
-//     await callAPI("requestsignquicksign", "POST");
-//     await callAPI("statussignquicksign", "POST");
-// }
-
 async function runservices() {
-    try {
-        setStatus("Cek status registrasi...");
-
-        let res1 = await callAPI("statusregister", "GET");
-        if (res1.status === "PROCESS") {
-            setStatus("⏳ Registrasi masih diproses");
-            return;
-        }
-
-        setStatus("Upload file...");
-        let res2 = await callAPI("uploadallfile", "POST");
-        if (res2.status === "PROCESS") {
-            setStatus("⏳ Upload file masih diproses");
-            return;
-        }
-
-        setStatus("Request tanda tangan...");
-        let res3 = await callAPI("requestsignquicksign", "POST");
-        if (res3.status === "PROCESS") {
-            setStatus("⏳ Permintaan tanda tangan masih diproses");
-            return;
-        }
-
-        setStatus("Cek status tanda tangan...");
-        let res4 = await callAPI("statussignquicksign", "POST");
-        if (res4.status === "PROCESS") {
-            setStatus("⏳ Dokumen masih dalam proses tanda tangan");
-            return;
-        }
-
-        setStatus("✅ Semua proses selesai");
-
-    } catch (err) {
-        console.error(err);
-        setStatus("❌ Terjadi kesalahan proses");
-    }
+    await callAPI("statusregister", "GET");
+	await callAPI("uploadallfile", "POST");
+    await callAPI("requestsignquicksign", "POST");
+    await callAPI("statussignquicksign", "POST");
 }
 
 
