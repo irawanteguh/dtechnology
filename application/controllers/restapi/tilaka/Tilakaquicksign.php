@@ -105,7 +105,7 @@
             $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
             file_put_contents($tmp, $binary);
 
-            $ch = curl_init("http://10.10.11.250/webappsagus/UploadAAPanel.php");
+            $ch = curl_init("http://10.10.11.250/webapps/UploadAAPanel.php");
 
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS,['file' => new CURLFile($tmp, 'application/pdf', $filename)]);
