@@ -88,191 +88,46 @@ function dataupload(startDate,endDate){
             var tablefinish  = "";
             var jml          = 0;
 
-            // if(data.responCode==="00"){
-            //     result = data.responResult;
-
-            //     for(var i in result){
-
-            //         if(result[i].status_sign==="5"){
-            //             tablefinish +="<tr>";
-            //             tablefinish +="<td class='ps-4'><div><span class='badge badge-light-"+result[i].colorstatus+" fs-7 fw-bold'>"+result[i].status+"</span></div><div class='fst-italic small'>"+(result[i].descriptionstatus ? result[i].descriptionstatus : "")+"</div></td>";
-                        
-            //             if(result[i].status_sign==="0"){
-            //                 if(result[i].source_file==="DTECHNOLOGY"){
-            //                     if(result[i].status_sign==="0"){
-            //                         tablefinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].no_file+"' onclick='uploadfile(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }else{
-            //                         tablefinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }
-            //                 }else{
-            //                     tablefinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                 }
-            //             }else{
-            //                 if(result[i].source_file==="DTECHNOLOGY"){
-            //                     tablefinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                 }else{
-            //                     tablefinish +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                 }
-            //             }
-    
-            //             tablefinish +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
-            //             tablefinish +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
-            //             tablefinish +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
-            //             tablefinish +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
-            //             tablefinish +="</tr>";
-            //         }else{
-            //             if(result[i].status_sign==="99"){
-            //                 tablehold +="<tr>";
-            //                 tablehold +="<td class='ps-4'><div><span class='badge badge-light-"+result[i].colorstatus+" fs-7 fw-bold'>"+result[i].status+"</span></div><div class='fst-italic small'>"+(result[i].descriptionstatus ? result[i].descriptionstatus : "")+"</div></td>";
-                            
-            //                 if(result[i].status_sign==="0"){
-            //                     if(result[i].source_file==="DTECHNOLOGY"){
-            //                         if(result[i].status_sign==="0"){
-            //                             tablehold +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].no_file+"' onclick='uploadfile(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                         }else{
-            //                             tablehold +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                         }
-            //                     }else{
-            //                         tablehold +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }
-            //                 }else{
-            //                     if(result[i].source_file==="DTECHNOLOGY"){
-            //                         tablehold +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }else{
-            //                         tablehold +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }
-            //                 }
-        
-            //                 tablehold +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
-            //                 tablehold +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
-            //                 tablehold +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
-            //                 tablehold +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
-            //                 tablehold +="</tr>";
-            //             }else{
-            //                 tableprocess +="<tr>";
-            //                 if(result[i].status_file==="0"){
-            //                     tableprocess +="<td class='ps-4'><div><span class='badge badge-light-"+result[i].colorstatus+" fs-7 fw-bold'>"+result[i].status+"</span></div><div class='fst-italic small'>Please Upload File</div></td>";
-            //                 }else{
-            //                     tableprocess +="<td class='ps-4'><div><span class='badge badge-light-"+result[i].colorstatus+" fs-7 fw-bold'>"+result[i].status+"</span></div><div class='fst-italic small'>"+(result[i].descriptionstatus ? result[i].descriptionstatus : "")+"</div></td>";
-            //                 }
-                            
-                            
-            //                 if(result[i].status_sign==="0"){
-            //                     if(result[i].source_file==="DTECHNOLOGY"){
-            //                         if(result[i].status_sign==="0"){
-            //                             tableprocess +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='"+result[i].no_file+"' onclick='uploadfile(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                         }else{
-            //                             tableprocess +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                         }
-            //                     }else{
-            //                         tableprocess +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }
-            //                 }else{
-            //                     if(result[i].source_file==="DTECHNOLOGY"){
-            //                         tableprocess +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+url+"assets/document/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }else{
-            //                         tableprocess +="<td><div>"+(result[i].jenisdocument ? result[i].jenisdocument : "-")+"</div><div><a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+pathposttilaka+"/"+(result[i].no_file ? result[i].no_file : "")+".pdf' onclick='viewdoc(this)'>"+(result[i].no_file ? result[i].no_file : "-")+"</a></div><div>"+(result[i].filename ? result[i].filename : "-")+"</div></td>";
-            //                     }
-            //                 }
-        
-            //                 tableprocess +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
-            //                 tableprocess +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
-            //                 tableprocess +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
-            //                 tableprocess +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
-            //                 tableprocess +="</tr>";
-            //             }
-            //         }
-
-            //         jml ++;
-            //     }
-            // }
-
-            // $("#resultrepodocumentonprocess").html(tableprocess);
-            // $("#resultrepodocumentfinish").html(tablefinish);
-            // $("#resultrepodocumentonhold").html(tablehold);
-
-            // // if (data.responCode === "00") {
-            // //     const result = data.responResult;
-            // //     let tableprocess = "", tablefinish = "", tablehold = "";
-
-            // //     // Fungsi bantu buat 1 row HTML
-            // //     const makeRow = (item) => {
-            // //         const color     = item.colorstatus || "secondary";
-            // //         const status    = item.status || "-";
-            // //         const desc      = item.descriptionstatus || "";
-            // //         const jenisDoc  = item.jenisdocument || "-";
-            // //         const noFile    = item.no_file || "-";
-            // //         const filename  = item.filename || "-";
-            // //         const pasien    = item.pasien_idx || "-";
-            // //         const trx       = item.transaksi_idx || "-";
-            // //         const assign    = item.assignname || "";
-            // //         const userId    = item.useridentifier || "<i class='bi bi-x-octagon text-danger'></i>";
-            // //         const note      = item.note || "";
-            // //         const createdby = item.createdby || "By Integrated System";
-            // //         const tgljam    = item.tgljam || "";
-
-            // //         let linkfile = "";
-            // //         const filePath = item.source_file === "DTECHNOLOGY" ? `${url}assets/document/${noFile}.pdf` : `${url}/${pathposttilaka}/${noFile}.pdf`;
-
-            // //         // Tentukan link berdasarkan status_file & status_sign
-            // //         if (item.status_sign === "0" && item.status_file === "0") {
-            // //             linkfile = `<a href='#' data-bs-toggle='modal' data-bs-target='#modal_upload_document' data_dirfile='${item.no_file}' onclick='uploadfile(this)'>${noFile}</a>`;
-            // //         } else {
-            // //             linkfile = `<a href='#' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='${filePath}' onclick='viewdocwithoutnote(this)'>${noFile}</a>`;
-            // //         }
-
-            // //         const descText = item.status_file === "0" && item.status_sign !== "5" && item.status_sign !== "99" ? "Please Upload File" : desc;
-
-            // //         return `
-            // //             <tr>
-            // //                 <td class='ps-4'>
-            // //                     <div><span class='badge badge-light-${color} fs-7 fw-bold'>${status}</span></div>
-            // //                     <div class='fst-italic small'>${descText}</div>
-            // //                 </td>
-            // //                 <td>
-            // //                     <div>${jenisDoc}</div>
-            // //                     <div>${linkfile}</div>
-            // //                     <div>${filename}</div>
-            // //                 </td>
-            // //                 <td><div>${pasien}</div><div>${trx}</div></td>
-            // //                 <td><div>${assign}</div><div>${userId}</div></td>
-            // //                 <td><div class='badge badge-light-info'>${note}</div></td>
-            // //                 <td class='pe-4 text-end'><div>${createdby}</div><div>${tgljam}</div></td>
-            // //             </tr>`;
-            // //     };
-
-            // //     // Loop utama
-            // //     result.forEach(item => {
-            // //         switch (item.status_sign) {
-            // //             case "5":
-            // //                 tablefinish += makeRow(item);
-            // //                 break;
-            // //             case "99": // hold
-            // //                 tablehold += makeRow(item);
-            // //                 break;
-            // //             default:   // proses
-            // //                 tableprocess += makeRow(item);
-            // //                 break;
-            // //         }
-
-            // //         jml ++;
-            // //     });
-
-            // //     // Update DOM
-            // //     $("#resultrepodocumentonprocess").html(tableprocess);
-            // //     $("#resultrepodocumentfinish").html(tablefinish);
-            // //     $("#resultrepodocumentonhold").html(tablehold);
-            // // }
-
-
-            // // $("#info_list_document").html(jml+" Document");
-
-
             if(data.responCode === "00"){
                 result = data.responResult;
                 for(var i in result){
                     var rows         = "";
                     const filePath = result[i].source_file === "DTECHNOLOGY" ? `${url}assets/document/${result[i].no_file}.pdf` : `${pathposttilaka}${result[i].no_file}.pdf`;
+                    let badges = '';
+
+                    if (result[i].assignname) {
+                        let names = result[i].assignname.split(';');
+                        let ids   = result[i].useridentifier
+                            ? result[i].useridentifier.split(';')
+                            : [];
+
+                        badges += `<div class="d-flex flex-column align-items-start gap-1">`;
+
+                        names.forEach((name, idx) => {
+                            let uid = ids[idx] ? ids[idx] : '';
+
+                            badges += `
+                                <div class="badge badge-light-primary text-start">
+                                    ${name.trim()}
+                                    <i class="bi bi-info-circle-fill text-primary ms-1"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-dark"
+                                    title="
+                                            <div class='text-start'>
+                                                <div><small>User Identifier</small></div>
+                                                <b>${uid}</b>
+                                            </div>
+                                    ">
+                                    </i>
+                                </div>
+                            `;
+                        });
+
+                        badges += `</div>`;
+                    }
+
 
                     rows +="<tr>";
                     if(result[i].status_file==="0"){
@@ -288,12 +143,13 @@ function dataupload(startDate,endDate){
                     }
                     
                     rows +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
-                    rows +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
+                    // rows +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
+
+                    // rows +="<td>"+"<div class='badge badge-light-primary'>"+(result[i].assignname ? result[i].assignname : "")+" <i class='bi bi-info-circle-fill text-primary' data-bs-toggle='tooltip' data-bs-custom-class='tooltip-dark' data-bs-html='true' data-bs-custom-class='tooltip' data-bs-trigger='hover' data-bs-placement='top' title='<div class=\"text-start\">User Identifier : <b>"+(result[i].useridentifier ? result[i].useridentifier : "")+"</b></div>'></i></div>"+"</td>";
+                    rows += `<td>${badges}</td>`;
                     rows +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+(result[i].useridentifier ? "" : "User Belum Terdaftar Pengguna TTE / Sertifikat Belum Aktif")+"</div></td>";
                     rows +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
                     rows +="</tr>";
-
-                    
 
                     switch (result[i].status_sign) {
                         case "0":
@@ -325,6 +181,7 @@ function dataupload(startDate,endDate){
         },
         complete: function () {
 			toastr.clear();
+            KTApp.initBootstrapTooltips();
 		},
         error: function(xhr, status, error) {
             showAlert(

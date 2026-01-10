@@ -60,15 +60,33 @@
             $resultcheckroleaccess = $this->md->checkroleaccess($_SESSION['orgid'],$_SESSION['userid']);
 
             if(!empty($resultcheckroleaccess)){
-                $parameter ="and a.org_id='".$_SESSION['orgid']."'";
+                $parameter = "a.org_id = '{$_SESSION['orgid']}'";
             }else{
-                $parameter ="
-                                and a.org_id='".$_SESSION['orgid']."'
-                                and a.assign='".$_SESSION['username']."'
-                                or  a.created_by='".$_SESSION['userid']."'
-                                or  a.created_by in (select user_id from dt01_gen_user_asst_dt where active='1' and asst_id='".$_SESSION['userid']."')
-                                or  a.assign in (select nik from dt01_gen_user_data where active='1' and user_id in (select user_id from dt01_gen_user_asst_dt where active='1' and asst_id='".$_SESSION['userid']."'))
+                $parameter = "
+                                a.org_id = '{$_SESSION['orgid']}'
+                                AND (
+                                    a.assign = '{$_SESSION['username']}'
+                                    OR a.created_by = '{$_SESSION['userid']}'
+                                    OR a.created_by IN (
+                                        SELECT user_id
+                                        FROM dt01_gen_user_asst_dt
+                                        WHERE active='1'
+                                        AND asst_id = '{$_SESSION['userid']}'
+                                    )
+                                    OR a.assign IN (
+                                        SELECT nik
+                                        FROM dt01_gen_user_data
+                                        WHERE active='1'
+                                        AND user_id IN (
+                                            SELECT user_id
+                                            FROM dt01_gen_user_asst_dt
+                                            WHERE active='1'
+                                            AND asst_id = '{$_SESSION['userid']}'
+                                        )
+                                    )
+                                )
                             ";
+
             }
 
             $result = $this->md->dataupload($parameter,$startDate,$endDate);
@@ -86,55 +104,6 @@
 
             echo json_encode($json);
         }
-
-        // public function signdocument(){
-        //     $type     = $this->input->post("modal_sign_add_document_type");
-        //     $assign   = $this->input->post("modal_sign_add_assign");
-        //     $info1    = $this->input->post("modal_sign_add_informasi1");
-        //     $info2    = $this->input->post("modal_sign_add_informasi2");
-        //     $position = $this->input->post("modal_sign_add_position");
-
-        //     $transid = generateuuid();
-
-        //     $config['upload_path']   = './assets/document/';
-        //     $config['allowed_types'] = 'pdf';
-        //     $config['file_name']     = $transid."_SIGNER".$position;
-        //     $config['overwrite']     = true;
-
-        //     $this->load->library('upload', $config);
-
-        //     if (!$this->upload->do_upload('modal_sign_add_document')) {
-        //         $error_message = strip_tags($this->upload->display_errors());
-
-        //         log_message('error', 'File upload error: ' . $error_message);
-
-        //         $json['responCode'] = "01";
-        //         $json['responHead'] = "info";
-        //         $json['responDesc'] = $error_message;
-        //     } else {
-        //         $data['org_id']        = $_SESSION['orgid'];
-        //         $data['no_file']       = generateuuid()."_SIGNER".$position;
-        //         $data['status_file']   = "1";
-        //         $data['jenis_doc']     = $type;
-        //         $data['assign']        = $assign;
-        //         $data['pasien_idx']    = $info1;
-        //         $data['transaksi_idx'] = $info2;
-        //         $data['source_file']   = "DTECHNOLOGY";
-        //         $data['created_by']    = $_SESSION['userid'];
-
-        //         if($this->md->insertsigndocument($data)){
-        //             $json['responCode']="00";
-        //             $json['responHead']="success";
-        //             $json['responDesc']="Data Added Successfully";
-        //         } else {
-        //             $json['responCode']="01";
-        //             $json['responHead']="info";
-        //             $json['responDesc']="Data Failed to Add";
-        //         }
-        //     }
-
-        //     echo json_encode($json);
-        // }
 
         public function signdocument(){
             $type     = $this->input->post("modal_sign_add_document_type");
