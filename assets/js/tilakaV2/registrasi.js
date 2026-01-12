@@ -278,7 +278,7 @@ function datakaryawan(){
                     btnverifikasienroll        = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btnactivequicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='activequicksign(this)'><i class='fa-solid fa-circle-check text-success'></i> Activation Quick Sign</a>";
 
-                    if(result[i].REGISTER_ID==="" || result[i].REGISTER_ID===null){
+                    if(result[i].REGISTER_ID===null){
                         if(result[i].REASON_CODE==="3"){
                             statususer ="<td><div class='badge badge-light-danger fw-bolder'>Data belum lengkap</div><div class='badge badge-light-danger fw-bolder'>Register Id expired</div><div class='small'>Silakan Melakukan Melengkapi No KTP, Email dan Upload KTP</div></td>";
                             btnaction = btnedit;
@@ -288,62 +288,62 @@ function datakaryawan(){
                         }
                     }
 
-                    if((result[i].REGISTER_ID==="" || result[i].REGISTER_ID===null) && result[i].IDENTITY_NO!=null && result[i].EMAIL!=null && result[i].IMAGE_IDENTITY==="Y"){
+                    if(result[i].REGISTER_ID===null && result[i].IDENTITY_NO!=null && result[i].EMAIL!=null && result[i].IMAGE_IDENTITY==="Y"){
                         statususer ="<td><div class='badge badge-light-success fw-bolder'>Data lengkap</div><div class='small'>Silakan Melakukan Pengajuan Sertifikat Tanda Tangan Elektronik</div></td>";
                         btnaction = btnedit+btnpengajuan;
                     }
 
-                    if(result[i].REGISTER_ID!="" && result[i].CERTIFICATE===""){
+                    if(result[i].REGISTER_ID!=null && result[i].CERTIFICATE===null){
                         statususer ="<td><div class='badge badge-light-success fw-bolder'>Pengajuan berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                         btnaction = btnverifpengajuan;
                     }
 
 
-                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER!="" && result[i].REVOKE_ID==="" && (result[i].ISSUE_ID==="" || result[i].ISSUE_ID===null) && result[i].status_expdate==="1"){
+                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER!=null && result[i].REVOKE_ID===null && result[i].ISSUE_ID===null && result[i].status_expdate==="1"){
                         statususer ="<td><div class='badge badge-light-danger fw-bolder'>Sertifikat Expired</div><div class='small'>Silakan Melakukan Pengajuan Kembali</div></td>";
                         btnaction = btnreenroll;
                     }
 
-                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER==="" && result[i].REVOKE_ID===""){
+                    if(result[i].CERTIFICATE==="0" &&  result[i].USER_IDENTIFIER===null && result[i].REVOKE_ID===null){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'></div></td>";
                     }
 
-                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Request Revoke"){
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=null && result[i].CERTIFICATE_INFO==="Request Revoke"){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction = btnreenroll;
                     }
 
-                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!="" && result[i].CERTIFICATE_INFO==="Revoke"){
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID!=null && result[i].CERTIFICATE_INFO==="Revoke"){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Account Sudah Di "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Pengajuan Re Enroll</div></td>";
                         btnaction = btnreenroll;
                     }
 
-                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID!='' && result[i].REASON_CODE==='3'){
+                    if(result[i].CERTIFICATE==="0" && result[i].REVOKE_ID===null && result[i].ISSUE_ID!=null && result[i].REASON_CODE==='3'){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Issue Id Expired</div><div class='small'>Silakan Melakukan Pengajuan Re Enroll Kembali</div></td>";
                         btnaction  = btnreenroll;
                     }
 
-                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID===''){
+                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID===null && result[i].ISSUE_ID===null){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btncheckstatus;
                     }
 
-                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID!=''){
+                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID===null && result[i].ISSUE_ID!=null){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btnverifikasienroll;
                     }
 
-                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID!="" && result[i].ISSUE_ID!=''){
+                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID!=null && result[i].ISSUE_ID!=null){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Pengajuan Re Enroll Berhasil</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                         btnaction  = btnverifikasienroll;
                     }
 
-                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID!="" && result[i].ISSUE_ID!='' && result[i].REASON_CODE==="0"){
+                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID!=null && result[i].ISSUE_ID!=null && result[i].REASON_CODE==="0"){
                         statususer = "<td><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btncheckstatus;
                     }
 
-                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID!="" && result[i].ISSUE_ID!='' && result[i].REASON_CODE==="1"){
+                    if(result[i].CERTIFICATE==="1" && result[i].REVOKE_ID!=null && result[i].ISSUE_ID!=null && result[i].REASON_CODE==="1"){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder me-4'>Gagal Dukcapil</div><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Mohon Menunggu Silakan Lakukan Pengecekan Secara Berkala</div></td>";
                         btnaction  = btncheckstatus;
                     }
@@ -357,27 +357,27 @@ function datakaryawan(){
                         }
                     }
 
-                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID===''){
+                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===null && result[i].ISSUE_ID===null){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
                         btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign; 
                     }
 
-                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID==="" && result[i].ISSUE_ID!=''){
+                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===null && result[i].ISSUE_ID!=null){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
                         btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign; 
                     }
 
-                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=""){
+                    if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=null){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan revoke account tilaka</div><div class='small'>Silakan Melakukan face recognition / Liveness</div></td>";
                         btnaction  = btnapprevoke;
                     }
 
-                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID===""){
+                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID===null){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
                         btnaction  = btnedit+btnpengajuan;
                     }
 
-                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID!=""){
+                    if(result[i].CERTIFICATE==="4" && result[i].ISSUE_ID!=null){
                         statususer = "<td><div class='badge badge-light-danger fw-bolder'>Pengajuan Sertifikat Di Tolak Verifikator</div><br><div class='badge badge-light-info fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Re Registration</div></td>";
                         btnaction  = btnreenroll;
                     }

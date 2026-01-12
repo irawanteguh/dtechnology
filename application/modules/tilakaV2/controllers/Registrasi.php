@@ -12,15 +12,18 @@
 		public function index(){
             $data = $this->loadcombobox();
 
-            $full_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
-            $full_url .= "://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            $full_url   = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+            $full_url  .= "://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            $has_query  = parse_url($full_url, PHP_URL_QUERY);
 
-            $datacallback['org_id']      = $_SESSION['orgid'];
-            $datacallback['callback_id'] = generateuuid();
-            $datacallback['url']         = $full_url;
-            $datacallback['created_by']  = $_SESSION['userid'];
+            if (!empty($has_query)) {
+                $datacallback['org_id']      = $_SESSION['orgid'];
+                $datacallback['callback_id'] = generateuuid();
+                $datacallback['url']         = $full_url;
+                $datacallback['created_by']  = $_SESSION['userid'];
 
-            $this->md->insertcallback($datacallback);
+                $this->md->insertcallback($datacallback);
+            }
             
 
             if(isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['reason_code']) && isset($_GET['status'])){
@@ -40,8 +43,8 @@
                                 $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
                                 $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
                                 $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
-                                $datasimpan['REVOKE_ID']        = "";
-                                $datasimpan['ISSUE_ID']         = "";
+                                $datasimpan['REVOKE_ID']        = null;
+                                $datasimpan['ISSUE_ID']         = null;
 
                                 $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                                 redirect("tilakaV2/registrasi",$data);
@@ -55,7 +58,7 @@
                     $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
 
                     if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="1" && $responsecheckregistrasiuser['data']['manual_registration_status']==="F"){
-                        $datasimpan['REGISTER_ID']    = "";
+                        $datasimpan['REGISTER_ID']    = null;
                         $datasimpan['IMAGE_IDENTITY'] = "N";
                         $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                         redirect("tilakaV2/registrasi",$data);
@@ -79,8 +82,8 @@
                                     $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                                     $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
                                     $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
-                                    $datasimpan['REVOKE_ID']        = "";
-                                    $datasimpan['ISSUE_ID']         = "";
+                                    $datasimpan['REVOKE_ID']        = null;
+                                    $datasimpan['ISSUE_ID']         = null;
                                     $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                                     redirect("tilakaV2/registrasi",$data);
                                 }
@@ -93,10 +96,10 @@
                 if($_GET['reason_code'] === "3" && $_GET['status']==="F"){ // reason code 3 : Request Id Expired, status F : Fail dukcapil (ada data yang tidak sesuai, misal nik tidak ditemukan pada database dukcapil
                     $datasimpan['IMAGE_IDENTITY']  = "N";
                     $datasimpan['REASON_CODE']     = $_GET['reason_code'];
-                    $datasimpan['USER_IDENTIFIER'] = "";
-                    $datasimpan['REGISTER_ID']     = "";
-                    $datasimpan['REVOKE_ID']       = "";
-                    $datasimpan['ISSUE_ID']        = "";
+                    $datasimpan['USER_IDENTIFIER'] = null;
+                    $datasimpan['REGISTER_ID']     = null;
+                    $datasimpan['REVOKE_ID']       = null;
+                    $datasimpan['ISSUE_ID']        = null;
                     
                     $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                     redirect("tilakaV2/registrasi",$data);
@@ -113,8 +116,8 @@
                             $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                             $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
                             $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $responsecheckcertificateuser['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
-                            $datasimpan['REVOKE_ID']="";
-                            $datasimpan['ISSUE_ID']="";
+                            $datasimpan['REVOKE_ID']        = null;
+                            $datasimpan['ISSUE_ID']         = null;
                             $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                             redirect("tilakaV2/registrasi",$data);
                         }
@@ -124,10 +127,10 @@
                         if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="3"){ // reason code 3 : Request Id Expired, status F : Fail dukcapil (ada data yang tidak sesuai, misal nik tidak ditemukan pada database dukcapil
                             $datasimpan['IMAGE_IDENTITY']  = "N";
                             $datasimpan['REASON_CODE']     = $_GET['reason_code'];
-                            $datasimpan['USER_IDENTIFIER'] = "";
-                            $datasimpan['REGISTER_ID']     = "";
-                            $datasimpan['REVOKE_ID']       = "";
-                            $datasimpan['ISSUE_ID']        = "";
+                            $datasimpan['USER_IDENTIFIER'] = null;
+                            $datasimpan['REGISTER_ID']     = null;
+                            $datasimpan['REVOKE_ID']       = null;
+                            $datasimpan['ISSUE_ID']        = null;
                             
                             $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                             redirect("tilakaV2/registrasi",$data);
@@ -144,8 +147,8 @@
 
                             if($response['success']){
                                 if($response['status']===3){
-                                    $datasimpan['REVOKE_ID']        = "";
-                                    $datasimpan['ISSUE_ID']         = "";
+                                    $datasimpan['REVOKE_ID']        = null;
+                                    $datasimpan['ISSUE_ID']         = null;
                                     $datasimpan['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
                                     $datasimpan['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                                 }
@@ -158,7 +161,7 @@
                         }
 
                         if($_GET['status'] === "Gagal"){
-                            $datasimpan['REVOKE_ID']="";
+                            $datasimpan['REVOKE_ID']=null;
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
                             redirect("tilakaV2/registrasi",$data);
                         }
@@ -181,11 +184,11 @@
                                 if($response['success']){
 
                                     if($response['status']===1){
-                                        $datasimpan['REVOKE_ID']        = "";
-                                        $datasimpan['ISSUE_ID']         = "";
+                                        $datasimpan['REVOKE_ID']        =null;
+                                        $datasimpan['ISSUE_ID']         =null;
                                         $datasimpan['CERTIFICATE']      = $response['status'];
                                         $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
-                                        $datasimpan['REASON_CODE']      = "";
+                                        $datasimpan['REASON_CODE']      =null;
 
                                         $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
                                         redirect("tilakaV2/registrasi",$data);
@@ -193,13 +196,13 @@
 
                                     if($response['status']===3){
                                         if($response['message']['info']==="Aktif"){
-                                            $datasimpan['REVOKE_ID']        = "";
-                                            $datasimpan['ISSUE_ID']         = "";
+                                            $datasimpan['REVOKE_ID']        =null;
+                                            $datasimpan['ISSUE_ID']         =null;
                                             $datasimpan['START_ACTIVE']     = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
                                             $datasimpan['EXPIRED_DATE']     = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                                             $datasimpan['CERTIFICATE']      = $response['status'];
                                             $datasimpan['CERTIFICATE_INFO'] = $response['message']['info'];
-                                            $datasimpan['REASON_CODE']      = "";
+                                            $datasimpan['REASON_CODE']      =null;
 
                                             $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
                                             redirect("tilakaV2/registrasi",$data);
@@ -268,8 +271,8 @@
                                     $datasimpan['USER_IDENTIFIER']  = $_GET['tilaka_name'];
                                     $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
                                     $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
-                                    $datasimpan['REVOKE_ID']        = "";
-                                    $datasimpan['ISSUE_ID']         = "";
+                                    $datasimpan['REVOKE_ID']        = null;
+                                    $datasimpan['ISSUE_ID']         = null;
 
                                     $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                                     redirect("tilakaV2/registrasi",$data);
@@ -594,11 +597,11 @@
     
                         if($response['success']){
                             $data['REGISTER_ID']      = $response['data'][0];
-                            $data['CERTIFICATE']      = "";
-                            $data['CERTIFICATE_INFO'] = "";
-                            $data['REVOKE_ID']        = "";
-                            $data['ISSUE_ID']         = "";
-                            $data['REASON_CODE']      = "";
+                            $data['CERTIFICATE']      = null;
+                            $data['CERTIFICATE_INFO'] = null;
+                            $data['REVOKE_ID']        = null;
+                            $data['ISSUE_ID']         = null;
+                            $data['REASON_CODE']      = null;
 
                             if($this->md->updatedatauserid($data,$userid)){
                                 unlink($ktp_path);
@@ -655,18 +658,18 @@
 
                 if($response['status']===3){
                     if($response['message']['info']==="Aktif"){
-                        $data['REVOKE_ID']   = "";
-                        $data['ISSUE_ID']    = "";
+                        $data['REVOKE_ID']   = null;
+                        $data['ISSUE_ID']    = null;
                         $data['START_ACTIVE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['start_active_date'])->format('Y-m-d H:i:s');
                         $data['EXPIRED_DATE'] = DateTime::createFromFormat('Y-m-d H:i:s', $response['data'][0]['expiry_date'])->format('Y-m-d H:i:s');
                     }
                 }
 
                 if($response['status']===4){
-                    $data['USER_IDENTIFIER']  = "";
-                    $data['REGISTER_ID']      = "";
-                    $data['REVOKE_ID']        = "";
-                    $data['ISSUE_ID']         = "";
+                    $data['USER_IDENTIFIER']  = null;
+                    $data['REGISTER_ID']      = null;
+                    $data['REVOKE_ID']        = null;
+                    $data['ISSUE_ID']         = null;
                 }
 
                 $this->md->updatedatauserid($data,$userid);
@@ -703,7 +706,7 @@
                     $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
                     $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                     $datasimpan['REVOKE_ID']        = $response['data'][0];
-                    $datasimpan['ISSUE_ID']         = "";
+                    $datasimpan['ISSUE_ID']         = null;
 
                     $this->md->updatedatauseridentifier($datasimpan,$useridentifier);
 
