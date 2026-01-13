@@ -95,7 +95,7 @@
                         and   a.assign      = '".$assign."'
                         -- and   a.assign=(select nik from dt01_gen_user_data where active='1' and certificate='3' and nik=a.assign)
                         and   a.status_sign ='1'
-                        limit 50;
+                        limit 1;
                     ";
 
             $recordset = $this->db->query($query);

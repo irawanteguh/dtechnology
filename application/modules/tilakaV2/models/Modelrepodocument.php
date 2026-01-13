@@ -52,14 +52,14 @@
         //     return $recordset;
         // }
 
-        function dataupload($parameter, $startDate, $endDate){
+        public function dataupload($parameter, $startDate, $endDate){
             $query = "
                 SELECT
                     x.*,
 
                     /* ===== SESUAI JUMLAH & URUTAN ASSIGN ===== */
-                    GROUP_CONCAT(u.user_identifier ORDER BY ja.ord SEPARATOR '; ') AS useridentifier,
-                    GROUP_CONCAT(u.name ORDER BY ja.ord SEPARATOR '; ') AS assignname,
+                    GROUP_CONCAT(u.user_identifier ORDER BY ja.ord SEPARATOR ';') AS useridentifier,
+                    GROUP_CONCAT(COALESCE(u.name, ja.nik) ORDER BY ja.ord SEPARATOR ';') AS assignname,
 
                     /* ===== INFO TAMBAHAN ===== */
                     (
@@ -126,11 +126,9 @@
                     FROM dt01_gen_document_file_dt a
                     WHERE a.active='1'
                     AND a.status_sign NOT IN ('5','99')
-                    AND (
-                        {$parameter}
-                    )
+                    AND ({$parameter})
 
-                    UNION
+                    UNION ALL
 
                     /* ================= DATA SELESAI ================= */
                     SELECT
@@ -152,9 +150,7 @@
                     WHERE a.active='1'
                     AND a.status_sign IN ('5','99')
                     AND a.created_date BETWEEN '{$startDate}' AND '{$endDate}'
-                    AND (
-                        {$parameter}
-                    )
+                    AND ({$parameter})
                     AND a.assign = (
                         SELECT nik
                         FROM dt01_gen_user_data
@@ -171,7 +167,7 @@
                 JOIN JSON_TABLE(
                     CONCAT(
                         '[\"',
-                        REPLACE(IFNULL(x.assign,''), ';', '\",\"'),
+                        REPLACE(IFNULL(x.assign, ''), ';', '\",\"'),
                         '\"]'
                     ),
                     '$[*]' COLUMNS (
@@ -180,17 +176,10 @@
                     )
                 ) ja ON ja.nik <> ''
 
-                /* ===== USER DIKUNCI 1 ROW PER NIK ===== */
-                LEFT JOIN (
-                    SELECT
-                        nik,
-                        MAX(user_identifier) AS user_identifier,
-                        MAX(name) AS name
-                    FROM dt01_gen_user_data
-                    WHERE active='1'
-                    AND certificate='3'
-                    GROUP BY nik
-                ) u ON u.nik = ja.nik
+                /* ===== LEFT JOIN KE USER DATA ===== */
+                LEFT JOIN dt01_gen_user_data u
+                ON u.nik = ja.nik
+                AND u.active='1' -- optional: AND u.certificate='3'
 
                 /* ===== GROUPING ===== */
                 GROUP BY
@@ -217,6 +206,8 @@
 
             return $this->db->query($query)->result();
         }
+
+
 
 
 

@@ -330,7 +330,7 @@
                     if($this->fileExists($locationspeciment)){
                         $text            = "Dokumen telah ditandatangani elektronik oleh ".$a->assignname." ID : ".$a->assign." Created Date : ".$a->tgljam;
                         $logo            = FCPATH."assets/images/clients/".$a->org_id.".png";
-                        
+
                         if(SIGNATUREIMAGES==="DEFAULT"){
                             $signatureimages = "data:image/png;base64,".base64_encode(file_get_contents($locationspeciment));
                         }else{
@@ -356,44 +356,93 @@
 
                                 if($this->fileExists($filename)){
                                     if(preg_match('/SIGNER(.*)/', $filename, $matches)){
-                                        $position          = "$".preg_replace('/\.pdf$/', '', $matches[1]);
-                                        $pdfParse          = new Pdfparse($filename);
-                                        $specimentposition = $pdfParse->findText($position);
+                                        $assignArray = explode(';', $files->assign);
 
-                                        if(!empty($specimentposition['content'][$position])){
-                                            $listpdf = [];
+                                        foreach($assignArray as $idx => $assign){
+                                            $position = '$'.($idx + 1);
 
-                                            foreach ($specimentposition['content'][$position] as $specimen){
-                                                if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
-                                                    $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
-                                                    $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
-                                                    $page        = floatval($specimen['page']);
-                                        
-                                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                                                    $listpdfsignatures['location']        = $files->orgname;
-                                                    $listpdfsignatures['width']           = floatval(WIDTH);
-                                                    $listpdfsignatures['height']          = floatval(HEIGHT);
-                                                    $listpdfsignatures['coordinate_x']    = $coordinatex;
-                                                    $listpdfsignatures['coordinate_y']    = $coordinatey;
-                                                    $listpdfsignatures['page_number']     = $page;
-                                        
-                                                    if (CERTIFICATE === "PERSONAL") {
-                                                        $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                            $pdfParse = new Pdfparse($filename);
+                                            $specimentposition = $pdfParse->findText($position);
+
+                                            if(!empty($specimentposition['content'][$position])){
+                                                $listpdf = [];
+
+                                                foreach ($specimentposition['content'][$position] as $specimen){
+                                                    if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
+                                                        $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
+                                                        $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
+                                                        $page        = floatval($specimen['page']);
+
+                                                        $listpdfsignatures['user_identifier'] = $assign; // assign sesuai array
+                                                        $listpdfsignatures['location']        = $files->orgname;
+                                                        $listpdfsignatures['width']           = floatval(WIDTH);
+                                                        $listpdfsignatures['height']          = floatval(HEIGHT);
+                                                        $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                                        $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                                        $listpdfsignatures['page_number']     = $page;
+
+                                                        if (CERTIFICATE === "PERSONAL") {
+                                                            $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                                        }
+
+                                                        $listpdf['template_no']  = $assign;
+                                                        $listpdf['filename']     = $files->filename;
+                                                        $listpdf['signatures'][] = $listpdfsignatures;
+                                                    }else{
+                                                        $statusColor = "red";
+                                                        $statusMsg   = "Tag Coordinat Tidak Ditemukan";
                                                     }
-                                        
-                                                    $listpdf['template_no']  = $files->assign;
-                                                    $listpdf['filename']     = $files->filename;
-                                                    $listpdf['signatures'][] = $listpdfsignatures;
-
-                                                }else{
-                                                    $statusColor = "red";
-                                                    $statusMsg   = "Tag Coordinat Tidak Ditemukan";
                                                 }
-                                            } 
-                                        }else{
-                                            $statusColor = "red";
-                                            $statusMsg   = "Tag Tidak Ditemukan";
+
+                                                $body['list_pdf'][] = $listpdf;
+
+                                            }else{
+                                                $statusColor = "red";
+                                                $statusMsg   = "Tag Tidak Ditemukan untuk posisi " . $position;
+                                            }
                                         }
+
+
+
+                                        // $position          = "$".preg_replace('/\.pdf$/', '', $matches[1]);
+                                        // $pdfParse          = new Pdfparse($filename);
+                                        // $specimentposition = $pdfParse->findText($position);
+
+                                        // if(!empty($specimentposition['content'][$position])){
+                                        //     $listpdf = [];
+
+                                        //     foreach ($specimentposition['content'][$position] as $specimen){
+                                        //         if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
+                                        //             $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
+                                        //             $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
+                                        //             $page        = floatval($specimen['page']);
+                                        
+                                        //             $listpdfsignatures['user_identifier'] = $a->user_identifier;
+                                        //             $listpdfsignatures['location']        = $files->orgname;
+                                        //             $listpdfsignatures['width']           = floatval(WIDTH);
+                                        //             $listpdfsignatures['height']          = floatval(HEIGHT);
+                                        //             $listpdfsignatures['coordinate_x']    = $coordinatex;
+                                        //             $listpdfsignatures['coordinate_y']    = $coordinatey;
+                                        //             $listpdfsignatures['page_number']     = $page;
+                                        
+                                        //             if (CERTIFICATE === "PERSONAL") {
+                                        //                 $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
+                                        //             }
+                                        
+                                        //             $listpdf['template_no']  = $files->assign;
+                                        //             $listpdf['filename']     = $files->filename;
+                                        //             $listpdf['signatures'][] = $listpdfsignatures;
+
+                                        //         }else{
+                                        //             $statusColor = "red";
+                                        //             $statusMsg   = "Tag Coordinat Tidak Ditemukan";
+                                        //         }
+                                        //     } 
+                                        // }else{
+                                        //     $statusColor = "red";
+                                        //     $statusMsg   = "Tag Tidak Ditemukan";
+                                        // }
+                                        
                                     }else{
                                         $tempDir       = sys_get_temp_dir();
                                         $localFilename = $tempDir . '/' . uniqid() . '.pdf';
@@ -473,7 +522,6 @@
 
                                 if(!empty($datasimpanhd)){
                                     $this->md->updatetransaksi($datasimpanhd,"1",$files->no_file);
-                                    // $this->md->updatefile($datasimpanhd,$files->no_file);
                                 }
                             }
 
