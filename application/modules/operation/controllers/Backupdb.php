@@ -65,7 +65,7 @@
 				}
 			}
 		
-			$conn = new mysqli(self::$host, self::$user, self::$password, self::$database);
+			$conn = new mysqli(self::$host, self::$user, self::$password, self::$database, 3307);
 			if ($conn->connect_error) {
 				die("Database connection failed: " . $conn->connect_error);
 			}
