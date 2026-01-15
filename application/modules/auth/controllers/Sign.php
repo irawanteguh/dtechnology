@@ -92,8 +92,6 @@
                 echo json_encode(["success" => false, "message" => "Failed to update mobile number."]);
             }
         }
-        
-        
 
         public function changepassword(){
             $password = encodedata($this->input->post("newpassword"));
@@ -113,7 +111,6 @@
             echo json_encode($json);
         }
         
-
         public function logoutsystem(){                            
             $this->session->sess_destroy();
             redirect("auth/sign");

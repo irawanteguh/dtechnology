@@ -8,7 +8,7 @@ CREATE TABLE `dt01_gen_callback_it` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`CALLBACK_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_gen_department_ms`;
 
@@ -29,7 +29,7 @@ CREATE TABLE `dt01_gen_department_ms` (
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`DEPARTMENT_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_gen_document_file_dt`;
 
@@ -53,7 +53,7 @@ CREATE TABLE `dt01_gen_document_file_dt` (
   `USER_IDENTIFIER` varchar(1000) DEFAULT NULL,
   `URL` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`NO_FILE`,`ACTIVE`,`CREATED_DATE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_gen_document_ms`;
 
@@ -66,7 +66,7 @@ CREATE TABLE `dt01_gen_document_ms` (
   `CREATED_BY` varchar(36) NOT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`JENIS_DOC`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_document_ms` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "xxx", "Testing Type Document", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-03-14 22:06:13");
 
@@ -85,7 +85,7 @@ CREATE TABLE `dt01_gen_enviroment_ms` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ENV_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "0a9b8755-68ff-410f-aa9d-721d07f15c4a", "WA_GATEWAY", "http://192.168.102.13:5001", "http://192.168.102.13:5001", "0", "0", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "2621c461-0ecf-491e-8495-99166b904b2d", "END_VALID_ACTIVITY", "5", "7", "0", "0", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
@@ -135,7 +135,7 @@ CREATE TABLE `dt01_gen_master_ms` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`MASTER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_master_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "0998f038-ea8b-42b8-a7c4-77bfd3d43bb4", "2", "Request Sign", "Waiting Signing User", "info", "", "Statussign_1", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
 INSERT INTO `dt01_gen_master_ms` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "0edaebdc-578a-4da8-bd0e-6983290c68f4", "1", "Upload File", "Waiting Request Sign", "info", "", "Statussign_1", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
@@ -165,7 +165,7 @@ CREATE TABLE `dt01_gen_modules_ms` (
   `CREATED_BY` varchar(36) NOT NULL,
   `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`MODULES_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_modules_ms` VALUES ("01b1b52a-7d47-4352-b145-37d9bb2646c3", "Tilaka", "", "45304d5b-390d-4618-a08d-793b475f37b7", "tilaka", "", "Y", "bi bi-filetype-pdf", "0", "998", "N", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("029f2730-7ee9-4383-a409-4b5fe0d61fcc", "Request", "", "ef759cae-8fd6-4e36-9790-439e03c3a503", "logistik", "request", "N", "bi bi-file-earmark-spreadsheet", "0", "3", "N", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
@@ -387,7 +387,7 @@ CREATE TABLE `dt01_gen_organization_ms` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ORG_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_gen_referensi_dt`;
 
@@ -401,7 +401,7 @@ CREATE TABLE `dt01_gen_referensi_dt` (
   `CREATED_BY` varchar(36) NOT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`REF_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_referensi_dt` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "1d388997-3327-4746-8e80-0d49f37d1303", "forking postman collection", "informasi langkah-langkah forking postman collection", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/forking/#forking-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
 INSERT INTO `dt01_gen_referensi_dt` VALUES ("be3d71bc-484e-4971-9590-e31e10516c25", "9fd2c349-c12b-470c-867c-f21b80df021c", "import postman collection", "formasi langkah-langkah import postman collection.", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/import/#import-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
@@ -427,7 +427,7 @@ CREATE TABLE `dt01_gen_role_access` (
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_role_access` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "438ed798-a4dc-4c83-93c5-3aa656b93aba", "6652e626-4438-4bff-aeef-164598310b94", "346ddd36-438f-45a9-a22f-1b11b6dc32e4", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:43:19", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:43:19");
 
@@ -445,7 +445,7 @@ CREATE TABLE `dt01_gen_role_dt` (
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_role_dt` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "325b2154-413a-4c18-bdba-2b026912425d", "346ddd36-438f-45a9-a22f-1b11b6dc32e4", "5e882da7-5b62-4031-8ea2-a849d1e0aa65", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:44:10", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:44:10");
 INSERT INTO `dt01_gen_role_dt` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "b1d4450d-9f15-45a7-9348-d047c7f0f927", "346ddd36-438f-45a9-a22f-1b11b6dc32e4", "171a2550-9fa1-4fe8-84c3-7b61b7cc2c55", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:44:05", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:44:05");
@@ -466,7 +466,7 @@ CREATE TABLE `dt01_gen_role_ms` (
   `LAST_UPDATED_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ROLE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_role_ms` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "346ddd36-438f-45a9-a22f-1b11b6dc32e4", "Default", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-26 21:29:02", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-26 21:29:02");
 INSERT INTO `dt01_gen_role_ms` VALUES ("b12234f2-b27e-4920-a935-2077fa4783d8", "34c2e933-4b1b-47cd-8497-71de44ac4e01", "Administrator Tilaka", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-17 16:05:58", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-17 16:05:58");
@@ -483,7 +483,7 @@ CREATE TABLE `dt01_gen_user_asst_dt` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_gen_user_data`;
 
@@ -530,7 +530,7 @@ CREATE TABLE `dt01_gen_user_data` (
   `ACTIVE_ID` varchar(36) DEFAULT NULL,
   `ACTIVE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_user_data` VALUES ("55f72bbb-2e1d-433d-9e02-7c581b9fee4a", "b12234f2-b27e-4920-a935-2077fa4783d8", "6652e626-4438-4bff-aeef-164598310b94", "root", "3832333435363731", "Administrator", "Administrator", "1521027", "", "3453453423423423", "", "", "preujiddonupro-6989@yopmail.com", "", "", "ibnu01", "9bf0a269-4166-42da-afff-bab3652edf62", "", "", "", "3", "Aktif", "2026-01-13 02:07:21", "2027-01-13 02:07:20", "", "N", "Y", "83e9982c-814a-4349-89fb-cbee6f34e340", "", "0", "0", "0", "N", "", "", "081288646630", "1", "", "2026-01-09 15:30:24", "", "");
 INSERT INTO `dt01_gen_user_data` VALUES ("55f72bbb-2e1d-433d-9e02-7c581b9fee4a", "b12234f2-b27e-4920-a935-2077fa4783d8", "f85595fe-34a2-4de9-852c-2ad1eca2931f", "12345", "3832333435363731", "Administrator 2", "Administrator 2", "12345", "", "4355345345345345", "", "", "yezeisseibrovo-7642@yopmail.com", "", "", "ibnu02", "", "", "", "", "", "", "", "", "", "N", "N", "a3b109d6-b792-4883-b176-31bc762de98d", "", "0", "0", "0", "N", "", "", "", "1", "", "2026-01-13 14:35:08", "", "");
@@ -555,7 +555,7 @@ CREATE TABLE `dt01_hrd_position_dt` (
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_hrd_position_ms`;
 
@@ -577,7 +577,7 @@ CREATE TABLE `dt01_hrd_position_ms` (
   `LAST_UPDATE_BY` varchar(36) NOT NULL,
   `LAST_UPDATE_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`POSITION_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_med_kolegium_ms`;
 
@@ -590,7 +590,7 @@ CREATE TABLE `dt01_med_kolegium_ms` (
   `ICON` varchar(100) DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   PRIMARY KEY (`KOLEGIUM_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_sek_surat_hd`;
 
@@ -613,7 +613,7 @@ CREATE TABLE `dt01_sek_surat_hd` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_sek_surat_it`;
 
@@ -635,7 +635,7 @@ CREATE TABLE `dt01_sek_surat_it` (
   `HAPUS_DATETIME` datetime DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   PRIMARY KEY (`TRANSAKSI_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `dt01_service_api_logs_out`;
 
@@ -661,5 +661,5 @@ CREATE TABLE `dt01_service_api_logs_out` (
   `SOURCE` varchar(1000) DEFAULT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`REQUEST_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
