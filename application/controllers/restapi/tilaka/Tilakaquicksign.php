@@ -163,10 +163,20 @@
         //End Function Support
 
         public function uploadallfile_POST(){
-            $this->headerlog();
+            // $this->headerlog();
 
             if(CHECK_DATA_HOLDING==="FALSE"){
-                $paramater = "and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)";
+                // $paramater = "and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)";
+                $paramater = "
+                    AND EXISTS (
+                        SELECT 1
+                        FROM dt01_gen_user_data u2
+                        WHERE u2.org_id = a.org_id
+                        AND u2.active = '1'
+                        AND u2.certificate = '3'
+                        AND FIND_IN_SET(u2.nik, REPLACE(a.assign, ';', ','))
+                    )
+                ";
             }else{
                 $paramater = "";
             }
@@ -183,6 +193,7 @@
                     $responsecheckcertificate = [];
                     $responseuploadfile       = [];
                     $responsecheckdatauser    = [];
+                    $useridentifier           = [];
                     $filesize                 = 0;
 
                     if($a->source_file==="DTECHNOLOGY"){
@@ -192,67 +203,165 @@
                     }
 
                     if(CHECK_DATA_HOLDING==="FALSE"){
-                        $useridentifier=$a->useridentifier;
+                        if (!empty($a->useridentifier)) {
+                            $uidList = explode(';', $a->useridentifier);
+
+                            foreach ($uidList as $uid) {
+                                $uid = trim($uid);
+                                if ($uid === '') continue;
+
+                                $useridentifier[] = $uid;
+                            }
+                        }
                     }else{
-                        $responsecheckdatauser = Dtech::checkdatauser($a->assign);
-                        if(isset($responsecheckdatauser['status'])){
-                            if($responsecheckdatauser['status']){
-                                $useridentifier = $responsecheckdatauser['data']['useridentifier'];
+                        $assignList = explode(';', $a->assign);
+                        
+                        // $responsecheckdatauser = Dtech::checkdatauser($a->assign);
+                        // if(isset($responsecheckdatauser['status'])){
+                        //     if($responsecheckdatauser['status']){
+                        //         $useridentifier = $responsecheckdatauser['data']['useridentifier'];
+                        //     }
+                        // }
+
+                        foreach ($assignList as $nik) {
+                            $nik = trim($nik);
+                            if ($nik === '') continue;
+
+                            $responsecheckdatauser = Dtech::checkdatauser($nik);
+
+                            if(isset($responsecheckdatauser['status'])){
+                                if($responsecheckdatauser['status']){
+                                    if(isset($response['data']['useridentifier'])) {
+                                        $useridentifier[] = $response['data']['useridentifier'];
+                                    }
+                                }
                             }
                         }
                     }
 
-                    if($useridentifier!=""){
+                    if(is_array($useridentifier) && count($useridentifier) > 0){
                         if($this->fileExists($location)){
                             $filesize = $this->getFileSize($location);
 
                             if($filesize!=0){
-                                $bodycheckcertificate['user_identifier']=$useridentifier;
-                                $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-                
-                                if(isset($responsecheckcertificate['success'])){
-                                    if($responsecheckcertificate['success']){
-                                        if($responsecheckcertificate['status']===3){
-                                            $responseuploadfile = Tilaka::uploadfile($location);
-                                            if(isset($responseuploadfile['success'])){
-                                                if($responseuploadfile['success']){
-                                                    $datasimpanhd['filename']        = $responseuploadfile['filename'];
-                                                    $datasimpanhd['user_identifier'] = $useridentifier;
-                                                    $datasimpanhd['status_sign']     = "1";
-                                                    $datasimpanhd['status_file']     = "1";
-                                                    $datasimpanhd['link']            = null;
-                                                    $datasimpanhd['url']             = null;
-                                                    $datasimpanhd['request_id']      = null;
-                                                    $datasimpanhd['note']            = null;
+                                $finalStatus  = true;
+                                $errorUsers  = []; // kumpulan user bermasalah
 
-                                                    $statusColor = "green";
-                                                    $statusMsg   = $responseuploadfile['message']." | ".$responseuploadfile['filename'];
-                                                }else{
-                                                    $datasimpanhd['note'] = $responseuploadfile['message'];
+                                foreach ($useridentifier as $uid) {
+                                    $uid = trim($uid);
+                                    if ($uid === '') continue;
 
-                                                    $statusColor = "red";
-                                                    $statusMsg   = $responseuploadfile['message'];
-                                                }
-                                            }else{
-                                                $statusColor = "red";
-                                                $statusMsg   = "No Response From Tilaka Lite";
-                                            }
+                                    $bodycheckcertificate['user_identifier'] = $uid;
+                                    $responsecheckcertificate = Tilaka::checkcertificateuser(
+                                        json_encode($bodycheckcertificate)
+                                    );
+
+                                    // validasi response
+                                    if (
+                                        empty($responsecheckcertificate) ||
+                                        !isset($responsecheckcertificate['success']) ||
+                                        $responsecheckcertificate['success'] !== true ||
+                                        !isset($responsecheckcertificate['status']) ||
+                                        (int)$responsecheckcertificate['status'] !== 3
+                                    ) {
+                                        $finalStatus = false;
+
+                                        $errorUsers[] = [
+                                            'useridentifier' => $uid,
+                                            'name'           => $responsecheckcertificate['data'][0]['name'] ?? 'User tidak diketahui',
+                                            'status'         => $responsecheckcertificate['data'][0]['status'] ?? 'Unknown',
+                                            'expiry'         => $responsecheckcertificate['data'][0]['expiry_date'] ?? '-',
+                                            'info'           => $responsecheckcertificate['message']['info'] ?? 'Certificate invalid'
+                                        ];
+                                    }
+                                }
+
+                                if ($finalStatus) {
+                                    $responseuploadfile = Tilaka::uploadfile($location);
+                                    if(isset($responseuploadfile['success'])){
+                                        if($responseuploadfile['success']){
+                                            $useridentifier = implode(';',array_filter($useridentifier));
+
+                                            $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                            $datasimpanhd['user_identifier'] = $useridentifier;
+                                            $datasimpanhd['status_sign']     = "1";
+                                            $datasimpanhd['status_file']     = "1";
+                                            $datasimpanhd['link']            = null;
+                                            $datasimpanhd['url']             = null;
+                                            $datasimpanhd['request_id']      = null;
+                                            $datasimpanhd['note']            = null;
+
+                                            $statusColor = "green";
+                                            $statusMsg   = $responseuploadfile['message']." | ".$responseuploadfile['filename'];
                                         }else{
-                                            $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                            $datasimpanhd['note'] = $responseuploadfile['message'];
 
                                             $statusColor = "red";
-                                            $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                            $statusMsg   = $responseuploadfile['message'];
                                         }
                                     }else{
-                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
-
                                         $statusColor = "red";
-                                        $statusMsg   = $responsecheckcertificate['message']['info'];
+                                        $statusMsg   = "No Response From Tilaka Lite";
                                     }
-                                }else{
-                                    $statusColor = "red";
-                                    $statusMsg   = "Failed Check Certificate";
+                                } else {
+                                    $statusColor    = "red";
+                                    $useridentifier = "";
+
+                                    $messages = [];
+                                    foreach ($errorUsers as $err) {
+                                        $messages[] = $err['useridentifier'].' | '.$err['name'].' | '.$err['status'].' | '.$err['expiry'];
+                                    }
+
+                                    $statusMsg = implode(' || ', $messages);
                                 }
+
+
+                                // $bodycheckcertificate['user_identifier']=$useridentifier;
+                                // $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+                
+                                // if(isset($responsecheckcertificate['success'])){
+                                //     if($responsecheckcertificate['success']){
+                                //         if($responsecheckcertificate['status']===3){
+                                //             $responseuploadfile = Tilaka::uploadfile($location);
+                                //             if(isset($responseuploadfile['success'])){
+                                //                 if($responseuploadfile['success']){
+                                //                     $datasimpanhd['filename']        = $responseuploadfile['filename'];
+                                //                     $datasimpanhd['user_identifier'] = $useridentifier;
+                                //                     $datasimpanhd['status_sign']     = "1";
+                                //                     $datasimpanhd['status_file']     = "1";
+                                //                     $datasimpanhd['link']            = null;
+                                //                     $datasimpanhd['url']             = null;
+                                //                     $datasimpanhd['request_id']      = null;
+                                //                     $datasimpanhd['note']            = null;
+
+                                //                     $statusColor = "green";
+                                //                     $statusMsg   = $responseuploadfile['message']." | ".$responseuploadfile['filename'];
+                                //                 }else{
+                                //                     $datasimpanhd['note'] = $responseuploadfile['message'];
+
+                                //                     $statusColor = "red";
+                                //                     $statusMsg   = $responseuploadfile['message'];
+                                //                 }
+                                //             }else{
+                                //                 $statusColor = "red";
+                                //                 $statusMsg   = "No Response From Tilaka Lite";
+                                //             }
+                                //         }else{
+                                //             $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+
+                                //             $statusColor = "red";
+                                //             $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                //         }
+                                //     }else{
+                                //         $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
+
+                                //         $statusColor = "red";
+                                //         $statusMsg   = $responsecheckcertificate['message']['info'];
+                                //     }
+                                // }else{
+                                //     $statusColor = "red";
+                                //     $statusMsg   = "Failed Check Certificate";
+                                // }
                             }else{
                                 $datasimpanhd['status_sign'] = "98";
                                 $datasimpanhd['note']        = "File Corrupted, Size ".$filesize;
