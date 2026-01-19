@@ -146,7 +146,7 @@
 
                 // Data siap disimpan ke DB
                 $data['org_id']        = $_SESSION['orgid'];
-                $data['no_file']       = $transid."_SIGNER".$position;
+                $data['no_file']       = $transid;
                 $data['status_file']   = "1";
                 $data['jenis_doc']     = $type;
                 $data['assign']        = $assign;

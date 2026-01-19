@@ -272,7 +272,7 @@ function datakaryawan(){
                     btncheckstatus             = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='certificatestatus(this)'><i class='fa-solid fa-circle-check text-success'></i> Check Status</a>";
                     btnverifpengajuan          = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/guide?request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btnappcertificate          = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&request_id="+result[i].REGISTER_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-shield-check'></i> Activation</a>";
-                    btnappcertificatereenrolll = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-shield-check'></i> Activation</a>";
+                    btnappcertificatereenrolll = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/link-account?setting=1&channel_id="+clientidtilaka+"&issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-shield-check'></i> Activation Re Enroll</a>";
                     btnapprevoke               = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/revoke?revoke_id="+result[i].REVOKE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi' title='Revoke Approval'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btngantimfa                = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/login?setting=2&tilaka_name="+result[i].USER_IDENTIFIER+"&redirect_url="+url+"index.php/tilakaV2/registrasi&channel_id="+clientidtilaka+"'><i class='fa-solid fa-arrows-spin text-primary'></i> Change MFA</a>";
                     btnverifikasienroll        = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tilakaV2/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
@@ -350,7 +350,7 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="2"){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>"+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Silakan Melakukan Aktivasi</div></td>";
-                        if(result[i].ISSUE_ID!=""){
+                        if(result[i].ISSUE_ID!=null){
                             btnaction  = btnappcertificatereenrolll;
                         }else{
                             btnaction  = btnappcertificate;
@@ -396,12 +396,6 @@ function datakaryawan(){
                                     tableresult +="</a>";
                                 tableresult +="</div>";
                                 tableresult +="<div class='d-flex flex-column'>";
-                                    // if(result[i].REGISTER_ID!=""){
-                                    //     tableresult +="<a class='text-gray-800 text-hover-primary mb-1' "+getvariabel+" onclick='certificatestatus(this)' style='cursor: pointer;' title='Click For Cretificate Status'>"+result[i].NAME+"</a>";
-                                    // }else{
-                                    //     tableresult +="<a class='text-gray-800 text-hover-primary mb-1'>"+result[i].NAME+"</a>";
-                                    // }
-                                    // tableresult +="<a class='text-gray-800 text-hover-primary mb-1'>"+result[i].NAME+"</a>";
                                     tableresult +="<div class='text-gray-800 mb-1'>"+result[i].NAME+"</div>";
                                     tableresult +="<span>"+(result[i].EMAIL ? result[i].EMAIL : "-")+"</span>";
                                 tableresult +="</div>";
