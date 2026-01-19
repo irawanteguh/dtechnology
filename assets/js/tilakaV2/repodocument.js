@@ -91,38 +91,39 @@ function dataupload(startDate,endDate){
             if(data.responCode === "00"){
                 result = data.responResult;
                 for(var i in result){
-                    var rows         = "";
+                    var   rows     = "";
                     const filePath = result[i].source_file === "DTECHNOLOGY" ? `${url}assets/document/${result[i].no_file}.pdf` : `${pathposttilaka}${result[i].no_file}.pdf`;
-                    let badges = '';
+                    let   badges   = '';
 
-                    if (result[i].assignname) {
+                    if(result[i].assignname){
                         let names = result[i].assignname.split(';');
-                        let ids   = result[i].useridentifier
-                            ? result[i].useridentifier.split(';')
-                            : [];
+                        let ids   = result[i].useridentifier ? result[i].useridentifier.split(';') : [];
 
                         badges += `<div class="d-flex flex-column align-items-start gap-1">`;
 
                         names.forEach((name, idx) => {
-                            let uid = ids[idx] ? ids[idx] : '';
+                            let uid   = ids[idx] ? ids[idx] : 'User Belum Terdaftar';
+                            let color = ids[idx] ? 'badge-light-primary' : 'badge-light-danger';
+                            let icon  = ids[idx] ? ' <i class="bi bi-info-circle-fill text-primary ms-1" ' : ' <i class="bi bi-info-circle-fill text-danger ms-1" ';
 
                             badges += `
-                                <div class="badge badge-light-primary text-start">
-                                    ${name.trim()}
-                                    <i class="bi bi-info-circle-fill text-primary ms-1"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-html="true"
-                                    data-bs-placement="top"
-                                    data-bs-custom-class="tooltip-dark"
-                                    title="
-                                            <div class='text-start'>
-                                                <div><small>User Identifier</small></div>
-                                                <b>${uid}</b>
-                                            </div>
-                                    ">
-                                    </i>
-                                </div>
-                            `;
+                                        <div class="badge ${color} text-start">
+                                            ${name.trim()}
+                                            ${icon}
+                                            data-bs-toggle="tooltip"
+                                            data-bs-html="true"
+                                            data-bs-placement="top"
+                                            data-bs-custom-class="tooltip-dark"
+                                            data-bs-title="
+                                                    <div class='text-start'>
+                                                        <div><small>User Identifier</small></div>
+                                                        <b>${uid}</b>
+                                                    </div>
+                                            ">
+                                            </i>
+                                        </div>
+                                    `;
+
                         });
 
                         badges += `</div>`;
@@ -143,11 +144,8 @@ function dataupload(startDate,endDate){
                     }
                     
                     rows +="<td><div>"+(result[i].pasien_idx ? result[i].pasien_idx : "-")+"</div><div>"+(result[i].transaksi_idx ? result[i].transaksi_idx : "-")+"</div></td>";
-                    // rows +="<td><div>"+(result[i].assignname ? result[i].assignname : "")+"</div><div>"+(result[i].useridentifier ? result[i].useridentifier : "<i class='bi bi-x-octagon text-danger'></i>")+"</div></td>";
-
-                    // rows +="<td>"+"<div class='badge badge-light-primary'>"+(result[i].assignname ? result[i].assignname : "")+" <i class='bi bi-info-circle-fill text-primary' data-bs-toggle='tooltip' data-bs-custom-class='tooltip-dark' data-bs-html='true' data-bs-custom-class='tooltip' data-bs-trigger='hover' data-bs-placement='top' title='<div class=\"text-start\">User Identifier : <b>"+(result[i].useridentifier ? result[i].useridentifier : "")+"</b></div>'></i></div>"+"</td>";
                     rows += `<td>${badges}</td>`;
-                    rows +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+(result[i].useridentifier ? "" : "User Belum Terdaftar Pengguna TTE / Sertifikat Belum Aktif")+"</div></td>";
+                    rows +="<td><div class='badge badge-light-info'>"+(result[i].note ? result[i].note : "")+"</div></td>";
                     rows +="<td class='pe-4 text-end'><div>"+(result[i].createdby ? result[i].createdby : "By Integrated System")+"</div><div>"+(result[i].tgljam ? result[i].tgljam : "")+"</div></td>";
                     rows +="</tr>";
 

@@ -1,202 +1,215 @@
 <?php
 
 /**
- * Pdfparse the PHP tools to get coordinate (x,y) of text on PDF file
+ * Pdfparse - PHP tool to get coordinate (x,y) of text in PDF
  *
- * Requirement
- * - Php version > 5.6
- * - Enable shell_exec
- * - bin folder writable recursive
- * for ubuntu linux run command on teminal <br/> 
- * sudo chmod 775 'bin' 
+ * Requirements:
+ * - PHP > 5.6
+ * - shell_exec enabled
+ * - bin folder writable
  * 
  * LICENSE: MIT
- *
- * @category   Tools
- * @package    Pdfparse
- * @author     Saepulawr <adm.ipul@gmail.com>
- * @license    https://raw.githubusercontent.com/Saepulawr/pdfparse/main/LICENSE MIT Licence
- * @version    1.0
- * @link       https://github.com/Saepulawr/pdfparse
+ * @link https://github.com/Saepulawr/pdfparse
  */
 class Pdfparse
 {
     protected $tmpHash;
-    protected $parsedSource;
-    function __construct($pdfFile)
+    protected $parsedSource = [];
+    protected $tmpDir;
+
+    /**
+     * Constructor - parse PDF file
+     */
+    public function __construct($pdfFile)
     {
         libxml_use_internal_errors(true);
         $this->tmpHash = md5(microtime());
-        $this->parsedSource = [];
         $this->_parse($pdfFile);
     }
-    public function findText($textFind, $caseSensitive = false) {
+
+    /**
+     * Find text coordinates
+     * @param string|array $textFind
+     * @param bool $caseSensitive
+     * @return array
+     */
+    public function findText($textFind, $caseSensitive = false)
+    {
         if (!is_array($textFind)) {
-            $textFind = array($textFind);
+            $textFind = [$textFind];
         }
+
         $html = new DOMDocument();
-        $Arr = array('page' => array(), 'content' => array());
-        for ($page = 1;$page < sizeof($this->parsedSource)+1;$page++) {
-            $html->loadHTML($this->parsedSource[$page-1]);
+        $result = ['page' => [], 'content' => []];
+
+        foreach ($this->parsedSource as $pageIndex => $pageContent) {
+            $html->loadHTML($pageContent);
             $pg = $html->getElementById('background');
-            if (!array_key_exists('page' . $page, $Arr['page'])) $Arr['page']['page' . $page] = array('width' => $pg->getAttribute('width'), 'height' => $pg->getAttribute('height'));
+            $pageNum = $pageIndex + 1;
+            if (!isset($result['page']['page' . $pageNum])) {
+                $result['page']['page' . $pageNum] = [
+                    'width'  => $pg->getAttribute('width'),
+                    'height' => $pg->getAttribute('height')
+                ];
+            }
+
             foreach ($textFind as $tFind) {
                 foreach ($html->getElementsByTagName('div') as $span) {
-                    if (stripos($caseSensitive ? $span->textContent : strtolower($span->textContent), $caseSensitive ? $tFind : strtolower($tFind)) !== false) {
-                        $data = explode(';', $span->getAttribute('style'));
-                        $x = $this->_extractNumber($data[1]);
-                        $y = $this->_extractNumber($data[2]);
-                        $t = $this->_carikata($span->textContent, $tFind, $caseSensitive);
-                        if (!array_key_exists($tFind, $Arr['content'])) $Arr['content'][$tFind] = array();
-                        array_push($Arr['content'][$tFind], array('text' => $t, 'x' => $x, 'y' => $y, 'page' => $page));
+                    $textContent = $caseSensitive ? $span->textContent : strtolower($span->textContent);
+                    $searchText  = $caseSensitive ? $tFind : strtolower($tFind);
+                    if (strpos($textContent, $searchText) !== false) {
+                        $style = explode(';', $span->getAttribute('style'));
+                        $x = $this->_extractNumber($style[1] ?? '0');
+                        $y = $this->_extractNumber($style[2] ?? '0');
+                        $word = $this->_carikata($span->textContent, $tFind, $caseSensitive);
+                        if (!isset($result['content'][$tFind])) $result['content'][$tFind] = [];
+                        $result['content'][$tFind][] = [
+                            'text' => $word,
+                            'x'    => $x,
+                            'y'    => $y,
+                            'page' => $pageNum
+                        ];
                     }
                 }
             }
         }
-        return $Arr;
+
+        return $result;
     }
+
+    /**
+     * Cleanup temporary folder
+     */
+    public function cleanup()
+    {
+        if (!empty($this->tmpDir) && is_dir($this->tmpDir)) {
+            $this->_delDirRecursive($this->tmpDir);
+        }
+    }
+
+    /**
+     * Internal parse PDF
+     */
     private function _parse($pdfFile)
     {
-        //check is pdf file
-        if ($this->_getExtension($pdfFile) != 'pdf') {
-            throw new Exception("Cannot parse this file type,please make sure the file type is pdf!");
+        if ($this->_getExtension($pdfFile) !== 'pdf') {
+            throw new Exception("File is not PDF: $pdfFile");
         }
-        //check file is exist
         if (!file_exists($pdfFile)) {
-            throw new Exception("File doesn't exist! ($pdfFile)");
+            throw new Exception("File does not exist: $pdfFile");
         }
+
         $pathConverted = $this->_safePath($this->_tempDir() . '/' . basename($pdfFile));
-        //convert to html
         $this->_convertToHtml($pdfFile, $pathConverted);
+
         $pathIndexHtml = $this->_safePath($pathConverted . '/index.html');
-        //check parsed file 
         if (!file_exists($pathIndexHtml)) {
-            throw new Exception("Failed to parse this pdf $pdfFile");
+            throw new Exception("Failed to parse PDF: $pdfFile");
         }
+
         $maxPage = $this->_maxPage($pathIndexHtml);
-        for ($page = 1; $page < $maxPage + 1; $page++) {
+        for ($page = 1; $page <= $maxPage; $page++) {
             $pathContent = $this->_safePath($pathConverted . '/page' . $page . '.html');
             $content = $this->_readFile($pathContent);
-            array_push($this->parsedSource, $content);
+            $this->parsedSource[] = $content;
         }
-        $this->_delDirRecursive($this->_tempDir());
+
+        // Jangan hapus tmp di sini, pakai cleanup()
     }
-    
-    private function _extractNumber($str) {
-        $matches=[];
+
+    // ===== Helper Functions =====
+    private function _extractNumber($str)
+    {
         preg_match_all('!\d+!', $str, $matches);
-        return ($matches[0][0]);
+        return $matches[0][0] ?? 0;
     }
-    private function _carikata($kalimat, $findKata, $caseSensitive = false) {
-        //return kata yang dicari dari kalimat
-        foreach (explode(' ', $kalimat) as $kata) {
-            if (stripos($caseSensitive ? $kata : strtolower($kata), $caseSensitive ? $findKata : strtolower($findKata)) !== false) {
-                return $kata;
-            }
+
+    private function _carikata($sentence, $find, $caseSensitive = false)
+    {
+        foreach (explode(' ', $sentence) as $word) {
+            $haystack = $caseSensitive ? $word : strtolower($word);
+            $needle = $caseSensitive ? $find : strtolower($find);
+            if (strpos($haystack, $needle) !== false) return $word;
         }
+        return '';
     }
-    private function _maxPage($fileIndexConverted)
+
+    private function _maxPage($fileIndex)
     {
         $html = new DOMDocument();
-        $html->loadHTMLFile($fileIndexConverted);
-        return sizeof($html->getElementsByTagName('a'));
+        $html->loadHTMLFile($fileIndex);
+        return $html->getElementsByTagName('a')->length;
     }
-    private function _readFile($filePath)
+
+    private function _readFile($file)
     {
-        try {
-
-            $fp = fopen($filePath, "r");
-
-            $content = fread($fp, filesize($filePath));
-            fclose($fp);
-            return $content;
-        } catch (\Throwable $th) {
-            return  file_get_contents($filePath);
-        }
+        return file_exists($file) ? file_get_contents($file) : '';
     }
+
     private function _safePath($path)
     {
         return str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
-    public function _getExtension($filePath)
+
+    private function _getExtension($file)
     {
-        return strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+        return strtolower(pathinfo($file, PATHINFO_EXTENSION));
     }
+
     private function _basePath()
     {
         return realpath(dirname(__FILE__));
     }
+
     private function _platform()
     {
         $os = strtolower(php_uname('s'));
         switch ($os) {
-            case 'darwin':
-                $os = 'mac';
-                break;
-            case 'linux':
-                $os = 'linux';
-                break;
+            case 'darwin': return 'mac';
+            case 'linux':  return 'linux';
             case 'winnt':
-            case 'windows nt':
-                $os = 'win';
-                break;
+            case 'windows nt': return 'win';
         }
-        return $os;
+        return 'unknown';
     }
+
     private function _binDir()
     {
-        $arc = php_uname('m');
-        switch ($arc) {
-            case 'x86_64':
-                $arc = "bin64";
-                break;
-            default:
-                $arc = "bin32";
-                break;
-        }
+        $arc = php_uname('m') === 'x86_64' ? 'bin64' : 'bin32';
         return $this->_safePath($this->_basePath() . '/bin/' . $this->_platform() . '/' . $arc);
     }
+
     private function _binPath()
     {
-        $ext = $this->_platform() == 'win' ? '.exe' : '';
-        return $this->_safePath($this->_bindir() . '/bin' . $ext);
+        $ext = $this->_platform() === 'win' ? '.exe' : '';
+        return $this->_safePath($this->_binDir() . '/bin' . $ext);
     }
+
     private function _tempDir()
     {
         $path = $this->_safePath($this->_binDir() . '/tmp/.' . $this->tmpHash);
-        if (!is_dir($path)) {
-            mkdir($path, 0777, true);
-        }
+        if (!is_dir($path)) mkdir($path, 0777, true);
+        $this->tmpDir = $path;
         return $path;
     }
+
     private function _delDirRecursive($dir)
     {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    $path = $this->_safePath($dir . '/' . $object);
-                    if (is_dir($path) && !is_link($path)) $this->_delDirRecursive($path);
-                    else unlink($path);
-                }
+        if (!is_dir($dir)) return;
+        $objects = scandir($dir);
+        foreach ($objects as $obj) {
+            if ($obj != '.' && $obj != '..') {
+                $path = $this->_safePath($dir . '/' . $obj);
+                if (is_dir($path)) $this->_delDirRecursive($path);
+                else unlink($path);
             }
-            rmdir($dir);
         }
+        rmdir($dir);
     }
-    private function _convertToHtml($inputPath, $output)
+
+    private function _convertToHtml($input, $output)
     {
-        $command = $this->_binPath() . ' -q "' . $inputPath . '" "' . $output . '"';
+        $command = $this->_binPath() . ' -q "' . $input . '" "' . $output . '"';
         shell_exec($command);
     }
-
-    // private function _convertToHtml($inputPath, $output)
-    // {
-    //     $command = $this->_binPath() . ' -q "' . $inputPath . '" "' . $output . '"';
-    //     exec($command, $outputLines, $returnVar);
-
-    //     if ($returnVar !== 0) {
-    //         throw new Exception("Command execution failed: " . implode("\n", $outputLines));
-    //     }
-    // }
-
 }

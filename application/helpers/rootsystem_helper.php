@@ -106,4 +106,123 @@
 
         return $decodedPassword;
     };
+
+    //Start Tilaka
+    function headerlog(){
+        echo PHP_EOL;
+        echo color('cyan').str_pad("IDENTITY", 50).str_pad("USER IDENTIFIER", 42)."MESSAGE".PHP_EOL;
+    }
+
+    function formatlog($identity, $useridentifier, $message, $colorIdentity = 'cyan', $colorUser = 'yellow', $colorMessage = 'white') {
+        $identityWidth       = 50;
+        $userIdentifierWidth = 42;
+
+        $colorStartIdentity  = color($colorIdentity);
+        $colorStartUser      = color($colorUser);
+        $colorStartMessage   = color($colorMessage);
+        $reset               = color('reset');
+
+        $formatted  = $colorStartIdentity . str_pad($identity, $identityWidth) . $reset;
+        $formatted .= $colorStartUser . str_pad($useridentifier, $userIdentifierWidth) . $reset;
+        $formatted .= $colorStartMessage . $message . $reset;
+
+        return $formatted . PHP_EOL;
+    }
+    
+    function fileExists($path) {
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            $headers = @get_headers($path);
+            if (!$headers) return false;
+            return (strpos($headers[0], '200') !== false);
+        }
+
+        return file_exists($path);
+    }
+
+    function getFileSize($path) {
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            $ch = curl_init($path);
+            curl_setopt($ch, CURLOPT_NOBODY, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_exec($ch);
+
+            $filesize = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+            curl_close($ch);
+
+            if ($filesize > 0) {
+                return $filesize;
+            } else {
+                return 0;
+            }
+        }
+
+        if (file_exists($path)) {
+            return filesize($path);
+        }
+
+        return 0;
+    }
+
+    function uploadToAapanel($filename, $binary){
+        $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
+        file_put_contents($tmp, $binary);
+
+        $ch = curl_init("http://10.10.11.250/webapps/UploadAAPanel.php");
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,['file' => new CURLFile($tmp, 'application/pdf', $filename)]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        unlink($tmp);
+        return json_decode($response, true);
+    }
+
+    function curlDownload($url){
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
+    }
+
+    function getQRCode($text, $logoPath){
+        ob_start();
+        QRcode::png($text, null, QR_ECLEVEL_H, 8, 2);
+        $qrImageData = ob_get_contents();
+        ob_end_clean();
+
+        $qrImage = imagecreatefromstring($qrImageData);
+        if (!$qrImage) return false;
+
+        if (!file_exists($logoPath)) return false;
+        $logo = imagecreatefrompng($logoPath);
+
+        $qrWidth    = imagesx($qrImage);
+        $qrHeight   = imagesy($qrImage);
+        $logoWidth  = imagesx($logo);
+        $logoHeight = imagesy($logo);
+
+        $logoQRWidth  = $qrWidth / 4;
+        $scale        = $logoWidth / $logoQRWidth;
+        $logoQRHeight = $logoHeight / $scale;
+
+        $x = ($qrWidth - $logoQRWidth) / 2;
+        $y = ($qrHeight - $logoQRHeight) / 2;
+
+        imagecopyresampled($qrImage, $logo, $x, $y, 0, 0, $logoQRWidth, $logoQRHeight, $logoWidth, $logoHeight);
+
+        ob_start();
+        imagepng($qrImage);
+        $finalImageData = ob_get_contents();
+        ob_end_clean();
+
+        return base64_encode($finalImageData);
+    }
+    //End Tilaka
 ?>

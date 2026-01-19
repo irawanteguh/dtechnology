@@ -54,60 +54,10 @@
 
         public function dataupload($parameter, $startDate, $endDate){
             $query = "
-                SELECT
-                    x.*,
+                
+                WITH RECURSIVE x AS (
 
-                    /* ===== SESUAI JUMLAH & URUTAN ASSIGN ===== */
-                    GROUP_CONCAT(u.user_identifier ORDER BY ja.ord SEPARATOR ';') AS useridentifier,
-                    GROUP_CONCAT(COALESCE(u.name, ja.nik) ORDER BY ja.ord SEPARATOR ';') AS assignname,
-
-                    /* ===== INFO TAMBAHAN ===== */
-                    (
-                        SELECT name
-                        FROM dt01_gen_user_data
-                        WHERE active='1'
-                        AND user_id = x.created_by
-                        LIMIT 1
-                    ) AS createdby,
-
-                    (
-                        SELECT document_name
-                        FROM dt01_gen_document_ms
-                        WHERE active='1'
-                        AND jenis_doc = x.jenis_doc
-                        LIMIT 1
-                    ) AS jenisdocument,
-
-                    (
-                        SELECT master_name
-                        FROM dt01_gen_master_ms
-                        WHERE active='1'
-                        AND jenis_id='Statussign_1'
-                        AND code = x.status_sign
-                        LIMIT 1
-                    ) AS status,
-
-                    (
-                        SELECT description
-                        FROM dt01_gen_master_ms
-                        WHERE active='1'
-                        AND jenis_id='Statussign_1'
-                        AND code = x.status_sign
-                        LIMIT 1
-                    ) AS descriptionstatus,
-
-                    (
-                        SELECT color
-                        FROM dt01_gen_master_ms
-                        WHERE active='1'
-                        AND jenis_id='Statussign_1'
-                        AND code = x.status_sign
-                        LIMIT 1
-                    ) AS colorstatus
-
-                FROM (
-
-                    /* ================= DATA AKTIF ================= */
+                    /* ================= DATA FILTERED ================= */
                     SELECT
                         a.no_file,
                         a.filename,
@@ -124,64 +74,76 @@
                         a.transaksi_idx,
                         DATE_FORMAT(a.created_date,'%d.%m.%Y %H:%i:%s') AS tgljam
                     FROM dt01_gen_document_file_dt a
-                    WHERE a.active='1'
-                    AND a.status_sign NOT IN ('5','99')
+                    WHERE a.active = '1'
                     AND ({$parameter})
+                    AND (
+                        a.status_sign NOT IN ('5','99')
+                        OR (
+                            a.status_sign IN ('5','99')
+                            AND a.created_date BETWEEN '{$startDate}' AND '{$endDate}'
+                        )
+                    )
+                ),
+
+                split_assign AS (
+
+                    /* ===== ITERASI PERTAMA ===== */
+                    SELECT
+                        x.no_file,
+                        1 AS ord,
+                        SUBSTRING_INDEX(x.assign, ';', 1) AS nik,
+                        SUBSTRING(x.assign, LENGTH(SUBSTRING_INDEX(x.assign, ';', 1)) + 2) AS rest
+                    FROM x
+                    WHERE x.assign IS NOT NULL
+                    AND x.assign <> ''
 
                     UNION ALL
 
-                    /* ================= DATA SELESAI ================= */
+                    /* ===== ITERASI LANJUTAN ===== */
                     SELECT
-                        a.no_file,
-                        a.filename,
-                        a.status_sign,
-                        a.status_file,
-                        a.link,
-                        a.note,
-                        a.source_file,
-                        a.created_date,
-                        a.assign,
-                        a.created_by,
-                        a.jenis_doc,
-                        a.pasien_idx,
-                        a.transaksi_idx,
-                        DATE_FORMAT(a.created_date,'%d.%m.%Y %H:%i:%s') AS tgljam
-                    FROM dt01_gen_document_file_dt a
-                    WHERE a.active='1'
-                    AND a.status_sign IN ('5','99')
-                    AND a.created_date BETWEEN '{$startDate}' AND '{$endDate}'
-                    AND ({$parameter})
-                    AND a.assign = (
-                        SELECT nik
-                        FROM dt01_gen_user_data
-                        WHERE org_id = a.org_id
-                        AND active='1'
-                        AND certificate='3'
-                        AND nik = a.assign
-                        LIMIT 1
-                    )
+                        s.no_file,
+                        s.ord + 1,
+                        SUBSTRING_INDEX(s.rest, ';', 1),
+                        SUBSTRING(s.rest, LENGTH(SUBSTRING_INDEX(s.rest, ';', 1)) + 2)
+                    FROM split_assign s
+                    WHERE s.rest <> ''
+                )
 
-                ) x
+                SELECT
+                    x.*,
 
-                /* ===== EXPLODE ASSIGN ===== */
-                JOIN JSON_TABLE(
-                    CONCAT(
-                        '[\"',
-                        REPLACE(IFNULL(x.assign, ''), ';', '\",\"'),
-                        '\"]'
-                    ),
-                    '$[*]' COLUMNS (
-                        ord FOR ORDINALITY,
-                        nik VARCHAR(50) PATH '$'
-                    )
-                ) ja ON ja.nik <> ''
+                    /* ===== SIGNER INFO (ORDER SAFE) ===== */
+                    GROUP_CONCAT(u.user_identifier ORDER BY s.ord SEPARATOR ';') AS useridentifier,
+                    GROUP_CONCAT(COALESCE(u.name, s.nik) ORDER BY s.ord SEPARATOR ';') AS assignname,
 
-                /* ===== LEFT JOIN KE USER DATA ===== */
+                    /* ===== INFO TAMBAHAN (JOIN, BUKAN SUBQUERY) ===== */
+                    cu.name          AS createdby,
+                    dm.document_name AS jenisdocument,
+                    ms.master_name   AS status,
+                    ms.description   AS descriptionstatus,
+                    ms.color         AS colorstatus
+
+                FROM x
+                JOIN split_assign s
+                    ON s.no_file = x.no_file
+
                 LEFT JOIN dt01_gen_user_data u
-                ON u.nik = ja.nik
-                AND u.active='1' -- optional: AND u.certificate='3'
+                    ON u.nik = s.nik
+                    AND u.active = '1'
 
-                /* ===== GROUPING ===== */
+                LEFT JOIN dt01_gen_user_data cu
+                    ON cu.user_id = x.created_by
+                    AND cu.active = '1'
+
+                LEFT JOIN dt01_gen_document_ms dm
+                    ON dm.jenis_doc = x.jenis_doc
+                    AND dm.active = '1'
+
+                LEFT JOIN dt01_gen_master_ms ms
+                    ON ms.jenis_id = 'Statussign_1'
+                    AND ms.code = x.status_sign
+                    AND ms.active = '1'
+
                 GROUP BY
                     x.no_file,
                     x.created_date,
@@ -196,21 +158,24 @@
                     x.jenis_doc,
                     x.pasien_idx,
                     x.transaksi_idx,
-                    x.tgljam
+                    x.tgljam,
+                    cu.name,
+                    dm.document_name,
+                    ms.master_name,
+                    ms.description,
+                    ms.color
 
-                /* ===== SORTING ===== */
                 ORDER BY
                     x.status_sign ASC,
-                    x.created_date DESC
+                    x.created_date DESC;
+
+
+
+
             ";
 
             return $this->db->query($query)->result();
         }
-
-
-
-
-
 
         function checkroleaccess($orgid,$userid){
             $query =

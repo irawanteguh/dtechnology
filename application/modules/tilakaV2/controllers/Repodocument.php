@@ -110,13 +110,13 @@
             $assign   = $this->input->post("modal_sign_add_assign");
             $info1    = $this->input->post("modal_sign_add_informasi1");
             $info2    = $this->input->post("modal_sign_add_informasi2");
-            $position = $this->input->post("modal_sign_add_position");
+            // $position = $this->input->post("modal_sign_add_position");
 
             $transid = generateuuid();
 
             $config['upload_path']   = './assets/document/';
             $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $transid."_SIGNER".$position;
+            $config['file_name']     = $transid;
             $config['overwrite']     = true;
 
             $this->load->library('upload', $config);

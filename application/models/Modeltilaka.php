@@ -113,18 +113,49 @@
             return $this->db->query($query)->result();
         }
 
-
-
         function listrequestsign(){
             $query =
                     "
-                        select distinct a.org_id, assign, user_identifier, date_format(created_date,'%d.%m.%Y')tgljam,
-                                (select name from dt01_gen_user_data   where active='1' and nik=a.assign)assignname,
-                                (select email from dt01_gen_user_data   where active='1' and nik=a.assign)email
-                        from dt01_gen_document_file_dt a
-                        where a.active='1'
-                        and   a.status_sign ='1'
-                        limit 10;
+                        SELECT 
+                            a.org_id,
+                            a.assign,
+                            a.user_identifier,
+                            DATE_FORMAT(a.created_date,'%d.%m.%Y') AS tgljam,
+
+                            GROUP_CONCAT(u.name ORDER BY n.n SEPARATOR ';')  AS assignname,
+                            GROUP_CONCAT(u.email ORDER BY n.n SEPARATOR ';') AS email
+
+                        FROM dt01_gen_document_file_dt a
+
+                        JOIN (
+                            SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL
+                            SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL
+                            SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL
+                            SELECT 10
+                        ) n
+                        ON n.n <= 1 + LENGTH(a.assign) - LENGTH(REPLACE(a.assign,';',''))
+
+                        JOIN dt01_gen_user_data u
+                        ON u.active = '1'
+                        AND u.nik = SUBSTRING_INDEX(
+                                        SUBSTRING_INDEX(a.assign,';',n.n),
+                                        ';',
+                                        -1
+                                    )
+
+                        WHERE a.active = '1'
+                        AND a.status_sign = '1'
+
+                        GROUP BY
+                            a.org_id,
+                            a.assign,
+                            a.user_identifier,
+                            a.created_date
+
+                        LIMIT 1;
+
+
+
                     ";
 
             $recordset = $this->db->query($query);

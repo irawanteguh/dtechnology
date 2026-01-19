@@ -187,7 +187,6 @@
                     $statusColor              = "";
                     $statusMsg                = "";
                     $location                 = "";
-                    $useridentifier           = "";
                     $datasimpanhd             = [];
                     $bodycheckcertificate     = [];
                     $responsecheckcertificate = [];
@@ -214,8 +213,6 @@
                             }
                         }
                     }else{
-                        $assignList = explode(';', $a->assign);
-                        
                         // $responsecheckdatauser = Dtech::checkdatauser($a->assign);
                         // if(isset($responsecheckdatauser['status'])){
                         //     if($responsecheckdatauser['status']){
@@ -223,6 +220,7 @@
                         //     }
                         // }
 
+                        $assignList = explode(';', $a->assign);
                         foreach ($assignList as $nik) {
                             $nik = trim($nik);
                             if ($nik === '') continue;
@@ -406,317 +404,201 @@
 
             if(!empty($result)){
                 foreach($result as $a){
-                    $statusColor              = "";
-                    $statusMsg                = "";
-                    $requestid                = "";
-                    $signatureimages          = "";
-                    $useridentifier           = "";
-                    $email                    = "";
-                    $listfile                 = [];
-                    $body                     = [];
-                    $signatures               = [];
-                    $bodycheckcertificate     = [];
-                    $responsecheckcertificate = [];
-                    $responserequestsign      = [];
-                    $datasimpanhd             = [];
+                    $statusColor        = "";
+                    $statusMsg          = "";
+                    $requestid          = generateuuid();
+                    $body               = [];
+                    $body['request_id'] = $requestid;
+                    $body['signatures'] = [];
+                    $body['list_pdf']   = [];
+                    $useridentifier     = [];
 
+                    // Ambil useridentifier
                     if(CHECK_DATA_HOLDING==="FALSE"){
-                        $useridentifier=$a->user_identifier;
-                        $email=$a->email;
+                        $uids   = array_filter(array_map('trim', explode(';', $a->user_identifier)), 'strlen');
+                        $emails = array_filter(array_map('trim', explode(';', $a->email)), 'strlen');
+                        $names  = array_filter(array_map('trim', explode(';', $a->assignname)), 'strlen');
+                        $max    = max(count($uids), count($emails), count($names));
+
+                        for($i=0; $i<$max; $i++){
+                            $useridentifier[] = [
+                                'useridentifier' => $uids[$i] ?? null,
+                                'email'          => $emails[$i] ?? null,
+                                'name'           => $names[$i] ?? null
+                            ];
+                        }
                     }else{
-                        $responsecheckdatauser = Dtech::checkdatauser($a->assign);
-                        if(isset($responsecheckdatauser['status'])){
-                            if($responsecheckdatauser['status']){
-                                $useridentifier = $responsecheckdatauser['data']['useridentifier'];
-                                $email          = $responsecheckdatauser['data']['email'];
+                        $assignList = array_filter(array_map('trim', explode(';', $a->assign)), 'strlen');
+                        foreach($assignList as $nik){
+                            $responsecheckdatauser = Dtech::checkdatauser($nik);
+                            if(isset($responsecheckdatauser['status']) && $responsecheckdatauser['status']){
+                                if(isset($responsecheckdatauser['data']['useridentifier'])){
+                                    $useridentifier[] = [
+                                        'useridentifier' => $responsecheckdatauser['data']['useridentifier'],
+                                        'email'          => $responsecheckdatauser['data']['email'] ?? null,
+                                        'name'           => $responsecheckdatauser['data']['name'] ?? null
+                                    ];
+                                }
                             }
                         }
                     }
 
-                    $requestid = generateuuid();
+                    if(empty($useridentifier)){
+                        $statusColor = "red";
+                        $statusMsg   = "User Identifier Tidak Di Temukan";
+                        echo $this->formatlog($requestid,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                        continue;
+                    }
+
                     $locationspeciment = FCPATH."assets/speciment/".$a->org_id.".png";
+                    if(!$this->fileExists($locationspeciment)){
+                        $statusColor = "red";
+                        $statusMsg   = "Speciment Tidak Ditemukan";
+                        echo $this->formatlog($requestid,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                        continue;
+                    }
 
-                    if($this->fileExists($locationspeciment)){
-                        $text            = "Dokumen telah ditandatangani elektronik oleh ".$a->assignname." ID : ".$a->assign." Created Date : ".$a->tgljam;
-                        $logo            = FCPATH."assets/images/clients/".$a->org_id.".png";
+                    // Buat signatures untuk request
+                    $logo = FCPATH."assets/images/clients/".$a->org_id.".png";
+                    foreach($useridentifier as $u){
+                        if(empty($u['useridentifier'])) continue;
 
-                        if(SIGNATUREIMAGES==="DEFAULT"){
-                            $signatureimages = "data:image/png;base64,".base64_encode(file_get_contents($locationspeciment));
+                        $text = "Dokumen telah ditandatangani elektronik oleh ".($u['name'] ?? '-')." (ID: ".$u['useridentifier'].") Created Date: ".$a->tgljam;
+                        if(SIGNATUREIMAGES === "DEFAULT"){
+                            $rawImage = base64_encode(file_get_contents($locationspeciment));
                         }else{
-                            $signatureimages = $this->getQRCode($text, $logo);
+                            $qr = $this->getQRCode($text, $logo);
+                            if($qr === false){
+                                $rawImage = base64_encode(file_get_contents($locationspeciment));
+                            } else {
+                                $rawImage = $qr;
+                            }
                         }
 
-                        $signatures['email']           = $email;
-                        $signatures['user_identifier'] = $useridentifier;
-                        $signatures['signature_image'] = $signatureimages;
+                        if(empty($rawImage)) continue;
 
-                        $body['request_id']   = $requestid;
-                        $body['signatures'][] = $signatures;
+                        $body['signatures'][] = [
+                            'user_identifier' => $u['useridentifier'],
+                            'email'           => $u['email'] ?? null,
+                            'signature_image' => "data:image/png;base64,".$rawImage
+                        ];
+                    }
 
-                        $resultfilerequestsign = $this->md->filerequestsign($a->assign);
-                        if(!empty($resultfilerequestsign)){
-                            foreach($resultfilerequestsign as $files){
+                    // Ambil list file
+                    $resultfilerequestsign = $this->md->filerequestsign($a->assign);
+                    if(!empty($resultfilerequestsign)){
+                        foreach($resultfilerequestsign as $files){
+                            $filename = ($files->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$files->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
 
-                                if($files->source_file==="DTECHNOLOGY"){
-                                    $filename = FCPATH."assets/document/".$files->no_file.".pdf";
-                                }else{
-                                    $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
-                                }
+                            if(!$this->fileExists($filename)){
+                                $statusColor  = "red";
+                                $statusMsg    = "File : ".$files->no_file.".pdf Tidak Di Temukan Folder Penyimpanan";
+                                $datasimpanhd = [
+                                    'status_sign'     => "99",
+                                    'note'            => "File not found",
+                                    'status_file'     => "0",
+                                    'user_identifier' => null,
+                                    'url'             => null
+                                ];
+                                $this->md->updatetransaksi($datasimpanhd,"1",$files->no_file);
+                                continue;
+                            }
 
-                                if($this->fileExists($filename)){
-                                    if(preg_match('/SIGNER(.*)/', $filename, $matches)){
-                                        $assignArray = explode(';', $files->assign);
+                            $assignArray = array_filter(explode(';', $files->assign), 'strlen');
+                            $pdfParse    = new Pdfparse($filename);
 
-                                        foreach($assignArray as $idx => $assign){
-                                            $position = '$'.($idx + 1);
+                            foreach($assignArray as $idx => $assign){
+                                $position          = '$'.$idx;
+                                $specimentposition = $pdfParse->findText($position);
 
-                                            $pdfParse = new Pdfparse($filename);
-                                            $specimentposition = $pdfParse->findText($position);
+                                if(empty($specimentposition['content'][$position])) continue;
 
-                                            if(!empty($specimentposition['content'][$position])){
-                                                $listpdf = [];
-
-                                                foreach ($specimentposition['content'][$position] as $specimen){
-                                                    if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
-                                                        $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
-                                                        $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
-                                                        $page        = floatval($specimen['page']);
-
-                                                        $listpdfsignatures['user_identifier'] = $assign; // assign sesuai array
-                                                        $listpdfsignatures['location']        = $files->orgname;
-                                                        $listpdfsignatures['width']           = floatval(WIDTH);
-                                                        $listpdfsignatures['height']          = floatval(HEIGHT);
-                                                        $listpdfsignatures['coordinate_x']    = $coordinatex;
-                                                        $listpdfsignatures['coordinate_y']    = $coordinatey;
-                                                        $listpdfsignatures['page_number']     = $page;
-
-                                                        if (CERTIFICATE === "PERSONAL") {
-                                                            $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
-                                                        }
-
-                                                        $listpdf['template_no']  = $assign;
-                                                        $listpdf['filename']     = $files->filename;
-                                                        $listpdf['signatures'][] = $listpdfsignatures;
-                                                    }else{
-                                                        $statusColor = "red";
-                                                        $statusMsg   = "Tag Coordinat Tidak Ditemukan";
-                                                    }
-                                                }
-
-                                                $body['list_pdf'][] = $listpdf;
-
-                                            }else{
-                                                $statusColor = "red";
-                                                $statusMsg   = "Tag Tidak Ditemukan untuk posisi " . $position;
-                                            }
-                                        }
-
-
-
-                                        // $position          = "$".preg_replace('/\.pdf$/', '', $matches[1]);
-                                        // $pdfParse          = new Pdfparse($filename);
-                                        // $specimentposition = $pdfParse->findText($position);
-
-                                        // if(!empty($specimentposition['content'][$position])){
-                                        //     $listpdf = [];
-
-                                        //     foreach ($specimentposition['content'][$position] as $specimen){
-                                        //         if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
-                                        //             $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
-                                        //             $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
-                                        //             $page        = floatval($specimen['page']);
-                                        
-                                        //             $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                                        //             $listpdfsignatures['location']        = $files->orgname;
-                                        //             $listpdfsignatures['width']           = floatval(WIDTH);
-                                        //             $listpdfsignatures['height']          = floatval(HEIGHT);
-                                        //             $listpdfsignatures['coordinate_x']    = $coordinatex;
-                                        //             $listpdfsignatures['coordinate_y']    = $coordinatey;
-                                        //             $listpdfsignatures['page_number']     = $page;
-                                        
-                                        //             if (CERTIFICATE === "PERSONAL") {
-                                        //                 $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
-                                        //             }
-                                        
-                                        //             $listpdf['template_no']  = $files->assign;
-                                        //             $listpdf['filename']     = $files->filename;
-                                        //             $listpdf['signatures'][] = $listpdfsignatures;
-
-                                        //         }else{
-                                        //             $statusColor = "red";
-                                        //             $statusMsg   = "Tag Coordinat Tidak Ditemukan";
-                                        //         }
-                                        //     } 
-                                        // }else{
-                                        //     $statusColor = "red";
-                                        //     $statusMsg   = "Tag Tidak Ditemukan";
-                                        // }
-                                        
-                                    }else{
-                                        $tempDir       = sys_get_temp_dir();
-                                        $localFilename = $tempDir . '/' . uniqid() . '.pdf';
-                                        $pdfContent    = $this->curlDownload($filename);
-                                        $writeSuccess  = file_put_contents($localFilename, $pdfContent);
-
-                                        $position          = "$1";
-                                        $pdfParse          = new Pdfparse($localFilename);
-                                        $specimentposition = $pdfParse->findText($position);
-                                        unlink($localFilename);
-
-                                        if(!empty($specimentposition['content'][$position])){
-                                            $listpdf = [];
-
-                                            foreach ($specimentposition['content'][$position] as $specimen){
-                                                if(isset($specimen['x']) && isset($specimen['y']) && isset($specimen['page'])){
-                                                    $coordinatex = floatval($specimen['x']) - (floatval(WIDTH) / 2); 
-                                                    $coordinatey = floatval($specimen['y']) - (floatval(HEIGHT) / 2); 
-                                                    $page        = floatval($specimen['page']);
-                                        
-                                                    $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                                                    $listpdfsignatures['location']        = $files->orgname;
-                                                    $listpdfsignatures['width']           = floatval(WIDTH);
-                                                    $listpdfsignatures['height']          = floatval(HEIGHT);
-                                                    $listpdfsignatures['coordinate_x']    = $coordinatex;
-                                                    $listpdfsignatures['coordinate_y']    = $coordinatey;
-                                                    $listpdfsignatures['page_number']     = $page;
-                                        
-                                                    if (CERTIFICATE === "PERSONAL") {
-                                                        $listpdfsignatures['reason'] = "Signed on behalf of " . $files->orgname;
-                                                    }
-                                        
-                                                    $listpdf['template_no']  = $files->assign;
-                                                    $listpdf['filename']     = $files->filename;
-                                                    $listpdf['signatures'][] = $listpdfsignatures;
-
-                                                }else{
-                                                    $statusColor = "red";
-                                                    $statusMsg   = "Tag Coordinat Tidak Ditemukan";
-                                                }
-                                            } 
-                                        }else{
-                                            $listpdf     = [];
-                                            $coordinatex = floatval(COORDINATE_X);
-                                            $coordinatey = floatval(COORDINATE_Y);
-                                            $page        = floatval(PAGE);
-            
-            
-                                            $listpdfsignatures['user_identifier'] = $a->user_identifier;
-                                            $listpdfsignatures['location']        = $files->orgname;
-                                            $listpdfsignatures['width']           = floatval(WIDTH);
-                                            $listpdfsignatures['height']          = floatval(HEIGHT);
-                                            $listpdfsignatures['coordinate_x']    = $coordinatex;
-                                            $listpdfsignatures['coordinate_y']    = $coordinatey;
-                                            $listpdfsignatures['page_number']     = $page;
-                                            if(CERTIFICATE==="PERSONAL"){
-                                                $listpdfsignatures['reason']       = "Signed on behalf of ".$files->orgname;
-                                            }
-                    
-                                            $listpdf['template_no']  = $files->assign;
-                                            $listpdf['filename']     = $files->filename;
-                                            $listpdf['signatures'][] = $listpdfsignatures;
-                                        }
+                                $listsignatures = [];
+                                foreach($specimentposition['content'][$position] as $specimen){
+                                    if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
+                                        $userId = $useridentifier[$idx]['useridentifier'] ?? $assign;
+                                        $listsignatures[] = [
+                                            'user_identifier' => $userId,
+                                            'location'        => $files->orgname,
+                                            'width'           => floatval(WIDTH),
+                                            'height'          => floatval(HEIGHT),
+                                            'coordinate_x'    => floatval($specimen['x']) - (floatval(WIDTH)/2),
+                                            'coordinate_y'    => floatval($specimen['y']) - (floatval(HEIGHT)/2),
+                                            'page_number'     => floatval($specimen['page'])
+                                        ];
                                     }
-
-                                    $body['list_pdf'][]=$listpdf;
-                                }else{
-                                    $datasimpanhd['status_sign']     = "99";
-                                    $datasimpanhd['note']            = "File not found";
-                                    $datasimpanhd['status_file']     = "0";
-                                    $datasimpanhd['user_identifier'] = null;
-                                    $datasimpanhd['url']             = null;
-
-                                    $statusColor = "red";
-                                    $statusMsg   = "File : ".$files->no_file.".pdf Tidak Di Temukan Folder Penyimpanan";
                                 }
 
-                                if(!empty($datasimpanhd)){
-                                    $this->md->updatetransaksi($datasimpanhd,"1",$files->no_file);
+                                if(!empty($listsignatures)){
+                                    $listpdf = [
+                                        'template_no' => $assign,
+                                        'filename'    => $files->filename,
+                                        'signatures'  => $listsignatures
+                                    ];
+                                    $body['list_pdf'][] = $listpdf;
                                 }
                             }
 
-                            $bodycheckcertificate['user_identifier']=$a->user_identifier;
-                            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
-
-                            if(isset($responsecheckcertificate['success'])){
-                                if($responsecheckcertificate['success']){
-                                    if($responsecheckcertificate['status']===3){
-                                        $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
-
-                                        if(isset($responserequestsign['success'])){
-                                            if($responserequestsign['success']){
-                                                foreach($resultfilerequestsign as $files){
-                                                    if($files->source_file==="DTECHNOLOGY"){
-                                                        $filename = FCPATH."assets/document/".$files->no_file.".pdf";
-                                                    }else{
-                                                        $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
-                                                    }
-
-                                                    if($this->fileExists($filename)){
-                                                        $datasimpanhd['request_id']  = $requestid;
-
-                                                        if($responserequestsign['auth_response'][0]['url']!=null){
-                                                            $datasimpanhd['status_sign'] = "2";
-                                                            $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
-                                                        }else{
-                                                            $datasimpanhd['status_sign'] = "3";
-                                                        }
-
-                                                        $statusColor = "green";
-                                                        $statusMsg   = $responserequestsign['message'];
-                                                    }else{
-                                                        $datasimpanhd['status_sign']     = "99";
-                                                        $datasimpanhd['note']            = "File not found";
-                                                        $datasimpanhd['status_file']     = "0";
-                                                        $datasimpanhd['user_identifier'] = "";
-                                                        $datasimpanhd['url']             = "";
-
-                                                        $statusColor = "red";
-                                                        $statusMsg   = "File : ".$files->no_file.".pdf Tidak Di Temukan Folder Penyimpanan";
-                                                    }
-
-                                                    if(!empty($datasimpanhd)){
-                                                        $this->md->updatefile($datasimpanhd, $files->no_file);
-                                                    }
-                                                }
-                                            }else{
-                                                $datasimpanhd['note'] = $responserequestsign['message'];
-
-                                                $statusColor = "red";
-                                                $statusMsg   = $responserequestsign['message'];
-                                            }
-                                        }else{
-                                            $statusColor = "red";
-                                            $statusMsg   = "Gagal Request Sign";
-                                        }
+                            $pdfParse->cleanup();
+                        }
+                        
+                        $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
+                        if(isset($responserequestsign['success'])){
+                            if($responserequestsign['success']){
+                                foreach($resultfilerequestsign as $files){
+                                    if($files->source_file==="DTECHNOLOGY"){
+                                        $filename = FCPATH."assets/document/".$files->no_file.".pdf";
                                     }else{
-                                        $datasimpanhd['note'] = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                        $filename = PATHFILE_GET_TILAKA."/".$files->no_file.".pdf";
+                                    }
+
+                                    if($this->fileExists($filename)){
+                                        $datasimpanhd['request_id']  = $requestid;
+
+                                        if($responserequestsign['auth_response'][0]['url']!=null){
+                                            $datasimpanhd['status_sign'] = "2";
+                                            $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
+                                        }else{
+                                            $datasimpanhd['status_sign'] = "3";
+                                        }
+
+                                        $statusColor = "green";
+                                        $statusMsg   = $responserequestsign['message'];
+                                    }else{
+                                        $datasimpanhd['status_sign']     = "99";
+                                        $datasimpanhd['note']            = "File not found";
+                                        $datasimpanhd['status_file']     = "0";
+                                        $datasimpanhd['user_identifier'] = null;
+                                        $datasimpanhd['url']             = null;
 
                                         $statusColor = "red";
-                                        $statusMsg   = $responsecheckcertificate['message']['info']." | ".$responsecheckcertificate['data'][0]['status']." | ".$responsecheckcertificate['data'][0]['expiry_date'];
+                                        $statusMsg   = "File : ".$files->no_file.".pdf Tidak Di Temukan Folder Penyimpanan";
                                     }
-                                }else{
-                                    $datasimpanhd['note'] = $responsecheckcertificate['message']['info'];
 
-                                    $statusColor = "red";
-                                    $statusMsg   = $responsecheckcertificate['message']['info'];
+                                    if(!empty($datasimpanhd)){
+                                        $this->md->updatefile($datasimpanhd, $files->no_file);
+                                    }
                                 }
                             }else{
+                                $datasimpanhd['note'] = $responserequestsign['message'];
+
                                 $statusColor = "red";
-                                $statusMsg   = "UnSuccess Check Certificate";
+                                $statusMsg   = $responserequestsign['message'];
                             }
                         }else{
                             $statusColor = "red";
-                            $statusMsg   = "Rincian File Tidak Di Temukan Dalam Data";
+                            $statusMsg   = "Gagal Request Sign";
                         }
-                    }else{
+                    } else {
                         $statusColor = "red";
-                        $statusMsg   = "Speciment Tidak Ditemukan";
+                        $statusMsg   = "Rincian File Tidak Di Temukan Dalam Data";
                     }
 
                     echo $this->formatlog($requestid,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
                 }
             }else{
                 echo color('red')."Data Tidak Ditemukan";
+                return;
             }
         }
 
@@ -848,8 +730,5 @@
             }
 
         }
-
-
     }
-
 ?>
