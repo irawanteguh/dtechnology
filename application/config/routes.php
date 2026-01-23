@@ -53,6 +53,7 @@
     $route['requestsign'] = 'restapi/tilaka/TilakaquicksignV2/requestsign';
     $route['statussign']  = 'restapi/tilaka/TilakaquicksignV2/statussign';
 
+    $route['hmac']        = 'restapi/mekari/auth/hmac';
    
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';
