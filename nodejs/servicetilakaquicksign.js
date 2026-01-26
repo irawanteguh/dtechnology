@@ -58,138 +58,21 @@ function formatLog(
     );
 }
 
-// async function callAPI(endpoint, method = "GET", body = null) {
-//     printHeader();
-//     const url     = `${BASE_URL}${endpoint}`;
-//     const options = {method,headers: { "Content-Type": "application/json" }};
-
-//     if (body) options.body = JSON.stringify(body);
-
-//     try{
-//         const response = await fetch(url, options);
-//         const text = await response.text();
-
-
-//         if (!response.ok) {
-//             const match = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
-//             const errorMsg = match ? match[1].trim() : response.statusText;
-
-//             console.log(
-//                 formatLog(
-//                     getTimeStamp(),
-//                     method,
-//                     endpoint,
-//                     response.status,
-//                     response.statusText,
-//                     { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
-//                     { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
-//                 )
-//             );
-
-//             console.log(chalk.red("*".repeat(lebar)));
-//             console.log(chalk.red(errorMsg));
-//             console.log(chalk.red("*".repeat(lebar)));
-            
-//             return;
-//         }
-
-//         try{
-//             const data = JSON.parse(text);
-
-//             console.log(
-//                 formatLog(
-//                     getTimeStamp(),
-//                     method,
-//                     endpoint,
-//                     response.status,
-//                     response.statusText,
-//                     { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
-//                     { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
-//                 )
-//             );
-
-//             console.log(data);
-//         }catch{
-//             const match   = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
-//             const message = match ? match[1].trim() : text;
-
-//             console.log(
-//                 formatLog(
-//                     getTimeStamp(),
-//                     method,
-//                     endpoint,
-//                     response.status,
-//                     response.statusText,
-//                     { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
-//                     { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
-//                 )
-//             );
-
-//             console.log(chalk.red(message));
-//         }
-
-//     }catch(error){
-//         console.log(
-//             formatLog(
-//                 getTimeStamp(),
-//                 method,
-//                 endpoint,
-//                 "Network Error",
-//                 error.message,
-//                 { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
-//                 { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
-//             )
-//         );
-//     }
-// }
-
 async function callAPI(endpoint, method = "GET", body = null) {
     printHeader();
+    const url     = `${BASE_URL}${endpoint}`;
+    const options = {method,headers: { "Content-Type": "application/json" }};
 
-    const url = `${BASE_URL}${endpoint}`;
+    if (body) options.body = JSON.stringify(body);
 
-    const options = {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
-    };
-
-    if (body) {
-        options.body = JSON.stringify(body);
-    }
-
-    // ===== LOG REQUEST =====
-    console.log("REQUEST >>>");
-    console.log({
-        url,
-        method,
-        body
-    });
-
-    try {
+    try{
         const response = await fetch(url, options);
         const text = await response.text();
 
-        // ===== LOG RAW RESPONSE =====
-        console.log("RAW RESPONSE <<<");
-        console.log(text);
 
-        // ===== JIKA HTTP STATUS ERROR =====
         if (!response.ok) {
-
-            let errorMessage = response.statusText;
-
-            // Coba parse JSON error
-            try {
-                const errJson = JSON.parse(text);
-                errorMessage = errJson.message || JSON.stringify(errJson);
-            } catch {
-                // fallback: ambil pesan dari HTML
-                const match = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
-                if (match) errorMessage = match[1].trim();
-            }
+            const match = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
+            const errorMsg = match ? match[1].trim() : response.statusText;
 
             console.log(
                 formatLog(
@@ -197,85 +80,202 @@ async function callAPI(endpoint, method = "GET", body = null) {
                     method,
                     endpoint,
                     response.status,
-                    "ERROR",
-                    { ts: 40, method: 10, endpoint: 30, status: 12 },
-                    { ts: "white", method: "yellow", endpoint: "red", status: "red", message: "red" }
+                    response.statusText,
+                    { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
+                    { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
                 )
             );
 
             console.log(chalk.red("*".repeat(lebar)));
-            console.log(chalk.red(errorMessage));
+            console.log(chalk.red(errorMsg));
             console.log(chalk.red("*".repeat(lebar)));
-
-            return null; // ❗ penting supaya chain berhenti
+            
+            return;
         }
 
-        // ===== RESPONSE OK =====
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch {
-            data = text;
+        try{
+            const data = JSON.parse(text);
+
+            console.log(
+                formatLog(
+                    getTimeStamp(),
+                    method,
+                    endpoint,
+                    response.status,
+                    response.statusText,
+                    { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
+                    { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
+                )
+            );
+
+            console.log(data);
+        }catch{
+            const match   = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
+            const message = match ? match[1].trim() : text;
+
+            console.log(
+                formatLog(
+                    getTimeStamp(),
+                    method,
+                    endpoint,
+                    response.status,
+                    response.statusText,
+                    { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
+                    { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
+                )
+            );
+
+            console.log(chalk.red(message));
         }
 
+    }catch(error){
         console.log(
             formatLog(
                 getTimeStamp(),
                 method,
                 endpoint,
-                response.status,
-                "OK",
-                { ts: 40, method: 10, endpoint: 30, status: 12 },
-                { ts: "white", method: "yellow", endpoint: "green", status: "green", message: "green" }
-            )
-        );
-
-        console.log(data);
-        return data;
-
-    } catch (error) {
-        console.log(
-            formatLog(
-                getTimeStamp(),
-                method,
-                endpoint,
-                "NETWORK",
+                "Network Error",
                 error.message,
-                { ts: 40, method: 10, endpoint: 30, status: 12 },
-                { ts: "white", method: "yellow", endpoint: "red", status: "red", message: "red" }
+                { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
+                { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
             )
         );
-        return null;
     }
 }
 
+// async function callAPI(endpoint, method = "GET", body = null) {
+//     printHeader();
 
-// async function runservices() {
-//     // await callAPI("statusregister", "GET");
-// 	await callAPI("uploadfile", "POST");
-//     await callAPI("requestsign", "POST");
-//     await callAPI("statussign", "POST");
+//     const url = `${BASE_URL}${endpoint}`;
+
+//     const options = {
+//         method,
+//         headers: {
+//             "Content-Type": "application/json",
+//             "Accept": "application/json"
+//         }
+//     };
+
+//     if (body) {
+//         options.body = JSON.stringify(body);
+//     }
+
+//     // ===== LOG REQUEST =====
+//     console.log("REQUEST >>>");
+//     console.log({
+//         url,
+//         method,
+//         body
+//     });
+
+//     try {
+//         const response = await fetch(url, options);
+//         const text = await response.text();
+
+//         // ===== LOG RAW RESPONSE =====
+//         console.log("RAW RESPONSE <<<");
+//         console.log(text);
+
+//         // ===== JIKA HTTP STATUS ERROR =====
+//         if (!response.ok) {
+
+//             let errorMessage = response.statusText;
+
+//             // Coba parse JSON error
+//             try {
+//                 const errJson = JSON.parse(text);
+//                 errorMessage = errJson.message || JSON.stringify(errJson);
+//             } catch {
+//                 // fallback: ambil pesan dari HTML
+//                 const match = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
+//                 if (match) errorMessage = match[1].trim();
+//             }
+
+//             console.log(
+//                 formatLog(
+//                     getTimeStamp(),
+//                     method,
+//                     endpoint,
+//                     response.status,
+//                     "ERROR",
+//                     { ts: 40, method: 10, endpoint: 30, status: 12 },
+//                     { ts: "white", method: "yellow", endpoint: "red", status: "red", message: "red" }
+//                 )
+//             );
+
+//             console.log(chalk.red("*".repeat(lebar)));
+//             console.log(chalk.red(errorMessage));
+//             console.log(chalk.red("*".repeat(lebar)));
+
+//             return null; // ❗ penting supaya chain berhenti
+//         }
+
+//         // ===== RESPONSE OK =====
+//         let data;
+//         try {
+//             data = JSON.parse(text);
+//         } catch {
+//             data = text;
+//         }
+
+//         console.log(
+//             formatLog(
+//                 getTimeStamp(),
+//                 method,
+//                 endpoint,
+//                 response.status,
+//                 "OK",
+//                 { ts: 40, method: 10, endpoint: 30, status: 12 },
+//                 { ts: "white", method: "yellow", endpoint: "green", status: "green", message: "green" }
+//             )
+//         );
+
+//         console.log(data);
+//         return data;
+
+//     } catch (error) {
+//         console.log(
+//             formatLog(
+//                 getTimeStamp(),
+//                 method,
+//                 endpoint,
+//                 "NETWORK",
+//                 error.message,
+//                 { ts: 40, method: 10, endpoint: 30, status: 12 },
+//                 { ts: "white", method: "yellow", endpoint: "red", status: "red", message: "red" }
+//             )
+//         );
+//         return null;
+//     }
 // }
 
+
 async function runservices() {
-
-    console.log(chalk.cyan("\n=== UPLOAD FILE ==="));
-    const upload = await callAPI("uploadfile", "POST", {
-        // isi body sesuai kebutuhan
-    });
-    if (!upload) return;
-
-    console.log(chalk.cyan("\n=== REQUEST SIGN ==="));
-    const sign = await callAPI("requestsign", "POST", {
-        request_id: upload.request_id // contoh
-    });
-    if (!sign) return;
-
-    console.log(chalk.cyan("\n=== STATUS SIGN ==="));
-    await callAPI("statussign", "POST", {
-        request_id: sign.request_id
-    });
+    // await callAPI("statusregister", "GET");
+	await callAPI("uploadfile", "POST");
+    await callAPI("requestsign", "POST");
+    await callAPI("statussign", "POST");
 }
+
+// async function runservices() {
+
+//     console.log(chalk.cyan("\n=== UPLOAD FILE ==="));
+//     const upload = await callAPI("uploadfile", "POST", {
+//         // isi body sesuai kebutuhan
+//     });
+//     if (!upload) return;
+
+//     console.log(chalk.cyan("\n=== REQUEST SIGN ==="));
+//     const sign = await callAPI("requestsign", "POST", {
+//         request_id: upload.request_id // contoh
+//     });
+//     if (!sign) return;
+
+//     console.log(chalk.cyan("\n=== STATUS SIGN ==="));
+//     await callAPI("statussign", "POST", {
+//         request_id: sign.request_id
+//     });
+// }
 
 
 
