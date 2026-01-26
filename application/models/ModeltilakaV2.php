@@ -93,7 +93,7 @@
                         where a.active='1'
                         -- and   a.status_sign in ('2','3')
                         and   a.status_sign='3'
-                        limit 50;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
