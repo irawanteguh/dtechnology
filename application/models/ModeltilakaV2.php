@@ -93,7 +93,7 @@
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         -- and   a.status_sign in ('2','3')
-                        and   a.status_sign='2'
+                        and   a.status_sign='3'
                         limit 10;
                     ";
 
