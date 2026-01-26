@@ -266,7 +266,7 @@
                     'method'  => "POST",
                     'header'  => $header,
                     'body'    => $body,
-                    'savelog' => true,
+                    'savelog' => false,
                     'source'  => "TILAKA-SIGNSTATUS"
                 ]);
                 return json_decode($responsecurl,TRUE); 
