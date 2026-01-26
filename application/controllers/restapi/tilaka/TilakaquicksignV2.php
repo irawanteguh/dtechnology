@@ -410,6 +410,12 @@
                     continue;
                 }
 
+                if($response['status_code']===500){
+                    $statusColor = "red";
+                    $statusMsg   = $response['message'];
+                    continue;
+                }
+
                 if($response['success']===false){
                     $statusColor = "red";
                     $statusMsg   = $response['message'];
