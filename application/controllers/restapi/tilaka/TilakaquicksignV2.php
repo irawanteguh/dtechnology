@@ -402,7 +402,6 @@
 
                 $body['request_id'] = $a->request_id;
                 $response = Tilaka::excutesignstatus(json_encode($body));
-                $this->response($response);
 
                 if(!isset($response['success'])){
                     $statusColor = "red";
@@ -489,7 +488,7 @@
                             if(TYPE_STORAGE==="LOCAL"){
                                 $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
                                 $save            = file_put_contents($destinationPath, $fileContent);
-                                echo 'x';
+
                                 if ($save === false) {
                                     echo formatlog($a->request_id, $a->user_identifier, "Gagal menyimpan file di lokal", 'white','light_yellow','red');
                                     continue;
