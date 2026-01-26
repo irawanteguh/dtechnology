@@ -515,6 +515,8 @@
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = $url;
 
+                        return var_dump($datasimpanhd);
+
                         if($this->md->updatetransaksirequestid($datasimpanhd,$a->request_id)){
                             echo formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
                         }else{
