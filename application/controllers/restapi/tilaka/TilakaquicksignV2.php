@@ -477,21 +477,33 @@
 
                         if($a->source_file === "DTECHNOLOGY"){
                             $destinationPath = FCPATH."assets/document/".$nofile . ".pdf";
-                            $save = file_put_contents($destinationPath, $fileContent);
+                            $save            = file_put_contents($destinationPath, $fileContent);
 
                             if ($save === false) {
                                 echo formatlog($a->request_id, $a->user_identifier, "Gagal menyimpan file di lokal", 'white','light_yellow','red');
                                 continue;
                             }
                         }else{
-                            $upload = uploadToAapanel($nofile.".pdf",$fileContent);
+                            if(TYPE_STORAGE==="LOCAL"){
+                                $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
+                                $save            = file_put_contents($destinationPath, $fileContent);
 
-                            if (!$upload || !$upload['success']) {
-                                echo formatlog($a->request_id, $a->user_identifier, "Upload ke AAPanel gagal", 'white','light_yellow','red');
-                                continue;
+                                if ($save === false) {
+                                    echo formatlog($a->request_id, $a->user_identifier, "Gagal menyimpan file di lokal", 'white','light_yellow','red');
+                                    continue;
+                                }
                             }
 
-                            $destinationPath = PATHFILE_POST_TILAKA . $nofile . ".pdf";
+                            if(TYPE_STORAGE==="AAPANEL"){
+                                $upload = uploadToAapanel($nofile.".pdf",$fileContent);
+
+                                if (!$upload || !$upload['success']) {
+                                    echo formatlog($a->request_id, $a->user_identifier, "Upload ke AAPanel gagal", 'white','light_yellow','red');
+                                    continue;
+                                }
+
+                                $destinationPath = PATHFILE_POST_TILAKA . $nofile . ".pdf";
+                            }
                         }
 
                         $statusColor = "green";
