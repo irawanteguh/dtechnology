@@ -407,12 +407,16 @@
                 if(!isset($response['success'])){
                     $statusColor = "red";
                     $statusMsg   = "No Response From Tilaka Lite";
+
+                    echo formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
                     continue;
                 }
 
                 if($response['status_code']===500){
                     $statusColor = "red";
                     $statusMsg   = $response['message'];
+
+                    echo formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
                     continue;
                 }
 
