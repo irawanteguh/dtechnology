@@ -20,4 +20,9 @@
 			</div>
 		</div>
 	</div>
+	<!-- <div class="aside-footer flex-column-auto" id="kt_aside_footer">
+		<a href="">
+			<img alt="Logo" src="<?php echo base_url('assets/images/logo/haspro.png'); ?>" class="h-60px" />
+		</a>
+	</div> -->
 </div>

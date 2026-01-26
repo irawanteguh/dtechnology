@@ -12,6 +12,7 @@
                                 SUBSTRING(d.assign, LENGTH(SUBSTRING_INDEX(d.assign, ';', 1)) + 2) AS rest
                             FROM dt01_gen_document_file_dt d
                             WHERE d.active = '1'
+                            AND d.assign<>''
                             AND d.status_file = '1'
                             AND d.status_sign = '0'
 
@@ -92,7 +93,7 @@
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.status_sign in ('2','3')
-                        limit 50;
+                        limit 1;
                     ";
 
             $recordset = $this->db->query($query);
