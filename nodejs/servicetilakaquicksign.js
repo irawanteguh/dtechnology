@@ -280,4 +280,4 @@ async function runservices_debug() {
 
 console.clear();
 runservices();
-setInterval(runservices, 10000);
+setInterval(runservices, 20000);
