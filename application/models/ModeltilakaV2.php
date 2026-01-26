@@ -78,7 +78,7 @@
                         WHERE d.active = '1'
                         AND d.status_sign = '1'
                         GROUP BY d.org_id, d.no_file, d.filename, d.source_file
-                        LIMIT 10;
+                        LIMIT 1;
                     ";
 
             // echo $query; // debug bila perlu
@@ -88,7 +88,7 @@
         function listdownload(){
             $query =
                     "
-                        select distinct a.request_id, source_file, user_identifier
+                        select a.request_id, source_file, user_identifier
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         -- and   a.status_sign in ('2','3')
