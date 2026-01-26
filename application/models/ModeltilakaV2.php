@@ -88,8 +88,7 @@
         function listdownload(){
             $query =
                     "
-                        select distinct a.request_id, source_file, user_identifier,
-                                (select name from dt01_gen_user_data   where org_id=a.org_id and active='1' and nik=a.assign)assignname
+                        select distinct a.request_id, source_file, user_identifier
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         -- and   a.status_sign in ('2','3')
