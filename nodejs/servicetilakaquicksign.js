@@ -250,31 +250,11 @@ async function callAPI_debug(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-
-    console.log("⏳ Menunggu proses upload file...");
-    const upload = await callAPI("uploadfile", "POST");
-    if (!upload) {
-        console.log("❌ Upload file gagal. Proses dihentikan.");
-        return;
-    }
-
-    console.log("⏳ Menunggu proses permintaan tanda tangan...");
-    const sign = await callAPI("requestsign", "POST");
-    if (!sign) {
-        console.log("❌ Permintaan tanda tangan gagal. Proses dihentikan.");
-        return;
-    }
-
-    console.log("⏳ Menunggu status tanda tangan selesai...");
-    const status = await callAPI("statussign", "POST");
-    if (!status) {
-        console.log("❌ Pengecekan status gagal. Proses dihentikan.");
-        return;
-    }
-
-    console.log("✅ Semua proses selesai.");
+    // await callAPI("statusregister", "GET");
+	await callAPI("uploadfile", "POST");
+    await callAPI("requestsign", "POST");
+    await callAPI("statussign", "POST");
 }
-
 
 async function runservices_debug() {
 
