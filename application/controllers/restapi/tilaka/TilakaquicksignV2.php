@@ -487,7 +487,7 @@
                             $upload = uploadToAapanel($nofile.".pdf",$fileContent);
 
                             if (!$upload || !$upload['success']) {
-                                echo $this->formatlog($a->request_id, $a->user_identifier, "Upload ke AAPanel gagal", 'white','light_yellow','red');
+                                echo formatlog($a->request_id, $a->user_identifier, "Upload ke AAPanel gagal", 'white','light_yellow','red');
                                 continue;
                             }
 
