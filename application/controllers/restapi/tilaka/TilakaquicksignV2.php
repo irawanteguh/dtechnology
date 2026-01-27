@@ -63,7 +63,6 @@
                 $filelocation   = "";
                 $useridentifier = $a->useridentifiers;
                 $datasimpanhd   = [];
-                $nonactivedata  = [];
                     
                 $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
 
@@ -150,20 +149,7 @@
                 if($this->md->updatetransaksi($datasimpanhd,"0",$a->no_file)){
                     echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg,'white','light_yellow',$statusColor);
                 }else{
-                    $db_error = $this->db->error();
-                    return var_dump($db_error);
-                    if($db_error['code'] == 1062){
-                        $nonactivedata['active'] = "0";
-                        $this->md->updatetransaksi($nonactivedata, "1", $a->no_file);
-
-                        if($this->md->updatetransaksi($datasimpanhd, "0", $a->no_file)){
-                            echo formatlog($a->no_file . ".pdf",$useridentifier,$statusMsg . " [ Re-Update OK ]",'white','light_yellow','green');
-                        }else{
-                            echo formatlog($a->no_file . ".pdf",$useridentifier,$statusMsg . " [ Gagal Update Setelah Nonaktif ]",'white','light_yellow','red');
-                        }
-                    }else{
-                        echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
-                    }
+                    echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
                 }
             }
 
