@@ -202,13 +202,28 @@ function activequicksign(btn){
             if(result['success']){
                 window.location.href = result['auth_response'][0]['url']+"&redirect_url=" + url + "index.php/tilakaV2/registrasi";
             }else{
+                let alertType  = "error";
+                let alertBtn   = "btn btn-danger";
+                let alertTitle = "Error";
+
+                if (
+                    result.success === false &&
+                    result.message &&
+                    result.message.toLowerCase().includes("masih memiliki auth aktif")
+                ) {
+                    alertType  = "info";
+                    alertBtn   = "btn btn-info";
+                    alertTitle = "For Your Information";
+                }
+
                 showAlert(
-                    "For Your Information",
-                    result['message'],
-                    "error",
+                    alertTitle,
+                    result.message,
+                    alertType,
                     "Please Try Again",
-                    "btn btn-danger"
+                    alertBtn
                 );
+
             }
         },
         complete: function () {

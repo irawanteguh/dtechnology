@@ -88,12 +88,22 @@
         function listdownload(){
             $query =
                     "
-                        select distinct a.request_id, source_file, user_identifier, note
-                        from dt01_gen_document_file_dt a
-                        where a.active='1'
-                        and   a.status_sign in ('2','3')
-                        order by note asc
-                        limit 50;
+                        SELECT DISTINCT
+                            a.request_id,
+                            a.source_file,
+                            a.user_identifier,
+                            a.note
+                        FROM dt01_gen_document_file_dt a
+                        WHERE a.active = '1'
+                        AND a.status_sign IN ('2','3')
+                        ORDER BY
+                            CASE 
+                                WHEN a.note IS NULL THEN 0
+                                ELSE 1
+                            END,
+                            RAND()
+                        LIMIT 50;
+
                     ";
 
             $recordset = $this->db->query($query);
