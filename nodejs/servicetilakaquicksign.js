@@ -251,8 +251,8 @@ async function callAPI_debug(endpoint, method = "GET", body = null) {
 
 async function runservices() {
     // await callAPI("statusregister", "GET");
-	await callAPI("uploadfile", "POST");
-    await callAPI("requestsign", "POST");
+	// await callAPI("uploadfile", "POST");
+    // await callAPI("requestsign", "POST");
     await callAPI("statussign", "POST");
 }
 
@@ -280,4 +280,4 @@ async function runservices_debug() {
 
 console.clear();
 runservices();
-setInterval(runservices, 10000);
+setInterval(runservices, 20000);
