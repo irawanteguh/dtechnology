@@ -151,6 +151,7 @@
                     echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg,'white','light_yellow',$statusColor);
                 }else{
                     $db_error = $this->db->error();
+                    return var_dump($db_error);
                     if($db_error['code'] == 1062){
                         $nonactivedata['active'] = "0";
                         $this->md->updatetransaksi($nonactivedata, "1", $a->no_file);
