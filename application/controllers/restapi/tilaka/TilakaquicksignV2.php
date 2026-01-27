@@ -164,6 +164,7 @@
             }
 
             foreach($resultlistrequestsign as $a){
+                
                 $statusColor    = "";
                 $statusMsg      = "";
                 $filelocation   = "";
@@ -177,6 +178,12 @@
                 $uidArr    = array_values(array_filter(explode(';', $a->user_identifier)));
                 $nameArr   = array_values(array_filter(explode(';', $a->names)));
                 $emailArr  = array_values(array_filter(explode(';', $a->email)));
+
+                if (empty($uidArr)) {
+                    $statusColor = "red";
+                    $statusMsg   = "User Identifier Tidak Ada";
+                    continue;
+                }
 
                 if(SIGNATUREIMAGES === "DEFAULT"){
                     $locationspeciment = FCPATH."assets/speciment/".$a->org_id.".png";

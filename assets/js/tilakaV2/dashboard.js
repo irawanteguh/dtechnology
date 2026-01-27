@@ -143,18 +143,12 @@ function dokumentteuser(){
     return false;
 };
 
-am5.ready(function () {
+function initTrafficChart(divId, statusValue) {
 
-  // ===============================
-  // ROOT
-  // ===============================
-  var root = am5.Root.new("charttraffictte");
+  var root = am5.Root.new(divId);
   root.setThemes([am5themes_Animated.new(root)]);
   root.numberFormatter.setAll({ numberFormat: "#,###" });
 
-  // ===============================
-  // CHART
-  // ===============================
   var chart = root.container.children.push(
     am5xy.XYChart.new(root, {
       panX: true,
@@ -165,16 +159,10 @@ am5.ready(function () {
     })
   );
 
-  // ===============================
-  // AXES
-  // ===============================
   var xAxis = chart.xAxes.push(
     am5xy.DateAxis.new(root, {
       baseInterval: { timeUnit: "second", count: 5 },
-      maxDeviation: 0.5,
-      renderer: am5xy.AxisRendererX.new(root, {
-        minGridDistance: 60
-      }),
+      renderer: am5xy.AxisRendererX.new(root, { minGridDistance: 60 }),
       tooltip: am5.Tooltip.new(root, {})
     })
   );
@@ -185,76 +173,41 @@ am5.ready(function () {
     })
   );
 
-  // ===============================
-  // STATUS & SERIES
-  // ===============================
-  var statusList = ["0","1"];
-  var seriesMap = {};
-
-  statusList.forEach(function (status) {
-
-    var series = chart.series.push(
-      am5xy.LineSeries.new(root, {
-        name: "Status " + status,
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueXField: "date",
-        valueYField: "value",
-
-        // 🔥 VALUE MUNCUL SAAT HOVER
-        tooltip: am5.Tooltip.new(root, {
-          labelText: "{name}: {valueY.formatNumber('#,###')}"
-        })
+  var series = chart.series.push(
+    am5xy.LineSeries.new(root, {
+      name: "Status " + statusValue,
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueXField: "date",
+      valueYField: "value",
+      tooltip: am5.Tooltip.new(root, {
+        labelText: "{name}: {valueY.formatNumber('#,###')}"
       })
-    );
+    })
+  );
 
-    series.strokes.template.setAll({ strokeWidth: 2 });
-    series.data.setAll([]);
+  // garis
+  series.strokes.template.setAll({ strokeWidth: 2 });
 
-    // ===============================
-    // POINT ONLY (NO LABEL)
-    // ===============================
-    series.bullets.push(function () {
-      return am5.Bullet.new(root, {
-        sprite: am5.Circle.new(root, {
-          radius: 4,
-          fill: series.get("stroke"),
-          stroke: root.interfaceColors.get("background"),
-          strokeWidth: 1
-        })
-      });
+  // 🔴 animated bullet
+  series.bullets.push(function () {
+    var circle = am5.Circle.new(root, {
+      radius: 4,
+      fill: series.get("stroke"),
+      stroke: root.interfaceColors.get("background"),
+      strokeWidth: 1
     });
 
-    seriesMap[status] = series;
+    return am5.Bullet.new(root, { sprite: circle });
   });
 
-  // ===============================
-  // CURSOR (TOOLTIP FOLLOW)
-  // ===============================
-  var cursor = chart.set(
-    "cursor",
-    am5xy.XYCursor.new(root, {
-      xAxis: xAxis,
-      behavior: "none"
-    })
+  // cursor
+  var cursor = chart.set("cursor",
+    am5xy.XYCursor.new(root, { xAxis: xAxis })
   );
   cursor.lineY.set("visible", false);
 
-  // ===============================
-  // LEGEND
-  // ===============================
-  var legend = chart.children.push(
-    am5.Legend.new(root, {
-      centerX: am5.percent(50),
-      x: am5.percent(50)
-    })
-  );
-  legend.data.setAll(chart.series.values);
-
-  // ===============================
-  // LOAD DATA
-  // ===============================
-  function loadTrafficTTE() {
+  function loadData() {
 
     $.ajax({
       url: url + "index.php/tilakaV2/dashboard/traffictte",
@@ -265,51 +218,44 @@ am5.ready(function () {
         if (res.responCode !== "00") return;
 
         var now = Date.now();
-
-        // default 0
-        var dataMap = {};
-        statusList.forEach(s => dataMap[s] = 0);
+        var value = 0;
 
         res.responResult.forEach(row => {
-          dataMap[row.status_sign] = parseInt(row.jml);
+          if (row.status_sign === statusValue) {
+            value = parseInt(row.jml);
+          }
         });
 
-        statusList.forEach(function (status) {
+        // sliding window (10 data terakhir)
+        if (series.data.length >= 10) {
+          series.data.removeIndex(0);
+        }
 
-          var series = seriesMap[status];
-          var value  = dataMap[status];
+        series.data.push({ date: now, value: value });
 
-          // sliding window
-          if (series.data.length >= 500) {
-            series.data.removeIndex(0);
-          }
-
-          series.data.push({
-            date: now,
-            value: value
-          });
-
-          var lastItem = series.dataItems.at(-1);
-          lastItem.animate({
-            key: "valueYWorking",
-            to: value,
-            duration: 600,
-            easing: am5.ease.linear
-          });
+        series.dataItems.at(-1).animate({
+          key: "valueYWorking",
+          to: value,
+          duration: 600,
+          easing: am5.ease.linear
         });
       }
     });
   }
 
-  // ===============================
-  // START
-  // ===============================
-  loadTrafficTTE();
-  setInterval(loadTrafficTTE, 5000);
+  loadData();
+  setInterval(loadData, 5000);
+
   chart.appear(1000, 100);
+}
+
+
+am5.ready(function () {
+
+  initTrafficChart("charttraffictte0", "0"); // Upload
+  initTrafficChart("charttraffictte1", "1"); // Request Sign
 
 });
-
 
 
 
