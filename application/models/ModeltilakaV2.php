@@ -43,7 +43,7 @@
                             s.no_file,
                             s.assign,
                             s.source_file
-                        LIMIT 10;
+                        LIMIT 50;
 
                     ";
 
