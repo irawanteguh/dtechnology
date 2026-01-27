@@ -1,5 +1,6 @@
 dokumentteuser();
 
+
 $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", function (e) {
     e.preventDefault();
     dokumentteuser();
@@ -141,3 +142,144 @@ function dokumentteuser(){
     });
     return false;
 };
+
+am5.ready(function () {
+
+  // ===============================
+  // ROOT
+  // ===============================
+  var root = am5.Root.new("charttraffictte");
+  root.setThemes([am5themes_Animated.new(root)]);
+
+  // ===============================
+  // CHART
+  // ===============================
+  var chart = root.container.children.push(
+    am5xy.XYChart.new(root, {
+      panX: true,
+      wheelX: "panX",
+      wheelY: "zoomX",
+      pinchZoomX: true,
+      paddingLeft: 0
+    })
+  );
+
+  // ===============================
+  // AXES
+  // ===============================
+  var xAxis = chart.xAxes.push(
+    am5xy.DateAxis.new(root, {
+      baseInterval: { timeUnit: "second", count: 5 },
+      renderer: am5xy.AxisRendererX.new(root, { minGridDistance: 60 }),
+      tooltip: am5.Tooltip.new(root, {})
+    })
+  );
+
+  var yAxis = chart.yAxes.push(
+    am5xy.ValueAxis.new(root, {
+      renderer: am5xy.AxisRendererY.new(root, {})
+    })
+  );
+
+  // ===============================
+  // STATUS SIGN LIST
+  // ===============================
+  var statusList = ["0","1","2","3","4","97","99"];
+  var seriesMap = {};
+
+  // ===============================
+  // CREATE SERIES PER STATUS
+  // ===============================
+  statusList.forEach(function (status) {
+
+    var series = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        name: "Status " + status,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "value",
+        valueXField: "date",
+        tooltip: am5.Tooltip.new(root, {
+          labelText: "{name}: {valueY}"
+        })
+      })
+    );
+
+    series.strokes.template.setAll({ strokeWidth: 2 });
+    series.data.setAll([]);
+
+    series.bullets.push(function () {
+      return am5.Bullet.new(root, {
+        sprite: am5.Circle.new(root, { radius: 3 })
+      });
+    });
+
+    seriesMap[status] = series;
+  });
+
+  // ===============================
+  // LEGEND
+  // ===============================
+  var legend = chart.children.push(
+    am5.Legend.new(root, {
+      centerX: am5.percent(50),
+      x: am5.percent(50)
+    })
+  );
+  legend.data.setAll(chart.series.values);
+
+  // ===============================
+  // AJAX LOAD DATA
+  // ===============================
+  function loadTrafficTTE() {
+
+    $.ajax({
+      url: url + "index.php/tilakaV2/dashboard/traffictte",
+      method: "POST",
+      dataType: "JSON",
+      success: function (res) {
+
+        if (res.responCode !== "00") return;
+
+        var now = new Date().getTime();
+
+        res.responResult.forEach(function (row) {
+
+          var status = row.status_sign;
+          var value  = parseInt(row.jml);
+          var series = seriesMap[status];
+
+          if (!series) return;
+
+          // sliding window max 30 titik
+          if (series.data.length > 30) {
+            series.data.removeIndex(0);
+          }
+
+          series.data.push({
+            date: now,
+            value: value
+          });
+
+          var lastItem = series.dataItems[series.dataItems.length - 1];
+          lastItem.animate({
+            key: "valueYWorking",
+            to: value,
+            duration: 700,
+            easing: am5.ease.linear
+          });
+        });
+      }
+    });
+  }
+
+  // ===============================
+  // START
+  // ===============================
+  loadTrafficTTE();
+  setInterval(loadTrafficTTE, 5000);
+
+  chart.appear(1000, 100);
+
+});
+

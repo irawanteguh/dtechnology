@@ -58,5 +58,20 @@
             return $recordset;
         }
 
+        function traffictte(){
+            $query =
+                    "
+                        select a.status_sign, count(no_file)jml
+                        from dt01_gen_document_file_dt a
+                        where a.active='1'
+                        group by status_sign
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
     }
 ?>
