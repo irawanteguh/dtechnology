@@ -88,11 +88,12 @@
         function listdownload(){
             $query =
                     "
-                        select a.request_id, source_file, user_identifier
+                        select distinct a.request_id, source_file, user_identifier, note
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         -- and   a.status_sign in ('2','3')
                         and   a.status_sign='3'
+                        order by note asc
                         limit 50;
                     ";
 
