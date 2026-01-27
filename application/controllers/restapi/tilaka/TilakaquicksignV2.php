@@ -337,7 +337,6 @@
                     $body['list_pdf'][]     = $listpdf;
                 }
 
-                // $this->response($body);
                 $pdfParse->cleanup();
                 $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
                 
