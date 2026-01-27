@@ -64,6 +64,7 @@
                         select a.status_sign, count(no_file)jml
                         from dt01_gen_document_file_dt a
                         where a.active='1'
+                        and   a.assign<>''
                         group by status_sign
 
                     ";
