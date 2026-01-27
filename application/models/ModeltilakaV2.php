@@ -78,7 +78,7 @@
                         WHERE d.active = '1'
                         AND d.status_sign = '1'
                         GROUP BY d.org_id, d.no_file, d.filename, d.source_file
-                        LIMIT 1;
+                        LIMIT 10;
                     ";
 
             // echo $query; // debug bila perlu
