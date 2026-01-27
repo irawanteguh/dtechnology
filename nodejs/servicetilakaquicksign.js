@@ -251,7 +251,7 @@ async function callAPI_debug(endpoint, method = "GET", body = null) {
 
 async function runservices() {
     // await callAPI("statusregister", "GET");
-	// await callAPI("uploadfile", "POST");
+	await callAPI("uploadfile", "POST");
     // await callAPI("requestsign", "POST");
     await callAPI("statussign", "POST");
 }
