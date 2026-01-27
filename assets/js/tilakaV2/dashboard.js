@@ -146,18 +146,11 @@ function dokumentteuser(){
 am5.ready(function () {
 
   // ===============================
-  // ROOT & FORMAT
+  // ROOT
   // ===============================
   var root = am5.Root.new("charttraffictte");
-
-  root.setThemes([
-    am5themes_Animated.new(root)
-  ]);
-
-  // format angka ribuan
-  root.numberFormatter.setAll({
-    numberFormat: "#,###"
-  });
+  root.setThemes([am5themes_Animated.new(root)]);
+  root.numberFormatter.setAll({ numberFormat: "#,###" });
 
   // ===============================
   // CHART
@@ -193,14 +186,11 @@ am5.ready(function () {
   );
 
   // ===============================
-  // STATUS SIGN
+  // STATUS & SERIES
   // ===============================
-  var statusList = ["1"];
+  var statusList = ["0","1"];
   var seriesMap = {};
 
-  // ===============================
-  // CREATE SERIES
-  // ===============================
   statusList.forEach(function (status) {
 
     var series = chart.series.push(
@@ -208,10 +198,12 @@ am5.ready(function () {
         name: "Status " + status,
         xAxis: xAxis,
         yAxis: yAxis,
-        valueYField: "value",
         valueXField: "date",
+        valueYField: "value",
+
+        // 🔥 VALUE MUNCUL SAAT HOVER
         tooltip: am5.Tooltip.new(root, {
-          labelText: "{name}: {valueY}"
+          labelText: "{name}: {valueY.formatNumber('#,###')}"
         })
       })
     );
@@ -219,45 +211,34 @@ am5.ready(function () {
     series.strokes.template.setAll({ strokeWidth: 2 });
     series.data.setAll([]);
 
-    // bullet titik
+    // ===============================
+    // POINT ONLY (NO LABEL)
+    // ===============================
     series.bullets.push(function () {
       return am5.Bullet.new(root, {
-        sprite: am5.Circle.new(root, { radius: 3 })
+        sprite: am5.Circle.new(root, {
+          radius: 4,
+          fill: series.get("stroke"),
+          stroke: root.interfaceColors.get("background"),
+          strokeWidth: 1
+        })
       });
     });
 
-    // 🔖 LABEL DI TITIK TERAKHIR
-    // series.bullets.push(function (root, series, dataItem) {
-    //   if (dataItem.dataContext.last) {
-    //     return am5.Bullet.new(root, {
-    //       locationX: 1,
-    //       sprite: am5.Label.new(root, {
-    //         text: "{name}: {valueY}",
-    //         populateText: true,
-    //         fill: series.get("stroke"),
-    //         fontSize: 12,
-    //         fontWeight: "500",
-    //         centerY: am5.p50,
-    //         dx: 8,
-    //         paddingLeft: 6,
-    //         paddingRight: 6,
-    //         paddingTop: 2,
-    //         paddingBottom: 2,
-    //         background: am5.RoundedRectangle.new(root, {
-    //           fill: root.interfaceColors.get("background"),
-    //           fillOpacity: 0.85,
-    //           cornerRadiusTL: 6,
-    //           cornerRadiusTR: 6,
-    //           cornerRadiusBL: 6,
-    //           cornerRadiusBR: 6
-    //         })
-    //       })
-    //     });
-    //   }
-    // });
-
     seriesMap[status] = series;
   });
+
+  // ===============================
+  // CURSOR (TOOLTIP FOLLOW)
+  // ===============================
+  var cursor = chart.set(
+    "cursor",
+    am5xy.XYCursor.new(root, {
+      xAxis: xAxis,
+      behavior: "none"
+    })
+  );
+  cursor.lineY.set("visible", false);
 
   // ===============================
   // LEGEND
@@ -271,84 +252,65 @@ am5.ready(function () {
   legend.data.setAll(chart.series.values);
 
   // ===============================
-  // LOAD DATA (AJAX)
+  // LOAD DATA
   // ===============================
   function loadTrafficTTE() {
 
-  $.ajax({
-    url: url + "index.php/tilakaV2/dashboard/traffictte",
-    method: "POST",
-    dataType: "JSON",
-    success: function (res) {
+    $.ajax({
+      url: url + "index.php/tilakaV2/dashboard/traffictte",
+      method: "POST",
+      dataType: "JSON",
+      success: function (res) {
 
-      if (res.responCode !== "00") return;
+        if (res.responCode !== "00") return;
 
-      var now = new Date().getTime();
+        var now = Date.now();
 
-      // ===============================
-      // 1️⃣ DEFAULT VALUE = 0
-      // ===============================
-      var dataMap = {};
-      statusList.forEach(function (s) {
-        dataMap[s] = 0;
-      });
+        // default 0
+        var dataMap = {};
+        statusList.forEach(s => dataMap[s] = 0);
 
-      // ===============================
-      // 2️⃣ ISI DARI BACKEND
-      // ===============================
-      res.responResult.forEach(function (row) {
-        dataMap[row.status_sign] = parseInt(row.jml);
-      });
-
-      // ===============================
-      // 3️⃣ UPDATE SEMUA SERIES
-      // ===============================
-      statusList.forEach(function (status) {
-
-        var series = seriesMap[status];
-        var value  = dataMap[status];
-
-        // hapus flag last sebelumnya
-        series.dataItems.forEach(function (di) {
-          di.dataContext.last = false;
+        res.responResult.forEach(row => {
+          dataMap[row.status_sign] = parseInt(row.jml);
         });
 
-        // sliding window max 10
-        if (series.data.length >= 10) {
-          series.data.removeIndex(0);
-        }
+        statusList.forEach(function (status) {
 
-        // push data baru (0 kalau tidak ada)
-        series.data.push({
-          date: now,
-          value: value,
-          last: true
+          var series = seriesMap[status];
+          var value  = dataMap[status];
+
+          // sliding window
+          if (series.data.length >= 500) {
+            series.data.removeIndex(0);
+          }
+
+          series.data.push({
+            date: now,
+            value: value
+          });
+
+          var lastItem = series.dataItems.at(-1);
+          lastItem.animate({
+            key: "valueYWorking",
+            to: value,
+            duration: 600,
+            easing: am5.ease.linear
+          });
         });
-
-        // animasi
-        var lastItem = series.dataItems[series.dataItems.length - 1];
-        lastItem.animate({
-          key: "valueYWorking",
-          to: value,
-          duration: 600,
-          easing: am5.ease.linear
-        });
-
-      });
-    }
-  });
-}
-
+      }
+    });
+  }
 
   // ===============================
   // START
   // ===============================
   loadTrafficTTE();
   setInterval(loadTrafficTTE, 5000);
-
   chart.appear(1000, 100);
 
 });
+
+
 
 
 
