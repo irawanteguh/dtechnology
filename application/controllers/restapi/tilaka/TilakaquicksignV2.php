@@ -395,10 +395,11 @@
             }
 
             foreach($resultlistdownload as $a){
-                $statusColor = "";
-                $statusMsg   = "";
-                $body        = [];
-                $response    = [];
+                $statusColor  = "";
+                $statusMsg    = "";
+                $body         = [];
+                $response     = [];
+                $datasimpanhd = [];
 
                 $body['request_id'] = $a->request_id;
                 $response = Tilaka::excutesignstatus(json_encode($body));
@@ -440,7 +441,39 @@
                     continue;
                 }
 
-                if($response['success']===true && ($response['message']==="PROCESS"||$response['message']==="UNAUTHORIZED"||$response['message']==="PARAMERR")){
+                if($response['success']===true && $response['message']==="PROCESS"){
+
+                    $statusColor = "yellow";
+                    $statusMsg   = $response['message'];
+
+                    $datasimpanhd['note'] = $response['message'];
+
+                    if($this->md->updatetransaksirequestid($datasimpanhd,$a->request_id)){
+                        echo formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                    }else{
+                        echo formatlog($a->request_id,$a->user_identifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
+                    }
+
+                    continue;
+                }
+
+                if($response['success']===true && $response['message']==="UNAUTHORIZED"){
+
+                    $statusColor = "yellow";
+                    $statusMsg   = $response['message'];
+
+                    $datasimpanhd['note'] = $response['message'];
+
+                    if($this->md->updatetransaksirequestid($datasimpanhd,$a->request_id)){
+                        echo formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                    }else{
+                        echo formatlog($a->request_id,$a->user_identifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
+                    }
+
+                    continue;
+                }
+
+                if($response['success']===true && $response['message']==="PARAMERR"){
 
                     $statusColor = "yellow";
                     $statusMsg   = $response['message'];
