@@ -253,7 +253,7 @@ async function runservices() {
     // await callAPI("statusregister", "GET");
 	await callAPI("uploadfile", "POST");
     await callAPI("requestsign", "POST");
-    // await callAPI("statussign", "POST");
+    await callAPI("statussign", "POST");
 }
 
 async function runservices_debug() {

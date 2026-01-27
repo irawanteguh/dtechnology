@@ -254,7 +254,7 @@ am5.ready(function () {
 
   initTrafficChart("charttraffictte0", "0"); // Upload
   initTrafficChart("charttraffictte1", "1"); // Request Sign
-
+  initTrafficChart("charttraffictte3", "3"); // Proses Signing
 });
 
 
