@@ -267,7 +267,7 @@ async function callAPI_debug(endpoint, method = "GET", body = null) {
     }
 }
 
-async function runservices() {
+async function runLoop() {
 
     if (isRunningServices) {
         Waiting("batch-services");
@@ -280,13 +280,15 @@ async function runservices() {
         await callAPI("uploadfile", "POST");
         await callAPI("requestsign", "POST");
         await callAPI("statussign", "POST");
-    } catch (err) {
-        console.log(chalk.red("❌ Error di runservices:"), err.message);
+    } catch (e) {
+        console.log(chalk.red("❌ Error batch:"), e.message);
     } finally {
         isRunningServices = false;
+
+        // ⏱ delay setelah selesai
+        setTimeout(runLoop, 5000);
     }
 }
-
 
 async function runservices_debug() {
 
@@ -308,8 +310,6 @@ async function runservices_debug() {
     });
 }
 
-
-
+// START
 console.clear();
-runservices();
-setInterval(runservices, 20000);
+runLoop();
