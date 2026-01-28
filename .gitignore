@@ -9,6 +9,8 @@ application/logs/*
 application/sessions/*
 !application/sessions/index.html
 
+assets/vendors/pdfparse/bin/**/tmp/
+
 ######Folder##########
 assets/attendance/*
 !assets/attendance/index.html
