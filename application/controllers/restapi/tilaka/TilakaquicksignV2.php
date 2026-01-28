@@ -404,15 +404,13 @@
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
                     }else{
-                        if($responserequestsign['message']!="Could not open JPA EntityManager for transaction; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"){
-                            $datasimpanhd['status_sign']     = "97";
-                            $datasimpanhd['note']            = $responserequestsign['message'];
-                            $datasimpanhd['status_file']     = "1";
-                            $datasimpanhd['user_identifier'] = null;
-                            $datasimpanhd['link']            = null;
-                            $datasimpanhd['url']             = null;
-                            $datasimpanhd['request_id']      = null;
-                        }
+                        $datasimpanhd['status_sign']     = "97";
+                        $datasimpanhd['note']            = $responserequestsign['message'];
+                        $datasimpanhd['status_file']     = "1";
+                        $datasimpanhd['user_identifier'] = null;
+                        $datasimpanhd['link']            = null;
+                        $datasimpanhd['url']             = null;
+                        $datasimpanhd['request_id']      = null;
                     }
                     
                     
