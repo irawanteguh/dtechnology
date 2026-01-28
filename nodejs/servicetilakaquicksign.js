@@ -2,7 +2,7 @@ import os from "os";
 import fetch from "node-fetch";
 import chalk from "chalk";
 
-let lebar             = 100;
+let lebar             = 120;
 let host              = "localhost";
 let isRunningServices = false;
 
