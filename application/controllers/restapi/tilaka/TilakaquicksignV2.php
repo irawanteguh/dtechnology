@@ -240,9 +240,9 @@
                     $datasimpanhd['request_id']      = null;
 
                     if($this->md->updatetransaksi($datasimpanhd,"0",$a->no_file)){
-                        echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg,'white','light_yellow',$statusColor);
+                        echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
                     }else{
-                        echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
+                        echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
                     }
                     continue;
                 }
