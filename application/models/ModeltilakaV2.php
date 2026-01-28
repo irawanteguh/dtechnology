@@ -104,7 +104,7 @@
                                 ELSE 3
                             END,
                             RAND()
-                        LIMIT 10;
+                        LIMIT 50;
                     ";
 
             $recordset = $this->db->query($query);
