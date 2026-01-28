@@ -291,7 +291,7 @@ async function runLoop() {
 }
 
 async function runservices() {
-    await callAPI("statusregister", "GET");
+    // await callAPI("statusregister", "GET");
     await callAPI("uploadfile", "POST");
     await callAPI("requestsign", "POST");
     await callAPI("statussign", "POST");
