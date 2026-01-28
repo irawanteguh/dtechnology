@@ -514,7 +514,7 @@
 
                 if($response['success']===true && $response['message']==="UNAUTHORIZED"){
 
-                    $statusColor = "yellow";
+                    $statusColor = "red";
                     $statusMsg   = $response['message'];
 
                     $datasimpanhd['note'] = $response['message'];
