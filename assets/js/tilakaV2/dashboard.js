@@ -1,4 +1,4 @@
-dokumentteuser();
+// dokumentteuser();
 
 
 $(document).on("change", "select[name='toolbar_kunjunganyears_periode']", function (e) {
@@ -168,9 +168,7 @@ function initTrafficChart(divId, statusValue) {
   var xAxis = chart.xAxes.push(
     am5xy.DateAxis.new(root, {
       baseInterval: { timeUnit: "second", count: 5 },
-      renderer: am5xy.AxisRendererX.new(root, {
-        minGridDistance: 60
-      }),
+      renderer: am5xy.AxisRendererX.new(root, { minGridDistance: 60 }),
       tooltip: am5.Tooltip.new(root, {})
     })
   );
@@ -182,10 +180,10 @@ function initTrafficChart(divId, statusValue) {
   );
 
   // ===============================
-  // SERIES (SMOOTH LINE)
+  // SERIES (SMOOTH LINE - OFFICIAL)
   // ===============================
   var series = chart.series.push(
-    am5xy.LineSeries.new(root, {
+    am5xy.SmoothedXLineSeries.new(root, {
       name: "Status " + statusValue,
       xAxis: xAxis,
       yAxis: yAxis,
@@ -197,12 +195,11 @@ function initTrafficChart(divId, statusValue) {
     })
   );
 
-  // garis smooth
+  // garis
   series.strokes.template.setAll({ strokeWidth: 2 });
-  series.set("tensionX", 0.8); // ? smooth line
 
   // ===============================
-  // BULLET (POINT ONLY)
+  // BULLET (POINT)
   // ===============================
   series.bullets.push(function () {
     return am5.Bullet.new(root, {
@@ -228,7 +225,6 @@ function initTrafficChart(divId, statusValue) {
   // LOAD DATA
   // ===============================
   function loadData() {
-
     $.ajax({
       url: url + "index.php/tilakaV2/dashboard/traffictte",
       method: "POST",
@@ -242,11 +238,11 @@ function initTrafficChart(divId, statusValue) {
 
         res.responResult.forEach(row => {
           if (row.status_sign === statusValue) {
-            value = parseInt(row.jml);
+            value = parseInt(row.jml || 0);
           }
         });
 
-        // sliding window
+        // sliding window (max 50 point)
         if (series.data.length >= 50) {
           series.data.removeIndex(0);
         }
@@ -270,6 +266,7 @@ function initTrafficChart(divId, statusValue) {
   setInterval(loadData, 5000);
   chart.appear(1000, 100);
 }
+
 
 
 
