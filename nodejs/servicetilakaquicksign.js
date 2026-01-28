@@ -2,8 +2,10 @@ import os from "os";
 import fetch from "node-fetch";
 import chalk from "chalk";
 
-let lebar = 200;
-let host  = "localhost";
+let lebar             = 200;
+let host              = "localhost";
+let isRunningServices = false;
+
 
 const interfaces = os.networkInterfaces();
 for (const iface of Object.values(interfaces)) {
@@ -55,6 +57,22 @@ function formatLog(
         colorize(String(endpoint).padEnd(widths.endpoint), colors.endpoint) +
         colorize(String(status).padEnd(widths.status), colors.status) +
         colorize(String(message || ""), colors.message)
+    );
+}
+
+function Waiting(endpoint) {
+    printHeader();
+
+    console.log(
+        formatLog(
+            getTimeStamp(),
+            "WAIT",
+            endpoint,
+            "WAITING",
+            "Proses sebelumnya masih berjalan",
+            { ts: 40, method: 10, endpoint: 30, status: 12 },
+            { ts: "white", method: "yellow", endpoint: "yellow", status: "yellow", message: "yellow" }
+        )
     );
 }
 
@@ -250,11 +268,25 @@ async function callAPI_debug(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-    // await callAPI("statusregister", "GET");
-	await callAPI("uploadfile", "POST");
-    await callAPI("requestsign", "POST");
-    await callAPI("statussign", "POST");
+
+    if (isRunningServices) {
+        Waiting("batch-services");
+        return;
+    }
+
+    isRunningServices = true;
+
+    try {
+        await callAPI("uploadfile", "POST");
+        await callAPI("requestsign", "POST");
+        await callAPI("statussign", "POST");
+    } catch (err) {
+        console.log(chalk.red("❌ Error di runservices:"), err.message);
+    } finally {
+        isRunningServices = false;
+    }
 }
+
 
 async function runservices_debug() {
 
