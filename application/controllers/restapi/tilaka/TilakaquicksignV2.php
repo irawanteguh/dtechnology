@@ -597,7 +597,7 @@
                         }
 
                         $statusColor = "green";
-                        $statusMsg   = $response['message']." | " . $destinationPath;
+                        $statusMsg   = $response['message'];
 
                         $datasimpanhd['status_sign']     = "5";
                         $datasimpanhd['note']            = null;
