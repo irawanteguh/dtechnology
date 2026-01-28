@@ -318,6 +318,6 @@ async function runservices_debug() {
 }
 
 console.clear();
-// runLoop();
-runservices();
-setInterval(runservices, 20000);
+runLoop();
+// runservices();
+// setInterval(runservices, 20000);
