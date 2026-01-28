@@ -77,8 +77,9 @@
                             ON FIND_IN_SET(u.nik, REPLACE(d.assign, ';', ',')) > 0
                         WHERE d.active = '1'
                         AND d.status_sign = '1'
+                        and d.user_identifier='christian02'
                         GROUP BY d.org_id, d.no_file, d.filename, d.source_file
-                        LIMIT 10;
+                        LIMIT 50;
                     ";
 
             // echo $query; // debug bila perlu
