@@ -79,7 +79,7 @@
                         AND d.status_sign = '1'
                         and d.ASSIGN ='2101372'
                         GROUP BY d.org_id, d.no_file, d.filename, d.source_file
-                        LIMIT 10;
+                        LIMIT 5;
                     ";
 
             // echo $query; // debug bila perlu
