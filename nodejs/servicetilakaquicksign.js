@@ -279,7 +279,7 @@ async function runLoop() {
     try {
         await callAPI("uploadfile", "POST");
         await callAPI("requestsign", "POST");
-        await callAPI("statussign", "POST");
+        // await callAPI("statussign", "POST");
     } catch (e) {
         console.log(chalk.red("❌ Error batch:"), e.message);
     } finally {
