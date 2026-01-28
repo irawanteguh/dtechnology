@@ -455,6 +455,7 @@
                 $body         = [];
                 $response     = [];
                 $datasimpanhd = [];
+                $nonactive    = [];
 
                 $body['request_id'] = $a->request_id;
                 $response = Tilaka::excutesignstatus(json_encode($body));
@@ -603,6 +604,11 @@
                         $datasimpanhd['status_file']     = "1";
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = $url;
+
+                        //Jika Terjadi Duplicate, Data Nya Akan Di Non Active
+                        $nonactive['active'] = "0";
+                        $nonactive['note']   = "Duplikasi Transaksi";
+                        $this->md->updatetransaksi($nonactive,"5",$nofile);
 
                         if($this->md->updatetransaksirequestid($datasimpanhd,$a->request_id)){
                             echo formatlog($a->request_id,$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);

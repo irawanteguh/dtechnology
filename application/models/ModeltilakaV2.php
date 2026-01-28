@@ -115,6 +115,7 @@
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile,"status_sign"=>$statussign,"active"=>"1"));
             return $sql;
         }
+        
 
         function updatetransaksirequestid($data,$requestid){           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("request_id"=>$requestid,"active"=>"1"));
