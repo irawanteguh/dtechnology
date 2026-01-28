@@ -103,7 +103,7 @@
                                 ELSE 1
                             END,
                             RAND()
-                        LIMIT 50;
+                        LIMIT 10;
 
                     ";
 
