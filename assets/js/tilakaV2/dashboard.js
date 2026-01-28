@@ -227,7 +227,7 @@ function initTrafficChart(divId, statusValue) {
         });
 
         // sliding window (10 data terakhir)
-        if (series.data.length >= 10) {
+        if (series.data.length >= 50) {
           series.data.removeIndex(0);
         }
 
