@@ -227,45 +227,45 @@
 
                 $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
 
-                // if(fileExists($filelocation)===false){
-                //     $statusColor = "red";
-                //     $statusMsg   = "File not found";
+                if(fileExists($filelocation)===false){
+                    $statusColor = "red";
+                    $statusMsg   = "File not found";
 
-                //     $datasimpanhd['status_sign']     = "99";
-                //     $datasimpanhd['note']            = "File not found";
-                //     $datasimpanhd['status_file']     = "0";
-                //     $datasimpanhd['user_identifier'] = null;
-                //     $datasimpanhd['link']            = null;
-                //     $datasimpanhd['url']             = null;
-                //     $datasimpanhd['request_id']      = null;
+                    $datasimpanhd['status_sign']     = "99";
+                    $datasimpanhd['note']            = "File not found";
+                    $datasimpanhd['status_file']     = "0";
+                    $datasimpanhd['user_identifier'] = null;
+                    $datasimpanhd['link']            = null;
+                    $datasimpanhd['url']             = null;
+                    $datasimpanhd['request_id']      = null;
 
-                //     if($this->md->updatetransaksi($datasimpanhd,"0",$a->no_file)){
-                //         echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
-                //     }else{
-                //         echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
-                //     }
-                //     continue;
-                // }
+                    if($this->md->updatetransaksi($datasimpanhd,"0",$a->no_file)){
+                        echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                    }else{
+                        echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
+                    }
+                    continue;
+                }
 
-                // if(getFileSize($filelocation)===0){
-                //     $statusColor = "red";
-                //     $statusMsg   = "File Corrupted, Size: ".$filesize;
+                if(getFileSize($filelocation)===0){
+                    $statusColor = "red";
+                    $statusMsg   = "File Corrupted, Size: ".$filesize;
 
-                //     $datasimpanhd['status_sign']     = "98";
-                //     $datasimpanhd['note']            = "File Corrupted, Size ".$filesize;
-                //     $datasimpanhd['status_file']     = "0";
-                //     $datasimpanhd['user_identifier'] = null;
-                //     $datasimpanhd['link']            = null;
-                //     $datasimpanhd['url']             = null;
-                //     $datasimpanhd['request_id']      = null;
+                    $datasimpanhd['status_sign']     = "98";
+                    $datasimpanhd['note']            = "File Corrupted, Size ".$filesize;
+                    $datasimpanhd['status_file']     = "0";
+                    $datasimpanhd['user_identifier'] = null;
+                    $datasimpanhd['link']            = null;
+                    $datasimpanhd['url']             = null;
+                    $datasimpanhd['request_id']      = null;
                     
-                //     if($this->md->updatetransaksi($datasimpanhd,"0",$a->no_file)){
-                //         echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg,'white','light_yellow',$statusColor);
-                //     }else{
-                //         echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
-                //     }
-                //     continue;
-                // }
+                    if($this->md->updatetransaksi($datasimpanhd,"0",$a->no_file)){
+                        echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg,'white','light_yellow',$statusColor);
+                    }else{
+                        echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
+                    }
+                    continue;
+                }
 
                 $body['request_id'] = $requestid;
 
