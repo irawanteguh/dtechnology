@@ -290,6 +290,13 @@ async function runLoop() {
     }
 }
 
+async function runservices() {
+    await callAPI("statusregister", "GET");
+    await callAPI("uploadfile", "POST");
+    await callAPI("requestsign", "POST");
+    await callAPI("statussign", "POST");
+}
+
 async function runservices_debug() {
 
     console.log(chalk.cyan("\n=== UPLOAD FILE ==="));
@@ -310,6 +317,7 @@ async function runservices_debug() {
     });
 }
 
-// START
 console.clear();
-runLoop();
+// runLoop();
+runservices();
+setInterval(runservices, 20000);
