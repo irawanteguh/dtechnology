@@ -149,6 +149,9 @@ function initTrafficChart(divId, statusValue) {
   root.setThemes([am5themes_Animated.new(root)]);
   root.numberFormatter.setAll({ numberFormat: "#,###" });
 
+  // ===============================
+  // CHART
+  // ===============================
   var chart = root.container.children.push(
     am5xy.XYChart.new(root, {
       panX: true,
@@ -159,10 +162,15 @@ function initTrafficChart(divId, statusValue) {
     })
   );
 
+  // ===============================
+  // AXES
+  // ===============================
   var xAxis = chart.xAxes.push(
     am5xy.DateAxis.new(root, {
       baseInterval: { timeUnit: "second", count: 5 },
-      renderer: am5xy.AxisRendererX.new(root, { minGridDistance: 60 }),
+      renderer: am5xy.AxisRendererX.new(root, {
+        minGridDistance: 60
+      }),
       tooltip: am5.Tooltip.new(root, {})
     })
   );
@@ -173,6 +181,9 @@ function initTrafficChart(divId, statusValue) {
     })
   );
 
+  // ===============================
+  // SERIES (SMOOTH LINE)
+  // ===============================
   var series = chart.series.push(
     am5xy.LineSeries.new(root, {
       name: "Status " + statusValue,
@@ -186,27 +197,36 @@ function initTrafficChart(divId, statusValue) {
     })
   );
 
-  // garis
+  // garis smooth
   series.strokes.template.setAll({ strokeWidth: 2 });
+  series.set("tensionX", 0.8); // ? smooth line
 
-  // 🔴 animated bullet
+  // ===============================
+  // BULLET (POINT ONLY)
+  // ===============================
   series.bullets.push(function () {
-    var circle = am5.Circle.new(root, {
-      radius: 4,
-      fill: series.get("stroke"),
-      stroke: root.interfaceColors.get("background"),
-      strokeWidth: 1
+    return am5.Bullet.new(root, {
+      sprite: am5.Circle.new(root, {
+        radius: 4,
+        fill: series.get("stroke"),
+        stroke: root.interfaceColors.get("background"),
+        strokeWidth: 1
+      })
     });
-
-    return am5.Bullet.new(root, { sprite: circle });
   });
 
-  // cursor
-  var cursor = chart.set("cursor",
+  // ===============================
+  // CURSOR
+  // ===============================
+  var cursor = chart.set(
+    "cursor",
     am5xy.XYCursor.new(root, { xAxis: xAxis })
   );
   cursor.lineY.set("visible", false);
 
+  // ===============================
+  // LOAD DATA
+  // ===============================
   function loadData() {
 
     $.ajax({
@@ -217,7 +237,7 @@ function initTrafficChart(divId, statusValue) {
 
         if (res.responCode !== "00") return;
 
-        var now = Date.now();
+        var now   = Date.now();
         var value = 0;
 
         res.responResult.forEach(row => {
@@ -226,7 +246,7 @@ function initTrafficChart(divId, statusValue) {
           }
         });
 
-        // sliding window (10 data terakhir)
+        // sliding window
         if (series.data.length >= 50) {
           series.data.removeIndex(0);
         }
@@ -243,11 +263,14 @@ function initTrafficChart(divId, statusValue) {
     });
   }
 
+  // ===============================
+  // START
+  // ===============================
   loadData();
   setInterval(loadData, 5000);
-
   chart.appear(1000, 100);
 }
+
 
 
 am5.ready(function () {
