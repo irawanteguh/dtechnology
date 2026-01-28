@@ -410,8 +410,6 @@
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
-
-                        $this->md->updatetransaksiuseridentifier($datasimpanhd,"1",$a->user_identifier);
                     }
                     
                     
