@@ -97,13 +97,13 @@
                         WHERE a.active = '1'
                         AND a.status_sign IN ('2','3')
                         ORDER BY
-                            CASE 
-                                WHEN a.note IS NULL THEN 0
-                                ELSE 1
+                            CASE
+                                WHEN a.note IS NULL THEN 1
+                                WHEN a.note = 'PROCESS' THEN 2
+                                ELSE 3
                             END,
                             RAND()
-                        LIMIT 10;
-
+                        LIMIT 50;
                     ";
 
             $recordset = $this->db->query($query);
