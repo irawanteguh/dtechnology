@@ -456,7 +456,7 @@
                 $datasimpanhd = [];
                 $nonactive    = [];
 
-                if ($a->user_identifier==="") {
+                if ($a->user_identifier===null) {
                     $statusColor = "red";
                     $statusMsg   = "User Identifier Tidak Ada";
 
