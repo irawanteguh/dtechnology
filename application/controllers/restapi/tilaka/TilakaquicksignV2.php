@@ -459,6 +459,27 @@
                 $body['request_id'] = $a->request_id;
                 $response = Tilaka::excutesignstatus(json_encode($body));
 
+                if ($a->user_identifier===null) {
+                    $statusColor = "red";
+                    $statusMsg   = "User Identifier Tidak Ada";
+
+                    $datasimpanhd['status_sign']     = "0";
+                    $datasimpanhd['note']            = null;
+                    $datasimpanhd['status_file']     = "1";
+                    $datasimpanhd['user_identifier'] = null;
+                    $datasimpanhd['link']            = null;
+                    $datasimpanhd['url']             = null;
+                    $datasimpanhd['request_id']      = null;
+                    
+                    if($this->md->updatetransaksirequestid($datasimpanhd,$a->request_id)){
+                        echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+                    }else{
+                        echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
+                    }
+                    
+                    continue;
+                }
+
                 if(!isset($response['success'])){
                     $statusColor = "red";
                     $statusMsg   = $response['message'] ?? "No Response From Tilaka Lite";
