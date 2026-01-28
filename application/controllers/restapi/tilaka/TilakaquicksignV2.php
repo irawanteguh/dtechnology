@@ -606,8 +606,8 @@
                         $datasimpanhd['url']             = $url;
 
                         //Jika Terjadi Duplicate, Data Nya Akan Di Non Active
-                        $nonactive['active'] = "0";
-                        $nonactive['note']   = "Duplikasi Transaksi";
+                        $nonactive['status_sign'] = "95";
+                        $nonactive['note']        = "Duplikasi Transaksi";
                         $this->md->updatetransaksi($nonactive,"5",$nofile);
 
                         if($this->md->updatetransaksirequestid($datasimpanhd,$a->request_id)){
