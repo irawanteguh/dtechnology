@@ -287,15 +287,13 @@
                     $body['signatures'][]=$signatureslist;
                 }
 
-                $pdfParse         = new Pdfparse($filelocation);
+                
                 $lastcoordinate_x = floatval(COORDINATE_X);
                 
                 foreach ($assignArr as $i => $nik){
                     $listsignatures    = [];
                     $userIdentifier    = $uidArr[$i];
                     $position          = '$'.$i;
-                    $specimentposition = $pdfParse->findText($position);
-
 
                     if(POSITIONSIGN==="FIXED"){
                         $signatureslist = [];
@@ -315,6 +313,9 @@
 
                         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
                     }else{
+                        $pdfParse          = new Pdfparse($filelocation);
+                        $specimentposition = $pdfParse->findText($position);
+
                         if(!empty($specimentposition['content'][$position])){
                             foreach($specimentposition['content'][$position] as $specimen){
                                 $signatureslist = [];
