@@ -66,7 +66,7 @@
                     
                 $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
 
-                if($useridentifier===""){
+                if($useridentifier==="" || $useridentifier===null){
                     $statusColor = "red";
                     $statusMsg   = "User Identifier Tidak Ada";
 
