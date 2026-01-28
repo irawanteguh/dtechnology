@@ -459,7 +459,7 @@
                 $body['request_id'] = $a->request_id;
                 $response = Tilaka::excutesignstatus(json_encode($body));
 
-                if ($a->user_identifier===null) {
+                if($a->user_identifier===null){
                     $statusColor = "red";
                     $statusMsg   = "User Identifier Tidak Ada";
 
