@@ -350,6 +350,8 @@
 
                             $listsignatures[] = $signatureslist;
                         }
+
+                        $pdfParse->cleanup();
                     }
                     
                     
@@ -360,7 +362,7 @@
                     $body['list_pdf'][]     = $listpdf;
                 }
 
-                $pdfParse->cleanup();
+                
                 $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
                 
                 if(!isset($responserequestsign['success'])){
