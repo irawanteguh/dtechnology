@@ -76,8 +76,9 @@
                         JOIN dt01_gen_user_data u 
                             ON FIND_IN_SET(u.nik, REPLACE(d.assign, ';', ',')) > 0
                         WHERE d.active = '1'
-                        AND d.status_sign = '1'
+                        AND d.status_sign in ('1','97')
                         GROUP BY d.org_id, d.no_file, d.filename, d.source_file
+                        order by status_sign asc
                         LIMIT 10;
                     ";
 
