@@ -382,7 +382,6 @@
                     $body['list_pdf'][]     = $listpdf;
                 }
 
-                
                 $responserequestsign = Tilaka::requestsignquicksign(json_encode($body));
                 
                 if(!isset($responserequestsign['success'])){
@@ -411,6 +410,8 @@
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
+
+                        $this->md->updatetransaksiuseridentifier($datasimpanhd,"1",$a->user_identifier);
                     }
                     
                     
