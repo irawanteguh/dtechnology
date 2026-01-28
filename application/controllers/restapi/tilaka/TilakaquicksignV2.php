@@ -66,6 +66,26 @@
                     
                 $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
 
+                if($useridentifier===""){
+                    $statusColor = "red";
+                    $statusMsg   = "User Identifier Tidak Ada";
+
+                    $datasimpanhd['status_sign']     = "96";
+                    $datasimpanhd['note']            = "File not found";
+                    $datasimpanhd['status_file']     = "1";
+                    $datasimpanhd['user_identifier'] = null;
+                    $datasimpanhd['link']            = null;
+                    $datasimpanhd['url']             = null;
+                    $datasimpanhd['request_id']      = null;
+
+                    if($this->md->updatetransaksi($datasimpanhd,"0",$a->no_file)){
+                        echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg,'white','light_yellow',$statusColor);
+                    }else{
+                        echo formatlog($a->no_file.".pdf",$useridentifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
+                    }
+                    continue;
+                }
+
                 if(fileExists($filelocation)===false){
                     $statusColor = "red";
                     $statusMsg   = "File not found";
@@ -384,13 +404,15 @@
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
                     }else{
-                        $datasimpanhd['status_sign']     = "97";
-                        $datasimpanhd['note']            = $responserequestsign['message'];
-                        $datasimpanhd['status_file']     = "1";
-                        $datasimpanhd['user_identifier'] = null;
-                        $datasimpanhd['link']            = null;
-                        $datasimpanhd['url']             = null;
-                        $datasimpanhd['request_id']      = null;
+                        if($responserequestsign['message']!="Could not open JPA EntityManager for transaction; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"){
+                            $datasimpanhd['status_sign']     = "97";
+                            $datasimpanhd['note']            = $responserequestsign['message'];
+                            $datasimpanhd['status_file']     = "1";
+                            $datasimpanhd['user_identifier'] = null;
+                            $datasimpanhd['link']            = null;
+                            $datasimpanhd['url']             = null;
+                            $datasimpanhd['request_id']      = null;
+                        }
                     }
                     
                     
