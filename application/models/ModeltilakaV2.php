@@ -77,6 +77,7 @@
                             ON FIND_IN_SET(u.nik, REPLACE(d.assign, ';', ',')) > 0
                         WHERE d.active = '1'
                         AND d.status_sign in ('1','97')
+                        and d.no_file='202507190000520482401705'
                         GROUP BY d.org_id, d.no_file, d.filename, d.source_file
                         order by status_sign asc
                         LIMIT 10;
