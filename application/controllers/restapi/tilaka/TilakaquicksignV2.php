@@ -406,7 +406,6 @@
                         $datasimpanhd['status_sign']     = "97";
                         $datasimpanhd['note']            = $responserequestsign['message'];
                         $datasimpanhd['status_file']     = "1";
-                        $datasimpanhd['user_identifier'] = null;
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
