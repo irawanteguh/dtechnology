@@ -71,7 +71,7 @@
                     $statusMsg   = "User Identifier Tidak Ada";
 
                     $datasimpanhd['status_sign']     = "96";
-                    $datasimpanhd['note']            = "File not found";
+                    $datasimpanhd['note']            = "User Identifier Tidak Ada";
                     $datasimpanhd['status_file']     = "1";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
