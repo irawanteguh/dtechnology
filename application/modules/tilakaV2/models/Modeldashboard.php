@@ -65,6 +65,7 @@
                         from dt01_gen_document_file_dt a
                         where a.active='1'
                         and   a.status_file='1'
+                        and   a.assign<>''
                         group by status_sign
 
                     ";
