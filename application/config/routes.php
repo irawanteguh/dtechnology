@@ -26,14 +26,13 @@
     // $route['uploadallfile']            = 'restapi/tilaka/Tilakaquicksign/uploadallfile';
     // $route['requestsignquicksign']     = 'restapi/tilaka/Tilakaquicksign/requestsignquicksign';
     // $route['statussignquicksign']      = 'restapi/tilaka/Tilakaquicksign/statussignquicksign';
-    // $route['pegawai']                  = 'restapi/khanza/Khanza/pegawai';
-    // $route['pasien']                   = 'restapi/khanza/Khanza/pasien';
+    
     // $route['quickreportkunjungan']     = 'restapi/khanza/Sb/quickreportkunjungan';
     // $route['quickreportpendapatan']    = 'restapi/khanza/Sb/quickreportpendapatan';
     // $route['masterDomisili']           = 'restapi/satusehat/MasterDomisili/domisili';
     // $route['auth']                     = 'restapi/dtech/Auth/createdtoken';
     // $route['datauser/(:any)']          = 'restapi/dtech/User/datauser/$1';
-    // $route['addsigndocument']          = 'restapi/dtech/Signdocument/addsigndocument';
+    
     // $route['statusdocument/(:any)']    = 'restapi/dtech/Signdocument/statusdocument/$1';
     // $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     // $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
@@ -43,17 +42,21 @@
     // $route['broadcastwhatsapp']        = 'restapi/dtech/Whatsapp/broadcastwhatsapp';
     // $route['loadserver']               = 'root/Loadserver/load';
 
+    
     $route['ReceiveData/(:any)']          = 'restapi/aktivo/Leka/ReceiveData/$1';
     $route['ListExamination/(:any)']      = 'restapi/aktivo/Leka/ListExamination/$1';
     $route['GetResultLeka/(:any)/(:any)'] = 'restapi/aktivo/Leka/GetResultLeka/$1/$2';
     $route['UpdateLeka/(:any)']           = 'restapi/aktivo/Leka/UpdateLeka/$1';
+    $route['addsigndocument']             = 'restapi/dtech/Signdocument/addsigndocument';
+    $route['pegawai']                     = 'restapi/khanza/Khanza/pegawai';
+    $route['pasien']                      = 'restapi/khanza/Khanza/pasien';
+    $route['hmac']                        = 'restapi/mekari/auth/hmac';
+    $route['auth']                        = 'restapi/tilaka/TilakaquicksignV2/auth';
+    $route['uploadfile']                  = 'restapi/tilaka/TilakaquicksignV2/uploadfile';
+    $route['requestsign']                 = 'restapi/tilaka/TilakaquicksignV2/requestsign';
+    $route['statussign']                  = 'restapi/tilaka/TilakaquicksignV2/statussign';
 
-    $route['auth']        = 'restapi/tilaka/TilakaquicksignV2/auth';
-    $route['uploadfile']  = 'restapi/tilaka/TilakaquicksignV2/uploadfile';
-    $route['requestsign'] = 'restapi/tilaka/TilakaquicksignV2/requestsign';
-    $route['statussign']  = 'restapi/tilaka/TilakaquicksignV2/statussign';
-
-    $route['hmac']        = 'restapi/mekari/auth/hmac';
+   
    
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';

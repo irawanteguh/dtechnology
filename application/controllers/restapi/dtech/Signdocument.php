@@ -103,7 +103,7 @@
         public function addsigndocument_POST(){
             $input = json_decode($this->input->raw_input_stream, true);
 
-            if (empty($input)) {
+            if(empty($input)){
                 return $this->response([
                     'status'  => false,
                     'message' => 'Request body kosong atau format tidak valid.'
@@ -113,15 +113,12 @@
             $data = [
                 'org_id'          => $input['org_id'] ?? '',
                 'no_file'         => $input['no_file'] ?? '',
-                'filename'        => $input['filename'] ?? '',
                 'jenis_doc'       => $input['jenis_doc'] ?? '',
                 'assign'          => $input['assign'] ?? '',
-                'status_sign'     => $input['status_sign'] ?? '',
                 'pasien_idx'      => $input['pasien_idx'] ?? '',
                 'transaksi_idx'   => $input['transaksi_idx'] ?? '',
                 'source_file'     => $input['source_file'] ?? '',
                 'status_file'     => $input['status_file'] ?? '',
-                'user_identifier' => $input['user_identifier'] ?? ''
             ];
 
             $file_content = $input['file_content'] ?? null;
@@ -166,51 +163,51 @@
             ], 200);
         }
 
-        public function statusdocument_get($nofile) {
-            $data                 = [];
-            $resultstatusdocument = $this->md->statusdocument($nofile);
+        // public function statusdocument_get($nofile) {
+        //     $data                 = [];
+        //     $resultstatusdocument = $this->md->statusdocument($nofile);
 
-            if(!empty($resultstatusdocument)){
-                $location = "";
+        //     if(!empty($resultstatusdocument)){
+        //         $location = "";
 
-                if($resultstatusdocument->source_file==="DTECHNOLOGY"){
-                    $location = FCPATH."assets/document/".$resultstatusdocument->no_file.".pdf";
-                }else{
-                    $location = PATHFILE_GET_TILAKA."/".$resultstatusdocument->no_file.".pdf";
-                }
+        //         if($resultstatusdocument->source_file==="DTECHNOLOGY"){
+        //             $location = FCPATH."assets/document/".$resultstatusdocument->no_file.".pdf";
+        //         }else{
+        //             $location = PATHFILE_GET_TILAKA."/".$resultstatusdocument->no_file.".pdf";
+        //         }
                     
-                if(file_exists($location)){
-                    $data['no_file']             = $resultstatusdocument->no_file;
-                    $data['jenis_document_code'] = $resultstatusdocument->jenis_doc;
-                    $data['jenis_document']      = $resultstatusdocument->typedocument;
-                    $data['note_1']              = $resultstatusdocument->pasien_idx;
-                    $data['note_2']              = $resultstatusdocument->transaksi_idx;
-                    $data['note_3']              = $resultstatusdocument->note;
-                    $data['assign_name']         = $resultstatusdocument->assignname;
-                    $data['active']              = (bool) $resultstatusdocument->active;
-                    $data['status_file']         = (bool) $resultstatusdocument->status_file;
-                    $data['status_sign_code']    = $resultstatusdocument->status_sign;
-                    $data['status_sign']         = $resultstatusdocument->status;
-                    $data['file_content']        = base64_encode(file_get_contents($location));
-                    $data['created_date']        = $resultstatusdocument->created_date;
-                    $status                      = true;
-                    $message                     = "Dokumen ditemukan";
-                }else{
-                    $status          = false;
-                    $message         = "File Tidak Di Temukan";
-                }
-            }else{
-                $data['no_file'] = $nofile;
-                $status          = false;
-                $message         = "Dokumen tidak ditemukan";
-            }
+        //         if(file_exists($location)){
+        //             $data['no_file']             = $resultstatusdocument->no_file;
+        //             $data['jenis_document_code'] = $resultstatusdocument->jenis_doc;
+        //             $data['jenis_document']      = $resultstatusdocument->typedocument;
+        //             $data['note_1']              = $resultstatusdocument->pasien_idx;
+        //             $data['note_2']              = $resultstatusdocument->transaksi_idx;
+        //             $data['note_3']              = $resultstatusdocument->note;
+        //             $data['assign_name']         = $resultstatusdocument->assignname;
+        //             $data['active']              = (bool) $resultstatusdocument->active;
+        //             $data['status_file']         = (bool) $resultstatusdocument->status_file;
+        //             $data['status_sign_code']    = $resultstatusdocument->status_sign;
+        //             $data['status_sign']         = $resultstatusdocument->status;
+        //             $data['file_content']        = base64_encode(file_get_contents($location));
+        //             $data['created_date']        = $resultstatusdocument->created_date;
+        //             $status                      = true;
+        //             $message                     = "Dokumen ditemukan";
+        //         }else{
+        //             $status          = false;
+        //             $message         = "File Tidak Di Temukan";
+        //         }
+        //     }else{
+        //         $data['no_file'] = $nofile;
+        //         $status          = false;
+        //         $message         = "Dokumen tidak ditemukan";
+        //     }
 
-            return $this->response([
-                'status'  => $status,
-                'message' => $message,
-                'data'    => $data
-            ], 200);
-        }
+        //     return $this->response([
+        //         'status'  => $status,
+        //         'message' => $message,
+        //         'data'    => $data
+        //     ], 200);
+        // }
 
     }
 ?>
