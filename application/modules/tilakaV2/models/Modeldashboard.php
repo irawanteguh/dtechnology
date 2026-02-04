@@ -4,25 +4,28 @@
         function periode(){
             $query =
                     "
-                        SELECT 
-                        DATE_FORMAT(created_date, '%Y-%m') AS periode,
+                    SELECT
+                        CONCAT(t.tahun, '-', LPAD(t.bulan, 2, '0')) AS periode,
                         CONCAT(
-                            ELT(MONTH(created_date),
+                            ELT(t.bulan,
                                 'Januari','Februari','Maret','April','Mei','Juni',
                                 'Juli','Agustus','September','Oktober','November','Desember'
                             ),
                             ' ',
-                            YEAR(created_date)
+                            t.tahun
                         ) AS keterangan
-                    FROM dt01_gen_document_file_dt
-                    GROUP BY 
-                        YEAR(created_date),
-                        MONTH(created_date)
-                    ORDER BY 
-                        YEAR(created_date) DESC,
-                        MONTH(created_date) DESC;
-
-
+                    FROM (
+                        SELECT
+                            YEAR(created_date)  AS tahun,
+                            MONTH(created_date) AS bulan
+                        FROM dt01_gen_document_file_dt
+                        GROUP BY
+                            YEAR(created_date),
+                            MONTH(created_date)
+                    ) t
+                    ORDER BY
+                        t.tahun DESC,
+                        t.bulan DESC;
                     ";
 
             $recordset = $this->db->query($query);
