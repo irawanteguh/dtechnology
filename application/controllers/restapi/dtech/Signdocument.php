@@ -163,51 +163,51 @@
             ], 200);
         }
 
-        // public function statusdocument_get($nofile) {
-        //     $data                 = [];
-        //     $resultstatusdocument = $this->md->statusdocument($nofile);
+        public function statusdocument_get($nofile) {
+            $data                 = [];
+            $resultstatusdocument = $this->md->statusdocument($nofile);
 
-        //     if(!empty($resultstatusdocument)){
-        //         $location = "";
+            if(!empty($resultstatusdocument)){
+                $location = "";
 
-        //         if($resultstatusdocument->source_file==="DTECHNOLOGY"){
-        //             $location = FCPATH."assets/document/".$resultstatusdocument->no_file.".pdf";
-        //         }else{
-        //             $location = PATHFILE_GET_TILAKA."/".$resultstatusdocument->no_file.".pdf";
-        //         }
+                if($resultstatusdocument->source_file==="DTECHNOLOGY"){
+                    $location = FCPATH."assets/document/".$resultstatusdocument->no_file.".pdf";
+                }else{
+                    $location = PATHFILE_GET_TILAKA."/".$resultstatusdocument->no_file.".pdf";
+                }
                     
-        //         if(file_exists($location)){
-        //             $data['no_file']             = $resultstatusdocument->no_file;
-        //             $data['jenis_document_code'] = $resultstatusdocument->jenis_doc;
-        //             $data['jenis_document']      = $resultstatusdocument->typedocument;
-        //             $data['note_1']              = $resultstatusdocument->pasien_idx;
-        //             $data['note_2']              = $resultstatusdocument->transaksi_idx;
-        //             $data['note_3']              = $resultstatusdocument->note;
-        //             $data['assign_name']         = $resultstatusdocument->assignname;
-        //             $data['active']              = (bool) $resultstatusdocument->active;
-        //             $data['status_file']         = (bool) $resultstatusdocument->status_file;
-        //             $data['status_sign_code']    = $resultstatusdocument->status_sign;
-        //             $data['status_sign']         = $resultstatusdocument->status;
-        //             $data['file_content']        = base64_encode(file_get_contents($location));
-        //             $data['created_date']        = $resultstatusdocument->created_date;
-        //             $status                      = true;
-        //             $message                     = "Dokumen ditemukan";
-        //         }else{
-        //             $status          = false;
-        //             $message         = "File Tidak Di Temukan";
-        //         }
-        //     }else{
-        //         $data['no_file'] = $nofile;
-        //         $status          = false;
-        //         $message         = "Dokumen tidak ditemukan";
-        //     }
+                if(file_exists($location)){
+                    $data['no_file']             = $resultstatusdocument->no_file;
+                    $data['jenis_document_code'] = $resultstatusdocument->jenis_doc;
+                    $data['jenis_document']      = $resultstatusdocument->typedocument;
+                    $data['note_1']              = $resultstatusdocument->pasien_idx;
+                    $data['note_2']              = $resultstatusdocument->transaksi_idx;
+                    $data['note_3']              = $resultstatusdocument->note;
+                    $data['assign_name']         = $resultstatusdocument->assignname;
+                    $data['active']              = (bool) $resultstatusdocument->active;
+                    $data['status_file']         = (bool) $resultstatusdocument->status_file;
+                    $data['status_sign_code']    = $resultstatusdocument->status_sign;
+                    $data['status_sign']         = $resultstatusdocument->status;
+                    $data['file_content']        = base64_encode(file_get_contents($location));
+                    $data['created_date']        = $resultstatusdocument->created_date;
+                    $status                      = true;
+                    $message                     = "Dokumen ditemukan";
+                }else{
+                    $status          = false;
+                    $message         = "File Tidak Di Temukan";
+                }
+            }else{
+                $data['no_file'] = $nofile;
+                $status          = false;
+                $message         = "Dokumen tidak ditemukan";
+            }
 
-        //     return $this->response([
-        //         'status'  => $status,
-        //         'message' => $message,
-        //         'data'    => $data
-        //     ], 200);
-        // }
+            return $this->response([
+                'status'  => $status,
+                'message' => $message,
+                'data'    => $data
+            ], 200);
+        }
 
     }
 ?>

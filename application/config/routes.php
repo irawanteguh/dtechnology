@@ -33,7 +33,7 @@
     // $route['auth']                     = 'restapi/dtech/Auth/createdtoken';
     // $route['datauser/(:any)']          = 'restapi/dtech/User/datauser/$1';
     
-    // $route['statusdocument/(:any)']    = 'restapi/dtech/Signdocument/statusdocument/$1';
+    
     // $route['addquickreportkunjungan']  = 'restapi/dtech/Sb/addquickreportkunjungan';
     // $route['addquickreportpendapatan'] = 'restapi/dtech/Sb/addquickreportpendapatan';
     // $route['documenttte']              = 'restapi/dtech/Notification/documenttte';
@@ -48,6 +48,7 @@
     $route['GetResultLeka/(:any)/(:any)'] = 'restapi/aktivo/Leka/GetResultLeka/$1/$2';
     $route['UpdateLeka/(:any)']           = 'restapi/aktivo/Leka/UpdateLeka/$1';
     $route['addsigndocument']             = 'restapi/dtech/Signdocument/addsigndocument';
+    $route['statusdocument/(:any)']       = 'restapi/dtech/Signdocument/statusdocument/$1';
     $route['pegawai']                     = 'restapi/khanza/Khanza/pegawai';
     $route['pasien']                      = 'restapi/khanza/Khanza/pasien';
     $route['hmac']                        = 'restapi/mekari/auth/hmac';
