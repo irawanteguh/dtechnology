@@ -55,31 +55,54 @@
             $query = "
                         SELECT 
                             d.org_id,
+                            o.org_name AS orgname,
                             d.no_file,
                             d.filename,
                             d.source_file,
+
                             MAX(d.assign)          AS assign,
                             MAX(d.user_identifier) AS user_identifier,
-                            DATE_FORMAT(MAX(d.created_date), '%d-%m-%Y %H:%i:%s') AS tgljam,
+                            MAX(d.status_sign)     AS status_sign,
+
+                            DATE_FORMAT(
+                                MAX(d.created_date),
+                                '%d-%m-%Y %H:%i:%s'
+                            ) AS tgljam,
+
                             GROUP_CONCAT(
                                 DISTINCT u.name 
                                 ORDER BY u.user_identifier 
                                 SEPARATOR ';'
                             ) AS names,
+
                             GROUP_CONCAT(
                                 DISTINCT u.email 
                                 ORDER BY u.user_identifier 
                                 SEPARATOR ';'
-                            ) AS email,
-                            (select org_name      from dt01_gen_organization_ms where active='1' and org_id=d.org_id)orgname
+                            ) AS email
+
                         FROM dt01_gen_document_file_dt d
                         JOIN dt01_gen_user_data u 
                             ON FIND_IN_SET(u.nik, REPLACE(d.assign, ';', ',')) > 0
+                        LEFT JOIN dt01_gen_organization_ms o
+                            ON o.org_id = d.org_id
+                        AND o.active = '1'
+
                         WHERE d.active = '1'
-                        AND d.status_sign in ('1','97')
-                        GROUP BY d.org_id, d.no_file, d.filename, d.source_file
-                        order by status_sign asc
+                        AND d.status_sign IN ('1','97')
+
+                        GROUP BY 
+                            d.org_id,
+                            o.org_name,
+                            d.no_file,
+                            d.filename,
+                            d.source_file
+
+                        ORDER BY 
+                            status_sign ASC
+
                         LIMIT 10;
+
                     ";
 
             // echo $query; // debug bila perlu
