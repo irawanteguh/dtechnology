@@ -170,7 +170,6 @@
         file_put_contents($tmp, $binary);
 
         $url = rtrim(PATHFILE_POST_TILAKA, '/') . '/receivedfile.php';
-        echo $url;
         $ch  = curl_init($url);
 
         curl_setopt($ch, CURLOPT_POST, true);
