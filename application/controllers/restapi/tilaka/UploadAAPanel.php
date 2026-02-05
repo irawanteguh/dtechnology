@@ -11,7 +11,7 @@ if (!isset($_FILES['file'])) {
     exit;
 }
 
-$targetDir = __DIR__ . "/file_tte/output/";
+$targetDir = __DIR__.FOLDER_STORAGE;
 
 $filename = basename($_FILES['file']['name']);
 $target   = $targetDir . $filename;
