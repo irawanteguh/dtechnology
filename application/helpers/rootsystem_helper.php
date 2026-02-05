@@ -169,7 +169,7 @@
         $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
         file_put_contents($tmp, $binary);
 
-        $ch = curl_init(PATHFILE_POST_TILAKA."/receivedfile.php");
+        $url = rtrim(PATHFILE_POST_TILAKA, '/') . '/receivedfile.php';
 
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS,['file' => new CURLFile($tmp, 'application/pdf', $filename)]);
