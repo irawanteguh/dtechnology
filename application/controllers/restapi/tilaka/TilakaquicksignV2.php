@@ -112,7 +112,6 @@
 
                     $datasimpanhd['status_sign']     = "98";
                     $datasimpanhd['note']            = "File Corrupted, Size ".$filesize;
-                    $datasimpanhd['status_file']     = "0";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -273,7 +272,6 @@
 
                     $datasimpanhd['status_sign']     = "98";
                     $datasimpanhd['note']            = "File Corrupted, Size ".$filesize;
-                    $datasimpanhd['status_file']     = "0";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
