@@ -331,8 +331,14 @@
 
                         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
                     }else{
-                        $pdfParse          = new Pdfparse($filelocation);
+                        $tempDir       = sys_get_temp_dir();
+                        $localFilename = $tempDir . '/' . uniqid() . '.pdf';
+                        $pdfContent    = curlDownload($filelocation);
+                        $writeSuccess  = file_put_contents($localFilename, $pdfContent);
+
+                        $pdfParse          = new Pdfparse($localFilename);
                         $specimentposition = $pdfParse->findText($position);
+                        unlink($localFilename);
 
                         if(!empty($specimentposition['content'][$position])){
                             foreach($specimentposition['content'][$position] as $specimen){
