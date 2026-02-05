@@ -24,6 +24,7 @@ if (!BASE_FOLDER) {
     process.exit(1);
 }
 const BASE_URL = process.env.BASE_URL || `http://${host}/${BASE_FOLDER}/index.php/`;
+console.log(chalk.green(`BASE_URL terdeteksi: ${BASE_URL}`));
 
 function getTimeStamp() {
   const now = new Date();
