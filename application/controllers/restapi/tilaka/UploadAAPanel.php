@@ -11,7 +11,7 @@ if (!isset($_FILES['file'])) {
     exit;
 }
 
-$targetDir = __DIR__ . "/berkasrawat/pages/upload/";
+$targetDir = __DIR__ . "/file_tte/output/";
 
 $filename = basename($_FILES['file']['name']);
 $target   = $targetDir . $filename;
