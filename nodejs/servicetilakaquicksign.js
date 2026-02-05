@@ -17,7 +17,13 @@ for (const iface of Object.values(interfaces)) {
     }
 }
 
-const BASE_URL = process.env.BASE_URL || `http://${host}/dtechnology/index.php/`;
+const possibleFolders = ["haspro-tte", "dtechnology"];
+let BASE_FOLDER = possibleFolders.find(f => fs.existsSync(`/var/www/html/${f}`));
+if (!BASE_FOLDER) {
+    console.error(chalk.red("Folder aplikasi tidak ditemukan!"));
+    process.exit(1);
+}
+const BASE_URL = process.env.BASE_URL || `http://${host}/${BASE_FOLDER}/index.php/`;
 
 function getTimeStamp() {
   const now = new Date();
