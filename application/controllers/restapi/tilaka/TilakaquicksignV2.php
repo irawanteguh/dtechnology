@@ -342,7 +342,10 @@
                         }
                         
                         $specimentposition = $pdfParse->findText($position);
-                        unlink($localFilename);
+                        if($a->source_file!="DTECHNOLOGY"){
+                            unlink($localFilename);
+                        }
+                        
 
                         if(!empty($specimentposition['content'][$position])){
                             foreach($specimentposition['content'][$position] as $specimen){
