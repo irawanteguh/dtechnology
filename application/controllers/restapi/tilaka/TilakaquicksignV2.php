@@ -331,11 +331,15 @@
 
                         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
                     }else{
-                        $tempDir       = sys_get_temp_dir();
-                        $localFilename = $tempDir . '/' . uniqid() . '.pdf';
-                        $pdfContent    = curlDownload($filelocation);
-                        $writeSuccess  = file_put_contents($localFilename, $pdfContent);
-                        $pdfParse      = new Pdfparse($localFilename);
+                        if($a->source_file==="DTECHNOLOGY"){
+                            $pdfParse          = new Pdfparse($filelocation);
+                        }else{
+                            $tempDir       = sys_get_temp_dir();
+                            $localFilename = $tempDir . '/' . uniqid() . '.pdf';
+                            $pdfContent    = curlDownload($filelocation);
+                            $writeSuccess  = file_put_contents($localFilename, $pdfContent);
+                            $pdfParse      = new Pdfparse($localFilename);
+                        }
                         
                         $specimentposition = $pdfParse->findText($position);
                         unlink($localFilename);
