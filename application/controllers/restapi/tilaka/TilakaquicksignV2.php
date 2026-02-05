@@ -605,7 +605,7 @@
                             }
                         }else{
                             if(TYPE_STORAGE==="LOCAL"){
-                                $destinationPath = FCPATH.PATHFILE_POST_TILAKA.$nofile.".pdf";
+                                $destinationPath = PATHFILE_POST_TILAKA.$nofile.".pdf";
                                 $save            = file_put_contents($destinationPath, $fileContent);
 
                                 if ($save === false) {
