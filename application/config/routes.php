@@ -57,6 +57,8 @@
     $route['requestsign']                 = 'restapi/tilaka/TilakaquicksignV2/requestsign';
     $route['statussign']                  = 'restapi/tilaka/TilakaquicksignV2/statussign';
 
+    $route['kyc'] = 'webhook/mekari/Kyc/kyc';
+
    
    
     $route['403_override']         = 'errors/error_403';
