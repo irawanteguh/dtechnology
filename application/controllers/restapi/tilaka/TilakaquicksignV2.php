@@ -335,8 +335,8 @@
                         $localFilename = $tempDir . '/' . uniqid() . '.pdf';
                         $pdfContent    = curlDownload($filelocation);
                         $writeSuccess  = file_put_contents($localFilename, $pdfContent);
-
-                        $pdfParse          = new Pdfparse($localFilename);
+                        $pdfParse      = new Pdfparse($localFilename);
+                        
                         $specimentposition = $pdfParse->findText($position);
                         unlink($localFilename);
 
