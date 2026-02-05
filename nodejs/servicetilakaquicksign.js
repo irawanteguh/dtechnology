@@ -60,22 +60,6 @@ function formatLog(
     );
 }
 
-function Waiting(endpoint) {
-    printHeader();
-
-    console.log(
-        formatLog(
-            getTimeStamp(),
-            "WAIT",
-            endpoint,
-            "WAITING",
-            "Proses sebelumnya masih berjalan",
-            { ts: 40, method: 10, endpoint: 30, status: 12 },
-            { ts: "white", method: "yellow", endpoint: "yellow", status: "yellow", message: "yellow" }
-        )
-    );
-}
-
 async function callAPI(endpoint, method = "GET", body = null) {
     printHeader();
     const url     = `${BASE_URL}${endpoint}`;
@@ -161,135 +145,6 @@ async function callAPI(endpoint, method = "GET", body = null) {
     }
 }
 
-async function callAPI_debug(endpoint, method = "GET", body = null) {
-    printHeader();
-
-    const url = `${BASE_URL}${endpoint}`;
-
-    const options = {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
-    };
-
-    if (body) {
-        options.body = JSON.stringify(body);
-    }
-
-    // ===== LOG REQUEST =====
-    console.log("REQUEST >>>");
-    console.log({
-        url,
-        method,
-        body
-    });
-
-    try {
-        const response = await fetch(url, options);
-        const text = await response.text();
-
-        // ===== LOG RAW RESPONSE =====
-        console.log("RAW RESPONSE <<<");
-        console.log(text);
-
-        // ===== JIKA HTTP STATUS ERROR =====
-        if (!response.ok) {
-
-            let errorMessage = response.statusText;
-
-            // Coba parse JSON error
-            try {
-                const errJson = JSON.parse(text);
-                errorMessage = errJson.message || JSON.stringify(errJson);
-            } catch {
-                // fallback: ambil pesan dari HTML
-                const match = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
-                if (match) errorMessage = match[1].trim();
-            }
-
-            console.log(
-                formatLog(
-                    getTimeStamp(),
-                    method,
-                    endpoint,
-                    response.status,
-                    "ERROR",
-                    { ts: 40, method: 10, endpoint: 30, status: 12 },
-                    { ts: "white", method: "yellow", endpoint: "red", status: "red", message: "red" }
-                )
-            );
-
-            console.log(chalk.red("*".repeat(lebar)));
-            console.log(chalk.red(errorMessage));
-            console.log(chalk.red("*".repeat(lebar)));
-
-            return null; // ❗ penting supaya chain berhenti
-        }
-
-        // ===== RESPONSE OK =====
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch {
-            data = text;
-        }
-
-        console.log(
-            formatLog(
-                getTimeStamp(),
-                method,
-                endpoint,
-                response.status,
-                "OK",
-                { ts: 40, method: 10, endpoint: 30, status: 12 },
-                { ts: "white", method: "yellow", endpoint: "green", status: "green", message: "green" }
-            )
-        );
-
-        console.log(data);
-        return data;
-
-    } catch (error) {
-        console.log(
-            formatLog(
-                getTimeStamp(),
-                method,
-                endpoint,
-                "NETWORK",
-                error.message,
-                { ts: 40, method: 10, endpoint: 30, status: 12 },
-                { ts: "white", method: "yellow", endpoint: "red", status: "red", message: "red" }
-            )
-        );
-        return null;
-    }
-}
-
-async function runLoop() {
-
-    if (isRunningServices) {
-        Waiting("batch-services");
-        return;
-    }
-
-    isRunningServices = true;
-
-    try {
-        await callAPI("uploadfile", "POST");
-        await callAPI("requestsign", "POST");
-        await callAPI("statussign", "POST");
-    } catch (e) {
-        console.log(chalk.red("❌ Error batch:"), e.message);
-    } finally {
-        isRunningServices = false;
-
-        // ⏱ delay setelah selesai
-        setTimeout(runLoop, 5000);
-    }
-}
-
 async function runservices() {
     // await callAPI("statusregister", "GET");
     await callAPI("uploadfile", "POST");
@@ -297,27 +152,22 @@ async function runservices() {
     await callAPI("statussign", "POST");
 }
 
-async function runservices_debug() {
+async function runservicesSafe() {
+    if (isRunningServices) {
+        return;
+    }
 
-    console.log(chalk.cyan("\n=== UPLOAD FILE ==="));
-    const upload = await callAPI_debug("uploadfile", "POST", {
-        // isi body sesuai kebutuhan
-    });
-    if (!upload) return;
+    isRunningServices = true;
 
-    console.log(chalk.cyan("\n=== REQUEST SIGN ==="));
-    const sign = await callAPI_debug("requestsign", "POST", {
-        request_id: upload.request_id // contoh
-    });
-    if (!sign) return;
-
-    console.log(chalk.cyan("\n=== STATUS SIGN ==="));
-    await callAPI_debug("statussign", "POST", {
-        request_id: sign.request_id
-    });
+    try {
+        await runservices();
+    } catch (e) {
+        console.error("❌ Error runservices:", e.message);
+    } finally {
+        isRunningServices = false;
+    }
 }
 
 console.clear();
-// runLoop();
-runservices();
-setInterval(runservices, 20000);
+runservicesSafe();
+setInterval(runservicesSafe, 20000);
