@@ -92,7 +92,7 @@ function dataupload(startDate,endDate){
                 result = data.responResult;
                 for(var i in result){
                     var   rows     = "";
-                    const filePath = result[i].source_file === "DTECHNOLOGY" ? `${url}assets/document/${result[i].no_file}.pdf` : `${pathposttilaka}${result[i].no_file}.pdf`;
+                    const filePath = result[i].source_file === "DTECHNOLOGY" ? `${url}assets/document/${result[i].no_file}.pdf` : `${urlview}${result[i].no_file}.pdf`;
                     let   badges   = '';
 
                     if(result[i].assignname){

@@ -3,6 +3,7 @@
     <script> var tilakabaseurl  = '<?php echo TILAKA_BASE_URL ?>'; </script>
     <script> var clientidtilaka = '<?php echo CLIENT_ID_TILAKA ?>'; </script>
     <script> var pathposttilaka = '<?php echo addslashes(PATHFILE_POST_TILAKA); ?>'.replace(/\\/g, '/').replace(/^[CDEcde]:\/xampp\/htdocs/, 'http://' + window.location.host); </script>
+    <script> var urlview        = '<?php echo addslashes(URLVIEW); ?>'.replace(/\\/g, '/').replace(/^[CDEcde]:\/xampp\/htdocs/, 'http://' + window.location.host); </script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css"  href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
