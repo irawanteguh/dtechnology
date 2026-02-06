@@ -32,15 +32,16 @@
 
         public function pengajuantte(){
             $userid      = $this->input->post("userid");
-            $email       = $this->input->post("email");
-            $expireddate = date("Y-m-d", strtotime("+3 days"))." 23:59";
+            $email       = "teguhirawan.rsudpasarminggu@gmail.com";
+            $expireddate = (new DateTime('+3 days', new DateTimeZone('UTC')))->format('Y-m-d H:i:s.u') . ' UTC';
+
 
             $body['email']        = $email;
             WEBHOOK_KYC         === true && ($body['callback_url'] = WEBHOOK_URL);
             $body['send_email']   = true;
             $body['expires_at']   = $expireddate;
 
-            $response = Mekari::registerkyc(json_encode($body));
+            $response = Mekari::hmac();
 
             
             
