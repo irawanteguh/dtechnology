@@ -42,7 +42,6 @@
                     <tr class="fw-bolder text-muted bg-light">
                         <th class="ps-4 rounded-start">User</th>
                         <th>Identity No</th>
-                        <th>Tilaka Name</th>
                         <th>Note</th>
                         <th class="pe-4 text-end rounded-end">Actions</th>
                     </tr>

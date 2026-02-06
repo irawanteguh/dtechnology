@@ -30,21 +30,51 @@
             echo json_encode($json);
         }
 
-        public function pengajuantte(){
+        public function registerkyc(){
             $userid      = $this->input->post("userid");
-            $email       = "teguhirawan.rsudpasarminggu@gmail.com";
+            $email       = $this->input->post("email");
             $expireddate = (new DateTime('+3 days', new DateTimeZone('UTC')))->format('Y-m-d H:i:s.u') . ' UTC';
 
 
             $body['email']        = $email;
-            WEBHOOK_KYC         === true && ($body['callback_url'] = WEBHOOK_URL);
+            WEBHOOK_KYC         === true && ($body['callback_url'] = WEBHOOK_URL_KYC);
             $body['send_email']   = true;
             $body['expires_at']   = $expireddate;
 
-            $response = Mekari::hmac();
+            $response = Mekari::registerkyc(json_encode($body));
 
-            
-            
+
+            // $response = [
+            //     "data" => [
+            //         "id"   => "5e19bde3-11c4-4f9b-b7a6-4d12bdd39a9b",
+            //         "type" => "kyc",
+            //         "attributes" => [
+            //             "email"     => "john.doe@mekari.com",
+            //             "ekyc_url"  => "https://app.esign.mekari.com/settings/ekyc?id=uuid",
+            //             "status"    => "not_started"
+            //         ]
+            //     ]
+            // ];
+
+
+            if(isset($response['data']['id'])){
+                $datasimpan['org_id']       = $_SESSION['orgid'];
+                $datasimpan['transaksi_id'] = generateuuid();
+                $datasimpan['id']           = $response['data']['id'] ?? null;
+                $datasimpan['user_id']      = $userid;
+                $datasimpan['email']        = $response['data']['attributes']['email'] ?? null;
+                $datasimpan['url']          = $response['data']['attributes']['ekyc_url'] ?? null;
+                $datasimpan['status']       = $response['data']['attributes']['status'] ?? null;
+                $datasimpan['created_by']   = $_SESSION['userid'];
+
+                $this->md->insertusermekari($datasimpan);
+            };
+
+            $json["responCode"]   = "00";
+            $json["responHead"]   = "success";
+            $json["responDesc"]   = "success";
+            $json['responResult'] = $response;
+
             echo json_encode($json);
         }
 	}

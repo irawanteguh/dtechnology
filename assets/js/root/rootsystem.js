@@ -208,7 +208,7 @@ function showLoading(title, message){
     toastr.clear();
     Swal.close();
     Swal.fire({
-        title            : `<span style="font-size:20px; font-weight:bold; color:#2c3e50;">${title}</span>`,
+        title            : `<span style="font-size:20px; color:#2c3e50;">${title}</span>`,
         html             : `<span style="font-size:15px; color:#7f8c8d;">${message}</span>`,
         allowOutsideClick: false,
         allowEscapeKey   : false,

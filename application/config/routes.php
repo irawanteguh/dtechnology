@@ -46,6 +46,7 @@
     $route['uploadfile']                  = 'restapi/tilaka/TilakaquicksignV2/uploadfile';
     $route['requestsign']                 = 'restapi/tilaka/TilakaquicksignV2/requestsign';
     $route['statussign']                  = 'restapi/tilaka/TilakaquicksignV2/statussign';
+    $route['kycliststatus']               = 'restapi/mekari/Kyc/kycliststatus';
 
     $route['kyc'] = 'webhook/mekari/Kyc/kyc';
 
