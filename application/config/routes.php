@@ -1,9 +1,7 @@
 <?php
     defined('BASEPATH') OR exit('No direct script access allowed');
 
-    // $route['default_controller'] = 'landingpage/Rmb';
-    // $route['default_controller'] = 'landingpage/Mutiasari';
-    $route['default_controller'] = 'landingpage/landingpage';
+    $route['default_controller'] = 'welcome';
 
     
     // $route['authtilaka']               = 'restapi/tilaka/Tilakaservice/auth';
