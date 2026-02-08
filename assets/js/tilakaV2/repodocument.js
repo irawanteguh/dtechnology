@@ -160,6 +160,10 @@ function dataupload(startDate,endDate){
                         case "5":
                             tablefinish += rows;
                             break;
+                        case "95":
+                        case "96":
+                        case "97":
+                        case "98":
                         case "99":
                             tablehold += rows;
                             break;
