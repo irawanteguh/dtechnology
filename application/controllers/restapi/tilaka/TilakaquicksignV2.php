@@ -442,7 +442,7 @@
                 $statusColor = "green";
                 $statusMsg   = $responserequestsign['message'];
 
-                if($this->md->updatetransaksi($datasimpanhd,"1",$a->no_file)){
+                if($this->md->updatetransaksi($datasimpanhd,$a->status_sign,$a->no_file)){
                     echo formatlog($a->no_file.".pdf",$userIdentifier,$statusMsg,'white','light_yellow',$statusColor);
                 }else{
                     echo formatlog($a->no_file.".pdf",$userIdentifier,$statusMsg." [ Gagal Update Data ]",'white','light_yellow',$statusColor);
