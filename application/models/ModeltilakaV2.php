@@ -84,6 +84,7 @@
                         FROM dt01_gen_document_file_dt d
                         JOIN dt01_gen_user_data u 
                             ON FIND_IN_SET(u.nik, REPLACE(d.assign, ';', ',')) > 0
+                        AND u.active='1'
                         LEFT JOIN dt01_gen_organization_ms o
                             ON o.org_id = d.org_id
                         AND o.active = '1'
