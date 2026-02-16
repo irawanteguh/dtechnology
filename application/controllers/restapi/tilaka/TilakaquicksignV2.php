@@ -453,9 +453,12 @@
                 $datasimpanhd['request_id']  = $requestid;
                 if($responserequestsign['auth_response'][0]['url']!=null){
                     $datasimpanhd['status_sign'] = "2";
+                    $datasimpanhd['note']        = "Session Quick Sign Expired";
                     $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
                 }else{
                     $datasimpanhd['status_sign'] = "3";
+                    $datasimpanhd['note']        = null;
+                    $datasimpanhd['url']         = null;
                 }
 
                 $statusColor = "green";
