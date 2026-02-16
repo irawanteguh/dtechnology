@@ -243,7 +243,7 @@
                     }
                 }
 
-                $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                // $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
 
                 if($a->source_file === "DTECHNOLOGY"){
                     $filelocation = FCPATH."assets/document/".$a->no_file . ".pdf";
@@ -253,13 +253,13 @@
                     }
 
                     if(TYPE_STORAGE==="AAPANEL"){
-                        PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                        $filelocation = PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
                     }
                 }
 
                 if(fileExists($filelocation)===false){
                     $statusColor = "red";
-                    $statusMsg   = "File not found";
+                    $statusMsg   = "File not found : ".$filelocation;
 
                     $datasimpanhd['status_sign']     = "99";
                     $datasimpanhd['note']            = "File not found";
