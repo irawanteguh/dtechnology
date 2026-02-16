@@ -345,11 +345,17 @@
                         if($a->source_file==="DTECHNOLOGY"){
                             $pdfParse          = new Pdfparse($filelocation);
                         }else{
-                            $tempDir       = sys_get_temp_dir();
-                            $localFilename = $tempDir . '/' . uniqid() . '.pdf';
-                            $pdfContent    = curlDownload($filelocation);
-                            $writeSuccess  = file_put_contents($localFilename, $pdfContent);
-                            $pdfParse      = new Pdfparse($localFilename);
+                            if(TYPE_STORAGE==="LOCAL"){
+                                $pdfParse          = new Pdfparse($filelocation);
+                            }
+
+                            if(TYPE_STORAGE==="AAPANEL"){
+                                $tempDir       = sys_get_temp_dir();
+                                $localFilename = $tempDir . '/' . uniqid() . '.pdf';
+                                $pdfContent    = curlDownload($filelocation);
+                                $writeSuccess  = file_put_contents($localFilename, $pdfContent);
+                                $pdfParse      = new Pdfparse($localFilename);
+                            }
                         }
                         
                         $specimentposition = $pdfParse->findText($position);
