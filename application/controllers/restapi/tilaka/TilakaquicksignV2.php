@@ -183,7 +183,6 @@
             }
 
             foreach($resultlistrequestsign as $a){
-                
                 $statusColor    = "";
                 $statusMsg      = "";
                 $filelocation   = "";
@@ -198,7 +197,7 @@
                 $nameArr   = array_values(array_filter(explode(';', $a->names)));
                 $emailArr  = array_values(array_filter(explode(';', $a->email)));
 
-                if (empty($uidArr)) {
+                if(empty($uidArr)){
                     $statusColor = "red";
                     $statusMsg   = "User Identifier Tidak Ada";
 
@@ -243,8 +242,18 @@
                         $rawImages[] = getQRCode($text, $logo);
                     }
                 }
+                
+                if($a->source_file === "DTECHNOLOGY"){
+                    $filelocation = FCPATH."assets/document/".$nofile . ".pdf";
+                }else{
+                    if(TYPE_STORAGE==="LOCAL"){
+                        $filelocation = FCPATH."assets/document/".$nofile . ".pdf";
+                    }
 
-                $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                    if(TYPE_STORAGE==="AAPANEL"){
+                        PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+                    }
+                }
 
                 if(fileExists($filelocation)===false){
                     $statusColor = "red";
@@ -346,7 +355,6 @@
                             unlink($localFilename);
                         }
                         
-
                         if(!empty($specimentposition['content'][$position])){
                             foreach($specimentposition['content'][$position] as $specimen){
                                 $signatureslist = [];
@@ -385,8 +393,6 @@
                         $pdfParse->cleanup();
                     }
                     
-                    
-
                     $listpdf['filename']    = $a->filename;
                     $listpdf['template_no'] = $nik;
                     $listpdf['signatures']  = $listsignatures;
