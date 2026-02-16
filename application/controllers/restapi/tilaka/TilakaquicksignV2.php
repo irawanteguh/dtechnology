@@ -191,6 +191,11 @@
                 $body           = [];
                 $signatureslist = [];
                 $listpdf        = [];
+                $assignArr      = [];
+                $uidArr         = [];
+                $nameArr        = [];
+                $emailArr       = [];
+
 
                 $assignArr = array_values(array_filter(explode(';', $a->assign)));
                 $uidArr    = array_values(array_filter(explode(';', $a->user_identifier)));
