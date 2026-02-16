@@ -72,7 +72,6 @@
 
                     $datasimpanhd['status_sign']     = "96";
                     $datasimpanhd['note']            = "User Identifier Tidak Ada";
-                    $datasimpanhd['status_file']     = "1";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -92,7 +91,6 @@
 
                     $datasimpanhd['status_sign']     = "99";
                     $datasimpanhd['note']            = "File not found";
-                    $datasimpanhd['status_file']     = "0";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -139,7 +137,6 @@
 
                     $datasimpanhd['status_sign']     = "0";
                     $datasimpanhd['note']            = $responseuploadfile['message'];
-                    $datasimpanhd['status_file']     = "1";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -156,7 +153,6 @@
                 $datasimpanhd['filename']        = $responseuploadfile['filename'];
                 $datasimpanhd['user_identifier'] = $useridentifier;
                 $datasimpanhd['status_sign']     = "1";
-                $datasimpanhd['status_file']     = "1";
                 $datasimpanhd['link']            = null;
                 $datasimpanhd['url']             = null;
                 $datasimpanhd['request_id']      = null;
@@ -208,7 +204,6 @@
 
                     $datasimpanhd['status_sign']     = "96";
                     $datasimpanhd['note']            = $statusMsg;
-                    $datasimpanhd['status_file']     = "1";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -268,7 +263,6 @@
 
                     $datasimpanhd['status_sign']     = "99";
                     $datasimpanhd['note']            = "File not found";
-                    $datasimpanhd['status_file']     = "0";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -435,7 +429,6 @@
                     if($responserequestsign['message']==="There is file/s that's not available in bucket"){
                         $datasimpanhd['status_sign']     = "0";
                         $datasimpanhd['note']            = null;
-                        $datasimpanhd['status_file']     = "1";
                         $datasimpanhd['user_identifier'] = null;
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = null;
@@ -443,7 +436,6 @@
                     }else{
                         $datasimpanhd['status_sign']     = "97";
                         $datasimpanhd['note']            = $responserequestsign['message'];
-                        $datasimpanhd['status_file']     = "1";
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
@@ -502,7 +494,6 @@
 
                     $datasimpanhd['status_sign']     = "0";
                     $datasimpanhd['note']            = null;
-                    $datasimpanhd['status_file']     = "1";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -540,7 +531,6 @@
 
                     $datasimpanhd['status_sign']     = "99";
                     $datasimpanhd['note']            = $response['message'];
-                    $datasimpanhd['status_file']     = "1";
                     $datasimpanhd['user_identifier'] = null;
                     $datasimpanhd['link']            = null;
                     $datasimpanhd['url']             = null;
@@ -658,7 +648,6 @@
 
                         $datasimpanhd['status_sign']     = "5";
                         $datasimpanhd['note']            = null;
-                        $datasimpanhd['status_file']     = "1";
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = $url;
 
