@@ -242,12 +242,14 @@
                         $rawImages[] = getQRCode($text, $logo);
                     }
                 }
-                
+
+                $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
+
                 if($a->source_file === "DTECHNOLOGY"){
-                    $filelocation = FCPATH."assets/document/".$nofile . ".pdf";
+                    $filelocation = FCPATH."assets/document/".$a->no_file . ".pdf";
                 }else{
                     if(TYPE_STORAGE==="LOCAL"){
-                        $filelocation = FCPATH."assets/document/".$nofile . ".pdf";
+                        $filelocation = FCPATH."assets/document/".$a->no_file . ".pdf";
                     }
 
                     if(TYPE_STORAGE==="AAPANEL"){
