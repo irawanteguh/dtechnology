@@ -3,7 +3,9 @@
 	<div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
 		<a href="" class="mb-12">
 			<img alt="Logo" src="<?php echo base_url();?>assets/images/logo/dtechnology.png" class="h-70px" />
-			<img alt="Logo" src="<?php echo base_url('assets/images/logo/'.PARTNERS.'.png'); ?>" class="h-70px" />
+			<?php if (!empty(PARTNERS)) : ?>
+				<img alt="Logo" src="<?php echo base_url('assets/images/logo/'.PARTNERS.'.png'); ?>" class="h-70px" />
+			<?php endif; ?>
 		</a>
 		<div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto shadow-lg">
 			<form class="form w-100" action="<?php echo base_url();?>index.php/auth/sign/signin" novalidate="novalidate" id="kt_sign_in_form" method="post">
