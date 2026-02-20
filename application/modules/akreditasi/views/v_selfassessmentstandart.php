@@ -1,0 +1,26 @@
+<div class="row gy-5 g-xl-8 mb-xl-8">
+    <div class="col-xl-12">
+		<div class="card">
+			<div class="card-header border-0 pt-5">
+				<h3 class="card-title align-items-start flex-column">
+					<span class="card-label fw-bolder fs-3 mb-1"><?php echo $judulbab;?></span>
+					<span class="text-muted mt-1 fw-bold fs-7"><?php echo $jumlahstandart;?></span>
+				</h3>
+			</div>
+			<div class="card-body">
+                <table class="table align-middle table-row-dashed fs-8 gy-2">
+                    <thead>
+                        <tr class="fw-bolder text-muted bg-light align-middle">
+                            <th class="ps-4 rounded-start">No</th>
+                            <th>Standart</th>
+                            <th class="text-center">Jumlah Elemen Penilaian</th>
+                            <th>Progress Element</th>
+                            <th class="pe-4 text-end rounded-end min-w-200px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 fw-bold"><?php echo $liststandart;?></tbody>
+                </table>
+			</div>
+		</div>
+	</div>
+</div>

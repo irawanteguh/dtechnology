@@ -1,0 +1,576 @@
+<div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-between">
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-envelope"></i>
+            <a href="mailto:contact@example.com">rs.mutiasari@gmail.com</a>
+            <i class="bi bi-phone"></i>(0765) 93635
+        </div>
+        <div class="d-none d-lg-flex social-links align-items-center">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        </div>
+    </div>
+</div>
+
+<header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+        <h1 class="logo me-auto"><a href="index.html">RSU Mutiasari</a></h1>
+        <a href="index.html" class="logo me-auto"><img src="assets/images/clients/10c84edd-500b-49e3-93a5-a2c8cd2c8524.png" alt="" class="img-fluid"></a>
+
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                <li><a class="nav-link scrollto" href="#about">Tentang Kami</a></li>
+                <li><a class="nav-link scrollto" href="#services">Pelayanan</a></li>
+                <li><a class="nav-link scrollto" href="#departments">Unit Layanan</a></li>
+                <li><a class="nav-link scrollto" href="#doctors">Dokter</a></li>
+                <li class="dropdown"><a href="#"><span>Informasi Publik</span> <i class="bi bi-chevron-down"></i></a>
+                <ul>
+                    <li><a href="#">Survey Kepuasan Pelanggan</a></li>
+                    <li class="dropdown"><a href="#"><span>Standart Pelayanan</span> <i class="bi bi-chevron-right"></i></a>
+                    <ul>
+                        <li><a href="#">Instalasi Gawat Darurat</a></li>
+                        <li><a href="#">Instalasi Rawat Jalan</a></li>
+                        <li><a href="#">Instlasi Rawat Inap</a></li>
+                        <li><a href="#">Laboratorium</a></li>
+                        <li><a href="#">Radiologi</a></li>
+                    </ul>
+                    </li>
+                    <li><a href="#">Karir</a></li>
+                    <li><a href="#">Promosi Kesehatan</a></li>
+                    <li><a href="#">Edukasi Kesehatan</a></li>
+                </ul>
+                </li>
+                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+
+        <a href="#appointment" class="appointment-btn scrollto"><span class="d-none d-md-inline">Patient</span> Care</a>
+        <a href="index.php/auth/sign" class="appointment-btn scrollto">Login Karyawan</a>
+    </div>
+</header>
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <h1>Welcome to RSU Mutiasari</h1>
+        <h2>Kami adalah tim profesional di bidang kesehatan yang berkomitmen memberikan pelayanan medis terbaik untuk Anda dan keluarga.</h2>
+        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+    </div>
+</section>
+
+<main id="main">
+    <section id="why-us" class="why-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 d-flex align-items-stretch">
+                    <div class="content">
+                        <h3>Why Choose RSU Mutiasari?</h3>
+                        <p>
+                            RSU Mutiasari berkomitmen memberikan pelayanan kesehatan berkualitas dengan teknologi modern dan tim medis berpengalaman. Kami mengutamakan keselamatan, kenyamanan, dan perawatan terbaik untuk setiap pasien.
+                        </p>
+                        <div class="text-center">
+                            <a href="#" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 d-flex align-items-stretch">
+                    <div class="icon-boxes d-flex flex-column justify-content-center">
+                        <div class="row">
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                                <div class="icon-box mt-4 mt-xl-0">
+                                    <i class="bx bx-receipt"></i>
+                                    <h4>Pelayanan Profesional</h4>
+                                    <p>Kami menyediakan layanan kesehatan berkualitas dengan standar keselamatan tinggi untuk kenyamanan pasien.</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                                <div class="icon-box mt-4 mt-xl-0">
+                                    <i class="bx bx-cube-alt"></i>
+                                    <h4>Teknologi Modern</h4>
+                                    <p>Dilengkapi dengan peralatan medis terkini untuk diagnosis dan perawatan yang lebih akurat dan efektif.</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                                <div class="icon-box mt-4 mt-xl-0">
+                                    <i class="bx bx-images"></i>
+                                    <h4>Fasilitas Lengkap</h4>
+                                    <p>Menyediakan berbagai fasilitas kesehatan, termasuk ruang rawat inap yang nyaman dan layanan medis unggulan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xl-5 col-lg-6 video-box d-flex justify-content-center align-items-stretch position-relative">
+                <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a>
+            </div>
+
+            <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
+            <h3>Melayani dengan sepenuh hati untuk kesehatan yang lebih baik.</h3>
+            <p>Kami berkomitmen untuk memberikan pelayanan kesehatan yang berkualitas, berbasis keselamatan pasien, serta didukung oleh tenaga medis yang profesional dan beretika. Dengan fasilitas modern dan teknologi terkini, kami berupaya menghadirkan layanan kesehatan terbaik bagi masyarakat. Kepercayaan dan kepuasan pasien adalah prioritas utama kami dalam setiap tindakan medis yang diberikan.</p>
+
+            <div class="icon-box">
+                <div class="icon"><i class="bx bx-fingerprint"></i></div>
+                <h4 class="title"><a href="">Moto</a></h4>
+                <p class="description">"Melayani dengan Hati, Mengutamakan Kesehatan dan Keselamatan Pasien."</p>
+            </div>
+
+            <div class="icon-box">
+                <div class="icon"><i class="bx bx-gift"></i></div>
+                <h4 class="title"><a href="">Visi</a></h4>
+                <p class="description">Menjadi rumah sakit unggulan yang memberikan pelayanan kesehatan berkualitas tinggi, berorientasi pada keselamatan pasien, serta didukung oleh teknologi modern dan tenaga medis profesional.</p>
+            </div>
+
+            <div class="icon-box">
+                <div class="icon"><i class="bx bx-atom"></i></div>
+                <h4 class="title"><a href="">Misi</a></h4>
+                <div class="description">
+                    <ol>
+                        <li>Memberikan pelayanan kesehatan yang bermutu dengan standar keselamatan pasien dan kepuasan masyarakat.</li>
+                        <li>Mengembangkan tenaga medis dan kesehatan yang kompeten, profesional, dan beretika.</li>
+                        <li>Menerapkan teknologi kesehatan terkini guna meningkatkan efisiensi dan akurasi dalam pelayanan.</li>
+                        <li>Meningkatkan aksesibilitas layanan kesehatan bagi seluruh lapisan masyarakat.</li>
+                        <li>Menjalin kerja sama dengan berbagai pihak dalam pengembangan layanan kesehatan yang inovatif dan berkelanjutan.</li>
+                    </ol>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+
+        </div>
+    </section>
+
+    <section id="counts" class="counts">
+        <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6">
+            <div class="count-box">
+                <i class="fas fa-user-md"></i>
+                <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Doctors</p>
+            </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+            <div class="count-box">
+                <i class="far fa-hospital"></i>
+                <span data-purecounter-start="0" data-purecounter-end="18" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Departments</p>
+            </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+                <i class="fas fa-flask"></i>
+                <span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Research Labs</p>
+            </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+                <i class="fas fa-award"></i>
+                <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Awards</p>
+            </div>
+            </div>
+
+        </div>
+
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Pelayanan</h2>
+                <p>Kami menyediakan berbagai layanan kesehatan yang komprehensif untuk memenuhi kebutuhan medis Anda. Dengan tenaga medis profesional dan fasilitas modern, kami berkomitmen untuk memberikan pelayanan terbaik, mulai dari pemeriksaan umum, spesialisasi medis, hingga tindakan medis lanjutan. Keamanan dan kenyamanan pasien selalu menjadi prioritas utama kami.</p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-user-md"></i></div>
+                        <h4><a href="">Konsultasi Medis</a></h4>
+                        <p>Pelayanan konsultasi dengan dokter umum dan spesialis untuk diagnosis dan pengobatan berbagai kondisi kesehatan.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-ambulance"></i></div>
+                        <h4><a href="">Layanan Gawat Darurat</a></h4>
+                        <p>Pelayanan darurat 24/7 dengan tim medis siap siaga untuk menangani kasus-kasus kritis.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-vial"></i></div>
+                        <h4><a href="">Laboratorium & Diagnostik</a></h4>
+                        <p>Pemeriksaan laboratorium lengkap, termasuk tes darah, radiologi, dan diagnostik pencitraan lainnya.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-procedures"></i></div>
+                        <h4><a href="">Rawat Inap</a></h4>
+                        <p>Fasilitas rawat inap dengan perawatan intensif dan kenyamanan untuk pasien yang memerlukan pengawasan lebih lanjut.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-notes-medical"></i></div>
+                        <h4><a href="">Medical Checkup</a></h4>
+                        <p>Pemeriksaan kesehatan rutin untuk mendeteksi risiko penyakit sejak dini dan memastikan kondisi tubuh tetap optimal.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-heartbeat"></i></div>
+                        <h4><a href="">Rehabilitasi & Fisioterapi</a></h4>
+                        <p>Layanan rehabilitasi untuk pemulihan pasien pascaoperasi, cedera, atau penyakit kronis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="appointment" class="appointment section-bg">
+        <div class="container">
+
+        <div class="section-title">
+            <h2>Make an Appointment</h2>
+            <p>RSU Mutiasari siap memberikan layanan kesehatan terbaik untuk Anda. Jadwalkan janji temu dengan mudah dan dapatkan perawatan dari dokter spesialis kami. Kesehatan Anda adalah prioritas kami!</p>
+        </div>
+
+        <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
+            <div class="row">
+            <div class="col-md-4 form-group">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+                <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+                <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class="validate"></div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-4 form-group mt-3">
+                <input type="datetime" name="date" class="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3">
+                <select name="department" id="department" class="form-select">
+                <option value="">Select Department</option>
+                <option value="Department 1">Department 1</option>
+                <option value="Department 2">Department 2</option>
+                <option value="Department 3">Department 3</option>
+                </select>
+                <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3">
+                <select name="doctor" id="doctor" class="form-select">
+                <option value="">Select Doctor</option>
+                <option value="Doctor 1">Doctor 1</option>
+                <option value="Doctor 2">Doctor 2</option>
+                <option value="Doctor 3">Doctor 3</option>
+                </select>
+                <div class="validate"></div>
+            </div>
+            </div>
+
+            <div class="form-group mt-3">
+            <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
+            <div class="validate"></div>
+            </div>
+            <div class="mb-3">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
+            </div>
+            <div class="text-center"><button type="submit">Make an Appointment</button></div>
+        </form>
+
+        </div>
+    </section>
+
+    <section id="departments" class="departments">
+        <div class="container">
+            <div class="section-title">
+                <h2>Departments</h2>
+                <p>Kami menyediakan layanan medis terbaik dengan berbagai departemen spesialis yang siap menangani kebutuhan kesehatan Anda. Dari penyakit jantung hingga perawatan mata, tim profesional kami siap memberikan perawatan terbaik.</p>
+            </div>
+            <div class="row gy-4">
+                <div class="col-lg-3">
+                    <ul class="nav nav-tabs flex-column"><?php echo $masterkolegium;?></ul>
+                </div>
+                <div class="col-lg-9">
+                    <div class="tab-content"><?php echo $descmasterkolegium;?></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="section-title">
+                <h2>Doctors</h2>
+                <p>Tim dokter kami terdiri dari para profesional medis berpengalaman yang berdedikasi untuk memberikan perawatan terbaik bagi pasien. Dengan keahlian di berbagai spesialisasi, mereka siap menangani berbagai kondisi kesehatan dengan pendekatan yang profesional dan penuh empati. Kami berkomitmen untuk memberikan layanan medis yang berkualitas, mulai dari diagnosis hingga pengobatan, guna memastikan kesehatan dan kesejahteraan setiap pasien.</p>
+            </div>
+            <div class="row"><?php echo $masterdoctor;?></div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq section-bg">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Kami memahami bahwa Anda mungkin memiliki beberapa pertanyaan. Berikut adalah jawaban untuk pertanyaan yang sering diajukan:</p>
+            </div>
+
+            <div class="faq-list">
+                <ul>
+                <li data-aos="fade-up">
+                    <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1">Bagaimana cara membuat janji dengan dokter? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                    <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
+                        <p>
+                            Anda dapat membuat janji dengan dokter melalui aplikasi online kami atau langsung menghubungi rumah sakit kami melalui telepon.
+                        </p>
+                    </div>
+                </li>
+
+                <li data-aos="fade-up" data-aos-delay="100">
+                    <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-2" class="collapsed">Apakah rumah sakit menerima asuransi kesehatan? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                    <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
+                        <p>
+                            Ya, kami bekerja sama dengan berbagai penyedia asuransi kesehatan. Silakan cek daftar asuransi yang diterima di bagian layanan kami.
+                        </p>
+                    </div>
+                </li>
+
+                <li data-aos="fade-up" data-aos-delay="200">
+                    <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-3" class="collapsed">Apa saja fasilitas yang tersedia di rumah sakit ini? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                    <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
+                        <p>
+                            Kami memiliki fasilitas lengkap seperti ruang rawat inap, layanan gawat darurat 24 jam, laboratorium, farmasi, serta berbagai layanan spesialis.
+                        </p>
+                    </div>
+                </li>
+
+                <li data-aos="fade-up" data-aos-delay="300">
+                    <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-4" class="collapsed">Bagaimana cara mendapatkan hasil laboratorium saya? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                    <div id="faq-list-4" class="collapse" data-bs-parent=".faq-list">
+                        <p>
+                            Hasil laboratorium dapat diakses melalui portal pasien online atau diambil langsung di bagian laboratorium rumah sakit.
+                        </p>
+                    </div>
+                </li>
+
+                <li data-aos="fade-up" data-aos-delay="400">
+                    <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-5" class="collapsed">Apakah rumah sakit ini memiliki layanan gawat darurat? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                    <div id="faq-list-5" class="collapse" data-bs-parent=".faq-list">
+                        <p>
+                            Ya, layanan gawat darurat kami tersedia 24 jam dengan tenaga medis yang siap menangani keadaan darurat kapan saja.
+                        </p>
+                    </div>
+                </li>
+
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/patient-1.jpg" class="testimonial-img" alt="">
+                                <h3>Andi Saputra</h3>
+                                <h4>Pasien Rawat Inap</h4>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    Saya sangat puas dengan pelayanan di RSU Mutiasari. Dokter dan perawat sangat ramah, serta fasilitasnya sangat nyaman. Saya merasa benar-benar diperhatikan selama masa perawatan saya.
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/patient-2.jpg" class="testimonial-img" alt="">
+                                <h3>Siti Aisyah</h3>
+                                <h4>Pasien Poliklinik</h4>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    Proses pendaftaran sangat cepat dan dokter memberikan penjelasan yang jelas tentang kondisi saya. RSU Mutiasari benar-benar memberikan pelayanan kesehatan yang profesional dan berkualitas.
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/patient-3.jpg" class="testimonial-img" alt="">
+                                <h3>Budi Santoso</h3>
+                                <h4>Keluarga Pasien</h4>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    Pelayanan di RSU Mutiasari sangat memuaskan. Keluarga saya mendapatkan perawatan terbaik, dan dokter selalu memberikan update mengenai kondisi pasien dengan sangat jelas.
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/patient-4.jpg" class="testimonial-img" alt="">
+                                <h3>Rahmat Hidayat</h3>
+                                <h4>Pasien IGD</h4>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    Saat mengalami keadaan darurat, saya langsung dibantu dengan cepat oleh tim medis di IGD RSU Mutiasari. Pelayanan cepat dan profesional membuat saya merasa aman dan tertangani dengan baik.
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>Gallery</h2>
+                <p>
+                    "RSU Mutiasari menghadirkan berbagai fasilitas modern dan lingkungan yang nyaman bagi pasien. Dari ruang perawatan yang bersih hingga layanan medis terkini, kami berkomitmen memberikan pelayanan terbaik untuk kesehatan Anda. Lihat lebih dekat fasilitas dan aktivitas kami melalui galeri foto di bawah ini."<br>
+                    Jika Anda memiliki foto atau ingin menyesuaikan deskripsi dengan fasilitas spesifik yang ingin ditampilkan, beri tahu saya!
+                </p>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row g-0">
+                <?php echo $gallery?>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact</h2>
+                <p>
+                    "Hubungi RSU Mutiasari untuk informasi lebih lanjut mengenai layanan kesehatan, pendaftaran pasien, atau konsultasi medis. Tim kami siap membantu Anda dengan pelayanan terbaik. Jangan ragu untuk menghubungi kami melalui telepon, email, atau kunjungi langsung lokasi rumah sakit kami."<br>
+                    Jika ada detail spesifik seperti alamat, nomor telepon, atau jam operasional yang ingin ditampilkan, beri tahu saya!
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <iframe 
+                style="border:0; width: 100%; height: 350px;" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127531.61435716842!2d101.1897134!3d1.285807!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d37b1307bc6a51%3A0xe34dd7016cd6ab96!2sRSU%20MUTIASARI!5e0!3m2!1sen!2sid!4v1700000000000&z=21" 
+                frameborder="0" 
+                allowfullscreen 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <div class="container">
+        <div class="row mt-5">
+
+            <div class="col-lg-4">
+            <div class="info">
+                <div class="address">
+                <i class="bi bi-geo-alt"></i>
+                <h4>Location:</h4>
+                <p>A108 Adam Street, New York, NY 535022</p>
+                </div>
+
+                <div class="email">
+                <i class="bi bi-envelope"></i>
+                <h4>Email:</h4>
+                <p>info@example.com</p>
+                </div>
+
+                <div class="phone">
+                <i class="bi bi-phone"></i>
+                <h4>Call:</h4>
+                <p>+1 5589 55488 55s</p>
+                </div>
+
+            </div>
+
+            </div>
+
+            <div class="col-lg-8 mt-5 mt-lg-0">
+
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                <div class="row">
+                <div class="col-md-6 form-group">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+                </div>
+                <div class="form-group mt-3">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                </div>
+                <div class="form-group mt-3">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                </div>
+                <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+
+            </div>
+
+        </div>
+
+        </div>
+    </section>
+
+</main>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

@@ -1,0 +1,234 @@
+<?php
+    class Modelnotification extends CI_Model{
+
+        function disposisi($userid){
+            $query =
+                    "
+                        SELECT 
+                            'bi bi-envelope-arrow-down' AS icon,
+                            'info' AS color,
+                            a.perihal,
+                            a.ringkasan,
+                            CASE 
+                                WHEN TIMESTAMPDIFF(HOUR, b.from_datetime, NOW()) < 24 THEN 
+                                    CONCAT(TIMESTAMPDIFF(HOUR, b.from_datetime, NOW()), ' hr', 
+                                        IF(TIMESTAMPDIFF(HOUR, b.from_datetime, NOW()) > 1, 's', ''))
+                                WHEN TIMESTAMPDIFF(DAY, b.from_datetime, NOW()) < 7 THEN 
+                                    CONCAT(TIMESTAMPDIFF(DAY, b.from_datetime, NOW()), ' day', 
+                                        IF(TIMESTAMPDIFF(DAY, b.from_datetime, NOW()) > 1, 's', ''))
+                                ELSE 
+                                    DATE_FORMAT(b.from_datetime, '%e %b')
+                            END AS fromdatetime
+                        FROM dt01_sek_surat_hd a
+                        JOIN (
+                            SELECT surat_id, MIN(from_datetime) AS from_datetime
+                            FROM dt01_sek_surat_it
+                            WHERE active = '1'
+                            AND response = 'N'
+                            AND to_user_id = '".$userid."'
+                            GROUP BY surat_id
+                        ) b ON b.surat_id = a.trans_id
+                        WHERE a.active = '1';
+
+
+               
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function informationkpi(){
+            $query =
+                    "
+                        select x.*,
+                                case
+                                    when DAY(CURDATE()) between startassessment and endassessment then
+                                            date_format(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'%m.%Y')
+                                    else
+                                        date_format(CURDATE(),'%m.%Y')
+                                end periodeidassessment,
+                                case
+                                    when DAY(CURDATE()) between startassessment and endassessment then
+                                        CONCAT(MONTHNAME(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)), ' ', YEAR(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)))
+                                    else
+                                        CONCAT(MONTHNAME(CURDATE()), ' ', YEAR(CURDATE()))
+                                end periodeketeranganassessment,
+                                case 
+                                    when DAY(CURDATE()) <= endactivity then
+                                        date_format(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'%m.%Y')
+                                    else
+                                        date_format(CURDATE(),'%m.%Y')
+                                end periodeidactivity,
+                                case 
+                                    when DAY(CURDATE()) <= endactivity then
+                                        CONCAT(MONTHNAME(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)), ' ', YEAR(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)))
+                                    else
+                                        CONCAT(MONTHNAME(CURDATE()), ' ', YEAR(CURDATE()))
+                                end periodeketeranganactivity,
+                                case 
+                                    when DAY(CURDATE()) <= endactivity then
+                                        CONCAT(MONTHNAME(CURDATE()), ' ', YEAR(CURDATE()))
+                                    else
+                                        CONCAT(MONTHNAME(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), ' ', YEAR(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)))
+                                end periodeketeranganbatassactivity,
+                                case
+                                    when DAY(CURDATE()) between startassessment and endassessment then
+                                            CONCAT(MONTHNAME(CURDATE()), ' ', YEAR(CURDATE()))
+                                    else
+                                        CONCAT(MONTHNAME(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), ' ', YEAR(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)))
+                                end keteranganbatasassessment
+
+                        from(
+                        select
+                            (select prod from dt01_gen_enviroment_ms where active='1' and environment_name='START_VALID_ASSESSMENT') startassessment,
+                            (select prod from dt01_gen_enviroment_ms where active='1' and environment_name='END_VALID_ASSESSMENT') endassessment,
+                            (select prod from dt01_gen_enviroment_ms where active='1' and environment_name='END_VALID_ACTIVITY') endactivity
+                        )x                     
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function selfreportkpi($orgid,$periodeidactivity,$periodeidassessment,$userid){
+            $query =
+                    "
+                        select y.*,
+                            presentasiperilaku+presentasiactivity resultkpi
+                        from(
+                            select x.*,
+                                    coalesce(round(jmlnilaiassessment/jmlkomponenpenilaian*(select prod/100 from dt01_gen_enviroment_ms where org_id=x.org_id and environment_name='MAX_VALUE_ASSESSMENT')*10,0),0) presentasiperilaku,
+                                    coalesce(round(case when jmldisetujui > hours_month then hours_month else jmldisetujui end /hours_month*(select prod/100 from dt01_gen_enviroment_ms where org_id=x.org_id and environment_name='MAX_VALUE_ACTIVITY')*100,0),0) presentasiactivity
+                            from(
+                                select a.org_id, user_id, name, hours_month,
+                                    (select position from dt01_hrd_position_ms where active=a.active and org_id=a.org_id and position_id=(select position_id from dt01_hrd_position_dt where org_id=a.org_id and active='1' and status='1' and position_primary='Y' and user_id=a.user_id))position,
+                                    (select count(assessment_id) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id and periode='".$periodeidassessment."')jmlkomponenpenilaian,
+                                    (select sum(nilai) from dt01_hrd_assessment_dt where org_id=org_id and user_id=a.user_id and periode='".$periodeidassessment."')jmlnilaiassessment,
+                                    (select sum(total) from dt01_hrd_activity_dt where active=a.active and org_id=a.org_id and user_id=a.user_id and status='1' and date_format(start_date, '%m.%Y')='".$periodeidactivity."')jmldisetujui
+                                from dt01_gen_user_data a
+                                where a.active='1'
+                                and   a.org_id='".$orgid."'
+                                and   a.user_id='".$userid."'
+                            )x
+                        )y
+                        order by name asc        
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function documenttte($orgid,$limit){
+            $query =
+                    "
+                        select a.no_file, transaksi_idx, jenis_doc, created_date,
+                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)namars,
+                            case 
+                                when a.jenis_doc in ('003') then 'LAB'
+                                else ''
+                            end typedocument,
+                            (select prod from dt01_gen_enviroment_ms where env_id='6ac2fbad-c514-4fcd-813d-b4845a5a5999')statusmiddleware
+                            
+                        from dt01_gen_document_file_dt a
+                        where a.org_id='".$orgid."'
+                        and   a.jenis_doc in ('003')
+                        and   a.status_sign='5'
+                        AND   a.created_date >= '2025-07-08'
+                        and   a.transaksi_idx = (select no_rawat from reg_periksa where status_lanjut='Ralan' and kd_poli not in ('IGDK','U0021') and no_rawat=a.transaksi_idx)
+                        and   a.no_file not in (select document_name from dt01_whatsapp_broadcast_hd where ref_id=a.no_file)
+                        order by created_date desc
+                        ".$limit."                  
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function approvalpo($orgid,$parameter,$limit){
+            $query =
+                    "
+                        select a.no_pemesanan, no_pemesanan_unit, judul_pemesanan, note,
+                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)namars,
+                            (select department from dt01_gen_department_ms where org_id=a.org_id and department_id=a.department_id)departmen
+                        from dt01_lgu_pemesanan_hd a
+                        where a.org_id='".$orgid."'
+                        and   a.no_pemesanan not in (select ref_id from dt01_whatsapp_broadcast_hd where template_id='APPROVAL PO DIRECTOR' and ref_id=a.no_pemesanan)
+                        ".$parameter."
+                        order by created_date desc 
+                        ".$limit."                  
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function informasikunjunganpasien($norawat){
+            $query =
+                    "
+                        SELECT 
+                            a.no_rkm_medis,
+                            a.almt_pj,
+                            DATE_FORMAT(a.tgl_registrasi, '%d.%m.%Y') AS tglkunjungan,
+                            pl.nm_poli AS politujuan,
+                            d.nm_dokter AS namadokter,
+                            p.nm_pasien AS namapasien,
+                            DATE_FORMAT(p.tgl_lahir, '%d.%m.%Y') AS bod,
+                            CASE
+                                WHEN LEFT(REPLACE(REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''), '+62', '62'), 2) = '62' 
+                                    THEN REPLACE(REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''), '+62', '62')
+                                WHEN LEFT(p.no_tlp, 1) = '0' 
+                                    THEN CONCAT('62', SUBSTRING(REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''), 2))
+                                ELSE CONCAT('62', REPLACE(REPLACE(p.no_tlp, '-', ''), ' ', ''))
+                            END AS nohp
+                        FROM reg_periksa a
+                        JOIN pasien p ON p.no_rkm_medis = a.no_rkm_medis
+                        LEFT JOIN poliklinik pl ON pl.kd_poli = a.kd_poli
+                        LEFT JOIN dokter d ON d.kd_dokter = a.kd_dokter
+                        WHERE a.no_rawat = '".$norawat."';
+           
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
+        function simpanboardcast($data){           
+            $sql =   $this->db->insert("dt01_whatsapp_broadcast_hd",$data);
+            return $sql;
+        }
+
+        function informasipo($orgid,$userid){
+            $query =
+                    "
+                        select x.*,
+                            (select jabatan from dt01_gen_department_ms where active='1' and org_id=x.org_id and department_id=x.koordinatorid)manager,
+                            (select name from dt01_gen_user_data where active='1' and org_id=x.org_id and user_id=(select user_id from dt01_gen_department_ms where active='1' and org_id=x.org_id and department_id=x.koordinatorid))namamanager
+                        from(
+                        select a.org_id, department_id, department, header_id, head_koordinator, level_id,
+                            (select header_id from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.header_id)koordinatorid,
+                            (select jabatan from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.header_id)koordinator,
+                            (select name from dt01_gen_user_data where active='1' and org_id=a.org_id and user_id=(select user_id from dt01_gen_department_ms where active='1' and org_id=a.org_id and department_id=a.header_id))nama
+                        from dt01_gen_department_ms a
+                        where a.active='1'
+                        and   a.department is not null
+                        and   a.org_id='".$orgid."'
+                        and   a.user_id='".$userid."'
+                        and   a.level_id in ('4','5')
+                        )x
+                        order by head_koordinator desc, department asc
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+    }
+?>

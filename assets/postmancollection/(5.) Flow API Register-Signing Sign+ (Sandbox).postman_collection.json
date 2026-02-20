@@ -1,0 +1,736 @@
+{
+	"info": {
+		"_postman_id": "3fbd5d12-4675-46ac-be08-ac204d9cdbeb",
+		"name": "Flow API Register-Signing Tilaka Sign+ (Sandbox)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24218166"
+	},
+	"item": [
+		{
+			"name": "Access Token (client grant type)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Password123#",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admincahyo@yopmail.com",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "a19eb663-8b86-4899-97f1-d2fc4b07d0dc\n",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "web-tilaka",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "password_credentials",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "account",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://dev-keycloak.tilaka.id/auth/realms/dev/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "email",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "ekyc-result",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/auth",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate UUID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ5ako0eER1ek1QVzBPWVBuRDZLd2JCemhweXRqYXdKS2h6V3hyem1oYnFnIn0.eyJleHAiOjE2Njg2ODA5NzAsImlhdCI6MTY2ODY4MDY3MCwianRpIjoiYzJhNzdiYmEtNzVmNy00ZmRhLTk0YTUtMGE2MTA0Yjk3ODc0IiwiaXNzIjoiaHR0cDovLzEwLjExNy4xLjUyOjgwODAvYXV0aC9yZWFsbXMvc3RnLWlkIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImNiMTBhZTEyLWYzNTktNDM3Mi1hNjVmLTk1MGE0N2FkZDUwYSIsInR5cCI6IkJlYXJlciIsImF6cCI6IjM3ZTNjYjQ4LWFmZmUtNGMzNS05MDRhLWY0ZWQ3YTI0ZmNkNiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zdGctaWQiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiY2xpZW50SG9zdCI6IjEwLjExOC4xLjkwIiwiY2xpZW50SWQiOiIzN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC0zN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJjbGllbnRBZGRyZXNzIjoiMTAuMTE4LjEuOTAifQ.RvrznOgTEOCBkPW8a8aBHQ2_Ldf9kGWvXKRkoCwQB3isJUGdbV6i-Ru66vc323xYbK-PlKrmtkCLSXvUj5mjQ4pci6GKHsARg39rT4XbQgGG0dT58YSZev0edJ9wjc_DfUqdoWZ5df5C5DxIqjw0043sDe84Jl27P5tuQrcCBQa-XEnpi62VoN5vM2EgQx4B8aFlBcaMDPDFkYvhRrzMb6Av6yMcxdFVTP9v4kj3gqpCAE-A52Ytp11JiSpICEzns3A9gRxEgGrA99fj7uoyqF3APsF7oG-I_1HkGEx4vcetNESoC5wrNu7wlrPnt6zE24v5oGHifZQFqD8QCa3y2Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://sb-api.tilaka.id/generateUUID",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"generateUUID"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register For Kyc Check",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ5ako0eER1ek1QVzBPWVBuRDZLd2JCemhweXRqYXdKS2h6V3hyem1oYnFnIn0.eyJleHAiOjE2Njg2ODA5NzAsImlhdCI6MTY2ODY4MDY3MCwianRpIjoiYzJhNzdiYmEtNzVmNy00ZmRhLTk0YTUtMGE2MTA0Yjk3ODc0IiwiaXNzIjoiaHR0cDovLzEwLjExNy4xLjUyOjgwODAvYXV0aC9yZWFsbXMvc3RnLWlkIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImNiMTBhZTEyLWYzNTktNDM3Mi1hNjVmLTk1MGE0N2FkZDUwYSIsInR5cCI6IkJlYXJlciIsImF6cCI6IjM3ZTNjYjQ4LWFmZmUtNGMzNS05MDRhLWY0ZWQ3YTI0ZmNkNiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zdGctaWQiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiY2xpZW50SG9zdCI6IjEwLjExOC4xLjkwIiwiY2xpZW50SWQiOiIzN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC0zN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJjbGllbnRBZGRyZXNzIjoiMTAuMTE4LjEuOTAifQ.RvrznOgTEOCBkPW8a8aBHQ2_Ldf9kGWvXKRkoCwQB3isJUGdbV6i-Ru66vc323xYbK-PlKrmtkCLSXvUj5mjQ4pci6GKHsARg39rT4XbQgGG0dT58YSZev0edJ9wjc_DfUqdoWZ5df5C5DxIqjw0043sDe84Jl27P5tuQrcCBQa-XEnpi62VoN5vM2EgQx4B8aFlBcaMDPDFkYvhRrzMb6Av6yMcxdFVTP9v4kj3gqpCAE-A52Ytp11JiSpICEzns3A9gRxEgGrA99fj7uoyqF3APsF7oG-I_1HkGEx4vcetNESoC5wrNu7wlrPnt6zE24v5oGHifZQFqD8QCa3y2Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"registration_id\":\"uuid\",\r\n    \"email\":\"email user\",\r\n    \"name\":\"nama user\",\r\n    \"company_name\":\"Personal\", \r\n    \"date_expire\":\"2023-11-20 16:42\",\r\n    \"nik\":\"nik user\",\r\n    \"photo_ktp\":\"base64 yang ada headernya, contoh: data:image/jpeg;base64,/9j/4AA\",\r\n    \"consent_text\":\"\", masukkan text consent\r\n    \"is_approved\":true,\r\n    \"version\":\"\", masukkan version max 20 char, contoh TNT – v.1.0.1\r\n    \"hash_consent\":\"\", hash value dari consent, perhitungan hash dapat refer ke dokumentasi\r\n    \"consent_timestamp\":\"YYYY-MM-DD hh:mm:ss\" berisikan timestamp user setujui SnK\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/registerForKycCheck",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"registerForKycCheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "URL Webview untuk Register",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/personal-webview/guide?request_id=&redirect_url=https://www.google.com/",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"personal-webview",
+						"guide"
+					],
+					"query": [
+						{
+							"key": "request_id",
+							"value": ""
+						},
+						{
+							"key": "redirect_url",
+							"value": "https://www.google.com/"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userregstatus",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ5ako0eER1ek1QVzBPWVBuRDZLd2JCemhweXRqYXdKS2h6V3hyem1oYnFnIn0.eyJleHAiOjE2Njg2ODA5NzAsImlhdCI6MTY2ODY4MDY3MCwianRpIjoiYzJhNzdiYmEtNzVmNy00ZmRhLTk0YTUtMGE2MTA0Yjk3ODc0IiwiaXNzIjoiaHR0cDovLzEwLjExNy4xLjUyOjgwODAvYXV0aC9yZWFsbXMvc3RnLWlkIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImNiMTBhZTEyLWYzNTktNDM3Mi1hNjVmLTk1MGE0N2FkZDUwYSIsInR5cCI6IkJlYXJlciIsImF6cCI6IjM3ZTNjYjQ4LWFmZmUtNGMzNS05MDRhLWY0ZWQ3YTI0ZmNkNiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zdGctaWQiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiY2xpZW50SG9zdCI6IjEwLjExOC4xLjkwIiwiY2xpZW50SWQiOiIzN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC0zN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJjbGllbnRBZGRyZXNzIjoiMTAuMTE4LjEuOTAifQ.RvrznOgTEOCBkPW8a8aBHQ2_Ldf9kGWvXKRkoCwQB3isJUGdbV6i-Ru66vc323xYbK-PlKrmtkCLSXvUj5mjQ4pci6GKHsARg39rT4XbQgGG0dT58YSZev0edJ9wjc_DfUqdoWZ5df5C5DxIqjw0043sDe84Jl27P5tuQrcCBQa-XEnpi62VoN5vM2EgQx4B8aFlBcaMDPDFkYvhRrzMb6Av6yMcxdFVTP9v4kj3gqpCAE-A52Ytp11JiSpICEzns3A9gRxEgGrA99fj7uoyqF3APsF7oG-I_1HkGEx4vcetNESoC5wrNu7wlrPnt6zE24v5oGHifZQFqD8QCa3y2Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"register_id\" : \"uuid\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/userregstatus",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"userregstatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Certificate Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ5ako0eER1ek1QVzBPWVBuRDZLd2JCemhweXRqYXdKS2h6V3hyem1oYnFnIn0.eyJleHAiOjE2Njg2ODA5NzAsImlhdCI6MTY2ODY4MDY3MCwianRpIjoiYzJhNzdiYmEtNzVmNy00ZmRhLTk0YTUtMGE2MTA0Yjk3ODc0IiwiaXNzIjoiaHR0cDovLzEwLjExNy4xLjUyOjgwODAvYXV0aC9yZWFsbXMvc3RnLWlkIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImNiMTBhZTEyLWYzNTktNDM3Mi1hNjVmLTk1MGE0N2FkZDUwYSIsInR5cCI6IkJlYXJlciIsImF6cCI6IjM3ZTNjYjQ4LWFmZmUtNGMzNS05MDRhLWY0ZWQ3YTI0ZmNkNiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zdGctaWQiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiY2xpZW50SG9zdCI6IjEwLjExOC4xLjkwIiwiY2xpZW50SWQiOiIzN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC0zN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJjbGllbnRBZGRyZXNzIjoiMTAuMTE4LjEuOTAifQ.RvrznOgTEOCBkPW8a8aBHQ2_Ldf9kGWvXKRkoCwQB3isJUGdbV6i-Ru66vc323xYbK-PlKrmtkCLSXvUj5mjQ4pci6GKHsARg39rT4XbQgGG0dT58YSZev0edJ9wjc_DfUqdoWZ5df5C5DxIqjw0043sDe84Jl27P5tuQrcCBQa-XEnpi62VoN5vM2EgQx4B8aFlBcaMDPDFkYvhRrzMb6Av6yMcxdFVTP9v4kj3gqpCAE-A52Ytp11JiSpICEzns3A9gRxEgGrA99fj7uoyqF3APsF7oG-I_1HkGEx4vcetNESoC5wrNu7wlrPnt6zE24v5oGHifZQFqD8QCa3y2Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_identifier\":\"tilaka name user yang telah melakukan registrasi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/checkcertstatus",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"checkcertstatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Akun untuk Penautan",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJpeWI1ZDBZbk9GTklSQTg1dTI5R1AzU3pPNHJSd3pPM3FFVUN6Q3pfZ0hnIn0.eyJleHAiOjE2NjkzNjA1NzgsImlhdCI6MTY2OTM2MDI3OCwianRpIjoiNGM3YmUzYzAtYmE5Ni00ZGNmLWIxMjYtYzdjNWRhMGRhYjdjIiwiaXNzIjoiaHR0cHM6Ly9kZXYta2V5Y2xvYWsudGlsYWthLmlkL2F1dGgvcmVhbG1zL2Rldi1pZCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJlMjlkYmQ1Ni03ZGI0LTQ2NWUtOWM4ZS01Zjc1MWQ0YzNiZTYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiIzN2UzY2I0OC1hZmZlLTRjMzUtOTA0YS1mNGVkN2EyNGZjZDYiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtZGV2LWlkIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicmVnaXN0ZXIgZW1haWwgcHJvZmlsZSIsImNsaWVudElkIjoiMzdlM2NiNDgtYWZmZS00YzM1LTkwNGEtZjRlZDdhMjRmY2Q2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJjbGllbnRIb3N0IjoiMTAuMTE4LjEuMTEwIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LTM3ZTNjYjQ4LWFmZmUtNGMzNS05MDRhLWY0ZWQ3YTI0ZmNkNiIsImNsaWVudEFkZHJlc3MiOiIxMC4xMTguMS4xMTAifQ.WUW0sHku7rZPDWN-Z0LFofqzP58MVmCPP0ydIYGsuVWXIbzSpJl7bqRVReaydFMYstK2vbuopu8aLXqxxC25ZtRTQwvB0rHHJb-4CawZ1wKjjUmzxNxqUaAFCIgAVz9_XWC2zo34dRrcgI8Nd_jmOJkuYfB9z2DKK9shmnHgNe37bxC0lpwZMASgdpFIvH31Bvbqb9RDb9dB5SRyu-uiVaMTunuQr-Ll6xUU6tzMCgRcYojzwMj_gIE4G-eOYPS17I1cASFa3wlNPNx244agPVSIrtpJY7IbVCPBjXxJhGnIZVqHfRIacINNugZrYFYwubBsq2PgJXcPnPZhm33FOA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request_id\":\"uuid\",\r\n    \"nik\":\"nik user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/checkAkunDSExist",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"checkAkunDSExist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "URL Webview untuk Penautan",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/personal-webview/link-account?setting=1&channel_id=&request_id=       <-------     (url disamping harus dipanggil di browser)       &redirect_url=https://www.google.com/",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"personal-webview",
+						"link-account"
+					],
+					"query": [
+						{
+							"key": "setting",
+							"value": "1"
+						},
+						{
+							"key": "channel_id",
+							"value": ""
+						},
+						{
+							"key": "request_id",
+							"value": "       <-------     (url disamping harus dipanggil di browser)       "
+						},
+						{
+							"key": "redirect_url",
+							"value": "https://www.google.com/"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.112.42:8088/api/v1/upload",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"112",
+						"42"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Requestsign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"request_id\": \"\",\n    \"signatures\": [\n        {\n            \"user_identifier\": \"tilaka name\",\n            \"signature_image\": \"base64 image\",\n            \"sequence\": 1\n        }\n    ],\n    \"list_pdf\": [\n        {\n            \"filename\": \"filename.pdf\",\n            \"signatures\": [\n                {\n                    \"user_identifier\": \"tilaka name\",\n                    \"width\": 200,\n                    \"height\": 100,\n                    \"coordinate_x\": 0,\n                    \"coordinate_y\": 0,\n                    \"page_number\": 1\n                }\n            ]\n        }\n    ]\n}\n\n"
+				},
+				"url": {
+					"raw": "http://192.168.112.42:8088/api/v1/requestsign",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"112",
+						"42"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"requestsign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Executesign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request_id\" : \"\",\r\n    \"user_identifier\" : \"tilaka name\"\r\n}"
+				},
+				"url": {
+					"raw": "http://192.168.112.42:8088/api/v1/executesign",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"112",
+						"42"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"executesign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checksignstatus",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request_id\": \"\"\r\n}"
+				},
+				"url": {
+					"raw": "http://192.168.112.42:8088/api/v1/checksignstatus",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"112",
+						"42"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"checksignstatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Revoke Certificate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiN0FXUjlvSXdnSzRHSVJUTzJKbUJQaTZRbDVZUFMzWmxuMzRqa3hxNERVIn0.eyJleHAiOjE2NjMxNDkxNTEsImlhdCI6MTY2MzE0ODg1MSwianRpIjoiNWYxNTcxMWUtMTNmMy00YjA4LWIzZTQtZmRlZWNkZDYwOThiIiwiaXNzIjoiaHR0cHM6Ly9kZXYta2V5Y2xvYWsudGlsYWthLmlkL2F1dGgvcmVhbG1zL3NiLWlkIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImEzYjE2OTQ5LWIyNjctNGQ0Ni1hYTYwLWE2ZWJkYWRmN2M4YSIsInR5cCI6IkJlYXJlciIsImF6cCI6IjUyNGMxMjY0LTI0YjEtNDdlZS05YmJkLWE2ZDAyNjE1OThjNiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zYi1pZCIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVreWMtcmVzdWx0IGVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTAuMTE4LjEuMTEwIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJjbGllbnRJZCI6IjUyNGMxMjY0LTI0YjEtNDdlZS05YmJkLWE2ZDAyNjE1OThjNiIsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC01MjRjMTI2NC0yNGIxLTQ3ZWUtOWJiZC1hNmQwMjYxNTk4YzYiLCJjbGllbnRBZGRyZXNzIjoiMTAuMTE4LjEuMTEwIn0.UYoSnPHufETRRE0-jU1cLrrxiOUAnCxpDP-9nPPSvbsjcD2C_lWHGUR7i4tAAodDiBTrVlEyJWpvotmzWBuS_HoETDDgaN1k-ZElATtH0FYoZaZjO2rf9XCm2PX96YYtlNNZ3Bsr8dhupyN_IZLdIPYGG_BEMWQa1bITO668RfjlU3VCZskB027-87dGiuKqjnBw101G6o_Qm60TKLLOFw9b7gQx1iF-GSMuTU33kckGg30FiR72FCg_CvYCmayNvLwo_x6VsVAk7OR8Pk3XDRXejSRvnyfGErUW-k42qEtyH7C6MQ3VHtmPinuqgDgCQy9sTJc_0ioo7_YqCXAXPQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n    \"user_identifier\":\"tilakaname\",\r\n    \"reason\" : \"Selesai digunakan\" untuk alasan lain yang bisa dimasukkan,dapat refer ke dokumentasi\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/requestRevokeCertificate",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"requestRevokeCertificate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "URL Webview untuk ganti MFA",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sb-api.tilaka.id/personal-webview/login?setting=2&tilaka_name=vic1030&redirect_url=https://www.google.com/&channel_id=37e3cb48-affe-4c35-904a-f4ed7a24fcd6",
+					"protocol": "https",
+					"host": [
+						"sb-api",
+						"tilaka",
+						"id"
+					],
+					"path": [
+						"personal-webview",
+						"login"
+					],
+					"query": [
+						{
+							"key": "setting",
+							"value": "2"
+						},
+						{
+							"key": "tilaka_name",
+							"value": "vic1030"
+						},
+						{
+							"key": "redirect_url",
+							"value": "https://www.google.com/"
+						},
+						{
+							"key": "channel_id",
+							"value": "37e3cb48-affe-4c35-904a-f4ed7a24fcd6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessTokenUrl",
+				"value": "https://sb-api.tilaka.id/auth",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "accessToken",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "Dev-Id",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

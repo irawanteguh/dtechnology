@@ -1,0 +1,38 @@
+ntuk Business Intelligence (BI) Analyst di rumah sakit, beberapa elemen penting yang perlu ditampilkan meliputi:
+
+1. Dashboard Utama
+Ringkasan Kinerja Rumah Sakit (Jumlah pasien, kapasitas tempat tidur, waktu tunggu rata-rata, dll.)
+Grafik Tren Pasien (harian, mingguan, bulanan)
+Pendapatan vs Biaya Operasional
+2. Analisis Pasien
+Demografi Pasien (usia, jenis kelamin, wilayah domisili)
+Jenis Penyakit Terbanyak (ICD-10 diagnosis)
+Rasio Kunjungan Pasien Baru vs Lama
+Rata-rata Lama Rawat Inap
+Tingkat Readmisi Pasien (pasien yang kembali dalam waktu tertentu)
+3. Analisis Pelayanan Medis
+Jumlah dan Kinerja Dokter (jumlah pasien per dokter, kepuasan pasien)
+Jadwal dan Kepadatan Poli/Klinik
+Efisiensi Pemakaian Ruang Operasi
+Ketersediaan dan Penggunaan Tempat Tidur
+Waktu Tunggu Pasien (Rawat Jalan & IGD)
+4. Keuangan & Administrasi
+Pendapatan dari Rawat Inap vs Rawat Jalan
+Tagihan & Piutang BPJS / Asuransi
+Biaya Operasional Rumah Sakit
+Pemakaian Obat & Persediaan Farmasi
+Efisiensi Klaim Asuransi/BPJS
+5. Analisis Kinerja SDM
+Jumlah dan Produktivitas Tenaga Medis
+Rasio Pasien per Dokter/Perawat
+Kepuasan Pegawai & Turnover Karyawan
+Jam Lembur & Absensi Pegawai
+6. Analisis Kepuasan Pasien
+Feedback dan Review Pasien
+Keluhan Terbanyak
+Tingkat Kepuasan terhadap Pelayanan Medis & Non-Medis
+7. Manajemen Risiko & Keamanan Pasien
+Insiden Keselamatan Pasien
+Infeksi Rumah Sakit (HAIs)
+Penggunaan Antibiotik & Resistensi
+Penyimpangan Protokol Medis

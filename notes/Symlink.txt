@@ -1,0 +1,1 @@
+C:\Users\Administrator>mklink /D "D:\XAMPP\htdocs\dtechnology\assets\documentpo" "Z:\documentpo"

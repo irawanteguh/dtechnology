@@ -1,0 +1,1 @@
+<a class="btn btn-sm btn-primary" onclick="randomgenerator();"><i class="bi-stars me-4"></i>Generated Simulation Claim</a>

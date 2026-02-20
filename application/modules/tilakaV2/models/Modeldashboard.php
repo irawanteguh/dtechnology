@@ -1,0 +1,82 @@
+<?php
+    class Modeldashboard extends CI_Model{
+
+        function periode(){
+            $query =
+                    "
+                    SELECT
+                        CONCAT(t.tahun, '-', LPAD(t.bulan, 2, '0')) AS periode,
+                        CONCAT(
+                            ELT(t.bulan,
+                                'Januari','Februari','Maret','April','Mei','Juni',
+                                'Juli','Agustus','September','Oktober','November','Desember'
+                            ),
+                            ' ',
+                            t.tahun
+                        ) AS keterangan
+                    FROM (
+                        SELECT
+                            YEAR(created_date)  AS tahun,
+                            MONTH(created_date) AS bulan
+                        FROM dt01_gen_document_file_dt
+                        GROUP BY
+                            YEAR(created_date),
+                            MONTH(created_date)
+                    ) t
+                    ORDER BY
+                        t.tahun DESC,
+                        t.bulan DESC;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function dokumentteuser($orgid,$periode){
+            $query =
+                    "
+                        SELECT 
+                            a.assign,
+                            u.name,
+                            COUNT(a.no_file) AS jml
+                        FROM dt01_gen_document_file_dt a
+                        LEFT JOIN dt01_gen_user_data u
+                            ON u.nik = a.assign
+                        WHERE a.active = '1'
+                        AND a.org_id = '".$orgid."'
+                        AND a.status_sign = '5'
+                        AND a.created_date >= CONCAT('".$periode."', '-01')
+                        AND a.created_date <  CONCAT('".$periode."', '-01') + INTERVAL 1 YEAR
+                        GROUP BY 
+                            a.assign,
+                            u.name
+                        ORDER BY 
+                            jml asc;
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function traffictte(){
+            $query =
+                    "
+                        select a.status_sign, count(no_file)jml
+                        from dt01_gen_document_file_dt a
+                        where a.active='1'
+                        and   a.status_file='1'
+                        and   a.assign<>''
+                        group by status_sign
+
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+    }
+?>
