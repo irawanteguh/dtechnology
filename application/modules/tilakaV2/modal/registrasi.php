@@ -48,7 +48,7 @@
                             <div class="col-md-10 row">
                                 <div class="col-md-12 mb-5">
                                     <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                        <span class="required">NIK Rumah Sakit</span>
+                                        <span class="required">ID Internal Rumah Sakit</span>
                                     </label>
                                     <input type="text" class="form-control form-control-solid form-control-sm" id="nikrs-add" name="nikrs-add" required>
                                 </div>                                  
@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <!-- <div class="form-group col-md-12">
                             <label class="col-form-label" for="filektp">Upload KTP</label>
                             <div class="dropzone" id="file_docadd">
                                 <div class="dz-message needsclick">
@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                             </div>   
-                        </div>                                          
+                        </div>                                           -->
                     </div>
                 </div> 
                 <div class="modal-footer p-1">	

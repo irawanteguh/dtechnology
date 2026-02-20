@@ -20,9 +20,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="aside-footer flex-column-auto" id="kt_aside_footer">
-		<a href="">
-			<img alt="Logo" src="<?php echo base_url('assets/images/logo/'.PARTNERS.'.png'); ?>" class="h-60px" />
-		</a>
-	</div>
+	<?php if (!empty(PARTNERS)) : ?>
+		<div class="aside-footer flex-column-auto" id="kt_aside_footer">
+			<a href="">
+				<img alt="Logo" src="<?php echo base_url('assets/images/logo/'.PARTNERS.'.png'); ?>" class="h-70px" />
+			</a>
+		</div>
+	<?php endif; ?>
 </div>
