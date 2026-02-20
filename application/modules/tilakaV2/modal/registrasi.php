@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="form-group col-md-12">
+                        <div class="form-group col-md-12">
                             <label class="col-form-label" for="filektp">Upload KTP</label>
                             <div class="dropzone" id="file_docadd">
                                 <div class="dz-message needsclick">
@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                             </div>   
-                        </div>                                           -->
+                        </div>                                          
                     </div>
                 </div> 
                 <div class="modal-footer p-1">	
