@@ -1,1 +1,0 @@
-<a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_po"><i class="bi bi-database-fill-add me-4"></i>Add Purchase order</a>

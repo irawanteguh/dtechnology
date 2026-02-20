@@ -1,7 +1,0 @@
-Download https://www.python.org/downloads/release/python-3119/
-
-pip install "D:\xampp\htdocs\dtechnology\python\dlib-19.24.1-cp311-cp311-win_amd64.whl"
-py -m pip install -r "D:\xampp\htdocs\dtechnology\python\requirements.txt"
-python -m pip install flask-cors
-# pip install flask face_recognition opencv-python numpy Pillow
-python "E:\xampp\htdocs\dtech\dtechnology\python\Attendance.py"

@@ -1,1 +1,0 @@
-<a href="" class="btn btn-light-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_meeting_add" role="button"><i class="fa-solid fa-plus"></i> ADD MEETING</a>
