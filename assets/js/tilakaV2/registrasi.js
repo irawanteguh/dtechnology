@@ -183,8 +183,9 @@ function certificatestatus(btn){
 };
 
 function activequicksign(btn){
-    var email         = $(btn).attr("data-email");
+    var email          = $(btn).attr("data-email");
     var useridentifier = $(btn).attr("data-useridentifier");
+    var registerid     = $(btn).attr("data-registerid");
     $.ajax({
         url       : url+"index.php/tilakaV2/registrasi/activequicksign",
         data      : {email:email,useridentifier:useridentifier},
@@ -200,13 +201,13 @@ function activequicksign(btn){
             var result = data.responResult;
 
             if(result['success']){
-                window.location.href = result['auth_response'][0]['url']+"&redirect_url=" + url + "index.php/tilakaV2/registrasi";
+                window.location.href = result['auth_response'][0]['url']+"&redirect_url=" + url + "index.php/tilakaV2/registrasi?request_id="+registerid+"&quicksign=Y";
             }else{
                 let alertType  = "error";
                 let alertBtn   = "btn btn-danger";
                 let alertTitle = "Error";
 
-                if (
+                if(
                     result.success === false &&
                     result.message &&
                     result.message.toLowerCase().includes("masih memiliki auth aktif")
