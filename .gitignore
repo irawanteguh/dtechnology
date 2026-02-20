@@ -12,6 +12,9 @@ application/sessions/*
 assets/vendors/pdfparse/bin/**/tmp/
 
 ######Folder##########
+assets/akreditasi/*
+!assets/akreditasi/index.html
+
 assets/attendance/*
 !assets/attendance/index.html
 
@@ -23,6 +26,12 @@ assets/buktitl/*
 
 assets/buktitransfer/*
 !assets/buktitransfer/index.html
+
+assets/crm/*
+!assets/crm/index.html
+
+assets/documentlegal/*
+!assets/documentlegal/index.html
 
 assets/document/*
 !assets/document/index.html
@@ -37,6 +46,9 @@ assets/documentsupport/*
 assets/documenttemp/*
 !assets/documenttemp/index.html
 
+assets/facerecognition/*
+!assets/facerecognition/index.html
+
 assets/invoice/*
 !assets/invoice/index.html
 
@@ -49,16 +61,11 @@ assets/suratmasuk/*
 assets/whatsapp/*
 !assets/whatsapp/index.html
 
-service/*
-!service/index.html
-
 wa_credentials/*
 
 #####FILE#######
 !application/*/.htaccess
 
-application/config/database.php
-application/hooks/EnvironmentLoader.php
 .env
 
 composer.lock

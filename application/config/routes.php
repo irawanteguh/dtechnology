@@ -38,15 +38,13 @@
     $route['addsigndocument']             = 'restapi/dtech/Signdocument/addsigndocument';
     $route['statusdocument/(:any)']       = 'restapi/dtech/Signdocument/statusdocument/$1';
     $route['pegawai']                     = 'restapi/khanza/Khanza/pegawai';
-    $route['pasien']                      = 'restapi/khanza/Khanza/pasien';
-    $route['hmac']                        = 'restapi/mekari/auth/hmac';
     $route['auth']                        = 'restapi/tilaka/TilakaquicksignV2/auth';
     $route['uploadfile']                  = 'restapi/tilaka/TilakaquicksignV2/uploadfile';
     $route['requestsign']                 = 'restapi/tilaka/TilakaquicksignV2/requestsign';
     $route['statussign']                  = 'restapi/tilaka/TilakaquicksignV2/statussign';
+    $route['hmac']                        = 'restapi/mekari/auth/hmac';
     $route['kycliststatus']               = 'restapi/mekari/Kyc/kycliststatus';
-
-    $route['kyc'] = 'webhook/mekari/Kyc/kyc';
+    $route['kyc']                         = 'webhook/mekari/Kyc/kyc';
 
    
    
