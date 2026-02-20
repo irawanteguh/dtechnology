@@ -12,8 +12,8 @@ application/sessions/*
 assets/vendors/pdfparse/bin/**/tmp/
 
 ######Folder##########
-assets/akreditasi/*
-!assets/akreditasi/index.html
+assets/akrediasi/*
+!assets/akrediasi/index.html
 
 assets/attendance/*
 !assets/attendance/index.html
