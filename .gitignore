@@ -66,6 +66,8 @@ wa_credentials/*
 #####FILE#######
 !application/*/.htaccess
 
+application/config/database.php
+application/hooks/EnvironmentLoader.php
 .env
 
 composer.lock
