@@ -1,0 +1,2 @@
+<a class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#modal_sign_add_tilaka"><i class="bi bi-send-plus"></i> Sign Tilaka</a>
+<a class="btn btn-primary me-4"><i class="bi bi-send-plus"></i> Sign Mekari</a>
