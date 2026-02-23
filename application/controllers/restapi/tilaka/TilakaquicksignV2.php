@@ -208,6 +208,14 @@
                     continue;
                 }
 
+                if($resultcheckdatauser->quick_sign==="X"){
+                    $statusColor = "red";
+                    $statusMsg   = "The Quick Sign feature has not been activated for this account.";
+                    echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+
+                    continue;
+                }
+
                 if(empty($uidArr)){
                     $statusColor = "red";
                     $statusMsg   = "User Identifier Tidak Ada";
@@ -447,7 +455,7 @@
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
 
-                        $dataquicksign['QUICK_SIGN']      = "N";
+                        $dataquicksign['QUICK_SIGN']      = "X";
                         $dataquicksign['QUICK_SIGN_DATE'] = null;
 
                         $this->md->updatedatauserid($dataquicksign,$a->user_id);
