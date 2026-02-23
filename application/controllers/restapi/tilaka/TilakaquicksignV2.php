@@ -365,17 +365,17 @@
                         }
                         
                         $specimentposition = $pdfParse->findText($position);
-                        // if($a->source_file==="DTECHNOLOGY"){
-                        //     unlink($filelocation);
-                        // }else{
-                        //     if(TYPE_STORAGE==="LOCAL"){
-                        //         unlink($filelocation);
-                        //     }
+                        if($a->source_file==="DTECHNOLOGY"){
+                            // unlink($filelocation);
+                        }else{
+                            if(TYPE_STORAGE==="LOCAL"){
+                                // unlink($filelocation);
+                            }
 
-                        //     if(TYPE_STORAGE==="AAPANEL"){
-                        //         unlink($localFilename);
-                        //     }
-                        // }
+                            if(TYPE_STORAGE==="AAPANEL"){
+                                unlink($localFilename);
+                            }
+                        }
                         
                         if(!empty($specimentposition['content'][$position])){
                             foreach($specimentposition['content'][$position] as $specimen){
