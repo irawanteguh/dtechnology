@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <!-- <div class="form-group col-md-12">
                             <label class="col-form-label" for="filektp">Upload KTP</label>
                             <div class="dropzone" id="file_docadd">
                                 <div class="dz-message needsclick">
@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                             </div>   
-                        </div>                                          
+                        </div>                                           -->
                     </div>
                 </div> 
                 <div class="modal-footer p-1">	
@@ -195,7 +195,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="col-xl-12 mb-5">
+                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                <span>Upload KTP</span>
+                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan Upload KTP"></i>
+                            </label>
+                            <input type="file" class="form-control" name="ktp-edit" id="ktp-edit" accept=".jpeg">
+                        </div>
+                        <!-- <div class="form-group col-md-12">
                             <label class="col-form-label" for="filektp">Upload KTP</label>
                             <div class="dropzone" id="file_doc">
                                 <div class="dz-message needsclick">
@@ -212,7 +219,7 @@
                                     </div>
                                 </div>
                             </div>   
-                        </div>                                          
+                        </div>                                           -->
                     </div>
                 </div> 
                 <div class="modal-footer p-1">	
