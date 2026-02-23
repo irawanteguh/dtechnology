@@ -39,6 +39,7 @@
                         FROM split_assign s
                         JOIN dt01_gen_user_data u
                         ON u.nik = s.nik
+                        AND u.quick_sign not in ('N','X')
                         GROUP BY
                             s.no_file,
                             s.assign,
