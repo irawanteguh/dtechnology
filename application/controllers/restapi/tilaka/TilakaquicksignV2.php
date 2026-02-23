@@ -446,6 +446,11 @@
                         $datasimpanhd['link']            = null;
                         $datasimpanhd['url']             = null;
                         $datasimpanhd['request_id']      = null;
+
+                        $dataquicksign['QUICK_SIGN']      = "N";
+                        $dataquicksign['QUICK_SIGN_DATE'] = null;
+
+                        $this->md->updatedatauserid($dataquicksign,$a->user_id);
                     }
                     
                     
