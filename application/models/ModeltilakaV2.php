@@ -93,7 +93,7 @@
                         AND o.active = '1'
 
                         WHERE d.active = '1'
-                        AND d.status_sign IN ('1','97')
+                        AND d.status_sign='1'
 
                         GROUP BY 
                             d.org_id,
