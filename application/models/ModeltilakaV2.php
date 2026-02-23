@@ -59,6 +59,7 @@
                             d.no_file,
                             d.filename,
                             d.source_file,
+                            u.user_id,
 
                             MAX(d.assign)          AS assign,
                             MAX(d.user_identifier) AS user_identifier,
@@ -85,12 +86,14 @@
                         JOIN dt01_gen_user_data u 
                             ON FIND_IN_SET(u.nik, REPLACE(d.assign, ';', ',')) > 0
                         AND u.active='1'
+                        AND u.quick_sign<>'N'
+
                         LEFT JOIN dt01_gen_organization_ms o
                             ON o.org_id = d.org_id
                         AND o.active = '1'
 
                         WHERE d.active = '1'
-                        AND d.status_sign IN ('1','2','97')
+                        AND d.status_sign IN ('1','97')
 
                         GROUP BY 
                             d.org_id,
@@ -136,14 +139,32 @@
             return $recordset;
         }
 
+        function checkdatauser($orgid,$userid){
+            $query =
+                    "
+                        select a.quick_sign
+                        from dt01_gen_user_data a
+                        where a.org_id='".$orgid."'
+                        and   a.user_id='".$userid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         function updatetransaksi($data,$statussign,$nofile){           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("no_file"=>$nofile,"status_sign"=>$statussign,"active"=>"1"));
             return $sql;
         }
-        
 
         function updatetransaksirequestid($data,$requestid){           
             $sql =   $this->db->update("dt01_gen_document_file_dt",$data,array("request_id"=>$requestid,"active"=>"1"));
+            return $sql;
+        }
+
+        function updatedatauserid($data, $userid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_id"=>$userid));
             return $sql;
         }
 

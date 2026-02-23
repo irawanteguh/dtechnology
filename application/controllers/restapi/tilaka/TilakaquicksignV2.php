@@ -198,6 +198,16 @@
                 $nameArr   = array_values(array_filter(explode(';', $a->names)));
                 $emailArr  = array_values(array_filter(explode(';', $a->email)));
 
+                $resultcheckdatauser = $this->md->checkdatauser($a->user_id);
+
+                if($resultcheckdatauser->quick_sign==="N"){
+                    $statusColor = "red";
+                    $statusMsg   = "Session Quick Sign Expired";
+                    echo formatlog($a->no_file.".pdf",$a->user_identifier,$statusMsg,'white','light_yellow',$statusColor);
+
+                    continue;
+                }
+
                 if(empty($uidArr)){
                     $statusColor = "red";
                     $statusMsg   = "User Identifier Tidak Ada";
@@ -242,8 +252,6 @@
                         $rawImages[] = getQRCode($text, $logo);
                     }
                 }
-
-                // $filelocation = ($a->source_file==="DTECHNOLOGY") ? FCPATH."assets/document/".$a->no_file.".pdf" : PATHFILE_GET_TILAKA."/".$a->no_file.".pdf";
 
                 if($a->source_file === "DTECHNOLOGY"){
                     $filelocation = FCPATH."assets/document/".$a->no_file . ".pdf";
@@ -455,6 +463,11 @@
                     $datasimpanhd['status_sign'] = "2";
                     $datasimpanhd['note']        = "Session Quick Sign Expired";
                     $datasimpanhd['url']         = $responserequestsign['auth_response'][0]['url'];
+
+                    $dataquicksign['QUICK_SIGN']      = "N";
+                    $dataquicksign['QUICK_SIGN_DATE'] = null;
+
+                    $this->md->updatedatauserid($dataquicksign,$a->user_id);
                 }else{
                     $datasimpanhd['status_sign'] = "3";
                     $datasimpanhd['note']        = null;

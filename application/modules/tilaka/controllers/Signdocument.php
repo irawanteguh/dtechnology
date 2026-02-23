@@ -36,7 +36,16 @@
                         }
                     }
                 }else{
-                    $this->template->load("template/template-sidebar","v_signdocument");
+                    if(isset($_GET['user_identifier']) && isset($_GET['quicksign'])){
+
+                        $data['QUICK_SIGN']      = $_GET['quicksign'];
+                        $data['QUICK_SIGN_DATE'] = date('Y-m-d H:i:s');
+
+                        $this->md->updatedatauseridentifier($data,$_GET['user_identifier']);
+                        redirect("tilaka/signdocument",$data);
+                    }else{
+                        $this->template->load("template/template-sidebar","v_signdocument");
+                    }
                 }
             }
 		}

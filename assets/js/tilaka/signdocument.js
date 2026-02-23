@@ -30,7 +30,7 @@ function datasigndocument(){
                             tableresult += "<button id='btnGroupDrop1' type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown' aria-expanded='false'>Action</button>";
                             tableresult += "<div class='dropdown-menu' aria-labelledby='btnGroupDrop1'>";
                                 if(result[i].status_sign==="2"){
-                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary pe-4' href='"+result[i].url+"&redirect_url="+url+"index.php/tilaka/signdocument'><i class='bi bi-check-circle text-primary'></i> Sign</a>";
+                                    tableresult +="<a class='dropdown-item btn btn-sm text-primary pe-4' href='"+result[i].url+"&redirect_url="+url+"index.php/tilaka/signdocument?user_identifier="+result[i].user_identifier+"&quicksign=Y'><i class='bi bi-check-circle text-primary'></i> Sign</a>";
                                 }
                             tableresult +="</div>";
                         tableresult +="</div>";
