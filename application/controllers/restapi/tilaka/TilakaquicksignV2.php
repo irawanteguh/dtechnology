@@ -198,7 +198,7 @@
                 $nameArr   = array_values(array_filter(explode(';', $a->names)));
                 $emailArr  = array_values(array_filter(explode(';', $a->email)));
 
-                $resultcheckdatauser = $this->md->checkdatauser($a->user_id);
+                $resultcheckdatauser = $this->md->checkdatauser($a->org_id,$a->user_id);
 
                 if($resultcheckdatauser->quick_sign==="N"){
                     $statusColor = "red";
