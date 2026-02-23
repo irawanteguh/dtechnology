@@ -161,7 +161,7 @@
                             <div class="col-md-10 row">
                                 <div class="col-md-12 mb-5">
                                     <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-                                        <span class="required">NIK Rumah Sakit</span>
+                                        <span class="required">ID Internal Rumah Sakit</span>
                                     </label>
                                     <input type="text" class="form-control form-control-solid form-control-sm" id="nikrs-edit" name="nikrs-edit" readonly>
                                 </div>                                  
