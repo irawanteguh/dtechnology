@@ -87,8 +87,8 @@
                         FROM dt01_gen_document_file_dt d
                         JOIN dt01_gen_user_data u 
                             ON FIND_IN_SET(u.nik, REPLACE(d.assign, ';', ',')) > 0
-                        AND u.active='1'
-                        AND u.quick_sign not in ('N','X')
+                        -- AND u.active='1'
+                        AND u.quick_sign='Y'
 
                         LEFT JOIN dt01_gen_organization_ms o
                             ON o.org_id = d.org_id
