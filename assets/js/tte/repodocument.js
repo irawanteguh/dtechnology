@@ -24,10 +24,10 @@ function voiddocument(btn){
 	return false;
 };
 
-function cancelvoiddocument(btn){
+function resend(btn){
     var datatransaksiid = btn.attr("datatransaksiid");
 	$.ajax({
-        url        : url+"index.php/tte/repodocument/cancelvoiddocument",
+        url        : url+"index.php/tte/repodocument/resend",
         data       : {datatransaksiid:datatransaksiid},
         method     : "POST",
         dataType   : "JSON",
@@ -54,6 +54,25 @@ function uploadtotilaka(btn){
 	$.ajax({
         url        : url+"index.php/tte/repodocument/uploadtotilaka",
         data       : {datatransaksiid:datatransaksiid,datafilelocation:datafilelocation},
+        method     : "POST",
+        dataType   : "JSON",
+        cache      : false,
+        beforeSend : function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+		success : function (data) {
+			alldocument();
+            toastr.clear();
+            toastr[data.responHead](data.responDesc, "INFORMATION");
+		}
+	});
+	return false;
+};
+
+function requestsign(btn){
+	$.ajax({
+        url        : url+"index.php/tte/repodocument/requestsign",
         method     : "POST",
         dataType   : "JSON",
         cache      : false,
@@ -99,11 +118,6 @@ function alldocument(){
                 let filePath = "";
 
                 for(let i in result){
-
-                    if(result[i].storage==="ROOT"){ 
-                        filePath = url+"assets/document/"+result[i].transaksi_id+".pdf";
-                    }
-                    
                     let getvariabel =   " datatransaksiid='"+result[i].transaksi_id+"'"+
                                         " datafilelocation='"+filePath+"'";
 
@@ -133,7 +147,7 @@ function alldocument(){
                     row += "<div class='badge badge-light-dark me-2'>"+(result[i].provider_sign || "Unknown Provider")+"</div>";
                     row += "<div class='badge badge-light-info me-2'>"+(result[i].type_of || "Unknown Type Of Service")+"</div>";
                     row += "<div class='badge badge-light-warning me-2'>"+(result[i].type_certificate || "Unknown Type Of Certificate")+"</div>";
-                    row += "<div class='badge badge-light-success me-2'>"+(result[i].quick_sign == 0 ? "Reguler Sign" : "Auto Sign")+"</div>";
+                    row += `<div class='badge badge-light-success me-2'>${result[i].quick_sign == 0 ? '' : result[i].quick_sign == 1 ? "Reguler Sign" : result[i].quick_sign == 2 ? "Auto Sign" : "Undefined"}</div>`;
                     row += "<div class='badge badge-light-danger me-2'>"+(result[i].from_in || "Unknown Source")+"</div>";
                     row += "</td>";
 
@@ -148,24 +162,34 @@ function alldocument(){
                     row += "<div class='dropdown-menu'>";
 
                     
-                    row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+filePath+"' onclick='viewdocwithoutnote(this)'>";
-                    row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
+                    if(result[i].status_sign==="5"){
+                        if(result[i].from_in="Dtechnology"){
+                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_out+result[i].transaksi_id+".pdf' onclick='viewdocwithoutnote(this)'>";
+                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
+                        }else{
+                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_out+result[i].no_file+".pdf' onclick='viewdocwithoutnote(this)'>";
+                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
+                        }
+                    }else{
+                        if(result[i].from_in="Dtechnology"){
+                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_in+result[i].transaksi_id+".pdf' onclick='viewdocwithoutnote(this)'>";
+                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
+                        }else{
+                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_in+result[i].no_file+".pdf' onclick='viewdocwithoutnote(this)'>";
+                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
+                        }
+                        
+                    }
+                    
 
                     if(result[i].status_sign==="0"){
-                        row += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" onclick='uploadtotilaka($(this));'>";
-                        row += "<i class='bi bi-cloud-arrow-up text-primary'></i> Upload To Tilaka Lite</a>";
                         row += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" onclick='voiddocument($(this));'>";
                         row += "<i class='bi bi-trash3 text-danger'></i> Void</a>";
                     }
 
-                    if(result[i].status_sign==="98"){
-                        row += "<a class='dropdown-item btn btn-sm text-primary' "+getvariabel+" onclick='uploadtotilaka($(this));'>";
-                        row += "<i class='bi bi-cloud-arrow-up text-primary'></i> Re Upload</a>";
-                    }
-
-                    if(result[i].status_sign==="99"){
-                        row += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" onclick='cancelvoiddocument($(this));'>";
-                        row += "<i class='bi bi-arrow-counterclockwise text-info'></i> Void</a>";
+                    if(result[i].status_sign==="80" || result[i].status_sign==="99"){
+                        row += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" onclick='resend($(this));'>";
+                        row += "<i class='bi bi-arrow-counterclockwise text-info'></i> Resend</a>";
                     }
 
                     row += "</div></div></td>";
@@ -175,14 +199,14 @@ function alldocument(){
                     // PEMISAHAN STATUS
                     // ============================
 
-                    if(result[i].status_sign === "99"){
+                    if(result[i].status_sign === "80"){
                         tableVoid += row.replace(
                             "<td class='ps-4 text-start'></td>",
                             "<td class='ps-4 text-start'>"+noVoid+"</td>"
                         );
                         noVoid++;
                     } else {
-                        if(result[i].status_sign === "96" || result[i].status_sign === "97" || result[i].status_sign === "98"){
+                        if(result[i].status_sign === "95" || result[i].status_sign === "96" || result[i].status_sign === "98" || result[i].status_sign === "99"){
                             tableFailed += row.replace(
                                 "<td class='ps-4 text-start'></td>",
                                 "<td class='ps-4 text-start'>"+noFailed+"</td>"

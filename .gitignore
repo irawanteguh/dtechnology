@@ -36,6 +36,7 @@ assets/documentlegal/*
 assets/document/*
 !assets/document/index.html
 !assets/document/Contoh Dokument.pdf
+!assets/document/Receivedfile.pdf
 
 assets/documentpo/*
 !assets/documentpo/index.html

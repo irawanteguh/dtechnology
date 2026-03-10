@@ -2,6 +2,7 @@
 		"type"   : "module",
 		"scripts": {
 			"wagateway"     : "node nodejs/wagateway.js",
+			"SignTTE"       : "node nodejs/SignTTE.js",
 			"tilaka"        : "node nodejs/servicetilaka.js",
 			"tilakarsbm"    : "node nodejs/servicetilakarsbm.js",
 			"tilakaquick"   : "node nodejs/servicetilakaquicksign.js",

@@ -1,31 +1,47 @@
 <?php
 header("Content-Type: application/json");
 
+// Folder tujuan: sama dengan folder receivedfile.php
+$targetDir = __DIR__ . '/';
+
 // Cek file
-if (!isset($_FILES['file'])) {
+if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
     echo json_encode([
         "success" => false,
-        "message" => "FILE NOT RECEIVED",
-        "files"   => $_FILES
+        "message" => "File not received or upload error",
+        "error_code" => $_FILES['file']['error'] ?? null
     ]);
     exit;
 }
 
-$targetDir = __DIR__.'/file_tte/output/';
+// Ambil nama asli dan ekstensi
+$originalName = basename($_FILES['file']['name']);
+$ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 
-$filename = basename($_FILES['file']['name']);
-$target   = $targetDir . $filename;
+// Hanya izinkan PDF
+if ($ext !== 'pdf') {
+    echo json_encode([
+        "success" => false,
+        "message" => "Only PDF files are allowed"
+    ]);
+    exit;
+}
 
-if (move_uploaded_file($_FILES['file']['tmp_name'], $target)) {
+// Path lengkap
+$targetPath = $targetDir . $originalName;
+
+// Pindahkan file dari temporary ke folder tujuan
+if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
     echo json_encode([
         "success" => true,
-        "message" => "UPLOAD OK",
-        "path"    => $target
+        "message" => "Upload successful",
+        "filename" => $originalName,
+        "path" => $originalName // path relatif di folder script
     ]);
 } else {
     echo json_encode([
         "success" => false,
-        "message" => "UPLOAD FAILED",
-        "target"  => $target
+        "message" => "Failed to move uploaded file",
+        "target" => $targetPath
     ]);
 }

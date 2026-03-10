@@ -1,4 +1,5 @@
 <?php
+
     //Start Function Random Generator
     function randomgeneatorname() {
         $names = [
@@ -129,23 +130,48 @@
         return $formatted . PHP_EOL;
     }
     
-    function fileExists($url) {
+    function fileExists(&$location) {
+        // Cek apakah $location adalah URL valid
+        if (filter_var($location, FILTER_VALIDATE_URL)) {
 
-        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            // Gunakan HEAD request untuk cek keberadaan file tanpa mengunduh
+            $ch = curl_init($location);
+            curl_setopt_array($ch, [
+                CURLOPT_NOBODY => true, // jangan ambil konten
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_TIMEOUT => 30
+            ]);
 
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_NOBODY, true);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
             curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-            $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if (curl_errno($ch)) {
+                $error = curl_error($ch);
+                curl_close($ch);
+                return [
+                    'status'  => false,
+                    'message' => 'Failed to access URL: ' . $error
+                ];
+            }
+
             curl_close($ch);
 
-            return ($status >= 200 && $status < 300);
-        }
+            if ($httpCode >= 200 && $httpCode < 400) {
+                return ['status' => true, 'message' => 'File exists at URL'];
+            } else {
+                return ['status' => false, 'message' => "URL returned HTTP code $httpCode"];
+            }
 
-        return file_exists($url);
+        } else {
+            // Bukan URL → cek file lokal
+            if (file_exists($location)) {
+                return ['status' => true, 'message' => 'Local file exists.'];
+            } else {
+                return ['status' => false, 'message' => 'Local file does not exist.'];
+            }
+        }
     }
 
     function getFileSize($path) {
@@ -179,35 +205,256 @@
         return 0;
     }
 
-    function uploadToAapanel($filename, $binary){
-        $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
-        file_put_contents($tmp, $binary);
+    function parsePdfAndFindText($locationFile, $position, $mainName){
 
-        $url = rtrim(PATHFILE_POST_TILAKA, '/') . '/receivedfile.php';
-        $ch  = curl_init($url);
+        $localFile  = $locationFile;
+        $isTempFile = false;
 
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,['file' => new CURLFile($tmp, 'application/pdf', $filename)]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        try {
 
-        $response = curl_exec($ch);
-        curl_close($ch);
-        unlink($tmp);
-        return json_decode($response, true);
+            /*
+            ========================================
+            JIKA SOURCE ADALAH URL
+            ========================================
+            */
+            if (filter_var($locationFile, FILTER_VALIDATE_URL)) {
+
+                // Folder temp project
+                $tempDir = FCPATH . 'assets/document/temp/';
+                if (!is_dir($tempDir)) {
+                    mkdir($tempDir, 0777, true);
+                }
+
+                // pastikan ada ekstensi pdf
+                if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
+                    $mainName .= ".pdf";
+                }
+
+                $localFile = $tempDir . $mainName;
+
+                $ch = curl_init($locationFile);
+                curl_setopt_array($ch, [
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_CONNECTTIMEOUT => 30,
+                    CURLOPT_TIMEOUT => 60
+                ]);
+
+                $pdfContent = curl_exec($ch);
+
+                if (curl_errno($ch)) {
+                    throw new Exception("Failed download PDF: " . curl_error($ch));
+                }
+
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+
+                if ($httpCode < 200 || $httpCode >= 300) {
+                    throw new Exception("URL returned HTTP code $httpCode");
+                }
+
+                if (!$pdfContent) {
+                    throw new Exception("Downloaded PDF is empty.");
+                }
+
+                if (!file_put_contents($localFile, $pdfContent)) {
+                    throw new Exception("Failed write temporary PDF file.");
+                }
+
+                $isTempFile = true;
+            }
+
+            /*
+            ========================================
+            CEK FILE ADA
+            ========================================
+            */
+            if (!file_exists($localFile)) {
+                throw new Exception("File not found: " . $localFile);
+            }
+
+            /*
+            ========================================
+            PARSE PDF
+            ========================================
+            */
+            $pdfParse = new Pdfparse($localFile);
+            $specimentposition = $pdfParse->findText($position);
+
+            return [
+                'status' => true,
+                'data'   => $specimentposition
+            ];
+
+        } catch (Exception $e) {
+
+            return [
+                'status'  => false,
+                'message' => $e->getMessage()
+            ];
+
+        } finally {
+
+            /*
+            ========================================
+            HAPUS TEMP FILE
+            ========================================
+            */
+            if ($isTempFile && file_exists($localFile)) {
+                unlink($localFile);
+            }
+        }
     }
 
+    function downloadAndSave($sourceUrl, $destinationFolder, $mainName) {
 
-    function curlDownload($url){
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $data = curl_exec($ch);
+        // Tambahkan ekstensi PDF jika belum ada
+        if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
+            $mainName .= ".pdf";
+        }
+
+        /*
+        ========================================
+        DOWNLOAD FILE
+        ========================================
+        */
+        $ch = curl_init($sourceUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT => 60
+        ]);
+
+        $fileData = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if (curl_errno($ch) || $httpCode != 200) {
+            curl_close($ch);
+            return [
+                'success' => false,
+                'message' => 'Download failed or HTTP code: ' . $httpCode
+            ];
+        }
+
         curl_close($ch);
-        return $data;
+
+        if (!$fileData || strlen($fileData) < 500) {
+            return [
+                'success' => false,
+                'message' => 'Downloaded file is empty or too small'
+            ];
+        }
+
+        // Validasi PDF
+        if (substr($fileData, 0, 4) !== "%PDF") {
+            return [
+                'success' => false,
+                'message' => 'File is not a valid PDF'
+            ];
+        }
+
+        /*
+        ========================================
+        CEK JIKA DESTINATION ADALAH URL
+        ========================================
+        */
+        if (filter_var($destinationFolder, FILTER_VALIDATE_URL)) {
+
+            // Folder temp di project
+            $tempDir = FCPATH . 'assets/document/temp/';
+            if (!is_dir($tempDir)) mkdir($tempDir, 0777, true);
+
+            // Temp file di project
+            $tmpFile = $tempDir . $mainName;
+            file_put_contents($tmpFile, $fileData);
+
+            $url = rtrim($destinationFolder, '/') . '/receivedfile.php';
+
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => [
+                    'file' => new CURLFile($tmpFile, 'application/pdf', $mainName)
+                ],
+                CURLOPT_RETURNTRANSFER => true
+            ]);
+
+            $response = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                $err = curl_error($ch);
+                curl_close($ch);
+                @unlink($tmpFile); // hapus temp
+                return [
+                    'success' => false,
+                    'message' => 'Upload failed: ' . $err
+                ];
+            }
+
+            curl_close($ch);
+            @unlink($tmpFile); // hapus temp setelah upload
+
+            return json_decode($response, true);
+        }
+
+        /*
+        ========================================
+        LOCAL STORAGE
+        ========================================
+        */
+        $destinationFolder = rtrim($destinationFolder, '/') . '/';
+        if (!is_dir($destinationFolder)) mkdir($destinationFolder, 0777, true);
+        if (!is_writable($destinationFolder)) {
+            return [
+                'success' => false,
+                'message' => 'Destination folder is not writable'
+            ];
+        }
+
+        $fullPath = $destinationFolder . $mainName;
+        file_put_contents($fullPath, $fileData);
+
+        return [
+            'success' => true,
+            'message' => 'File saved locally',
+            'filename' => $mainName,
+            'path' => $fullPath
+        ];
     }
+
+    // function uploadToAapanel($filename, $binary){
+    //     $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
+    //     file_put_contents($tmp, $binary);
+
+    //     $url = rtrim(PATHFILE_POST_TILAKA, '/') . '/receivedfile.php';
+    //     $ch  = curl_init($url);
+
+    
+    //     curl_setopt($ch, CURLOPT_POST, true);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS,['file' => new CURLFile($tmp, 'application/pdf', $filename)]);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    //     $response = curl_exec($ch);
+    //     curl_close($ch);
+    //     unlink($tmp);
+    //     return json_decode($response, true);
+    // }
+
+
+    // function curlDownload($url){
+    //     $ch = curl_init($url);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    //     $data = curl_exec($ch);
+    //     curl_close($ch);
+    //     return $data;
+    // }
 
     function getQRCode($text, $logoPath){
+
         ob_start();
         QRcode::png($text, null, QR_ECLEVEL_H, 8, 2);
         $qrImageData = ob_get_contents();
@@ -216,25 +463,84 @@
         $qrImage = imagecreatefromstring($qrImageData);
         if (!$qrImage) return false;
 
-        if (!file_exists($logoPath)) return false;
-        $logo = imagecreatefrompng($logoPath);
+        $qrWidth  = imagesx($qrImage);
+        $qrHeight = imagesy($qrImage);
 
-        $qrWidth    = imagesx($qrImage);
-        $qrHeight   = imagesy($qrImage);
-        $logoWidth  = imagesx($logo);
-        $logoHeight = imagesy($logo);
+        /*
+        =========================
+        BACKGROUND QR PUTIH
+        =========================
+        */
+        $canvas = imagecreatetruecolor($qrWidth, $qrHeight);
+        $white  = imagecolorallocate($canvas, 255,255,255);
 
-        $logoQRWidth  = $qrWidth / 4;
-        $scale        = $logoWidth / $logoQRWidth;
-        $logoQRHeight = $logoHeight / $scale;
+        imagefill($canvas, 0, 0, $white);
+        imagecopy($canvas, $qrImage, 0, 0, 0, 0, $qrWidth, $qrHeight);
 
-        $x = ($qrWidth - $logoQRWidth) / 2;
-        $y = ($qrHeight - $logoQRHeight) / 2;
+        /*
+        =========================
+        LOGO DI TENGAH
+        =========================
+        */
+        if (file_exists($logoPath)) {
 
-        imagecopyresampled($qrImage, $logo, $x, $y, 0, 0, $logoQRWidth, $logoQRHeight, $logoWidth, $logoHeight);
+            $logo = imagecreatefrompng($logoPath);
+
+            $logoWidth  = imagesx($logo);
+            $logoHeight = imagesy($logo);
+
+            $logoQRWidth  = $qrWidth / 4;
+            $scale        = $logoWidth / $logoQRWidth;
+            $logoQRHeight = $logoHeight / $scale;
+
+            $x = ($qrWidth - $logoQRWidth) / 2;
+            $y = ($qrHeight - $logoQRHeight) / 2;
+
+            /*
+            =========================
+            BACKGROUND PUTIH DI LOGO
+            =========================
+            */
+
+            $padding = 10;
+
+            imagefilledrectangle(
+                $canvas,
+                $x - $padding,
+                $y - $padding,
+                $x + $logoQRWidth + $padding,
+                $y + $logoQRHeight + $padding,
+                $white
+            );
+
+            /*
+            =========================
+            TEMPEL LOGO
+            =========================
+            */
+
+            imagecopyresampled(
+                $canvas,
+                $logo,
+                $x,
+                $y,
+                0,
+                0,
+                $logoQRWidth,
+                $logoQRHeight,
+                $logoWidth,
+                $logoHeight
+            );
+        }
+
+        /*
+        =========================
+        OUTPUT BASE64
+        =========================
+        */
 
         ob_start();
-        imagepng($qrImage);
+        imagepng($canvas);
         $finalImageData = ob_get_contents();
         ob_end_clean();
 

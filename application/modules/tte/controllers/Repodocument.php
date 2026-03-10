@@ -13,7 +13,24 @@
 
 		public function index(){
             $data = $this->loadcombobox();
-            $this->template->load("template/template-sidebar","v_repodocument",$data);
+
+            if(isset($_GET['datatransaksi']) && isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
+                if($_GET['status']==="Sukses"){
+                    $data     = [];
+                    $datauser = [];
+
+                    $data['status_sign'] = "3";
+                    $data['quick_sign']  = "0";
+                    $this->md->updatedocument($data,$_GET['datatransaksi']);
+
+                    $datauser['quick_sign']      = "R";
+                    $this->md->updatedatauseridentifier($datauser,$_GET['user_identifier']);
+
+                    redirect("tte/repodocument",$data);
+                }
+            }else{
+                $this->template->load("template/template-sidebar","v_repodocument",$data);
+            }
 		}
 
         public function loadcombobox(){
@@ -46,71 +63,168 @@
         }
 
         public function adddocument(){
-            $directory = "";
 
             $assign       = $this->input->post("modal_sign_add_tilaka_assign");
             $type         = $this->input->post("modal_sign_add_tilaka_type");
             $info1        = $this->input->post("modal_sign_add_tilaka_informasi1");
             $info2        = $this->input->post("modal_sign_add_tilaka_informasi2");
+
             $originalname = pathinfo($_FILES['modal_sign_add_tilaka_document']['name'], PATHINFO_FILENAME);
             $transid      = generateuuid();
 
-            if(TYPESTORAGE==="ROOT"){
-                $directory ="./assets/document/";
+            /*
+            =================================
+            UPLOAD KE TEMP
+            =================================
+            */
+
+            $tempPath = FCPATH.'assets/document/temp/';
+
+            if(!is_dir($tempPath)){
+                mkdir($tempPath,0777,true);
             }
-            $config['upload_path']   = $directory;
+
+            $config['upload_path']   = $tempPath;
             $config['allowed_types'] = 'pdf';
             $config['file_name']     = $transid;
             $config['overwrite']     = true;
 
-            $this->load->library('upload', $config);
+            $this->load->library('upload',$config);
 
             if (!$this->upload->do_upload('modal_sign_add_tilaka_document')) {
+
                 $error_message = strip_tags($this->upload->display_errors());
 
-                log_message('error', 'File upload error: ' . $error_message);
+                log_message('error','File upload error: '.$error_message);
 
                 $json['responCode'] = "01";
                 $json['responHead'] = "info";
                 $json['responDesc'] = $error_message;
-            } else {
-                $uploadData = $this->upload->data();
-                $filePath   = $uploadData['full_path'];
 
-                if(!file_exists($filePath)){
-                    log_message('error', 'File not found after upload: ' . $filePath);
+                echo json_encode($json);
+                return;
+            }
 
-                    $json['responCode'] = "02";
-                    $json['responHead'] = "warning";
-                    $json['responDesc'] = "File upload completed but not found on server.";
+            $uploadData = $this->upload->data();
+            $tempFile   = $uploadData['full_path'];
+            $mainName   = $transid.'.pdf';
+
+            /*
+            =================================
+            CEK TYPE STORAGE
+            =================================
+            */
+
+            if(filter_var(TYPESTORAGE, FILTER_VALIDATE_URL)){
+
+                /*
+                =================================
+                REMOTE STORAGE
+                =================================
+                */
+
+                $url = rtrim(TYPESTORAGE,'/').'/receivedfile.php';
+
+                $ch = curl_init($url);
+
+                curl_setopt_array($ch,[
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => [
+                        'file' => new CURLFile($tempFile,'application/pdf',$mainName)
+                    ],
+                    CURLOPT_RETURNTRANSFER => true
+                ]);
+
+                $response = curl_exec($ch);
+
+                if(curl_errno($ch)){
+
+                    $err = curl_error($ch);
+
+                    curl_close($ch);
+
+                    @unlink($tempFile);
+
+                    $json['responCode']="01";
+                    $json['responHead']="error";
+                    $json['responDesc']="Upload remote gagal : ".$err;
+
                     echo json_encode($json);
                     return;
                 }
 
-                $data['org_id']           = $_SESSION['orgid'];
-                $data['transaksi_id']     = $transid;
-                $data['no_file']          = $originalname;
-                $data['jenis_doc']        = $type;
-                $data['signer_id']        = $assign;
-                $data['note_1']           = $info1;
-                $data['note_2']           = $info2;
-                $data['storage']          = TYPESTORAGE;
-                $data['type_of']          = "Signature";
-                $data['from_in']          = "Dtechnology";
-                $data['provider_sign']    = "Tilaka";
-                $data['type_certificate'] = "Psre";
-                $data['quick_sign']       = "1";
-                $data['created_by']       = $_SESSION['userid'];
+                curl_close($ch);
 
-                if($this->md->insertdocument($data)){
-                    $json['responCode']="00";
-                    $json['responHead']="success";
-                    $json['responDesc']="Data Added Successfully";
-                } else {
-                    $json['responCode']="01";
-                    $json['responHead']="info";
-                    $json['responDesc']="Data Failed to Add";
+            }else{
+
+                /*
+                =================================
+                LOCAL STORAGE
+                =================================
+                */
+
+                $destFolder = rtrim(TYPESTORAGE,'/').'/';
+
+                if(!is_dir($destFolder)){
+                    mkdir($destFolder,0777,true);
                 }
+
+                $destFile = $destFolder.$mainName;
+
+                if(!rename($tempFile,$destFile)){
+
+                    @unlink($tempFile);
+
+                    $json['responCode']="01";
+                    $json['responHead']="error";
+                    $json['responDesc']="Gagal memindahkan file ke storage";
+
+                    echo json_encode($json);
+                    return;
+                }
+            }
+
+            /*
+            =================================
+            HAPUS TEMP
+            =================================
+            */
+
+            if(file_exists($tempFile)){
+                unlink($tempFile);
+            }
+
+            /*
+            =================================
+            SIMPAN DATABASE
+            =================================
+            */
+
+            $data['org_id']           = $_SESSION['orgid'];
+            $data['transaksi_id']     = $transid;
+            $data['no_file']          = $originalname;
+            $data['jenis_doc']        = $type;
+            $data['signer_id']        = $assign;
+            $data['note_1']           = $info1;
+            $data['note_2']           = $info2;
+            $data['storage_in']       = TYPESTORAGE;
+            $data['type_of']          = TYPEOF;
+            $data['from_in']          = "Dtechnology";
+            $data['provider_sign']    = PROVIDERSIGN;
+            $data['type_certificate'] = TYPECERTIFICATE;
+            $data['created_by']       = $_SESSION['userid'];
+
+            if($this->md->insertdocument($data)){
+
+                $json['responCode']="00";
+                $json['responHead']="success";
+                $json['responDesc']="Data Added Successfully";
+
+            }else{
+
+                $json['responCode']="01";
+                $json['responHead']="info";
+                $json['responDesc']="Data Failed to Add";
             }
 
             echo json_encode($json);
@@ -119,7 +233,7 @@
         public function voiddocument(){
             $transid = $this->input->post("datatransaksiid");
 
-            $data['status_sign'] = "99";
+            $data['status_sign'] = "80";
 
             if($this->md->updatedocument($data,$transid)){
                 $json['responCode']="00";
@@ -134,10 +248,12 @@
             echo json_encode($json);
         }
 
-        public function cancelvoiddocument(){
+        public function resend(){
             $transid = $this->input->post("datatransaksiid");
 
             $data['status_sign'] = "0";
+            $data['storage_in']  = TYPESTORAGE;
+            $data['response']    = null;
 
             if($this->md->updatedocument($data,$transid)){
                 $json['responCode']="00";
@@ -147,92 +263,6 @@
                 $json['responCode']="01";
                 $json['responHead']="error";
                 $json['responDesc']="Data failed to update";
-            }
-
-            echo json_encode($json);
-        }
-
-        public function uploadtotilaka(){
-            $data               = [];
-            $responseuploadfile = [];
-            $datatransaksiid    = $this->input->post("datatransaksiid");
-            $datafilelocation   = $this->input->post("datafilelocation");
-
-            if(fileExists($datafilelocation)===false){
-                $json['responCode']="01";
-                $json['responHead']="error";
-                $json['responDesc']="File Not Exists";
-
-                $data['status_sign'] = "98";
-                $this->md->updatedocument($data,$datatransaksiid);
-            }else{
-                if(getFileSize($datafilelocation)===0){
-                    $json['responCode']="01";
-                    $json['responHead']="error";
-                    $json['responDesc']="File Corrupted";
-
-                    $data['status_sign'] = "97";
-                    $this->md->updatedocument($data,$datatransaksiid);
-                }else{
-                    $responseuploadfile = TilakaPlus::uploadfile($datafilelocation);
-
-                    // return var_dump($responseuploadfile);
-
-                    if(!isset($responseuploadfile['success'])){
-                        // array(4) {
-                        //             ["timestamp"]=>
-                        //             string(29) "2026-02-22T15:48:01.496+00:00"
-                        //             ["status"]=>
-                        //             int(404)
-                        //             ["error"]=>
-                        //             string(9) "Not Found"
-                        //             ["path"]=>
-                        //             string(19) "/api/v1/plus-upload"
-                        //         }
-
-                        $json['responCode']="01";
-                        $json['responHead']="error";
-                        $json['responDesc']=$responseuploadfile['error']." [ ".$responseuploadfile['path']." ]";
-                    }else{
-                        if($responseuploadfile['success']===false){
-
-                            // array(3) {
-                            //         ["success"]=>
-                            //         bool(false)
-                            //         ["message"]=>
-                            //         string(14) "file harus pdf"
-                            //         ["filename"]=>
-                            //         NULL
-                            //     }
-
-                            $json['responCode']="01";
-                            $json['responHead']="error";
-                            $json['responDesc']=$responseuploadfile['message'];
-
-                            $data['status_sign'] = "96";
-                            $data['response']    = $responseuploadfile['message'];
-                            $this->md->updatedocument($data,$datatransaksiid);
-                        }else{
-                            // array(3) {
-                            // ["success"]=>
-                            // bool(true)
-                            // ["message"]=>
-                            // string(26) "File uploaded successfully"
-                            // ["filename"]=>
-                            // string(82) "1114850e78d84070a0bf_tilaka_699b278d1a5ec_b5ef49b5-ff74-40b4-8b1b-61768bcc6d95.pdf"
-                            // }
-
-                            $json['responCode']="00";
-                            $json['responHead']="success";
-                            $json['responDesc']=$responseuploadfile['message'];
-
-                            $data['status_sign'] = "1";
-                            $data['filename']    = $responseuploadfile['filename'];
-                            $data['response']    = $responseuploadfile['message'];
-                            $this->md->updatedocument($data,$datatransaksiid);
-                        }
-                    }
-                }
             }
 
             echo json_encode($json);

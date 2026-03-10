@@ -69,6 +69,7 @@
                         where a.active='1'
                         and   a.status_file='1'
                         and   a.assign<>''
+                        and   a.ASSIGN  in (select nik from dt01_gen_user_data where quick_sign='Y')
                         group by status_sign
 
                     ";

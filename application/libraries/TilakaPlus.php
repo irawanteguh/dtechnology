@@ -18,7 +18,7 @@
         }
 
         public static function uploadfile($location){
-            $oauthResponse = Tilaka::oauth();
+            $oauthResponse = TilakaPlus::oauth();
 
             if (!isset($oauthResponse['access_token'])) {
                 return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
@@ -48,7 +48,7 @@
                 }
 
                 $filename = basename(parse_url($location, PHP_URL_PATH));
-                $tempFile = $tempDir . uniqid('tilaka_') . '_' . $filename;
+                $tempFile = $tempDir . $filename;
 
                 $ch = curl_init($location);
                 curl_setopt_array($ch, [
@@ -147,6 +147,84 @@
             if ($tempFile && file_exists($tempFile)) {
                 @unlink($tempFile);
             }
+
+            return json_decode($response, true);
+        }
+
+        public static function requestsignquicksign($body){
+            $oauthResponse = TilakaPlus::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $accessToken = $oauthResponse['access_token'];
+
+            $headers = [
+                "Content-Type: application/json",
+                "Authorization: Bearer {$accessToken}"
+            ];
+
+            $response = curl([
+                'url'     => TILAKALITE_URL . "api/v1/requestquicksign",
+                'method'  => "POST",
+                'header'  => $headers,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-UPLOADFILE"
+            ]);
+
+            return json_decode($response, true);
+        }
+
+        public static function requestsignreguler($body){
+            $oauthResponse = TilakaPlus::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $accessToken = $oauthResponse['access_token'];
+
+            $headers = [
+                "Content-Type: application/json",
+                "Authorization: Bearer {$accessToken}"
+            ];
+
+            $response = curl([
+                'url'     => TILAKALITE_URL . "api/v1/requestsign",
+                'method'  => "POST",
+                'header'  => $headers,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-UPLOADFILE"
+            ]);
+
+            return json_decode($response, true);
+        }
+
+        public static function statussign($body){
+            $oauthResponse = TilakaPlus::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $accessToken = $oauthResponse['access_token'];
+
+            $headers = [
+                "Content-Type: application/json",
+                "Authorization: Bearer {$accessToken}"
+            ];
+
+            $response = curl([
+                'url'     => TILAKALITE_URL . "api/v1/checksignstatus",
+                'method'  => "POST",
+                'header'  => $headers,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-SIGNSTATUS"
+            ]);
 
             return json_decode($response, true);
         }

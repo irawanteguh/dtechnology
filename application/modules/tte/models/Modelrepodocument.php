@@ -20,7 +20,7 @@
         function alldocument(){
             $query =
                     "
-                        select a.transaksi_id, status_sign, storage, no_file, jenis_doc, type_of, provider_sign, from_in, type_certificate, quick_sign, note_1, note_2, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
+                        select a.transaksi_id, status_sign, storage_in, storage_out, no_file, jenis_doc, type_of, url, provider_sign, from_in, type_certificate, quick_sign, note_1, note_2, date_format(a.created_date, '%d.%m.%Y %H:%i:%s')tglbuat,
                             (select name from dt01_gen_user_data where org_id=a.org_id and (user_id=a.created_by or nik=a.created_by))dibuatoleh,
                             (select name from dt01_gen_user_data where org_id=a.org_id and nik=a.signer_id)name,
                             (select email from dt01_gen_user_data where org_id=a.org_id and nik=a.signer_id)email,
@@ -44,6 +44,16 @@
 
         function updatedocument($data,$transaksiid){           
             $sql =   $this->db->update("dt01_sign_document_dt",$data,array("transaksi_id"=>$transaksiid));
+            return $sql;
+        }
+
+        function updatedatauserid($data, $userid){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_id"=>$userid));
+            return $sql;
+        }
+
+        function updatedatauseridentifier($data, $useridentifier){           
+            $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_identifier"=>$useridentifier));
             return $sql;
         }
 
