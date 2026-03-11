@@ -24,7 +24,7 @@
                         from dt01_sign_document_dt a
                         where a.status_sign='0'
                         and   a.provider_sign='Tilaka'
-                        limit 5;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -46,7 +46,7 @@
                         and   a.quick_sign in ('0','2')
                         group by a.transaksi_id
                         order by upload_date asc
-                        limit 5;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -65,7 +65,7 @@
                         and   a.provider_sign='Tilaka'
                         group by a.transaksi_id
                         order by requestsign_date asc
-                        limit 5;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
