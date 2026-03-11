@@ -402,25 +402,28 @@
                     continue;
                 }
 
-                if($responserequestsignquicksign['auth_response'][0]['url']!=null){
-                    $statusColor = "red";
-                    $statusMsg   = $responserequestsignquicksign['message'];
-                }else{
-                    $statusColor = "green";
-                    $statusMsg   = $responserequestsignquicksign['message'];
+                if($responserequestsignquicksign['success']===true){
+                    if($responserequestsignquicksign['auth_response'][0]['url']!=null){
+                        $statusColor = "red";
+                        $statusMsg   = $responserequestsignquicksign['message'];
+                    }else{
+                        $statusColor = "green";
+                        $statusMsg   = $responserequestsignquicksign['message'];
 
-                    $datasimpanhd                     = [];
-                    $datasimpanhd['status_sign']      = "3";
-                    $datasimpanhd['quick_sign']       = "2";
-                    $datasimpanhd['request_id']       = $requestid;
-                    $datasimpanhd['response']         = $responserequestsignquicksign['message'];
-                    $datasimpanhd['requestsign_date'] = date('Y-m-d H:i:s');
+                        $datasimpanhd                     = [];
+                        $datasimpanhd['status_sign']      = "3";
+                        $datasimpanhd['quick_sign']       = "2";
+                        $datasimpanhd['request_id']       = $requestid;
+                        $datasimpanhd['response']         = $responserequestsignquicksign['message'];
+                        $datasimpanhd['requestsign_date'] = date('Y-m-d H:i:s');
 
-                    $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                        $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                    }
+
+                    echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    continue;
                 }
-
-                echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-                continue;
+                
             }
         }
 
