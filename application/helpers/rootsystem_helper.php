@@ -220,7 +220,7 @@
             if (filter_var($locationFile, FILTER_VALIDATE_URL)) {
 
                 // Folder temp project
-                $tempDir = FCPATH . 'assets/document/temp/';
+                $tempDir = FCPATH . 'assets/temp/';
                 if (!is_dir($tempDir)) {
                     mkdir($tempDir, 0777, true);
                 }
@@ -363,7 +363,7 @@
         if (filter_var($destinationFolder, FILTER_VALIDATE_URL)) {
 
             // Folder temp di project
-            $tempDir = FCPATH . 'assets/document/temp/';
+            $tempDir = FCPATH . 'assets/temp/';
             if (!is_dir($tempDir)) mkdir($tempDir, 0777, true);
 
             // Temp file di project
