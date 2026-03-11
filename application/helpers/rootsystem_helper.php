@@ -415,8 +415,6 @@
         $fullPath = $destinationFolder . $mainName;
         file_put_contents($fullPath, $fileData);
 
-        
-
         return [
             'success' => true,
             'message' => 'File saved locally',

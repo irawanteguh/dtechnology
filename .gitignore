@@ -36,6 +36,9 @@ assets/documentlegal/*
 assets/document/*
 !assets/document/index.html
 
+assets/temp/*
+!assets/temp/index.html
+
 assets/documentpo/*
 !assets/documentpo/index.html
 

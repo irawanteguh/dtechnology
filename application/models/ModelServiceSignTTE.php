@@ -65,7 +65,7 @@
                         and   a.provider_sign='Tilaka'
                         group by a.transaksi_id
                         order by requestsign_date asc
-                        limit 50;
+                        limit 20;
                     ";
 
             $recordset = $this->db->query($query);
