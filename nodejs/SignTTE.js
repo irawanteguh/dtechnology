@@ -72,30 +72,9 @@ async function callAPI(endpoint, method = "GET", body = null) {
         const text = await response.text();
 
 
-        if (!response.ok) {
-            const match = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
-            const errorMsg = match ? match[1].trim() : response.statusText;
-
-            console.log(
-                formatLog(
-                    getTimeStamp(),
-                    method,
-                    endpoint,
-                    response.status,
-                    response.statusText,
-                    { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
-                    { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
-                )
-            );
-
-            console.log(chalk.red("*".repeat(lebar)));
-            console.log(chalk.red(errorMsg));
-            console.log(chalk.red("*".repeat(lebar)));
-            
-            return;
-        }
-
         // if (!response.ok) {
+        //     const match = text.match(/<strong>Message:<\/strong>\s*([^<]+)/i);
+        //     const errorMsg = match ? match[1].trim() : response.statusText;
 
         //     console.log(
         //         formatLog(
@@ -103,16 +82,37 @@ async function callAPI(endpoint, method = "GET", body = null) {
         //             method,
         //             endpoint,
         //             response.status,
-        //             response.statusText
+        //             response.statusText,
+        //             { ts: 40, method: 10, endpoint: 30, status: 12 }, // custom width
+        //             { ts: "white", method: "yellow", endpoint: "yellow", status: "auto", message: "auto" } // custom warna
         //         )
         //     );
 
         //     console.log(chalk.red("*".repeat(lebar)));
-        //     console.log(chalk.red(text)); // tampilkan full response
+        //     console.log(chalk.red(errorMsg));
         //     console.log(chalk.red("*".repeat(lebar)));
-
+            
         //     return;
         // }
+
+        if (!response.ok) {
+
+            console.log(
+                formatLog(
+                    getTimeStamp(),
+                    method,
+                    endpoint,
+                    response.status,
+                    response.statusText
+                )
+            );
+
+            console.log(chalk.red("*".repeat(lebar)));
+            console.log(chalk.red(text)); // tampilkan full response
+            console.log(chalk.red("*".repeat(lebar)));
+
+            return;
+        }
 
         try{
             const data = JSON.parse(text);
@@ -166,9 +166,9 @@ async function callAPI(endpoint, method = "GET", body = null) {
 
 async function runservices() {
     await callAPI("datatransaksi", "POST"); 
-    await callAPI("uploadfile", "POST");
-    await callAPI("requestquicksign", "POST");
-    await callAPI("statussignquicksign", "GET");
+    // await callAPI("uploadfile", "POST");
+    // await callAPI("requestquicksign", "POST");
+    // await callAPI("statussignquicksign", "GET");
 }
 
 async function runservicesSafe() {

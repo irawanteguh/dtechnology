@@ -4,18 +4,23 @@
         function datatransaksi(){
             $query =
                     "
-                        SELECT distinct 
-                            a.org_id,
-                            a.no_file,
-                            a.assign,
-                            a.pasien_idx,
-                            a.transaksi_idx,
-                            a.source_file,
-                            a.jenis_doc
+                        SELECT  a.org_id,
+                                a.no_file,
+                                a.assign,
+                                a.pasien_idx,
+                                a.transaksi_idx,
+                                a.source_file,
+                                a.jenis_doc
                         FROM dt01_gen_document_file_dt a
+                        JOIN (
+                            SELECT no_file
+                            FROM dt01_gen_document_file_dt
+                            GROUP BY no_file
+                            HAVING COUNT(*) = 1
+                        ) b ON a.no_file = b.no_file
                         WHERE a.active = '1'
                         AND   a.assign <> ''
-                        AND   a.status_sign='0'
+                        AND   a.status_sign = '0'
                         LIMIT 10;
                     ";
 
