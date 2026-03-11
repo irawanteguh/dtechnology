@@ -147,6 +147,7 @@
                 }
 
                 $responseuploadfile = TilakaPlus::uploadfile($filedirectory);
+                return var_dump($responseuploadfile);
 
                 if(!isset($responseuploadfile['success'])){
                     $statusColor = "red";
