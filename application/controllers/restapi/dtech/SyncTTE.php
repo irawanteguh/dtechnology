@@ -51,7 +51,7 @@
                 $data['org_id']           = $a->org_id;
                 $data['no_file']          = $a->no_file;
                 $data['signer_id']        = $a->assign;
-                $data['jenis_doc']        = $a->jenisdocument;
+                $data['jenis_doc']        = $a->jenis_doc;
                 $data['note_1']           = $a->pasien_idx;
                 $data['note_2']           = $a->transaksi_idx;
                 $data['from_in']          = $a->source_file;
