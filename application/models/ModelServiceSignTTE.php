@@ -46,7 +46,7 @@
                         and   a.quick_sign in ('0','2')
                         group by a.transaksi_id
                         order by upload_date asc
-                        limit 10;
+                        limit 20;
                     ";
 
             $recordset = $this->db->query($query);
@@ -65,7 +65,7 @@
                         and   a.provider_sign='Tilaka'
                         group by a.transaksi_id
                         order by requestsign_date asc
-                        limit 10;
+                        limit 50;
                     ";
 
             $recordset = $this->db->query($query);
