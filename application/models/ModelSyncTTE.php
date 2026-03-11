@@ -4,15 +4,29 @@
         function datatransaksi(){
             $query =
                     "
-                        select a.org_id, no_file, assign, pasien_idx, transaksi_idx, source_file,
-                            (select document_name from dt01_gen_document_ms where jenis_doc=a.jenis_doc)jenisdocument
-                        from dt01_gen_document_file_dt a
-                        where a.active='1'
-                        and   a.assign<>''
-                        and   a.status_sign in ('1','0')
-                        and   a.no_file not in (select no_file from dt01_sign_document_dt)
-                        order by created_date desc
-                        limit 10;
+                        SELECT 
+                            a.org_id,
+                            a.no_file,
+                            a.assign,
+                            a.pasien_idx,
+                            a.transaksi_idx,
+                            a.source_file,
+                            b.document_name AS jenisdocument
+                        FROM dt01_gen_document_file_dt a
+                        LEFT JOIN dt01_gen_document_ms b 
+                            ON b.jenis_doc = a.jenis_doc
+                        WHERE a.active = '1'
+                        AND   a.assign <> ''
+                        AND   a.status_sign IN ('1','0')
+                        AND   a.created_date >= DATE_FORMAT(NOW(), '%Y-%m-01')
+                        AND   a.created_date <  DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH), '%Y-%m-01')
+                        AND   NOT EXISTS (
+                                SELECT 1
+                                FROM dt01_sign_document_dt c
+                                WHERE c.no_file = a.no_file
+                        )
+                        ORDER BY a.created_date DESC
+                        LIMIT 10;
                     ";
 
             $recordset = $this->db->query($query);
