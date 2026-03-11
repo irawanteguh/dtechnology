@@ -106,7 +106,6 @@
                 }else{
                     $filedirectory = $storage.$a->no_file.".pdf";
                 }
-                
 
                 if($a->useridentifier===null || $a->useridentifier===""){
                     $statusColor = "red";
@@ -240,7 +239,6 @@
                     $mainName      = $a->no_file.".pdf";
                 }
                 
-
                 if($a->signature_type === "Default" || $a->signature_type === "Custom"){
                     $logo = FCPATH."assets/images/clients/".$a->org_id.".png";
 
@@ -294,7 +292,12 @@
                     $userIdentifier = $uidArr[$i];
                     $name           = $nameArr[$i];
                     $email          = $emailArr[$i];
-                    $position       = '$'.$i;
+                    if(TYPETAG==="Array"){
+                        $position = '$'.$i;
+                    }else{
+                        $position = '<<'.$assignArr[$i].'>>';
+                    }
+                    
 
                     $signatures['email']           = $email;
                     $signatures['user_identifier'] = $userIdentifier;
@@ -391,12 +394,12 @@
 
                 if($responserequestsignquicksign['auth_response'][0]['url']!=null){
                     $statusColor = "red";
-                    $statusMsg   = $responserequestsignquicksign['message']."-x";
+                    $statusMsg   = $responserequestsignquicksign['message'];
                 }else{
                     $statusColor = "green";
                     $statusMsg   = $responserequestsignquicksign['message'];
 
-                    $datasimpanhd                = [];
+                    $datasimpanhd                     = [];
                     $datasimpanhd['status_sign']      = "3";
                     $datasimpanhd['quick_sign']       = "2";
                     $datasimpanhd['request_id']       = $requestid;
