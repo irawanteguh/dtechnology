@@ -34,7 +34,7 @@
             */
             if (filter_var($location, FILTER_VALIDATE_URL)) {
 
-                $tempDir = FCPATH . 'assets/document/temp/';
+                $tempDir = FCPATH . 'assets/temp/';
 
                 if (!is_dir($tempDir)) {
                     mkdir($tempDir, 0777, true);
