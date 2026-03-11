@@ -25,7 +25,6 @@
                                 FROM dt01_sign_document_dt c
                                 WHERE c.no_file = a.no_file
                         )
-                        ORDER BY a.created_date DESC
                         LIMIT 10;
                     ";
 
