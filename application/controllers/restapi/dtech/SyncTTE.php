@@ -65,6 +65,9 @@
                     $statusColor = "green";
                     $statusMsg   = "Success";
 
+                    $dataupdate['status_sign']='x';
+                    $this->md->updatedocument($dataupdate,$a->no_file);
+
                     echo formatlog($a->no_file.".pdf",$a->assign,$statusMsg,'white','green',$statusColor);
                 }else{
                     $statusColor = "red";
