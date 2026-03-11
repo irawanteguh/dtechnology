@@ -391,6 +391,12 @@
                         $datasimpanhd['response']    = $responserequestsignquicksign['message'];
                         $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                     }
+
+                    if (strpos(strtolower($statusMsg), 'tidak memiliki sertifikat yang Aktif') !== false) {
+                        $datasimpanhd['status_sign'] = "97";
+                        $datasimpanhd['response']    = $responserequestsignquicksign['message'];
+                        $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                    }
                     
                     if (strpos(strtolower($statusMsg), 'tidak bisa melakukan quicksign') !== false) {
                         $datasimpanhd['quick_sign'] = "1";
