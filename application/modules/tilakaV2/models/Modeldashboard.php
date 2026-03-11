@@ -40,7 +40,7 @@
                             a.assign,
                             u.name,
                             COUNT(a.no_file) AS jml
-                        FROM dt01_gen_document_file_dt a
+                        FROM dt01_sign_document_dt a
                         LEFT JOIN dt01_gen_user_data u
                             ON u.nik = a.assign
                         WHERE a.active = '1'
@@ -65,7 +65,7 @@
             $query =
                     "
                         select a.status_sign, count(no_file)jml
-                        from dt01_gen_document_file_dt a
+                        from dt01_sign_document_dt a
                         where a.active='1'
                         and   a.status_file='1'
                         and   a.assign<>''
