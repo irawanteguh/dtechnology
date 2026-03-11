@@ -11,7 +11,7 @@
                         and   a.assign<>''
                         and   a.status_sign in ('1','0')
                         and   a.no_file not in (select no_file from dt01_sign_document_dt)
-                        limit 20;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);

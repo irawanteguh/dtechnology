@@ -24,7 +24,7 @@
                         from dt01_sign_document_dt a
                         where a.status_sign='0'
                         and   a.provider_sign='Tilaka'
-                        limit 20;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
