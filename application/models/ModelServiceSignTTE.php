@@ -41,7 +41,6 @@
                                 (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname
                         from dt01_sign_document_dt a
                         where a.status_sign='1'
-                        and a.signer_id='2101366'
                         and   a.provider_sign='Tilaka'
                         and   a.type_of='Signature'
                         and   a.quick_sign in ('0','2')
