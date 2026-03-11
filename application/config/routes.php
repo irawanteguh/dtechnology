@@ -24,9 +24,10 @@
     $route['kycliststatus']               = 'restapi/mekari/Kyc/kycliststatus';
     $route['kyc']                         = 'webhook/mekari/Kyc/kyc';
 
-    $route['uploadfile']       = 'restapi/tte/ServiceSignTTE/uploadfile';
-    $route['requestquicksign'] = 'restapi/tte/ServiceSignTTE/requestquicksign';
-    $route['statussignquicksign']       = 'restapi/tte/ServiceSignTTE/statussignquicksign';
+    $route['uploadfile']          = 'restapi/tte/ServiceSignTTE/uploadfile';
+    $route['requestquicksign']    = 'restapi/tte/ServiceSignTTE/requestquicksign';
+    $route['requestregulersign']  = 'restapi/tte/ServiceSignTTE/requestregulersign';
+    $route['statussignquicksign'] = 'restapi/tte/ServiceSignTTE/statussignquicksign';
    
    
     $route['403_override']         = 'errors/error_403';

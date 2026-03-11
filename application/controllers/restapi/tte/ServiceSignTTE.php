@@ -253,11 +253,15 @@
                     $logo = FCPATH."assets/images/clients/".$a->org_id.".png";
 
                     if(!fileExists($logo)['status']){
-                        $statusColor = "red";
-                        $statusMsg   = "Logo Client Tidak Di Temukan";
+                        $logo = FCPATH."assets/images/clients/dtechnology.png";
 
-                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-                        return;
+                        if(!fileExists($logo)['status']){
+                            $statusColor = "red";
+                            $statusMsg   = "Logo Client Tidak Di Temukan";
+
+                            echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            return;
+                        }
                     }
 
                     foreach ($assignArr as $i => $nik){
@@ -265,7 +269,6 @@
                         $name           = $nameArr[$i];
                         $rawImages[]    = getQRCode($a->signature_field, $logo);
                     }
-                    
                 }
 
                 if(!fileExists($filedirectory)['status']){
@@ -302,6 +305,7 @@
                     $userIdentifier = $uidArr[$i];
                     $name           = $nameArr[$i];
                     $email          = $emailArr[$i];
+
                     if(TYPETAG==="Array"){
                         $position = '$'.$i;
                     }else{
@@ -315,6 +319,8 @@
                     $signatures['signature_image'] = "data:image/png;base64,".$rawImages[$i];
 
                     if(SIGNATUREPOSITION==="Fixed"){
+                        $signatureslist = [];
+
                         $signatureslist['user_identifier'] = $userIdentifier;
                         $signatureslist['location']        = $a->orgname;
                         $signatureslist['width']           = floatval(WIDTH);
@@ -434,6 +440,184 @@
                     continue;
                 }
                 
+            }
+        }
+
+        public function requestregulersign_POST(){
+            $resultrequestregulersign = $this->md->requestregulersign();
+
+            if(empty($resultrequestregulersign)){
+                echo color('red')."Data Tidak Ditemukan";
+                return;
+            }
+
+            foreach($resultrequestregulersign as $a){
+                $responserequestsignreguler = [];
+                $body                       = [];
+                $signatures                 = [];
+                $rawImages                  = [];
+                $assignArr                  = [];
+                $uidArr                     = [];
+                $nameArr                    = [];
+                $emailArr                   = [];
+                $statusColor                = "";
+                $statusMsg                  = "";
+                
+
+                $requestid = generateuuid();
+                $assignArr = array_values(array_filter(explode(';',$a->signer_id)));
+                $uidArr    = array_values(array_filter(explode(';',$a->useridentifier)));
+                $nameArr   = array_values(array_filter(explode(';',$a->name)));
+                $emailArr  = array_values(array_filter(explode(';',$a->email)));
+
+                if($a->signature_type === "Default" || $a->signature_type === "Custom"){
+                    $logo = FCPATH."assets/images/clients/".$a->org_id.".png";
+
+                    if(!fileExists($logo)['status']){
+                        $logo = FCPATH."assets/images/clients/dtechnology.png";
+
+                        if(!fileExists($logo)['status']){
+                            $statusColor = "red";
+                            $statusMsg   = "Logo Client Tidak Di Temukan";
+
+                            echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            return;
+                        }
+                    }
+
+                    foreach ($assignArr as $i => $nik){
+                        $userIdentifier = $uidArr[$i];
+                        $name           = $nameArr[$i];
+                        $rawImages[]    = getQRCode($a->signature_field, $logo);
+                    }
+                }
+
+                $resultrequestregulersigndetail = $this->md->requestregulersigndetail($a->signer_id);
+
+                if(empty($resultrequestregulersigndetail)){
+                    echo color('red')."Detail File Tidak Ditemukan";
+                    return;
+                }
+
+                $signatures['user_identifier'] = $userIdentifier;
+                $signatures['signature_image'] = "data:image/png;base64,".$rawImages[$i];
+                
+                $body['request_id']   = $requestid;
+                $body['signatures'][] = $signatures;
+
+                foreach($resultrequestregulersigndetail as $files){
+                    $listsignatures = [];
+                    $filedirectory  = "";
+                    $mainName       = "";
+
+                    $lastcoordinate_x = floatval(COORDINATE_X);
+
+                    foreach ($assignArr as $i => $nik){
+                        $userIdentifier = $uidArr[$i];
+                        $name           = $nameArr[$i];
+                        $email          = $emailArr[$i];
+
+                        if(TYPETAG==="Array"){
+                            $position = '$'.$i;
+                        }else{
+                            $position = '<<'.$assignArr[$i].'>>';
+                        }
+                        
+                        if(SIGNATUREPOSITION==="Fixed"){
+                            $signatureslist                    = [];
+                            $signatureslist['user_identifier'] = $userIdentifier;
+                            $signatureslist['location']        = $files->orgname;
+                            $signatureslist['width']           = floatval(WIDTH);
+                            $signatureslist['height']          = floatval(HEIGHT);
+                            $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                            $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                            $signatureslist['page_number']     = floatval(PAGE);
+                            $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
+
+                            $listsignatures[] = $signatureslist;
+                            $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
+                        }else{
+                            $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
+
+                            if(!empty($specimentposition['data']['content'][$position])){
+                                foreach($specimentposition['data']['content'][$position] as $specimen){
+                                    $signatureslist = [];
+                                    if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
+                                        $signatureslist['user_identifier'] = $userIdentifier;
+                                        $signatureslist['location']        = $files->orgname;
+                                        $signatureslist['width']           = floatval(WIDTH);
+                                        $signatureslist['height']          = floatval(HEIGHT);
+                                        $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
+                                        $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
+                                        $signatureslist['page_number']     = floatval($specimen['page']);
+                                        $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
+                                    }
+
+                                    $listsignatures[] = $signatureslist;
+                                }
+                            }else{
+                                $signatureslist                    = [];
+                                $signatureslist['user_identifier'] = $userIdentifier;
+                                $signatureslist['location']        = $a->orgname;
+                                $signatureslist['width']           = floatval(WIDTH);
+                                $signatureslist['height']          = floatval(HEIGHT);
+                                $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                                $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                                $signatureslist['page_number']     = floatval(PAGE);
+                                $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
+
+                                $listsignatures[] = $signatureslist;
+                                $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
+                            }
+                        }
+                    }
+
+                    $listpdf['filename']   = $files->filename;
+                    $listpdf['signatures'] = $listsignatures;
+
+                    $body['list_pdf'][]   = $listpdf;
+                }
+
+                $responserequestsignreguler = TilakaPlus::requestsignreguler(json_encode($body));
+
+                if(!isset($responserequestsignreguler['success'])){
+                    $statusColor = "red";
+                    $statusMsg   = "No Response From Tilaka Lite";
+
+                    echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    continue;
+                }
+
+                if($responserequestsignreguler['success']===true){
+                    $statusColor = "green";
+                    $statusMsg   = $responserequestsignreguler['message'];
+
+                    $datasimpanhd                     = [];
+                    $datasimpanhd['status_sign']      = "2";
+                    $datasimpanhd['request_id']       = $requestid;
+                    $datasimpanhd['response']         = $responserequestsignreguler['message'];
+                    $datasimpanhd['url']              = $responserequestsignreguler['auth_urls'][0]['url'];
+                    $datasimpanhd['requestsign_date'] = date('Y-m-d H:i:s');
+
+                    foreach($resultrequestregulersigndetail as $saves){
+                        $filedirectory  = "";
+                        $mainName       = "";
+
+                        if($saves->from_in==="Dtechnology"){
+                            $filedirectory = $saves->storage_in.$saves->transaksi_id.".pdf";
+                            $mainName      = $saves->transaksi_id.".pdf";
+                        }else{
+                            $filedirectory = $saves->storage_in.$saves->no_file.".pdf";
+                            $mainName      = $saves->no_file.".pdf";
+                        }
+                        
+                        $this->md->updatedocument($datasimpanhd,$saves->transaksi_id);
+                    }
+                    
+
+                    echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    continue;
+                }
             }
         }
 

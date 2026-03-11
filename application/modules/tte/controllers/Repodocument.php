@@ -14,17 +14,13 @@
 		public function index(){
             $data = $this->loadcombobox();
 
-            if(isset($_GET['datatransaksi']) && isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
+            if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
                 if($_GET['status']==="Sukses"){
                     $data     = [];
                     $datauser = [];
 
-                    $data['status_sign'] = "3";
-                    $data['quick_sign']  = "0";
-                    $this->md->updatedocument($data,$_GET['datatransaksi']);
-
-                    $datauser['quick_sign']      = "R";
-                    $this->md->updatedatauseridentifier($datauser,$_GET['user_identifier']);
+                    $data['status_sign'] = "4";
+                    $this->md->updatedocument($data,$_GET['request_id']);
 
                     redirect("tte/repodocument",$data);
                 }

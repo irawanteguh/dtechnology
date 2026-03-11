@@ -54,6 +54,42 @@
             return $recordset;
         }
 
+        function requestregulersign(){
+            $query =
+                    "
+                        select distinct a.org_id, signer_id, user_identifier useridentifier, from_in, storage_in, signature_type, signature_field,
+                            (select name from dt01_gen_user_data where nik=a.signer_id)name,
+                            (select email from dt01_gen_user_data where nik=a.signer_id)email
+                        from dt01_sign_document_dt a
+                        where a.active='1'
+                        and   a.status_sign='1'
+                        and   a.quick_sign='1'
+                        limit 1;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function requestregulersigndetail($signerid){
+            $query =
+                    "
+                        select a.transaksi_id, no_file, filename, from_in, storage_in,
+                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname
+                        from dt01_sign_document_dt a
+                        where a.active='1'
+                        and   a.status_sign='1'
+                        and   a.quick_sign='1'
+                        and   a.signer_id='".$signerid."'
+                        limit 2;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
         function statussignquicksign(){
             $query =
                     "

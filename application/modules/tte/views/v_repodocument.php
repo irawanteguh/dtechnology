@@ -16,6 +16,9 @@
 							<a class="nav-link text-muted active" data-bs-toggle="tab" href="#alldocument">All Document</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link text-muted" data-bs-toggle="tab" href="#otpdocument">Waiting OTP</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link text-muted" data-bs-toggle="tab" href="#voiddocument">Void</a>
 						</li>
 						<li class="nav-item">
@@ -47,6 +50,32 @@
 									</tr>
 								</thead>
 								<tbody class="text-gray-600 fw-bold" id="resultdatadocumentall"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="otpdocument" role="tabpanel">
+		<div class="row gy-5 g-xl-8 mb-xl-8">
+			<div class="col-xl-12">
+				<div class="card card-flush">
+					<div class="card-body p-8">
+						<div class="table-responsive">
+							<table class="table align-middle table-row-dashed fs-8 gy-2">
+								<thead>
+									<tr class="fw-bolder text-muted bg-light align-middle">
+										<th class="ps-4 rounded-start">#</th>
+										<th>Document Information</th>
+										<th>Information</th>
+										<th>Signer Id</th>
+										<th>Status</th>
+										<th>Created</th>
+										<th class="pe-4 text-end rounded-end">Actions</th>
+									</tr>
+								</thead>
+								<tbody class="text-gray-600 fw-bold" id="resultdatadocumentotp"></tbody>
 							</table>
 						</div>
 					</div>

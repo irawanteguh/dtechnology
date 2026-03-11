@@ -102,12 +102,14 @@ function alldocument(){
             $("#resultdatadocumentall").html("");
             $("#resultdatadocumentvoid").html("");
             $("#resultdatadocumentfailed").html("");
+            $("#resultdatadocumentotp").html("");
         },
         success:function(data){
 
             let tableAll    = "";
             let tableVoid   = "";
             let tableFailed = "";
+            let tableOTP    = "";
 
             if(data.responCode==="00"){
                 let result = data.responResult;
@@ -115,6 +117,7 @@ function alldocument(){
                 let noAll    = 1;
                 let noVoid   = 1;
                 let noFailed = 1;
+                let noOTP    = 1;
                 let filePath = "";
 
                 for(let i in result){
@@ -186,6 +189,11 @@ function alldocument(){
                         row += "<i class='bi bi-trash3 text-danger'></i> Void</a>";
                     }
 
+                    if(result[i].status_sign==="2"){
+                        row += "<a class='dropdown-item btn btn-sm text-info' href='"+result[i].url+"&redirect_url="+url+"index.php/tte/repodocument'>";
+                        row += "<i class='bi bi-fingerprint text-info'></i> Request OTP</a>";
+                    }
+
                     if(result[i].status_sign==="80" || result[i].status_sign==="99"){
                         row += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" onclick='resend($(this));'>";
                         row += "<i class='bi bi-arrow-counterclockwise text-info'></i> Resend</a>";
@@ -198,34 +206,44 @@ function alldocument(){
                     // PEMISAHAN STATUS
                     // ============================
 
-                    if(result[i].status_sign === "80"){
-                        tableVoid += row.replace(
-                            "<td class='ps-4 text-start'></td>",
-                            "<td class='ps-4 text-start'>"+noVoid+"</td>"
-                        );
-                        noVoid++;
-                    } else {
-                        if(result[i].status_sign === "95" || result[i].status_sign === "96" || result[i].status_sign === "98" || result[i].status_sign === "99"){
-                            tableFailed += row.replace(
+                    if(result[i].status_sign === "2"){
+                            tableOTP += row.replace(
                                 "<td class='ps-4 text-start'></td>",
-                                "<td class='ps-4 text-start'>"+noFailed+"</td>"
+                                "<td class='ps-4 text-start'>"+noOTP+"</td>"
                             );
-                            noFailed++;
-                        }else{
-                            tableAll += row.replace(
+                            noOTP++;
+                    }else{
+                        if(result[i].status_sign === "80"){
+                            tableVoid += row.replace(
                                 "<td class='ps-4 text-start'></td>",
-                                "<td class='ps-4 text-start'>"+noAll+"</td>"
+                                "<td class='ps-4 text-start'>"+noVoid+"</td>"
                             );
-                            noAll++;
+                            noVoid++;
+                        } else {
+                            if(result[i].status_sign === "95" || result[i].status_sign === "96" || result[i].status_sign === "98" || result[i].status_sign === "99"){
+                                tableFailed += row.replace(
+                                    "<td class='ps-4 text-start'></td>",
+                                    "<td class='ps-4 text-start'>"+noFailed+"</td>"
+                                );
+                                noFailed++;
+                            }else{
+                                tableAll += row.replace(
+                                    "<td class='ps-4 text-start'></td>",
+                                    "<td class='ps-4 text-start'>"+noAll+"</td>"
+                                );
+                                noAll++;
+                            }
+                            
                         }
-                        
                     }
+                    
                 }
             }
 
             $("#resultdatadocumentall").html(tableAll);
             $("#resultdatadocumentvoid").html(tableVoid);
             $("#resultdatadocumentfailed").html(tableFailed);
+            $("#resultdatadocumentotp").html(tableOTP);
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
