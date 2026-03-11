@@ -147,15 +147,24 @@
                 }
 
                 $responseuploadfile = TilakaPlus::uploadfile($filedirectory);
-                return var_dump($responseuploadfile);
 
                 if(!isset($responseuploadfile['success'])){
-                    $statusColor = "red";
-                    $statusMsg   = $responseuploadfile['error']." [ ".$responseuploadfile['path']." ]";
+                    if($responseuploadfile['status']===false){
+                        $statusColor = "red";
+                        $statusMsg   = $responseuploadfile['message'];
 
-                    echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-                    continue;
+                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                        continue;
+                    }else{
+                        $statusColor = "red";
+                        $statusMsg   = $responseuploadfile['error']." [ ".$responseuploadfile['path']." ]";
+
+                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                        continue;
+                    }
                 }
+
+                
 
                 if($responseuploadfile['success']===false){
                     $statusColor = "red";
