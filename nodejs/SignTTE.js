@@ -166,9 +166,9 @@ async function callAPI(endpoint, method = "GET", body = null) {
 
 async function runservices() {
     await callAPI("datatransaksi", "POST"); 
-    // await callAPI("uploadfile", "POST");
-    // await callAPI("requestquicksign", "POST");
-    // await callAPI("statussignquicksign", "GET");
+    await callAPI("uploadfile", "POST");
+    await callAPI("requestquicksign", "POST");
+    await callAPI("statussignquicksign", "GET");
 }
 
 async function runservicesSafe() {
