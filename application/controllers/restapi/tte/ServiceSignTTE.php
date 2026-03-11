@@ -511,24 +511,18 @@
                             $filename    = $listpdfs['filename'];
                             $pos         = strpos($filename, '_');
                             $mainName    = ($pos !== false) ? substr($filename, $pos + 1) : $filename;
+                            
                             if($a->storage_out===null){
                                 $fileContent = downloadAndSave($listpdfs['presigned_url'],STORAGESIGN,$mainName);
                             }else{
                                 $fileContent = downloadAndSave($listpdfs['presigned_url'],$a->storage_out,$mainName);
                             }
-                            
 
-                            if ($fileContent === false) {
+                            if (!is_array($fileContent) || !isset($fileContent['success']) || $fileContent['success'] === false) {
                                 $statusColor = "red";
-                                $statusMsg   = "Download failed or file invalid";
-                                echo formatlog($a->transaksi_id, $a->useridentifier, $statusMsg, 'white', 'green', $statusColor);
-                                continue;
-                            }
+                                $statusMsg   = $fileContent['message'] ?? "Download failed or file invalid";
 
-                            if (isset($fileContent['success']) && $fileContent['success'] === false) {
-                                $statusColor = "red";
-                                $statusMsg   = $fileContent['message'] ?? 'Unknown error';
-                                echo formatlog($a->transaksi_id, $a->useridentifier, $statusMsg, 'white', 'green', $statusColor);
+                                echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                                 continue;
                             }
 

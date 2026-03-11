@@ -361,7 +361,6 @@
         ========================================
         */
         if (filter_var($destinationFolder, FILTER_VALIDATE_URL)) {
-
             // Folder temp di project
             $tempDir = FCPATH . 'assets/temp/';
             if (!is_dir($tempDir)) mkdir($tempDir, 0777, true);
@@ -415,6 +414,8 @@
 
         $fullPath = $destinationFolder . $mainName;
         file_put_contents($fullPath, $fileData);
+
+        
 
         return [
             'success' => true,

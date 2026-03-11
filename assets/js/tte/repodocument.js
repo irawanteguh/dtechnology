@@ -161,9 +161,8 @@ function alldocument(){
                     row += "<button type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown'>Action</button>";
                     row += "<div class='dropdown-menu'>";
 
-                    
                     if(result[i].status_sign==="5"){
-                        if(result[i].from_in="Dtechnology"){
+                        if(result[i].from_in==="Dtechnology"){
                             row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_out+result[i].transaksi_id+".pdf' onclick='viewdocwithoutnote(this)'>";
                             row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
                         }else{
@@ -171,7 +170,7 @@ function alldocument(){
                             row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
                         }
                     }else{
-                        if(result[i].from_in="Dtechnology"){
+                        if(result[i].from_in==="Dtechnology"){
                             row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_in+result[i].transaksi_id+".pdf' onclick='viewdocwithoutnote(this)'>";
                             row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
                         }else{
