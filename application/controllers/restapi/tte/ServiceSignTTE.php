@@ -387,6 +387,7 @@
                     $statusMsg   = $responserequestsignquicksign['message'];
 
                     if (stripos($statusMsg, "not available in bucket") !== false) {
+                        $datasimpanhd                = [];
                         $datasimpanhd['status_sign'] = "0";
                         $datasimpanhd['response']    = $responserequestsignquicksign['message'];
 
@@ -394,14 +395,16 @@
                     }
 
                     if (strpos(strtolower($statusMsg), 'tidak memiliki sertifikat yang aktif') !== false) {
+                        $datasimpanhd                = [];
                         $datasimpanhd['status_sign'] = "97";
                         $datasimpanhd['response']    = $responserequestsignquicksign['message'];
                         $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                     }
                     
                     if (strpos(strtolower($statusMsg), 'tidak bisa melakukan quicksign') !== false) {
+                        $datasimpanhd               = [];
                         $datasimpanhd['quick_sign'] = "1";
-                        $datasimpanhd['response']    = $responserequestsignquicksign['message'];
+                        $datasimpanhd['response']   = $responserequestsignquicksign['message'];
                         $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                     }
 
