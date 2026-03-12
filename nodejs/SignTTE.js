@@ -165,11 +165,14 @@ async function callAPI(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-    // await callAPI("datatransaksi", "POST"); 
-    // await callAPI("uploadfile", "POST");
-    // await callAPI("requestquicksign", "POST");
+    await callAPI("datatransaksi", "POST"); 
+    await callAPI("uploadfile", "POST");
+    await callAPI("requestquicksign", "POST");
     await callAPI("requestregulersign", "POST");
-    // await callAPI("statussignquicksign", "GET");
+    await callAPI("executesign", "POST");
+    await callAPI("statussignquicksign", "GET");
+    // await callAPI("generatedQRCode", "GET");
+    // await callAPI("listcompressfile", "POST");
 }
 
 async function runservicesSafe() {

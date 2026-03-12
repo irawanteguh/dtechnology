@@ -104,99 +104,97 @@ function alldocument(){
             $("#resultdatadocumentfailed").html("");
             $("#resultdatadocumentotp").html("");
         },
-        success:function(data){
+        success: function(data) {
 
             let tableAll    = "";
             let tableVoid   = "";
             let tableFailed = "";
             let tableOTP    = "";
 
-            if(data.responCode==="00"){
+            if (data.responCode === "00") {
                 let result = data.responResult;
 
                 let noAll    = 1;
                 let noVoid   = 1;
                 let noFailed = 1;
                 let noOTP    = 1;
+
                 let filePath = "";
+                let seenRequestOTP = new Set(); // untuk tracking request_id status_sign=2
 
-                for(let i in result){
-                    let getvariabel =   " datatransaksiid='"+result[i].transaksi_id+"'"+
-                                        " datafilelocation='"+filePath+"'";
+                for (let i in result) {
+                    // skip duplikat untuk status_sign = 2
+                    if (result[i].status_sign === "2") {
+                        if (seenRequestOTP.has(result[i].request_id)) continue;
+                        seenRequestOTP.add(result[i].request_id);
+                    }
 
-                    let row  = "";
+                    let getvariabel = " datatransaksiid='" + result[i].transaksi_id + "'" +
+                                    " datafilelocation='" + filePath + "'";
+
+                    let row = "";
                     row += "<tr>";
-                    row += "<td class='ps-4 text-start'>";
-
-                    // nomor akan diset nanti
-                    row += "</td>";
-
+                    row += "<td class='ps-4 text-start'></td>"; // nomor nanti
                     row += "<td>";
-                    row += "<div class='fw-bolder'>"+result[i].no_file+".pdf ";
+                    row += "<div class='fw-bolder'>" + result[i].no_file + ".pdf ";
                     row += "<i class='bi bi-info-circle-fill' data-bs-toggle='tooltip' data-bs-html='true' ";
                     row += "data-bs-custom-class='tooltip' data-bs-trigger='hover' data-bs-placement='right' ";
-                    row += "title='<div class=\"text-start\"><b>"+result[i].transaksi_id+"</b></div>'></i></div>";
+                    row += "title='<div class=\"text-start\"><b>" + result[i].transaksi_id + "</b></div>'></i></div>";
 
-                    if(result[i].jenis_doc){
+                    if (result[i].jenis_doc) {
                         let jenisArray = result[i].jenis_doc.split(";");
-
-                        for(let j = 0; j < jenisArray.length; j++){
-                            row += "<div class='badge badge-light-primary me-2 mb-1'>"+jenisArray[j].trim()+"</div>";
+                        for (let j = 0; j < jenisArray.length; j++) {
+                            row += "<div class='badge badge-light-primary me-2 mb-1'>" + jenisArray[j].trim() + "</div>";
                         }
-
                         row += "<br>";
                     }
 
-                    row += "<div class='badge badge-light-dark me-2'>"+(result[i].provider_sign || "Unknown Provider")+"</div>";
-                    row += "<div class='badge badge-light-info me-2'>"+(result[i].type_of || "Unknown Type Of Service")+"</div>";
-                    row += "<div class='badge badge-light-warning me-2'>"+(result[i].type_certificate || "Unknown Type Of Certificate")+"</div>";
+                    row += "<div class='badge badge-light-dark me-2'>" + (result[i].provider_sign || "Unknown Provider") + "</div>";
+                    row += "<div class='badge badge-light-info me-2'>" + (result[i].type_of || "Unknown Type Of Service") + "</div>";
+                    row += "<div class='badge badge-light-warning me-2'>" + (result[i].type_certificate || "Unknown Type Of Certificate") + "</div>";
                     row += `<div class='badge badge-light-success me-2'>${result[i].quick_sign == 0 ? '' : result[i].quick_sign == 1 ? "Reguler Sign" : result[i].quick_sign == 2 ? "Auto Sign" : "Undefined"}</div>`;
-                    row += "<div class='badge badge-light-danger me-2'>"+(result[i].from_in || "Unknown Source")+"</div>";
+                    row += "<div class='badge badge-light-danger me-2'>" + (result[i].from_in || "Unknown Source") + "</div>";
                     row += "</td>";
 
-                    row += "<td><div>"+(result[i].note_1 || "")+"</div><div>"+(result[i].note_2 || "")+"</div></td>";
-                    row += "<td><div>"+(result[i].name || "")+"</div><div>"+(result[i].email || "")+"</div></td>";
-                    row += "<td><div class='badge badge-light-"+result[i].colorstatus+"'>"+result[i].namestatus+"</div><div class='fst-italic'>"+(result[i].descriptionstatus || "")+"</div></td>";
-                    row += "<td><div>"+(result[i].dibuatoleh || "")+"</div><div>"+result[i].tglbuat+"</div></td>";
+                    row += "<td><div>" + (result[i].note_1 || "") + "</div><div>" + (result[i].note_2 || "") + "</div></td>";
+                    row += "<td><div>" + (result[i].name || "") + "</div><div>" + (result[i].email || "") + "</div></td>";
+                    row += "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div><div class='fst-italic'>" + (result[i].descriptionstatus || "") + "</div></td>";
+                    row += "<td><div>" + (result[i].dibuatoleh || "") + "</div><div>" + result[i].tglbuat + "</div></td>";
 
+                    // ===================================
+                    // Tombol dropdown
+                    // ===================================
                     row += "<td class='text-end'>";
                     row += "<div class='btn-group'>";
                     row += "<button type='button' class='btn btn-light-primary dropdown-toggle btn-sm' data-bs-toggle='dropdown'>Action</button>";
                     row += "<div class='dropdown-menu'>";
 
-                    if(result[i].status_sign==="5"){
-                        if(result[i].from_in==="Dtechnology"){
-                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_out+result[i].transaksi_id+".pdf' onclick='viewdocwithoutnote(this)'>";
-                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
-                        }else{
-                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_out+result[i].no_file+".pdf' onclick='viewdocwithoutnote(this)'>";
-                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
-                        }
-                    }else{
-                        if(result[i].from_in==="Dtechnology"){
-                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_in+result[i].transaksi_id+".pdf' onclick='viewdocwithoutnote(this)'>";
-                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
-                        }else{
-                            row += "<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='"+result[i].storage_in+result[i].no_file+".pdf' onclick='viewdocwithoutnote(this)'>";
-                            row += "<i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>";
-                        }
-                        
+                    // View Document
+                    let fileBtn = "";
+                    if (result[i].status_sign === "5") {
+                        fileBtn = result[i].from_in === "Dtechnology" ? result[i].storage_out + result[i].transaksi_id + ".pdf" : result[i].storage_out + result[i].no_file + ".pdf";
+                    } else {
+                        fileBtn = result[i].from_in === "Dtechnology" ? result[i].storage_in + result[i].transaksi_id + ".pdf" : result[i].storage_in + result[i].no_file + ".pdf";
                     }
-                    
+                    row += `<a class='dropdown-item btn btn-sm text-primary' data-bs-toggle='modal' data-bs-target='#modal_view_pdf' data-dirfile='${fileBtn}' onclick='viewdocwithoutnote(this)'>
+                                <i class='bi bi-file-earmark-pdf text-primary'></i> View Document</a>`;
 
-                    if(result[i].status_sign==="0"){
-                        row += "<a class='dropdown-item btn btn-sm text-danger' "+getvariabel+" onclick='voiddocument($(this));'>";
-                        row += "<i class='bi bi-trash3 text-danger'></i> Void</a>";
+                    // Void
+                    if (result[i].status_sign === "0") {
+                        row += `<a class='dropdown-item btn btn-sm text-danger' ${getvariabel} onclick='voiddocument($(this));'>
+                                    <i class='bi bi-trash3 text-danger'></i> Void</a>`;
                     }
 
-                    if(result[i].status_sign==="2"){
-                        row += "<a class='dropdown-item btn btn-sm text-info' href='"+result[i].url+"&redirect_url="+url+"index.php/tte/repodocument'>";
-                        row += "<i class='bi bi-fingerprint text-info'></i> Request OTP</a>";
+                    // Request OTP
+                    if (result[i].status_sign === "2") {
+                        row += `<a class='dropdown-item btn btn-sm text-info' href='${result[i].url}&redirect_url=${url}index.php/tte/repodocument'>
+                                    <i class='bi bi-fingerprint text-info'></i> Request OTP</a>`;
                     }
 
-                    if(result[i].status_sign==="80" || result[i].status_sign==="99"){
-                        row += "<a class='dropdown-item btn btn-sm text-info' "+getvariabel+" onclick='resend($(this));'>";
-                        row += "<i class='bi bi-arrow-counterclockwise text-info'></i> Resend</a>";
+                    // Resend
+                    if (result[i].status_sign === "80" || result[i].status_sign === "99") {
+                        row += `<a class='dropdown-item btn btn-sm text-info' ${getvariabel} onclick='resend($(this));'>
+                                    <i class='bi bi-arrow-counterclockwise text-info'></i> Resend</a>`;
                     }
 
                     row += "</div></div></td>";
@@ -205,40 +203,22 @@ function alldocument(){
                     // ============================
                     // PEMISAHAN STATUS
                     // ============================
-
-                    if(result[i].status_sign === "2"){
-                            tableOTP += row.replace(
-                                "<td class='ps-4 text-start'></td>",
-                                "<td class='ps-4 text-start'>"+noOTP+"</td>"
-                            );
-                            noOTP++;
-                    }else{
-                        if(result[i].status_sign === "80"){
-                            tableVoid += row.replace(
-                                "<td class='ps-4 text-start'></td>",
-                                "<td class='ps-4 text-start'>"+noVoid+"</td>"
-                            );
-                            noVoid++;
-                        } else {
-                            if(result[i].status_sign === "95" || result[i].status_sign === "96" || result[i].status_sign === "98" || result[i].status_sign === "99"){
-                                tableFailed += row.replace(
-                                    "<td class='ps-4 text-start'></td>",
-                                    "<td class='ps-4 text-start'>"+noFailed+"</td>"
-                                );
-                                noFailed++;
-                            }else{
-                                tableAll += row.replace(
-                                    "<td class='ps-4 text-start'></td>",
-                                    "<td class='ps-4 text-start'>"+noAll+"</td>"
-                                );
-                                noAll++;
-                            }
-                            
-                        }
+                    if (result[i].status_sign === "2") {
+                        tableOTP += row.replace("<td class='ps-4 text-start'></td>", "<td class='ps-4 text-start'>" + noOTP + "</td>");
+                        noOTP++;
+                    } else if (result[i].status_sign === "80") {
+                        tableVoid += row.replace("<td class='ps-4 text-start'></td>", "<td class='ps-4 text-start'>" + noVoid + "</td>");
+                        noVoid++;
+                    } else if (["95","96","98","99"].includes(result[i].status_sign)) {
+                        tableFailed += row.replace("<td class='ps-4 text-start'></td>", "<td class='ps-4 text-start'>" + noFailed + "</td>");
+                        noFailed++;
+                    } else {
+                        tableAll += row.replace("<td class='ps-4 text-start'></td>", "<td class='ps-4 text-start'>" + noAll + "</td>");
+                        noAll++;
                     }
-                    
-                }
-            }
+
+                } // end loop result
+            } // end if responCode
 
             $("#resultdatadocumentall").html(tableAll);
             $("#resultdatadocumentvoid").html(tableVoid);

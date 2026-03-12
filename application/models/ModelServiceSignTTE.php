@@ -64,7 +64,7 @@
                         where a.active='1'
                         and   a.status_sign='1'
                         and   a.quick_sign='1'
-                        limit 1;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -82,7 +82,7 @@
                         and   a.status_sign='1'
                         and   a.quick_sign='1'
                         and   a.signer_id='".$signerid."'
-                        limit 2;
+                        limit 50;
                     ";
 
             $recordset = $this->db->query($query);
@@ -93,15 +93,66 @@
         function statussignquicksign(){
             $query =
                     "
-                        select a.transaksi_id, request_id, user_identifier useridentifier, storage_out
+                        (
+                            SELECT 
+                                '2' AS jenis,
+                                a.transaksi_id,
+                                a.request_id,
+                                a.user_identifier AS useridentifier,
+                                a.storage_out,
+                                a.requestsign_date
+                            FROM dt01_sign_document_dt a
+                            WHERE a.active='1'
+                            AND a.status_sign='3'
+                            AND a.quick_sign='2'
+                            AND a.provider_sign='Tilaka'
+                        )
+                        UNION ALL
+                        (
+                            select distinct 
+                                '1' AS jenis,
+                                ''transaksi_id,
+                                a.request_id,
+                                a.user_identifier AS useridentifier,
+                                a.storage_out,
+                                a.requestsign_date
+                            FROM dt01_sign_document_dt a
+                            WHERE a.active='1'
+                            AND a.status_sign='6'
+                            AND a.quick_sign='1'
+                            AND a.provider_sign='Tilaka'
+                        )
+                        ORDER BY requestsign_date ASC
+                        LIMIT 20;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function listcompressfile(){
+            $query =
+                    "
+                        select a.transaksi_id, user_identifier useridentifier, from_in, storage_out, no_file
+                        from dt01_sign_document_dt a
+                        where a.no_file='202601310000660022501756'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function listexecute(){
+            $query =
+                    "
+                        select distinct a.request_id, user_identifier useridentifier
                         from dt01_sign_document_dt a
                         where a.active='1'
-                        and   a.status_sign='3'
-                        and   a.quick_sign='2'
-                        and   a.provider_sign='Tilaka'
-                        group by a.transaksi_id
-                        order by requestsign_date asc
-                        limit 20;
+                        and   a.quick_sign='1'
+                        and   a.status_sign='4'
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -111,6 +162,11 @@
 
         function updatedocument($data,$transaksiid){           
             $sql =   $this->db->update("dt01_sign_document_dt",$data,array("transaksi_id"=>$transaksiid));
+            return $sql;
+        }
+
+        function updatedocumentrequestid($data,$requestid){           
+            $sql =   $this->db->update("dt01_sign_document_dt",$data,array("request_id"=>$requestid));
             return $sql;
         }
         

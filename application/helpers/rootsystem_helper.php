@@ -423,6 +423,178 @@
         ];
     }
 
+    function compressPdf($filedirectory, $mainName) {
+
+        $localFile  = $filedirectory;
+        $isTempFile = false;
+        $tempCompress = "";
+
+        try {
+
+            /*
+            ========================================
+            JIKA FILE ADALAH URL
+            ========================================
+            */
+            if (filter_var($filedirectory, FILTER_VALIDATE_URL)) {
+
+                $tempDir = FCPATH . 'assets/temp/';
+                if (!is_dir($tempDir)) mkdir($tempDir, 0777, true);
+
+                if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
+                    $mainName .= ".pdf";
+                }
+
+                $localFile = $tempDir . $mainName;
+
+                // Download file via stream (untuk file besar)
+                $fp = fopen($localFile, 'w');
+                $ch = curl_init($filedirectory);
+                curl_setopt($ch, CURLOPT_FILE, $fp);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 600); // 10 menit untuk file besar
+                curl_exec($ch);
+                if (curl_errno($ch)) {
+                    fclose($fp);
+                    throw new Exception("Failed download PDF: " . curl_error($ch));
+                }
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+                fclose($fp);
+
+                if ($httpCode < 200 || $httpCode >= 300) {
+                    throw new Exception("URL returned HTTP code $httpCode");
+                }
+
+                $isTempFile = true; // tandai file temp dari URL
+            }
+
+            /*
+            ========================================
+            CEK FILE ADA
+            ========================================
+            */
+            if (!file_exists($localFile)) {
+                throw new Exception("File not found: " . $localFile);
+            }
+
+            /*
+            ========================================
+            SKIP FILE KECIL
+            ========================================
+            */
+            if (filesize($localFile) < 500000) {
+                return [
+                    'status' => true,
+                    'message'=> 'Skip compress (file kecil)',
+                    'file'   => $localFile,
+                    'before' => formatSize(filesize($localFile)),
+                    'after'  => formatSize(filesize($localFile)),
+                    'reduce' => '0%'
+                ];
+            }
+
+            /*
+            ========================================
+            SIZE SEBELUM COMPRESS
+            ========================================
+            */
+            $sizeBefore = filesize($localFile);
+            $tempCompress = $localFile . ".compress.pdf";
+
+            /*
+            ========================================
+            COMMAND GHOSTSCRIPT
+            ========================================
+            */
+            $gsPath = "/opt/homebrew/bin/gs"; // Path Ghostscript di Mac
+
+            if (!file_exists($gsPath)) {
+                throw new Exception("Ghostscript tidak ditemukan di path: $gsPath");
+            }
+
+            $tempDirGs = FCPATH . 'assets/temp/';
+            if (!is_dir($tempDirGs)) mkdir($tempDirGs, 0777, true);
+
+            $cmd = $gsPath .
+                " -sDEVICE=pdfwrite" .
+                " -dCompatibilityLevel=1.4" .
+                " -dPDFSETTINGS=/screen" .
+                " -dColorImageResolution=72" .
+                " -dGrayImageResolution=72" .
+                " -dMonoImageResolution=72" .
+                " -dNOPAUSE -dQUIET -dBATCH" .
+                " -sTEMP=" . escapeshellarg($tempDirGs) . // paksa Ghostscript pakai folder temp aplikasi
+                " -sOutputFile=" . escapeshellarg($tempCompress) .
+                " " . escapeshellarg($localFile);
+
+            // Jalankan Ghostscript
+            exec($cmd . " 2>&1", $output, $status);
+
+            if ($status !== 0 || !file_exists($tempCompress)) {
+                throw new Exception("Ghostscript error: " . implode(" ", $output));
+            }
+
+            /*
+            ========================================
+            SIZE SETELAH COMPRESS
+            ========================================
+            */
+            $sizeAfter = filesize($tempCompress);
+            $reduction = $sizeBefore > 0 ? round((($sizeBefore - $sizeAfter)/$sizeBefore)*100,2) : 0;
+
+            /*
+            ========================================
+            REPLACE FILE
+            ========================================
+            */
+            unlink($localFile); // hapus file asli
+            rename($tempCompress, $localFile); // rename hasil compress
+
+            return [
+                'status' => true,
+                'message'=> 'Compress success',
+                'file'   => $localFile,
+                'before' => formatSize($sizeBefore),
+                'after'  => formatSize($sizeAfter),
+                'reduce' => $reduction . "%"
+            ];
+
+        } catch (Exception $e) {
+
+            return [
+                'status'  => false,
+                'message' => $e->getMessage()
+            ];
+
+        } finally {
+
+            /*
+            ========================================
+            HAPUS TEMP FILE JIKA FILE URL
+            ========================================
+            */
+            // Hanya hapus file URL jika masih ada dan belum di replace
+            if ($isTempFile && file_exists($localFile) && (!isset($tempCompress) || !file_exists($tempCompress))) {
+                unlink($localFile);
+            }
+        }
+    }
+
+    /*
+    ========================================
+    HELPER FORMAT SIZE
+    ========================================
+    */
+    function formatSize($bytes) {
+        if ($bytes >= 1073741824) return number_format($bytes / 1073741824,2) . " GB";
+        if ($bytes >= 1048576) return number_format($bytes / 1048576,2) . " MB";
+        if ($bytes >= 1024) return number_format($bytes / 1024,2) . " KB";
+        return $bytes . " B";
+    }
+
     // function uploadToAapanel($filename, $binary){
     //     $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
     //     file_put_contents($tmp, $binary);

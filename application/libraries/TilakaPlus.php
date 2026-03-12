@@ -203,6 +203,32 @@
             return json_decode($response, true);
         }
 
+        public static function excutesign($body){
+            $oauthResponse = TilakaPlus::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $accessToken = $oauthResponse['access_token'];
+
+            $headers = [
+                "Content-Type: application/json",
+                "Authorization: Bearer {$accessToken}"
+            ];
+
+            $response = curl([
+                'url'     => TILAKALITE_URL . "api/v1/executesign",
+                'method'  => "POST",
+                'header'  => $headers,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-EXECUTE"
+            ]);
+
+            return json_decode($response, true);
+        }
+
         public static function statussign($body){
             $oauthResponse = TilakaPlus::oauth();
 

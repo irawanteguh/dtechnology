@@ -45,6 +45,14 @@
             headerlog();
         }
 
+        public function generatedQRCode_GET(){
+            $logo      = FCPATH."assets/images/clients/10c84edd-500b-49e3-93a5-a2c8cd2c8524.png";
+            $text      = SIGNATUREFIELD;
+            $rawImages[] = getQRCode($text, $logo);
+
+            return var_dump($rawImages);
+        }
+
         public function uploadfile_POST(){
             $resultuploaddocument = $this->md->uploaddocument();
 
@@ -312,7 +320,6 @@
                         $position = '<<'.$assignArr[$i].'>>';
                     }
                     
-
                     $signatures['email']           = $email;
                     $signatures['user_identifier'] = $userIdentifier;
                     $signatures['sequence']        = $i+1;
@@ -522,6 +529,36 @@
                         }else{
                             $position = '<<'.$assignArr[$i].'>>';
                         }
+
+                        if($a->from_in==="Dtechnology"){
+                            $filedirectory = $files->storage_in.$files->transaksi_id.".pdf";
+                        }else{
+                            $filedirectory = $files->storage_in.$files->no_file.".pdf";
+                        }
+
+                        if(!fileExists($filedirectory)['status']){
+                            $statusColor = "red";
+                            $statusMsg   = fileExists($filedirectory)['message'];
+
+                            // $datasimpanhd['status_sign'] = "99";
+                            // $datasimpanhd['response']    = $statusMsg;
+                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+
+                            echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            continue;
+                        }
+
+                        if(getFileSize($filedirectory)===0){
+                            $statusColor = "red";
+                            $statusMsg   = "File Corrupted";
+
+                            // $datasimpanhd['status_sign'] = "98";
+                            // $datasimpanhd['note']        = "File Corrupted";
+                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                            
+                            echo formatlog($$requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            continue;
+                        }
                         
                         if(SIGNATUREPOSITION==="Fixed"){
                             $signatureslist                    = [];
@@ -610,6 +647,30 @@
                             $filedirectory = $saves->storage_in.$saves->no_file.".pdf";
                             $mainName      = $saves->no_file.".pdf";
                         }
+
+                        if(!fileExists($filedirectory)['status']){
+                            $statusColor = "red";
+                            $statusMsg   = fileExists($filedirectory)['message'];
+
+                            // $datasimpanhd['status_sign'] = "99";
+                            // $datasimpanhd['response']    = $statusMsg;
+                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+
+                            echo formatlog($$requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            continue;
+                        }
+
+                        if(getFileSize($filedirectory)===0){
+                            $statusColor = "red";
+                            $statusMsg   = "File Corrupted";
+
+                            // $datasimpanhd['status_sign'] = "98";
+                            // $datasimpanhd['note']        = "File Corrupted";
+                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                            
+                            echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            continue;
+                        }
                         
                         $this->md->updatedocument($datasimpanhd,$saves->transaksi_id);
                     }
@@ -618,6 +679,56 @@
                     echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                     continue;
                 }
+            }
+        }
+
+        public function executesign_POST(){
+            $resultlistexecute = $this->md->listexecute();
+
+            if(empty($resultlistexecute)){
+                echo color('red')."Data Tidak Ditemukan";
+                return;
+            }
+
+            foreach($resultlistexecute as $a){
+                $responseexcutesign = [];
+                $body               = [];
+                $statusColor        = "";
+                $statusMsg          = "";
+
+                $body['request_id']      = $a->request_id;
+                $body['user_identifier'] = $a->useridentifier;
+
+                $responseexcutesign = TilakaPlus::excutesign(json_encode($body));
+
+                if($responseexcutesign['success']===false){
+                    if($responseexcutesign['status']==="DONE"){
+                        $statusColor        = "green";
+                        $statusMsg          = $responseexcutesign['status'];
+
+                        $datasimpanhd = [];
+                        $datasimpanhd['status_sign'] = "6";
+                        $datasimpanhd['response']    = $responseexcutesign['message'];
+
+                        $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
+                    }
+                    
+                }
+
+                if($responseexcutesign['success']===true){
+                    if($responseexcutesign['status']==="PROCESS"){
+                        $statusColor        = "yellow";
+                        $statusMsg          = $responseexcutesign['status']." | ".$responseexcutesign['message'];
+
+                        $datasimpanhd = [];
+                        $datasimpanhd['response']=$responseexcutesign['message'];
+
+                        $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
+                    }
+                }
+
+                echo formatlog($a->request_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                continue;
             }
         }
 
@@ -642,7 +753,12 @@
                     $statusColor = "red";
                     $statusMsg   = "No Response From Tilaka Lite";
 
-                    echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    if($a->jenis==="1"){
+                        echo formatlog($a->request_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    }else{
+                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    }
+                    
                     continue;
                 }
 
@@ -651,6 +767,18 @@
                     $statusMsg   = $responsestatussign['message'];
 
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    continue;
+                }
+
+                if($responsestatussign['message']==="UNAUTHORIZED"){
+                    $statusColor = "yellow";
+                    $statusMsg   = $responsestatussign['message']." | ".$responsestatussign['status'][0]['status']." | ".$responsestatussign['status'][0]['num_signatures_done']."/".$responsestatussign['status'][0]['num_signatures']." Signatures";
+
+                    if($a->jenis==="1"){
+                        echo formatlog($a->request_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    }else{
+                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    }
                     continue;
                 }
 
@@ -665,13 +793,11 @@
                 }
 
                 if($responsestatussign['message']==="PROCESS"){
-                    foreach($responsestatussign['list_pdf'] as $listpdfs){
-                        $statusColor = "yellow";
-                        $statusMsg   = $responsestatussign['message']." | ".$responsestatussign['status'][0]['status']." | ".$responsestatussign['status'][0]['num_signatures_done']."/".$responsestatussign['status'][0]['num_signatures']." Signatures";
+                    $statusColor = "yellow";
+                    $statusMsg   = $responsestatussign['message']." | ".$responsestatussign['status'][0]['status']." | ".$responsestatussign['status'][0]['num_signatures_done']."/".$responsestatussign['status'][0]['num_signatures']." Signatures";
 
-                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-                        continue;
-                    }
+                    echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    continue;
                 }
 
                 if($responsestatussign['message']==="FAILED"){
@@ -716,7 +842,6 @@
                                 $filedirectory = $a->storage_out.$mainName;
                             }
                             
-
                             if(!fileExists($filedirectory)['status']){
                                 $statusColor = "red";
                                 $statusMsg   = fileExists($filedirectory)['message'];
@@ -738,14 +863,80 @@
                             }
                             $datasimpanhd['download_date'] = date('Y-m-d H:i:s');
 
-                            $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                            if($a->jenis==="1"){
+                                $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
+                            }else{
+                                $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                            }
+                            
                         }
                     }
 
-                    echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    if($a->jenis==="1"){
+                        echo formatlog($a->request_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    }else{
+                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    }
+                    
                     continue;
                 }
                 
+            }
+        }
+
+        public function listcompressfile_POST() {
+            $resultlistcompressfile = $this->md->listcompressfile();
+
+            if (empty($resultlistcompressfile)) {
+                echo color('red') . "Data Tidak Ditemukan";
+                return;
+            }
+
+            foreach ($resultlistcompressfile as $a) {
+
+                $filedirectory = "";
+                $mainName      = "";
+                $statusColor   = "";
+                $statusMsg     = "";
+
+                if ($a->from_in === "Dtechnology") {
+                    $filedirectory = $a->storage_out . $a->transaksi_id . ".pdf";
+                    $mainName      = $a->transaksi_id . ".pdf";
+                } else {
+                    $filedirectory = $a->storage_out . $a->no_file . ".pdf";
+                    $mainName      = $a->no_file . ".pdf";
+                }
+
+                /*
+                ========================================
+                PROSES COMPRESS
+                ========================================
+                */
+                $resultCompress = compressPdf($filedirectory, $mainName);
+
+                if ($resultCompress['status'] === true) {
+                    $statusMsg   = "Compress berhasil | Before: " . $resultCompress['before'] .
+                                " | After: " . $resultCompress['after'] .
+                                " | Reduce: " . $resultCompress['reduce'];
+                    $statusColor = "green";
+                } else {
+                    $statusMsg   = "Compress gagal : " . $resultCompress['message'];
+                    $statusColor = "red";
+                }
+
+                /*
+                ========================================
+                LOG OUTPUT
+                ========================================
+                */
+                echo formatlog(
+                    $a->transaksi_id,
+                    $a->useridentifier,
+                    $statusMsg,
+                    'white',
+                    'green',
+                    $statusColor
+                );
             }
         }
     }
