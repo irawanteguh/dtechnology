@@ -196,6 +196,6 @@ async function runservicesSafe() {
 
 console.clear();
 runservicesSafe();
-runservicesreguler();
+// runservicesreguler();
 setInterval(runservicesSafe, 10000);
 setInterval(runservicesreguler, 3600000);
