@@ -168,11 +168,14 @@ async function runservices() {
     await callAPI("datatransaksi", "POST"); 
     await callAPI("uploadfile", "POST");
     await callAPI("requestquicksign", "POST");
-    await callAPI("requestregulersign", "POST");
     await callAPI("executesign", "POST");
     await callAPI("statussignquicksign", "GET");
     // await callAPI("generatedQRCode", "GET");
     // await callAPI("listcompressfile", "POST");
+}
+
+async function runservicesreguler() {
+    await callAPI("requestregulersign", "POST");
 }
 
 async function runservicesSafe() {
@@ -193,4 +196,6 @@ async function runservicesSafe() {
 
 console.clear();
 runservicesSafe();
+runservicesreguler();
 setInterval(runservicesSafe, 10000);
+setInterval(runservicesreguler, 3600000);
