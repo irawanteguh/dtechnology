@@ -198,5 +198,5 @@ console.clear();
 runservicesSafe();
 runservicesreguler();
 setInterval(runservicesSafe, 10000); //10 Detik
-setInterval(runservicesreguler, 3600000); //60 Menit
+setInterval(runservicesreguler, 1800000); //30 Menit
 // setInterval(runservicesreguler, 600000); //10 Menit
