@@ -196,6 +196,7 @@ async function runservicesSafe() {
 
 console.clear();
 runservicesSafe();
-// runservicesreguler();
-setInterval(runservicesSafe, 10000);
-setInterval(runservicesreguler, 3600000);
+runservicesreguler();
+setInterval(runservicesSafe, 10000); //10 Detik
+// setInterval(runservicesreguler, 3600000); 60 Menit
+setInterval(runservicesreguler, 600000); //10 Menit
