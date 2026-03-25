@@ -14,6 +14,19 @@
 		public function index(){
             $data = $this->loadcombobox();
 
+            $full_url   = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+            $full_url  .= "://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            $has_query  = parse_url($full_url, PHP_URL_QUERY);
+
+            if (!empty($has_query)) {
+                $datacallback['org_id']      = $_SESSION['orgid'];
+                $datacallback['callback_id'] = generateuuid();
+                $datacallback['url']         = $full_url;
+                $datacallback['created_by']  = $_SESSION['userid'];
+
+                $this->md->insertcallback($datacallback);
+            }
+
             if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
                 if($_GET['status']==="Sukses"){
                     $data     = [];

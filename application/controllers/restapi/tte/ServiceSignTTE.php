@@ -231,6 +231,16 @@
             }
 
             foreach($resultrequestsign as $a){
+                $resultcheckdocumentpending = $this->md->checkdocumentpending($a->signer_id);
+
+                if(!empty($resultcheckdocumentpending)){
+                    $statusColor = "yellow";
+                    $statusMsg   = "Pending Waiting Approval OTP Last Document";
+
+                    echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    continue;
+                }
+
                 $responserequestsignquicksign = [];
                 $rawImages                    = [];
                 $assignArr                    = [];
@@ -386,6 +396,8 @@
                 $body['request_id']  = $requestid;
                 $responserequestsignquicksign = TilakaPlus::requestsignquicksign(json_encode($body));
 
+                // return var_dump($responserequestsignquicksign);
+
                 if(!isset($responserequestsignquicksign['success'])){
                     $statusColor = "red";
                     $statusMsg   = "No Response From Tilaka Lite";
@@ -426,9 +438,20 @@
                 }
 
                 if($responserequestsignquicksign['success']===true){
-                    if($responserequestsignquicksign['auth_response'][0]['url']!=null){
+                    if($responserequestsignquicksign['auth_response'][0]['url']!=null && $responserequestsignquicksign['auth_response'][0]['status']===false){
                         $statusColor = "red";
                         $statusMsg   = $responserequestsignquicksign['message'];
+
+                        $datasimpanhd                     = [];
+                        $datasimpanhd['status_sign']      = "2";
+                        $datasimpanhd['quick_sign']       = "2";
+                        $datasimpanhd['request_id']       = $requestid;
+                        $datasimpanhd['response']         = $responserequestsignquicksign['message'];
+                        $datasimpanhd['url']              = $responserequestsignquicksign['auth_response'][0]['url'];
+                        $datasimpanhd['requestsign_date'] = date('Y-m-d H:i:s');
+
+                        $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                    
                     }else{
                         $statusColor = "green";
                         $statusMsg   = $responserequestsignquicksign['message'];
@@ -748,6 +771,7 @@
 
                 $body['request_id'] = $a->request_id;
                 $responsestatussign = TilakaPlus::statussign(json_encode($body));
+                // return var_dump($responsestatussign);
 
                 if(!isset($responsestatussign['success'])){
                     $statusColor = "red";

@@ -165,11 +165,13 @@ async function callAPI(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-    await callAPI("datatransaksi", "POST"); 
-    await callAPI("uploadfile", "POST");
-    await callAPI("requestquicksign", "POST");
-    await callAPI("executesign", "POST");
+    // await callAPI("datatransaksi", "POST"); 
+    // await callAPI("uploadfile", "POST");
+    // await callAPI("requestquicksign", "POST");
+    // await callAPI("executesign", "POST");
     await callAPI("statussignquicksign", "GET");
+
+
     // await callAPI("generatedQRCode", "GET");
     // await callAPI("listcompressfile", "POST");
 }
@@ -196,7 +198,7 @@ async function runservicesSafe() {
 
 console.clear();
 runservicesSafe();
-runservicesreguler();
+// runservicesreguler();
 setInterval(runservicesSafe, 10000); //10 Detik
-setInterval(runservicesreguler, 1800000); //30 Menit
+// setInterval(runservicesreguler, 1800000); //30 Menit
 // setInterval(runservicesreguler, 600000); //10 Menit

@@ -15,6 +15,23 @@
             return $recordset;
         }
 
+        function checkdocumentpending($signerid){
+            $query =
+                    "
+                        select b.transaksi_id
+                        from dt01_sign_document_dt b
+                        where b.status_sign = '2'
+                        and b.provider_sign = 'Tilaka'
+                        and b.type_of = 'Signature'
+                        and b.quick_sign = '2'
+                        and b.signer_id = '".$signerid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
+            return $recordset;
+        }
+
         function uploaddocument(){
             $query =
                     "
@@ -44,9 +61,18 @@
                         and   a.provider_sign='Tilaka'
                         and   a.type_of='Signature'
                         and   a.quick_sign in ('0','2')
+                        AND NOT EXISTS (
+                            SELECT 1 
+                            FROM dt01_sign_document_dt b
+                            WHERE b.status_sign = '2'
+                            AND b.provider_sign = 'Tilaka'
+                            AND b.type_of = 'Signature'
+                            AND b.quick_sign = '2'
+                            AND b.signer_id = a.signer_id
+                        )
                         group by a.transaksi_id
                         order by upload_date asc
-                        limit 20;
+                        limit 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -103,7 +129,7 @@
                                 a.requestsign_date
                             FROM dt01_sign_document_dt a
                             WHERE a.active='1'
-                            AND a.status_sign='3'
+                            AND a.status_sign in ('3','4')
                             AND a.quick_sign='2'
                             AND a.provider_sign='Tilaka'
                         )
@@ -131,19 +157,6 @@
             return $recordset;
         }
 
-        function listcompressfile(){
-            $query =
-                    "
-                        select a.transaksi_id, user_identifier useridentifier, from_in, storage_out, no_file
-                        from dt01_sign_document_dt a
-                        where a.no_file='202601310000660022501756'
-                    ";
-
-            $recordset = $this->db->query($query);
-            $recordset = $recordset->result();
-            return $recordset;
-        }
-
         function listexecute(){
             $query =
                     "
@@ -153,6 +166,19 @@
                         and   a.quick_sign='1'
                         and   a.status_sign='4'
                         limit 10;
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function listcompressfile(){
+            $query =
+                    "
+                        select a.transaksi_id, user_identifier useridentifier, from_in, storage_out, no_file
+                        from dt01_sign_document_dt a
+                        where a.no_file='202601310000660022501756'
                     ";
 
             $recordset = $this->db->query($query);

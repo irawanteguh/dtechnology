@@ -55,6 +55,10 @@
                             AND ms.jenis_id = 'Statussign_2' 
                             AND ms.code = a.status_sign
                         WHERE a.active = '1'
+                        AND (
+                            a.status_sign <> '5'
+                            OR (a.status_sign = '5' AND a.created_date <= DATE_SUB(SYSDATE(), INTERVAL 3 DAY))
+                        )
                         ORDER BY a.created_date DESC;
                     ";
 
@@ -80,6 +84,11 @@
 
         function updatedatauseridentifier($data, $useridentifier){           
             $sql =   $this->db->update("dt01_gen_user_data",$data,array("user_identifier"=>$useridentifier));
+            return $sql;
+        }
+
+        function insertcallback($data){           
+            $sql =   $this->db->insert("dt01_gen_callback_it",$data);
             return $sql;
         }
 
