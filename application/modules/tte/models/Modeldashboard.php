@@ -18,7 +18,7 @@
                         SELECT
                             YEAR(created_date)  AS tahun,
                             MONTH(created_date) AS bulan
-                        FROM dt01_gen_document_file_dt
+                        FROM dt01_sign_document_dt
                         GROUP BY
                             YEAR(created_date),
                             MONTH(created_date)

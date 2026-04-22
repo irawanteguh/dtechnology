@@ -7,6 +7,7 @@
 		public static $user;
 		public static $password;
 		public static $database;
+		public static $port;
 		public static $pathdatabase;
 		public static $backupPath;
 
@@ -18,6 +19,7 @@
 			self::$user         = $this->db->username;
 			self::$password     = $this->db->password;
 			self::$database     = $this->db->database;
+			self::$port         = !empty($this->db->port) ? $this->db->port : 3306;
 			self::$pathdatabase = FCPATH."database/";
 			self::$backupPath   = self::$pathdatabase.date('Y-m-d-H:i:s').'.sql';
         }
@@ -65,7 +67,7 @@
 				}
 			}
 		
-			$conn = new mysqli(self::$host, self::$user, self::$password, self::$database, 3307);
+			$conn = new mysqli(self::$host, self::$user, self::$password, self::$database, self::$port);
 			if ($conn->connect_error) {
 				die("Database connection failed: " . $conn->connect_error);
 			}
@@ -130,48 +132,6 @@
 		
 			echo json_encode($json);
 		}
-		
-		
-
-		// function backuptable(){
-		// 	if(!is_dir(self::$pathdatabase)){
-		// 		mkdir(self::$pathdatabase, 0777, true);      
-		// 	};
-			
-		// 	$conn = new mysqli(self::$host, self::$user, self::$password, self::$database);
-		// 	if ($conn->connect_error) {
-		// 		die("Koneksi ke database gagal: " . $conn->connect_error);
-		// 	}
-			
-		// 	$tables = array();
-		// 	$result = $conn->query("SHOW TABLES LIKE 'dt01\_%'");
-		// 	while($row = $result->fetch_row()){
-		// 		$tables[] = $row[0];
-		// 	}
-			
-		// 	$handle = fopen(self::$backupPath,'w+');
-		// 	foreach($tables as $table){
-		// 		$result     = $conn->query("SELECT * FROM $table");
-		// 		$numColumns = $result->field_count;
-				
-		// 		fwrite($handle, "DROP TABLE IF EXISTS $table;\n\n");
-				
-		// 		$createTableQuery = $conn->query("SHOW CREATE TABLE $table");
-		// 		$createTable      = $createTableQuery->fetch_row();
-		// 		fwrite($handle, $createTable[1].";\n\n");
-				
-		// 		fwrite($handle, "\n\n\n");
-		// 	}
-		// 	fclose($handle);
-		// 	$conn->close();
-
-		// 	$json["responCode"] = "00";
-		// 	$json["responHead"] = "success";
-		// 	$json["responDesc"] = "Data Berhasil Di Backup";
-		// 	$json["url"]        = base_url()."index.php/operation/backupdb";
-
-		// 	echo json_encode($json);
-		// }
 
 	}
 

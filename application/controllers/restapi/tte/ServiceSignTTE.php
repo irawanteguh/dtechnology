@@ -97,14 +97,14 @@
                 };
 
                 if($a->storage_in===null){
-                    if(TYPESTORAGE===null){
+                    if(STORAGESIGN===null){
                         $statusColor = "red";
                         $statusMsg   = "File Directory Not Found";
 
                         echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                         continue;
                     }
-                    $storage = TYPESTORAGE;
+                    $storage = STORAGESIGN;
                 }else{
                     $storage = $a->storage_in;
                 }
@@ -156,27 +156,18 @@
 
                 $responseuploadfile = TilakaPlus::uploadfile($filedirectory);
 
-                if(!isset($responseuploadfile['success'])){
-                    if($responseuploadfile['status']===false){
-                        $statusColor = "red";
-                        $statusMsg   = $responseuploadfile['message'];
+                if(isset($responseuploadfile['error'])){
+                    $statusColor = "red";
+                    $statusMsg   = $responseuploadfile['error']." | ".$responseuploadfile['error_description'];
 
-                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-                        continue;
-                    }else{
-                        $statusColor = "red";
-                        $statusMsg   = $responseuploadfile['error']." [ ".$responseuploadfile['path']." ]";
-
-                        echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-                        continue;
-                    }
+                    echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    return;
                 }
 
-                
+                if(!isset($responseuploadfile['success']) || $responseuploadfile['success'] === false){
 
-                if($responseuploadfile['success']===false){
                     $statusColor = "red";
-                    $statusMsg   = $responseuploadfile['message'];
+                    $statusMsg   = $responseuploadfile['message'] ?? 'Upload failed';
 
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                     continue;

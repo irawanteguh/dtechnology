@@ -7,6 +7,7 @@
                         select a.env_id, environment_name, dev, prod, jenis
                         from dt01_gen_enviroment_ms a
                         where a.org_id='".$orgid."'
+                        and   a.active='1'
                         order by urut ASC
                     ";
 

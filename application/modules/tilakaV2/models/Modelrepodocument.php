@@ -1,57 +1,6 @@
 <?php
     class Modelrepodocument extends CI_Model{
 
-        // function dataupload($parameter,$startDate,$endDate){
-        //     $query =
-        //             "
-        //                 select x.*,
-        //                     /* USER IDENTIFIER (LIST) */
-        //                         (
-        //                             SELECT GROUP_CONCAT(u.user_identifier SEPARATOR '; ')
-        //                             FROM dt01_gen_user_data u
-        //                             WHERE u.active = '1'
-        //                             AND u.certificate = '3'
-        //                             AND FIND_IN_SET(u.nik, REPLACE(x.assign, ';', ','))
-        //                         ) AS useridentifier,
-
-        //                         /* ASSIGN NAME (LIST) */
-        //                         (
-        //                             SELECT GROUP_CONCAT(u.name SEPARATOR '; ')
-        //                             FROM dt01_gen_user_data u
-        //                             WHERE u.active = '1'
-        //                             AND FIND_IN_SET(u.nik, REPLACE(x.assign, ';', ','))
-        //                         ) AS assignname,
-
-        //                     (select name            from dt01_gen_user_data   where active='1' and user_id=x.created_by)createdby,
-        //                     (select document_name   from dt01_gen_document_ms where active='1' and jenis_doc=x.jenis_doc)jenisdocument,
-        //                     (select master_name     from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=x.status_sign)status,
-        //                     (select description     from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=x.status_sign)descriptionstatus,
-        //                     (select color           from dt01_gen_master_ms   where active='1' and jenis_id='Statussign_1' and code=x.status_sign)colorstatus
-        //                 from(
-        //                     select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, assign, created_by, jenis_doc, pasien_idx, transaksi_idx, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam 
-        //                     from dt01_gen_document_file_dt a
-        //                     where a.active='1'
-        //                     and   a.status_sign not in ('5','99')
-        //                     ".$parameter."
-
-        //                     union
-
-        //                     select a.no_file, filename, status_sign, status_file, link, note, source_file, created_date, assign, created_by, jenis_doc, pasien_idx, transaksi_idx, date_format(created_date,'%d.%m.%Y %H:%i:%s')tgljam 
-        //                     from dt01_gen_document_file_dt a
-        //                     where a.active='1'
-        //                     and   a.status_sign in ('5','99')
-        //                     and   a.created_date between '".$startDate."' and '".$endDate."'
-        //                     ".$parameter."
-        //                     and   a.assign=(select nik from dt01_gen_user_data where org_id=a.org_id and active='1' and certificate='3' and nik=a.assign)
-        //                 )x
-        //                 order by status asc, created_date desc
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
-
         public function dataupload($parameter, $startDate, $endDate){
             $query = "
                 

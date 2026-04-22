@@ -87,7 +87,7 @@
             =================================
             */
 
-            $tempPath = FCPATH.'assets/document/temp/';
+            $tempPath = FCPATH.'assets/temp/';
 
             if(!is_dir($tempPath)){
                 mkdir($tempPath,0777,true);
@@ -124,7 +124,7 @@
             =================================
             */
 
-            if(filter_var(TYPESTORAGE, FILTER_VALIDATE_URL)){
+            if(filter_var(STORAGESIGN, FILTER_VALIDATE_URL)){
 
                 /*
                 =================================
@@ -132,7 +132,7 @@
                 =================================
                 */
 
-                $url = rtrim(TYPESTORAGE,'/').'/receivedfile.php';
+                $url = rtrim(STORAGESIGN,'/').'/receivedfile.php';
 
                 $ch = curl_init($url);
 
@@ -172,7 +172,7 @@
                 =================================
                 */
 
-                $destFolder = rtrim(TYPESTORAGE,'/').'/';
+                $destFolder = rtrim(STORAGESIGN,'/').'/';
 
                 if(!is_dir($destFolder)){
                     mkdir($destFolder,0777,true);
@@ -216,7 +216,7 @@
             $data['signer_id']        = $assign;
             $data['note_1']           = $info1;
             $data['note_2']           = $info2;
-            $data['storage_in']       = TYPESTORAGE;
+            $data['storage_in']       = STORAGESIGN;
             $data['type_of']          = TYPEOF;
             $data['from_in']          = "Dtechnology";
             $data['provider_sign']    = PROVIDERSIGN;
@@ -261,7 +261,7 @@
             $transid = $this->input->post("datatransaksiid");
 
             $data['status_sign'] = "0";
-            $data['storage_in']  = TYPESTORAGE;
+            $data['storage_in']  = STORAGESIGN;
             $data['response']    = null;
 
             if($this->md->updatedocument($data,$transid)){
