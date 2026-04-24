@@ -1,0 +1,78 @@
+# =========================
+# 1. INSTALL NODEJS (LTS)
+# =========================
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+apt update
+apt install -y nodejs
+
+node -v
+npm -v
+
+
+# =========================
+# 2. INSTALL PM2 GLOBAL
+# =========================
+npm install -g pm2
+
+pm2 -v
+
+
+# =========================
+# 3. TEST RUN MANUAL (OPSIONAL)
+# =========================
+node nodejs/SignTTE.js
+
+
+# =========================
+# 4. RUN WITH PM2 (PRODUCTION)
+# =========================
+pm2 start nodejs/SignTTE.js --name SignTTE
+
+
+# =========================
+# 5. CEK STATUS
+# =========================
+pm2 list
+
+
+# =========================
+# 6. LIHAT LOG
+# =========================
+pm2 logs
+pm2 logs SignTTE
+
+
+# =========================
+# 7. MONITOR REALTIME
+# =========================
+pm2 monit
+
+
+# =========================
+# 8. RESTART / STOP / DELETE
+# =========================
+pm2 restart wagateway
+pm2 stop SignTTE
+pm2 delete wagateway
+
+
+# =========================
+# 9. AUTO START SAAT SERVER REBOOT
+# =========================
+pm2 save
+pm2 startup
+# (jalankan command yang muncul setelah ini)
+
+
+# =========================
+# 10. LOG FILE LOCATION
+# =========================
+ls -lah /root/.pm2/logs/
+
+tail -f /root/.pm2/logs/SignTTE-error.log
+
+
+# =========================
+# 11. CLEAR LOG
+# =========================
+pm2 flush
