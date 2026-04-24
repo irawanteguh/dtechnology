@@ -105,13 +105,10 @@
 
             if (!$this->upload->do_upload('modal_sign_add_tilaka_document')) {
 
-                $error_message = strip_tags($this->upload->display_errors());
-                log_message('error','File upload error: '.$error_message);
-
                 echo json_encode([
                     "responCode" => "01",
-                    "responHead" => "info",
-                    "responDesc" => $error_message
+                    "responHead" => "error",
+                    "responDesc" => strip_tags($this->upload->display_errors())
                 ]);
                 return;
             }
@@ -145,30 +142,97 @@
                     CURLOPT_POSTFIELDS => [
                         'file' => new CURLFile($tempFile,'application/pdf',$mainName)
                     ],
-                    CURLOPT_RETURNTRANSFER => true
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_TIMEOUT => 60,
+                    CURLOPT_SSL_VERIFYPEER => false
                 ]);
 
                 $response = curl_exec($ch);
 
-                if(curl_errno($ch)){
+                $curlErr  = curl_error($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-                    $err = curl_error($ch);
-                    curl_close($ch);
+                curl_close($ch);
+
+                /*
+                =================================
+                CURL ERROR CHECK
+                =================================
+                */
+                if($curlErr){
 
                     @unlink($tempFile);
 
                     echo json_encode([
                         "responCode" => "01",
                         "responHead" => "error",
-                        "responDesc" => "Upload remote gagal : ".$err
+                        "responDesc" => "Upload remote gagal (CURL): ".$curlErr
                     ]);
                     return;
                 }
 
-                curl_close($ch);
+                /*
+                =================================
+                HTTP ERROR CHECK
+                =================================
+                */
+                if($httpCode != 200){
 
-                // asumsi response berupa URL file
-                $finalUrl = $response;
+                    @unlink($tempFile);
+
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Upload remote gagal (HTTP $httpCode)",
+                        "raw_response" => $response
+                    ]);
+                    return;
+                }
+
+                /*
+                =================================
+                JSON VALIDATION
+                =================================
+                */
+                $result = json_decode($response, true);
+
+                if(json_last_error() !== JSON_ERROR_NONE){
+
+                    @unlink($tempFile);
+
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Response server tidak valid JSON",
+                        "raw_response" => $response
+                    ]);
+                    return;
+                }
+
+                /*
+                =================================
+                LOGICAL ERROR FROM REMOTE
+                =================================
+                */
+                if(!isset($result['success']) || $result['success'] != true){
+
+                    @unlink($tempFile);
+
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => $result['message'] ?? "Upload remote gagal",
+                        "remote_response" => $result
+                    ]);
+                    return;
+                }
+
+                /*
+                =================================
+                SUCCESS REMOTE
+                =================================
+                */
+                $finalUrl = $result['url'] ?? null;
 
             }else{
 
@@ -200,18 +264,31 @@
                     return;
                 }
 
-                // mapping URL akses publik
                 $finalUrl = rtrim(STORAGESIGNOUT,'/').'/'.$mainName;
             }
 
             /*
             =================================
-            HAPUS TEMP
+            DELETE TEMP FILE
             =================================
             */
-
             if(file_exists($tempFile)){
                 unlink($tempFile);
+            }
+
+            /*
+            =================================
+            VALIDASI FINAL URL
+            =================================
+            */
+            if(empty($finalUrl)){
+
+                echo json_encode([
+                    "responCode" => "01",
+                    "responHead" => "error",
+                    "responDesc" => "File URL tidak ditemukan (upload gagal)"
+                ]);
+                return;
             }
 
             /*
@@ -250,9 +327,8 @@
 
                 echo json_encode([
                     "responCode" => "01",
-                    "responHead" => "info",
-                    "responDesc" => "Data Failed to Add",
-                    "storage"    => $storageType,
+                    "responHead" => "error",
+                    "responDesc" => "Database insert failed",
                     "file_url"   => $finalUrl
                 ]);
             }
