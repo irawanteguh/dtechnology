@@ -124,7 +124,7 @@
             =================================
             */
 
-            if(filter_var(STORAGESIGN, FILTER_VALIDATE_URL)){
+            if(filter_var(STORAGESIGNIN, FILTER_VALIDATE_URL)){
 
                 /*
                 =================================
@@ -132,7 +132,7 @@
                 =================================
                 */
 
-                $url = rtrim(STORAGESIGN,'/').'/receivedfile.php';
+                $url = rtrim(STORAGESIGNIN,'/').'/receivedfile.php';
 
                 $ch = curl_init($url);
 
@@ -172,7 +172,7 @@
                 =================================
                 */
 
-                $destFolder = rtrim(STORAGESIGN,'/').'/';
+                $destFolder = rtrim(STORAGESIGNIN,'/').'/';
 
                 if(!is_dir($destFolder)){
                     mkdir($destFolder,0777,true);
@@ -216,7 +216,8 @@
             $data['signer_id']        = $assign;
             $data['note_1']           = $info1;
             $data['note_2']           = $info2;
-            $data['storage_in']       = STORAGESIGN;
+            $data['storage_in']       = STORAGESIGNIN;
+            $data['storage_out']      = STORAGESIGNOUT;
             $data['type_of']          = TYPEOF;
             $data['from_in']          = "Dtechnology";
             $data['provider_sign']    = PROVIDERSIGN;
@@ -261,7 +262,8 @@
             $transid = $this->input->post("datatransaksiid");
 
             $data['status_sign'] = "0";
-            $data['storage_in']  = STORAGESIGN;
+            $data['storage_in']  = STORAGESIGNIN;
+            $data['storage_out'] = STORAGESIGNOUT;
             $data['response']    = null;
 
             if($this->md->updatedocument($data,$transid)){

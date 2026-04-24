@@ -6,7 +6,7 @@
                     "
                         select a.no_ktp, mulai_kontrak, alamat, nik, nama, CASE WHEN jk = 'Pria' THEN 'L' ELSE 'P' END sexid, CASE WHEN stts_aktif = 'AKTIF' THEN 'N' ELSE 'Y' END susspended
                         from pegawai a
-                        where a.nik not in (select nik from dt01_gen_user_data)
+                        -- where a.nik not in (select nik from dt01_gen_user_data)
                     ";
 
             $recordset = $this->db->query($query);

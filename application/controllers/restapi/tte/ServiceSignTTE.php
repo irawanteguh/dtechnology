@@ -97,14 +97,14 @@
                 };
 
                 if($a->storage_in===null){
-                    if(STORAGESIGN===null){
+                    if(STORAGESIGNIN===null){
                         $statusColor = "red";
                         $statusMsg   = "File Directory Not Found";
 
                         echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                         continue;
                     }
-                    $storage = STORAGESIGN;
+                    $storage = STORAGESIGNIN;
                 }else{
                     $storage = $a->storage_in;
                 }
@@ -203,7 +203,7 @@
 
                 $datasimpanhd['request_id']       = null;
                 $datasimpanhd['link']             = null;
-                $datasimpanhd['storage_out']      = null;
+                $datasimpanhd['storage_out']      = STORAGESIGNOUT;
                 $datasimpanhd['requestsign_date'] = null;
                 $datasimpanhd['download_date']    = null;
                 
@@ -838,7 +838,7 @@
                             $mainName    = ($pos !== false) ? substr($filename, $pos + 1) : $filename;
                             
                             if($a->storage_out===null){
-                                $fileContent = downloadAndSave($listpdfs['presigned_url'],STORAGESIGN,$mainName);
+                                $fileContent = downloadAndSave($listpdfs['presigned_url'],STORAGESIGNOUT,$mainName);
                             }else{
                                 $fileContent = downloadAndSave($listpdfs['presigned_url'],$a->storage_out,$mainName);
                             }
@@ -852,7 +852,7 @@
                             }
 
                             if($a->storage_out===null){
-                                $filedirectory = STORAGESIGN.$mainName;
+                                $filedirectory = STORAGESIGNOUT.$mainName;
                             }else{
                                 $filedirectory = $a->storage_out.$mainName;
                             }
@@ -874,7 +874,7 @@
                             $datasimpanhd['response']      = $responsestatussign['message'];
                             $datasimpanhd['link']          = $listpdfs['presigned_url'];
                             if($a->storage_out===null){
-                                $datasimpanhd['storage_out']   = STORAGESIGN;
+                                $datasimpanhd['storage_out']   = STORAGESIGNOUT;
                             }
                             $datasimpanhd['download_date'] = date('Y-m-d H:i:s');
 
