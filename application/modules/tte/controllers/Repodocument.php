@@ -81,6 +81,9 @@
             $originalname = pathinfo($_FILES['modal_sign_add_tilaka_document']['name'], PATHINFO_FILENAME);
             $transid      = generateuuid();
 
+            $finalUrl     = null;
+            $storageType  = null;
+
             /*
             =================================
             UPLOAD KE TEMP
@@ -103,14 +106,13 @@
             if (!$this->upload->do_upload('modal_sign_add_tilaka_document')) {
 
                 $error_message = strip_tags($this->upload->display_errors());
-
                 log_message('error','File upload error: '.$error_message);
 
-                $json['responCode'] = "01";
-                $json['responHead'] = "info";
-                $json['responDesc'] = $error_message;
-
-                echo json_encode($json);
+                echo json_encode([
+                    "responCode" => "01",
+                    "responHead" => "info",
+                    "responDesc" => $error_message
+                ]);
                 return;
             }
 
@@ -120,7 +122,7 @@
 
             /*
             =================================
-            CEK TYPE STORAGE
+            CEK STORAGE TYPE
             =================================
             */
 
@@ -131,6 +133,8 @@
                 REMOTE STORAGE
                 =================================
                 */
+
+                $storageType = "remote";
 
                 $url = rtrim(STORAGESIGNIN,'/').'/receivedfile.php';
 
@@ -149,20 +153,22 @@
                 if(curl_errno($ch)){
 
                     $err = curl_error($ch);
-
                     curl_close($ch);
 
                     @unlink($tempFile);
 
-                    $json['responCode']="01";
-                    $json['responHead']="error";
-                    $json['responDesc']="Upload remote gagal : ".$err;
-
-                    echo json_encode($json);
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Upload remote gagal : ".$err
+                    ]);
                     return;
                 }
 
                 curl_close($ch);
+
+                // asumsi response berupa URL file
+                $finalUrl = $response;
 
             }else{
 
@@ -171,6 +177,8 @@
                 LOCAL STORAGE
                 =================================
                 */
+
+                $storageType = "local";
 
                 $destFolder = rtrim(STORAGESIGNIN,'/').'/';
 
@@ -184,13 +192,16 @@
 
                     @unlink($tempFile);
 
-                    $json['responCode']="01";
-                    $json['responHead']="error";
-                    $json['responDesc']="Gagal memindahkan file ke storage";
-
-                    echo json_encode($json);
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Gagal memindahkan file ke storage"
+                    ]);
                     return;
                 }
+
+                // mapping URL akses publik
+                $finalUrl = rtrim(STORAGESIGNOUT,'/').'/'.$mainName;
             }
 
             /*
@@ -226,18 +237,25 @@
 
             if($this->md->insertdocument($data)){
 
-                $json['responCode']="00";
-                $json['responHead']="success";
-                $json['responDesc']="Data Added Successfully";
+                echo json_encode([
+                    "responCode" => "00",
+                    "responHead" => "success",
+                    "responDesc" => "Data Added Successfully",
+                    "file_url"   => $finalUrl,
+                    "storage"    => $storageType,
+                    "trans_id"   => $transid
+                ]);
 
             }else{
 
-                $json['responCode']="01";
-                $json['responHead']="info";
-                $json['responDesc']="Data Failed to Add";
+                echo json_encode([
+                    "responCode" => "01",
+                    "responHead" => "info",
+                    "responDesc" => "Data Failed to Add",
+                    "storage"    => $storageType,
+                    "file_url"   => $finalUrl
+                ]);
             }
-
-            echo json_encode($json);
         }
 
         public function voiddocument(){
