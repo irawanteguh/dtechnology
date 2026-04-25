@@ -66,7 +66,7 @@
                 $datasimpanhd       = [];
                 $statusColor        = "";
                 $statusMsg          = "";
-                $storage            = "";
+                $storagein          = "";
                 $filedirectory      = "";
 
                 if($a->from_in!="Dtechnology"){
@@ -104,24 +104,24 @@
                         echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                         continue;
                     }
-                    $storage = STORAGESIGNIN;
+                    $storagein = STORAGESIGNIN;
                 }else{
-                    $storage = $a->storage_in;
+                    $storagein = $a->storage_in;
                 }
 
                 if($a->from_in==="Dtechnology"){
-                    $filedirectory = $storage.$a->transaksi_id.".pdf";
+                    $filedirectory = $storagein.$a->transaksi_id.".pdf";
                 }else{
-                    $filedirectory = $storage.$a->no_file.".pdf";
+                    $filedirectory = $storagein.$a->no_file.".pdf";
                 }
 
                 if($a->useridentifier===null || $a->useridentifier===""){
                     $statusColor = "red";
-                    $statusMsg   = "User Identifier Tidak Ada";
+                    $statusMsg   = "User Identifier Null (Belum Di Daftarkan TTE)";
 
                     $datasimpanhd['status_sign'] = "96";
-                    $datasimpanhd['response']    = "User Identifier Tidak Ada";
-                    $datasimpanhd['storage_in']  = $storage;
+                    $datasimpanhd['response']    = "User Identifier Null (Belum Di Daftarkan TTE)";
+                    $datasimpanhd['storage_in']  = $storagein;
                     $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
 
                     echo formatlog($a->transaksi_id,'',$statusMsg,'white','green',$statusColor);
@@ -134,7 +134,7 @@
 
                     $datasimpanhd['status_sign'] = "99";
                     $datasimpanhd['response']    = $statusMsg;
-                    $datasimpanhd['storage_in']  = $storage;
+                    $datasimpanhd['storage_in']  = $storagein;
                     $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
 
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
@@ -147,7 +147,7 @@
 
                     $datasimpanhd['status_sign'] = "98";
                     $datasimpanhd['note']        = "File Corrupted";
-                    $datasimpanhd['storage_in']  = $storage;
+                    $datasimpanhd['storage_in']  = $storagein;
                     $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                     
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
@@ -181,7 +181,7 @@
                 $datasimpanhd['user_identifier'] = $a->useridentifier;
                 $datasimpanhd['filename']        = $responseuploadfile['filename'];
                 $datasimpanhd['response']        = $responseuploadfile['message'];
-                $datasimpanhd['storage_in']      = $storage;
+                $datasimpanhd['storage_in']      = $storagein;
                 $datasimpanhd['upload_date']     = date('Y-m-d H:i:s');
                 if($a->type_of===null){
                     $datasimpanhd['type_of'] = TYPEOF;
@@ -285,7 +285,7 @@
                     $statusMsg   = fileExists($filedirectory)['message'];
 
                     $datasimpanhd['status_sign'] = "99";
-                    $datasimpanhd['response']    = $statusMsg;
+                    $datasimpanhd['response']    = $statusMsg."XXX";
                     $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
 
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);

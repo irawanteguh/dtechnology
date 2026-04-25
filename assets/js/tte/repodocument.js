@@ -267,13 +267,13 @@ $(document).on("submit", "#formadddocument", function (e) {
         success: function (data) {
             if (data.responCode == "00") {
                 $('#modal_sign_add_tilaka').modal('hide');
+                alldocument();
             }
 
             toastr.clear();
             toastr[data.responHead](data.responDesc, "INFORMATION");
         },
         complete: function () {
-            alldocument();
             $("#modal_sign_add_tilaka_btn").removeClass("disabled");
             toastr.clear();
         },

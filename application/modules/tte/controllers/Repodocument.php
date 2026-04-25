@@ -89,17 +89,18 @@
             UPLOAD KE TEMP
             =================================
             */
-
             $tempPath = FCPATH.'assets/temp/';
 
             if(!is_dir($tempPath)){
                 mkdir($tempPath,0777,true);
             }
 
-            $config['upload_path']   = $tempPath;
-            $config['allowed_types'] = 'pdf';
-            $config['file_name']     = $transid;
-            $config['overwrite']     = true;
+            $config = [
+                'upload_path'   => $tempPath,
+                'allowed_types' => 'pdf',
+                'file_name'     => $transid,
+                'overwrite'     => true
+            ];
 
             $this->load->library('upload',$config);
 
@@ -122,7 +123,6 @@
             CEK STORAGE TYPE
             =================================
             */
-
             if(filter_var(STORAGESIGNIN, FILTER_VALIDATE_URL)){
 
                 /*
@@ -130,9 +130,7 @@
                 REMOTE STORAGE
                 =================================
                 */
-
                 $storageType = "remote";
-
                 $url = rtrim(STORAGESIGNIN,'/').'/receivedfile.php';
 
                 $ch = curl_init($url);
@@ -148,7 +146,6 @@
                 ]);
 
                 $response = curl_exec($ch);
-
                 $curlErr  = curl_error($ch);
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
@@ -156,7 +153,7 @@
 
                 /*
                 =================================
-                CURL ERROR CHECK
+                CURL ERROR
                 =================================
                 */
                 if($curlErr){
@@ -173,7 +170,7 @@
 
                 /*
                 =================================
-                HTTP ERROR CHECK
+                HTTP ERROR
                 =================================
                 */
                 if($httpCode != 200){
@@ -184,14 +181,13 @@
                         "responCode" => "01",
                         "responHead" => "error",
                         "responDesc" => "Upload remote gagal (HTTP $httpCode)"
-                        // "raw_response" => $response
                     ]);
                     return;
                 }
 
                 /*
                 =================================
-                JSON VALIDATION
+                PARSE JSON
                 =================================
                 */
                 $result = json_decode($response, true);
@@ -211,7 +207,7 @@
 
                 /*
                 =================================
-                LOGICAL ERROR FROM REMOTE
+                VALIDASI SUCCESS REMOTE
                 =================================
                 */
                 if(!isset($result['success']) || $result['success'] != true){
@@ -229,10 +225,18 @@
 
                 /*
                 =================================
-                SUCCESS REMOTE
+                AMBIL URL (FIX UTAMA)
                 =================================
                 */
-                $finalUrl = $result['url'] ?? null;
+                if(isset($result['url'])){
+                    $finalUrl = rtrim(STORAGESIGNIN,'/').'/'.$result['url'];
+
+                }else if(isset($result['path'])){
+                    $finalUrl = rtrim(STORAGESIGNIN,'/').'/'.$result['path'];
+
+                }else{
+                    $finalUrl = null;
+                }
 
             }else{
 
@@ -241,7 +245,6 @@
                 LOCAL STORAGE
                 =================================
                 */
-
                 $storageType = "local";
 
                 $destFolder = rtrim(STORAGESIGNIN,'/').'/';
@@ -286,7 +289,10 @@
                 echo json_encode([
                     "responCode" => "01",
                     "responHead" => "error",
-                    "responDesc" => "File URL tidak ditemukan (upload gagal)"
+                    "responDesc" => "File URL tidak ditemukan (upload gagal)",
+                    "file_url"   => null,
+                    "storage"    => $storageType,
+                    "trans_id"   => $transid
                 ]);
                 return;
             }
@@ -296,21 +302,22 @@
             SIMPAN DATABASE
             =================================
             */
-
-            $data['org_id']           = $_SESSION['orgid'];
-            $data['transaksi_id']     = $transid;
-            $data['no_file']          = $originalname;
-            $data['jenis_doc']        = $type;
-            $data['signer_id']        = $assign;
-            $data['note_1']           = $info1;
-            $data['note_2']           = $info2;
-            $data['storage_in']       = STORAGESIGNIN;
-            $data['storage_out']      = STORAGESIGNOUT;
-            $data['type_of']          = TYPEOF;
-            $data['from_in']          = "Dtechnology";
-            $data['provider_sign']    = PROVIDERSIGN;
-            $data['type_certificate'] = TYPECERTIFICATE;
-            $data['created_by']       = $_SESSION['userid'];
+            $data = [
+                'org_id'           => $_SESSION['orgid'],
+                'transaksi_id'     => $transid,
+                'no_file'          => $originalname,
+                'jenis_doc'        => $type,
+                'signer_id'        => $assign,
+                'note_1'           => $info1,
+                'note_2'           => $info2,
+                'storage_in'       => STORAGESIGNIN,
+                'storage_out'      => STORAGESIGNOUT,
+                'type_of'          => TYPEOF,
+                'from_in'          => "Dtechnology",
+                'provider_sign'    => PROVIDERSIGN,
+                'type_certificate' => TYPECERTIFICATE,
+                'created_by'       => $_SESSION['userid']
+            ];
 
             if($this->md->insertdocument($data)){
 
