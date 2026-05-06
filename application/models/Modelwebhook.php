@@ -5,8 +5,6 @@
             $sql =   $this->db->insert("dt01_webhook_dt_kyc",$data);
             return $sql;
         }
-
-
         
     }
 ?>
