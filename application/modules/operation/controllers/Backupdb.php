@@ -59,7 +59,7 @@
 
         function backupdatabase() {
 			$backupDir  = self::$pathdatabase;
-			$backupFile = $backupDir . '/backup_' . date('Y-m-d_H-i-s') . '.sql';
+			$backupFile = $backupDir . '/backup_'.$_SESSION['hospitalname'].'_'.date('Y-m-d_H-i-s') . '.sql';
 		
 			if (!is_dir($backupDir)) {
 				if (!mkdir($backupDir, 0777, true)) {
@@ -85,39 +85,92 @@
 		
 			// Daftar tabel yang harus disimpan dengan data
 			$tablesWithData = [
-								'dt01_gen_enviroment_ms',
-								'dt01_gen_document_ms',
-								'dt01_gen_modules_ms',
-								'dt01_gen_referensi_dt',
-								'dt01_gen_role_ms',
-								'dt01_gen_role_dt',
-								'dt01_gen_role_access',
-								'dt01_gen_master_ms',
-								'dt01_gen_user_data'
-							];
-		
+				'dt01_gen_enviroment_ms',
+				'dt01_gen_document_ms',
+				'dt01_gen_modules_ms',
+				'dt01_gen_referensi_dt',
+				'dt01_gen_role_ms',
+				'dt01_gen_role_dt',
+				'dt01_gen_role_access',
+				'dt01_gen_master_ms',
+				'dt01_gen_user_data',
+				'dt01_gen_organization_ms'
+			];
+
 			foreach ($tables as $table) {
-				fwrite($handle, "DROP TABLE IF EXISTS `$table`;\n\n");
-		
+
+				// DROP TABLE
+				// fwrite($handle, "DROP TABLE IF EXISTS `$table`;\n\n");
+
+				// CREATE TABLE
 				$createTableQuery = $conn->query("SHOW CREATE TABLE `$table`");
+
+				if (!$createTableQuery) {
+					continue;
+				}
+
 				$createTable = $createTableQuery->fetch_row();
+
 				fwrite($handle, $createTable[1] . ";\n\n");
-		
-				// Jika tabel ada dalam daftar $tablesWithData, backup seluruh data
+
+				// Backup data jika tabel termasuk daftar
 				if (in_array($table, $tablesWithData)) {
-					$result = $conn->query("SELECT * FROM `$table`");
-					$numColumns = $result->field_count;
-		
-					while ($row = $result->fetch_row()) {
-						$row = array_map('addslashes', $row);
-						$insertQuery = "INSERT INTO `$table` VALUES (";
-						for ($i = 0; $i < $numColumns; $i++) {
-							$insertQuery .= '"' . $row[$i] . '", ';
+
+					// Default query
+					$query = "SELECT * FROM `$table`";
+
+					// Khusus user_data hanya username root
+					if ($table == 'dt01_gen_user_data') {
+						$query .= " WHERE USERNAME='root'";
+					}
+
+					$result = $conn->query($query);
+
+					if (!$result) {
+						continue;
+					}
+
+					// Ambil metadata field
+					$fields = $result->fetch_fields();
+
+					while ($row = $result->fetch_assoc()) {
+
+						$insertValues = [];
+
+						foreach ($fields as $field) {
+
+							$fieldName = $field->name;
+							$value = $row[$fieldName];
+
+							// NULL asli database
+							if (is_null($value)) {
+
+								$insertValues[] = "NULL";
+
+							}
+							// Jika string kosong dan field nullable
+							elseif ($value === '' && !($field->flags & 1)) {
+
+								$insertValues[] = "NULL";
+
+							}
+							else {
+
+								// Escape karakter khusus
+								$escapedValue = $conn->real_escape_string($value);
+
+								$insertValues[] = '"' . $escapedValue . '"';
+							}
 						}
-						$insertQuery = substr($insertQuery, 0, -2);
-						$insertQuery .= ");\n";
+
+						// Generate INSERT
+						$insertQuery = "INSERT INTO `$table` VALUES (" .
+										implode(", ", $insertValues) .
+										");\n";
+
 						fwrite($handle, $insertQuery);
 					}
+
 					fwrite($handle, "\n\n");
 				}
 			}
