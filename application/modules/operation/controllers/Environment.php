@@ -33,12 +33,12 @@
             $input = json_decode(file_get_contents('php://input'), true);
         
             $envid = $input['envid'];
-            $dev = $input['dev'];
+            // $dev = $input['dev'];
             $prod = $input['prod'];
         
             // Prepare the data to update
             $data = [
-                'dev'  => $dev,
+                // 'dev'  => $dev,
                 'prod' => $prod
             ];
         

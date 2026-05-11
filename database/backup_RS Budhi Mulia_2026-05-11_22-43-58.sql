@@ -6,7 +6,7 @@ CREATE TABLE `dt01_gen_callback_it` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`CALLBACK_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_gen_department_ms` (
   `ORG_ID` varchar(36) DEFAULT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE `dt01_gen_department_ms` (
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`DEPARTMENT_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_gen_document_file_dt` (
   `ORG_ID` varchar(36) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE `dt01_gen_document_file_dt` (
   `URL` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`NO_FILE`,`STATUS_SIGN`,`ACTIVE`,`CREATED_DATE`),
   KEY `idx_active_status_request` (`ACTIVE`,`STATUS_SIGN`,`REQUEST_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_gen_document_ms` (
   `ORG_ID` varchar(36) NOT NULL,
@@ -59,9 +59,9 @@ CREATE TABLE `dt01_gen_document_ms` (
   `CREATED_BY` varchar(36) NOT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`JENIS_DOC`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `dt01_gen_document_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "xxx", "Testing Type Document", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-03-14 22:06:13");
+INSERT INTO `dt01_gen_document_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "xxx", "Testing Type Document", "1", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-03-14 22:06:13");
 
 
 CREATE TABLE `dt01_gen_enviroment_ms` (
@@ -76,29 +76,58 @@ CREATE TABLE `dt01_gen_enviroment_ms` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ENV_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "06d20e34-0ae0-4e8a-8c38-499e09bd5483", "STORAGESIGNOUT", NULL, "http://100.100.100.5/webapps/berkasrawat/pages/upload/", "1", "19", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "0c3ec9fc-5892-439c-be90-37cced7fbf36", "TYPEOF", "Signature, Materai", "Signature", "1", "7", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "161750e9-5916-4936-9333-e9f2baeef37d", "SIGNATUREPOSITION", "Fixed, Tag", "Fixed", "1", "10", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "218cce86-115c-4a2b-b5a4-4b9130ab393e", "TYPECERTIFICATE", "Psre, CAT", "Psre", "1", "8", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "293dbc50-ebea-4956-b786-1a593818e140", "STORAGESIGNIN", "http://100.100.100.5/dtechnology/assets/document/", "http://100.100.100.5/webapps/berkasrawat/pages/upload/", "1", "19", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "2c66adde-8abe-4b82-bfda-a342b1eed4f8", "TYPETAG", "Array, Unique", "Array", "1", "11", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "3761d10c-7c49-4431-b92e-e0d4f2248541", "PROVIDERSIGN", "Tilaka, Mekari", "Tilaka", "1", "6", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "4532bb87-5df4-4f8a-9c18-0b9134a217d4", "PARTNERS", "1", NULL, "9", "99", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "48919531-2aab-46c3-b4d8-eb70f6daf23e", "TYPESIGNATURE", "Default, Custom", "Default", "1", "12", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "4cf1de59-1805-4649-bfd9-054b067d527d", "CLIENT_ID_TILAKA", "be2642fe-a581-4a69-aaad-ed8174dddc7e", "ae755d9d-fd0b-42bd-ab2d-360679edcee8", "1", "2", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "53958b2a-6f73-4e4f-9703-40b64959d755", "CLIENT_SECRET_TILAKA", "3fa22ba0-7a81-4244-9694-b857f0e83cd8", "Fpa2dkj22QEI9B7x2LXffgRp5BAKhulh", "1", "3", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "5a9bc4e9-77f9-441d-8e69-2785a7e147f8", "TILAKA_BASE_URL", "https://sb-api.tilaka.id/", "https://sb-api.tilaka.id/", "1", "4", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "678bb734-3849-4a84-8c1b-3526c6029f95", "TILAKALITE_URL", "http://10.10.11.253:8088/", "http://192.168.101.45:8088/", "1", "5", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "69723f27-ec38-4d73-920f-b51b6a2c444b", "CERTIFICATE", "PERSONAL", "PERSONAL", "1", "9", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "7b31610f-f3de-4dde-86b6-6c22e8a2f309", "COORDINATE_X", "26", "26", "1", "16", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "a7a2ef53-c1df-4911-9e02-f4bebfa9e4ee", "COORDINATE_Y", "24", "24", "1", "17", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "b24848cf-4e98-4e2b-bed7-f1f4aeeef938", "SIGNATUREFIELD", NULL, "https://tte.komdigi.go.id/verifyPDF", "1", "13", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "b61b421d-b824-41a5-ad14-a4c412e4e11e", "HEIGHT", "50", "50", "1", "15", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "c952ea22-ef19-4aa6-9a11-0b639cdb9dbc", "ORG_ID", "10c84edd-500b-49e3-93a5-a2c8cd2c8524", "c446264f-3947-4ceb-ba8a-448e0ed874bf", "1", "1", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 10:25:12");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "dfefa28c-c03a-425c-9557-ebb6d37ba4ee", "WIDTH", "50", "50", "1", "14", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
-INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "fda0e07a-f1f9-4a7e-9b7f-5b2501dd5e8d", "PAGE", "1", "1", "1", "18", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "04bdbc0e-4b23-4dfe-b1bd-7912f5b8a243", "MEKARI_BASE_URL", "1", "https://sandbox-api.mekari.com", "2", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "05b2e689-8c58-4333-9873-aa2f8ff338fc", "URLVIEW", "1", "http://192.168.102.13/dtechnology/assets/document/", "1", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "06d20e34-0ae0-4e8a-8c38-499e09bd5483", "STORAGESIGNOUT", NULL, "http://100.100.100.5/webapps/berkasrawat/pages/upload/", "1", "19", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "0a9b8755-68ff-410f-aa9d-721d07f15c4a", "WA_GATEWAY", "http://192.168.102.13:5001", "http://192.168.102.13:5001", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "0c3ec9fc-5892-439c-be90-37cced7fbf36", "TYPEOF", "Signature, Materai", "Signature", "1", "7", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "11fba3e4-ae7a-47ee-a495-f80c84b1be36", "POSITIONSIGN", "1", "TAG", "1", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "161750e9-5916-4936-9333-e9f2baeef37d", "SIGNATUREPOSITION", "Fixed, Tag", "Fixed", "1", "10", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "218cce86-115c-4a2b-b5a4-4b9130ab393e", "TYPECERTIFICATE", "Psre, CAT", "Psre", "1", "8", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "2621c461-0ecf-491e-8495-99166b904b2d", "END_VALID_ACTIVITY", "5", "4", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "293dbc50-ebea-4956-b786-1a593818e140", "STORAGESIGNIN", "http://100.100.100.5/dtechnology/assets/document/", "http://100.100.100.5/webapps/berkasrawat/pages/upload/", "1", "19", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "2c66adde-8abe-4b82-bfda-a342b1eed4f8", "TYPETAG", "Array, Unique", "Array", "1", "11", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "3494fa6b-f012-4c40-8cae-70ab8a398b89", "KEY_EKLAIM", "af88024790f81eb9fafb3266bf0aae2c38f01f06b0f437ab2dac6686ecbd427f", "af88024790f81eb9fafb3266bf0aae2c38f01f06b0f437ab2dac6686ecbd427f", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "3761d10c-7c49-4431-b92e-e0d4f2248541", "PROVIDERSIGN", "Tilaka, Mekari", "Tilaka", "1", "6", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "4532bb87-5df4-4f8a-9c18-0b9134a217d4", "PARTNERS", "1", NULL, "9", "99", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "45c7f1e7-a712-4c46-bf24-29f31b04a713", "TYPESTORAGE", NULL, "http://localhost/dtechnology/assets/document/", "1", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "48919531-2aab-46c3-b4d8-eb70f6daf23e", "TYPESIGNATURE", "Default, Custom", "Default", "1", "12", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "4b57850c-0445-4b5a-b397-57a09479f0bd", "CLIENTID_SATUSEHAT", "wYiLSpaT4s7GR24ZqGvC1iyG2GBDZeYGEYvDeonE750ahy8h", "wYiLSpaT4s7GR24ZqGvC1iyG2GBDZeYGEYvDeonE750ahy8h", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "4cf1de59-1805-4649-bfd9-054b067d527d", "CLIENT_ID_TILAKA", "be2642fe-a581-4a69-aaad-ed8174dddc7e", "14ec5b59-0426-46ba-8dc2-3cb953bd4b07", "1", "2", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "4cf2982c-8906-43d4-8a69-bca58f0cbdf0", "SERVER_EKLAIM", "http://192.168.56.101/", "http://192.168.56.101/", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "4f07a29b-f73b-4c9a-8900-da9a7d716524", "MAX_VALUE_ASSESSMENT", "30", "60", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "53958b2a-6f73-4e4f-9703-40b64959d755", "CLIENT_SECRET_TILAKA", "3fa22ba0-7a81-4244-9694-b857f0e83cd8", "LgAiVKWblhVEvFqhDv6Xwa7ijdINAkvl", "1", "3", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "573a2b21-138b-4bcf-87a0-33ed3db1a574", "AUTHURL_SATUSEHAT", "https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1", "https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "5a9bc4e9-77f9-441d-8e69-2785a7e147f8", "TILAKA_BASE_URL", "https://sb-api.tilaka.id/", "https://api.tilaka.id/", "1", "4", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "678bb734-3849-4a84-8c1b-3526c6029f95", "TILAKALITE_URL", "http://10.10.11.253:8088/", "http://100.100.100.35:8088/", "1", "5", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "67aeb868-636b-4e86-9cc1-690bbba5216d", "PATHFILE_POST_TILAKA", "/assets/document", "assets/document/", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "6938614d-276b-4161-a470-32156c1e3980", "PATHFILE_GET_TILAKA", "Z:\\document", "Z:\\document", "1", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "69723f27-ec38-4d73-920f-b51b6a2c444b", "CERTIFICATE", "PERSONAL", "PERSONAL", "1", "9", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "6ac2fbad-c514-4fcd-813d-b4845a5a5999", "MIDDLEWARE_NOTIFICATION", "TRUE", "TRUE", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2025-07-09 09:45:37");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "6bba06d0-4387-4585-95d1-42f3cbd6d682", "END_VALID_ASSESSMENT", "2", "4", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "7b31610f-f3de-4dde-86b6-6c22e8a2f309", "COORDINATE_X", "26", "26", "1", "16", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "90ff66de-ace0-491d-9843-74f8b7d57886", "CLIENTSECRET_SATUSEHAT", "dcBZIfHwKr81OivmudeTJr8411fTJSFRikeNdniISGZ9GrXAvHpsjQlrkumHBXiC", "dcBZIfHwKr81OivmudeTJr8411fTJSFRikeNdniISGZ9GrXAvHpsjQlrkumHBXiC", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "913aeeac-ae1c-4347-be0b-ab0aae502729", "URL_HOLDING", "1", "https://rsumutiasari.com", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "a7a2ef53-c1df-4911-9e02-f4bebfa9e4ee", "COORDINATE_Y", "24", "24", "1", "17", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "ae4ade89-db55-4d46-a7e9-25ceeeb56a50", "MAX_VALUE_ACTIVITY", "70", "40", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b0034df2-52e3-4467-9b9f-f42359891bf4", "BASE_URL", "http://192.168.102.13/dtechnology/index.php", "http://192.168.102.13/dtechnology/index.php", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b237d064-cf88-4e11-9003-ff39cd594d95", "CHECK_DATA_HOLDING", "1", "FALSE", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b24848cf-4e98-4e2b-bed7-f1f4aeeef938", "SIGNATUREFIELD", NULL, "https://tte.komdigi.go.id/verifyPDF", "1", "13", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b61b421d-b824-41a5-ad14-a4c412e4e11e", "HEIGHT", "50", "50", "1", "15", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b6ed41ee-1f87-4620-b1c4-e5a39b2f077a", "MEKARI_CLIENT_ID", "1", "BfilE6rYEnsxyjO7", "2", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b7168479-dca4-44c8-8015-bfaeb0ea616b", "WEBHOOK_URL_KYC", "1", NULL, "2", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "c952ea22-ef19-4aa6-9a11-0b639cdb9dbc", "ORG_ID", "10c84edd-500b-49e3-93a5-a2c8cd2c8524", "2334afa6-0b60-4a1f-81f3-5c322bbe0710", "1", "1", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 10:25:12");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "d1f96ded-4df9-4c4a-9b28-14814d91e392", "PATHFILE_POST_DTECH", "\\\\\\\\192.168.102.50\\\\nas\\\\document\\\\", "\\\\\\\\192.168.102.50\\\\nas\\\\document\\\\", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "d9581cce-7399-468d-89af-a27874d6e919", "MEKARI_SECRET_ID", "1", "AvgvJ7u2wEwpppwQjWgbwpEpRMHQH0k9", "2", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "dd94948b-d9c2-4acb-a0b9-e4258b213337", "SATUSEHAT_BASE_URL", "https://api-satusehat-stg.dto.kemkes.go.id/fhir-r4/v1", "https://api-satusehat-stg.dto.kemkes.go.id/fhir-r4/v1", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "dfefa28c-c03a-425c-9557-ebb6d37ba4ee", "WIDTH", "50", "50", "1", "14", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "e63cc48e-0392-49d2-86ad-c384f76b57d9", "TYPE_STORAGE", "1", "LOCAL", "1", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "e847ce7a-835f-4a9a-a163-1f9e874497a0", "START_VALID_ASSESSMENT", "1", "1", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "f68555e8-a5f8-46ab-a183-55c9efa7f069", "WEBHOOK_KYC", "1", "FALSE", "2", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "fda0e07a-f1f9-4a7e-9b7f-5b2501dd5e8d", "PAGE", "1", "1", "1", "18", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "fe6551c8-f3f5-4568-9060-9a0c423a0b8f", "MEKARI_PATH_KYC", "1", "/v2/esign-hmac/v1/profile", "2", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 
 
 CREATE TABLE `dt01_gen_master_ms` (
@@ -115,21 +144,21 @@ CREATE TABLE `dt01_gen_master_ms` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`MASTER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "21ae6cfe-b859-485b-8f5f-6715b3704e61", "6", "Execute Success", NULL, "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "4f716e33-d1bc-49f8-997b-1283c7b01625", "5", "Finish", "Document Available", "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "55e70046-7cba-42d7-93cb-05e1ff6ca359", "80", "Void", NULL, "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "5ab30fbb-e9fb-46ed-9ff6-d6b0560cd2c0", "95", "Failed", "Duplicate Transaction", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "628f9951-2022-4963-adc2-54806857bf9b", "0", "New Document", "Waiting Upload Tilaka Lite", "warning", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "65b1c1e6-2a05-452c-a8ae-6f25a8452227", "1", "File uploaded successfully", "Waiting Request Sign", "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "7e982636-f27c-42ed-a3a5-dad92cc42cbd", "3", "Request Quicksign", "Document In Process", "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "b17fc883-2d8a-4db8-a350-7c39133d605c", "97", "Failed", "Certificate InActive", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "b63f98ff-6dcf-428e-aca7-2151b2a1e02e", "98", "Failed", "File Corrupted", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "ba1374f0-881c-4f8c-aab2-51cb7eb08d5a", "96", "Failed", "User Undefined", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "ccd72737-c31b-4741-87a3-e2127900187c", "99", "Failed", "File Not Exists", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "da5c68fe-5d50-4488-b819-b9481aadc2f4", "2", "Request Sign Reguler Success", NULL, "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
-INSERT INTO `dt01_gen_master_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "e26ee0b9-f701-41c2-abd3-971ebd50aaca", "4", "Signing Document Success", NULL, "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "21ae6cfe-b859-485b-8f5f-6715b3704e61", "6", "Execute Success", NULL, "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "4f716e33-d1bc-49f8-997b-1283c7b01625", "5", "Finish", "Document Available", "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "55e70046-7cba-42d7-93cb-05e1ff6ca359", "80", "Void", NULL, "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "5ab30fbb-e9fb-46ed-9ff6-d6b0560cd2c0", "95", "Failed", "Duplicate Transaction", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "628f9951-2022-4963-adc2-54806857bf9b", "0", "New Document", "Waiting Upload Tilaka Lite", "warning", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "65b1c1e6-2a05-452c-a8ae-6f25a8452227", "1", "File uploaded successfully", "Waiting Request Sign", "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "7e982636-f27c-42ed-a3a5-dad92cc42cbd", "3", "Request Quicksign", "Document In Process", "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b17fc883-2d8a-4db8-a350-7c39133d605c", "97", "Failed", "Certificate InActive", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b63f98ff-6dcf-428e-aca7-2151b2a1e02e", "98", "Failed", "File Corrupted", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "ba1374f0-881c-4f8c-aab2-51cb7eb08d5a", "96", "Failed", "User Undefined", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "ccd72737-c31b-4741-87a3-e2127900187c", "99", "Failed", "File Not Exists", "danger", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "da5c68fe-5d50-4488-b819-b9481aadc2f4", "2", "Request Sign Reguler Success", NULL, "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
+INSERT INTO `dt01_gen_master_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "e26ee0b9-f701-41c2-abd3-971ebd50aaca", "4", "Signing Document Success", NULL, "success", NULL, "Statussign_2", "2", "1", "55b16625-efca-4093-8df0-20fc838f21b1", "2025-01-03 21:34:16");
 
 
 CREATE TABLE `dt01_gen_modules_ms` (
@@ -148,7 +177,7 @@ CREATE TABLE `dt01_gen_modules_ms` (
   `CREATED_BY` varchar(36) NOT NULL,
   `CREATED_DATE` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`MODULES_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dt01_gen_modules_ms` VALUES ("01b1b52a-7d47-4352-b145-37d9bb2646c3", "Tilaka", "", "45304d5b-390d-4618-a08d-793b475f37b7", "tilaka", "", "Y", "bi bi-filetype-pdf", "0", "998", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("029f2730-7ee9-4383-a409-4b5fe0d61fcc", "Request", "", "ef759cae-8fd6-4e36-9790-439e03c3a503", "logistik", "request", "N", "bi bi-file-earmark-spreadsheet", "0", "3", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
@@ -223,7 +252,7 @@ INSERT INTO `dt01_gen_modules_ms` VALUES ("56f6fcfd-ece1-493f-80f3-1948fe769fbd"
 INSERT INTO `dt01_gen_modules_ms` VALUES ("589cf172-5ae7-4793-aa9e-f6ffe9c0e374", "Forecasting", "", "b23033e4-2079-44e0-89b0-c26a45c74802", "farmasi", "forecasting", "N", "bi bi-graph-up", "0", "9999", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("5a5c9286-bdcf-4e39-8c45-169dc334317c", "Finance Approval", "", "38dbb019-da6f-4ad6-a2b6-c9b766b4b3ca", "logistiknew", "approvalfinance", "N", "bi bi-ui-checks", "0", "4", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("5e882da7-5b62-4031-8ea2-a849d1e0aa65", "Repository Document", "", "df495870-8f19-41a1-943e-5d36ea0553db", "tilakaV2", "repodocument", "N", "bi bi-archive", "0", "3", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
-INSERT INTO `dt01_gen_modules_ms` VALUES ("5e9a1b26-93fe-4dbc-af0e-2967710e4483", "Role List", "", "8f9cf15d-8e83-4c75-bcc1-fff8ddd2e614", "mastersystem", "role", "N", "bi-person-badge", "0", "2", "N", "0", "", "2024-04-29 23:10:27");
+INSERT INTO `dt01_gen_modules_ms` VALUES ("5e9a1b26-93fe-4dbc-af0e-2967710e4483", "Role List", "", "8f9cf15d-8e83-4c75-bcc1-fff8ddd2e614", "mastersystem", "role", "N", "bi-person-badge", "0", "2", "N", "1", "", "2024-04-29 23:10:27");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("6329ddd6-a27c-427c-bd82-2ee278145a01", "Piutang", "", "9a1cc085-6cc0-40ee-85fc-849357638db3", "sb", "piutangsum", "N", "bi-box-arrow-in-down", "0", "10", "N", "0", "", "2024-04-29 23:10:27");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("635e52ec-e7d3-4a67-9616-fdadd0eceb61", "Nurse/Midwife Committee", "", "9b873e90-d8fd-48f3-8c98-ec2aff0c207f", "komiteperawat", "", "Y", "fa-solid fa-user-nurse", "0", "6", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("65e39b7b-a4ee-4045-a6f0-73667f5026d8", "Daily", "", "cda2e6e6-99f8-415d-b52b-320b51b0028a", "report", "daily", "N", "fa-solid fa-money-bill-trend-up", "0", "3", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:00:57");
@@ -264,12 +293,12 @@ INSERT INTO `dt01_gen_modules_ms` VALUES ("8ace90ab-ffeb-49ab-a9ce-9dbf1d9b99d3"
 INSERT INTO `dt01_gen_modules_ms` VALUES ("8b5e1a58-998a-405e-aa30-ece15e455973", "History", "", "", "", "", "A", "bi bi-clock-history", "0", "997", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("8c9136b3-7e71-41b0-ba29-8856fd434a17", "View Tickets", "", "f56a43c9-f28d-4230-a0ce-7bf5cd86f2df", "support", "eticketview", "N", "bi bi-question-octagon", "0", "3", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("8f476463-92c6-42e4-a6fb-4678a1354542", "Handling Complaint", "", "bc12409b-555f-4bc5-abff-39de931a3b24", "crm", "handling", "N", "bi bi-exclamation-circle-fill", "0", "2", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
-INSERT INTO `dt01_gen_modules_ms` VALUES ("8f9cf15d-8e83-4c75-bcc1-fff8ddd2e614", "Master System", "", "6c105bb7-633d-4f59-b0d0-37b6dcc59bb7", "mastersystem", "", "Y", "bi bi-database-fill", "0", "998", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:00:57");
+INSERT INTO `dt01_gen_modules_ms` VALUES ("8f9cf15d-8e83-4c75-bcc1-fff8ddd2e614", "Master System", "", "6c105bb7-633d-4f59-b0d0-37b6dcc59bb7", "mastersystem", "", "Y", "bi bi-database-fill", "0", "998", "N", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:00:57");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("8fb9b5dc-c245-49e6-b918-538b5d860569", "Dashboard", "", "fce6c4d3-42bc-490a-8b8f-5a150fcfeb4f", "patientservice", "dashboard", "N", "bi bi-grid", "0", "1", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("8ff4efe7-c59a-4e50-8665-cac5174e9ee4", "Assets", "", "cda2e6e6-99f8-415d-b52b-320b51b0028a", "assets", "", "Y", "bi-collection", "0", "12", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:00:57");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("92525e76-d778-43c8-945b-f2b4bf192627", "Payment Procurement", "", "9b873e90-d8fd-48f3-8c98-ec2aff0c207f", "paymentponew", "", "Y", "bi bi-wallet2", "0", "8", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("938f304c-fb90-49e8-a85d-4c3340b325d5", "Document Legal", "", "ee9b62a0-72f3-42a9-af3f-3faadca592df", "document", "documentlegal", "N", "bi bi-person-raised-hand", "0", "999999", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
-INSERT INTO `dt01_gen_modules_ms` VALUES ("951544df-6ad1-482d-89e0-4bd3d348e215", "User Access", "", "6c105bb7-633d-4f59-b0d0-37b6dcc59bb7", "operation", "useraccess", "N", "bi bi-layers", "0", "1", "N", "0", "", "2024-04-29 23:10:27");
+INSERT INTO `dt01_gen_modules_ms` VALUES ("951544df-6ad1-482d-89e0-4bd3d348e215", "User Access", "", "6c105bb7-633d-4f59-b0d0-37b6dcc59bb7", "operation", "useraccess", "N", "bi bi-layers", "0", "1", "N", "1", "", "2024-04-29 23:10:27");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("9548c430-3e27-45e8-816c-6572107f4b75", "MekariSign", "", "45304d5b-390d-4618-a08d-793b475f37b7", "mekari", "", "Y", "bi bi-filetype-pdf", "0", "998", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("9582f270-157a-498d-a4e1-5d40c9312c69", "Registrasi", "", "9548c430-3e27-45e8-816c-6572107f4b75", "mekari", "registrasi", "N", "bi bi-people", "0", "2", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 08:56:49");
 INSERT INTO `dt01_gen_modules_ms` VALUES ("959f12c0-0fd7-42c2-ad45-9905afae026b", "Chief Technology Officer", "", "38dbb019-da6f-4ad6-a2b6-c9b766b4b3ca", "logistiknew", "approvalcto", "N", "bi bi-ui-checks", "0", "8", "N", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 09:08:59");
@@ -372,10 +401,10 @@ CREATE TABLE `dt01_gen_organization_ms` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ORG_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `dt01_gen_organization_ms` VALUES ("62d46d48-2ba5-4fcd-9eb0-4dda784801be", NULL, NULL, "RMB Hospital Group", NULL, "Y", "N", "1", NULL, "2026-05-07 23:11:58");
-INSERT INTO `dt01_gen_organization_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "62d46d48-2ba5-4fcd-9eb0-4dda784801be", NULL, "RS Thursina", NULL, "N", "N", "1", NULL, "2026-05-07 23:11:34");
+INSERT INTO `dt01_gen_organization_ms` VALUES ("20b1b19c-2014-44a8-8a72-58b536a5d2bb", NULL, NULL, "RS Budhi Mulia", NULL, "N", "Y", "1", NULL, "2026-01-15 12:14:02");
+INSERT INTO `dt01_gen_organization_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "20b1b19c-2014-44a8-8a72-58b536a5d2bb", NULL, "RS Budhi Mulia", NULL, "N", "N", "1", NULL, "2026-01-15 12:12:57");
 
 
 CREATE TABLE `dt01_gen_referensi_dt` (
@@ -388,17 +417,17 @@ CREATE TABLE `dt01_gen_referensi_dt` (
   `CREATED_BY` varchar(36) NOT NULL,
   `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`REF_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "1d388997-3327-4746-8e80-0d49f37d1303", "forking postman collection", "informasi langkah-langkah forking postman collection", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/forking/#forking-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "9fd2c349-c12b-470c-867c-f21b80df021c", "import postman collection", "formasi langkah-langkah import postman collection.", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/import/#import-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "b18e4ceb-2363-4377-985c-b35dcc0a4408", "Certification Practice Statement", "", "https://repository.tilaka.id/CP_CPS.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "c491f152-a328-4868-9331-87142f3f6415", "Kebijakan Privasi", "", "https://repository.tilaka.id/kebijakan-privasi.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "d00e3b9e-933b-42d8-a493-19a41a01cc9a", "Perjanjian Pemilik Sertifikat", "", "https://repository.tilaka.id/perjanjian-pemilik-sertifikat.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "d2b728d9-4f81-44bd-b2dc-acdf546123d8", "Kebijakan Jaminan", "", "https://repository.tilaka.id/kebijakan-jaminan.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "d326eb39-6755-4ff8-a094-d396102424e3", "Postman Collection Satu Sehat", "Akses Postman Collection SATUSEHAT melalui web browser Anda.", "https://s.id/PostmanSATUSEHAT", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "e4ff825f-b7d1-4aee-98a7-ae71409de23d", "Mail Hostinger", "Akses Email Hostinger", "https://mail.hostinger.com/", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
-INSERT INTO `dt01_gen_referensi_dt` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "ed77c32b-e6ea-4883-971e-999b2d522b10", "Link 9", "", "", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "1d388997-3327-4746-8e80-0d49f37d1303", "forking postman collection", "informasi langkah-langkah forking postman collection", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/forking/#forking-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "9fd2c349-c12b-470c-867c-f21b80df021c", "import postman collection", "formasi langkah-langkah import postman collection.", "https://satusehat.kemkes.go.id/platform/docs/id/postman-workshop/import/#import-api", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b18e4ceb-2363-4377-985c-b35dcc0a4408", "Certification Practice Statement", "", "https://repository.tilaka.id/CP_CPS.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "c491f152-a328-4868-9331-87142f3f6415", "Kebijakan Privasi", "", "https://repository.tilaka.id/kebijakan-privasi.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "d00e3b9e-933b-42d8-a493-19a41a01cc9a", "Perjanjian Pemilik Sertifikat", "", "https://repository.tilaka.id/perjanjian-pemilik-sertifikat.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "d2b728d9-4f81-44bd-b2dc-acdf546123d8", "Kebijakan Jaminan", "", "https://repository.tilaka.id/kebijakan-jaminan.pdf", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "d326eb39-6755-4ff8-a094-d396102424e3", "Postman Collection Satu Sehat", "Akses Postman Collection SATUSEHAT melalui web browser Anda.", "https://s.id/PostmanSATUSEHAT", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "e4ff825f-b7d1-4aee-98a7-ae71409de23d", "Mail Hostinger", "Akses Email Hostinger", "https://mail.hostinger.com/", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
+INSERT INTO `dt01_gen_referensi_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "ed77c32b-e6ea-4883-971e-999b2d522b10", "Link 9", "", "", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-27 22:59:17");
 
 
 CREATE TABLE `dt01_gen_role_access` (
@@ -412,9 +441,65 @@ CREATE TABLE `dt01_gen_role_access` (
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `dt01_gen_role_access` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "438ed798-a4dc-4c83-93c5-3aa656b93aba", "6652e626-4438-4bff-aeef-164598310b94", "346ddd36-438f-45a9-a22f-1b11b6dc32e4", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:43:19", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:43:19");
+INSERT INTO `dt01_gen_role_access` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "438ed798-a4dc-4c83-93c5-3aa656b93aba", "6652e626-4438-4bff-aeef-164598310b94", "346ddd36-438f-45a9-a22f-1b11b6dc32e4", "1", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:43:19", "6652e626-4438-4bff-aeef-164598310b94", "2025-11-27 11:43:19");
+INSERT INTO `dt01_gen_role_access` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "49270021-c2af-454d-8300-5b731bec7ca7", "642d58dc-fbf1-4697-92c1-c4fc92bfac5d", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:42:03", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:42:03");
+INSERT INTO `dt01_gen_role_access` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "4f36231f-535f-49d5-bb8b-921fe6ddda37", "a750d847-a198-451d-a4dc-fb758a91ad57", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:42:29", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:42:29");
+
+
+CREATE TABLE `dt01_gen_role_dt` (
+  `ORG_ID` varchar(36) DEFAULT NULL,
+  `TRANS_ID` varchar(36) NOT NULL,
+  `ROLE_ID` varchar(36) DEFAULT NULL,
+  `MODULES_ID` varchar(36) DEFAULT NULL,
+  `ACTIVE` varchar(1) DEFAULT '1',
+  `CREATED_BY` varchar(36) DEFAULT NULL,
+  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
+  `LAST_UPDATE_DATE` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`TRANS_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "11e55ea3-027a-4716-877c-0a25fb2db1eb", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "04ee7f51-5847-4099-9d70-7b4f4d9a989c", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:01", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:01");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "1a73fb3f-7ddb-4718-b750-9379e2fe5a10", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "fbc0e7a2-7ada-47f6-a448-0474e44bb402", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:35", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:35");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "1af607b5-dd34-46d7-a59a-b030e2a3db35", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "5e9a1b26-93fe-4dbc-af0e-2967710e4483", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:03", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:03");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "21cec6a0-8ee6-48b1-a54e-d3c088a7b3b6", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "084bfaa9-8dda-4c7f-a54e-882496b77866", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:39", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:39");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "2a9b726c-e66f-45c2-81e3-f5e5a39a071e", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "c820e1c6-18d9-4ab1-9fc1-df6e57a6f484", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:49", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:34");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "342af6ca-154b-49f8-bc69-5b766bc26843", "d97073e0-534a-41b3-ad1e-58b100da7969", "45304d5b-390d-4618-a08d-793b475f37b7", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:21", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:20");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "484d9e9e-767d-440d-8551-f3f617d12aa6", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "45304d5b-390d-4618-a08d-793b475f37b7", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:48", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:33");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "5d09d954-8fd1-4310-abc1-d9b888bc3b2a", "d97073e0-534a-41b3-ad1e-58b100da7969", "c820e1c6-18d9-4ab1-9fc1-df6e57a6f484", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:23", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:22");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "6641de05-6db1-4fd4-b12d-38d59da107d4", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "6c105bb7-633d-4f59-b0d0-37b6dcc59bb7", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:40", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:40");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "79f5bf9e-f0b2-41e0-9875-6c708bf7e7cc", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "8f9cf15d-8e83-4c75-bcc1-fff8ddd2e614", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:02", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:02");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "7a545d13-1f94-4541-a85b-9ed47f91a8af", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "951544df-6ad1-482d-89e0-4bd3d348e215", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:59", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:41");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "7c3efd26-08a7-419c-bd70-5b1df8c1952b", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "084bfaa9-8dda-4c7f-a54e-882496b77866", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:51", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:39");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "835da3e7-febc-4b16-9fad-85f412f2a352", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "c820e1c6-18d9-4ab1-9fc1-df6e57a6f484", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:35", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:34");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "90fb951d-1f3f-43e7-9c5c-d285642e4f8c", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "951544df-6ad1-482d-89e0-4bd3d348e215", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:41", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:41");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "9ccb4027-1096-4d99-8f71-52563b8315ea", "d97073e0-534a-41b3-ad1e-58b100da7969", "71dfb7c2-4abf-4f93-b989-7d78f255a074", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:26", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:26");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "a1eaf319-539c-4a78-8100-64198902b4de", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "6c105bb7-633d-4f59-b0d0-37b6dcc59bb7", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:53", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:40");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "a43cc6ee-40d0-48a8-9b4f-09d76f5055b1", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "aa816bb5-2197-4c1a-90b2-f1e955063ca8", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:46", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:46");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "a45dd5bd-6d2b-49bc-8ec3-0111bd18c07e", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "71dfb7c2-4abf-4f93-b989-7d78f255a074", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:37", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:37");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "d6896707-4469-4720-857b-a2259f2faf7e", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "aa816bb5-2197-4c1a-90b2-f1e955063ca8", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:00", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:46");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "da162c6d-1fdb-4962-8700-8a7f7c17000a", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "71dfb7c2-4abf-4f93-b989-7d78f255a074", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:50", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:37");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "e68d3bbe-dd71-40fd-aa0e-989c59299402", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "45304d5b-390d-4618-a08d-793b475f37b7", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:34", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:34");
+INSERT INTO `dt01_gen_role_dt` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "ef9e2aac-7b4c-431d-9945-f4d14cdb63c8", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "fbc0e7a2-7ada-47f6-a448-0474e44bb402", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:49", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:41:36");
+
+
+CREATE TABLE `dt01_gen_role_ms` (
+  `ORG_ID` varchar(36) DEFAULT NULL,
+  `ROLE_ID` varchar(36) NOT NULL,
+  `ROLE` varchar(1000) DEFAULT NULL,
+  `ACTIVE` varchar(1) DEFAULT '1',
+  `CREATED_BY` varchar(36) DEFAULT NULL,
+  `CREATED_DATE` datetime DEFAULT current_timestamp(),
+  `LAST_UPDATED_BY` varchar(36) DEFAULT NULL,
+  `LAST_UPDATED_DATE` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`ROLE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `dt01_gen_role_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "46c4eb0a-42c6-4c0e-a2a7-4fa434613cb9", "Developer", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:05", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:40:05");
+INSERT INTO `dt01_gen_role_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "d97073e0-534a-41b3-ad1e-58b100da7969", "Default", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:39:33", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:39:33");
+INSERT INTO `dt01_gen_role_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "e77653e7-6a8f-497d-b3a2-ee30065b0fd1", "IT Operation", "1", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:39:49", "6652e626-4438-4bff-aeef-164598310b94", "2026-05-11 22:39:49");
 
 
 CREATE TABLE `dt01_gen_user_data` (
@@ -460,9 +545,9 @@ CREATE TABLE `dt01_gen_user_data` (
   `ACTIVE_ID` varchar(36) DEFAULT NULL,
   `ACTIVE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `dt01_gen_user_data` VALUES ("62d46d48-2ba5-4fcd-9eb0-4dda784801be", "c446264f-3947-4ceb-ba8a-448e0ed874bf", "6652e626-4438-4bff-aeef-164598310b94", "root", "3832333435363731", "Administrator", "Administrator", "1521027", NULL, "4355345345345345", NULL, NULL, "yezeisseibrovo-7642@yopmail.com", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "N", "N", "83e9982c-814a-4349-89fb-cbee6f34e340", NULL, "0", "0", "0", "N", NULL, NULL, "081288646630", "1", NULL, "2026-05-07 23:18:28", NULL, NULL);
+INSERT INTO `dt01_gen_user_data` VALUES ("20b1b19c-2014-44a8-8a72-58b536a5d2bb", "2334afa6-0b60-4a1f-81f3-5c322bbe0710", "6652e626-4438-4bff-aeef-164598310b94", "root", "3832333435363731", "Administrator 1", "Administrator 1", "1521027", NULL, "4353423423423423", NULL, NULL, "christianyosaputra@rsumutiasari.com", NULL, NULL, "christian02", "31b4cc06-0c8c-4f0a-96ec-a9a428f8b751", NULL, NULL, NULL, "3", "Registered", NULL, NULL, NULL, "N", "Y", "83e9982c-814a-4349-89fb-cbee6f34e340", NULL, "0", "0", "0", "N", NULL, NULL, "081288646630", "1", NULL, "2026-01-15 12:15:32", NULL, NULL);
 
 
 CREATE TABLE `dt01_hrd_position_dt` (
@@ -482,7 +567,7 @@ CREATE TABLE `dt01_hrd_position_dt` (
   `LAST_UPDATE_BY` varchar(36) DEFAULT NULL,
   `LAST_UPDATE_DATE` datetime DEFAULT NULL,
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_hrd_position_ms` (
   `GROUP_ID` varchar(36) DEFAULT NULL,
@@ -502,7 +587,7 @@ CREATE TABLE `dt01_hrd_position_ms` (
   `LAST_UPDATE_BY` varchar(36) NOT NULL,
   `LAST_UPDATE_DATE` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`POSITION_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_sek_surat_hd` (
   `GROUP_ID` varchar(36) DEFAULT NULL,
@@ -523,7 +608,7 @@ CREATE TABLE `dt01_sek_surat_hd` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`TRANS_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_sek_surat_it` (
   `GROUP_ID` varchar(36) DEFAULT NULL,
@@ -543,7 +628,7 @@ CREATE TABLE `dt01_sek_surat_it` (
   `HAPUS_DATETIME` datetime DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   PRIMARY KEY (`TRANSAKSI_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_sign_document_dt` (
   `ORG_ID` varchar(36) DEFAULT NULL,
@@ -588,5 +673,5 @@ CREATE TABLE `dt01_sign_document_dt` (
   `CREATED_BY` varchar(36) DEFAULT NULL,
   `CREATED_DATE` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`TRANSAKSI_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

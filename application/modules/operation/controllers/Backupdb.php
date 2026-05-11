@@ -94,7 +94,8 @@
 				'dt01_gen_role_access',
 				'dt01_gen_master_ms',
 				'dt01_gen_user_data',
-				'dt01_gen_organization_ms'
+				'dt01_gen_organization_ms',
+				'dt01_gen_role_ms'
 			];
 
 			foreach ($tables as $table) {

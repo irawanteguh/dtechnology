@@ -183,7 +183,7 @@ function masterenvironment() {
 }
 
 function saveEnvironment(envId) {
-    let devValue = document.getElementById(envId + "_dev").value;
+    // let devValue = document.getElementById(envId + "_dev").value;
     let prodValue = document.getElementById(envId + "_prod").value;
 
     // Perform AJAX request to update the environment
@@ -194,7 +194,7 @@ function saveEnvironment(envId) {
         },
         body: JSON.stringify({
             envid: envId,
-            dev  : devValue,
+            // dev  : devValue,
             prod : prodValue
         })
     })

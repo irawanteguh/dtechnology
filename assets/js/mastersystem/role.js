@@ -46,7 +46,7 @@ function masterrole(){
                             tableresult +="<div class='card-header'>";
                                 tableresult += "<h2 class='card-title align-items-start flex-column mt-5'>";
                                     tableresult += "<span class='card-label fw-bolder fs-3 mb-1'>" + result[i].role + "</span>";
-                                    tableresult += "<span class='text-muted mt-1 fw-bold fs-7 me-4'>" + result[i].createdby + " <span class='badge badge-secondary'>" + result[i].createddate + "</span></span>";
+                                    tableresult += "<span class='text-muted mt-1 fw-bold fs-7 me-4'>" + (result[i].createdby || '') + " <span class='badge badge-secondary'>" + result[i].createddate + "</span></span>";
                                 tableresult += "</h2>";
                                  tableresult += "<div class='card-toolbar'>";
                                     tableresult += "<span class='badge badge-light-info fs-7'>" + result[i].orgname + "</span>";
