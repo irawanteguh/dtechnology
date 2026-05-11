@@ -110,6 +110,7 @@ INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe07
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "7b31610f-f3de-4dde-86b6-6c22e8a2f309", "COORDINATE_X", "26", "26", "1", "16", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "90ff66de-ace0-491d-9843-74f8b7d57886", "CLIENTSECRET_SATUSEHAT", "dcBZIfHwKr81OivmudeTJr8411fTJSFRikeNdniISGZ9GrXAvHpsjQlrkumHBXiC", "dcBZIfHwKr81OivmudeTJr8411fTJSFRikeNdniISGZ9GrXAvHpsjQlrkumHBXiC", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "913aeeac-ae1c-4347-be0b-ab0aae502729", "URL_HOLDING", "1", "https://rsumutiasari.com", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "97209b41-c4db-4191-a73e-8569d27b9bdc", "CERTIFICATE", "CORPORATE, PERSONAL", "CORPORATE", "1", "20", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "a7a2ef53-c1df-4911-9e02-f4bebfa9e4ee", "COORDINATE_Y", "24", "24", "1", "17", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "ae4ade89-db55-4d46-a7e9-25ceeeb56a50", "MAX_VALUE_ACTIVITY", "70", "40", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("2334afa6-0b60-4a1f-81f3-5c322bbe0710", "b0034df2-52e3-4467-9b9f-f42359891bf4", "BASE_URL", "http://192.168.102.13/dtechnology/index.php", "http://192.168.102.13/dtechnology/index.php", "0", "0", "0", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
@@ -628,6 +629,30 @@ CREATE TABLE `dt01_sek_surat_it` (
   `HAPUS_DATETIME` datetime DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   PRIMARY KEY (`TRANSAKSI_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `dt01_service_api_logs_out` (
+  `ORG_ID` varchar(36) DEFAULT NULL,
+  `REQUEST_ID` varchar(13) NOT NULL,
+  `REQUEST_METHOD` varchar(6) DEFAULT NULL,
+  `REQUEST_URL` text DEFAULT NULL,
+  `REQUEST_HEADERS` text DEFAULT NULL,
+  `REQUEST_BODY` text DEFAULT NULL,
+  `USER_AGENT` text DEFAULT NULL,
+  `REMOTE_ADDRESS` varchar(15) DEFAULT NULL,
+  `RESPONSE_STATUS` varchar(3) DEFAULT NULL,
+  `RESPONSE_HEADERS` text DEFAULT NULL,
+  `RESPONSE_BODY` text DEFAULT NULL,
+  `APPCONNECT_TIME_US` decimal(18,0) DEFAULT NULL,
+  `CONNECT_TIME_US` decimal(18,0) DEFAULT NULL,
+  `NAMELOOKUP_TIME_US` decimal(18,0) DEFAULT NULL,
+  `PRETRANSFER_TIME_US` decimal(18,0) DEFAULT NULL,
+  `REDIRECT_TIME_US` decimal(18,0) DEFAULT NULL,
+  `STARTTRANSFER_TIME_US` decimal(18,0) DEFAULT NULL,
+  `TOTAL_TIME_US` decimal(18,0) DEFAULT NULL,
+  `SOURCE` varchar(1000) DEFAULT NULL,
+  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`REQUEST_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `dt01_sign_document_dt` (
