@@ -93,6 +93,7 @@ INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "678bb734-3849-4a84-8c1b-3526c6029f95", "TILAKALITE_URL", "http://10.10.11.253:8088/", "http://192.168.101.45:8088/", "1", "5", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "69723f27-ec38-4d73-920f-b51b6a2c444b", "CERTIFICATE", "PERSONAL", "PERSONAL", "1", "9", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "7b31610f-f3de-4dde-86b6-6c22e8a2f309", "COORDINATE_X", "26", "26", "1", "16", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
+INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "97209b41-c4db-4191-a73e-8569d27b9bdc", "CERTIFICATE", "CORPORATE, PERSONAL", "CORPORATE", "1", "20", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "a7a2ef53-c1df-4911-9e02-f4bebfa9e4ee", "COORDINATE_Y", "24", "24", "1", "17", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "b24848cf-4e98-4e2b-bed7-f1f4aeeef938", "SIGNATUREFIELD", NULL, "https://tte.komdigi.go.id/verifyPDF", "1", "13", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
 INSERT INTO `dt01_gen_enviroment_ms` VALUES ("c446264f-3947-4ceb-ba8a-448e0ed874bf", "b61b421d-b824-41a5-ad14-a4c412e4e11e", "HEIGHT", "50", "50", "1", "15", "1", "ab24ee31-f74c-4f86-a07b-27196b57e7a6", "2024-04-26 09:21:18");
@@ -516,7 +517,7 @@ CREATE TABLE `dt01_gen_user_data` (
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `dt01_gen_user_data` VALUES ("62d46d48-2ba5-4fcd-9eb0-4dda784801be", "c446264f-3947-4ceb-ba8a-448e0ed874bf", "6652e626-4438-4bff-aeef-164598310b94", "root", "3832333435363731", "Administrator", "Administrator", "1521027", NULL, "4355345345345345", NULL, NULL, "yezeisseibrovo-7642@yopmail.com", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "N", "N", "83e9982c-814a-4349-89fb-cbee6f34e340", NULL, "0", "0", "0", "N", NULL, NULL, "081288646630", "1", NULL, "2026-05-07 23:18:28", NULL, NULL);
+INSERT INTO `dt01_gen_user_data` VALUES ("62d46d48-2ba5-4fcd-9eb0-4dda784801be", "c446264f-3947-4ceb-ba8a-448e0ed874bf", "6652e626-4438-4bff-aeef-164598310b94", "root", "3832333435363731", "Administrator", "Administrator", "1521027", NULL, "4355345345345345", NULL, NULL, "houcrunikoibeu-9087@yopmail.com", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "N", "Y", "83e9982c-814a-4349-89fb-cbee6f34e340", NULL, "0", "0", "0", "N", NULL, NULL, "081288646630", "1", NULL, "2026-05-07 23:18:28", NULL, NULL);
 
 
 CREATE TABLE `dt01_hrd_position_dt` (
@@ -597,6 +598,30 @@ CREATE TABLE `dt01_sek_surat_it` (
   `HAPUS_DATETIME` datetime DEFAULT NULL,
   `ACTIVE` varchar(1) DEFAULT '1',
   PRIMARY KEY (`TRANSAKSI_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `dt01_service_api_logs_out` (
+  `ORG_ID` varchar(36) DEFAULT NULL,
+  `REQUEST_ID` varchar(13) NOT NULL,
+  `REQUEST_METHOD` varchar(6) DEFAULT NULL,
+  `REQUEST_URL` text DEFAULT NULL,
+  `REQUEST_HEADERS` text DEFAULT NULL,
+  `REQUEST_BODY` text DEFAULT NULL,
+  `USER_AGENT` text DEFAULT NULL,
+  `REMOTE_ADDRESS` varchar(15) DEFAULT NULL,
+  `RESPONSE_STATUS` varchar(3) DEFAULT NULL,
+  `RESPONSE_HEADERS` text DEFAULT NULL,
+  `RESPONSE_BODY` text DEFAULT NULL,
+  `APPCONNECT_TIME_US` decimal(18,0) DEFAULT NULL,
+  `CONNECT_TIME_US` decimal(18,0) DEFAULT NULL,
+  `NAMELOOKUP_TIME_US` decimal(18,0) DEFAULT NULL,
+  `PRETRANSFER_TIME_US` decimal(18,0) DEFAULT NULL,
+  `REDIRECT_TIME_US` decimal(18,0) DEFAULT NULL,
+  `STARTTRANSFER_TIME_US` decimal(18,0) DEFAULT NULL,
+  `TOTAL_TIME_US` decimal(18,0) DEFAULT NULL,
+  `SOURCE` varchar(1000) DEFAULT NULL,
+  `CREATED_DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`REQUEST_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `dt01_sign_document_dt` (
