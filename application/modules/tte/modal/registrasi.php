@@ -242,7 +242,7 @@
                 </div>
             </div>
             <form action="<?php echo base_url();?>index.php/tte/registrasi/registrasiuser" id="formregisteruser">
-                <input type="hidden" id="userid-registrasi" name="userid-registrasi">
+                <input type="text" id="userid-registrasi" name="userid-registrasi">
                 <div class="modal-body">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-11">
