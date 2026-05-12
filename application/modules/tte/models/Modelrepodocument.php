@@ -68,7 +68,7 @@
 
                                 OR (
                                     a.status_sign = '5'
-                                    AND a.download_date >= NOW()
+                                    AND DATE(a.download_date) = CURDATE()
                                 )
 
                                 OR (

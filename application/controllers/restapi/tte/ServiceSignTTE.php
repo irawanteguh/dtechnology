@@ -387,8 +387,6 @@
                 $body['request_id']  = $requestid;
                 $responserequestsignquicksign = TilakaPlus::requestsignquicksign(json_encode($body));
 
-                // return var_dump($responserequestsignquicksign);
-
                 if(!isset($responserequestsignquicksign['success'])){
                     $statusColor = "red";
                     $statusMsg   = "No Response From Tilaka Lite";
