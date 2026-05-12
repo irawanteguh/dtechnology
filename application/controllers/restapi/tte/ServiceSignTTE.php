@@ -623,8 +623,7 @@
 
                     $body['list_pdf'][]   = $listpdf;
                 }
-
-                return var_dump($body);
+                
                 $responserequestsignreguler = TilakaPlus::requestsignreguler(json_encode($body));
 
                 if(!isset($responserequestsignreguler['success'])){
