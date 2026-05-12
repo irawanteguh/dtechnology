@@ -1,5 +1,4 @@
 <?php
-    include FCPATH."assets/vendors/pdfparse/Pdfparse.php";
 
     //Start Function Random Generator
     function randomgeneatorname() {

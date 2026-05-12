@@ -6,7 +6,7 @@
     use Restserver\Libraries\REST_Controller;
     require APPPATH.'/libraries/REST_Controller.php';
     include FCPATH."assets/vendors/phpqrcode/qrlib.php";
-    // include FCPATH."assets/vendors/pdfparse/Pdfparse.php";
+    include FCPATH."assets/vendors/pdfparse/Pdfparse.php";
     
 
     if(!function_exists('color')){
