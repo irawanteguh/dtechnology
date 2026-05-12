@@ -30,14 +30,14 @@
                 
                 if(($_GET['reason_code'] === "0" || $_GET['reason_code'] === "2") && $_GET['status']==="S"){ // reason code 0 : Sukses KYC, status S : Sukses
                     $body['register_id']=$_GET['register_id'];
-                    $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
+                    $responsecheckregistrasiuser = TilakaPlus::checkregistrasiuser(json_encode($body));
 
                     if($responsecheckregistrasiuser['success']){
                         if(($responsecheckregistrasiuser['data']['status']==="S" && $responsecheckregistrasiuser['data']['reason_code']==="0") || ($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="2")){ // reason code 0 : Sukses KYC, status S : Sukses
                             
                             
                             $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
-                            $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+                            $responsecheckcertificateuser = TilakaPlus::checkcertificateuser(json_encode($body));
 
                             if($responsecheckcertificateuser['success']){
                                 $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
@@ -47,7 +47,7 @@
                                 $datasimpan['ISSUE_ID']         = null;
 
                                 $this->md->updatedataregister($datasimpan,$_GET['register_id']);
-                                redirect("tilakaV2/registrasi",$data);
+                                redirect("tte/registrasi",$data);
                             }
                         }
                     }
@@ -55,18 +55,18 @@
 
                 if(($_GET['reason_code'] === "1" || $_GET['reason_code'] === "undefined") && $_GET['status']==="S"){
                     $body['register_id']=$_GET['register_id'];
-                    $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
+                    $responsecheckregistrasiuser = TilakaPlus::checkregistrasiuser(json_encode($body));
 
                     if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="1" && $responsecheckregistrasiuser['data']['manual_registration_status']==="F"){
                         $datasimpan['REGISTER_ID']    = null;
                         $datasimpan['IMAGE_IDENTITY'] = "N";
                         $this->md->updatedataregister($datasimpan,$_GET['register_id']);
-                        redirect("tilakaV2/registrasi",$data);
+                        redirect("tte/registrasi",$data);
                     }
 
                     if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="1" && ($responsecheckregistrasiuser['data']['manual_registration_status']==="S" || $responsecheckregistrasiuser['data']['manual_registration_status']==="V")){
                         $body['user_identifier']=$responsecheckregistrasiuser['data']['tilaka_name'];
-                        $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+                        $responsecheckcertificateuser = TilakaPlus::checkcertificateuser(json_encode($body));
                             
                         if($responsecheckcertificateuser['success']){
                             if($responsecheckcertificateuser['status']===1){
@@ -74,7 +74,7 @@
                                 $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
                                 $datasimpan['CERTIFICATE_INFO'] = $responsecheckcertificateuser['message']['info'];
                                 $this->md->updatedataregister($datasimpan,$_GET['register_id']);
-                                redirect("tilakaV2/registrasi",$data);
+                                redirect("tte/registrasi",$data);
                             }else{
                                 if($responsecheckcertificateuser['status']===3){
                                     $datasimpan['USER_IDENTIFIER']  = $responsecheckregistrasiuser['data']['tilaka_name'];
@@ -85,7 +85,7 @@
                                     $datasimpan['REVOKE_ID']        = null;
                                     $datasimpan['ISSUE_ID']         = null;
                                     $this->md->updatedataregister($datasimpan,$_GET['register_id']);
-                                    redirect("tilakaV2/registrasi",$data);
+                                    redirect("tte/registrasi",$data);
                                 }
                             }
                             
@@ -102,13 +102,13 @@
                     $datasimpan['ISSUE_ID']        = null;
                     
                     $this->md->updatedataregister($datasimpan,$_GET['register_id']);
-                    redirect("tilakaV2/registrasi",$data);
+                    redirect("tte/registrasi",$data);
                 }
 
             }else{
                 if(isset($_GET['request_id']) && isset($_GET['tilaka_name']) && isset($_GET['tilaka-name']) && isset($_GET['request-id'])){
                     $body['user_identifier']=$_GET['tilaka_name'];
-                    $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+                    $responsecheckcertificateuser = TilakaPlus::checkcertificateuser(json_encode($body));
 
                     if($responsecheckcertificateuser['success']){
                         if($responsecheckcertificateuser['status']===3){
@@ -119,11 +119,11 @@
                             $datasimpan['REVOKE_ID']        = null;
                             $datasimpan['ISSUE_ID']         = null;
                             $this->md->updatedataregister($datasimpan,$_GET['request_id']);
-                            redirect("tilakaV2/registrasi",$data);
+                            redirect("tte/registrasi",$data);
                         }
                     }else{
                         $body['register_id']=$_GET['request_id'];
-                        $responsecheckregistrasiuser = Tilaka::checkregistrasiuser(json_encode($body));
+                        $responsecheckregistrasiuser = TilakaPlus::checkregistrasiuser(json_encode($body));
                         if($responsecheckregistrasiuser['data']['status']==="F" && $responsecheckregistrasiuser['data']['reason_code']==="3"){ // reason code 3 : Request Id Expired, status F : Fail dukcapil (ada data yang tidak sesuai, misal nik tidak ditemukan pada database dukcapil
                             $datasimpan['IMAGE_IDENTITY']  = "N";
                             $datasimpan['REASON_CODE']     = $_GET['reason_code'];
@@ -133,7 +133,7 @@
                             $datasimpan['ISSUE_ID']        = null;
                             
                             $this->md->updatedataregister($datasimpan,$_GET['request_id']);
-                            redirect("tilakaV2/registrasi",$data);
+                            redirect("tte/registrasi",$data);
                         }
                     }
                 }else{
@@ -143,7 +143,7 @@
                             $result   = $this->md->checkrevokeid($_SESSION['orgid'],$_GET['revoke_id']);
 
                             $body['user_identifier']=$result->USER_IDENTIFIER;
-                            $response = Tilaka::checkcertificateuser(json_encode($body));
+                            $response = TilakaPlus::checkcertificateuser(json_encode($body));
 
                             if($response['success']){
                                 if($response['status']===3){
@@ -156,14 +156,14 @@
                                 $datasimpan['CERTIFICATE_INFO'] = $response['data'][0]['status'];
 
                                 $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
-                                redirect("tilakaV2/registrasi",$data);
+                                redirect("tte/registrasi",$data);
                             }
                         }
 
                         if($_GET['status'] === "Gagal"){
                             $datasimpan['REVOKE_ID']=null;
                             $this->md->updatedatarevokeid($datasimpan,$_GET['revoke_id']);
-                            redirect("tilakaV2/registrasi",$data);
+                            redirect("tte/registrasi",$data);
                         }
 
                     }else{
@@ -179,7 +179,7 @@
                                 $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
 
                                 $body['user_identifier']=$result->USER_IDENTIFIER;
-                                $response = Tilaka::checkcertificateuser(json_encode($body));
+                                $response = TilakaPlus::checkcertificateuser(json_encode($body));
 
                                 if($response['success']){
 
@@ -191,7 +191,7 @@
                                         $datasimpan['REASON_CODE']      =null;
 
                                         $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
-                                        redirect("tilakaV2/registrasi",$data);
+                                        redirect("tte/registrasi",$data);
                                     }
 
                                     if($response['status']===3){
@@ -205,7 +205,7 @@
                                             $datasimpan['REASON_CODE']      =null;
 
                                             $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
-                                            redirect("tilakaV2/registrasi",$data);
+                                            redirect("tte/registrasi",$data);
                                         }
                                     }
                                 }
@@ -215,7 +215,7 @@
                                 $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
 
                                 $body['user_identifier']=$result->USER_IDENTIFIER;
-                                $response = Tilaka::checkcertificateuser(json_encode($body));
+                                $response = TilakaPlus::checkcertificateuser(json_encode($body));
 
                                 if($response['success']){                                    
                                     $datasimpan['CERTIFICATE']      = $response['status'];
@@ -224,7 +224,7 @@
                                     $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
                                     
                                     $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
-                                    redirect("tilakaV2/registrasi",$data);
+                                    redirect("tte/registrasi",$data);
                                 }
                             }
 
@@ -232,7 +232,7 @@
                                 $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
 
                                 $body['user_identifier']=$result->USER_IDENTIFIER;
-                                $response = Tilaka::checkcertificateuser(json_encode($body));
+                                $response = TilakaPlus::checkcertificateuser(json_encode($body));
 
                                 if($response['success']){                                    
                                     $datasimpan['CERTIFICATE']      = $response['status'];
@@ -241,7 +241,7 @@
                                     $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
                                     
                                     $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
-                                    redirect("tilakaV2/registrasi",$data);
+                                    redirect("tte/registrasi",$data);
                                 }
                             }
 
@@ -249,7 +249,7 @@
                                 $result   = $this->md->checkissueid($_SESSION['orgid'],$_GET['issue_id']);
 
                                 $body['user_identifier']=$result->USER_IDENTIFIER;
-                                $response = Tilaka::checkcertificateuser(json_encode($body));
+                                $response = TilakaPlus::checkcertificateuser(json_encode($body));
 
                                 if($response['success']){                                    
                                     $datasimpan['CERTIFICATE']      = $response['status'];
@@ -258,14 +258,14 @@
                                     $datasimpan['ISSUE_ID']         = $_GET['issue_id'];
                                     
                                     $this->md->updatedatauseridentifier($datasimpan,$result->USER_IDENTIFIER);
-                                    redirect("tilakaV2/registrasi",$data);
+                                    redirect("tte/registrasi",$data);
                                 }
                             }
 
                         }else{
                             if(isset($_GET['request_id']) && isset($_GET['tilaka_name'])){
                                 $body['user_identifier']=$_GET['tilaka_name'];
-                                $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+                                $responsecheckcertificateuser = TilakaPlus::checkcertificateuser(json_encode($body));
 
                                 if($responsecheckcertificateuser['success']){
                                     $datasimpan['USER_IDENTIFIER']  = $_GET['tilaka_name'];
@@ -275,21 +275,21 @@
                                     $datasimpan['ISSUE_ID']         = null;
 
                                     $this->md->updatedataregister($datasimpan,$_GET['request_id']);
-                                    redirect("tilakaV2/registrasi",$data);
+                                    redirect("tte/registrasi",$data);
                                 }
                             }else{
                                 if(isset($_GET['tilaka_name'])){
-                                    redirect("tilakaV2/registrasi",$data);
+                                    redirect("tte/registrasi",$data);
                                 }else{
                                     if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
-                                        redirect("tilakaV2/registrasi",$data);
+                                        redirect("tte/registrasi",$data);
                                     }else{
                                         if(isset($_GET['quicksign']) && isset($_GET['request_id'])){
                                             $datasimpan['QUICK_SIGN']      = $_GET['quicksign'];
                                             $datasimpan['QUICK_SIGN_DATE'] = date('Y-m-d H:i:s');
 
                                             $this->md->updatedataregister($datasimpan,$_GET['request_id']);
-                                            redirect("tilakaV2/registrasi",$data);
+                                            redirect("tte/registrasi",$data);
                                         }else{
                                             $this->template->load("template/template-sidebar","v_registrasi",$data);
                                         }
