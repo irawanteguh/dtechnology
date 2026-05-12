@@ -48,6 +48,27 @@
             return json_decode($responsecurl,TRUE);
         }
 
+        public static function registerkyc($body){
+            $oauthResponse = Tilaka::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+            
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => TILAKA_BASE_URL."registerForKycCheck",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => true,
+                'source'  => "TILAKA-REGISTERKYC"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
         public static function uploadfile($location){
             $oauthResponse = TilakaPlus::oauth();
 

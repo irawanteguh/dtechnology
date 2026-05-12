@@ -606,7 +606,7 @@
                         $body['hash_consent']      = $hash;
                         $body['consent_timestamp'] = $consent_timestamp;
     
-                        $response = Tilaka::registerkyc(json_encode($body));
+                        $response = TilakaPlus::registerkyc(json_encode($body));
     
                         if($response['success']){
                             $data['REGISTER_ID']      = $response['data'][0];

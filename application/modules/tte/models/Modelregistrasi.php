@@ -22,7 +22,7 @@
         }
 
         function dataregistrasi($orgid,$userid){
-            echo $query =
+            $query =
                     "
                         select a.*
                         from dt01_gen_user_data a
