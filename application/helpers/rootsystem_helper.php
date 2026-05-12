@@ -1,5 +1,5 @@
 <?php
-    use Smalot\PdfParser\Parser;
+    include FCPATH."assets/vendors/pdfparse/Pdfparse.php";
 
     //Start Function Random Generator
     function randomgeneatorname() {
@@ -378,41 +378,21 @@
 
             /*
             ========================================
-            PARSE PDF PURE PHP
+            PARSE PDF DENGAN KOORDINAT
             ========================================
             */
-            $parser = new Parser();
+            $pdfParse = new Pdfparse($localFile);
 
-            $pdf = $parser->parseFile($localFile);
-
-            $pages = $pdf->getPages();
-
-            $result = [
-                'content' => []
-            ];
-
-            foreach ($pages as $pageIndex => $page) {
-
-                $text = $page->getText();
-
-                /*
-                ========================================
-                CARI TEXT
-                ========================================
-                */
-                if (stripos($text, $position) !== false) {
-
-                    $result['content'][$position][] = [
-                        'x'    => floatval(COORDINATE_X),
-                        'y'    => floatval(COORDINATE_Y),
-                        'page' => $pageIndex + 1
-                    ];
-                }
-            }
+            /*
+            ========================================
+            CARI TEXT + KOORDINAT
+            ========================================
+            */
+            $specimentposition = $pdfParse->findText($position);
 
             return [
                 'status' => true,
-                'data'   => $result
+                'data'   => $specimentposition
             ];
 
         } catch (Exception $e) {
