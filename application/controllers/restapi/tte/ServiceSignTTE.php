@@ -339,7 +339,7 @@
                         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
                     }else{
                         $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
-
+                        return var_dump($specimentposition);
                         if(!empty($specimentposition['data']['content'][$position])){
                             foreach($specimentposition['data']['content'][$position] as $specimen){
                                 $signatureslist = [];
@@ -623,7 +623,7 @@
 
                     $body['list_pdf'][]   = $listpdf;
                 }
-                
+
                 $responserequestsignreguler = TilakaPlus::requestsignreguler(json_encode($body));
 
                 if(!isset($responserequestsignreguler['success'])){
