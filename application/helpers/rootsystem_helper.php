@@ -1,4 +1,5 @@
 <?php
+    use Smalot\PdfParser\Parser;
 
     //Start Function Random Generator
     function randomgeneatorname() {

@@ -4,15 +4,8 @@
     require FCPATH . 'vendor/autoload.php';
 
     use Restserver\Libraries\REST_Controller;
-
     require APPPATH . '/libraries/REST_Controller.php';
-
     include FCPATH . "assets/vendors/phpqrcode/qrlib.php";
-    // include FCPATH . "assets/vendors/pdfparse/Pdfparse.php";
-
-    use Smalot\PdfParser\Parser;
-    use setasign\Fpdi\Fpdi;
-    use setasign\Fpdi\PdfReader;
     
 
     if(!function_exists('color')){
