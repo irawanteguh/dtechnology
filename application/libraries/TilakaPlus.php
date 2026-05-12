@@ -69,6 +69,27 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        public static function checkregistrasiuser($body){
+            $oauthResponse = Tilaka::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+                    
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            $responsecurl = curl([
+                'url'     => TILAKA_BASE_URL."userregstatus",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-CHECKREGISTRASIUSER"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
         public static function uploadfile($location){
             $oauthResponse = TilakaPlus::oauth();
 
