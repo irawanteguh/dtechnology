@@ -221,7 +221,7 @@
 
                 // Folder temp project
                 $tempDir = FCPATH . 'assets/temp/';
-                // if (!is_dir($tempDir)) {mkdir($tempDir, 0777, true);}
+                if (!is_dir($tempDir)) {mkdir($tempDir, 0777, true);}
 
                 // pastikan ada ekstensi pdf
                 if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
