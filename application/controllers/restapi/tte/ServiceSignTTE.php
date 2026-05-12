@@ -1,6 +1,6 @@
 <?php
     defined('BASEPATH') OR exit('No direct script access allowed');
-
+    date_default_timezone_set('Asia/Jakarta');
     require FCPATH . 'vendor/autoload.php';
 
     use Restserver\Libraries\REST_Controller;
@@ -9,6 +9,10 @@
 
     include FCPATH . "assets/vendors/phpqrcode/qrlib.php";
     include FCPATH . "assets/vendors/pdfparse/Pdfparse.php";
+
+    use Smalot\PdfParser\Parser;
+    use setasign\Fpdi\Fpdi;
+    use setasign\Fpdi\PdfReader;
     
 
     if(!function_exists('color')){
