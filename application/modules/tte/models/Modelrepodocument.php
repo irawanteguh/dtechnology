@@ -43,22 +43,40 @@
                             ms.color AS colorstatus,
                             ms.master_name AS namestatus,
                             ms.description AS descriptionstatus
+
                         FROM dt01_sign_document_dt a
+
                         LEFT JOIN dt01_gen_document_ms gd 
                             ON gd.jenis_doc = a.jenis_doc
+
                         LEFT JOIN dt01_gen_user_data cu 
-                            ON cu.org_id = a.org_id AND (cu.user_id = a.created_by OR cu.nik = a.created_by)
+                            ON cu.org_id = a.org_id 
+                            AND cu.user_id = a.created_by
+
                         LEFT JOIN dt01_gen_user_data su 
-                            ON su.org_id = a.org_id AND su.nik = a.signer_id
+                            ON su.org_id = a.org_id 
+                            AND su.nik = a.signer_id
+
                         LEFT JOIN dt01_gen_master_ms ms 
                             ON ms.org_id = a.org_id 
                             AND ms.jenis_id = 'Statussign_2' 
                             AND ms.code = a.status_sign
+
                         WHERE a.active = '1'
                         AND (
-                            a.status_sign <> '5'
-                            OR (a.status_sign = '5' AND a.created_date <= DATE_SUB(SYSDATE(), INTERVAL 3 DAY))
-                        )
+                                a.status_sign IN ('0','1','2','3','4')
+
+                                OR (
+                                    a.status_sign = '5'
+                                    AND a.download_date >= NOW()
+                                )
+
+                                OR (
+                                    a.status_sign NOT IN ('0','1','2','3','4','5')
+                                    AND a.created_date >= NOW() - INTERVAL 2 DAY
+                                )
+                            )
+
                         ORDER BY a.created_date DESC;
                     ";
 
