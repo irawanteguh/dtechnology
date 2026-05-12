@@ -8,7 +8,7 @@
     require APPPATH . '/libraries/REST_Controller.php';
 
     include FCPATH . "assets/vendors/phpqrcode/qrlib.php";
-    include FCPATH . "assets/vendors/pdfparse/Pdfparse.php";
+    // include FCPATH . "assets/vendors/pdfparse/Pdfparse.php";
 
     use Smalot\PdfParser\Parser;
     use setasign\Fpdi\Fpdi;

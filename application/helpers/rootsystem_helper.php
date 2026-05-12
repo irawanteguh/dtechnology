@@ -205,6 +205,106 @@
         return 0;
     }
 
+    // function parsePdfAndFindText($locationFile, $position, $mainName){
+
+    //     $localFile  = $locationFile;
+    //     $isTempFile = false;
+
+    //     try {
+
+    //         /*
+    //         ========================================
+    //         JIKA SOURCE ADALAH URL
+    //         ========================================
+    //         */
+    //         if (filter_var($locationFile, FILTER_VALIDATE_URL)) {
+
+    //             // Folder temp project
+    //             $tempDir = FCPATH . 'assets/temp/';
+    //             if (!is_dir($tempDir)) {mkdir($tempDir, 0777, true);}
+
+    //             // pastikan ada ekstensi pdf
+    //             if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
+    //                 $mainName .= ".pdf";
+    //             }
+
+    //             $localFile = $tempDir . $mainName;
+
+    //             $ch = curl_init($locationFile);
+    //             curl_setopt_array($ch, [
+    //                 CURLOPT_RETURNTRANSFER => true,
+    //                 CURLOPT_FOLLOWLOCATION => true,
+    //                 CURLOPT_SSL_VERIFYPEER => false,
+    //                 CURLOPT_CONNECTTIMEOUT => 30,
+    //                 CURLOPT_TIMEOUT => 60
+    //             ]);
+
+    //             $pdfContent = curl_exec($ch);
+
+    //             if (curl_errno($ch)) {
+    //                 throw new Exception("Failed download PDF: " . curl_error($ch));
+    //             }
+
+    //             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    //             curl_close($ch);
+
+    //             if ($httpCode < 200 || $httpCode >= 300) {
+    //                 throw new Exception("URL returned HTTP code $httpCode");
+    //             }
+
+    //             if (!$pdfContent) {
+    //                 throw new Exception("Downloaded PDF is empty.");
+    //             }
+
+    //             if (!file_put_contents($localFile, $pdfContent)) {
+    //                 throw new Exception("Failed write temporary PDF file.");
+    //             }
+
+    //             $isTempFile = true;
+    //         }
+
+    //         /*
+    //         ========================================
+    //         CEK FILE ADA
+    //         ========================================
+    //         */
+    //         if (!file_exists($localFile)) {
+    //             throw new Exception("File not found: " . $localFile);
+    //         }
+
+    //         /*
+    //         ========================================
+    //         PARSE PDF
+    //         ========================================
+    //         */
+    //         $pdfParse = new Pdfparse($localFile);
+    //         $specimentposition = $pdfParse->findText($position);
+
+    //         return [
+    //             'status' => true,
+    //             'data'   => $specimentposition
+    //         ];
+
+    //     } catch (Exception $e) {
+
+    //         return [
+    //             'status'  => false,
+    //             'message' => $e->getMessage()
+    //         ];
+
+    //     } finally {
+
+    //         /*
+    //         ========================================
+    //         HAPUS TEMP FILE
+    //         ========================================
+    //         */
+    //         if ($isTempFile && file_exists($localFile)) {
+    //             unlink($localFile);
+    //         }
+    //     }
+    // }
+
     function parsePdfAndFindText($locationFile, $position, $mainName){
 
         $localFile  = $locationFile;
@@ -219,11 +319,12 @@
             */
             if (filter_var($locationFile, FILTER_VALIDATE_URL)) {
 
-                // Folder temp project
                 $tempDir = FCPATH . 'assets/temp/';
-                if (!is_dir($tempDir)) {mkdir($tempDir, 0777, true);}
 
-                // pastikan ada ekstensi pdf
+                if (!is_dir($tempDir)) {
+                    mkdir($tempDir, 0777, true);
+                }
+
                 if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
                     $mainName .= ".pdf";
                 }
@@ -231,6 +332,7 @@
                 $localFile = $tempDir . $mainName;
 
                 $ch = curl_init($locationFile);
+
                 curl_setopt_array($ch, [
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_FOLLOWLOCATION => true,
@@ -246,6 +348,7 @@
                 }
 
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
                 curl_close($ch);
 
                 if ($httpCode < 200 || $httpCode >= 300) {
@@ -274,15 +377,41 @@
 
             /*
             ========================================
-            PARSE PDF
+            PARSE PDF PURE PHP
             ========================================
             */
-            $pdfParse = new Pdfparse($localFile);
-            $specimentposition = $pdfParse->findText($position);
+            $parser = new Parser();
+
+            $pdf = $parser->parseFile($localFile);
+
+            $pages = $pdf->getPages();
+
+            $result = [
+                'content' => []
+            ];
+
+            foreach ($pages as $pageIndex => $page) {
+
+                $text = $page->getText();
+
+                /*
+                ========================================
+                CARI TEXT
+                ========================================
+                */
+                if (stripos($text, $position) !== false) {
+
+                    $result['content'][$position][] = [
+                        'x'    => floatval(COORDINATE_X),
+                        'y'    => floatval(COORDINATE_Y),
+                        'page' => $pageIndex + 1
+                    ];
+                }
+            }
 
             return [
                 'status' => true,
-                'data'   => $specimentposition
+                'data'   => $result
             ];
 
         } catch (Exception $e) {
