@@ -17,6 +17,37 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        public static function uuid($certificate,$name,$email){
+            $oauthResponse = Tilaka::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $header = array("Content-Type: application/json","Authorization: Bearer ".Tilaka::oauth()['access_token']);
+
+            if($certificate==="PERSONAL"){
+                $responsecurl = curl([
+                    'url'     => TILAKA_BASE_URL."generateUUID",
+                    'method'  => "POST",
+                    'header'  => $header,
+                    'body'    => "",
+                    'savelog' => true,
+                    'source'  => "TILAKA-UUID"
+                ]);
+            }else{
+                $responsecurl = curl([
+                    'url'     => TILAKA_BASE_URL."generateUUID?name=".$name."&email=".$email."",
+                    'method'  => "POST",
+                    'header'  => $header,
+                    'body'    => "",
+                    'savelog' => true,
+                    'source'  => "TILAKA-UUID"
+                ]);
+            }
+            return json_decode($responsecurl,TRUE);
+        }
+
         public static function uploadfile($location){
             $oauthResponse = TilakaPlus::oauth();
 
