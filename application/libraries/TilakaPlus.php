@@ -90,6 +90,27 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        public static function checkcertificateuser($body){
+            $oauthResponse = Tilaka::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $header = array("Content-Type: application/json","Authorization: Bearer ".$oauthResponse['access_token']);
+
+            $responsecurl = curl([
+                'url'     => TILAKA_BASE_URL."checkcertstatus",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-CHECKCERTIFICATEUSER"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
         public static function uploadfile($location){
             $oauthResponse = TilakaPlus::oauth();
 
