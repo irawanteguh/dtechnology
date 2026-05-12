@@ -573,15 +573,15 @@
                         }
                         
                         if(SIGNATUREPOSITION==="Fixed"){
-                            // $signatureslist                    = [];
-                            // $signatureslist['user_identifier'] = $userIdentifier;
-                            // $signatureslist['location']        = $files->orgname;
-                            // $signatureslist['width']           = floatval(WIDTH);
-                            // $signatureslist['height']          = floatval(HEIGHT);
-                            // $signatureslist['coordinate_x']    = $lastcoordinate_x;
-                            // $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
-                            // $signatureslist['page_number']     = floatval(PAGE);
-                            // $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
+                            $signatureslist                    = [];
+                            $signatureslist['user_identifier'] = $userIdentifier;
+                            $signatureslist['location']        = $files->orgname;
+                            $signatureslist['width']           = floatval(WIDTH);
+                            $signatureslist['height']          = floatval(HEIGHT);
+                            $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                            $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                            $signatureslist['page_number']     = floatval(PAGE);
+                            $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
 
                             $listsignatures[] = $signatureslist;
                             $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
@@ -606,14 +606,14 @@
                                 }
                             }else{
                                 $signatureslist                    = [];
-                                // $signatureslist['user_identifier'] = $userIdentifier;
-                                // $signatureslist['location']        = $a->orgname;
-                                // $signatureslist['width']           = floatval(WIDTH);
-                                // $signatureslist['height']          = floatval(HEIGHT);
-                                // $signatureslist['coordinate_x']    = $lastcoordinate_x;
-                                // $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
-                                // $signatureslist['page_number']     = floatval(PAGE);
-                                // $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
+                                $signatureslist['user_identifier'] = $userIdentifier;
+                                $signatureslist['location']        = $a->orgname;
+                                $signatureslist['width']           = floatval(WIDTH);
+                                $signatureslist['height']          = floatval(HEIGHT);
+                                $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                                $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                                $signatureslist['page_number']     = floatval(PAGE);
+                                $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
 
                                 $listsignatures[] = $signatureslist;
                                 $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
