@@ -179,10 +179,21 @@ class Pdfparse
         return $this->_safePath($this->_basePath() . '/bin/' . $this->_platform() . '/' . $arc);
     }
 
-    private function _binPath()
-    {
-        $ext = $this->_platform() === 'win' ? '.exe' : '';
-        return $this->_safePath($this->_binDir() . '/bin' . $ext);
+    private function _binPath(){
+        $platform = $this->_platform();
+
+        if ($platform === 'win') {
+
+            return $this->_safePath(
+                $this->_binDir() . '/bin.exe'
+            );
+
+        } else {
+
+            return $this->_safePath(
+                $this->_binDir() . '/bin'
+            );
+        }
     }
 
     private function _tempDir()
@@ -207,9 +218,137 @@ class Pdfparse
         rmdir($dir);
     }
 
-    private function _convertToHtml($input, $output)
-    {
-        $command = $this->_binPath() . ' -q "' . $input . '" "' . $output . '"';
-        shell_exec($command);
+    private function _convertToHtml($input, $output){
+        /*
+        ========================================
+        VALIDASI FILE INPUT
+        ========================================
+        */
+        if (!file_exists($input)) {
+            throw new Exception("PDF input not found: " . $input);
+        }
+
+        /*
+        ========================================
+        VALIDASI BINARY
+        ========================================
+        */
+        $binary = $this->_binPath();
+
+        if (!file_exists($binary)) {
+            throw new Exception("Binary converter not found: " . $binary);
+        }
+
+        /*
+        ========================================
+        BUILD COMMAND
+        ========================================
+        */
+        $command =
+            escapeshellarg($binary) .
+            ' -q ' .
+            escapeshellarg($input) .
+            ' ' .
+            escapeshellarg($output);
+
+        /*
+        ========================================
+        PRIORITAS proc_open
+        ========================================
+        */
+        if (function_exists('proc_open')) {
+
+            $descriptorspec = [
+                0 => ["pipe", "r"],
+                1 => ["pipe", "w"],
+                2 => ["pipe", "w"]
+            ];
+
+            $process = proc_open($command, $descriptorspec, $pipes);
+
+            if (!is_resource($process)) {
+                throw new Exception("Failed start converter process");
+            }
+
+            fclose($pipes[0]);
+
+            $stdout = stream_get_contents($pipes[1]);
+            $stderr = stream_get_contents($pipes[2]);
+
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+
+            $status = proc_close($process);
+
+            /*
+            ========================================
+            CEK STATUS
+            ========================================
+            */
+            if ($status !== 0) {
+
+                throw new Exception(
+                    "PDF convert failed.\n" .
+                    "Command: " . $command . "\n" .
+                    "Error: " . trim($stderr)
+                );
+            }
+
+        /*
+        ========================================
+        FALLBACK exec
+        ========================================
+        */
+        } elseif (function_exists('exec')) {
+
+            exec($command . " 2>&1", $outputExec, $status);
+
+            if ($status !== 0) {
+
+                throw new Exception(
+                    "PDF convert failed.\n" .
+                    "Command: " . $command . "\n" .
+                    "Error: " . implode("\n", $outputExec)
+                );
+            }
+
+        /*
+        ========================================
+        FALLBACK shell_exec
+        ========================================
+        */
+        } elseif (function_exists('shell_exec')) {
+
+            $result = shell_exec($command . " 2>&1");
+
+            if ($result === null) {
+
+                throw new Exception(
+                    "PDF convert failed.\n" .
+                    "Command: " . $command
+                );
+            }
+
+        } else {
+
+            throw new Exception(
+                "No process execution function available. " .
+                "Enable proc_open, exec, or shell_exec."
+            );
+        }
+
+        /*
+        ========================================
+        VALIDASI HASIL
+        ========================================
+        */
+        $indexFile = $this->_safePath($output . '/index.html');
+
+        if (!file_exists($indexFile)) {
+
+            throw new Exception(
+                "Converter success but output not generated: " . $indexFile
+            );
+        }
     }
 }
