@@ -605,8 +605,6 @@
                         $body['version']           = $version;
                         $body['hash_consent']      = $hash;
                         $body['consent_timestamp'] = $consent_timestamp;
-
-                        return var_dump($body);
     
                         $response = TilakaPlus::registerkyc(json_encode($body));
     
