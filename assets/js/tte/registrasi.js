@@ -293,6 +293,7 @@ function datakaryawan(){
                     btngantimfa                = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/login?setting=2&tilaka_name="+result[i].USER_IDENTIFIER+"&redirect_url="+url+"index.php/tte/registrasi&channel_id="+clientidtilaka+"'><i class='fa-solid fa-arrows-spin text-primary'></i> Change MFA</a>";
                     btnverifikasienroll        = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tte/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btnactivequicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='activequicksign(this)'><i class='fa-solid fa-circle-check text-success'></i> Activation Quick Sign</a>";
+                    btnsubmitquicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='activequicksign(this)'><i class='bi bi-send text-info'></i> Submit Quick Sign</a>";
 
                     if(result[i].REGISTER_ID===null){
                         if(result[i].REASON_CODE==="3"){
@@ -375,12 +376,12 @@ function datakaryawan(){
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===null && result[i].ISSUE_ID===null){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
-                        btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign; 
+                        btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitquicksign+btnactivequicksign; 
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===null && result[i].ISSUE_ID!=null){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
-                        btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign; 
+                        btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitquicksign+btnactivequicksign; 
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID!=null){

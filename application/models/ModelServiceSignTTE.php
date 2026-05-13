@@ -236,7 +236,9 @@
                                     b.nik,
                                     REPLACE(a.signer_id, ';', ',')
                                 )
-                            ) AS email
+                            ) AS email,
+
+                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname
 
                         FROM dt01_sign_document_dt a
 

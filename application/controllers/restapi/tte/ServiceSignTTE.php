@@ -324,7 +324,74 @@
                     $signatures['sequence']        = $i+1;
                     $signatures['signature_image'] = "data:image/png;base64,".$rawImages[$i];
 
-                    if(SIGNATUREPOSITION==="Fixed"){
+                    // if(SIGNATUREPOSITION==="Fixed"){
+                    //     $signatureslist = [];
+
+                    //     $signatureslist['user_identifier'] = $userIdentifier;
+                    //     $signatureslist['location']        = $a->orgname;
+                    //     $signatureslist['width']           = floatval(WIDTH);
+                    //     $signatureslist['height']          = floatval(HEIGHT);
+                    //     $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                    //     $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                    //     $signatureslist['page_number']     = floatval(PAGE);
+                    //     $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
+
+                    //     $listsignatures[] = $signatureslist;
+                    //     $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
+                    // }else{
+                    //     $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
+                        
+                    //     if(!empty($specimentposition['data']['content'][$position])){
+                    //         foreach($specimentposition['data']['content'][$position] as $specimen){
+                    //             $signatureslist = [];
+                    //             if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
+                    //                 $signatureslist['user_identifier'] = $userIdentifier;
+                    //                 $signatureslist['location']        = $a->orgname;
+                    //                 $signatureslist['width']           = floatval(WIDTH);
+                    //                 $signatureslist['height']          = floatval(HEIGHT);
+                    //                 $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
+                    //                 $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
+                    //                 $signatureslist['page_number']     = floatval($specimen['page']);
+                    //                 $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
+                    //             }
+
+                    //             $listsignatures[] = $signatureslist;
+                    //         }
+                    //     }else{
+                    //         $signatureslist = [];
+
+                    //         $signatureslist['user_identifier'] = $userIdentifier;
+                    //         $signatureslist['location']        = $a->orgname;
+                    //         $signatureslist['width']           = floatval(WIDTH);
+                    //         $signatureslist['height']          = floatval(HEIGHT);
+                    //         $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                    //         $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                    //         $signatureslist['page_number']     = floatval(PAGE);
+                    //         $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
+
+                    //         $listsignatures[] = $signatureslist;
+                    //         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
+                    //     }
+                    // }
+
+                    $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
+                    if(!empty($specimentposition['data']['content'][$position])){
+                        foreach($specimentposition['data']['content'][$position] as $specimen){
+                            $signatureslist = [];
+                            if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
+                                $signatureslist['user_identifier'] = $userIdentifier;
+                                $signatureslist['location']        = $a->orgname;
+                                $signatureslist['width']           = floatval(WIDTH);
+                                $signatureslist['height']          = floatval(HEIGHT);
+                                $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
+                                $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
+                                $signatureslist['page_number']     = floatval($specimen['page']);
+                                $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
+                            }
+
+                            $listsignatures[] = $signatureslist;
+                        }
+                    }else{
                         $signatureslist = [];
 
                         $signatureslist['user_identifier'] = $userIdentifier;
@@ -338,40 +405,6 @@
 
                         $listsignatures[] = $signatureslist;
                         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
-                    }else{
-                        $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
-                        
-                        if(!empty($specimentposition['data']['content'][$position])){
-                            foreach($specimentposition['data']['content'][$position] as $specimen){
-                                $signatureslist = [];
-                                if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
-                                    $signatureslist['user_identifier'] = $userIdentifier;
-                                    $signatureslist['location']        = $a->orgname;
-                                    $signatureslist['width']           = floatval(WIDTH);
-                                    $signatureslist['height']          = floatval(HEIGHT);
-                                    $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
-                                    $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
-                                    $signatureslist['page_number']     = floatval($specimen['page']);
-                                    $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
-                                }
-
-                                $listsignatures[] = $signatureslist;
-                            }
-                        }else{
-                            $signatureslist = [];
-
-                            $signatureslist['user_identifier'] = $userIdentifier;
-                            $signatureslist['location']        = $a->orgname;
-                            $signatureslist['width']           = floatval(WIDTH);
-                            $signatureslist['height']          = floatval(HEIGHT);
-                            $signatureslist['coordinate_x']    = $lastcoordinate_x;
-                            $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
-                            $signatureslist['page_number']     = floatval(PAGE);
-                            $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
-
-                            $listsignatures[] = $signatureslist;
-                            $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
-                        }
                     }
                     
                     $listpdf['filename']    = $a->filename;
@@ -578,52 +611,84 @@
                             continue;
                         }
                         
-                        if(SIGNATUREPOSITION==="Fixed"){
+                        // if(SIGNATUREPOSITION==="Fixed"){
+                        //     $signatureslist                    = [];
+                        //     $signatureslist['user_identifier'] = $userIdentifier;
+                        //     $signatureslist['location']        = $files->orgname;
+                        //     $signatureslist['width']           = floatval(WIDTH);
+                        //     $signatureslist['height']          = floatval(HEIGHT);
+                        //     $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                        //     $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                        //     $signatureslist['page_number']     = floatval(PAGE);
+                        //     $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
+
+                        //     $listsignatures[] = $signatureslist;
+                        //     $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
+                        // }else{
+                        //     $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
+
+                        //     if(!empty($specimentposition['data']['content'][$position])){
+                        //         foreach($specimentposition['data']['content'][$position] as $specimen){
+                        //             $signatureslist = [];
+                        //             if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
+                        //                 $signatureslist['user_identifier'] = $userIdentifier;
+                        //                 $signatureslist['location']        = $files->orgname;
+                        //                 $signatureslist['width']           = floatval(WIDTH);
+                        //                 $signatureslist['height']          = floatval(HEIGHT);
+                        //                 $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
+                        //                 $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
+                        //                 $signatureslist['page_number']     = floatval($specimen['page']);
+                        //                 $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
+                        //             }
+
+                        //             $listsignatures[] = $signatureslist;
+                        //         }
+                        //     }else{
+                        //         $signatureslist                    = [];
+                        //         $signatureslist['user_identifier'] = $userIdentifier;
+                        //         $signatureslist['location']        = $a->orgname;
+                        //         $signatureslist['width']           = floatval(WIDTH);
+                        //         $signatureslist['height']          = floatval(HEIGHT);
+                        //         $signatureslist['coordinate_x']    = $lastcoordinate_x;
+                        //         $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
+                        //         $signatureslist['page_number']     = floatval(PAGE);
+                        //         $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
+
+                        //         $listsignatures[] = $signatureslist;
+                        //         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
+                        //     }
+                        // }
+
+                        $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
+                        if(!empty($specimentposition['data']['content'][$position])){
+                            foreach($specimentposition['data']['content'][$position] as $specimen){
+                                $signatureslist = [];
+                                if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
+                                    $signatureslist['user_identifier'] = $userIdentifier;
+                                    $signatureslist['location']        = $files->orgname;
+                                    $signatureslist['width']           = floatval(WIDTH);
+                                    $signatureslist['height']          = floatval(HEIGHT);
+                                    $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
+                                    $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
+                                    $signatureslist['page_number']     = floatval($specimen['page']);
+                                    $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
+                                }
+
+                                $listsignatures[] = $signatureslist;
+                            }
+                        }else{
                             $signatureslist                    = [];
                             $signatureslist['user_identifier'] = $userIdentifier;
-                            $signatureslist['location']        = $files->orgname;
+                            $signatureslist['location']        = $a->orgname;
                             $signatureslist['width']           = floatval(WIDTH);
                             $signatureslist['height']          = floatval(HEIGHT);
                             $signatureslist['coordinate_x']    = $lastcoordinate_x;
                             $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
                             $signatureslist['page_number']     = floatval(PAGE);
-                            $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
+                            $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
 
                             $listsignatures[] = $signatureslist;
                             $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
-                        }else{
-                            $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
-
-                            if(!empty($specimentposition['data']['content'][$position])){
-                                foreach($specimentposition['data']['content'][$position] as $specimen){
-                                    $signatureslist = [];
-                                    if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
-                                        $signatureslist['user_identifier'] = $userIdentifier;
-                                        $signatureslist['location']        = $files->orgname;
-                                        $signatureslist['width']           = floatval(WIDTH);
-                                        $signatureslist['height']          = floatval(HEIGHT);
-                                        $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
-                                        $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
-                                        $signatureslist['page_number']     = floatval($specimen['page']);
-                                        $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
-                                    }
-
-                                    $listsignatures[] = $signatureslist;
-                                }
-                            }else{
-                                $signatureslist                    = [];
-                                $signatureslist['user_identifier'] = $userIdentifier;
-                                $signatureslist['location']        = $a->orgname;
-                                $signatureslist['width']           = floatval(WIDTH);
-                                $signatureslist['height']          = floatval(HEIGHT);
-                                $signatureslist['coordinate_x']    = $lastcoordinate_x;
-                                $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
-                                $signatureslist['page_number']     = floatval(PAGE);
-                                $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
-
-                                $listsignatures[] = $signatureslist;
-                                $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
-                            }
                         }
                     }
 
