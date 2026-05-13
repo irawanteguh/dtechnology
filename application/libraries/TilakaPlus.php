@@ -349,7 +349,7 @@
             return json_decode($response, true);
         }
 
-        public static function submitquicksign($body){
+        public static function regquicksign($body){
             $oauthResponse = TilakaPlus::oauth();
 
             if (!isset($oauthResponse['access_token'])) {
@@ -364,12 +364,38 @@
             ];
 
             $response = curl([
-                'url'     => TILAKALITE_URL . "/quicksign-addtemplates",
+                'url'     => TILAKA_BASE_URL."addquicksignusers",
                 'method'  => "POST",
                 'header'  => $headers,
                 'body'    => $body,
                 'savelog' => false,
-                'source'  => "TILAKA-SUBMITQUICKSIGN"
+                'source'  => "TILAKA-REGQUICKSIGN"
+            ]);
+
+            return json_decode($response, true);
+        }
+
+        public static function submittemplatequicksign($body){
+            $oauthResponse = TilakaPlus::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $accessToken = $oauthResponse['access_token'];
+
+            $headers = [
+                "Content-Type: application/json",
+                "Authorization: Bearer {$accessToken}"
+            ];
+
+            $response = curl([
+                'url'     => TILAKA_BASE_URL."quicksign-addtemplates",
+                'method'  => "POST",
+                'header'  => $headers,
+                'body'    => $body,
+                'savelog' => false,
+                'source'  => "TILAKA-SUBMITTEMPLATEQUICKSIGN"
             ]);
 
             return json_decode($response, true);

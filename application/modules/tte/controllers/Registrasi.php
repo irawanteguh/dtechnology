@@ -845,22 +845,11 @@
             echo json_encode($json);
         }
 
-        public function submitquicksign(){
+        public function regquicksign(){
             $body = [];
-            $filedirectory = FCPATH.'assets/templatequicksign/'.ORG_ID.'.pdf';
-            $pdfData       = base64_encode($filedirectory);
 
-            $assignedusers['user_identifier'] = $this->input->post("useridentifier");
-            $assignedusers['email']           = $this->input->post("email");
-
-            $templates['file_name']        = "Dokumen Rekam Medis";
-            $templates['template_number']  = $this->input->post("nik");
-            $templates['template_file']    = $pdfData;
-            $templates['assigned_users'][] = $assignedusers;
-
-            $body['templates']=$templates;
-
-            $response = TilakaPlus::submitquicksign(json_encode($body));
+            $body['users'][]['email']=$this->input->post("email");
+            $response = TilakaPlus::regquicksign(json_encode($body));
 
             if($response == NULL){
 
@@ -879,7 +868,7 @@
                     if($response['success']===false){
                         $json["responCode"] = "01";
                         $json["responHead"] = "info";
-                        $json["responDesc"] = $response['message'].' ['.$response['failed'][0]['error'].']';
+                        $json["responDesc"] = $response['message'].' ['.$response['data'][0].']';
                     }else{
                         $data = [];
 
@@ -890,6 +879,76 @@
                         $json["responCode"] = "00";
                         $json["responHead"] = "success";
                         $json["responDesc"] = "Submit Quick Sign Success";
+                    }
+                    
+                }
+            }
+            
+
+            echo json_encode($json);
+        }
+
+        public function submittemplatequicksign(){
+            $body = [];
+            $filedirectory = FCPATH.'assets/templatequicksign/'.ORG_ID.'.pdf';
+            $pdfContent    = file_get_contents($filedirectory);
+            $pdfData       = base64_encode($pdfContent);
+
+            $assignedusers['user_identifier'] = $this->input->post("useridentifier");
+            $assignedusers['email']           = $this->input->post("email");
+
+            $templates['file_name']        = "Dokumen Rekam Medis";
+            $templates['template_number']  = $this->input->post("nik");
+            $templates['template_file']    = $pdfData;
+            $templates['assigned_users'][] = $assignedusers;
+
+            $body['templates'][]=$templates;
+
+            $response = TilakaPlus::submittemplatequicksign(json_encode($body));
+            
+            if($response == NULL){
+
+                $json["responCode"] = "01";
+                $json["responHead"] = "info";
+                $json["responDesc"] = "Tidak mendapatkan response Tilaka";
+
+            }else{
+                if(isset($response['error'])){
+
+                    $json["responCode"] = "01";
+                    $json["responHead"] = "info";
+                    $json["responDesc"] = $response['error'].' ['.$response['path'].']';
+
+                }else{
+                    if($response['success']===false){
+                        if(isset($response['message']) && $response['message'] == 'Failed to process templates'){
+
+                            $data = [];
+
+                            $data['QUICK_SIGN']     = 'T';
+                            $data['QUICKSIGN_DATE'] = date('Y-m-d H:i:s');
+
+                            $this->md->updatedatauseridentifier($data,$this->input->post("useridentifier"));
+
+                            $json["responCode"] = "00";
+                            $json["responHead"] = "success";
+                            $json["responDesc"] = $response['message'].' ['.$response['failed'][0]['error'].']';
+
+                        }else{
+                            $json["responCode"] = "01";
+                            $json["responHead"] = "info";
+                            $json["responDesc"] = $response['message'].' ['.$response['failed'][0]['error'].']';
+                        }
+                    }else{
+                        $data = [];
+
+                        $data['QUICK_SIGN']='T';
+                        $data['QUICKSIGN_DATE']=date('Y-m-d H:i:s');
+
+                        $this->md->updatedatauseridentifier($data,$this->input->post("useridentifier"));
+                        $json["responCode"] = "00";
+                        $json["responHead"] = "success";
+                        $json["responDesc"] = "Submit Template Quick Sign Success";
                     }
                     
                 }

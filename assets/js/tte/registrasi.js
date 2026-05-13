@@ -243,12 +243,53 @@ function activequicksign(btn){
     return false;
 };
 
-function submitquicksign(btn){
+function regquicksign(btn){
+    var email          = $(btn).attr("data-email");
+    var useridentifier = $(btn).attr("data-useridentifier");
+    $.ajax({
+        url       : url+"index.php/tte/registrasi/regquicksign",
+        data      : {email:email,useridentifier:useridentifier},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success:function(data){
+            toastr.clear();
+            var result = data;
+
+            showAlert(
+                "For Your Information",
+                result['responDesc'],
+                result['responHead'],
+                "Please Check Again",
+                "btn btn-info"
+            );
+        },
+        complete: function () {
+			datakaryawan();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                "<b>"+error+"</b>",
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
+function submittemplatequicksign(btn){
     var email          = $(btn).attr("data-email");
     var useridentifier = $(btn).attr("data-useridentifier");
     var nik            = $(btn).attr("data-nik");
     $.ajax({
-        url       : url+"index.php/tte/registrasi/submitquicksign",
+        url       : url+"index.php/tte/registrasi/submittemplatequicksign",
         data      : {email:email,useridentifier:useridentifier,nik:nik},
         method    : "POST",
         dataType  : "JSON",
@@ -335,7 +376,8 @@ function datakaryawan(){
                     btngantimfa                = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/login?setting=2&tilaka_name="+result[i].USER_IDENTIFIER+"&redirect_url="+url+"index.php/tte/registrasi&channel_id="+clientidtilaka+"'><i class='fa-solid fa-arrows-spin text-primary'></i> Change MFA</a>";
                     btnverifikasienroll        = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tte/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btnactivequicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='activequicksign(this)'><i class='fa-solid fa-circle-check text-success'></i> Activation Quick Sign</a>";
-                    btnsubmitquicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='submitquicksign(this)'><i class='bi bi-send text-info'></i> Submit Quick Sign</a>";
+                    btnsubmitregquicksign      = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='regquicksign(this)'><i class='bi bi-send text-info'></i> Register Quick Sign</a>";
+                    btnsubmittemplatequicksign = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='submittemplatequicksign(this)'><i class='bi bi-send text-info'></i> Submit Template Quick Sign</a>";
 
                     if(result[i].REGISTER_ID===null){
                         if(result[i].REASON_CODE==="3"){
@@ -419,29 +461,34 @@ function datakaryawan(){
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===null && result[i].ISSUE_ID===null){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
                         if(result[i].QUICK_SIGN==="N"){
-                            btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitquicksign; 
+                            btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitregquicksign; 
                         }else{
                             if(result[i].QUICK_SIGN==="P"){
-                                btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitquicksign+btnactivequicksign; 
+                                btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmittemplatequicksign; 
                             }else{
-                                btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
+                                if(result[i].QUICK_SIGN==="T"){
+                                    btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign;
+                                }else{
+                                    btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
+                                }
                             }
-                            
                         }
-                        
                     }
 
                     if(result[i].CERTIFICATE==="3" && result[i].REVOKE_ID===null && result[i].ISSUE_ID!=null){
                         statususer = "<td><div class='badge badge-light-success fw-bolder'>Sertifikat "+(result[i].CERTIFICATE_INFO ? result[i].CERTIFICATE_INFO : "")+"</div><div class='small'>Active : "+(result[i].startactive ? result[i].startactive : "")+" Expired :"+(result[i].expireddate ? result[i].expireddate : "")+"</div></td>";
                         if(result[i].QUICK_SIGN==="N"){
-                            btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitquicksign; 
+                            btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitregquicksign; 
                         }else{
                             if(result[i].QUICK_SIGN==="P"){
-                                btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmitquicksign+btnactivequicksign; 
+                                btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnsubmittemplatequicksign; 
                             }else{
-                                btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
+                                if(result[i].QUICK_SIGN==="T"){
+                                    btnaction  = btncheckstatus+btnrevoke+btngantimfa+btnactivequicksign;
+                                }else{
+                                    btnaction  = btncheckstatus+btnrevoke+btngantimfa; 
+                                }
                             }
-                            
                         }
                     }
 
