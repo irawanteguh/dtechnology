@@ -28,14 +28,66 @@
             }
 
             if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
-                if($_GET['status']==="Sukses"){
-                    $data     = [];
-                    $datauser = [];
+                if($_GET['status'] === "Sukses"){
+                    $data        = [];
+                    $responseotp = "";
 
-                    $data['status_sign'] = "4";
-                    $this->md->updatedocument($data,$_GET['request_id']);
+                    $body['request_id']      = $_GET['request_id'];
+                    $body['user_identifier'] = $_GET['user_identifier'];
 
-                    redirect("tte/repodocument",$data);
+                    $checkdata = $this->md->checkdata($_GET['request_id']);
+
+                    // gabungkan response lama + user baru
+                    if(empty($checkdata->response)){
+                        $responseotp = $_GET['user_identifier'];
+                    }else{
+                        $responseotp = $checkdata->response.";".$_GET['user_identifier'];
+                    }
+
+                    // hilangkan duplikat
+                    $responseArray = array_unique(array_filter(array_map('trim', explode(';', $responseotp))));
+                    $responseotp   = implode(';', $responseArray);
+
+                    // execute sign
+                    $responseexcutesign = TilakaPlus::excutesign(json_encode($body));
+
+                    // jika PROCESS atau DONE
+                    if(
+                        ($responseexcutesign['success'] === true  && $responseexcutesign['status'] === "PROCESS")
+                        ||
+                        ($responseexcutesign['success'] === false && $responseexcutesign['status'] === "DONE")
+                    ){
+
+                        $data['response'] = $responseotp;
+
+                        // semua user_identifier wajib
+                        $allUsers = array_unique(array_filter(array_map('trim', explode(';', $checkdata->user_identifier))));
+
+                        // pecah response
+                        $responseParts = array_unique(array_filter(array_map('trim', explode(';', $responseotp))));
+
+                        // ambil hanya user_identifier valid
+                        $otpUsers = [];
+
+                        foreach($responseParts as $part){
+                            if(in_array($part, $allUsers)){
+                                $otpUsers[] = $part;
+                            }
+                        }
+
+                        // cek apakah semua user sudah OTP
+                        $diff = array_diff($allUsers, $otpUsers);
+
+                        // jika semua user sudah OTP
+                        if(empty($diff)){
+                            $data['status_sign'] = '6';
+                        }
+
+                        // update database
+                        $this->md->updatedocument($data, $_GET['request_id']);
+
+                        redirect("tte/repodocument");
+                    }
                 }
             }else{
                 $this->template->load("template/template-sidebar","v_repodocument",$data);

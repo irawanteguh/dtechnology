@@ -129,9 +129,43 @@ function alldocument(){
                         seenRequestOTP.add(result[i].request_id);
                     }
 
+                    let badges   = '';
                     let getvariabel = " datatransaksiid='" + result[i].transaksi_id + "'" +
-                                    " datafilelocation='" + filePath + "'";
+                                      " datafilelocation='" + filePath + "'";
 
+                    if(result[i].name){
+                        let names = result[i].name.split(';');
+                        let ids   = result[i].useridentifier ? result[i].useridentifier.split(';') : [];
+
+                        badges += `<div class="d-flex flex-column align-items-start gap-1">`;
+
+                        names.forEach((name, idx) => {
+                            let uid   = ids[idx] ? ids[idx] : 'User Belum Terdaftar';
+                            let color = ids[idx] ? 'badge-light-primary' : 'badge-light-danger';
+                            let icon  = ids[idx] ? ' <i class="bi bi-info-circle-fill text-primary ms-1" ' : ' <i class="bi bi-info-circle-fill text-danger ms-1" ';
+
+                            badges += `
+                                        <div class="badge ${color} text-start">
+                                            ${name.trim()}
+                                            ${icon}
+                                            data-bs-toggle="tooltip"
+                                            data-bs-html="true"
+                                            data-bs-placement="top"
+                                            data-bs-custom-class="tooltip-dark"
+                                            data-bs-title="
+                                                    <div class='text-start'>
+                                                        <div><small>User Identifier</small></div>
+                                                        <b>${uid}</b>
+                                                    </div>
+                                            ">
+                                            </i>
+                                        </div>
+                                    `;
+
+                        });
+
+                        badges += `</div>`;
+                    }
                     let row = "";
                     row += "<tr>";
                     row += "<td class='ps-4 text-start'></td>"; // nomor nanti
@@ -157,7 +191,7 @@ function alldocument(){
                     row += "</td>";
 
                     row += "<td><div>" + (result[i].note_1 || "") + "</div><div>" + (result[i].note_2 || "") + "</div></td>";
-                    row += "<td><div>" + (result[i].name || "") + "</div><div>" + (result[i].email || "") + "</div></td>";
+                    row += `<td>${badges}</td>`;
                     row += "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div><div class='fst-italic'>" + (result[i].descriptionstatus || "") + "</div></td>";
                     row += "<td><div>" + (result[i].dibuatoleh || "") + "</div><div>" + result[i].tglbuat + "</div></td>";
 
@@ -187,8 +221,34 @@ function alldocument(){
 
                     // Request OTP
                     if (result[i].status_sign === "2") {
-                        row += `<a class='dropdown-item btn btn-sm text-info' href='${result[i].url}&redirect_url=${url}index.php/tte/repodocument'>
-                                    <i class='bi bi-fingerprint text-info'></i> Request OTP</a>`;
+
+                        let urls = result[i].url.split(';');
+                        let userIdentifiers = result[i].useridentifier.split(';');
+
+                        // response contoh:
+                        // Request success;thursina_01
+                        let responseText = result[i].response || '';
+
+                        urls.forEach((itemUrl, index) => {
+
+                            let userIdentifier = userIdentifiers[index] || '';
+
+                            // jika user sudah ada di response
+                            // maka tombol tidak ditampilkan
+                            if (responseText.includes(userIdentifier)) {
+                                return;
+                            }
+
+                            row += `
+                                <a class='dropdown-item btn btn-sm text-info' 
+                                href='${itemUrl}&redirect_url=${url}index.php/tte/repodocument'>
+                                
+                                <i class='bi bi-fingerprint text-info'></i> 
+                                Request OTP ${userIdentifier}
+                                </a>
+                            `;
+
+                        });
                     }
 
                     // Resend

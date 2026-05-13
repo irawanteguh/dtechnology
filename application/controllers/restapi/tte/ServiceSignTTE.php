@@ -516,11 +516,19 @@
                     return;
                 }
 
-                $signatures['user_identifier'] = $userIdentifier;
-                $signatures['signature_image'] = "data:image/png;base64,".$rawImages[$i];
+                foreach ($assignArr as $i => $nik){
+                    $listsignatures = [];
+
+                    $listsignatures['user_identifier'] = $uidArr[$i];
+                    $listsignatures['signature_image'] = "data:image/png;base64,".$rawImages[$i];
+                    $listsignatures['sequence']        = $i+1;
+
+                    $signatures [] = $listsignatures;
+                }
                 
-                $body['request_id']   = $requestid;
-                $body['signatures'][] = $signatures;
+                
+                $body['request_id'] = $requestid;
+                $body['signatures'] = $signatures;
 
                 foreach($resultrequestregulersigndetail as $files){
                     $listsignatures = [];
@@ -635,15 +643,24 @@
                     continue;
                 }
 
+                if($responserequestsignreguler['success']===false){
+                    $statusColor = "red";
+                    $statusMsg   = $responserequestsignreguler['message'];
+
+                    echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                    continue;
+                }
+
                 if($responserequestsignreguler['success']===true){
                     $statusColor = "green";
                     $statusMsg   = $responserequestsignreguler['message'];
 
+                    $authUrls                         = array_column($responserequestsignreguler['auth_urls'],'url');
                     $datasimpanhd                     = [];
                     $datasimpanhd['status_sign']      = "2";
                     $datasimpanhd['request_id']       = $requestid;
                     $datasimpanhd['response']         = $responserequestsignreguler['message'];
-                    $datasimpanhd['url']              = $responserequestsignreguler['auth_urls'][0]['url'];
+                    $datasimpanhd['url']              = implode(';', $authUrls);
                     $datasimpanhd['requestsign_date'] = date('Y-m-d H:i:s');
 
                     foreach($resultrequestregulersigndetail as $saves){
@@ -692,55 +709,87 @@
             }
         }
 
-        public function executesign_POST(){
-            $resultlistexecute = $this->md->listexecute();
+        // public function executesign_POST(){
+        //     $resultlistexecute = $this->md->listexecute();
 
-            if(empty($resultlistexecute)){
-                echo color('red')."Data Tidak Ditemukan";
-                return;
-            }
+        //     if(empty($resultlistexecute)){
+        //         echo color('red')."Data Tidak Ditemukan";
+        //         return;
+        //     }
 
-            foreach($resultlistexecute as $a){
-                $responseexcutesign = [];
-                $body               = [];
-                $statusColor        = "";
-                $statusMsg          = "";
+        //     foreach($resultlistexecute as $a){
+        //         $responseexcutesign = [];
+        //         $body               = [];
+        //         $statusColor        = "";
+        //         $statusMsg          = "";
 
-                $body['request_id']      = $a->request_id;
-                $body['user_identifier'] = $a->useridentifier;
+        //         $userIdentifiers = explode(';', $a->useridentifier);
 
-                $responseexcutesign = TilakaPlus::excutesign(json_encode($body));
+        //         $body['request_id']      = $a->request_id;
+        //         $body['user_identifier'] = $userIdentifiers[0];
 
-                if($responseexcutesign['success']===false){
-                    if($responseexcutesign['status']==="DONE"){
-                        $statusColor        = "green";
-                        $statusMsg          = $responseexcutesign['status'];
+        //         $responseexcutesign = TilakaPlus::excutesign(json_encode($body));
 
-                        $datasimpanhd = [];
-                        $datasimpanhd['status_sign'] = "6";
-                        $datasimpanhd['response']    = $responseexcutesign['message'];
-
-                        $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
-                    }
+        //         if($responseexcutesign['success']===false){
+        //             if($responseexcutesign['status']==="DONE"){
                     
-                }
+        //                 $body['request_id'] = $a->request_id;
+        //                 $responsestatussign = TilakaPlus::statussign(json_encode($body));
+                        
+        //                 if($responsestatussign['message']==="DONE"){
+        //                     $statusColor        = "green";
+        //                     $statusMsg          = $responseexcutesign['status'];
 
-                if($responseexcutesign['success']===true){
-                    if($responseexcutesign['status']==="PROCESS"){
-                        $statusColor        = "yellow";
-                        $statusMsg          = $responseexcutesign['status']." | ".$responseexcutesign['message'];
+        //                     $datasimpanhd = [];
+        //                     $datasimpanhd['status_sign'] = "6";
+        //                     $datasimpanhd['response']    = $responseexcutesign['message'];
 
-                        $datasimpanhd = [];
-                        $datasimpanhd['response']=$responseexcutesign['message'];
+        //                     $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
+        //                 }
 
-                        $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
-                    }
-                }
+        //                 if($responsestatussign['message'] === "PROCESS"){
+        //                     $statusList   = [];
+        //                     $unauthorized = [];
 
-                echo formatlog($a->request_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-                continue;
-            }
-        }
+        //                     foreach($responsestatussign['status'] as $status){
+        //                         $statusText               = $status['user_identifier']." : ".$status['status'];
+        //                         $statusList[]             = $statusText;
+
+        //                         if($status['status'] === "UNAUTHORIZED"){
+        //                             $unauthorized[] = $statusText;
+        //                         }
+        //                     }
+
+        //                     $statusColor = "yellow";
+        //                     $statusMsg   = $responsestatussign['message']." | ".implode(' | ', $statusList);
+
+        //                     if(!empty($unauthorized)){
+        //                         $datasimpanhd = [];
+        //                         $datasimpanhd['status_sign'] = "7";
+        //                         $datasimpanhd['response']    = implode(' | ', $unauthorized);
+
+        //                         $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
+        //                     }
+        //                 }
+        //             }   
+        //         }
+
+        //         if($responseexcutesign['success']===true){
+        //             if($responseexcutesign['status']==="PROCESS"){
+        //                 $statusColor        = "yellow";
+        //                 $statusMsg          = $responseexcutesign['status']." | ".$responseexcutesign['message'];
+
+        //                 $datasimpanhd = [];
+        //                 $datasimpanhd['response']=$responseexcutesign['message'];
+
+        //                 $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
+        //             }
+        //         }
+
+        //         echo formatlog($a->request_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+        //         continue;
+        //     }
+        // }
 
         public function statussignquicksign_GET(){
             $resultstatussignquicksign = $this->md->statussignquicksign();
@@ -758,7 +807,6 @@
 
                 $body['request_id'] = $a->request_id;
                 $responsestatussign = TilakaPlus::statussign(json_encode($body));
-                // return var_dump($responsestatussign);
 
                 if(!isset($responsestatussign['success'])){
                     $statusColor = "red";
@@ -805,7 +853,14 @@
 
                 if($responsestatussign['message']==="PROCESS"){
                     $statusColor = "yellow";
-                    $statusMsg   = $responsestatussign['message']." | ".$responsestatussign['status'][0]['status']." | ".$responsestatussign['status'][0]['num_signatures_done']."/".$responsestatussign['status'][0]['num_signatures']." Signatures";
+
+                    $statusList = [];
+                    foreach($responsestatussign['status'] as $status){
+                        $statusList[] =$status['user_identifier']." : ".$status['status'];
+                    }
+                    
+                    $statusMsg =$responsestatussign['message']." | ".implode(' | ', $statusList);
+                    // $statusMsg   = $responsestatussign['message']." | ".$responsestatussign['status'][0]['status']." | ".$responsestatussign['status'][0]['num_signatures_done']."/".$responsestatussign['status'][0]['num_signatures']." Signatures";
 
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                     continue;

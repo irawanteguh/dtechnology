@@ -35,13 +35,56 @@
         function uploaddocument(){
             $query =
                     "
-                        select a.org_id, transaksi_id, no_file, signer_id, storage_in, storage_out, type_of, type_certificate, signature_type, signature_field, from_in, DATE_FORMAT(a.created_date,'%d-%m-%Y %H:%i:%s') createddate,
-                            (select user_identifier from dt01_gen_user_data where nik=a.signer_id)useridentifier,
-                            (select name from dt01_gen_user_data where nik=a.signer_id)name
-                        from dt01_sign_document_dt a
-                        where a.status_sign='0'
-                        and   a.provider_sign='Tilaka'
-                        limit 20;
+                        SELECT 
+                            a.org_id,
+                            a.transaksi_id,
+                            a.no_file,
+                            a.signer_id,
+                            a.storage_in,
+                            a.storage_out,
+                            a.type_of,
+                            a.type_certificate,
+                            a.signature_type,
+                            a.signature_field,
+                            a.from_in,
+                            DATE_FORMAT(a.created_date,'%d-%m-%Y %H:%i:%s') AS createddate,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.user_identifier
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS useridentifier,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.name
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS name
+
+                        FROM dt01_sign_document_dt a
+                        WHERE a.status_sign = '0'
+                        AND a.provider_sign = 'Tilaka'
+                        LIMIT 20;
                     ";
 
             $recordset = $this->db->query($query);
@@ -52,27 +95,96 @@
         function requestquicksign(){
             $query =
                     "
-                        select a.org_id, transaksi_id, no_file, filename, storage_in, storage_out, signer_id, type_certificate, signature_type, signature_field, user_identifier useridentifier, from_in, DATE_FORMAT(a.created_date,'%d-%m-%Y %H:%i:%s') createddate,
-                                (select name from dt01_gen_user_data where nik=a.signer_id)name,
-                                (select email from dt01_gen_user_data where nik=a.signer_id)email,
-                                (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname
-                        from dt01_sign_document_dt a
-                        where a.status_sign='1'
-                        and   a.provider_sign='Tilaka'
-                        and   a.type_of='Signature'
-                        and   a.quick_sign in ('0','2')
+                        SELECT 
+                            a.org_id,
+                            a.transaksi_id,
+                            a.no_file,
+                            a.filename,
+                            a.storage_in,
+                            a.storage_out,
+                            a.signer_id,
+                            a.type_certificate,
+                            a.signature_type,
+                            a.signature_field,
+                            a.user_identifier AS useridentifier,
+                            a.from_in,
+
+                            DATE_FORMAT(
+                                a.created_date,
+                                '%d-%m-%Y %H:%i:%s'
+                            ) AS createddate,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.name
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS name,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.email
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS email,
+
+                            (
+                                SELECT org_name
+                                FROM dt01_gen_organization_ms
+                                WHERE org_id = a.org_id
+                            ) AS orgname
+
+                        FROM dt01_sign_document_dt a
+
+                        WHERE a.status_sign = '1'
+                        AND a.provider_sign = 'Tilaka'
+                        AND a.type_of = 'Signature'
+                        AND a.quick_sign IN ('0','2')
+
                         AND NOT EXISTS (
-                            SELECT 1 
+                            SELECT 1
                             FROM dt01_sign_document_dt b
                             WHERE b.status_sign = '2'
                             AND b.provider_sign = 'Tilaka'
                             AND b.type_of = 'Signature'
                             AND b.quick_sign = '2'
-                            AND b.signer_id = a.signer_id
+
+                            AND (
+                                FIND_IN_SET(
+                                    b.signer_id,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                                OR
+                                FIND_IN_SET(
+                                    a.signer_id,
+                                    REPLACE(b.signer_id, ';', ',')
+                                )
+                            )
                         )
-                        group by a.transaksi_id
-                        order by upload_date asc
-                        limit 10;
+
+                        GROUP BY a.transaksi_id
+
+                        ORDER BY a.upload_date ASC
+
+                        LIMIT 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -83,14 +195,56 @@
         function requestregulersign(){
             $query =
                     "
-                        select distinct a.org_id, signer_id, user_identifier useridentifier, from_in, storage_in, signature_type, signature_field,
-                            (select name from dt01_gen_user_data where nik=a.signer_id)name,
-                            (select email from dt01_gen_user_data where nik=a.signer_id)email
-                        from dt01_sign_document_dt a
-                        where a.active='1'
-                        and   a.status_sign='1'
-                        and   a.quick_sign='1'
-                        limit 10;
+                        SELECT DISTINCT
+                            a.org_id,
+                            a.signer_id,
+                            a.user_identifier AS useridentifier,
+                            a.from_in,
+                            a.storage_in,
+                            a.signature_type,
+                            a.signature_field,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.name
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE b.org_id = a.org_id
+                                AND FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS name,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.email
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE b.org_id = a.org_id
+                                AND FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS email
+
+                        FROM dt01_sign_document_dt a
+
+                        WHERE a.active = '1'
+                        AND a.status_sign = '1'
+                        AND a.quick_sign = '1'
+
+                        LIMIT 10;
                     ";
 
             $recordset = $this->db->query($query);
@@ -116,39 +270,83 @@
             return $recordset;
         }
 
+        // function statussignquicksign(){
+        //     $query =
+        //             "
+        //                 (
+        //                     SELECT 
+        //                         '2' AS jenis,
+        //                         a.transaksi_id,
+        //                         a.request_id,
+        //                         a.user_identifier AS useridentifier,
+        //                         a.storage_out,
+        //                         a.requestsign_date
+        //                     FROM dt01_sign_document_dt a
+        //                     WHERE a.active='1'
+        //                     AND a.status_sign in ('3','4')
+        //                     AND a.quick_sign='2'
+        //                     AND a.provider_sign='Tilaka'
+        //                 )
+        //                 UNION ALL
+        //                 (
+        //                     select distinct 
+        //                         '1' AS jenis,
+        //                         a.transaksi_id,
+        //                         a.request_id,
+        //                         a.user_identifier AS useridentifier,
+        //                         a.storage_out,
+        //                         a.requestsign_date
+        //                     FROM dt01_sign_document_dt a
+        //                     WHERE a.active='1'
+        //                     AND a.status_sign='6'
+        //                     AND a.quick_sign='1'
+        //                     AND a.provider_sign='Tilaka'
+        //                 )
+        //                 ORDER BY requestsign_date ASC
+        //                 LIMIT 20;
+        //             ";
+
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
+
         function statussignquicksign(){
             $query =
                     "
-                        (
-                            SELECT 
-                                '2' AS jenis,
-                                a.transaksi_id,
-                                a.request_id,
-                                a.user_identifier AS useridentifier,
-                                a.storage_out,
-                                a.requestsign_date
-                            FROM dt01_sign_document_dt a
-                            WHERE a.active='1'
-                            AND a.status_sign in ('3','4')
-                            AND a.quick_sign='2'
-                            AND a.provider_sign='Tilaka'
-                        )
-                        UNION ALL
-                        (
-                            select distinct 
-                                '1' AS jenis,
-                                ''transaksi_id,
-                                a.request_id,
-                                a.user_identifier AS useridentifier,
-                                a.storage_out,
-                                a.requestsign_date
-                            FROM dt01_sign_document_dt a
-                            WHERE a.active='1'
-                            AND a.status_sign='6'
-                            AND a.quick_sign='1'
-                            AND a.provider_sign='Tilaka'
-                        )
-                        ORDER BY requestsign_date ASC
+                        SELECT
+                            CASE
+                                WHEN a.quick_sign = '2' THEN '2'
+                                WHEN a.quick_sign = '1' THEN '1'
+                            END AS jenis,
+
+                            a.transaksi_id,
+                            a.request_id,
+                            a.user_identifier AS useridentifier,
+                            a.storage_out,
+                            a.requestsign_date
+
+                        FROM dt01_sign_document_dt a
+
+                        WHERE a.active = '1'
+                        AND a.provider_sign = 'Tilaka'
+
+                        AND (
+                                (
+                                    a.status_sign IN ('3','4')
+                                    AND a.quick_sign = '2'
+                                )
+
+                                OR
+
+                                (
+                                    a.status_sign = '6'
+                                    AND a.quick_sign = '1'
+                                )
+                            )
+
+                        ORDER BY a.requestsign_date ASC
+
                         LIMIT 20;
                     ";
 
@@ -164,7 +362,7 @@
                         from dt01_sign_document_dt a
                         where a.active='1'
                         and   a.quick_sign='1'
-                        and   a.status_sign='4'
+                        and   a.status_sign in ('4','7')
                         limit 10;
                     ";
 

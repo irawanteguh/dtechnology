@@ -35,11 +35,64 @@
                             a.note_1,
                             a.note_2,
                             a.request_id,
+                            a.response,
                             DATE_FORMAT(a.created_date, '%d.%m.%Y %H:%i:%s') AS tglbuat,
+
                             COALESCE(gd.document_name, a.jenis_doc) AS jenis_doc,
+
                             cu.name AS dibuatoleh,
-                            su.name AS name,
-                            su.email AS email,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.name
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE b.org_id = a.org_id
+                                AND FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS name,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.email
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE b.org_id = a.org_id
+                                AND FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS email,
+
+                            (
+                                SELECT GROUP_CONCAT(
+                                    b.user_identifier
+                                    ORDER BY FIND_IN_SET(
+                                        b.nik,
+                                        REPLACE(a.signer_id, ';', ',')
+                                    )
+                                    SEPARATOR ';'
+                                )
+                                FROM dt01_gen_user_data b
+                                WHERE b.org_id = a.org_id
+                                AND FIND_IN_SET(
+                                    b.nik,
+                                    REPLACE(a.signer_id, ';', ',')
+                                )
+                            ) AS useridentifier,
+
                             ms.color AS colorstatus,
                             ms.master_name AS namestatus,
                             ms.description AS descriptionstatus
@@ -53,10 +106,6 @@
                             ON cu.org_id = a.org_id 
                             AND cu.user_id = a.created_by
 
-                        LEFT JOIN dt01_gen_user_data su 
-                            ON su.org_id = a.org_id 
-                            AND su.nik = a.signer_id
-
                         LEFT JOIN dt01_gen_master_ms ms 
                             ON ms.org_id = a.org_id 
                             AND ms.jenis_id = 'Statussign_2' 
@@ -64,7 +113,7 @@
 
                         WHERE a.active = '1'
                         AND (
-                                a.status_sign IN ('0','1','2','3','4')
+                                a.status_sign IN ('0','1','2','3','4','7')
 
                                 OR (
                                     a.status_sign = '5'
@@ -82,6 +131,19 @@
 
             $recordset = $this->db->query($query);
             $recordset = $recordset->result();
+            return $recordset;
+        }
+
+        function checkdata($requestid){
+            $query =
+                    "
+                        select a.response, user_identifier
+                        from dt01_sign_document_dt a
+                        where a.request_id='".$requestid."'
+                    ";
+
+            $recordset = $this->db->query($query);
+            $recordset = $recordset->row();
             return $recordset;
         }
 
