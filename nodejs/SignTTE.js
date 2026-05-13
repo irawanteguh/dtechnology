@@ -171,7 +171,6 @@ async function runservices() {
     await callAPI("executesign", "POST");
     await callAPI("statussignquicksign", "GET");
 
-
     // await callAPI("generatedQRCode", "GET");
     // await callAPI("listcompressfile", "POST");
 }
