@@ -209,7 +209,18 @@ class Pdfparse
 
     private function _convertToHtml($input, $output)
     {
-        $command = $this->_binPath() . ' -q "' . $input . '" "' . $output . '"';
-        shell_exec($command);
+        $command =
+            escapeshellcmd($this->_binPath()) .
+            ' -q ' .
+            escapeshellarg($input) .
+            ' ' .
+            escapeshellarg($output) .
+            ' 2>&1';
+
+        $result = shell_exec($command);
+
+        if (!is_dir($output)) {
+            throw new Exception("PDF convert failed: " . $result);
+        }
     }
 }
