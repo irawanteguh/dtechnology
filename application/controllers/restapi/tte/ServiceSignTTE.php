@@ -48,7 +48,7 @@
             $text      = SIGNATUREFIELD;
             $rawImages[] = getQRCode($text, $logo);
 
-            return var_dump($rawImages);
+            // return var_dump($rawImages);
         }
 
         public function uploadfile_POST(){
@@ -283,7 +283,7 @@
                     $statusMsg   = fileExists($filedirectory)['message'];
 
                     $datasimpanhd['status_sign'] = "99";
-                    $datasimpanhd['response']    = $statusMsg."XXX";
+                    $datasimpanhd['response']    = $statusMsg;
                     $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
 
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
@@ -314,7 +314,7 @@
                     $email          = $emailArr[$i];
 
                     if(TYPETAG==="Array"){
-                        $position = '$'.$i;
+                        $position = '$0';
                     }else{
                         $position = '<<'.$assignArr[$i].'>>';
                     }
@@ -340,7 +340,7 @@
                         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
                     }else{
                         $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
-                        return var_dump($specimentposition);
+                        
                         if(!empty($specimentposition['data']['content'][$position])){
                             foreach($specimentposition['data']['content'][$position] as $specimen){
                                 $signatureslist = [];

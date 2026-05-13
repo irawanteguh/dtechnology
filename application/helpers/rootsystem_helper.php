@@ -108,7 +108,6 @@
         return $decodedPassword;
     };
 
-    //Start Tilaka
     function headerlog(){
         echo PHP_EOL;
         echo color('cyan').str_pad("IDENTITY", 50).str_pad("USER IDENTIFIER", 42)."MESSAGE".PHP_EOL;
@@ -205,106 +204,6 @@
         return 0;
     }
 
-    // function parsePdfAndFindText($locationFile, $position, $mainName){
-
-    //     $localFile  = $locationFile;
-    //     $isTempFile = false;
-
-    //     try {
-
-    //         /*
-    //         ========================================
-    //         JIKA SOURCE ADALAH URL
-    //         ========================================
-    //         */
-    //         if (filter_var($locationFile, FILTER_VALIDATE_URL)) {
-
-    //             // Folder temp project
-    //             $tempDir = FCPATH . 'assets/temp/';
-    //             if (!is_dir($tempDir)) {mkdir($tempDir, 0777, true);}
-
-    //             // pastikan ada ekstensi pdf
-    //             if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
-    //                 $mainName .= ".pdf";
-    //             }
-
-    //             $localFile = $tempDir . $mainName;
-
-    //             $ch = curl_init($locationFile);
-    //             curl_setopt_array($ch, [
-    //                 CURLOPT_RETURNTRANSFER => true,
-    //                 CURLOPT_FOLLOWLOCATION => true,
-    //                 CURLOPT_SSL_VERIFYPEER => false,
-    //                 CURLOPT_CONNECTTIMEOUT => 30,
-    //                 CURLOPT_TIMEOUT => 60
-    //             ]);
-
-    //             $pdfContent = curl_exec($ch);
-
-    //             if (curl_errno($ch)) {
-    //                 throw new Exception("Failed download PDF: " . curl_error($ch));
-    //             }
-
-    //             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    //             curl_close($ch);
-
-    //             if ($httpCode < 200 || $httpCode >= 300) {
-    //                 throw new Exception("URL returned HTTP code $httpCode");
-    //             }
-
-    //             if (!$pdfContent) {
-    //                 throw new Exception("Downloaded PDF is empty.");
-    //             }
-
-    //             if (!file_put_contents($localFile, $pdfContent)) {
-    //                 throw new Exception("Failed write temporary PDF file.");
-    //             }
-
-    //             $isTempFile = true;
-    //         }
-
-    //         /*
-    //         ========================================
-    //         CEK FILE ADA
-    //         ========================================
-    //         */
-    //         if (!file_exists($localFile)) {
-    //             throw new Exception("File not found: " . $localFile);
-    //         }
-
-    //         /*
-    //         ========================================
-    //         PARSE PDF
-    //         ========================================
-    //         */
-    //         $pdfParse = new Pdfparse($localFile);
-    //         $specimentposition = $pdfParse->findText($position);
-
-    //         return [
-    //             'status' => true,
-    //             'data'   => $specimentposition
-    //         ];
-
-    //     } catch (Exception $e) {
-
-    //         return [
-    //             'status'  => false,
-    //             'message' => $e->getMessage()
-    //         ];
-
-    //     } finally {
-
-    //         /*
-    //         ========================================
-    //         HAPUS TEMP FILE
-    //         ========================================
-    //         */
-    //         if ($isTempFile && file_exists($localFile)) {
-    //             unlink($localFile);
-    //         }
-    //     }
-    // }
-
     function parsePdfAndFindText($locationFile, $position, $mainName){
 
         $localFile  = $locationFile;
@@ -319,12 +218,11 @@
             */
             if (filter_var($locationFile, FILTER_VALIDATE_URL)) {
 
+                // Folder temp project
                 $tempDir = FCPATH . 'assets/temp/';
+                if (!is_dir($tempDir)) {mkdir($tempDir, 0777, true);}
 
-                if (!is_dir($tempDir)) {
-                    mkdir($tempDir, 0777, true);
-                }
-
+                // pastikan ada ekstensi pdf
                 if (pathinfo($mainName, PATHINFO_EXTENSION) == "") {
                     $mainName .= ".pdf";
                 }
@@ -332,7 +230,6 @@
                 $localFile = $tempDir . $mainName;
 
                 $ch = curl_init($locationFile);
-
                 curl_setopt_array($ch, [
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_FOLLOWLOCATION => true,
@@ -348,7 +245,6 @@
                 }
 
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
                 curl_close($ch);
 
                 if ($httpCode < 200 || $httpCode >= 300) {
@@ -377,16 +273,10 @@
 
             /*
             ========================================
-            PARSE PDF DENGAN KOORDINAT
+            PARSE PDF
             ========================================
             */
             $pdfParse = new Pdfparse($localFile);
-
-            /*
-            ========================================
-            CARI TEXT + KOORDINAT
-            ========================================
-            */
             $specimentposition = $pdfParse->findText($position);
 
             return [
@@ -702,35 +592,6 @@
         return $bytes . " B";
     }
 
-    // function uploadToAapanel($filename, $binary){
-    //     $tmp = tempnam(sys_get_temp_dir(), 'pdf_');
-    //     file_put_contents($tmp, $binary);
-
-    //     $url = rtrim(PATHFILE_POST_TILAKA, '/') . '/receivedfile.php';
-    //     $ch  = curl_init($url);
-
-    
-    //     curl_setopt($ch, CURLOPT_POST, true);
-    //     curl_setopt($ch, CURLOPT_POSTFIELDS,['file' => new CURLFile($tmp, 'application/pdf', $filename)]);
-    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    //     $response = curl_exec($ch);
-    //     curl_close($ch);
-    //     unlink($tmp);
-    //     return json_decode($response, true);
-    // }
-
-
-    // function curlDownload($url){
-    //     $ch = curl_init($url);
-    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    //     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    //     $data = curl_exec($ch);
-    //     curl_close($ch);
-    //     return $data;
-    // }
-
     function getQRCode($text, $logoPath){
 
         ob_start();
@@ -824,5 +685,4 @@
 
         return base64_encode($finalImageData);
     }
-    //End Tilaka
 ?>
