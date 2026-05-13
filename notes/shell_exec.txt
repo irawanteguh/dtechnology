@@ -1,0 +1,153 @@
+# =========================================================
+# PERBAIKAN shell_exec() has been disabled for security reasons
+# aaPanel / BT Panel + PHP 7.4
+# =========================================================
+
+# =========================================================
+# 1. CEK PHP CLI YANG AKTIF
+# =========================================================
+php --ini
+
+# Pastikan hasil:
+# Loaded Configuration File: /www/server/php/74/etc/php-cli.ini
+
+
+# =========================================================
+# 2. CEK disable_functions CLI
+# =========================================================
+php -i | grep disable_functions
+
+# Jika:
+# disable_functions => no value => no value
+# berarti CLI aman
+
+
+# =========================================================
+# 3. TEST shell_exec CLI
+# =========================================================
+php -r "echo shell_exec('whoami');"
+
+# Jika muncul:
+# root
+# berarti shell_exec aktif di CLI
+
+
+# =========================================================
+# 4. CEK PHP WEB CONFIG
+# =========================================================
+grep disable_functions /www/server/php/74/etc/php.ini
+
+
+# =========================================================
+# 5. EDIT php.ini WEB
+# =========================================================
+nano /www/server/php/74/etc/php.ini
+
+# Cari:
+# disable_functions = ...
+
+# Jika ada shell_exec:
+# DARI:
+# disable_functions = exec,shell_exec,system
+
+# MENJADI:
+# disable_functions = exec,system
+
+# atau:
+# disable_functions =
+
+
+# =========================================================
+# 6. EDIT php-cli.ini (JIKA PERLU)
+# =========================================================
+nano /www/server/php/74/etc/php-cli.ini
+
+# Tambahkan jika belum ada:
+# disable_functions =
+
+
+# =========================================================
+# 7. RESTART PHP-FPM
+# =========================================================
+/etc/init.d/php-fpm-74 restart
+
+# atau
+bt restart
+
+
+# =========================================================
+# 8. CEK OVERRIDE disable_functions
+# =========================================================
+find /www/server/php/74/ -type f | xargs grep disable_functions
+
+find /www/server/panel/vhost/ -type f | xargs grep disable_functions
+
+find /www/server/php/74/etc/php-fpm.d/ -type f | xargs grep disable_functions
+
+
+# =========================================================
+# 9. CEK open_basedir
+# =========================================================
+php -i | grep open_basedir
+
+
+# =========================================================
+# 10. TEST FINAL VIA CLI
+# =========================================================
+php -r "echo shell_exec('whoami');"
+
+
+# =========================================================
+# 11. TEST FINAL VIA WEB
+# =========================================================
+# Buat file:
+nano /www/wwwroot/test.php
+
+# Isi:
+# -----------------------------------
+# <?php
+#
+# echo "<pre>";
+#
+# echo "Function Exists: ";
+# var_dump(function_exists('shell_exec'));
+#
+# echo "\n";
+#
+# echo "Output:\n";
+# echo shell_exec('whoami');
+#
+# echo "</pre>";
+# -----------------------------------
+
+# Akses:
+# http://IP-SERVER/test.php
+
+# Jika hasil:
+# bool(true)
+# www
+# atau
+# www-data
+#
+# berarti FIX
+
+
+# =========================================================
+# 12. INSTALL DEPENDENCY PDF/OCR (OPSIONAL)
+# =========================================================
+apt update
+apt install poppler-utils -y
+
+# Test:
+pdftotext -v
+
+
+# =========================================================
+# 13. REKOMENDASI AMAN
+# =========================================================
+# Gunakan:
+# disable_functions = system,passthru,popen,proc_open
+
+# Tetapi tetap izinkan:
+# shell_exec
+# =========================================================

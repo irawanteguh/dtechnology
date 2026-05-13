@@ -165,7 +165,7 @@ async function callAPI(endpoint, method = "GET", body = null) {
 }
 
 async function runservices() {
-    // await callAPI("datatransaksi", "POST"); 
+    await callAPI("datatransaksi", "POST"); 
     await callAPI("uploadfile", "POST");
     await callAPI("requestquicksign", "POST");
     await callAPI("executesign", "POST");
@@ -199,5 +199,5 @@ console.clear();
 runservicesSafe();
 runservicesreguler();
 setInterval(runservicesSafe, 10000); //10 Detik
-setInterval(runservicesreguler, 10000); //10 Detik
-// setInterval(runservicesreguler, 1800000); //30 Menit
+// setInterval(runservicesreguler, 10000); //10 Detik
+setInterval(runservicesreguler, 1800000); //30 Menit
