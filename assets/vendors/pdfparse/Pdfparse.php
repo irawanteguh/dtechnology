@@ -207,6 +207,12 @@ class Pdfparse
         rmdir($dir);
     }
 
+    // private function _convertToHtml($input, $output)
+    // {
+    //     $command = $this->_binPath() . ' -q "' . $input . '" "' . $output . '"';
+    //     shell_exec($command);
+    // }
+
     private function _convertToHtml($input, $output)
     {
         $command =
