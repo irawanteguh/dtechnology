@@ -850,7 +850,7 @@
             $filedirectory = FCPATH.'assets/templatequicksign/'.ORG_ID.'.pdf';
             $pdfData       = base64_encode($filedirectory);
 
-            $assignedusers['user_identifierx'] = $this->input->post("useridentifier");
+            $assignedusers['user_identifier'] = $this->input->post("useridentifier");
             $assignedusers['email']           = $this->input->post("email");
 
             $templates['file_name']        = "Dokumen Rekam Medis";
