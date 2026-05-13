@@ -285,8 +285,8 @@
                                         redirect("tte/registrasi",$data);
                                     }else{
                                         if(isset($_GET['quicksign']) && isset($_GET['request_id'])){
-                                            $datasimpan['QUICK_SIGN']      = $_GET['quicksign'];
-                                            $datasimpan['QUICK_SIGN_DATE'] = date('Y-m-d H:i:s');
+                                            $datasimpan['QUICK_SIGN']     = $_GET['quicksign'];
+                                            $datasimpan['QUICKSIGN_DATE'] = date('Y-m-d H:i:s');
 
                                             $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                                             redirect("tte/registrasi",$data);
@@ -834,13 +834,67 @@
                 $body['request_id']   = generateuuid();
                 $body['signatures'][] = $signatures;
 
-                $response = Tilaka::requestsignquicksign(json_encode($body));
+                $response = TilakaPlus::requestsignquicksign(json_encode($body));
 
                 $json["responCode"]   = "00";
                 $json["responHead"]   = "success";
                 $json["responDesc"]   = "success";
                 $json['responResult'] = $response;
             }
+
+            echo json_encode($json);
+        }
+
+        public function submitquicksign(){
+            $body = [];
+            $filedirectory = FCPATH.'assets/templatequicksign/'.ORG_ID.'.pdf';
+            $pdfData       = base64_encode($filedirectory);
+
+            $assignedusers['user_identifierx'] = $this->input->post("useridentifier");
+            $assignedusers['email']           = $this->input->post("email");
+
+            $templates['file_name']        = "Dokumen Rekam Medis";
+            $templates['template_number']  = $this->input->post("nik");
+            $templates['template_file']    = $pdfData;
+            $templates['assigned_users'][] = $assignedusers;
+
+            $body['templates']=$templates;
+
+            $response = TilakaPlus::submitquicksign(json_encode($body));
+
+            if($response == NULL){
+
+                $json["responCode"] = "01";
+                $json["responHead"] = "info";
+                $json["responDesc"] = "Tidak mendapatkan response Tilaka";
+
+            }else{
+                if(isset($response['error'])){
+
+                    $json["responCode"] = "01";
+                    $json["responHead"] = "info";
+                    $json["responDesc"] = $response['error'].' ['.$response['path'].']';
+
+                }else{
+                    if($response['success']===false){
+                        $json["responCode"] = "01";
+                        $json["responHead"] = "info";
+                        $json["responDesc"] = $response['message'].' ['.$response['failed'][0]['error'].']';
+                    }else{
+                        $data = [];
+
+                        $data['QUICK_SIGN']='P';
+                        $data['QUICKSIGN_DATE']=date('Y-m-d H:i:s');
+
+                        $this->md->updatedatauseridentifier($data,$this->input->post("useridentifier"));
+                        $json["responCode"] = "00";
+                        $json["responHead"] = "success";
+                        $json["responDesc"] = "Submit Quick Sign Success";
+                    }
+                    
+                }
+            }
+            
 
             echo json_encode($json);
         }

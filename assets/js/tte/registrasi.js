@@ -243,6 +243,48 @@ function activequicksign(btn){
     return false;
 };
 
+function submitquicksign(btn){
+    var email          = $(btn).attr("data-email");
+    var useridentifier = $(btn).attr("data-useridentifier");
+    var nik            = $(btn).attr("data-nik");
+    $.ajax({
+        url       : url+"index.php/tte/registrasi/submitquicksign",
+        data      : {email:email,useridentifier:useridentifier,nik:nik},
+        method    : "POST",
+        dataType  : "JSON",
+        cache     : false,
+        beforeSend: function () {
+            toastr.clear();
+            toastr["info"]("Sending request...", "Please wait");
+        },
+        success:function(data){
+            toastr.clear();
+            var result = data;
+
+            showAlert(
+                "For Your Information",
+                result['responDesc'],
+                result['responHead'],
+                "Please Check Again",
+                "btn btn-info"
+            );
+        },
+        complete: function () {
+			datakaryawan();
+		},
+        error: function(xhr, status, error) {
+            showAlert(
+                "I'm Sorry",
+                "<b>"+error+"</b>",
+                "error",
+                "Please Try Again",
+                "btn btn-danger"
+            );
+		}
+    });
+    return false;
+};
+
 function datakaryawan(){
     const search = $("input[name='searchdatakaryawan']").val().toUpperCase();
     $.ajax({
@@ -293,7 +335,7 @@ function datakaryawan(){
                     btngantimfa                = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/login?setting=2&tilaka_name="+result[i].USER_IDENTIFIER+"&redirect_url="+url+"index.php/tte/registrasi&channel_id="+clientidtilaka+"'><i class='fa-solid fa-arrows-spin text-primary'></i> Change MFA</a>";
                     btnverifikasienroll        = "<a class='dropdown-item btn btn-sm' href='"+tilakabaseurl+"personal-webview/kyc/re-enroll?issue_id="+result[i].ISSUE_ID+"&redirect_url="+url+"index.php/tte/registrasi'><i class='bi bi-person-bounding-box'></i> Liveness</a>";
                     btnactivequicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='activequicksign(this)'><i class='fa-solid fa-circle-check text-success'></i> Activation Quick Sign</a>";
-                    btnsubmitquicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='activequicksign(this)'><i class='bi bi-send text-info'></i> Submit Quick Sign</a>";
+                    btnsubmitquicksign         = "<a class='dropdown-item btn btn-sm' "+getvariabel+" onclick='submitquicksign(this)'><i class='bi bi-send text-info'></i> Submit Quick Sign</a>";
 
                     if(result[i].REGISTER_ID===null){
                         if(result[i].REASON_CODE==="3"){
