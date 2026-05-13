@@ -868,7 +868,7 @@
                     if($response['success']===false){
                         $json["responCode"] = "01";
                         $json["responHead"] = "info";
-                        $json["responDesc"] = $response['message'].' ['.$response['data'][0].']';
+                        $json["responDesc"] = $response['message'].' ['.$response['data'][0]['error'].']';
                     }else{
                         $data = [];
 
