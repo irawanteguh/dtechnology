@@ -343,7 +343,7 @@
 
                                 (
                                     a.status_sign = '6'
-                                    AND a.quick_sign = '1'
+                                    AND a.quick_sign in ('1','2')
                                 )
                             )
 

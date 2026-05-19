@@ -129,7 +129,8 @@ function alldocument(){
                         seenRequestOTP.add(result[i].request_id);
                     }
 
-                    let badges   = '';
+                    let badges      = '';
+                    let badgesemail = '';
                     let getvariabel = " datatransaksiid='" + result[i].transaksi_id + "'" +
                                       " datafilelocation='" + filePath + "'";
 
@@ -166,6 +167,27 @@ function alldocument(){
 
                         badges += `</div>`;
                     }
+
+                    if (result[i].email) {
+                        let emails = result[i].email.split(';');
+
+                        badgesemail += `
+                            <div class="d-flex flex-column align-items-start gap-1">
+                        `;
+
+                        emails.forEach((email) => {
+                            badgesemail += `
+                                <div class="text-start">
+                                    ${email.trim()}
+                                </div>
+                            `;
+                        });
+
+                        badgesemail += `
+                            </div>
+                        `;
+                    }
+
                     let row = "";
                     row += "<tr>";
                     row += "<td class='ps-4 text-start'></td>"; // nomor nanti
@@ -192,6 +214,7 @@ function alldocument(){
 
                     row += "<td><div>" + (result[i].note_1 || "") + "</div><div>" + (result[i].note_2 || "") + "</div></td>";
                     row += `<td>${badges}</td>`;
+                    row += `<td>${badgesemail}</td>`;
                     row += "<td><div class='badge badge-light-" + result[i].colorstatus + "'>" + result[i].namestatus + "</div><div class='fst-italic'>" + (result[i].descriptionstatus || "") + "</div></td>";
                     row += "<td><div>" + (result[i].dibuatoleh || "") + "</div><div>" + result[i].tglbuat + "</div></td>";
 

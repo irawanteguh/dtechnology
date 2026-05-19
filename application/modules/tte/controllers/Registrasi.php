@@ -1,5 +1,9 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
+    date_default_timezone_set('Asia/Jakarta');
+    require FCPATH . 'vendor/autoload.php';
+
+    include FCPATH."assets/vendors/phpqrcode/qrlib.php";
 
 	class Registrasi extends CI_Controller {
 
@@ -281,18 +285,14 @@
                                 if(isset($_GET['tilaka_name'])){
                                     redirect("tte/registrasi",$data);
                                 }else{
-                                    if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['status'])){
+                                    if(isset($_GET['user_identifier']) && isset($_GET['request_id']) && isset($_GET['register_id']) && isset($_GET['status'])){
+                                        $datasimpan['QUICK_SIGN']     = "Y";
+                                        $datasimpan['QUICKSIGN_DATE'] = date('Y-m-d H:i:s');
+
+                                        $this->md->updatedataregister($datasimpan,$_GET['request_id']);
                                         redirect("tte/registrasi",$data);
                                     }else{
-                                        if(isset($_GET['quicksign']) && isset($_GET['request_id'])){
-                                            $datasimpan['QUICK_SIGN']     = $_GET['quicksign'];
-                                            $datasimpan['QUICKSIGN_DATE'] = date('Y-m-d H:i:s');
-
-                                            $this->md->updatedataregister($datasimpan,$_GET['request_id']);
-                                            redirect("tte/registrasi",$data);
-                                        }else{
-                                            $this->template->load("template/template-sidebar","v_registrasi",$data);
-                                        }
+                                        $this->template->load("template/template-sidebar","v_registrasi",$data);
                                     }
                                 }
                             }
@@ -826,21 +826,25 @@
         public function activequicksign(){
             $response = [];
             $body     = [];
-            if(file_exists(FCPATH."assets/speciment/".ORG_ID.".png")){
-                $signatures['user_identifier'] = $this->input->post("useridentifier");
-                $signatures['email']           = $this->input->post("email");
-                $signatures['signature_image'] = "data:image/png;base64,".base64_encode(file_get_contents(FCPATH."assets/speciment/".ORG_ID.".png"));
-    
-                $body['request_id']   = generateuuid();
-                $body['signatures'][] = $signatures;
 
-                $response = TilakaPlus::requestsignquicksign(json_encode($body));
+            $logo      = FCPATH."assets/images/clients/dtechnology.png";
+            $text      = "Activation Quick Sign ".$this->input->post("useridentifier");
+            $rawimages = getQRCode($text, $logo);
 
-                $json["responCode"]   = "00";
-                $json["responHead"]   = "success";
-                $json["responDesc"]   = "success";
-                $json['responResult'] = $response;
-            }
+            $signatures['user_identifier'] = $this->input->post("useridentifier");
+            $signatures['email']           = $this->input->post("email");
+            $signatures['signature_image'] = $rawimages;
+
+            $body['request_id']   = generateuuid();
+            $body['signatures'][] = $signatures;
+
+            $response = TilakaPlus::requestsignquicksign(json_encode($body));
+
+            $json["responCode"]   = "00";
+            $json["responHead"]   = "success";
+            $json["responDesc"]   = "success";
+            $json['responResult'] = $response;
+            
 
             echo json_encode($json);
         }

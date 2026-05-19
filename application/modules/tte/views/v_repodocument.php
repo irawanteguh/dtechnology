@@ -44,6 +44,7 @@
 										<th>Document Information</th>
 										<th>Information</th>
 										<th>Signer Id</th>
+										<th>Email</th>
 										<th>Status</th>
 										<th>Created</th>
 										<th class="pe-4 text-end rounded-end">Actions</th>
@@ -70,6 +71,7 @@
 										<th>Document Information</th>
 										<th>Information</th>
 										<th>Signer Id</th>
+										<th>Email</th>
 										<th>Status</th>
 										<th>Created</th>
 										<th class="pe-4 text-end rounded-end">Actions</th>
@@ -96,6 +98,7 @@
 										<th>Document Information</th>
 										<th>Information</th>
 										<th>Signer Id</th>
+										<th>Email</th>
 										<th>Status</th>
 										<th>Created</th>
 										<th class="pe-4 text-end rounded-end">Actions</th>
