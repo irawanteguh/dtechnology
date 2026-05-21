@@ -459,7 +459,7 @@
 
                 if($responserequestsignquicksign['success']===true){
                     if($responserequestsignquicksign['auth_response'][0]['url']!=null && $responserequestsignquicksign['auth_response'][0]['status']===false){
-                        $statusColor = "red";
+                        $statusColor = "green";
                         $statusMsg   = $responserequestsignquicksign['message'];
 
                         $datasimpanhd                     = [];
