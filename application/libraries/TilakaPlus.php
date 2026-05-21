@@ -285,7 +285,7 @@
                 'method'  => "POST",
                 'header'  => $headers,
                 'body'    => $body,
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "TILAKA-UPLOADFILE"
             ]);
 
@@ -311,7 +311,7 @@
                 'method'  => "POST",
                 'header'  => $headers,
                 'body'    => $body,
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "TILAKA-REQUESTSIGN"
             ]);
 
