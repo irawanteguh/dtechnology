@@ -201,7 +201,7 @@ function activequicksign(btn){
             var result = data.responResult;
 
             if(result['success']){
-                window.location.href = result['auth_response'][0]['url']+"&redirect_url=" + url + "index.php/tte/registrasi?register_id="+registerid+"&quicksign=Y";
+                window.location.href = result['auth_response'][0]['url']+"&redirect_url=" + url + "index.php/tte/registrasi?register_id="+registerid;
             }else{
                 let alertType  = "error";
                 let alertBtn   = "btn btn-danger";

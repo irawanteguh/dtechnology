@@ -289,7 +289,7 @@
                                         $datasimpan['QUICK_SIGN']     = "Y";
                                         $datasimpan['QUICKSIGN_DATE'] = date('Y-m-d H:i:s');
 
-                                        $this->md->updatedataregister($datasimpan,$_GET['request_id']);
+                                        $this->md->updatedataregister($datasimpan,$_GET['register_id']);
                                         redirect("tte/registrasi",$data);
                                     }else{
                                         $this->template->load("template/template-sidebar","v_registrasi",$data);
