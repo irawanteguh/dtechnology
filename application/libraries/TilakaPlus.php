@@ -111,6 +111,27 @@
             return json_decode($responsecurl,TRUE); 
         }
 
+        public static function revoke($body){
+            $oauthResponse = TilakaPlus::oauth();
+
+            if (!isset($oauthResponse['access_token'])) {
+                return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
+            }
+
+            $header = array("Content-Type: application/json","Authorization: Bearer ".$oauthResponse['access_token']);
+
+            $responsecurl = curl([
+                'url'     => TILAKA_BASE_URL."requestRevokeCertificate",
+                'method'  => "POST",
+                'header'  => $header,
+                'body'    => $body,
+                'savelog' => true,
+                'source'  => "TILAKA-REVOKE"
+            ]);
+
+            return json_decode($responsecurl,TRUE); 
+        }
+
         public static function uploadfile($location){
             $oauthResponse = TilakaPlus::oauth();
 

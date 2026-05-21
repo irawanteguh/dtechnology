@@ -651,7 +651,7 @@
             $registerid     = $this->input->post("registerid");
 
             $body['user_identifier']=$useridentifier;
-            $response = Tilaka::checkcertificateuser(json_encode($body));
+            $response = TilakaPlus::checkcertificateuser(json_encode($body));
 
             if($response['success']){
                 $data['CERTIFICATE']      = $response['status'];
@@ -708,12 +708,13 @@
             $body['user_identifier'] = $useridentifier;
             $body['reason']          = $this->input->post("reasonid");
 
-            $response = Tilaka::revoke(json_encode($body));
-
+            $response = TilakaPlus::revoke(json_encode($body));
+            return var_dump($response);
+            
             if($response['success']){
 
                 $body['user_identifier']=$useridentifier;
-                $responsecheckcertificateuser = Tilaka::checkcertificateuser(json_encode($body));
+                $responsecheckcertificateuser = TilakaPlus::checkcertificateuser(json_encode($body));
 
                 if($responsecheckcertificateuser['success']){
                     $datasimpan['CERTIFICATE']      = $responsecheckcertificateuser['status'];
@@ -746,7 +747,7 @@
             $useridentifier    = $this->input->post("useridentifier-reenroll");
 
             $bodycheckcertificate['user_identifier']=$useridentifier;
-            $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+            $responsecheckcertificate = TilakaPlus::checkcertificateuser(json_encode($bodycheckcertificate));
             
             if($responsecheckcertificate['success']){
                 if($responsecheckcertificate['status']===0 || $responsecheckcertificate['status']===4){
@@ -754,7 +755,7 @@
                     $consent_text      = "Syarat dan Ketentuan Sebagaimana Yang Telah Di Atur Oleh ".$_SESSION['hospitalname'];
                     $version           = "TNT – v.1.0.1";
 
-                    $registrationid = Tilaka::uuidreenroll($useridentifier);
+                    $registrationid = TilakaPlus::uuidreenroll($useridentifier);
 
                         if($registrationid!=null){
                             if($registrationid['success']){
@@ -768,11 +769,11 @@
                                 $body['hash_consent']      = $hash;
                                 $body['consent_timestamp'] = $consent_timestamp;
                     
-                                $response = Tilaka::registerkyc(json_encode($body));
+                                $response = TilakaPlus::registerkyc(json_encode($body));
                                 
                                 if($response['success']){
                                     $bodycheckcertificate['user_identifier']=$useridentifier;
-                                    $responsecheckcertificate = Tilaka::checkcertificateuser(json_encode($bodycheckcertificate));
+                                    $responsecheckcertificate = TilakaPlus::checkcertificateuser(json_encode($bodycheckcertificate));
 
                                     if($responsecheckcertificate['success']){
                                         $data['CERTIFICATE']      = $responsecheckcertificate['status'];
