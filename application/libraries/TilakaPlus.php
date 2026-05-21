@@ -125,7 +125,7 @@
                 'method'  => "POST",
                 'header'  => $header,
                 'body'    => $body,
-                'savelog' => true,
+                'savelog' => false,
                 'source'  => "TILAKA-REVOKE"
             ]);
 

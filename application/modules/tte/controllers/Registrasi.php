@@ -709,8 +709,7 @@
             $body['reason']          = $this->input->post("reasonid");
 
             $response = TilakaPlus::revoke(json_encode($body));
-            return var_dump($response);
-            
+
             if($response['success']){
 
                 $body['user_identifier']=$useridentifier;
