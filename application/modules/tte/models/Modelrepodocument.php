@@ -117,7 +117,7 @@
 
                                 OR (
                                     a.status_sign = '5'
-                                    AND DATE(a.download_date) = CURDATE()
+                                    AND DATE(a.download_date) BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()
                                 )
 
                                 OR (
