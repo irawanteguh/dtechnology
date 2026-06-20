@@ -271,6 +271,9 @@ function alldocument(){
                                 </a>
                             `;
 
+                            row += `<a class='dropdown-item btn btn-sm text-info' ${getvariabel} onclick='resend($(this));'>
+                                    <i class='bi bi-arrow-counterclockwise text-info'></i> Resend</a>`;
+
                         });
                     }
 
