@@ -18,7 +18,7 @@
         }
 
         public static function uuid($certificate,$name,$email){
-            $oauthResponse = Tilaka::oauth();
+            $oauthResponse = TilakaPlus::oauth();
 
             if (!isset($oauthResponse['access_token'])) {
                 return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
@@ -49,7 +49,7 @@
         }
 
         public static function registerkyc($body){
-            $oauthResponse = Tilaka::oauth();
+            $oauthResponse = TilakaPlus::oauth();
 
             if (!isset($oauthResponse['access_token'])) {
                 return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
@@ -70,7 +70,7 @@
         }
 
         public static function checkregistrasiuser($body){
-            $oauthResponse = Tilaka::oauth();
+            $oauthResponse = TilakaPlus::oauth();
 
             if (!isset($oauthResponse['access_token'])) {
                 return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);
@@ -91,7 +91,7 @@
         }
 
         public static function checkcertificateuser($body){
-            $oauthResponse = Tilaka::oauth();
+            $oauthResponse = TilakaPlus::oauth();
 
             if (!isset($oauthResponse['access_token'])) {
                 return is_array($oauthResponse) ? $oauthResponse : json_decode($oauthResponse, true);

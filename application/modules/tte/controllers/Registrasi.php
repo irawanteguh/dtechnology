@@ -590,6 +590,8 @@
                 $ktp_encoded = base64_encode($ktp_data);
     
                 $responseuuid = TilakaPlus::uuid(CERTIFICATE,urlencode($result->NAME_IDENTITY),$result->EMAIL);
+                
+                return var_dump($responseuuid);
 
                 if($responseuuid){
                     if($responseuuid['success']){
