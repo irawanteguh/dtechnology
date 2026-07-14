@@ -47,12 +47,12 @@
             $logo      = FCPATH."assets/images/clients/10c84edd-500b-49e3-93a5-a2c8cd2c8524.png";
             $text      = SIGNATUREFIELD;
             $rawImages[] = getQRCode($text, $logo);
-
-            // return var_dump($rawImages);
         }
 
         public function uploadfile_POST(){
             $resultuploaddocument = $this->md->uploaddocument();
+
+            return var_dump($resultuploaddocument);
 
             if(empty($resultuploaddocument)){
                 echo color('red')."Data Tidak Ditemukan";
