@@ -52,8 +52,6 @@
         public function uploadfile_POST(){
             $resultuploaddocument = $this->md->uploaddocument();
 
-            return var_dump($resultuploaddocument);
-
             if(empty($resultuploaddocument)){
                 echo color('red')."Data Tidak Ditemukan";
                 return;
