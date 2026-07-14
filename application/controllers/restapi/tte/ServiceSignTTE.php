@@ -591,10 +591,6 @@
                             $statusColor = "red";
                             $statusMsg   = fileExists($filedirectory)['message'];
 
-                            // $datasimpanhd['status_sign'] = "99";
-                            // $datasimpanhd['response']    = $statusMsg;
-                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
-
                             echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                             continue;
                         }
@@ -602,62 +598,10 @@
                         if(getFileSize($filedirectory)===0){
                             $statusColor = "red";
                             $statusMsg   = "File Corrupted";
-
-                            // $datasimpanhd['status_sign'] = "98";
-                            // $datasimpanhd['note']        = "File Corrupted";
-                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                             
                             echo formatlog($$requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                             continue;
                         }
-                        
-                        // if(SIGNATUREPOSITION==="Fixed"){
-                        //     $signatureslist                    = [];
-                        //     $signatureslist['user_identifier'] = $userIdentifier;
-                        //     $signatureslist['location']        = $files->orgname;
-                        //     $signatureslist['width']           = floatval(WIDTH);
-                        //     $signatureslist['height']          = floatval(HEIGHT);
-                        //     $signatureslist['coordinate_x']    = $lastcoordinate_x;
-                        //     $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
-                        //     $signatureslist['page_number']     = floatval(PAGE);
-                        //     $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
-
-                        //     $listsignatures[] = $signatureslist;
-                        //     $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
-                        // }else{
-                        //     $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
-
-                        //     if(!empty($specimentposition['data']['content'][$position])){
-                        //         foreach($specimentposition['data']['content'][$position] as $specimen){
-                        //             $signatureslist = [];
-                        //             if(isset($specimen['x'],$specimen['y'],$specimen['page'])){
-                        //                 $signatureslist['user_identifier'] = $userIdentifier;
-                        //                 $signatureslist['location']        = $files->orgname;
-                        //                 $signatureslist['width']           = floatval(WIDTH);
-                        //                 $signatureslist['height']          = floatval(HEIGHT);
-                        //                 $signatureslist['coordinate_x']    = floatval($specimen['x']) - (floatval(WIDTH)/2);
-                        //                 $signatureslist['coordinate_y']    = floatval($specimen['y']) - (floatval(HEIGHT)/2);
-                        //                 $signatureslist['page_number']     = floatval($specimen['page']);
-                        //                 $signatureslist['reason']          = "Signed on behalf of " . $files->orgname;
-                        //             }
-
-                        //             $listsignatures[] = $signatureslist;
-                        //         }
-                        //     }else{
-                        //         $signatureslist                    = [];
-                        //         $signatureslist['user_identifier'] = $userIdentifier;
-                        //         $signatureslist['location']        = $a->orgname;
-                        //         $signatureslist['width']           = floatval(WIDTH);
-                        //         $signatureslist['height']          = floatval(HEIGHT);
-                        //         $signatureslist['coordinate_x']    = $lastcoordinate_x;
-                        //         $signatureslist['coordinate_y']    = floatval(COORDINATE_Y);
-                        //         $signatureslist['page_number']     = floatval(PAGE);
-                        //         $signatureslist['reason']          = "Signed on behalf of " . $a->orgname;
-
-                        //         $listsignatures[] = $signatureslist;
-                        //         $lastcoordinate_x = $lastcoordinate_x+floatval(WIDTH)+10;
-                        //     }
-                        // }
 
                         $specimentposition = parsePdfAndFindText($filedirectory,$position,$mainName);
                         if(!empty($specimentposition['data']['content'][$position])){
@@ -744,10 +688,6 @@
                             $statusColor = "red";
                             $statusMsg   = fileExists($filedirectory)['message'];
 
-                            // $datasimpanhd['status_sign'] = "99";
-                            // $datasimpanhd['response']    = $statusMsg;
-                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
-
                             echo formatlog($$requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                             continue;
                         }
@@ -755,10 +695,6 @@
                         if(getFileSize($filedirectory)===0){
                             $statusColor = "red";
                             $statusMsg   = "File Corrupted";
-
-                            // $datasimpanhd['status_sign'] = "98";
-                            // $datasimpanhd['note']        = "File Corrupted";
-                            // $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                             
                             echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                             continue;
@@ -773,88 +709,6 @@
                 }
             }
         }
-
-        // public function executesign_POST(){
-        //     $resultlistexecute = $this->md->listexecute();
-
-        //     if(empty($resultlistexecute)){
-        //         echo color('red')."Data Tidak Ditemukan";
-        //         return;
-        //     }
-
-        //     foreach($resultlistexecute as $a){
-        //         $responseexcutesign = [];
-        //         $body               = [];
-        //         $statusColor        = "";
-        //         $statusMsg          = "";
-
-        //         $userIdentifiers = explode(';', $a->useridentifier);
-
-        //         $body['request_id']      = $a->request_id;
-        //         $body['user_identifier'] = $userIdentifiers[0];
-
-        //         $responseexcutesign = TilakaPlus::excutesign(json_encode($body));
-
-        //         if($responseexcutesign['success']===false){
-        //             if($responseexcutesign['status']==="DONE"){
-                    
-        //                 $body['request_id'] = $a->request_id;
-        //                 $responsestatussign = TilakaPlus::statussign(json_encode($body));
-                        
-        //                 if($responsestatussign['message']==="DONE"){
-        //                     $statusColor        = "green";
-        //                     $statusMsg          = $responseexcutesign['status'];
-
-        //                     $datasimpanhd = [];
-        //                     $datasimpanhd['status_sign'] = "6";
-        //                     $datasimpanhd['response']    = $responseexcutesign['message'];
-
-        //                     $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
-        //                 }
-
-        //                 if($responsestatussign['message'] === "PROCESS"){
-        //                     $statusList   = [];
-        //                     $unauthorized = [];
-
-        //                     foreach($responsestatussign['status'] as $status){
-        //                         $statusText               = $status['user_identifier']." : ".$status['status'];
-        //                         $statusList[]             = $statusText;
-
-        //                         if($status['status'] === "UNAUTHORIZED"){
-        //                             $unauthorized[] = $statusText;
-        //                         }
-        //                     }
-
-        //                     $statusColor = "yellow";
-        //                     $statusMsg   = $responsestatussign['message']." | ".implode(' | ', $statusList);
-
-        //                     if(!empty($unauthorized)){
-        //                         $datasimpanhd = [];
-        //                         $datasimpanhd['status_sign'] = "7";
-        //                         $datasimpanhd['response']    = implode(' | ', $unauthorized);
-
-        //                         $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
-        //                     }
-        //                 }
-        //             }   
-        //         }
-
-        //         if($responseexcutesign['success']===true){
-        //             if($responseexcutesign['status']==="PROCESS"){
-        //                 $statusColor        = "yellow";
-        //                 $statusMsg          = $responseexcutesign['status']." | ".$responseexcutesign['message'];
-
-        //                 $datasimpanhd = [];
-        //                 $datasimpanhd['response']=$responseexcutesign['message'];
-
-        //                 $this->md->updatedocumentrequestid($datasimpanhd,$a->request_id);
-        //             }
-        //         }
-
-        //         echo formatlog($a->request_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
-        //         continue;
-        //     }
-        // }
 
         public function statussignquicksign_GET(){
             $resultstatussignquicksign = $this->md->statussignquicksign();

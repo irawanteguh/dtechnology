@@ -172,7 +172,6 @@ async function runservices() {
 
     // await callAPI("generatedQRCode", "GET");
     // await callAPI("listcompressfile", "POST");
-    // await callAPI("executesign", "POST");
 }
 
 async function runservicesreguler() {
