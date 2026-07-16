@@ -3,7 +3,6 @@
 
     $route['default_controller'] = 'welcome';
 
-
     $route['pegawai']             = 'restapi/khanza/Khanza/pegawai';
     $route['datatransaksi']       = 'restapi/dtech/SyncTTE/datatransaksi';
     $route['generatedQRCode']     = 'restapi/tte/ServiceSignTTE/generatedQRCode';
@@ -13,7 +12,6 @@
     $route['executesign']         = 'restapi/tte/ServiceSignTTE/executesign';
     $route['statussignquicksign'] = 'restapi/tte/ServiceSignTTE/statussignquicksign';
     $route['listcompressfile']    = 'restapi/tte/ServiceSignTTE/listcompressfile';
-   
    
     $route['403_override']         = 'errors/error_403';
     $route['404_override']         = 'errors/error_404';
