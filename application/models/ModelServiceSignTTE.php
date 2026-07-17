@@ -84,6 +84,7 @@
                         FROM dt01_sign_document_dt a
                         WHERE a.status_sign = '0'
                         AND a.provider_sign = 'Tilaka'
+                        and a.signer_id='1173'
                         LIMIT 20;
                     ";
 
