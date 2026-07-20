@@ -124,10 +124,11 @@ function initTrafficChart(divId, statusValue) {
 
 am5.ready(function () {
 
-  initTrafficChart("charttraffictte0", "0"); // Upload
-  initTrafficChart("charttraffictte1", "1"); // Request Sign
-  initTrafficChart("charttraffictte2", "2"); // Waiting OTP
-  initTrafficChart("charttraffictte3", "3"); // Proses Signing
+  initTrafficChart("charttraffictte0", "0");
+  initTrafficChart("charttraffictte1", "1");
+  initTrafficChart("charttraffictte2", "2");
+  initTrafficChart("charttraffictte3", "3");
+  initTrafficChart("charttraffictte5", "5");
 });
 
 
