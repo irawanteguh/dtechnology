@@ -272,47 +272,6 @@
             return $recordset;
         }
 
-        // function statussignquicksign(){
-        //     $query =
-        //             "
-        //                 (
-        //                     SELECT 
-        //                         '2' AS jenis,
-        //                         a.transaksi_id,
-        //                         a.request_id,
-        //                         a.user_identifier AS useridentifier,
-        //                         a.storage_out,
-        //                         a.requestsign_date
-        //                     FROM dt01_sign_document_dt a
-        //                     WHERE a.active='1'
-        //                     AND a.status_sign in ('3','4')
-        //                     AND a.quick_sign='2'
-        //                     AND a.provider_sign='Tilaka'
-        //                 )
-        //                 UNION ALL
-        //                 (
-        //                     select distinct 
-        //                         '1' AS jenis,
-        //                         a.transaksi_id,
-        //                         a.request_id,
-        //                         a.user_identifier AS useridentifier,
-        //                         a.storage_out,
-        //                         a.requestsign_date
-        //                     FROM dt01_sign_document_dt a
-        //                     WHERE a.active='1'
-        //                     AND a.status_sign='6'
-        //                     AND a.quick_sign='1'
-        //                     AND a.provider_sign='Tilaka'
-        //                 )
-        //                 ORDER BY requestsign_date ASC
-        //                 LIMIT 20;
-        //             ";
-
-        //     $recordset = $this->db->query($query);
-        //     $recordset = $recordset->result();
-        //     return $recordset;
-        // }
-
         function statussignquicksign(){
             $query =
                     "

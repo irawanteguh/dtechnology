@@ -651,7 +651,6 @@
                         
                         $this->md->updatedocument($datasimpanhd,$saves->transaksi_id);
                     }
-                    
 
                     echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                     continue;
