@@ -278,6 +278,7 @@
             */
             $pdfParse = new Pdfparse($localFile);
             $specimentposition = $pdfParse->findText($position);
+            $pdfParse->cleanup();
 
             return [
                 'status' => true,
