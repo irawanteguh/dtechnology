@@ -402,6 +402,13 @@
                         $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                     }
 
+                    if (strpos(strtolower($statusMsg), 'is not an active template number') !== false) {
+                        $datasimpanhd               = [];
+                        $datasimpanhd['quick_sign'] = "1";
+                        $datasimpanhd['response']   = $responserequestsignquicksign['message'];
+                        $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                    }
+
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                     continue;
                 }
