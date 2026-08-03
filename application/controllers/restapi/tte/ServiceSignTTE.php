@@ -681,7 +681,6 @@
 
                 $body['request_id'] = $a->request_id;
                 $responsestatussign = TilakaPlus::statussign(json_encode($body));
-                return var_dump($responsestatussign);
 
                 if(!isset($responsestatussign['success'])){
                     $statusColor = "red";
@@ -768,6 +767,8 @@
                             }else{
                                 $fileContent = downloadAndSave($listpdfs['presigned_url'],$a->storage_out,$mainName);
                             }
+
+                            return var_dump($fileContent);
 
                             if (!is_array($fileContent) || !isset($fileContent['success']) || $fileContent['success'] === false) {
                                 $statusColor = "red";
