@@ -768,8 +768,6 @@
                                 $fileContent = downloadAndSave($listpdfs['presigned_url'],$a->storage_out,$mainName);
                             }
 
-                            return var_dump($fileContent);
-
                             if (!is_array($fileContent) || !isset($fileContent['success']) || $fileContent['success'] === false) {
                                 $statusColor = "red";
                                 $statusMsg   = $fileContent['message'] ?? "Download failed or file invalid";
