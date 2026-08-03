@@ -232,7 +232,8 @@
                     echo json_encode([
                         "responCode" => "01",
                         "responHead" => "error",
-                        "responDesc" => "Upload remote gagal (HTTP $httpCode)"
+                        "responDesc" => "Upload remote gagal (HTTP $httpCode)",
+                        "responUrl"  => $url
                     ]);
                     return;
                 }
