@@ -291,7 +291,6 @@
 
                         WHERE a.active = '1'
                         AND a.provider_sign = 'Tilaka'
-                        and a.TRANSAKSI_ID ='0f5cf6c4-d179-4fed-82a9-de448a38db8d'
                         AND (
                                 (
                                     a.status_sign IN ('3','4')
