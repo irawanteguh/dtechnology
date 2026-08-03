@@ -167,7 +167,7 @@
                                 SELECT *
                                 FROM base
                                 WHERE status_sign='5'
-                                AND DATE(download_date) = CURDATE()
+                                AND download_date BETWEEN NOW() - INTERVAL 24 HOUR AND NOW()
                             ),
 
                             status6 AS
