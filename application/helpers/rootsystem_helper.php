@@ -369,8 +369,6 @@
 
             $url = rtrim($destinationFolder, '/') . '/receivedfile.php';
 
-            return var_dump($url);
-
             $ch = curl_init($url);
             curl_setopt_array($ch, [
                 CURLOPT_POST => true,
