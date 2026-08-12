@@ -308,18 +308,27 @@
                             AND (
                                     a.status_sign IN ('0','1','2','3','4','6','80','95','96','97','98','99')
                                     OR (
-                                        a.status_sign='5'
-                                        AND a.download_date >= NOW() - INTERVAL 24 HOUR
-                                    )
+									    a.status_sign = '5'
+									    AND (
+									        (
+									            a.from_in = 'Dtechnology'
+									            AND a.download_date >= NOW() - INTERVAL 2 WEEK
+									        )
+									        OR (
+									            a.from_in <> 'Dtechnology'
+									            AND a.download_date >= NOW() - INTERVAL 24 HOUR
+									        )
+									    )
+									)
                             )
                         )
 
                         SELECT *
                         FROM base
                         WHERE
-                            status_sign='0'
+                            status_sign in ('0','1')
                         OR status_sign='5'
-                        OR (status_sign IN ('1','2','3','4','6','80') AND rn<=10)
+                        OR (status_sign IN ('2','3','4','6','80') AND rn<=10)
                         OR (status_sign IN ('95','96','97','98','99') AND rn<=10)
                         ORDER BY created_date DESC;
 
