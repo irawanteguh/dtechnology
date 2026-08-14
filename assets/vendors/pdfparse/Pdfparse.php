@@ -114,6 +114,8 @@ class Pdfparse
             $this->parsedSource[] = $content;
         }
 
+        $this->cleanup();
+
         // Jangan hapus tmp di sini, pakai cleanup()
     }
 
