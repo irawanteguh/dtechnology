@@ -315,7 +315,8 @@
                     if(TYPETAG==="Array"){
                         $position = '$0';
                     }else{
-                        $position = '<<'.$assignArr[$i].'>>';
+                        // $position = '<<'.$assignArr[$i].'>>';
+                        $position = '<<'.$i.'>>';
                     }
                     
                     $signatures['email']           = $email;
