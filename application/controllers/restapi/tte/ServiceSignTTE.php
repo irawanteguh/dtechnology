@@ -316,7 +316,7 @@
                         $position = '$0';
                     }else{
                         // $position = '<<'.$assignArr[$i].'>>';
-                        $position = '<<'.$i.'>>';
+                        $position = '<'.$i.'>';
                     }
                     
                     $signatures['email']           = $email;
