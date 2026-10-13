@@ -48,6 +48,26 @@
             return json_decode($responsecurl,TRUE);
         }
 
+        public static function uuidreenroll($useridentifier){
+            $oauthResponse = Tilaka::oauth();
+            if(isset($oauthResponse['access_token'])){
+                $header = array("Content-Type: application/json","Authorization: Bearer ".$oauthResponse['access_token']);
+
+                $responsecurl = curl([
+                    'url'     => TILAKA_BASE_URL."generateUUID?request_type=re_enroll&user_identifier=".$useridentifier,
+                    'method'  => "POST",
+                    'header'  => $header,
+                    'body'    => "",
+                    'savelog' => true,
+                    'source'  => "TILAKA-UUIDENROLL"
+                ]);
+    
+                return json_decode($responsecurl,TRUE);
+            }else{
+                return json_decode($oauthResponse, TRUE); 
+            }
+        }
+
         public static function registerkyc($body){
             $oauthResponse = TilakaPlus::oauth();
 
