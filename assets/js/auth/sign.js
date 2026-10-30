@@ -20,37 +20,43 @@ var validatorsignin = function () {
             success: function (response) {
                 if (response.responCode === "00") {
                     Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>Success</h1>",
-                        html             : "<b>" + response.responDesc + "</b>",
-                        icon             : response.responHead,
-                        confirmButtonText: 'Yeah, got it!',
-                        customClass      : { confirmButton: 'btn btn-success' },
-                        timerProgressBar : true,
-                        timer            : 2000,
-                        showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-                        hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        title             : "<h1 class='font-weight-bold' style='color:#234974;'>Success</h1>",
+                        html              : "<b>" + response.responDesc + "</b>",
+                        icon              : response.responHead,
+                        confirmButtonText : 'Yeah, got it!',
+                        customClass       : { confirmButton: 'btn btn-success' },
+                        timerProgressBar  : true,
+                        timer             : 2000,
+                        showClass         : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                        hideClass         : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                     }).then(function () {
                         form.querySelector('[name="username"]').value = "";
                         form.querySelector('[name="password"]').value = "";
-                        window.location.href = response.url;
+
+                        if (response.url) {
+                            window.location.replace(response.url);
+                        }
                     });
+
                 } else if (response.responCode === "03") {
                     $("#urldeffault").val(response.url);
                     $('#modal_auth_change_mobilephone').modal('show');
+
                 } else if (response.responCode === "02") {
-                    window.location.href = response.url;
+                    window.location.replace(response.url);
+
                 } else {
                     Swal.fire({
-                        title            : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
-                        html             : "<b>" + response.responDesc + "</b>",
-                        icon             : response.responHead,
-                        confirmButtonText: "Please Try Again",
-                        buttonsStyling   : false,
-                        timerProgressBar : true,
-                        timer            : 5000,
-                        customClass      : { confirmButton: "btn btn-danger" },
-                        showClass        : { popup: "animate__animated animate__fadeInUp animate__faster" },
-                        hideClass        : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                        title             : "<h1 class='font-weight-bold' style='color:#234974;'>For Your Information</h1>",
+                        html              : "<b>" + response.responDesc + "</b>",
+                        icon              : response.responHead,
+                        confirmButtonText : "Please Try Again",
+                        buttonsStyling    : false,
+                        timerProgressBar  : true,
+                        timer             : 5000,
+                        customClass       : { confirmButton: "btn btn-danger" },
+                        showClass         : { popup: "animate__animated animate__fadeInUp animate__faster" },
+                        hideClass         : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                     }).then(function () {
                         form.querySelector('[name="username"]').value = "";
                         form.querySelector('[name="password"]').value = "";
