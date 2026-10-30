@@ -79,6 +79,12 @@
                 $json["responDesc"] = "Username and/or Password Unknown";
             }
         
+            log_message('error', 'RESPONSE HEADERS: ' . print_r(headers_list(), true));
+            log_message('error', 'CI SESSION COOKIE: ' . var_export(
+                $this->config->item('sess_cookie_name'),
+                true
+            ));
+
             echo json_encode($json);
         }
 
