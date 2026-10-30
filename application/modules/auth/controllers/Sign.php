@@ -45,6 +45,7 @@
                 );
         
                 $this->session->set_userdata($sessiondata);
+                session_write_close();
 
                 log_message('error', '========== LOGIN SESSION DEBUG ==========');
                 log_message('error', 'SESSION AFTER SET: ' . print_r($this->session->userdata(), TRUE));
