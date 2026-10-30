@@ -48,11 +48,9 @@
                 $this->session->set_userdata($sessiondata);
 
                 log_message('error', '========== LOGIN SESSION DEBUG ==========');
-                log_message('error', 'SESSION ID: ' . session_id());
-                log_message('error', 'SESSION DATA: ' . print_r($this->session->userdata(), true));
-                log_message('error', 'SESSION LOGGEDIN: ' . var_export($this->session->userdata('loggedin'), true));
-                log_message('error', 'COOKIE BEFORE RESPONSE: ' . ($_COOKIE['ci_session'] ?? 'NOT FOUND'));
-                log_message('error', 'COOKIE PARAM: ' . print_r(session_get_cookie_params(), true));
+                log_message('error', 'SESSION AFTER SET: ' . print_r($this->session->userdata(), TRUE));
+                log_message('error', 'SESSION ID AFTER SET: ' . session_id());
+                log_message('error', 'SESSION SAVE PATH: ' . ini_get('session.save_path'));
                 log_message('error', '==========================================');
         
                 if (empty($datasession->no_hp) || $datasession->no_hp==="-") {
