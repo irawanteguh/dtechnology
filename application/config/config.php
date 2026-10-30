@@ -25,14 +25,13 @@
     $config['cache_path']              = '';
     $config['cache_query_string']      = FALSE;
     // $config['encryption_key']          = substr(bin2hex(random_bytes(32)), 0, 32);
-    $config['encryption_key']          = bin2hex(random_bytes(32));
+    $config['encryption_key']          = '551d3ab76c513f0b7db3170d9e40dd95d228a21470d0d2d7ced228170280611f';
     // $config['encryption_key']          = generate_encryption_key();
     $config['sess_driver']             = 'files';
     $config['sess_cookie_name']        = 'ci_session';
     $config['sess_samesite']           = 'Lax';
     $config['sess_expiration']         = 7200;                                                                                                                                                                                        //Dalam Hitungan Menit
     $config['sess_save_path']          = APPPATH.'sessions';
-    // $config['sess_save_path'] = '/var/lib/php/sessions';
     $config['sess_match_ip']           = FALSE;
     $config['sess_time_to_update']     = 300;
     $config['sess_regenerate_destroy'] = TRUE;
