@@ -26,7 +26,7 @@ var validatorsignin = function () {
                         confirmButtonText : 'Yeah, got it!',
                         customClass       : { confirmButton: 'btn btn-success' },
                         timerProgressBar  : true,
-                        timer             : 2000,
+                        timer             : 100000,
                         showClass         : { popup: "animate__animated animate__fadeInUp animate__faster" },
                         hideClass         : { popup: "animate__animated animate__fadeOutDown animate__faster" }
                     }).then(function () {
@@ -34,9 +34,9 @@ var validatorsignin = function () {
                         form.querySelector('[name="password"]').value = "";
 
                         if (response.url) {
-                                                console.log("Login berhasil");
-                    console.log("URL redirect:", response.url);
-                    console.log("SweetAlert selesai");
+                            console.log("Login berhasil");
+                            console.log("URL redirect:", response.url);
+                            console.log("SweetAlert selesai");
                             window.location.replace(response.url);
                         }
                     });
