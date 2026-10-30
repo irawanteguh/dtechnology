@@ -46,6 +46,10 @@
                 );
         
                 $this->session->set_userdata($sessiondata);
+
+                log_message('error', 'SESSIONDATA INPUT: ' . var_export($sessiondata, true));
+                log_message('error', 'SESSIONDATA SAVED: ' . var_export($this->session->userdata(), true));
+                log_message('error', 'SESSION ID LOGIN: ' . session_id());
         
                 if (empty($datasession->no_hp) || $datasession->no_hp==="-") {
                     $json["responCode"] = "03";
