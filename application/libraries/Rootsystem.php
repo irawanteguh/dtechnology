@@ -20,9 +20,21 @@
             
         }
 
-        public static function checksession(){
-            if(self::$app->uri->segment(1)!="auth" && self::$app->uri->segment(1)!="booking" && self::$app->uri->segment(1)!="public"){
-                if(!self::$app->session->userdata('loggedin')){
+        public static function checksession()
+        {
+            if (
+                self::$app->uri->segment(1) != "auth" &&
+                self::$app->uri->segment(1) != "booking" &&
+                self::$app->uri->segment(1) != "public"
+            ) {
+                $loggedin = self::$app->session->userdata('loggedin');
+
+                log_message('error', 'CHECK SESSION loggedin: ' . var_export($loggedin, true));
+                log_message('error', 'SESSION ID: ' . session_id());
+                log_message('error', 'SESSION DATA: ' . var_export(self::$app->session->userdata(), true));
+
+                if (!$loggedin) {
+                    log_message('error', 'SESSION NOT FOUND - REDIRECT AUTH SIGN');
                     redirect("auth/sign");
                 }
             }

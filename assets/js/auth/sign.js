@@ -29,19 +29,15 @@ var validatorsignin = function () {
                         timer             : 2000,
                         showClass         : { popup: "animate__animated animate__fadeInUp animate__faster" },
                         hideClass         : { popup: "animate__animated animate__fadeOutDown animate__faster" }
+                    }).then(function () {
+                        form.querySelector('[name="username"]').value = "";
+                        form.querySelector('[name="password"]').value = "";
+
+                        if (response.url) {
+                            window.location.replace(response.url);
+                        }
                     });
 
-                    console.log("Login berhasil");
-                    console.log("URL redirect:", response.url);
-
-                    form.querySelector('[name="username"]').value = "";
-                    form.querySelector('[name="password"]').value = "";
-
-                    setTimeout(function () {
-                        if (response.url) {
-                            window.location.href = response.url;
-                        }
-                    }, 10000);
                 } else if (response.responCode === "03") {
                     $("#urldeffault").val(response.url);
                     $('#modal_auth_change_mobilephone').modal('show');
