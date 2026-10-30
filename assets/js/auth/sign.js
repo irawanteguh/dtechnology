@@ -41,7 +41,7 @@ var validatorsignin = function () {
                         if (response.url) {
                             window.location.href = response.url;
                         }
-                    }, 2200);
+                    }, 10000);
                 } else if (response.responCode === "03") {
                     $("#urldeffault").val(response.url);
                     $('#modal_auth_change_mobilephone').modal('show');
