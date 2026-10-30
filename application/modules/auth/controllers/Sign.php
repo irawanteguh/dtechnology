@@ -47,11 +47,11 @@
                 $this->session->set_userdata($sessiondata);
                 session_write_close();
 
-                log_message('error', '========== LOGIN SESSION DEBUG ==========');
-                log_message('error', 'SESSION AFTER SET: ' . print_r($this->session->userdata(), TRUE));
-                log_message('error', 'SESSION ID AFTER SET: ' . session_id());
-                log_message('error', 'SESSION SAVE PATH: ' . ini_get('session.save_path'));
-                log_message('error', '==========================================');
+                // log_message('error', '========== LOGIN SESSION DEBUG ==========');
+                // log_message('error', 'SESSION AFTER SET: ' . print_r($this->session->userdata(), TRUE));
+                // log_message('error', 'SESSION ID AFTER SET: ' . session_id());
+                // log_message('error', 'SESSION SAVE PATH: ' . ini_get('session.save_path'));
+                // log_message('error', '==========================================');
         
                 if (empty($datasession->no_hp) || $datasession->no_hp==="-") {
                     $json["responCode"] = "03";

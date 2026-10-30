@@ -27,19 +27,19 @@
                 self::$app->uri->segment(1) != "booking" &&
                 self::$app->uri->segment(1) != "public"
             ) {
-                log_message('error', '========== DASHBOARD SESSION DEBUG ==========');
-                log_message('error', 'REQUEST URI: ' . $_SERVER['REQUEST_URI']);
-                log_message('error', 'COOKIE RECEIVED: ' . (isset($_COOKIE['ci_session']) ? 'YES' : 'NO'));
-                log_message('error', 'COOKIE VALUE MATCH: ' . (
-                    isset($_COOKIE['ci_session']) &&
-                    hash_equals($_COOKIE['ci_session'], session_id())
-                        ? 'YES'
-                        : 'NO'
-                ));
-                log_message('error', 'SESSION ID: ' . session_id());
-                log_message('error', 'SESSION SAVE PATH: ' . config_item('sess_save_path'));
-                log_message('error', 'SESSION USERDATA: ' . print_r(self::$app->session->userdata(), TRUE));
-                log_message('error', 'LOGGEDIN: ' . var_export(self::$app->session->userdata('loggedin'), TRUE));
+                // log_message('error', '========== DASHBOARD SESSION DEBUG ==========');
+                // log_message('error', 'REQUEST URI: ' . $_SERVER['REQUEST_URI']);
+                // log_message('error', 'COOKIE RECEIVED: ' . (isset($_COOKIE['ci_session']) ? 'YES' : 'NO'));
+                // log_message('error', 'COOKIE VALUE MATCH: ' . (
+                //     isset($_COOKIE['ci_session']) &&
+                //     hash_equals($_COOKIE['ci_session'], session_id())
+                //         ? 'YES'
+                //         : 'NO'
+                // ));
+                // log_message('error', 'SESSION ID: ' . session_id());
+                // log_message('error', 'SESSION SAVE PATH: ' . config_item('sess_save_path'));
+                // log_message('error', 'SESSION USERDATA: ' . print_r(self::$app->session->userdata(), TRUE));
+                // log_message('error', 'LOGGEDIN: ' . var_export(self::$app->session->userdata('loggedin'), TRUE));
 
                 if (!self::$app->session->userdata('loggedin')) {
                     log_message('error', 'SESSION NOT FOUND - REDIRECT AUTH SIGN');
