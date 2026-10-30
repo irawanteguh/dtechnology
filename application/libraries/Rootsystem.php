@@ -27,16 +27,15 @@
                 self::$app->uri->segment(1) != "booking" &&
                 self::$app->uri->segment(1) != "public"
             ) {
-                $loggedin = self::$app->session->userdata('loggedin');
-
+                log_message('error', '========== DASHBOARD SESSION DEBUG ==========');
                 log_message('error', 'REQUEST URI: ' . $_SERVER['REQUEST_URI']);
-                log_message('error', 'COOKIE NAMES: ' . implode(', ', array_keys($_COOKIE)));
-                log_message('error', 'COOKIE ci_session: ' . (isset($_COOKIE['ci_session']) ? 'EXISTS' : 'NOT FOUND'));
+                log_message('error', 'COOKIE RECEIVED: ' . (isset($_COOKIE['ci_session']) ? 'YES' : 'NO'));
                 log_message('error', 'SESSION ID: ' . session_id());
-                log_message('error', 'SESSION SAVE PATH: ' . APPPATH . 'sessions');
-                log_message('error', 'SESSION FILE EXISTS: ' . (is_file(APPPATH . 'sessions/ci_session' . session_id()) ? 'YES' : 'NO'));
+                log_message('error', 'SESSION SAVE PATH: ' . config_item('sess_save_path'));
+                log_message('error', 'SESSION USERDATA: ' . print_r(self::$app->session->userdata(), TRUE));
+                log_message('error', 'LOGGEDIN: ' . var_export(self::$app->session->userdata('loggedin'), TRUE));
 
-                if (!$loggedin) {
+                if (!self::$app->session->userdata('loggedin')) {
                     log_message('error', 'SESSION NOT FOUND - REDIRECT AUTH SIGN');
                     redirect("auth/sign");
                 }
