@@ -47,9 +47,9 @@
         
                 $this->session->set_userdata($sessiondata);
 
-                log_message('error', 'SESSION ID LOGIN: ' . session_id());
-                log_message('error', 'SESSION SAVED: ' . var_export($this->session->userdata(), true));
-                log_message('error', 'SESSION LOGGEDIN: ' . var_export($this->session->userdata('loggedin'), true));
+                log_message('error', 'LOGIN SESSION ID: ' . session_id());
+                log_message('error', 'LOGIN COOKIE: ' . ($_COOKIE['ci_session'] ?? 'NOT FOUND'));
+                log_message('error', 'LOGIN LOGGEDIN: ' . var_export($this->session->userdata('loggedin'), true));
         
                 if (empty($datasession->no_hp) || $datasession->no_hp==="-") {
                     $json["responCode"] = "03";
