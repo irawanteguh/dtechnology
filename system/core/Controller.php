@@ -79,6 +79,9 @@ class CI_Controller {
 	public $input;
 	public $lang;
 	public $db;
+	public $md;
+	public $mn;
+	public $Modelroot;
 
 	// Application libraries
 	public $session;
@@ -88,7 +91,6 @@ class CI_Controller {
 	public $satusehat;
 	public $inacbg;
 	public $gatewaywhatsapp;
-	public $md;
 	
 
 	/**
