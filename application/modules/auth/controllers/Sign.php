@@ -9,7 +9,6 @@
         }
         
         public function index(){
-            $this->session->sess_destroy();
             $this->template->load("template/template-blank","v_signin");
         }
 
