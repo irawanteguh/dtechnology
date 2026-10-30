@@ -34,6 +34,9 @@ var validatorsignin = function () {
                         form.querySelector('[name="password"]').value = "";
 
                         if (response.url) {
+                                                console.log("Login berhasil");
+                    console.log("URL redirect:", response.url);
+                    console.log("SweetAlert selesai");
                             window.location.replace(response.url);
                         }
                     });
@@ -43,6 +46,7 @@ var validatorsignin = function () {
                     $('#modal_auth_change_mobilephone').modal('show');
 
                 } else if (response.responCode === "02") {
+
                     window.location.replace(response.url);
 
                 } else {
