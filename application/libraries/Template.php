@@ -1,5 +1,7 @@
 <?php
     class Template {
+        protected $CI;
+        
         var $template_data = array();
     
         function set($name, $value){
