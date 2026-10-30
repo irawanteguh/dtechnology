@@ -80,6 +80,16 @@ class CI_Controller {
 	public $lang;
 	public $db;
 
+	// Application libraries
+	public $session;
+	public $template;
+	public $tilaka;
+	public $mekari;
+	public $satusehat;
+	public $inacbg;
+	public $gatewaywhatsapp;
+	
+
 	/**
 	 * Class constructor
 	 *
