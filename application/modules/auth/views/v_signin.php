@@ -12,7 +12,7 @@
 			<?php endif; ?>
 		</a>
 		<div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto shadow-lg">
-			<form class="form w-100" action="<?php echo base_url();?>index.php/auth/tte/dashboard" novalidate="novalidate" id="kt_sign_in_form" method="post">
+			<form class="form w-100" action="<?php echo base_url();?>index.php/auth/sign/signin" novalidate="novalidate" id="kt_sign_in_form" method="post">
 				<div class="text-center mb-10">
 					<h1 class="text-dark mb-3">Welcome</h1>
 				</div>
