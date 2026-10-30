@@ -47,9 +47,13 @@
         
                 $this->session->set_userdata($sessiondata);
 
-                log_message('error', 'LOGIN SESSION ID: ' . session_id());
-                log_message('error', 'LOGIN COOKIE: ' . ($_COOKIE['ci_session'] ?? 'NOT FOUND'));
-                log_message('error', 'LOGIN LOGGEDIN: ' . var_export($this->session->userdata('loggedin'), true));
+                log_message('error', '========== LOGIN SESSION DEBUG ==========');
+                log_message('error', 'SESSION ID: ' . session_id());
+                log_message('error', 'SESSION DATA: ' . print_r($this->session->userdata(), true));
+                log_message('error', 'SESSION LOGGEDIN: ' . var_export($this->session->userdata('loggedin'), true));
+                log_message('error', 'COOKIE BEFORE RESPONSE: ' . ($_COOKIE['ci_session'] ?? 'NOT FOUND'));
+                log_message('error', 'COOKIE PARAM: ' . print_r(session_get_cookie_params(), true));
+                log_message('error', '==========================================');
         
                 if (empty($datasession->no_hp) || $datasession->no_hp==="-") {
                     $json["responCode"] = "03";
