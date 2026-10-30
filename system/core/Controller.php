@@ -88,6 +88,7 @@ class CI_Controller {
 	public $satusehat;
 	public $inacbg;
 	public $gatewaywhatsapp;
+	public $md;
 	
 
 	/**
