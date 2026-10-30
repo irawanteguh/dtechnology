@@ -29,9 +29,12 @@
             ) {
                 $loggedin = self::$app->session->userdata('loggedin');
 
-                log_message('error', 'CHECK SESSION loggedin: ' . var_export($loggedin, true));
+                log_message('error', 'REQUEST URI: ' . $_SERVER['REQUEST_URI']);
+                log_message('error', 'COOKIE NAMES: ' . implode(', ', array_keys($_COOKIE)));
+                log_message('error', 'COOKIE ci_session: ' . (isset($_COOKIE['ci_session']) ? 'EXISTS' : 'NOT FOUND'));
                 log_message('error', 'SESSION ID: ' . session_id());
-                log_message('error', 'SESSION DATA: ' . var_export(self::$app->session->userdata(), true));
+                log_message('error', 'SESSION SAVE PATH: ' . APPPATH . 'sessions');
+                log_message('error', 'SESSION FILE EXISTS: ' . (is_file(APPPATH . 'sessions/ci_session' . session_id()) ? 'YES' : 'NO'));
 
                 if (!$loggedin) {
                     log_message('error', 'SESSION NOT FOUND - REDIRECT AUTH SIGN');
