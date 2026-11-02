@@ -5,6 +5,8 @@
 
 	class Repodocument extends CI_Controller {
 
+        public $upload;
+
 		public function __construct(){
             parent:: __construct();
             rootsystem::system();
