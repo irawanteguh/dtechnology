@@ -777,15 +777,11 @@
         imagedestroy($qrImage);
         imagedestroy($canvas);
 
-        return var_dump($finalImageData);
-
         if (empty($finalImageData)) {
             log_message('error', 'Gagal menghasilkan PNG final QR Code.');
             return false;
         }
 
-        // return var_dump($finalImageData);
-
-        // return base64_encode($finalImageData);
+        return base64_encode($finalImageData);
     }
 ?>
