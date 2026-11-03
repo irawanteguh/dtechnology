@@ -31,6 +31,9 @@
 
     class SyncTTE extends REST_Controller{
 
+        public $format;
+        public $mlog;
+        
         public function __construct(){
             parent::__construct();
             $this->load->model("ModelSyncTTE","md");
