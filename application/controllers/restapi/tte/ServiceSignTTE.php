@@ -37,6 +37,8 @@
 
     class ServiceSignTTE extends REST_Controller{
 
+        public $format = 'json';
+
         public function __construct(){
             parent::__construct();
             $this->load->model("ModelServiceSignTTE","md");
