@@ -372,8 +372,6 @@
 
                 $responserequestsignquicksign = TilakaPlus::requestsignquicksign(json_encode($body));
 
-                return var_dump($responserequestsignquicksign);
-
                 if(!isset($responserequestsignquicksign['success'])){
                     $statusColor = "red";
                     $statusMsg   = "No Response From Tilaka Lite";
@@ -392,6 +390,13 @@
                         $datasimpanhd['status_sign'] = "0";
                         $datasimpanhd['response']    = $responserequestsignquicksign['message'];
 
+                        $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+                    }
+
+                    if (strpos(strtolower($statusMsg), 'bukan user yang valid') !== false) {
+                        $datasimpanhd                = [];
+                        $datasimpanhd['status_sign'] = "96";
+                        $datasimpanhd['response']    = $responserequestsignquicksign['message'];
                         $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
                     }
 
