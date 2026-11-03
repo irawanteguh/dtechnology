@@ -279,7 +279,7 @@
                         $rawImages[]    = getQRCode($a->signature_field, $logo);
                     }
 
-                    return var_dump($rawImages);
+                    // return var_dump($rawImages);
                 }
 
                 if(!fileExists($filedirectory)['status']){
