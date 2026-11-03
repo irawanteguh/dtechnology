@@ -20,7 +20,8 @@
                     "
                         select b.transaksi_id
                         from dt01_sign_document_dt b
-                        where b.status_sign = '2'
+                        where b.active='1'
+                        and b.status_sign = '2'
                         and b.provider_sign = 'Tilaka'
                         and b.type_of = 'Signature'
                         and b.quick_sign = '2'
