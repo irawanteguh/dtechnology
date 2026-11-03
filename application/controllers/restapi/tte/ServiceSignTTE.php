@@ -37,8 +37,6 @@
 
     class ServiceSignTTE extends REST_Controller{
 
-        public $format = 'json';
-
         public function __construct(){
             parent::__construct();
             $this->load->model("ModelServiceSignTTE","md");
@@ -558,7 +556,7 @@
                             $statusColor = "red";
                             $statusMsg   = "File Corrupted";
                             
-                            echo formatlog($$requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                             continue;
                         }
 
@@ -647,7 +645,7 @@
                             $statusColor = "red";
                             $statusMsg   = fileExists($filedirectory)['message'];
 
-                            echo formatlog($$requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
+                            echo formatlog($requestid,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                             continue;
                         }
 

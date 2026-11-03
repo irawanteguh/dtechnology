@@ -280,6 +280,13 @@ abstract class REST_Controller extends \CI_Controller {
     protected $_allow = TRUE;
 
     /**
+     * Authentication override status
+     *
+     * @var bool
+     */
+    protected $auth_override = FALSE;
+
+    /**
      * The LDAP Distinguished Name of the User post authentication
      *
      * @var string
@@ -985,7 +992,7 @@ abstract class REST_Controller extends \CI_Controller {
                 $method = $this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE');
             }
 
-            $method = strtolower($method);
+            $method = strtolower((string) ($method ?? ''));
         }
 
         if (empty($method))
