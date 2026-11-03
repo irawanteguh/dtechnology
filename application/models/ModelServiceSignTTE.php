@@ -162,7 +162,8 @@
                         AND NOT EXISTS (
                             SELECT 1
                             FROM dt01_sign_document_dt b
-                            WHERE b.status_sign = '2'
+                            WHERE b.active='1'
+                            ANDb.status_sign = '2'
                             AND b.provider_sign = 'Tilaka'
                             AND b.type_of = 'Signature'
                             AND b.quick_sign = '2'
