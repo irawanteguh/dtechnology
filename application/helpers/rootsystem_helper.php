@@ -782,6 +782,8 @@
             return false;
         }
 
-        return base64_encode($finalImageData);
+        return var_dump($finalImageData);
+
+        // return base64_encode($finalImageData);
     }
 ?>
