@@ -273,30 +273,10 @@
                         }
                     }
 
-                    // foreach ($assignArr as $i => $nik){
-                    //     $userIdentifier = $uidArr[$i];
-                    //     $name           = $nameArr[$i];
-                    //     $rawImages[]    = getQRCode($a->signature_field, $logo);
-                    // }
-
                     foreach ($assignArr as $i => $nik){
-
                         $userIdentifier = $uidArr[$i];
                         $name           = $nameArr[$i];
-
-                        $qrCode = getQRCode($a->signature_field, $logo);
-
-                        echo "<pre>";
-                        echo "TRANSAKSI ID : ".$a->transaksi_id.PHP_EOL;
-                        echo "SIGNATURE FIELD : ".(empty($a->signature_field) ? 'EMPTY' : 'AVAILABLE').PHP_EOL;
-                        echo "LOGO : ".$logo.PHP_EOL;
-                        echo "LOGO EXISTS : ".(file_exists($logo) ? 'YES' : 'NO').PHP_EOL;
-                        echo "QR RESULT TYPE : ".gettype($qrCode).PHP_EOL;
-                        echo "QR RESULT LENGTH : ".(is_string($qrCode) ? strlen($qrCode) : 0).PHP_EOL;
-                        echo "QR RESULT : ".(is_string($qrCode) ? substr($qrCode,0,50) : var_export($qrCode,true)).PHP_EOL;
-                        echo "</pre>";
-
-                        $rawImages[] = $qrCode;
+                        $rawImages[]    = getQRCode($a->signature_field, $logo);
                     }
                 }
 
@@ -389,11 +369,8 @@
                 }
 
                 $body['request_id']  = $requestid;
-                return var_dump($body);
 
-                // $responserequestsignquicksign = TilakaPlus::requestsignquicksign(json_encode($body));
-
-                
+                $responserequestsignquicksign = TilakaPlus::requestsignquicksign(json_encode($body));
 
                 if(!isset($responserequestsignquicksign['success'])){
                     $statusColor = "red";
