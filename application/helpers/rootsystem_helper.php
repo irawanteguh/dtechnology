@@ -593,96 +593,194 @@
         return $bytes . " B";
     }
 
-    function getQRCode($text, $logoPath){
+    // function getQRCode($text, $logoPath){
 
+    //     ob_start();
+    //     QRcode::png($text, null, QR_ECLEVEL_H, 8, 2);
+    //     $qrImageData = ob_get_contents();
+    //     ob_end_clean();
+
+    //     $qrImage = imagecreatefromstring($qrImageData);
+    //     if (!$qrImage) return false;
+
+    //     $qrWidth  = imagesx($qrImage);
+    //     $qrHeight = imagesy($qrImage);
+
+    //     /*
+    //     =========================
+    //     BACKGROUND QR PUTIH
+    //     =========================
+    //     */
+    //     $canvas = imagecreatetruecolor($qrWidth, $qrHeight);
+    //     $white  = imagecolorallocate($canvas, 255,255,255);
+
+    //     imagefill($canvas, 0, 0, $white);
+    //     imagecopy($canvas, $qrImage, 0, 0, 0, 0, $qrWidth, $qrHeight);
+
+    //     /*
+    //     =========================
+    //     LOGO DI TENGAH
+    //     =========================
+    //     */
+    //     if (file_exists($logoPath)) {
+
+    //         $logo = imagecreatefrompng($logoPath);
+
+    //         $logoWidth  = imagesx($logo);
+    //         $logoHeight = imagesy($logo);
+
+    //         $logoQRWidth  = $qrWidth / 4;
+    //         $scale        = $logoWidth / $logoQRWidth;
+    //         $logoQRHeight = $logoHeight / $scale;
+
+    //         $x = ($qrWidth - $logoQRWidth) / 2;
+    //         $y = ($qrHeight - $logoQRHeight) / 2;
+
+    //         /*
+    //         =========================
+    //         BACKGROUND PUTIH DI LOGO
+    //         =========================
+    //         */
+
+    //         $padding = 10;
+
+    //         imagefilledrectangle(
+    //             $canvas,
+    //             $x - $padding,
+    //             $y - $padding,
+    //             $x + $logoQRWidth + $padding,
+    //             $y + $logoQRHeight + $padding,
+    //             $white
+    //         );
+
+    //         /*
+    //         =========================
+    //         TEMPEL LOGO
+    //         =========================
+    //         */
+
+    //         imagecopyresampled(
+    //             $canvas,
+    //             $logo,
+    //             $x,
+    //             $y,
+    //             0,
+    //             0,
+    //             $logoQRWidth,
+    //             $logoQRHeight,
+    //             $logoWidth,
+    //             $logoHeight
+    //         );
+    //     }
+
+    //     /*
+    //     =========================
+    //     OUTPUT BASE64
+    //     =========================
+    //     */
+
+    //     ob_start();
+    //     imagepng($canvas);
+    //     $finalImageData = ob_get_contents();
+    //     ob_end_clean();
+
+    //     return base64_encode($finalImageData);
+    // }
+
+    function getQRCode($text, $logoPath)
+    {
+        // Generate QR Code dalam bentuk PNG binary
         ob_start();
         QRcode::png($text, null, QR_ECLEVEL_H, 8, 2);
-        $qrImageData = ob_get_contents();
-        ob_end_clean();
+        $qrImageData = ob_get_clean();
 
-        $qrImage = imagecreatefromstring($qrImageData);
-        if (!$qrImage) return false;
+        // Validasi hasil QR Code
+        if (empty($qrImageData) || !is_string($qrImageData)) {
+            log_message('error', 'QR Code generation menghasilkan data kosong.');
+            return false;
+        }
+
+        // Validasi signature PNG
+        if (substr($qrImageData, 0, 8) !== "\x89PNG\r\n\x1a\n") {
+            log_message('error', 'QR Code bukan format PNG yang valid. Data: ' . substr($qrImageData, 0, 100));
+            return false;
+        }
+
+        // Konversi binary PNG menjadi image
+        $qrImage = @imagecreatefromstring($qrImageData);
+
+        if ($qrImage === false) {
+            log_message('error', 'Gagal membaca hasil QR Code menggunakan GD.');
+            return false;
+        }
 
         $qrWidth  = imagesx($qrImage);
         $qrHeight = imagesy($qrImage);
 
-        /*
-        =========================
-        BACKGROUND QR PUTIH
-        =========================
-        */
+        // Background QR putih
         $canvas = imagecreatetruecolor($qrWidth, $qrHeight);
-        $white  = imagecolorallocate($canvas, 255,255,255);
+        $white  = imagecolorallocate($canvas, 255, 255, 255);
 
         imagefill($canvas, 0, 0, $white);
         imagecopy($canvas, $qrImage, 0, 0, 0, 0, $qrWidth, $qrHeight);
 
-        /*
-        =========================
-        LOGO DI TENGAH
-        =========================
-        */
-        if (file_exists($logoPath)) {
+        // Tempel logo di tengah QR
+        if (!empty($logoPath) && file_exists($logoPath)) {
 
-            $logo = imagecreatefrompng($logoPath);
+            $logo = @imagecreatefrompng($logoPath);
 
-            $logoWidth  = imagesx($logo);
-            $logoHeight = imagesy($logo);
+            if ($logo !== false) {
 
-            $logoQRWidth  = $qrWidth / 4;
-            $scale        = $logoWidth / $logoQRWidth;
-            $logoQRHeight = $logoHeight / $scale;
+                $logoWidth  = imagesx($logo);
+                $logoHeight = imagesy($logo);
 
-            $x = ($qrWidth - $logoQRWidth) / 2;
-            $y = ($qrHeight - $logoQRHeight) / 2;
+                $logoQRWidth  = (int) ($qrWidth / 4);
+                $scale        = $logoWidth / $logoQRWidth;
+                $logoQRHeight = (int) ($logoHeight / $scale);
 
-            /*
-            =========================
-            BACKGROUND PUTIH DI LOGO
-            =========================
-            */
+                $x = (int) (($qrWidth - $logoQRWidth) / 2);
+                $y = (int) (($qrHeight - $logoQRHeight) / 2);
 
-            $padding = 10;
+                $padding = 10;
 
-            imagefilledrectangle(
-                $canvas,
-                $x - $padding,
-                $y - $padding,
-                $x + $logoQRWidth + $padding,
-                $y + $logoQRHeight + $padding,
-                $white
-            );
+                imagefilledrectangle(
+                    $canvas,
+                    $x - $padding,
+                    $y - $padding,
+                    $x + $logoQRWidth + $padding,
+                    $y + $logoQRHeight + $padding,
+                    $white
+                );
 
-            /*
-            =========================
-            TEMPEL LOGO
-            =========================
-            */
+                imagecopyresampled(
+                    $canvas,
+                    $logo,
+                    $x,
+                    $y,
+                    0,
+                    0,
+                    $logoQRWidth,
+                    $logoQRHeight,
+                    $logoWidth,
+                    $logoHeight
+                );
 
-            imagecopyresampled(
-                $canvas,
-                $logo,
-                $x,
-                $y,
-                0,
-                0,
-                $logoQRWidth,
-                $logoQRHeight,
-                $logoWidth,
-                $logoHeight
-            );
+                imagedestroy($logo);
+            }
         }
 
-        /*
-        =========================
-        OUTPUT BASE64
-        =========================
-        */
-
+        // Output PNG binary menjadi Base64
         ob_start();
         imagepng($canvas);
-        $finalImageData = ob_get_contents();
-        ob_end_clean();
+        $finalImageData = ob_get_clean();
+
+        imagedestroy($qrImage);
+        imagedestroy($canvas);
+
+        if (empty($finalImageData)) {
+            log_message('error', 'Gagal menghasilkan PNG final QR Code.');
+            return false;
+        }
 
         return base64_encode($finalImageData);
     }
