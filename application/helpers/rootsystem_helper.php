@@ -687,44 +687,113 @@
     //     return base64_encode($finalImageData);
     // }
 
-    function getQRCode($text, $logoPath)
-    {
-        // Generate QR Code dalam bentuk PNG binary
-        ob_start();
-        QRcode::png($text, null, QR_ECLEVEL_H, 8, 2);
-        $qrImageData = ob_get_clean();
+    
+function getQRCode($text, $logoPath)
+{
+    // =====================================================
+    // 1. VALIDASI DEPENDENCY
+    // =====================================================
+    if (!class_exists('QRcode')) {
+        log_message('error', 'QRcode class tidak ditemukan.');
+        return false;
+    }
 
-        // Validasi hasil QR Code
-        if (empty($qrImageData) || !is_string($qrImageData)) {
-            log_message('error', 'QR Code generation menghasilkan data kosong.');
+    if (!extension_loaded('gd') || !function_exists('imagecreatefromstring')) {
+        log_message('error', 'PHP GD extension tidak tersedia.');
+        return false;
+    }
+
+    if (empty($text)) {
+        log_message('error', 'QR Code text kosong.');
+        return false;
+    }
+
+    // =====================================================
+    // 2. GENERATE QR CODE KE FILE TEMPORARY
+    // =====================================================
+    $tempFile = tempnam(sys_get_temp_dir(), 'qr_');
+
+    if ($tempFile === false) {
+        log_message('error', 'Gagal membuat temporary file QR Code.');
+        return false;
+    }
+
+    try {
+
+        QRcode::png(
+            (string) $text,
+            $tempFile,
+            QR_ECLEVEL_H,
+            8,
+            2
+        );
+
+        if (!file_exists($tempFile) || filesize($tempFile) === 0) {
+            log_message('error', 'QR Code generation menghasilkan file kosong.');
             return false;
         }
 
-        // Validasi signature PNG
+        $qrImageData = file_get_contents($tempFile);
+
+        if ($qrImageData === false || empty($qrImageData)) {
+            log_message('error', 'Gagal membaca temporary QR Code.');
+            return false;
+        }
+
+        // Validasi PNG signature
         if (substr($qrImageData, 0, 8) !== "\x89PNG\r\n\x1a\n") {
-            log_message('error', 'QR Code bukan format PNG yang valid. Data: ' . substr($qrImageData, 0, 100));
+            log_message('error', 'Output QR Code bukan PNG valid.');
             return false;
         }
 
-        // Konversi binary PNG menjadi image
+        // =================================================
+        // 3. LOAD QR CODE KE GD
+        // =================================================
         $qrImage = @imagecreatefromstring($qrImageData);
 
         if ($qrImage === false) {
-            log_message('error', 'Gagal membaca hasil QR Code menggunakan GD.');
+            log_message('error', 'Gagal membaca QR Code menggunakan GD.');
             return false;
         }
 
         $qrWidth  = imagesx($qrImage);
         $qrHeight = imagesy($qrImage);
 
-        // Background QR putih
+        if ($qrWidth <= 0 || $qrHeight <= 0) {
+            imagedestroy($qrImage);
+            log_message('error', 'Dimensi QR Code tidak valid.');
+            return false;
+        }
+
+        // =================================================
+        // 4. BUAT CANVAS PUTIH
+        // =================================================
         $canvas = imagecreatetruecolor($qrWidth, $qrHeight);
-        $white  = imagecolorallocate($canvas, 255, 255, 255);
+
+        if ($canvas === false) {
+            imagedestroy($qrImage);
+            log_message('error', 'Gagal membuat canvas QR Code.');
+            return false;
+        }
+
+        $white = imagecolorallocate($canvas, 255, 255, 255);
 
         imagefill($canvas, 0, 0, $white);
-        imagecopy($canvas, $qrImage, 0, 0, 0, 0, $qrWidth, $qrHeight);
 
-        // Tempel logo di tengah QR
+        imagecopy(
+            $canvas,
+            $qrImage,
+            0,
+            0,
+            0,
+            0,
+            $qrWidth,
+            $qrHeight
+        );
+
+        // =================================================
+        // 5. TEMPEL LOGO DI TENGAH QR CODE
+        // =================================================
         if (!empty($logoPath) && file_exists($logoPath)) {
 
             $logo = @imagecreatefrompng($logoPath);
@@ -734,54 +803,90 @@
                 $logoWidth  = imagesx($logo);
                 $logoHeight = imagesy($logo);
 
-                $logoQRWidth  = (int) ($qrWidth / 4);
-                $scale        = $logoWidth / $logoQRWidth;
-                $logoQRHeight = (int) ($logoHeight / $scale);
+                if ($logoWidth > 0 && $logoHeight > 0) {
 
-                $x = (int) (($qrWidth - $logoQRWidth) / 2);
-                $y = (int) (($qrHeight - $logoQRHeight) / 2);
+                    $logoQRWidth  = (int) ($qrWidth / 4);
+                    $scale        = $logoWidth / $logoQRWidth;
+                    $logoQRHeight = (int) ($logoHeight / $scale);
 
-                $padding = 10;
+                    $x = (int) (($qrWidth - $logoQRWidth) / 2);
+                    $y = (int) (($qrHeight - $logoQRHeight) / 2);
 
-                imagefilledrectangle(
-                    $canvas,
-                    $x - $padding,
-                    $y - $padding,
-                    $x + $logoQRWidth + $padding,
-                    $y + $logoQRHeight + $padding,
-                    $white
-                );
+                    $padding = 10;
 
-                imagecopyresampled(
-                    $canvas,
-                    $logo,
-                    $x,
-                    $y,
-                    0,
-                    0,
-                    $logoQRWidth,
-                    $logoQRHeight,
-                    $logoWidth,
-                    $logoHeight
-                );
+                    imagefilledrectangle(
+                        $canvas,
+                        max(0, $x - $padding),
+                        max(0, $y - $padding),
+                        min($qrWidth - 1, $x + $logoQRWidth + $padding),
+                        min($qrHeight - 1, $y + $logoQRHeight + $padding),
+                        $white
+                    );
+
+                    imagecopyresampled(
+                        $canvas,
+                        $logo,
+                        $x,
+                        $y,
+                        0,
+                        0,
+                        $logoQRWidth,
+                        $logoQRHeight,
+                        $logoWidth,
+                        $logoHeight
+                    );
+                }
 
                 imagedestroy($logo);
+
+            } else {
+                log_message('error', 'Gagal membaca logo PNG: ' . $logoPath);
             }
+
+        } else {
+            log_message('error', 'Logo QR Code tidak ditemukan: ' . $logoPath);
         }
 
-        // Output PNG binary menjadi Base64
+        // =================================================
+        // 6. CONVERT FINAL IMAGE KE BASE64
+        // =================================================
         ob_start();
-        imagepng($canvas);
+
+        $pngResult = imagepng($canvas);
+
         $finalImageData = ob_get_clean();
 
         imagedestroy($qrImage);
         imagedestroy($canvas);
 
-        if (empty($finalImageData)) {
-            log_message('error', 'Gagal menghasilkan PNG final QR Code.');
+        if ($pngResult === false || empty($finalImageData)) {
+            log_message('error', 'Gagal menghasilkan final PNG QR Code.');
+            return false;
+        }
+
+        // Validasi final PNG
+        if (substr($finalImageData, 0, 8) !== "\x89PNG\r\n\x1a\n") {
+            log_message('error', 'Final QR Code bukan PNG valid.');
             return false;
         }
 
         return base64_encode($finalImageData);
+
+    } catch (Throwable $e) {
+
+        log_message(
+            'error',
+            'QR Code Exception: ' . $e->getMessage()
+        );
+
+        return false;
+
+    } finally {
+
+        if (file_exists($tempFile)) {
+            @unlink($tempFile);
+        }
     }
+}
+
 ?>
