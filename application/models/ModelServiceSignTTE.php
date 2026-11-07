@@ -184,7 +184,7 @@
 
                         GROUP BY a.transaksi_id
 
-                        ORDER BY a.upload_date ASC
+                        ORDER BY a.from_in asc, a.upload_date ASC
 
                         LIMIT 10;
                     ";
