@@ -245,20 +245,6 @@
                 return;
             }
 
-            if (!class_exists('finfo')) {
-                log_message('error', 'Tilaka upload: ekstensi PHP fileinfo tidak tersedia');
-                $respond('01', 'error', 'Ekstensi PHP fileinfo belum aktif di server. Hubungi administrator untuk mengaktifkannya lalu ulangi upload.');
-                return;
-            }
-
-            $finfo = new finfo(FILEINFO_MIME_TYPE);
-            $mime  = $finfo->file($file['tmp_name']);
-
-            if (!in_array($mime, ['application/pdf', 'application/x-pdf'], true)) {
-                $respond('01', 'error', 'Tipe file bukan PDF yang valid');
-                return;
-            }
-
             /*
             =================================
             GENERATE TRANSACTION ID
