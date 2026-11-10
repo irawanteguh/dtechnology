@@ -8,7 +8,7 @@
                     </span>
                 </div>
             </div>
-            <form action="<?php echo base_url();?>index.php/tte/repodocument/adddocument" id="formadddocument" enctype="multipart/form-data">
+            <form action="<?php echo base_url();?>index.php/tte/repodocument/adddocument" id="formadddocument" enctype="multipart/form-data" method="post">
                 <div class="modal-body">
                     <div class="text-center mb-13">
                         <h1 class="mb-3">Sign Document By Tilaka</h1>
@@ -50,7 +50,7 @@
                                 <span class="required">Upload Document</span>
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan Upload Dokumen Yang Akan Di Tanda Tangani"></i>
                             </label>
-                            <input type="file" class="form-control" name="modal_sign_add_tilaka_document" id="modal_sign_add_tilaka_document" accept=".pdf">
+                            <input type="file" class="form-control" name="modal_sign_add_tilaka_document" id="modal_sign_add_tilaka_document" accept=".pdf" required>
                         </div>
                     </div>
                 </div>
