@@ -26,10 +26,10 @@
                         </div>
                         <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">
-								<span>Type Document :</span>
+								<span class="required">Type Document :</span>
 								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan Masukan Jenis Dokumen Anda"></i>
 							</label>
-                            <input type="text" class="form-control form-control-solid" id="modal_sign_add_tilaka_type" name="modal_sign_add_tilaka_type">
+                            <input type="text" class="form-control form-control-solid" id="modal_sign_add_tilaka_type" name="modal_sign_add_tilaka_type" required>
                         </div>
                         <div class="col-xl-12 mb-5">
                             <label class="d-flex align-items-center fs-5 fw-bold mb-2">

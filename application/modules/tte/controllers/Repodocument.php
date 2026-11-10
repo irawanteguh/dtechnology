@@ -149,13 +149,31 @@
                 return;
             }
 
+            $postMaxSize = trim(ini_get('post_max_size'));
+            $postMaxBytes = (float) $postMaxSize;
+            switch (strtolower(substr($postMaxSize, -1))) {
+                case 'g': $postMaxBytes *= 1024;
+                case 'm': $postMaxBytes *= 1024;
+                case 'k': $postMaxBytes *= 1024;
+            }
+
+            if ($postMaxBytes > 0 && (float) ($_SERVER['CONTENT_LENGTH'] ?? 0) > $postMaxBytes) {
+                $respond('01', 'error', 'Ukuran request melebihi post_max_size PHP (' . $postMaxSize . '). Silakan perkecil file dokumen.');
+                return;
+            }
+
             $assign = trim((string) $this->input->post('modal_sign_add_tilaka_assign'));
             $type   = trim((string) $this->input->post('modal_sign_add_tilaka_type'));
             $info1  = trim((string) $this->input->post('modal_sign_add_tilaka_informasi1'));
             $info2  = trim((string) $this->input->post('modal_sign_add_tilaka_informasi2'));
 
-            if ($assign === '' || $type === '') {
-                $respond('01', 'error', 'Signer dan jenis dokumen wajib diisi');
+            if ($assign === '') {
+                $respond('01', 'error', 'Signer wajib dipilih');
+                return;
+            }
+
+            if ($type === '') {
+                $respond('01', 'error', 'Jenis dokumen wajib diisi');
                 return;
             }
 
