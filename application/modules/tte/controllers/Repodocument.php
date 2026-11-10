@@ -125,223 +125,78 @@
             echo json_encode($json);
         }
 
-        public function adddocument()
-        {
-            $this->output->set_content_type('application/json', 'utf-8');
+        public function adddocument(){
 
-            $respond = function ($code, $head, $desc, $extra = []) {
-                $payload = array_merge([
-                    'responCode' => $code,
-                    'responHead' => $head,
-                    'responDesc' => $desc
-                ], $extra);
+            $assign       = $this->input->post("modal_sign_add_tilaka_assign");
+            $type         = $this->input->post("modal_sign_add_tilaka_type");
+            $info1        = $this->input->post("modal_sign_add_tilaka_informasi1");
+            $info2        = $this->input->post("modal_sign_add_tilaka_informasi2");
 
-                $this->output->set_output(json_encode($payload));
-            };
+            $originalname = pathinfo($_FILES['modal_sign_add_tilaka_document']['name'], PATHINFO_FILENAME);
+            $transid      = generateuuid();
 
-            /*
-            =================================
-            VALIDASI REQUEST
-            =================================
-            */
-            if (strtoupper($this->input->method()) !== 'POST') {
-                $respond('01', 'error', 'Invalid request method');
-                return;
-            }
-
-            $postMaxSize = trim(ini_get('post_max_size'));
-            $postMaxBytes = (float) $postMaxSize;
-            switch (strtolower(substr($postMaxSize, -1))) {
-                case 'g': $postMaxBytes *= 1024;
-                case 'm': $postMaxBytes *= 1024;
-                case 'k': $postMaxBytes *= 1024;
-            }
-
-            if ($postMaxBytes > 0 && (float) ($_SERVER['CONTENT_LENGTH'] ?? 0) > $postMaxBytes) {
-                $respond('01', 'error', 'Ukuran request melebihi post_max_size PHP (' . $postMaxSize . '). Silakan perkecil file dokumen.');
-                return;
-            }
-
-            $assign = trim((string) $this->input->post('modal_sign_add_tilaka_assign'));
-            $type   = trim((string) $this->input->post('modal_sign_add_tilaka_type'));
-            $info1  = trim((string) $this->input->post('modal_sign_add_tilaka_informasi1'));
-            $info2  = trim((string) $this->input->post('modal_sign_add_tilaka_informasi2'));
-
-            if ($assign === '') {
-                $respond('01', 'error', 'Signer wajib dipilih');
-                return;
-            }
-
-            if ($type === '') {
-                $respond('01', 'error', 'Jenis dokumen wajib diisi');
-                return;
-            }
-
-            /*
-            =================================
-            VALIDASI FILE
-            =================================
-            */
-            $fileKey = 'modal_sign_add_tilaka_document';
-
-            if (!isset($_FILES[$fileKey])) {
-                log_message(
-                    'error',
-                    'Tilaka upload: file key tidak ditemukan. ' .
-                    'CONTENT_TYPE=' . ($_SERVER['CONTENT_TYPE'] ?? '') .
-                    ', CONTENT_LENGTH=' . ($_SERVER['CONTENT_LENGTH'] ?? '') .
-                    ', POST_KEYS=' . implode(',', array_keys($_POST)) .
-                    ', FILE_KEYS=' . implode(',', array_keys($_FILES))
-                );
-
-                $respond('01', 'error', 'File dokumen tidak ditemukan dalam request. Periksa multipart/form-data dan konfigurasi PHP.');
-                return;
-            }
-
-            $file = $_FILES[$fileKey];
-
-            if (!isset($file['error']) || is_array($file['error'])) {
-                $respond('01', 'error', 'Format upload file tidak valid');
-                return;
-            }
-
-            if ($file['error'] !== UPLOAD_ERR_OK) {
-                $uploadErrors = [
-                    UPLOAD_ERR_INI_SIZE   => 'File melebihi upload_max_filesize PHP',
-                    UPLOAD_ERR_FORM_SIZE  => 'File melebihi batas ukuran form',
-                    UPLOAD_ERR_PARTIAL    => 'File hanya terupload sebagian',
-                    UPLOAD_ERR_NO_FILE    => 'Tidak ada file yang dipilih',
-                    UPLOAD_ERR_NO_TMP_DIR => 'Folder temporary PHP tidak tersedia',
-                    UPLOAD_ERR_CANT_WRITE => 'PHP gagal menulis file ke disk',
-                    UPLOAD_ERR_EXTENSION  => 'Upload dihentikan oleh ekstensi PHP'
-                ];
-
-                $message = $uploadErrors[$file['error']] ?? 'Upload gagal dengan kode ' . $file['error'];
-
-                $respond('01', 'error', $message);
-                return;
-            }
-
-            if (
-                empty($file['tmp_name']) ||
-                !is_uploaded_file($file['tmp_name'])
-            ) {
-                $respond('01', 'error', 'Temporary upload file tidak valid');
-                return;
-            }
-
-            $maxFileSize = 60 * 1024 * 1024;
-
-            if ($file['size'] <= 0 || $file['size'] > $maxFileSize) {
-                $respond('01', 'error', 'Ukuran dokumen harus lebih dari 0 dan maksimal 60 MiB');
-                return;
-            }
-
-            $originalname = pathinfo($file['name'], PATHINFO_FILENAME);
-            $extension    = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-            if ($extension !== 'pdf') {
-                $respond('01', 'error', 'Hanya dokumen PDF yang diperbolehkan');
-                return;
-            }
-
-            /*
-            =================================
-            GENERATE TRANSACTION ID
-            =================================
-            */
-            $transid     = generateuuid();
-            $mainName    = $transid . '.pdf';
-            $finalUrl    = null;
-            $storageType = null;
+            $finalUrl     = null;
+            $storageType  = null;
 
             /*
             =================================
             UPLOAD KE TEMP
             =================================
             */
-            $tempPath = FCPATH . 'assets/temp/';
+            $tempPath = FCPATH.'assets/temp/';
 
-            if (!is_dir($tempPath) && !mkdir($tempPath, 0755, true)) {
-                $respond('01', 'error', 'Gagal membuat folder temporary');
-                return;
-            }
-
-            if (!is_writable($tempPath)) {
-                $respond('01', 'error', 'Folder temporary tidak memiliki izin tulis');
-                return;
+            if(!is_dir($tempPath)){
+                mkdir($tempPath,0777,true);
             }
 
             $config = [
-                'upload_path'      => $tempPath,
-                'allowed_types'    => 'pdf',
-                'max_size'         => $maxFileSize / 1024,
-                'file_name'        => $mainName,
-                'overwrite'        => false,
-                'remove_spaces'    => true,
-                'file_ext_tolower' => true
+                'upload_path'   => $tempPath,
+                'allowed_types' => 'pdf',
+                'file_name'     => $transid,
+                'overwrite'     => true
             ];
 
-            $this->load->library('upload');
-            $this->upload->initialize($config);
+            $this->load->library('upload',$config);
 
-            if (!$this->upload->do_upload($fileKey)) {
-                $respond(
-                    '01',
-                    'error',
-                    strip_tags($this->upload->display_errors())
-                );
+            if (!$this->upload->do_upload('modal_sign_add_tilaka_document')) {
+
+                echo json_encode([
+                    "responCode" => "01",
+                    "responHead" => "error",
+                    "responDesc" => strip_tags($this->upload->display_errors())
+                ]);
                 return;
             }
 
             $uploadData = $this->upload->data();
             $tempFile   = $uploadData['full_path'];
+            $mainName   = $transid.'.pdf';
 
             /*
             =================================
             CEK STORAGE TYPE
             =================================
             */
-            if (filter_var(STORAGESIGNIN, FILTER_VALIDATE_URL)) {
+            if(filter_var(STORAGESIGNIN, FILTER_VALIDATE_URL)){
 
                 /*
                 =================================
                 REMOTE STORAGE
                 =================================
                 */
-                $storageType = 'remote';
-                $storageBase = rtrim(STORAGESIGNIN, '/');
-                $url         = $storageBase . '/receivedfile.php';
-
-                // if (strtolower((string) parse_url($url, PHP_URL_SCHEME)) !== 'https') {
-                //     @unlink($tempFile);
-                //     $respond('01', 'error', 'Remote storage wajib menggunakan HTTPS');
-                //     return;
-                // }
+                $storageType = "remote";
+                $url = rtrim(STORAGESIGNIN,'/').'/receivedfile.php';
 
                 $ch = curl_init($url);
 
-                if ($ch === false) {
-                    @unlink($tempFile);
-                    $respond('01', 'error', 'Gagal menginisialisasi CURL');
-                    return;
-                }
-
-                curl_setopt_array($ch, [
-                    CURLOPT_POST           => true,
-                    CURLOPT_POSTFIELDS     => [
-                        'file' => new CURLFile(
-                            $tempFile,
-                            'application/pdf',
-                            $mainName
-                        )
+                curl_setopt_array($ch,[
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => [
+                        'file' => new CURLFile($tempFile,'application/pdf',$mainName)
                     ],
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_CONNECTTIMEOUT => 15,
-                    CURLOPT_TIMEOUT        => 60,
-                    CURLOPT_SSL_VERIFYPEER => true,
-                    CURLOPT_SSL_VERIFYHOST => 2,
-                    CURLOPT_FOLLOWLOCATION => false
+                    CURLOPT_TIMEOUT => 60,
+                    CURLOPT_SSL_VERIFYPEER => false
                 ]);
 
                 $response = curl_exec($ch);
@@ -350,126 +205,124 @@
 
                 curl_close($ch);
 
-                if ($response === false || $curlErr !== '') {
+                /*
+                =================================
+                CURL ERROR
+                =================================
+                */
+                if($curlErr){
+
                     @unlink($tempFile);
 
-                    log_message('error', 'Tilaka remote CURL: ' . $curlErr);
-
-                    $respond('01', 'error', 'Upload remote gagal (CURL): ' . $curlErr);
-                    return;
-                }
-
-                if ($httpCode !== 200) {
-                    @unlink($tempFile);
-
-                    log_message('error', 'Tilaka remote HTTP: ' . $httpCode);
-
-                    $respond('01', 'error', 'Upload remote gagal (HTTP ' . $httpCode . ')');
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Upload remote gagal (CURL): ".$curlErr
+                    ]);
                     return;
                 }
 
                 /*
                 =================================
-                PARSE RESPONSE JSON
+                HTTP ERROR
+                =================================
+                */
+                if($httpCode != 200){
+
+                    @unlink($tempFile);
+
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Upload remote gagal (HTTP $httpCode)",
+                        "responUrl"  => $url
+                    ]);
+                    return;
+                }
+
+                /*
+                =================================
+                PARSE JSON
                 =================================
                 */
                 $result = json_decode($response, true);
 
-                if (
-                    json_last_error() !== JSON_ERROR_NONE ||
-                    !is_array($result)
-                ) {
+                if(json_last_error() !== JSON_ERROR_NONE){
+
                     @unlink($tempFile);
 
-                    log_message('error', 'Tilaka remote: response bukan JSON valid');
-
-                    $respond('01', 'error', 'Response server remote tidak valid JSON');
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Response server tidak valid JSON",
+                        "raw_response" => $response
+                    ]);
                     return;
                 }
 
                 /*
                 =================================
-                VALIDASI REMOTE SUCCESS
+                VALIDASI SUCCESS REMOTE
                 =================================
                 */
-                if (
-                    !isset($result['success']) ||
-                    $result['success'] !== true
-                ) {
+                if(!isset($result['success']) || $result['success'] != true){
+
                     @unlink($tempFile);
 
-                    $respond(
-                        '01',
-                        'error',
-                        (string) ($result['message'] ?? 'Upload remote gagal')
-                    );
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => $result['message'] ?? "Upload remote gagal",
+                        "remote_response" => $result
+                    ]);
                     return;
                 }
 
                 /*
                 =================================
-                AMBIL FINAL URL
+                AMBIL URL (FIX UTAMA)
                 =================================
                 */
-                $remotePath = $result['url'] ?? ($result['path'] ?? null);
+                if(isset($result['url'])){
+                    $finalUrl = rtrim(STORAGESIGNIN,'/').'/'.$result['url'];
 
-                if (is_string($remotePath) && trim($remotePath) !== '') {
+                }else if(isset($result['path'])){
+                    $finalUrl = rtrim(STORAGESIGNIN,'/').'/'.$result['path'];
 
-                    $remotePath = trim($remotePath);
-
-                    if (filter_var($remotePath, FILTER_VALIDATE_URL)) {
-                        $finalUrl = $remotePath;
-                    } else {
-                        $finalUrl = $storageBase . '/' . ltrim($remotePath, '/');
-                    }
+                }else{
+                    $finalUrl = null;
                 }
 
-                if (
-                    empty($finalUrl) ||
-                    !filter_var($finalUrl, FILTER_VALIDATE_URL) ||
-                    strtolower((string) parse_url($finalUrl, PHP_URL_SCHEME)) !== 'https' ||
-                    parse_url($finalUrl, PHP_URL_HOST) !== parse_url($storageBase, PHP_URL_HOST)
-                ) {
-                    @unlink($tempFile);
-
-                    $respond('01', 'error', 'URL dokumen dari remote storage tidak valid');
-                    return;
-                }
-
-            } else {
+            }else{
 
                 /*
                 =================================
                 LOCAL STORAGE
                 =================================
                 */
-                $storageType = 'local';
-                $destFolder  = rtrim(STORAGESIGNIN, '/') . '/';
+                $storageType = "local";
 
-                if (!is_dir($destFolder) && !mkdir($destFolder, 0755, true)) {
+                $destFolder = rtrim(STORAGESIGNIN,'/').'/';
+
+                if(!is_dir($destFolder)){
+                    mkdir($destFolder,0777,true);
+                }
+
+                $destFile = $destFolder.$mainName;
+
+                if(!rename($tempFile,$destFile)){
+
                     @unlink($tempFile);
 
-                    $respond('01', 'error', 'Gagal membuat direktori local storage');
+                    echo json_encode([
+                        "responCode" => "01",
+                        "responHead" => "error",
+                        "responDesc" => "Gagal memindahkan file ke storage"
+                    ]);
                     return;
                 }
 
-                if (!is_writable($destFolder)) {
-                    @unlink($tempFile);
-
-                    $respond('01', 'error', 'Direktori local storage tidak memiliki izin tulis');
-                    return;
-                }
-
-                $destFile = $destFolder . $mainName;
-
-                if (file_exists($destFile) || !rename($tempFile, $destFile)) {
-                    @unlink($tempFile);
-
-                    $respond('01', 'error', 'Gagal memindahkan file ke local storage');
-                    return;
-                }
-
-                $finalUrl = rtrim(STORAGESIGNOUT, '/') . '/' . $mainName;
+                $finalUrl = rtrim(STORAGESIGNOUT,'/').'/'.$mainName;
             }
 
             /*
@@ -477,8 +330,8 @@
             DELETE TEMP FILE
             =================================
             */
-            if (is_file($tempFile)) {
-                @unlink($tempFile);
+            if(file_exists($tempFile)){
+                unlink($tempFile);
             }
 
             /*
@@ -486,25 +339,16 @@
             VALIDASI FINAL URL
             =================================
             */
-            if (empty($finalUrl)) {
-                $respond('01', 'error', 'File URL tidak ditemukan (upload gagal)', [
-                    'file_url' => null,
-                    'storage'  => $storageType,
-                    'trans_id' => $transid
+            if(empty($finalUrl)){
+
+                echo json_encode([
+                    "responCode" => "01",
+                    "responHead" => "error",
+                    "responDesc" => "File URL tidak ditemukan (upload gagal)",
+                    "file_url"   => null,
+                    "storage"    => $storageType,
+                    "trans_id"   => $transid
                 ]);
-                return;
-            }
-
-            /*
-            =================================
-            VALIDASI SESSION
-            =================================
-            */
-            $orgId  = $_SESSION['orgid'] ?? null;
-            $userId = $_SESSION['userid'] ?? null;
-
-            if (empty($orgId) || empty($userId)) {
-                $respond('01', 'error', 'Session pengguna tidak ditemukan. Silakan login kembali');
                 return;
             }
 
@@ -514,7 +358,7 @@
             =================================
             */
             $data = [
-                'org_id'           => $orgId,
+                'org_id'           => $_SESSION['orgid'],
                 'transaksi_id'     => $transid,
                 'no_file'          => $originalname,
                 'jenis_doc'        => $type,
@@ -524,31 +368,30 @@
                 'storage_in'       => STORAGESIGNIN,
                 'storage_out'      => STORAGESIGNOUT,
                 'type_of'          => TYPEOF,
-                'from_in'          => 'Dtechnology',
+                'from_in'          => "Dtechnology",
                 'provider_sign'    => PROVIDERSIGN,
                 'type_certificate' => TYPECERTIFICATE,
-                'created_by'       => $userId
+                'created_by'       => $_SESSION['userid']
             ];
 
-            if ($this->md->insertdocument($data)) {
+            if($this->md->insertdocument($data)){
 
-                $respond('00', 'success', 'Data Added Successfully', [
-                    'file_url' => $finalUrl,
-                    'storage'  => $storageType,
-                    'trans_id' => $transid
+                echo json_encode([
+                    "responCode" => "00",
+                    "responHead" => "success",
+                    "responDesc" => "Data Added Successfully",
+                    "file_url"   => $finalUrl,
+                    "storage"    => $storageType,
+                    "trans_id"   => $transid
                 ]);
 
-            } else {
+            }else{
 
-                log_message(
-                    'error',
-                    'Tilaka: database insert gagal. Transaksi ID=' . $transid
-                );
-
-                $respond('01', 'error', 'Database insert failed', [
-                    'file_url' => $finalUrl,
-                    'storage'  => $storageType,
-                    'trans_id' => $transid
+                echo json_encode([
+                    "responCode" => "01",
+                    "responHead" => "error",
+                    "responDesc" => "Database insert failed",
+                    "file_url"   => $finalUrl
                 ]);
             }
         }
