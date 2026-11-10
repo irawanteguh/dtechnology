@@ -230,10 +230,10 @@
                 return;
             }
 
-            $maxFileSize = 20 * 1024 * 1024;
+            $maxFileSize = 60 * 1024 * 1024;
 
             if ($file['size'] <= 0 || $file['size'] > $maxFileSize) {
-                $respond('01', 'error', 'Ukuran dokumen harus lebih dari 0 dan maksimal 20 MB');
+                $respond('01', 'error', 'Ukuran dokumen harus lebih dari 0 dan maksimal 60 MiB');
                 return;
             }
 
@@ -283,7 +283,7 @@
             $config = [
                 'upload_path'      => $tempPath,
                 'allowed_types'    => 'pdf',
-                'max_size'         => 20480,
+                'max_size'         => $maxFileSize / 1024,
                 'file_name'        => $mainName,
                 'overwrite'        => false,
                 'remove_spaces'    => true,
