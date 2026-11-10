@@ -313,11 +313,11 @@
                 $storageBase = rtrim(STORAGESIGNIN, '/');
                 $url         = $storageBase . '/receivedfile.php';
 
-                if (strtolower((string) parse_url($url, PHP_URL_SCHEME)) !== 'https') {
-                    @unlink($tempFile);
-                    $respond('01', 'error', 'Remote storage wajib menggunakan HTTPS');
-                    return;
-                }
+                // if (strtolower((string) parse_url($url, PHP_URL_SCHEME)) !== 'https') {
+                //     @unlink($tempFile);
+                //     $respond('01', 'error', 'Remote storage wajib menggunakan HTTPS');
+                //     return;
+                // }
 
                 $ch = curl_init($url);
 
