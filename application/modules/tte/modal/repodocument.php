@@ -20,7 +20,7 @@
 								<span class="required">Signer :</span>
 								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Silakan Pilih User Yang Melakukan Tanda Tangan Dokumen"></i>
 							</label>
-							<select data-control="select2" data-dropdown-parent="#modal_sign_add_tilaka" data-placeholder="Please Select Signer" class="form-select form-select-solid" name="modal_sign_add_tilaka_assign[]" id="modal_sign_add_tilaka_assign" multiple required>
+							<select data-control="select2" data-hide-search="false" data-dropdown-parent="#modal_sign_add_tilaka" data-placeholder="Please Select Signer" class="form-select form-select-solid" name="modal_sign_add_tilaka_assign[]" id="modal_sign_add_tilaka_assign" multiple required>
 								<?php echo $assign;?>
 							</select>
                         </div>
