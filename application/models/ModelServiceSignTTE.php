@@ -325,6 +325,7 @@
                         where a.active='1'
                         and   a.quick_sign='1'
                         and   a.status_sign in ('4','7')
+                        order by a.from_in asc
                         limit 10;
                     ";
 
