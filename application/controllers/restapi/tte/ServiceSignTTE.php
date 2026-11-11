@@ -370,6 +370,7 @@
 
                 $body['request_id']  = $requestid;
 
+                return var_dump($body);
                 $responserequestsignquicksign = TilakaPlus::requestsignquicksign(json_encode($body));
 
                 if(!isset($responserequestsignquicksign['success'])){
