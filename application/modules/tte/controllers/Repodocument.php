@@ -128,6 +128,11 @@
         public function adddocument(){
 
             $assign       = $this->input->post("modal_sign_add_tilaka_assign");
+
+            if(is_array($assign)){
+                $assign = array_values(array_unique(array_filter(array_map('trim',$assign))));
+                $assign = implode(';',$assign);
+            }
             $type         = $this->input->post("modal_sign_add_tilaka_type");
             $info1        = $this->input->post("modal_sign_add_tilaka_informasi1");
             $info2        = $this->input->post("modal_sign_add_tilaka_informasi2");

@@ -20,10 +20,11 @@
 			</div>
 		</div>
 	</div>
-	<?php if (!empty(PARTNERS)) : ?>
+	<?php $partners = defined('PARTNERS') ? PARTNERS : ''; ?>
+	<?php if (!empty($partners)) : ?>
 		<div class="aside-footer flex-column-auto" id="kt_aside_footer">
 			<a href="">
-				<img alt="Logo" src="<?php echo base_url('assets/images/logo/'.PARTNERS.'.png'); ?>" class="h-70px" />
+				<img alt="Logo" src="<?php echo base_url('assets/images/logo/'.$partners.'.png'); ?>" class="h-70px" />
 			</a>
 		</div>
 	<?php endif; ?>
