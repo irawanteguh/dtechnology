@@ -49,42 +49,38 @@
                             a.signature_field,
                             a.from_in,
                             DATE_FORMAT(a.created_date,'%d-%m-%Y %H:%i:%s') AS createddate,
-
-                            (
-                                SELECT GROUP_CONCAT(
-                                    b.user_identifier
-                                    ORDER BY FIND_IN_SET(
-                                        b.nik,
-                                        REPLACE(a.signer_id, ';', ',')
-                                    )
-                                    SEPARATOR ';'
-                                )
-                                FROM dt01_gen_user_data b
-                                WHERE FIND_IN_SET(
-                                    b.nik,
-                                    REPLACE(a.signer_id, ';', ',')
-                                )
+                            GROUP_CONCAT(
+                                b.user_identifier
+                                ORDER BY FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
+                                SEPARATOR ';'
                             ) AS useridentifier,
-
-                            (
-                                SELECT GROUP_CONCAT(
-                                    b.name
-                                    ORDER BY FIND_IN_SET(
-                                        b.nik,
-                                        REPLACE(a.signer_id, ';', ',')
-                                    )
-                                    SEPARATOR ';'
-                                )
-                                FROM dt01_gen_user_data b
-                                WHERE FIND_IN_SET(
-                                    b.nik,
-                                    REPLACE(a.signer_id, ';', ',')
-                                )
+                            GROUP_CONCAT(
+                                b.name
+                                ORDER BY FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
+                                SEPARATOR ';'
                             ) AS name
 
                         FROM dt01_sign_document_dt a
+                        LEFT JOIN dt01_gen_user_data b
+                            ON b.org_id=a.org_id
+                            AND FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
                         WHERE a.status_sign = '0'
+                        AND a.active = '1'
                         AND a.provider_sign = 'Tilaka'
+                        GROUP BY
+                            a.org_id,
+                            a.transaksi_id,
+                            a.no_file,
+                            a.signer_id,
+                            a.storage_in,
+                            a.storage_out,
+                            a.type_of,
+                            a.type_certificate,
+                            a.signature_type,
+                            a.signature_field,
+                            a.from_in,
+                            a.created_date
+                        ORDER BY a.created_date ASC
                         LIMIT 20;
                     ";
 
@@ -114,46 +110,24 @@
                                 a.created_date,
                                 '%d-%m-%Y %H:%i:%s'
                             ) AS createddate,
-
-                            (
-                                SELECT GROUP_CONCAT(
-                                    b.name
-                                    ORDER BY FIND_IN_SET(
-                                        b.nik,
-                                        REPLACE(a.signer_id, ';', ',')
-                                    )
-                                    SEPARATOR ';'
-                                )
-                                FROM dt01_gen_user_data b
-                                WHERE FIND_IN_SET(
-                                    b.nik,
-                                    REPLACE(a.signer_id, ';', ',')
-                                )
+                            GROUP_CONCAT(
+                                u.name
+                                ORDER BY FIND_IN_SET(u.nik,REPLACE(a.signer_id,';',','))
+                                SEPARATOR ';'
                             ) AS name,
-
-                            (
-                                SELECT GROUP_CONCAT(
-                                    b.email
-                                    ORDER BY FIND_IN_SET(
-                                        b.nik,
-                                        REPLACE(a.signer_id, ';', ',')
-                                    )
-                                    SEPARATOR ';'
-                                )
-                                FROM dt01_gen_user_data b
-                                WHERE FIND_IN_SET(
-                                    b.nik,
-                                    REPLACE(a.signer_id, ';', ',')
-                                )
+                            GROUP_CONCAT(
+                                u.email
+                                ORDER BY FIND_IN_SET(u.nik,REPLACE(a.signer_id,';',','))
+                                SEPARATOR ';'
                             ) AS email,
-
-                            (
-                                SELECT org_name
-                                FROM dt01_gen_organization_ms
-                                WHERE org_id = a.org_id
-                            ) AS orgname
+                            o.org_name AS orgname
 
                         FROM dt01_sign_document_dt a
+                        LEFT JOIN dt01_gen_user_data u
+                            ON u.org_id=a.org_id
+                            AND FIND_IN_SET(u.nik,REPLACE(a.signer_id,';',','))
+                        LEFT JOIN dt01_gen_organization_ms o
+                            ON o.org_id=a.org_id
 
                         WHERE a.status_sign = '1'
                         AND a.provider_sign = 'Tilaka'
@@ -182,7 +156,21 @@
                             )
                         )
 
-                        GROUP BY a.transaksi_id
+                        GROUP BY
+                            a.org_id,
+                            a.transaksi_id,
+                            a.no_file,
+                            a.filename,
+                            a.storage_in,
+                            a.storage_out,
+                            a.signer_id,
+                            a.type_certificate,
+                            a.signature_type,
+                            a.signature_field,
+                            a.user_identifier,
+                            a.from_in,
+                            a.created_date,
+                            o.org_name
 
                         ORDER BY a.from_in asc, a.upload_date ASC
 
@@ -197,7 +185,7 @@
         function requestregulersign(){
             $query =
                     "
-                        SELECT DISTINCT
+                        SELECT
                             a.org_id,
                             a.signer_id,
                             a.user_identifier AS useridentifier,
@@ -205,49 +193,38 @@
                             a.storage_in,
                             a.signature_type,
                             a.signature_field,
-
-                            (
-                                SELECT GROUP_CONCAT(
-                                    b.name
-                                    ORDER BY FIND_IN_SET(
-                                        b.nik,
-                                        REPLACE(a.signer_id, ';', ',')
-                                    )
-                                    SEPARATOR ';'
-                                )
-                                FROM dt01_gen_user_data b
-                                WHERE b.org_id = a.org_id
-                                AND FIND_IN_SET(
-                                    b.nik,
-                                    REPLACE(a.signer_id, ';', ',')
-                                )
+                            GROUP_CONCAT(
+                                b.name
+                                ORDER BY FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
+                                SEPARATOR ';'
                             ) AS name,
-
-                            (
-                                SELECT GROUP_CONCAT(
-                                    b.email
-                                    ORDER BY FIND_IN_SET(
-                                        b.nik,
-                                        REPLACE(a.signer_id, ';', ',')
-                                    )
-                                    SEPARATOR ';'
-                                )
-                                FROM dt01_gen_user_data b
-                                WHERE b.org_id = a.org_id
-                                AND FIND_IN_SET(
-                                    b.nik,
-                                    REPLACE(a.signer_id, ';', ',')
-                                )
+                            GROUP_CONCAT(
+                                b.email
+                                ORDER BY FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
+                                SEPARATOR ';'
                             ) AS email,
-
-                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname
+                            o.org_name AS orgname
 
                         FROM dt01_sign_document_dt a
+                        LEFT JOIN dt01_gen_user_data b
+                            ON b.org_id=a.org_id
+                            AND FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
+                        LEFT JOIN dt01_gen_organization_ms o
+                            ON o.org_id=a.org_id
 
                         WHERE a.active = '1'
                         AND a.status_sign = '1'
                         AND a.quick_sign = '1'
 
+                        GROUP BY
+                            a.org_id,
+                            a.signer_id,
+                            a.user_identifier,
+                            a.from_in,
+                            a.storage_in,
+                            a.signature_type,
+                            a.signature_field,
+                            o.org_name
                         LIMIT 10;
                     ";
 
@@ -260,8 +237,9 @@
             $query =
                     "
                         select a.transaksi_id, no_file, filename, from_in, storage_in,
-                            (select org_name from dt01_gen_organization_ms where org_id=a.org_id)orgname
+                            o.org_name AS orgname
                         from dt01_sign_document_dt a
+                        left join dt01_gen_organization_ms o on o.org_id=a.org_id
                         where a.active='1'
                         and   a.status_sign='1'
                         and   a.quick_sign='1'

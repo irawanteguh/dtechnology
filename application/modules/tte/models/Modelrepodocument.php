@@ -228,10 +228,12 @@
         function alldocument(){
             $query =
                     "
-                        WITH base AS
+                        WITH ranked_documents AS
                         (
                             SELECT
+                                a.org_id,
                                 a.transaksi_id,
+                                a.signer_id,
                                 a.status_sign,
                                 a.storage_in,
                                 a.storage_out,
@@ -253,33 +255,6 @@
                                 COALESCE(gd.document_name,a.jenis_doc) AS jenis_doc,
 
                                 cu.name AS dibuatoleh,
-
-                                (
-                                    SELECT GROUP_CONCAT(b.name
-                                        ORDER BY FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
-                                        SEPARATOR ';')
-                                    FROM dt01_gen_user_data b
-                                    WHERE b.org_id=a.org_id
-                                    AND FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
-                                ) AS name,
-
-                                (
-                                    SELECT GROUP_CONCAT(b.email
-                                        ORDER BY FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
-                                        SEPARATOR ';')
-                                    FROM dt01_gen_user_data b
-                                    WHERE b.org_id=a.org_id
-                                    AND FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
-                                ) AS email,
-
-                                (
-                                    SELECT GROUP_CONCAT(b.user_identifier
-                                        ORDER BY FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
-                                        SEPARATOR ';')
-                                    FROM dt01_gen_user_data b
-                                    WHERE b.org_id=a.org_id
-                                    AND FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
-                                ) AS useridentifier,
 
                                 ms.color AS colorstatus,
                                 ms.master_name AS namestatus,
@@ -323,14 +298,52 @@
                             )
                         )
 
-                        SELECT *
-                        FROM base
+                        SELECT
+                            d.*,
+                            GROUP_CONCAT(u.name
+                                ORDER BY FIND_IN_SET(u.nik,REPLACE(d.signer_id,';',','))
+                                SEPARATOR ';') AS name,
+                            GROUP_CONCAT(u.email
+                                ORDER BY FIND_IN_SET(u.nik,REPLACE(d.signer_id,';',','))
+                                SEPARATOR ';') AS email,
+                            GROUP_CONCAT(u.user_identifier
+                                ORDER BY FIND_IN_SET(u.nik,REPLACE(d.signer_id,';',','))
+                                SEPARATOR ';') AS useridentifier
+                        FROM ranked_documents d
+                        LEFT JOIN dt01_gen_user_data u
+                            ON u.org_id=d.org_id
+                            AND FIND_IN_SET(u.nik,REPLACE(d.signer_id,';',','))
                         WHERE
-                            status_sign in ('0','1')
-                        OR status_sign='5'
-                        OR (status_sign IN ('2','3','4','6','80') AND rn<=10)
-                        OR (status_sign IN ('95','96','97','98','99') AND rn<=10)
-                        ORDER BY created_date DESC;
+                            d.status_sign IN ('0','1','5')
+                        OR (d.status_sign IN ('2','3','4','6','80','95','96','97','98','99') AND d.rn<=10)
+                        GROUP BY
+                            d.org_id,
+                            d.transaksi_id,
+                            d.signer_id,
+                            d.status_sign,
+                            d.storage_in,
+                            d.storage_out,
+                            d.no_file,
+                            d.url,
+                            d.type_of,
+                            d.provider_sign,
+                            d.from_in,
+                            d.type_certificate,
+                            d.quick_sign,
+                            d.note_1,
+                            d.note_2,
+                            d.request_id,
+                            d.response,
+                            d.download_date,
+                            d.created_date,
+                            d.tglbuat,
+                            d.jenis_doc,
+                            d.dibuatoleh,
+                            d.colorstatus,
+                            d.namestatus,
+                            d.descriptionstatus,
+                            d.rn
+                        ORDER BY d.created_date DESC;
 
                     ";
 
