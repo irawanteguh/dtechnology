@@ -316,7 +316,7 @@
                     $email          = $emailArr[$i];
 
                     if(TYPETAG==="Array"){
-                        $position = '$0';
+                        $position = '$'.$i;
                     }else{
                         // $position = '<<'.$assignArr[$i].'>>';
                         $position = '<'.$i.'>';
