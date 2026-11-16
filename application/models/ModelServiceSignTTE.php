@@ -123,7 +123,7 @@
                             o.org_name AS orgname
 
                         FROM dt01_sign_document_dt a
-                        LEFT JOIN dt01_gen_user_data u
+                        JOIN dt01_gen_user_data u
                             ON u.org_id=a.org_id
                             AND FIND_IN_SET(u.nik,REPLACE(a.signer_id,';',','))
                         LEFT JOIN dt01_gen_organization_ms o
@@ -133,6 +133,7 @@
                         AND a.provider_sign = 'Tilaka'
                         AND a.type_of = 'Signature'
                         AND a.quick_sign IN ('0','2')
+                        AND a.signer_id<>'-'
 
                         AND NOT EXISTS (
                             SELECT 1
@@ -206,7 +207,7 @@
                             o.org_name AS orgname
 
                         FROM dt01_sign_document_dt a
-                        LEFT JOIN dt01_gen_user_data b
+                        JOIN dt01_gen_user_data b
                             ON b.org_id=a.org_id
                             AND FIND_IN_SET(b.nik,REPLACE(a.signer_id,';',','))
                         LEFT JOIN dt01_gen_organization_ms o
@@ -215,6 +216,7 @@
                         WHERE a.active = '1'
                         AND a.status_sign = '1'
                         AND a.quick_sign = '1'
+                        AND a.signer_id<>'-'
 
                         GROUP BY
                             a.org_id,
