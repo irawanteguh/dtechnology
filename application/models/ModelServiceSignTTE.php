@@ -199,6 +199,7 @@
                             a.signature_field,
                             a.user_identifier AS useridentifier,
                             a.from_in,
+                            a.response,
 
                             DATE_FORMAT(
                                 a.created_date,
@@ -245,7 +246,7 @@
                             a.created_date,
                             o.org_name
 
-                        ORDER BY a.from_in asc, a.upload_date ASC
+                        ORDER BY a.response asc, a.from_in asc, a.upload_date ASC
 
                         LIMIT 10;
                     ";
