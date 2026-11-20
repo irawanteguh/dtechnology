@@ -89,6 +89,100 @@
             return $recordset;
         }
 
+        // function requestquicksign(){
+        //     $query =
+        //             "
+        //                 SELECT 
+        //                     a.org_id,
+        //                     a.transaksi_id,
+        //                     a.no_file,
+        //                     a.filename,
+        //                     a.storage_in,
+        //                     a.storage_out,
+        //                     a.signer_id,
+        //                     a.type_certificate,
+        //                     a.signature_type,
+        //                     a.signature_field,
+        //                     a.user_identifier AS useridentifier,
+        //                     a.from_in,
+
+        //                     DATE_FORMAT(
+        //                         a.created_date,
+        //                         '%d-%m-%Y %H:%i:%s'
+        //                     ) AS createddate,
+        //                     GROUP_CONCAT(
+        //                         u.name
+        //                         ORDER BY FIND_IN_SET(u.nik,REPLACE(a.signer_id,';',','))
+        //                         SEPARATOR ';'
+        //                     ) AS name,
+        //                     GROUP_CONCAT(
+        //                         u.email
+        //                         ORDER BY FIND_IN_SET(u.nik,REPLACE(a.signer_id,';',','))
+        //                         SEPARATOR ';'
+        //                     ) AS email,
+        //                     o.org_name AS orgname
+
+        //                 FROM dt01_sign_document_dt a
+        //                 JOIN dt01_gen_user_data u
+        //                     ON u.org_id=a.org_id
+        //                     AND FIND_IN_SET(u.nik,REPLACE(a.signer_id,';',','))
+        //                 LEFT JOIN dt01_gen_organization_ms o
+        //                     ON o.org_id=a.org_id
+
+        //                 WHERE a.status_sign = '1'
+        //                 AND a.provider_sign = 'Tilaka'
+        //                 AND a.type_of = 'Signature'
+        //                 AND a.quick_sign IN ('0','2')
+        //                 AND a.signer_id<>'-'
+
+        //                 AND NOT EXISTS (
+        //                     SELECT 1
+        //                     FROM dt01_sign_document_dt b
+        //                     WHERE b.active='1'
+        //                     AND b.status_sign = '2'
+        //                     AND b.provider_sign = 'Tilaka'
+        //                     AND b.type_of = 'Signature'
+        //                     AND b.quick_sign = '2'
+
+        //                     AND (
+        //                         FIND_IN_SET(
+        //                             b.signer_id,
+        //                             REPLACE(a.signer_id, ';', ',')
+        //                         )
+        //                         OR
+        //                         FIND_IN_SET(
+        //                             a.signer_id,
+        //                             REPLACE(b.signer_id, ';', ',')
+        //                         )
+        //                     )
+        //                 )
+
+        //                 GROUP BY
+        //                     a.org_id,
+        //                     a.transaksi_id,
+        //                     a.no_file,
+        //                     a.filename,
+        //                     a.storage_in,
+        //                     a.storage_out,
+        //                     a.signer_id,
+        //                     a.type_certificate,
+        //                     a.signature_type,
+        //                     a.signature_field,
+        //                     a.user_identifier,
+        //                     a.from_in,
+        //                     a.created_date,
+        //                     o.org_name
+
+        //                 ORDER BY a.from_in asc, a.upload_date ASC
+
+        //                 LIMIT 10;
+        //             ";
+
+        //     $recordset = $this->db->query($query);
+        //     $recordset = $recordset->result();
+        //     return $recordset;
+        // }
+
         function requestquicksign(){
             $query =
                     "
@@ -134,28 +228,6 @@
                         AND a.type_of = 'Signature'
                         AND a.quick_sign IN ('0','2')
                         AND a.signer_id<>'-'
-
-                        AND NOT EXISTS (
-                            SELECT 1
-                            FROM dt01_sign_document_dt b
-                            WHERE b.active='1'
-                            AND b.status_sign = '2'
-                            AND b.provider_sign = 'Tilaka'
-                            AND b.type_of = 'Signature'
-                            AND b.quick_sign = '2'
-
-                            AND (
-                                FIND_IN_SET(
-                                    b.signer_id,
-                                    REPLACE(a.signer_id, ';', ',')
-                                )
-                                OR
-                                FIND_IN_SET(
-                                    a.signer_id,
-                                    REPLACE(b.signer_id, ';', ',')
-                                )
-                            )
-                        )
 
                         GROUP BY
                             a.org_id,
