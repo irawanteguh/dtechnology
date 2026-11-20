@@ -228,6 +228,9 @@
                     $statusColor = "yellow";
                     $statusMsg   = "Pending Waiting Approval OTP Last Document";
 
+                    $datasimpanhd['note']        = $statusMsg;
+                    $this->md->updatedocument($datasimpanhd,$a->transaksi_id);
+
                     echo formatlog($a->transaksi_id,$a->useridentifier,$statusMsg,'white','green',$statusColor);
                     continue;
                 }
